@@ -756,7 +756,7 @@
       <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
-  <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+  <form action="/page/instructorFeedbackSessionsPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
     <input name="user" type="hidden" value="${test.instructor}">
     <input name="isusingAjax" type="hidden" value="on">
   </form>
@@ -813,7 +813,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&user=${test.instructor}" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Second team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Second team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -851,7 +851,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -860,7 +860,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}">
+                    <a class="session-remind-inner-for-test" data-fsname="Second team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -872,6 +872,9 @@
                 </ul>
               </div>
             </div>
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Second team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}" title="">
+              Unpublish Results
+            </a>
           </td>
         </tr>
         <tr class="sessionsRow" id="session1">
@@ -895,7 +898,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -933,7 +936,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -942,7 +945,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="First team feedback session" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}">
+                    <a class="session-remind-inner-for-test" data-fsname="First team feedback session" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -954,6 +957,9 @@
                 </ul>
               </div>
             </div>
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="First team feedback session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}" title="">
+              Unpublish Results
+            </a>
           </td>
         </tr>
         <tr class="sessionsRow" id="session2">
@@ -977,7 +983,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}" title="">
               Delete
             </a>
             <div data-original-title="Copy feedback session details" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
@@ -1015,7 +1021,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -1024,7 +1030,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" data-fsname="Session with different question types" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage&user=${test.instructor}&token=${sessionToken}">
+                    <a class="session-remind-inner-for-test" data-fsname="Session with different question types" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}">
                       Remind all students
                     </a>
                   </li>
@@ -1036,6 +1042,9 @@
                 </ul>
               </div>
             </div>
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Session with different question types" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=${test.instructor}&token=${sessionToken}" title="">
+              Unpublish Results
+            </a>
           </td>
         </tr>
       </tbody>
@@ -1050,7 +1059,7 @@
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -1184,7 +1193,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×

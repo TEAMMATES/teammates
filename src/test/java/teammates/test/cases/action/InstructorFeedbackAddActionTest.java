@@ -77,7 +77,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         ShowPageResult pr = getShowPageResult(a);
         expectedString = getPageResultDestination(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS, true, "idOfInstructor1OfCourse1");
+                Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, true, "idOfInstructor1OfCourse1");
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
@@ -90,7 +90,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         a = getAction(params);
         pr = getShowPageResult(a);
         expectedString = getPageResultDestination(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS, true, "idOfInstructor1OfCourse1");
+                Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, true, "idOfInstructor1OfCourse1");
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
 

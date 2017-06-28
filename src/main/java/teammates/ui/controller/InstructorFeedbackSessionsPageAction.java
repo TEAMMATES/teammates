@@ -10,9 +10,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.ui.pagedata.InstructorFeedbacksPageData;
+import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 
-public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAction {
+public class InstructorFeedbackSessionsPageAction extends InstructorFeedbackAbstractAction {
 
     @Override
     protected ActionResult execute() {
@@ -31,7 +31,7 @@ public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAct
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account, sessionToken);
+        InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         data.setUsingAjax(isUsingAjax != null);
 
         boolean shouldOmitArchived = true; // TODO: implement as a request parameter
@@ -63,6 +63,6 @@ public class InstructorFeedbacksPageAction extends InstructorFeedbackAbstractAct
         data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
                                         instructors, feedbackSessionToHighlight);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
     }
 }
