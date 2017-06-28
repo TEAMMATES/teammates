@@ -1,8 +1,8 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
