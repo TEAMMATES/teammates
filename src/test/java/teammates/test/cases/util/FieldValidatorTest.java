@@ -84,7 +84,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = validator.getValidityInfoForNonHtmlField(testFieldName, clean);
         assertEquals("Valid clean input with no special HTML characters should return empty string", "",
                      actual);
-    }:x
+    }
 
 
     @Test
