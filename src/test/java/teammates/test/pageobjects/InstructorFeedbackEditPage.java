@@ -641,6 +641,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
 
+    /*
+     * Checks if alert class is enabled on the visibility options div for the specified question number.
+     */
+    public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
+        final String visibilityOptionsDivXPath = "//div[@id='questionTable-" + questionNo + "']//div[@class='panel-body']"
+                + "//b[@class='visibility-title']/../..";
+        return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
+                .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
+    }
+
     public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
         return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox)
                && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
@@ -908,16 +918,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public InstructorFeedbacksPage deleteSession() {
+    public InstructorFeedbackSessionsPage deleteSession() {
         clickAndConfirm(getDeleteSessionLink());
         waitForPageToLoad();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
-    public InstructorFeedbacksPage clickDoneEditingLink() {
+    public InstructorFeedbackSessionsPage clickDoneEditingLink() {
         click(doneEditingButton);
         waitForPageToLoad();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {

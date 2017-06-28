@@ -76,7 +76,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildBasicFsForm(FeedbackSessionAttributes fsa,
                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
-                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
 
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
@@ -254,7 +254,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
 
-        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                                 .withUserId(account.googleId)
                                 .withCourseId(feedbackSession.getCourseId())
                                 .withSessionName(feedbackSession.getFeedbackSessionName())
@@ -352,7 +352,7 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return form submit action link
      */
     public String getEditCopyActionLink() {
-        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     public boolean getHasError() {
