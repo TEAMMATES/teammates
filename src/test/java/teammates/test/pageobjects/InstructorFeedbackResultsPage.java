@@ -38,6 +38,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "indicate-missing-responses-checkbox")
     public WebElement indicateMissingResponsesCheckbox;
 
+    @FindBy(className = "remind-btn-no-response")
+    public WebElement remindAllButton;
+
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -121,6 +124,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickIndicateMissingResponses() {
         click(indicateMissingResponsesCheckbox);
+    }
+
+    public void clickRemindAllButton() {
+        click(remindAllButton);
+        ThreadHelper.waitFor(1000);
+    }
+
+    public void cancelRemindAllForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        click(remindModal.findElement(By.tagName("button")));
+    }
+
+    public void deselectUsersInRemindAllForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        List<WebElement> usersToRemind = remindModal.findElements(By.name("usersToRemind"));
+        for (WebElement e : usersToRemind) {
+            markCheckBoxAsUnchecked(e);
+        }
+    }
+
+    public void clickRemindButtonInModal() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        click(remindModal.findElement(By.cssSelector("input[type='button']")));
     }
 
     public InstructorFeedbackEditPage clickEditLink() {

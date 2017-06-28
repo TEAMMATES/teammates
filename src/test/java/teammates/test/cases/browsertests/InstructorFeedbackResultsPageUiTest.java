@@ -49,6 +49,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testFilterAction();
         testPanelsCollapseExpand();
         testShowStats();
+        testRemindAllAction();
     }
 
     @Test
@@ -542,6 +543,27 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"), "true");
         assertTrue(resultsPage.verifyAllStatsVisibility());
 
+    }
+
+    private void testRemindAllAction() {
+
+        ______TS("Typical case: remind all");
+
+        resultsPage.clickRemindAllButton();
+        resultsPage.cancelRemindAllForm();
+
+        resultsPage.clickRemindAllButton();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.deselectUsersInRemindAllForm();
+        resultsPage.clickRemindButtonInModal();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+
+        resultsPage.clickRemindAllButton();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.clickRemindButtonInModal();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
     }
 
     @Test
