@@ -1,4 +1,4 @@
-# Development Guidelines
+﻿# Development Guidelines
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
