@@ -42,7 +42,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                         false,
                         "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());

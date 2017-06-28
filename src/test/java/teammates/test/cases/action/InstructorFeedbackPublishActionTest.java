@@ -52,7 +52,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         RedirectResult result = getRedirectResult(publishAction);
 
         String expectedDestination = getPageResultDestination(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, false, "idOfInstructor1OfCourse1");
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, false, "idOfInstructor1OfCourse1");
 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, result.getStatusMessage());
@@ -105,7 +105,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         result = getRedirectResult(publishAction);
 
         expectedDestination = getPageResultDestination(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, true, "idOfInstructor1OfCourse1");
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, true, "idOfInstructor1OfCourse1");
 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Error publishing feedback session: Session has already been published.",

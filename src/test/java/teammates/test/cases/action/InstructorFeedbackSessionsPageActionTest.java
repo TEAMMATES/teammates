@@ -7,18 +7,18 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorFeedbacksPageAction;
+import teammates.ui.controller.InstructorFeedbackSessionsPageAction;
 import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.InstructorFeedbacksPageData;
+import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 
 /**
- * SUT: {@link InstructorFeedbacksPageAction}.
+ * SUT: {@link InstructorFeedbackSessionsPageAction}.
  */
-public class InstructorFeedbacksPageActionTest extends BaseActionTest {
+public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
     }
 
     @Override
@@ -37,16 +37,16 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course", "UTC");
         gaeSimulation.loginAsInstructor(instructorId);
-        InstructorFeedbacksPageAction a = getAction(submissionParams);
+        InstructorFeedbackSessionsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
         assertEquals(
-                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, false, "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
+        InstructorFeedbackSessionsPageData pageData = (InstructorFeedbackSessionsPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
@@ -54,9 +54,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(null, pageData.getNewFsForm().getCourseId());
 
         String expectedLogMessage =
-                "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
+                "TEAMMATESLOG|||instructorFeedbackSessionsPage|||instructorFeedbackSessionsPage|||"
                 + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
+                + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbackSessionsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("0 sessions");
@@ -68,12 +68,12 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, false,
+                     "idOfInstructor1OfCourse1"), r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
         assertFalse(r.isError);
 
-        pageData = (InstructorFeedbacksPageData) r.data;
+        pageData = (InstructorFeedbackSessionsPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
@@ -81,9 +81,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseId());
 
         expectedLogMessage =
-                "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
+                "TEAMMATESLOG|||instructorFeedbackSessionsPage|||instructorFeedbackSessionsPage|||"
                 + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+                + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbackSessionsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Masquerade mode, 0 courses");
@@ -97,30 +97,30 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
-        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, false, "idOfInstructor1OfCourse1"),
-                     r.getDestinationWithParams());
+        assertEquals(getPageResultDestination(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, false,
+                     "idOfInstructor1OfCourse1"), r.getDestinationWithParams());
         assertEquals("You have not created any courses yet, or you have no active courses. "
                      + "Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> "
                      + "to create or unarchive a course.",
                      r.getStatusMessage());
         assertFalse(r.isError);
 
-        pageData = (InstructorFeedbacksPageData) r.data;
+        pageData = (InstructorFeedbackSessionsPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(0, pageData.getNewFsForm().getCourses().size());
         assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
 
         expectedLogMessage =
-                "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||true|||"
+                "TEAMMATESLOG|||instructorFeedbackSessionsPage|||instructorFeedbackSessionsPage|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+                + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbackSessionsPage";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
     }
 
     @Override
-    protected InstructorFeedbacksPageAction getAction(String... params) {
-        return (InstructorFeedbacksPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorFeedbackSessionsPageAction getAction(String... params) {
+        return (InstructorFeedbackSessionsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override
