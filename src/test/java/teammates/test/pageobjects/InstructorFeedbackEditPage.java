@@ -918,16 +918,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public InstructorFeedbacksPage deleteSession() {
+    public InstructorFeedbackSessionsPage deleteSession() {
         clickAndConfirm(getDeleteSessionLink());
         waitForPageToLoad();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
-    public InstructorFeedbacksPage clickDoneEditingLink() {
+    public InstructorFeedbackSessionsPage clickDoneEditingLink() {
         click(doneEditingButton);
         waitForPageToLoad();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {
