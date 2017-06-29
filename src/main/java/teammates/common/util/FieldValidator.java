@@ -612,7 +612,7 @@ public class FieldValidator {
         Assumption.assertNotNull("Non-null value expected", giverType);
         Assumption.assertNotNull("Non-null value expected", recipientType);
 
-        List<String> errors = new LinkedList<String>();
+        List<String> errors = new LinkedList<>();
         if (!giverType.isValidGiver()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
         }
@@ -642,7 +642,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
         Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
 
-        List<String> errors = new LinkedList<String>();
+        List<String> errors = new LinkedList<>();
 
         for (FeedbackParticipantType type : showGiverNameTo) {
             if (!type.isValidViewer()) {
@@ -707,7 +707,7 @@ public class FieldValidator {
      * @return true if all elements are unique, else false.
      */
     public static <T> boolean areElementsUnique(Collection<T> elements) {
-        Set<T> uniqueElements = new HashSet<T>(elements);
+        Set<T> uniqueElements = new HashSet<>(elements);
         return uniqueElements.size() == elements.size();
     }
 

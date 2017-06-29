@@ -25,8 +25,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private int iterationCounter;
 
-    private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
-    private HashMap<String, String> googleIdToInstituteMap = new HashMap<String, String>();
+    private HashMap<String, String> courseIdToInstituteMap = new HashMap<>();
+    private HashMap<String, String> googleIdToInstituteMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
@@ -110,11 +110,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private StatsBundle generateStatsPerInstitute(
             List<CourseStudent> allStudents, List<Instructor> allInstructors, List<Account> allAccounts) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
-                new HashMap<String, HashMap<Integer, HashSet<String>>>();
-
-        HashSet<String> allInstructorEmailSet = new HashSet<String>();
-        HashSet<String> allStudentEmailSet = new HashSet<String>();
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<>();
+        HashSet<String> allInstructorEmailSet = new HashSet<>();
+        HashSet<String> allStudentEmailSet = new HashSet<>();
         int studentEmailCounter = 0;
         int instructorEmailCounter = 0;
 
@@ -260,7 +258,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
-        List<InstituteStats> list = new ArrayList<InstituteStats>();
+        List<InstituteStats> list = new ArrayList<>();
         for (Map.Entry<String, HashMap<Integer, HashSet<String>>> entry : institutes.entrySet()) {
             InstituteStats insStat = new InstituteStats();
             insStat.name = entry.getKey();
