@@ -134,7 +134,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDefaultVisibleTimeButton();
 
         feedbackEditPage.editFeedbackSession(editedSession.getStartTime(), editedSession.getEndTime(),
-                editedSession.getInstructions(), editedSession.getGracePeriod());
+                editedSession.getInstructions(), editedSession.getGracePeriod(), true);
 
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         assertTrue(feedbackEditPage.isElementInViewport(Const.ParamsNames.STATUS_MESSAGES_LIST));
@@ -214,10 +214,32 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditSessionButton();
         editedSession.setInstructions(new Text("Made some changes"));
         feedbackEditPage.editFeedbackSession(editedSession.getEndTime(), editedSession.getStartTime(),
-                                        editedSession.getInstructions(), editedSession.getGracePeriod());
+                                        editedSession.getInstructions(), editedSession.getGracePeriod(), true);
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
         feedbackEditPage.verifyStatus(expectedString);
+
+        ______TS("test discard changes to feedback session");
+
+        // Make changes to Feedback session
+        editedSession.setStartTime(Const.TIME_REPRESENTS_NOW);
+        editedSession.setEndTime(Const.TIME_REPRESENTS_LATER);
+        editedSession.setInstructions(new Text("Made some more changes"));
+        editedSession.setGracePeriod(15);
+        feedbackEditPage.editFeedbackSession(editedSession.getStartTime(), editedSession.getEndTime(),
+                                        editedSession.getInstructions(), editedSession.getGracePeriod(), false);
+
+        // Click discard changes button, then cancel and verify html
+        By feedbackSessionEditFormSection = By.id("form_feedbacksession");
+        feedbackEditPage.clickDiscardChangesToSessionButton();
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
+
+        // Click discard changes button, then cancel and verify html
+        feedbackEditPage.clickDiscardChangesToSessionButton();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
+
     }
 
     private void testNewQuestionLink() {

@@ -87,6 +87,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "fsDeleteLink")
     private WebElement fsDeleteLink;
 
+    @FindBy(id = "fsDiscardChanges")
+    private WebElement fsDiscardChangesLink;
+
     @FindBy(id = "button_openframe")
     private WebElement openNewQuestionButton;
 
@@ -513,6 +516,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void clickDiscardChangesToSessionButton() {
+        click(fsDiscardChangesLink);
+    }
+
     public void enableOtherVisibilityOptions(int qnNumber) {
         clickVisibilityDropdown("OTHER", qnNumber);
     }
@@ -895,7 +902,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
+    public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod, boolean isToBeSaved) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDate(startTime) + "';");
@@ -914,7 +921,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         // Select grace period
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
 
-        click(fsSaveLink);
+        if (isToBeSaved) {
+            click(fsSaveLink);
+        }
         waitForPageToLoad();
     }
 
