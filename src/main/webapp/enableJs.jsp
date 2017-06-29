@@ -1,7 +1,7 @@
 <div>
   <h1>
-  TEAMMATES works best with JavaScript enabled.<br>
-  You may enable it in your browser by following steps below.
+    TEAMMATES works best with JavaScript enabled.<br>
+    You may enable it in your browser by following steps below.
   </h1>
 
   <div>
@@ -21,15 +21,15 @@
 
     <h3>PC</h3>
     <ol>
-    <li>In the Tools drop-down menu, select Internet Options.</li>
-    <li>Next, select the Security tab.</li>
-    <li>Then, select the earth (Internet) icon.</li>
-    <li>Then select the Custom Level button.</li>
-    <li>Locate Scripting near the bottom of the list.</li>
-    <li>Under Active Scripting, select Enable, then hit OK.</li>
-    <li>Answer yes to the following confirmation box.</li>
-    <li>Hit OK to close the Internet Options window.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>In the Tools drop-down menu, select Internet Options.</li>
+      <li>Next, select the Security tab.</li>
+      <li>Then, select the earth (Internet) icon.</li>
+      <li>Then select the Custom Level button.</li>
+      <li>Locate Scripting near the bottom of the list.</li>
+      <li>Under Active Scripting, select Enable, then hit OK.</li>
+      <li>Answer yes to the following confirmation box.</li>
+      <li>Hit OK to close the Internet Options window.</li>
+      <li>Finally, refresh your browser.</li>
     </ol>
   </div>
 
@@ -39,20 +39,20 @@
 
     <h3>PC</h3>
     <ol>
-    <li>In the Tools drop-down menu, select Options.</li>
-    <li>Next, select the Content icon/tab at the top on the window.</li>
-    <li>Then, check the Enable JavaScript checkbox under the Web Content category.</li>
-    <li>Hit OK to close the Options window and save your changes.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>In the Tools drop-down menu, select Options.</li>
+      <li>Next, select the Content icon/tab at the top on the window.</li>
+      <li>Then, check the Enable JavaScript checkbox under the Web Content category.</li>
+      <li>Hit OK to close the Options window and save your changes.</li>
+      <li>Finally, refresh your browser.</li>
     </ol>
     <h3>MAC</h3>
     <ol>
-    <li>Select the Firefox menu item from the Apple/System bar at the top of the screen.</li>
-    <li>From the drop-down menu, select Preferences...</li>
-    <li>Select the Content icon/tab at the top on the window.</li>
-    <li>Then, check the Enable JavaScript checkbox.</li>
-    <li>Close the Options window to save your changes.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>Select the Firefox menu item from the Apple/System bar at the top of the screen.</li>
+      <li>From the drop-down menu, select Preferences...</li>
+      <li>Select the Content icon/tab at the top on the window.</li>
+      <li>Then, check the Enable JavaScript checkbox.</li>
+      <li>Close the Options window to save your changes.</li>
+      <li>Finally, refresh your browser.</li>
     </ol>
   </div>
 
@@ -62,20 +62,20 @@
 
     <h3>PC</h3>
     <ol>
-    <li>In the Edit drop-down menu at the top of the window, select Preferences...</li>
-    <li>Select the Security icon/tab at the top on the window.</li>
-    <li>Then, check the Enable JavaScript checkbox.</li>
-    <li>Close the window to save your changes.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>In the Edit drop-down menu at the top of the window, select Preferences...</li>
+      <li>Select the Security icon/tab at the top on the window.</li>
+      <li>Then, check the Enable JavaScript checkbox.</li>
+      <li>Close the window to save your changes.</li>
+      <li>Finally, refresh your browser.</li>
     </ol>
     <h3>MAC</h3>
     <ol>
-    <li>Select the Safari menu item from the Apple/System bar at the top of the screen.</li>
-    <li>From the drop-down menu, select Preferences.</li>
-    <li>Select the Content icon/tab at the top of the window.</li>
-    <li>Then, check the Enable JavaScript checkbox.</li>
-    <li>Close the window to save your changes.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>Select the Safari menu item from the Apple/System bar at the top of the screen.</li>
+      <li>From the drop-down menu, select Preferences.</li>
+      <li>Select the Content icon/tab at the top of the window.</li>
+      <li>Then, check the Enable JavaScript checkbox.</li>
+      <li>Close the window to save your changes.</li>
+      <li>Finally, refresh your browser.</li>
      </ol>
   </div>
 
@@ -85,21 +85,21 @@
 
     <h3>PC</h3>
     <ol>
-    <li>In the Tools drop-down menu at the top of the window, select Preferences...</li>
-    <li>Select the Advanced tab at the top on the Preferences window.</li>
-    <li>Find the Content item in the list on the left-side of the window and select it.</li>
-    <li>Then, check the Enable JavaScript checkbox.</li>
-    <li>Click OK to save your changes and close the Preferences window.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>In the Tools drop-down menu at the top of the window, select Preferences...</li>
+      <li>Select the Advanced tab at the top on the Preferences window.</li>
+      <li>Find the Content item in the list on the left-side of the window and select it.</li>
+      <li>Then, check the Enable JavaScript checkbox.</li>
+      <li>Click OK to save your changes and close the Preferences window.</li>
+      <li>Finally, refresh your browser.</li>
     </ol>
     <h3>MAC</h3>
     <ol>
-    <li>Select the Safari menu item from the Apple/System bar at the top of the screen.</li>
-    <li>From the drop-down menu, select Preferences.</li>
-    <li>Select the Content icon/tab at the top of the Preferences window.</li>
-    <li>Then, check the Enable JavaScript checkbox.</li>
-    <li>Click OK to save your changes and close the Preferences window.</li>
-    <li>Finally, refresh your browser.</li>
+      <li>Select the Safari menu item from the Apple/System bar at the top of the screen.</li>
+      <li>From the drop-down menu, select Preferences.</li>
+      <li>Select the Content icon/tab at the top of the Preferences window.</li>
+      <li>Then, check the Enable JavaScript checkbox.</li>
+      <li>Click OK to save your changes and close the Preferences window.</li>
+      <li>Finally, refresh your browser.</li>
     </ol>
   </div>
 
@@ -109,38 +109,38 @@
 
     <h3>PC</h3>
     <ol>
-    <li>Select Customize and control Google Chrome (wrench Icon) to the right of the address bar.</li>
-    <li>From the drop-down menu, select Options Select the Under the Hood tab at the top of the window.</li>
-    <li>Under the Privacy heading, select the Content settings button.</li>
-    <li>On the left, under the features heading, select JavaScript.</li>
-    <li>Select the Allow all sites to run JavaScript radio button.</li>
-    <li>Finally, close both preference windows, and refresh the browser.</li>
+      <li>Select Customize and control Google Chrome (wrench Icon) to the right of the address bar.</li>
+      <li>From the drop-down menu, select Options Select the Under the Hood tab at the top of the window.</li>
+      <li>Under the Privacy heading, select the Content settings button.</li>
+      <li>On the left, under the features heading, select JavaScript.</li>
+      <li>Select the Allow all sites to run JavaScript radio button.</li>
+      <li>Finally, close both preference windows, and refresh the browser.</li>
     </ol>
     <h3>MAC</h3>
     <ol>
-    <li>Select the Chrome menu item from the Apple/System bar at the top of the screen.</li>
-    <li>From the drop-down menu, select Preferences...</li>
-    <li>Select the Under the Hood tab at the top of the window.</li>
-    <li>Under the Privacy heading, select the Content settings button.</li>
-    <li>On the left, under the features heading, select JavaScript.</li>
-    <li>Select the Allow all sites to run JavaScript radio button.</li>
-    <li>Finally, close both preference windows, and refresh the browser.</li>
+      <li>Select the Chrome menu item from the Apple/System bar at the top of the screen.</li>
+      <li>From the drop-down menu, select Preferences...</li>
+      <li>Select the Under the Hood tab at the top of the window.</li>
+      <li>Under the Privacy heading, select the Content settings button.</li>
+      <li>On the left, under the features heading, select JavaScript.</li>
+      <li>Select the Allow all sites to run JavaScript radio button.</li>
+      <li>Finally, close both preference windows, and refresh the browser.</li>
     </ol>
   </div>
   </div>
 
   <p>
-  As taken from:
+    As taken from:
   </p>
   <ol>
-  <li>
-    <a href="http://activatejavascript.org/en/instructions/" target="_blank" rel="noopener noreferrer">http://activatejavascript.org/en/instructions/</a>
-  </li>
-  <li>
-    <a href="https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages" target="_blank" rel="noopener noreferrer">
-      https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page
-    </a>
-  </li>
+    <li>
+      <a href="http://activatejavascript.org/en/instructions/" target="_blank" rel="noopener noreferrer">http://activatejavascript.org/en/instructions/</a>
+    </li>
+    <li>
+      <a href="https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages" target="_blank" rel="noopener noreferrer">
+        https://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page
+      </a>
+    </li>
   </ol>
 
 </div>
