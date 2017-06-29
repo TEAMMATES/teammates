@@ -237,4 +237,7 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
+    public boolean isCommentsOnResponsesAllowed() {
+        return true;
+    }
 }
