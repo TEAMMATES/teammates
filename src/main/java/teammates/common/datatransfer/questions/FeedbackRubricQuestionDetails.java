@@ -769,7 +769,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
             //To show comment only once for each response.
-            hasComments = (i < 1) ? hasComments : false;
+            hasComments = i < 1 && hasComments;
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
