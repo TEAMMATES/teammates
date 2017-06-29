@@ -166,7 +166,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         Assumption.assertTrue(comments != null);
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (isRegistered()) {
             addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);

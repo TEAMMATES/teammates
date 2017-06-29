@@ -486,7 +486,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
                 String feedbackQuestionId, String section) {
-        List<FeedbackResponse> feedbackResponses = new ArrayList<FeedbackResponse>();
+        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
         feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
@@ -534,7 +534,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<>();
 
         for (FeedbackResponse result : getFeedbackResponseEntitiesForSessionFromSection(
                 feedbackSessionName, courseId, section)) {
@@ -561,7 +561,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
             String feedbackSessionName, String courseId, String section, int range) {
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<>();
 
         for (FeedbackResponse result : getFeedbackResponseEntitiesForSessionFromSectionWithinRange(
                 feedbackSessionName, courseId, section, range)) {
@@ -604,7 +604,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestionInSection(
             String feedbackQuestionId, String receiver, String section) {
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<>();
 
         List<FeedbackResponse> firstQueryResponses = load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
@@ -639,7 +639,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestionInSection(
             String feedbackQuestionId, String giverEmail, String section) {
-        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String, FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<>();
 
         List<FeedbackResponse> firstQueryResponses = load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)

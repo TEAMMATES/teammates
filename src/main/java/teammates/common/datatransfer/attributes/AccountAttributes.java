@@ -100,7 +100,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
 

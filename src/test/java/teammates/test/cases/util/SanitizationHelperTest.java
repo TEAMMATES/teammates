@@ -252,16 +252,16 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
-        List<String> emptyList = new ArrayList<String>();
+        List<String> emptyList = new ArrayList<>();
         assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
     }
 
     private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
-        List<String> unsanitized = new ArrayList<String>();
+        List<String> unsanitized = new ArrayList<>();
         unsanitized.add("aaa , bb\"b, c\"\"cc");
         unsanitized.add("aaa , bb\"b, c\"\"cc");
 
-        List<String> expected = new ArrayList<String>();
+        List<String> expected = new ArrayList<>();
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
 

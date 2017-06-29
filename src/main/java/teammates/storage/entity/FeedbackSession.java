@@ -35,10 +35,10 @@ public class FeedbackSession extends BaseEntity {
     private String creatorEmail; //TODO: should this be googleId?
 
     @Unindex
-    private Set<String> respondingInstructorList = new HashSet<String>();
+    private Set<String> respondingInstructorList = new HashSet<>();
 
     @Unindex
-    private Set<String> respondingStudentList = new HashSet<String>();
+    private Set<String> respondingStudentList = new HashSet<>();
 
     @Unindex
     private Text instructions;

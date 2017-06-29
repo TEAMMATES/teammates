@@ -137,7 +137,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     public void deleteEntities(Collection<StudentProfileAttributes> entitiesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
-        ArrayList<Key<StudentProfile>> keysToDelete = new ArrayList<Key<StudentProfile>>();
+        ArrayList<Key<StudentProfile>> keysToDelete = new ArrayList<>();
         for (StudentProfileAttributes entityToDelete : entitiesToDelete) {
             Key<StudentProfile> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
             if (keyToDelete == null) {

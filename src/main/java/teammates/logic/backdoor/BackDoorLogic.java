@@ -84,7 +84,7 @@ public class BackDoorLogic extends Logic {
         coursesDb.createCourses(courses.values());
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
-        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> instructorAccounts = new ArrayList<>();
         for (InstructorAttributes instructor : instructors.values()) {
 
             validateInstructorPrivileges(instructor);
@@ -103,7 +103,7 @@ public class BackDoorLogic extends Logic {
         instructorsDb.createInstructorsWithoutSearchability(instructors.values());
 
         Map<String, StudentAttributes> students = dataBundle.students;
-        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> studentAccounts = new ArrayList<>();
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
@@ -126,7 +126,7 @@ public class BackDoorLogic extends Logic {
         fbDb.createFeedbackSessions(sessions.values());
 
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
-        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        List<FeedbackQuestionAttributes> questionList = new ArrayList<>(questions.values());
 
         for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
@@ -139,7 +139,7 @@ public class BackDoorLogic extends Logic {
         }
         frDb.createFeedbackResponses(responses.values());
 
-        Set<String> sessionIds = new HashSet<String>();
+        Set<String> sessionIds = new HashSet<>();
 
         for (FeedbackResponseAttributes response : responses.values()) {
 
@@ -435,7 +435,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
         }

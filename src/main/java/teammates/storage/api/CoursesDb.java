@@ -136,10 +136,10 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
     private List<Course> getCourseEntities(List<String> courseIds) {
         if (courseIds.isEmpty()) {
-            return new ArrayList<Course>();
+            return new ArrayList<>();
         }
 
-        return new ArrayList<Course>(
+        return new ArrayList<>(
                 load().ids(courseIds).values());
     }
 

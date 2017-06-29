@@ -303,7 +303,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Batch creates or updates search documents for the given comments
      */
     public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
-        List<SearchDocument> frcSearchDocuments = new ArrayList<SearchDocument>();
+        List<SearchDocument> frcSearchDocuments = new ArrayList<>();
         for (FeedbackResponseCommentAttributes comment : comments) {
             frcSearchDocuments.add(new FeedbackResponseCommentSearchDocument(comment));
         }
@@ -399,7 +399,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
             String courseId, String feedbackSessionName, String section) {
-        Map<Long, FeedbackResponseComment> comments = new HashMap<Long, FeedbackResponseComment>();
+        Map<Long, FeedbackResponseComment> comments = new HashMap<>();
 
         List<FeedbackResponseComment> firstQueryResponseComments = load()
                 .filter("courseId =", courseId)

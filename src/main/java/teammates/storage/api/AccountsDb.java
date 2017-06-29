@@ -74,7 +74,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     /* This function is used for persisting data bundle in testing process */
     public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
             throws InvalidParametersException {
-        List<StudentProfileAttributes> profilesToAdd = new LinkedList<StudentProfileAttributes>();
+        List<StudentProfileAttributes> profilesToAdd = new LinkedList<>();
         for (AccountAttributes accountToAdd : accountsToAdd) {
             profilesToAdd.add(accountToAdd.studentProfile);
         }

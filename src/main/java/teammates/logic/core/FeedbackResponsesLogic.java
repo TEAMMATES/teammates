@@ -220,8 +220,7 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question, String userEmail,
             UserRole role, String section) {
 
-        List<FeedbackResponseAttributes> viewableResponses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
         // Add responses that the user submitted himself
         addNewResponses(
@@ -688,7 +687,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
 
-        Set<String> emails = new HashSet<String>();
+        Set<String> emails = new HashSet<>();
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
             this.deleteFeedbackResponseAndCascade(response);
@@ -765,8 +764,7 @@ public final class FeedbackResponsesLogic {
             List<FeedbackResponseAttributes> existingResponses,
             List<FeedbackResponseAttributes> newResponses) {
 
-        Map<String, FeedbackResponseAttributes> responses =
-                new HashMap<String, FeedbackResponseAttributes>();
+        Map<String, FeedbackResponseAttributes> responses = new HashMap<>();
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             responses.put(existingResponse.getId(), existingResponse);
@@ -782,8 +780,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamForQuestion(
             String feedbackQuestionId, String courseId, String teamName) {
 
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
         List<StudentAttributes> studentsInTeam =
                 studentsLogic.getStudentsForTeam(teamName, courseId);
 
@@ -803,8 +800,7 @@ public final class FeedbackResponsesLogic {
 
         List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, student.course);
 
-        List<FeedbackResponseAttributes> teamResponses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> teamResponses = new ArrayList<>();
 
         for (StudentAttributes studentInTeam : studentsInTeam) {
             if (studentInTeam.email.equals(student.email)) {
@@ -821,8 +817,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, String studentEmail) {
 
-        List<FeedbackResponseAttributes> viewableResponses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             addNewResponses(viewableResponses,

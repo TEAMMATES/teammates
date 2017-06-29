@@ -102,7 +102,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
 

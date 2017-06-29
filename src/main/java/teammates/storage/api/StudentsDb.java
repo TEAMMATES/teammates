@@ -50,7 +50,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        List<SearchDocument> studentDocuments = new ArrayList<SearchDocument>();
+        List<SearchDocument> studentDocuments = new ArrayList<>();
         for (StudentAttributes student : students) {
             studentDocuments.add(new StudentSearchDocument(student));
         }
@@ -249,7 +249,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
-        ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
+        ArrayList<StudentAttributes> unregistered = new ArrayList<>();
 
         for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
@@ -266,7 +266,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     // TODO remove this method once all Students have been migrated to CourseStudents
     @Deprecated
     public List<StudentAttributes> getAllStudents() {
-        Map<String, StudentAttributes> result = new LinkedHashMap<String, StudentAttributes>();
+        Map<String, StudentAttributes> result = new LinkedHashMap<>();
 
         for (StudentAttributes student : getAllCourseStudents()) {
             result.put(student.getId(), student);
@@ -596,7 +596,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private void deleteStudentsCascadeDocuments(List<CourseStudent> students) {
-        List<StudentAttributes> studentsAttributes = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentsAttributes = new ArrayList<>();
         for (CourseStudent student : students) {
             StudentAttributes studentAttributes = makeAttributes(student);
             studentsAttributes.add(studentAttributes);

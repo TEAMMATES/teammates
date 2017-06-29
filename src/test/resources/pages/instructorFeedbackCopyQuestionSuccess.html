@@ -20,7 +20,7 @@
               </span>
               Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackEditUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackEditUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
               <span class="glyphicon glyphicon-trash">
               </span>
               Delete
@@ -764,7 +764,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -1740,7 +1740,7 @@
           <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
             Copy Question
           </a>
-          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104&fsname=First+Session" id="button_done_editing">
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104&fsname=First+Session" id="button_done_editing">
             Done Editing
           </a>
         </div>
@@ -1878,7 +1878,7 @@
                   <div class="checkbox padding-top-0">
                     <label class="bold-label">
                       <span class="inline-block">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMcqOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </span>
                     </label>
@@ -1954,7 +1954,7 @@
                   <div class="col-md-8 margin-bottom-7px">
                     <div class="checkbox">
                       <label class="bold-label">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMsqOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </label>
                     </div>

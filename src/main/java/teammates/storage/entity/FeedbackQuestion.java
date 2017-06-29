@@ -61,11 +61,11 @@ public class FeedbackQuestion extends BaseEntity {
     // (i.e. if type is own team, numberOfEntities must = 1).
     private int numberOfEntitiesToGiveFeedbackTo;
 
-    private List<FeedbackParticipantType> showResponsesTo = new ArrayList<FeedbackParticipantType>();
+    private List<FeedbackParticipantType> showResponsesTo = new ArrayList<>();
 
-    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<>();
 
-    private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+    private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<>();
 
     private Date createdAt;
 

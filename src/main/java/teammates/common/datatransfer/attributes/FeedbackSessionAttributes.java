@@ -47,8 +47,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isOpeningEmailEnabled = true;
         this.isClosingEmailEnabled = true;
         this.isPublishedEmailEnabled = true;
-        this.respondingInstructorList = new HashSet<String>();
-        this.respondingStudentList = new HashSet<String>();
+        this.respondingInstructorList = new HashSet<>();
+        this.respondingStudentList = new HashSet<>();
     }
 
     public FeedbackSessionAttributes(FeedbackSession fs) {
@@ -192,7 +192,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         // Check for null fields.
 

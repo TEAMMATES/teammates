@@ -167,7 +167,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         // tests both the constructor and the invalidity info
         expectedErrorMessages.add(

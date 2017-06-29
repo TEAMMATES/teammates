@@ -72,7 +72,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(getId()), errors);
 

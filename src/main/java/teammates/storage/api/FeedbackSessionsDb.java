@@ -47,7 +47,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
-        List<FeedbackSessionAttributes> list = new LinkedList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> list = new LinkedList<>();
 
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(start);
@@ -67,8 +67,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                 .filter("startTime <", curEnd)
                 .list();
 
-        List<FeedbackSession> endTimeEntities = new ArrayList<FeedbackSession>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<FeedbackSession>(startEntities);
+        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
+        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
 
         endTimeEntities.removeAll(startTimeEntities);
         startTimeEntities.removeAll(endTimeEntities);
@@ -202,7 +202,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<String> emails = new ArrayList<String>();
+        List<String> emails = new ArrayList<>();
         emails.add(email);
         addInstructorRespondents(emails, feedbackSession);
     }
@@ -275,7 +275,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public void addStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
-        List<String> emails = new ArrayList<String>();
+        List<String> emails = new ArrayList<>();
         emails.add(email);
         addStudentRespondents(emails, feedbackSession);
     }

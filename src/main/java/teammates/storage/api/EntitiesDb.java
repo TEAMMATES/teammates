@@ -63,8 +63,8 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public List<A> createEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
-        List<A> entitiesToUpdate = new ArrayList<A>();
-        List<E> entities = new ArrayList<E>();
+        List<A> entitiesToUpdate = new ArrayList<>();
+        List<E> entities = new ArrayList<>();
 
         for (A entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
@@ -164,7 +164,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public void deleteEntities(Collection<A> entitiesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
-        List<Key<E>> keysToDelete = new ArrayList<Key<E>>();
+        List<Key<E>> keysToDelete = new ArrayList<>();
         for (A entityToDelete : entitiesToDelete) {
             Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
             if (keyToDelete == null) {
@@ -240,7 +240,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     }
 
     protected List<A> makeAttributes(Collection<E> entities) {
-        List<A> attributes = new LinkedList<A>();
+        List<A> attributes = new LinkedList<>();
         for (E entity : entities) {
             attributes.add(makeAttributes(entity));
         }
@@ -268,7 +268,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     }
 
     protected void putDocuments(String indexName, List<SearchDocument> documents) {
-        List<Document> searchDocuments = new ArrayList<Document>();
+        List<Document> searchDocuments = new ArrayList<>();
         for (SearchDocument document : documents) {
             searchDocuments.add(document.build());
         }

@@ -29,7 +29,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
 
         InstructorAttributes curInstructor = dataBundle.instructors.get("instructor1OfCourse1");
 
-        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructors = new ArrayList<>();
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
             if ("idOfTypicalCourse1".equals(instructor.courseId)) {
                 instructors.add(instructor);
@@ -37,7 +37,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         }
 
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
-        courseDetails.sections = new ArrayList<SectionDetailsBundle>();
+        courseDetails.sections = new ArrayList<>();
         SectionDetailsBundle sampleSection = new SectionDetailsBundle();
         sampleSection.name = "Sample section name";
         courseDetails.sections.add(sampleSection);
@@ -55,7 +55,7 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
 
         ______TS("test data bundle with no section");
 
-        courseDetails.sections = new ArrayList<SectionDetailsBundle>();
+        courseDetails.sections = new ArrayList<>();
         sampleSection = new SectionDetailsBundle();
         sampleSection.name = "None";
         courseDetails.sections.add(sampleSection);

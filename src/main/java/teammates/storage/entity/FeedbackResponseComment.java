@@ -47,9 +47,9 @@ public class FeedbackResponseComment extends BaseEntity {
     /** Response receiver section. */
     private String receiverSection;
 
-    private List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+    private List<FeedbackParticipantType> showCommentTo = new ArrayList<>();
 
-    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<>();
 
     private Boolean isVisibilityFollowingFeedbackQuestion;
 
