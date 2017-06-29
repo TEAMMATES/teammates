@@ -33,7 +33,7 @@
      data-placement="top"
      style="display: inline-block; padding-right: 5px;">
     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
-       href="#"
+       href="javascript:;"
        data-actionlink="${actions.editCopyLink}"
        data-courseid="${actions.courseId}"
        data-fsname="${actions.fsName}"
@@ -82,7 +82,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="javascript:;"
                        data-actionlink="${actions.remindParticularStudentsPageLink}"
                        class="session-remind-particular-for-test"
                        data-courseid="${actions.courseId}"

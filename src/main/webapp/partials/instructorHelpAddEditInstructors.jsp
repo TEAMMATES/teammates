@@ -21,7 +21,7 @@
 
                                 <a href="javascript:;" id="instrEditLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" disabled="">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                <a href="#" id="instrDeleteLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course" disabled="">
+                                <a href="" id="instrDeleteLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course" disabled="">
                                     <span class="glyphicon glyphicon-trash"></span> Delete</a>
                             </div>
                         </div>
@@ -216,7 +216,7 @@
 
                                 <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" style="display: none;">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                <a href="#" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
+                                <a href="javascript:;" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
                                     <span class="glyphicon glyphicon-trash"></span> Delete</a>
                             </div>
                         </div>

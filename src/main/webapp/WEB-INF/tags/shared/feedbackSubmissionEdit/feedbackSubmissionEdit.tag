@@ -25,7 +25,7 @@
                         <div class="col-md-12">
                             <h3 class="text-center">
                                 You are moderating responses for ${isInstructor ? "instructor" : "student"} ${moderatedPersonName} (${moderatedPersonEmail})
-                                <small><a href="#" id="moderationHintButton"></a></small>
+                                <small><a href="javascript:;" id="moderationHintButton"></a></small>
                             </h3>
                             <ul id="moderationHint" class="hidden">
                                 <li>
