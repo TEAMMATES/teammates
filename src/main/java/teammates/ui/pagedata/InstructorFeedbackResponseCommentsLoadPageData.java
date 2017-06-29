@@ -108,21 +108,9 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             String showCommentToString = getResponseCommentVisibilityString(frca, question);
             String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
 
-            boolean isVisibilityIconShown = false;
-            if (feedbackSession.isPublished()) {
-                boolean isResponseCommentPublicToRecipient = !frca.showCommentTo.isEmpty();
-                isVisibilityIconShown = isResponseCommentPublicToRecipient;
-
-                if (isVisibilityIconShown) {
-                    whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
-                }
-            }
-
             FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                     frca, frca.giverEmail, giverName, recipientName, showCommentToString,
                     showGiverNameToString, responseVisibilities, instructorEmailNameTable);
-
-            frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
 
             if (isAllowedToEditAndDeleteComment) {
                 frc.enableEdit();
@@ -211,14 +199,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         responseVisibilityMap.put(FeedbackParticipantType.INSTRUCTORS, isResponseVisibleToInstructors);
 
         return responseVisibilityMap;
-    }
-
-    private String getExtraClass(String giverEmail, String instructorEmail, boolean isPublic) {
-
-        return " giver_display-by-"
-             + (giverEmail.equals(instructorEmail) ? "you" : "others")
-             + " status_display-"
-             + (isPublic ? "public" : "private");
     }
 
     public Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> getQuestionCommentsMap() {
