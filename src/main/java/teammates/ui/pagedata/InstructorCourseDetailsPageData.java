@@ -25,6 +25,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     private List<InstructorAttributes> instructors;
     private String studentListHtmlTableAsString;
     private ElementTag courseRemindButton;
+    private ElementTag courseDeleteAllButton;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
 
@@ -45,9 +46,13 @@ public class InstructorCourseDetailsPageData extends PageData {
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", href,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", courseId, isDisabled);
 
-        this.sections = new ArrayList<StudentListSectionData>();
+        String hrefDeleteStudents = sanitizeForJs(getInstructorCourseStudentDeleteAllLink(courseId));
+        courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button-delete-all",
+                hrefDeleteStudents, null, null, courseId, isDisabled);
+
+        this.sections = new ArrayList<>();
         for (SectionDetailsBundle section : courseDetails.sections) {
-            Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+            Map<String, String> emailPhotoUrlMapping = new HashMap<>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
@@ -86,6 +91,10 @@ public class InstructorCourseDetailsPageData extends PageData {
 
     public ElementTag getCourseRemindButton() {
         return courseRemindButton;
+    }
+
+    public ElementTag getCourseDeleteAllButton() {
+        return courseDeleteAllButton;
     }
 
     public void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {

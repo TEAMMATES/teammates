@@ -58,7 +58,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
 
     private EmailListConfig emailListConfig = new EmailListConfig();
-    private HashMap<String, Date> courseIdToCreatedDateMap = new HashMap<String, Date>();
+    private HashMap<String, Date> courseIdToCreatedDateMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         AdminEmailListGenerator adminEmailListGenerator = new AdminEmailListGenerator();
@@ -174,8 +174,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             return;
         }
 
-        HashSet<String> studentEmailSet = new HashSet<String>();
-        HashSet<String> instructorEmailSet = new HashSet<String>();
+        HashSet<String> studentEmailSet = new HashSet<>();
+        HashSet<String> instructorEmailSet = new HashSet<>();
 
         if (emailListConfig.shouldIncludeStudent) {
             studentEmailSet = addStudentEmailIntoSet(studentEmailSet);

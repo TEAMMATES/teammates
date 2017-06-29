@@ -15,7 +15,7 @@ import java.util.Map;
 public class ElementTag {
     private String content;
     private Map<String, String> attributes;
-    private List<ElementTag> nestedElements = new ArrayList<ElementTag>();
+    private List<ElementTag> nestedElements = new ArrayList<>();
 
     /**
      * Constructs an element tag.
@@ -29,7 +29,7 @@ public class ElementTag {
         this.content = isSelfClosing ? null : attributePairs[0];
 
         int startIndex = isSelfClosing ? 0 : 1;
-        this.attributes = new HashMap<String, String>();
+        this.attributes = new HashMap<>();
         for (int i = startIndex; i < attributePairs.length; i += 2) {
             this.attributes.put(attributePairs[i], attributePairs[i + 1]);
         }

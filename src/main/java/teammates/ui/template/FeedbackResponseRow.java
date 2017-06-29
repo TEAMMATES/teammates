@@ -37,7 +37,7 @@ public class FeedbackResponseRow {
         } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
-        this.responseComments = new ArrayList<FeedbackResponseCommentRow>();
+        this.responseComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
@@ -52,8 +52,10 @@ public class FeedbackResponseRow {
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.giverEmail;
+                Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
-                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities);
+                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
+                        instructorEmailNameTable);
                 responseRow.enableDelete();
                 responseRow.enableEdit();
                 this.responseComments.add(responseRow);
