@@ -225,7 +225,10 @@ public final class TimeHelper {
         String sign = sessionTimeZone > 0 ? "+" : "-";
         int hours = (int) sessionTimeZone;
         int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
-        String offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
+        String offset = Integer.toString(hours);
+        if (minutes != 0) {
+            offset = offset + Integer.toString(minutes);
+        }
         String timeZone = TimeZone.getTimeZone("GMT" + sign + offset).getID();
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
