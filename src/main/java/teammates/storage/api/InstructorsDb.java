@@ -59,7 +59,7 @@ public class InstructorsDb extends EntitiesDb {
      * Batch creates or updates documents for the given instructors.
      */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
-        List<SearchDocument> instructorDocuments = new ArrayList<SearchDocument>();
+        List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructorParams) {
             if (instructor.key == null) {
                 instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -226,7 +226,7 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForEmail(email);
 
-        List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorDataList = new ArrayList<>();
         for (Instructor i : instructorList) {
             if (!JDOHelper.isDeleted(i)) {
                 instructorDataList.add(InstructorAttributes.valueOf(i));
@@ -248,7 +248,7 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId, omitArchived);
 
-        List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorDataList = new ArrayList<>();
         for (Instructor i : instructorList) {
             if (!JDOHelper.isDeleted(i)) {
                 instructorDataList.add(InstructorAttributes.valueOf(i));
@@ -269,7 +269,7 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
 
-        List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorDataList = new ArrayList<>();
         for (Instructor i : instructorList) {
             if (!JDOHelper.isDeleted(i)) {
                 instructorDataList.add(InstructorAttributes.valueOf(i));
@@ -286,7 +286,7 @@ public class InstructorsDb extends EntitiesDb {
     @Deprecated
     public List<InstructorAttributes> getAllInstructors() {
 
-        List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
+        List<InstructorAttributes> list = new LinkedList<>();
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
         while (it.hasNext()) {

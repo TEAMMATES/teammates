@@ -116,7 +116,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     private void testUpdateQuestionNumber() throws Exception {
         ______TS("shift question up");
-        List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
         q1.questionNumber = 2;
         FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
@@ -147,7 +147,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         }
 
         ______TS("shift question down");
-        expectedList = new ArrayList<FeedbackQuestionAttributes>();
+        expectedList = new ArrayList<>();
         q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
         q1.questionNumber = 1;
         q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
@@ -202,7 +202,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         }
 
         ______TS("Add questions sequentially");
-        List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
         q1.questionNumber = 1;
         FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
@@ -318,8 +318,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
         questionToUpdate.questionNumber = 3;
-        List<FeedbackParticipantType> newVisibility =
-                new LinkedList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
         questionToUpdate.showResponsesTo = newVisibility;
         // Check keep existing policy.
@@ -436,7 +435,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for instructors and self");
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn5InSession1InCourse1"));
@@ -448,7 +447,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for instructors and self by another instructor");
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
@@ -458,7 +457,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for instructors by the creating instructor");
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession2InCourse2"));
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession2InCourse2"));
 
@@ -469,7 +468,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(actualQuestions, expectedQuestions);
 
         ______TS("Get questions for creator instructor, verifies that the two methods return the same questions");
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>(actualQuestions);
+        expectedQuestions = new ArrayList<>(actualQuestions);
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForCreatorInstructor("Instructor feedback session", "idOfTypicalCourse2");
 
@@ -485,7 +484,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for instructors by non-instructor of the course");
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
                                                           "iwc@yahoo.tmt");
@@ -504,12 +503,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for self from list of all questions");
 
-        allQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        allQuestions = new ArrayList<>();
         allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
         allQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
 
         actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
@@ -524,7 +523,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for students");
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
         actualQuestions =
@@ -534,7 +533,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for students and teams");
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
         expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
         actualQuestions =
@@ -544,12 +543,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for students from list of all questions");
 
-        allQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        allQuestions = new ArrayList<>();
         allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
         allQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
 
@@ -559,11 +558,11 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for students and teams from list of all questions");
 
-        allQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        allQuestions = new ArrayList<>();
         allQuestions.add(getQuestionFromDatastore("team.feedback"));
         allQuestions.add(getQuestionFromDatastore("team.members.feedback"));
 
-        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
         expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
 

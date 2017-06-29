@@ -116,7 +116,7 @@ public class AccountsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<Account> accountsList = (List<Account>) q.execute();
 
-        List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> instructorsAccountData = new ArrayList<>();
 
         for (Account a : accountsList) {
             if (!JDOHelper.isDeleted(a)) {
