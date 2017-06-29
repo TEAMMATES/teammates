@@ -51,11 +51,11 @@
     <li>
       <div>
         <b>What should I do if I'm unable to submit my responses?</b>
-       </div>
-       <div>
-         Email <a href="mailto:teammates@comp.nus.edu.sg">us</a> so that we can help you submit.
-         Note that we cannot do much if the submission deadline is over. It is not up to us (the TEAMMATES team) to accept overdue submissions.
-       </div>
+      </div>
+      <div>
+        Email <a href="mailto:teammates@comp.nus.edu.sg">us</a> so that we can help you submit.
+        Note that we cannot do much if the submission deadline is over. It is not up to us (the TEAMMATES team) to accept overdue submissions.
+      </div>
     </li>
   </ul>
 </t:helpPage>

@@ -6,7 +6,7 @@
     Request for an Account
   </h1>
   <div id="contentHolder">
-  <p> Cannot see the request form below? Click <a href="${googleDocURL}" target="_blank" rel="noopener noreferrer">here.</a></p>
+    <p> Cannot see the request form below? Click <a href="${googleDocURL}" target="_blank" rel="noopener noreferrer">here.</a></p>
     <iframe src="${googleDocURL}"
         width="760px" height="880px" frameborder="0" marginheight="0" marginwidth="0">
       Loading...
