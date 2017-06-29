@@ -194,7 +194,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
         verifyCanViewSesssion(demoCourseId, "Second team feedback session",
                 "/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
-        verifyCanViewSesssion(demoCourseId, "Third team feedback session",
+        verifyCanViewSesssion(demoCourseId, "Session with different question types",
                 "/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
         ______TS("action failure : verify the given email is valid or not");
