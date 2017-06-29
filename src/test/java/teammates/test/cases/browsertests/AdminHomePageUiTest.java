@@ -184,23 +184,13 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
 
-        ______TS("new instructor can view result of First team feedback session of sample course");
+        ______TS("new instructor can view feedback sessions of sample course");
 
-        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-                .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
-        coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
-        coursesPage.waitForAjaxLoadCoursesSuccess();
-        verifyResultHtml("First team feedback session",
+        verifyCanViewSesssion(demoCourseId, "First team feedback session",
                 "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
-
-        ______TS("new instructor can view result of Second team feedback session of sample course");
-
-        verifyResultHtml("Second team feedback session",
+        verifyCanViewSesssion(demoCourseId, "Second team feedback session",
                 "/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
-
-        ______TS("new instructor can view result of Third team feedback session of sample course");
-
-        verifyResultHtml("Session with different question types",
+        verifyCanViewSesssion(demoCourseId, "Third team feedback session",
                 "/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
         ______TS("action failure : verify the given email is valid or not");
@@ -275,8 +265,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    void verifyResultHtml(String fsname, String resultHtml) throws Exception {
-        String demoCourseId = "AHPUiT____.instr1_.gma-demo";
+    private void verifyCanViewSesssion(String demoCourseId, String fsname, String resultHtml) throws Exception {
+        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+                .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.loadInstructorHomeTab();
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         InstructorFeedbackResultsPage resultsPage =
@@ -285,5 +278,4 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent(resultHtml);
 
     }
-
 }
