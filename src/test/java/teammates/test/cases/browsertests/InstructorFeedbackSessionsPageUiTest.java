@@ -25,14 +25,14 @@ import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACKS_PAGE}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SESSIONS_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
-    private InstructorFeedbacksPage feedbackPage;
+public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
+    private InstructorFeedbackSessionsPage feedbackPage;
     private String idOfInstructorWithSessions;
     /** This contains data for the new feedback session to be created during testing. */
     private FeedbackSessionAttributes newSession;
@@ -63,7 +63,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     @BeforeMethod
     public void refreshTestData() {
-        testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
+        testData = loadDataBundle("/InstructorFeedbackSessionsPageUiTest.json");
         removeAndRestoreDataBundle(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
@@ -250,9 +250,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickNeverVisibleTimeButton();
 
         //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
-        assertTrue(feedbackPage.verifyHidden(By.id("timeFramePanel")));
-        assertTrue(feedbackPage.verifyHidden(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackPage.verifyHidden(By.id("instructionsRow")));
+        assertTrue(feedbackPage.isHidden(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.isHidden(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.isHidden(By.id("instructionsRow")));
 
         newSession.setFeedbackSessionName("private session of characters1234567 #");
         newSession.setCourseId("CFeedbackUiT.CS2104");
@@ -486,7 +486,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
 
-        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
     }
 
     private void testCopyToAction() {
@@ -503,7 +503,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.getFsCopyToModal().verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
 
         // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
-        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
 
         ______TS("Copying fails due to fs with same name in course selected: Feedbacks Page");
 
@@ -551,7 +551,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.waitForPageToLoad();
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
 
-        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
     }
 
     private void testDeleteAction() throws Exception {
@@ -662,20 +662,20 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
         feedbackPage.clickCustomVisibleTimeButton();
 
-        assertTrue(feedbackPage.verifyEnabled(By.id("visibledate")));
-        assertTrue(feedbackPage.verifyEnabled(By.id("visibletime")));
-        assertTrue(feedbackPage.verifyEnabled(By.id("publishdate")));
-        assertTrue(feedbackPage.verifyEnabled(By.id("publishtime")));
+        assertTrue(feedbackPage.isEnabled(By.id("visibledate")));
+        assertTrue(feedbackPage.isEnabled(By.id("visibletime")));
+        assertTrue(feedbackPage.isEnabled(By.id("publishdate")));
+        assertTrue(feedbackPage.isEnabled(By.id("publishtime")));
 
         ______TS("all 4 datetime elements disabled when custom is deselected");
 
         feedbackPage.clickDefaultPublishTimeButton();
         feedbackPage.clickDefaultVisibleTimeButton();
 
-        assertTrue(feedbackPage.verifyDisabled(By.id("visibledate")));
-        assertTrue(feedbackPage.verifyDisabled(By.id("visibletime")));
-        assertTrue(feedbackPage.verifyDisabled(By.id("publishdate")));
-        assertTrue(feedbackPage.verifyDisabled(By.id("publishtime")));
+        assertTrue(feedbackPage.isDisabled(By.id("visibledate")));
+        assertTrue(feedbackPage.isDisabled(By.id("visibletime")));
+        assertTrue(feedbackPage.isDisabled(By.id("publishdate")));
+        assertTrue(feedbackPage.isDisabled(By.id("publishtime")));
     }
 
     private void testDatePickerScripts() {
@@ -968,14 +968,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                                                            "", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                                            FieldValidator.REASON_EMPTY,
                                                            FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
-        assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
-        assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));
+        assertTrue(feedbackPage.isVisible(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.isVisible(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.isVisible(By.id("instructionsRow")));
     }
 
-    private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        InstructorFeedbacksPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbacksPage.class);
+    private InstructorFeedbackSessionsPage getFeedbackPageForInstructor(String instructorId) {
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE).withUserId(instructorId);
+        InstructorFeedbackSessionsPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbackSessionsPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }
