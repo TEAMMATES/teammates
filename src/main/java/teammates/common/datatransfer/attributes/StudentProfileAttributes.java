@@ -7,12 +7,14 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+
 import teammates.storage.entity.StudentProfile;
 
 /**
@@ -25,13 +27,13 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String email;
     public String institute;
     public String nationality;
-    public String gender; // only accepts "male", "female" or "other"
+    public UserGender gender; // only accepts "male", "female" or "other"
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
 
     public StudentProfileAttributes(String googleId, String shortName, String email, String institute,
-                                    String nationality, String gender, String moreInfo, String pictureKey) {
+                                    String nationality, UserGender gender, String moreInfo, String pictureKey) {
         this.googleId = googleId;
         this.shortName = SanitizationHelper.sanitizeName(shortName);
         this.email = SanitizationHelper.sanitizeEmail(email);
@@ -61,7 +63,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = "other";
+        this.gender = UserGender.other;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = null;

@@ -14,6 +14,7 @@ import org.joda.time.DateTimeZone;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.UserGender;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -90,9 +91,9 @@ public class FieldValidator {
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
 
     public static final String GENDER_FIELD_NAME = "gender";
-    public static final List<String> GENDER_ACCEPTED_VALUES =
+    public static final List<UserGender> GENDER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
+                    Arrays.asList(UserGender.male, UserGender.female, UserGender.other));
 
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
@@ -395,9 +396,9 @@ public class FieldValidator {
      * @return An explanation of why the {@code gender} is not acceptable.
      *         Returns an empty string if the {@code gender} is acceptable.
      */
-    public String getInvalidityInfoForGender(String gender) {
+    public String getInvalidityInfoForGender(UserGender gender) {
         Assumption.assertTrue("Non-null value expected", gender != null);
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender.toString());
 
         if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
             return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);

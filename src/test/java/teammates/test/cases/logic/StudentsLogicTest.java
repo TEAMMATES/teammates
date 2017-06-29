@@ -17,6 +17,7 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -122,7 +123,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
                         "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
+                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", UserGender.other, "", "")));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
@@ -136,7 +137,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentEnrollDetails enrollmentResult = enrollStudent(student1);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
-                StudentUpdateStatus.NEW);
+                                          StudentUpdateStatus.NEW);
         verifyPresentInDatastore(student1);
 
         ______TS("add existing student");
@@ -191,7 +192,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
         expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = "female";
+        expectedStudentProfile.gender = UserGender.female;
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
 
         student1.studentProfile = expectedStudentProfile;
@@ -578,8 +579,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     /**
      * Returns the error message of EnrollException thrown when trying to call
      * {@link StudentsLogic#createStudents(String, String)} method with
-     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
-     * {@link #signalFailureToDetectException()}.
+     * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with.
      *
      * @param invalidEnrollLines is assumed to be invalid
      */
@@ -601,7 +601,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorEmail = "instructor@email.tmt";
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
+                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", UserGender.male, "", ""));
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
@@ -690,7 +690,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
+                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", UserGender.male, "", ""));
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 

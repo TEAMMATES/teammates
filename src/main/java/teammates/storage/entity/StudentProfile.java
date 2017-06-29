@@ -12,6 +12,8 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.UserGender;
+
 /**
  * Represents profile details for student entities associated with an
  * account entity.
@@ -55,7 +57,7 @@ public class StudentProfile extends Entity {
     @Persistent
     /* only accepts "male", "female" or "other" */
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private String gender;
+    private UserGender gender;
 
     @Persistent
     /* must be html sanitized before saving */
@@ -90,7 +92,7 @@ public class StudentProfile extends Entity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
+                          String nationality, UserGender gender, Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -108,7 +110,7 @@ public class StudentProfile extends Entity {
         this.setEmail("");
         this.setInstitute("");
         this.setNationality("");
-        this.setGender("other");
+        this.setGender(UserGender.other);
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());
@@ -154,11 +156,11 @@ public class StudentProfile extends Entity {
         this.nationality = nationality;
     }
 
-    public String getGender() {
+    public UserGender getGender() {
         return this.gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(UserGender gender) {
         this.gender = gender;
     }
 

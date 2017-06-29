@@ -2,6 +2,7 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UserGender;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -93,7 +94,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
-        String gender = Const.GenderTypes.MALE;
+        UserGender gender = UserGender.male;
         String moreInfo = "Information for John Doe.";
 
         if (pictureKey == null || pictureKey.isEmpty()) {
