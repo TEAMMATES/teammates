@@ -1115,7 +1115,7 @@ $(document).ready(() => {
 
     $(document).on('click', '#fsDiscardChanges', () => {
         const okCallback = () => {
-            document.getElementById('form_feedbacksession').reset();
+            $('#form_feedbacksession').trigger('reset');
             disableEditFS();
         };
         showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_CHANGES, okCallback, null, null, null,
