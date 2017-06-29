@@ -112,11 +112,11 @@ public class InstructorHomePage extends AppPage {
     }
 
     //TODO: rename course-add-eval-for-test
-    public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
+    public InstructorFeedbackSessionsPage clickCourseAddEvaluationLink(String courseId) {
         click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         ThreadHelper.waitBriefly();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
@@ -131,11 +131,11 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorFeedbackEditPage.class);
     }
 
-    public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
+    public InstructorFeedbackSessionsPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
         clickAndConfirm(getDeleteEvalLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
