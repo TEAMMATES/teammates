@@ -26,22 +26,11 @@ public class StudentAttributesTest extends BaseTestCase {
                 .builder("courseId", "Joe White", "e@e.com")
                 .build();
 
-        ______TS("success : defaultTimeStamp for createdAt date");
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getCreatedAt());
-
-        ______TS("success : defaultTimeStamp for updatedAt date");
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getUpdatedAt());
-
-        ______TS("success : default value for googleId");
         assertEquals("", sd.googleId);
-
-        ______TS("success : default value for section");
         assertEquals(Const.DEFAULT_SECTION, sd.section);
-
-        ______TS("success : default value for updateStatus");
         assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);
-
-        ______TS("success : default value for lastName");
         assertEquals("White", sd.lastName);
     }
 
@@ -55,7 +44,7 @@ public class StudentAttributesTest extends BaseTestCase {
                 .withLastName(null).withUpdateStatus(null)
                 .build();
 
-        /* Fields with default values*/
+        // Fields with default values
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getUpdatedAt());
         assertEquals("", sd.googleId);
@@ -63,7 +52,7 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);
         assertEquals("", sd.lastName);
 
-        /* Nullable fields */
+        // Nullable fields
         assertNull(sd.name);
         assertNull(sd.course);
         assertNull(sd.email);

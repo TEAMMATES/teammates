@@ -22,12 +22,12 @@ public class StudentAttributes extends EntityAttributes {
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 
-    /* Required fields */
+    // Required fields
     public String email;
     public String course;
     public String name;
 
-    /* Optional values */
+    // Optional values
     public String googleId;
     public String lastName;
     public String comments;
@@ -41,11 +41,15 @@ public class StudentAttributes extends EntityAttributes {
      * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
-    protected transient Date createdAt;
-    protected transient Date updatedAt;
+    private transient Date createdAt;
+    private transient Date updatedAt;
 
     public StudentAttributes() {
-        // attributes to be set after construction
+        googleId = "";
+        section = Const.DEFAULT_SECTION;
+        updateStatus = StudentUpdateStatus.UNKNOWN;
+        createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
     public static StudentAttributes valueOf(CourseStudent student) {
@@ -65,12 +69,14 @@ public class StudentAttributes extends EntityAttributes {
      * Return new builder instance with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
-     * {@code googleId = ""} <br>
-     * {@code section = Const.DEFAULT_SECTION} <br>
-     * {@code updateStatus = StudentUpdateStatus.UNKNOWN} <br>
-     * {@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} <br>
-     * {@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} <br>
-     * {@code lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1])} <br>
+     * <ul>
+     * <li>{@code googleId = ""}</li>
+     * <li>{@code section = Const.DEFAULT_SECTION}</li>
+     * <li>{@code updateStatus = StudentUpdateStatus.UNKNOWN}</li>
+     * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
+     * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
+     * <li>{@code lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1])}</li>
+     * </ul>
      */
     public static Builder builder(String courseId, String name, String email) {
         return new Builder(courseId, name, email);
@@ -326,6 +332,14 @@ public class StudentAttributes extends EntityAttributes {
         return updatedAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     /**
      * Returns true if section value has changed from its original value.
      */
@@ -359,13 +373,7 @@ public class StudentAttributes extends EntityAttributes {
             studentAttributes.course = courseId;
             studentAttributes.name = SanitizationHelper.sanitizeName(name);
             studentAttributes.email = email;
-
-            studentAttributes.googleId = "";
             studentAttributes.lastName = processLastName(null);
-            studentAttributes.section = Const.DEFAULT_SECTION;
-            studentAttributes.updateStatus = StudentUpdateStatus.UNKNOWN;
-            studentAttributes.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-            studentAttributes.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         }
 
         public Builder withGoogleId(String googleId) {
@@ -421,16 +429,18 @@ public class StudentAttributes extends EntityAttributes {
         }
 
         public Builder withCreatedAt(Date createdAt) {
-            studentAttributes.createdAt = (createdAt == null)
+            Date dateToAdd = (createdAt == null)
                     ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : createdAt;
+            studentAttributes.setCreatedAt(dateToAdd);
             return this;
         }
 
         public Builder withUpdatedAt(Date updatedAt) {
-            studentAttributes.updatedAt = updatedAt == null
+            Date dateToAdd = updatedAt == null
                     ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : updatedAt;
+            studentAttributes.setUpdatedAt(dateToAdd);
             return this;
         }
 
