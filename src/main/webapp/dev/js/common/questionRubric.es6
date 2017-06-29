@@ -10,10 +10,6 @@ import {
     disallowNonNumericEntries,
 } from './ui.es6';
 
-import {
-    extractQuestionNumFromEditFormId,
-} from '../main/instructorFeedbackEdit.es6';
-
 function swapRubricCol(questionNum, colIndex, isSwapLeft) {
     if ($(`#rubricEditTable-${questionNum}`).length === 0
             || $(`.rubricCol-${questionNum}-${colIndex}`).length === 0
@@ -370,7 +366,7 @@ function bindAssignWeightsCheckboxes() {
  */
 function bindMoveRubricColButtons() {
     $('table[id^="rubricEditTable-"').each(function () {
-        const questionNum = extractQuestionNumFromEditFormId($(this).closest('form').prop('id'));
+        const questionNum = $(this).closest('form').children('input[name="questionnum"]').val();
 
         $(`#rubric-options-row-${questionNum} td[class*="rubricCol-${questionNum}"]`).each(function () {
             const colNum = $(this).attr('data-col');
