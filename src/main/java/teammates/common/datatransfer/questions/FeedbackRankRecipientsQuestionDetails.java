@@ -201,8 +201,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
-            FeedbackResponseAttributes selfResponse = getSelfResponse(responses, participantIdentifier);
-            String selfRank = selfResponse == null ? "-" : selfResponse.getResponseDetails().getAnswerString();
+            int selfRankIndex = getSelfRankIndex(responses, participantIdentifier);
+            String selfRank = selfRankIndex == -1 ? "-" : Integer.toString(ranks.get(selfRankIndex));
 
             fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
@@ -281,6 +281,28 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
+     * From the feedback responses, computes the index of self rank and returns it.
+     * @param responses  a list of responses
+     */
+    private int getSelfRankIndex(List<FeedbackResponseAttributes> responses, String participantIdentifier) {
+        int index = 0;
+
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackResponseAttributes response = responses.get(i);
+
+            if (response.recipient.equalsIgnoreCase(participantIdentifier)) {
+                if (response.giver.equalsIgnoreCase(participantIdentifier)) {
+                    return index;
+                }
+
+                index++;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses.
      * @see FeedbackRankQuestionDetails#obtainMappingToNormalisedRanksForRanking(Map, List) for how ties are resolved
      */
@@ -327,20 +349,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             }
         }
         return responsesExcludingSelf;
-    }
-
-    private FeedbackResponseAttributes getSelfResponse(List<FeedbackResponseAttributes> responses,
-            String participantIdentifier) {
-        FeedbackResponseAttributes selfResponse = null;
-
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.giver.equalsIgnoreCase(response.recipient)
-                    && response.giver.equalsIgnoreCase(participantIdentifier)) {
-                selfResponse = response;
-                break;
-            }
-        }
-        return selfResponse;
     }
 
     /**
