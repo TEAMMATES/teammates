@@ -258,10 +258,10 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
 
     @Override
     public boolean hasEntity(StudentProfileAttributes attributes) {
-        if (getEntityQueryKeys(attributes).first().now() != null) {
-            return true;
+        if (getEntityQueryKeys(attributes).first().now() == null) {
+            return getEntityQueryKeysForLegacyData(attributes).first().now() != null;
         }
-        return getEntityQueryKeysForLegacyData(attributes).first().now() != null;
+        return true;
     }
 
     /**
