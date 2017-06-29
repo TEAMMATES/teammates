@@ -745,12 +745,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
                                                             int questionNumber) {
-        Set<String> expectedEnabledOptions = new HashSet<String>();
+        Set<String> expectedEnabledOptions = new HashSet<>();
         for (FeedbackParticipantType expectedType : expectedTypes) {
             expectedEnabledOptions.add(expectedType.toString());
         }
 
-        Set<String> actualEnableOptions = new HashSet<String>();
+        Set<String> actualEnableOptions = new HashSet<>();
         WebElement optionsTable = browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
         List<WebElement> enabledRows =
                 optionsTable.findElements(By.cssSelector("tr:not([style='display: none;'])"));

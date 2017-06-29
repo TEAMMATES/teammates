@@ -93,7 +93,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
-        List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> returnList = new ArrayList<>();
 
         List<FeedbackResponseAttributes> studentReceiverResponses = BackDoor
                 .getFeedbackResponsesForReceiverForCourse(student.course, student.email);
@@ -123,7 +123,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
 
     private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(StudentAttributes student,
             String feedbackSessionName) {
-        List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> returnList = new ArrayList<>();
 
         List<FeedbackResponseAttributes> allResponseOfStudent = getAllTeamResponsesForStudent(student);
 

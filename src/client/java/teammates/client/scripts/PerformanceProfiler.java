@@ -66,7 +66,7 @@ public class PerformanceProfiler extends Thread {
 
     private String reportFilePath;
     private DataBundle data;
-    private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
+    private Map<String, ArrayList<Float>> results = new HashMap<>();
 
     protected PerformanceProfiler(String path) {
         reportFilePath = path;
@@ -174,7 +174,7 @@ public class PerformanceProfiler extends Thread {
      * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
-        HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
+        HashMap<String, ArrayList<Float>> results = new HashMap<>();
         File reportFile = new File(filePath);
 
         // Create the report file if not existed
@@ -197,7 +197,7 @@ public class PerformanceProfiler extends Thread {
             String testName = strs[0];
             String[] durations = strs[2].split("\\,");
 
-            ArrayList<Float> arr = new ArrayList<Float>();
+            ArrayList<Float> arr = new ArrayList<>();
             for (String str : durations) {
                 Float f = Float.parseFloat(str);
                 arr.add(f);
@@ -212,7 +212,7 @@ public class PerformanceProfiler extends Thread {
      * Writes the results to the file with path filePath.
      */
     private void printResult(String filePath) throws IOException {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (String str : results.keySet()) {
             list.add(str);
         }

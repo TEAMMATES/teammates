@@ -52,7 +52,7 @@ public class StudentsDb extends EntitiesDb {
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        List<SearchDocument> studentDocuments = new ArrayList<SearchDocument>();
+        List<SearchDocument> studentDocuments = new ArrayList<>();
         for (StudentAttributes student : students) {
             studentDocuments.add(new StudentSearchDocument(student));
         }
@@ -219,7 +219,7 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentDataList = new ArrayList<>();
 
         List<CourseStudent> courseStudents = getCourseStudentEntitiesForGoogleId(googleId);
         for (CourseStudent student : courseStudents) {
@@ -239,7 +239,7 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentDataList = new ArrayList<>();
 
         List<CourseStudent> courseStudentEntities = getCourseStudentEntitiesForCourse(courseId);
         for (CourseStudent student : courseStudentEntities) {
@@ -260,7 +260,7 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentDataList = new ArrayList<>();
         List<CourseStudent> courseStudentList = getCourseStudentEntitiesForTeam(teamName, courseId);
 
         //  e.g., convertToAttributes(entityList, new ArrayList<StudentAttributes>())
@@ -282,7 +282,7 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentDataList = new ArrayList<>();
 
         List<CourseStudent> courseStudentEntities = getCourseStudentEntitiesForSection(sectionName, courseId);
 
@@ -304,7 +304,7 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
-        ArrayList<StudentAttributes> unregistered = new ArrayList<StudentAttributes>();
+        ArrayList<StudentAttributes> unregistered = new ArrayList<>();
 
         for (StudentAttributes s : allStudents) {
             if (s.googleId == null || s.googleId.trim().isEmpty()) {
@@ -321,7 +321,7 @@ public class StudentsDb extends EntitiesDb {
     // TODO remove this method once all Students have been migrated to CourseStudents
     @Deprecated
     public List<StudentAttributes> getAllStudents() {
-        Map<String, StudentAttributes> result = new LinkedHashMap<String, StudentAttributes>();
+        Map<String, StudentAttributes> result = new LinkedHashMap<>();
 
         for (StudentAttributes student : getAllCourseStudents()) {
             result.put(student.getId(), student);
@@ -335,7 +335,7 @@ public class StudentsDb extends EntitiesDb {
      */
     @Deprecated
     public List<StudentAttributes> getAllCourseStudents() {
-        List<StudentAttributes> list = new LinkedList<StudentAttributes>();
+        List<StudentAttributes> list = new LinkedList<>();
         List<CourseStudent> entities = getCourseStudentEntities();
 
         for (CourseStudent student : entities) {
@@ -645,7 +645,7 @@ public class StudentsDb extends EntitiesDb {
         query.setFilter("registrationKey == registrationKeyParam");
 
         try {
-            List<CourseStudent> studentList = new ArrayList<CourseStudent>();
+            List<CourseStudent> studentList = new ArrayList<>();
             studentList.addAll((List<CourseStudent>) query.execute(registrationKey));
 
             // If registration key detected is not unique, something is wrong

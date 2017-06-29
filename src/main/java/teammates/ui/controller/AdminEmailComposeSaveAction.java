@@ -16,8 +16,8 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSaveAction extends Action {
 
-    private List<String> addressReceiver = new ArrayList<String>();
-    private List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<>();
+    private List<String> groupReceiver = new ArrayList<>();
 
     @Override
     protected ActionResult execute() {

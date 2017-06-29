@@ -58,7 +58,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                         Map<String, List<Integer>> optionRanks,
                         String optionReceivingRanks, int rankReceived) {
         if (!optionRanks.containsKey(optionReceivingRanks)) {
-            List<Integer> ranks = new ArrayList<Integer>();
+            List<Integer> ranks = new ArrayList<>();
             optionRanks.put(optionReceivingRanks, ranks);
         }
 
