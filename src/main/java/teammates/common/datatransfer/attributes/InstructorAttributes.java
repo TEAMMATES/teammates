@@ -104,7 +104,7 @@ public class InstructorAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (googleId != null) {
             addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);

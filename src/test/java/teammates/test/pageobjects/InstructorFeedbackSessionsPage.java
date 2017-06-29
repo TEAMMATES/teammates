@@ -469,6 +469,13 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
     }
 
+    public boolean isSessionResultsOptionsCaretDisabled(String courseId, String sessionName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        return !browser.driver.findElement(
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
+                    + "]//button[contains(@class,'session-results-options')]")).isEnabled();
+    }
+
     public boolean isHidden(By locator) {
         return !browser.driver.findElement(locator).isDisplayed();
     }

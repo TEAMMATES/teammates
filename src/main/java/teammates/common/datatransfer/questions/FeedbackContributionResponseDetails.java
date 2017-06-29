@@ -190,7 +190,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             contribQnStats = fqcd.getStudentResults(feedbackSessionResultsBundle, question);
 
             //Convert email to anonEmail and add stats.
-            Map<String, StudentResultSummary> anonContribQnStats = new HashMap<String, StudentResultSummary>();
+            Map<String, StudentResultSummary> anonContribQnStats = new HashMap<>();
             for (Map.Entry<String, StudentResultSummary> entry : contribQnStats.entrySet()) {
                 anonContribQnStats.put(
                         feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());
