@@ -401,19 +401,23 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             String courseId, String feedbackSessionName, String section) {
         Map<Long, FeedbackResponseComment> comments = new HashMap<Long, FeedbackResponseComment>();
 
-        for (FeedbackResponseComment comment : load()
+        List<FeedbackResponseComment> firstQueryResponseComments = load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("giverSection =", section)
-                .list()) {
+                .list();
+
+        for (FeedbackResponseComment comment : firstQueryResponseComments) {
             comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
-        for (FeedbackResponseComment comment : load()
+        List<FeedbackResponseComment> secondQueryResponseComments = load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("receiverSection =", section)
-                .list()) {
+                .list();
+
+        for (FeedbackResponseComment comment : secondQueryResponseComments) {
             comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
