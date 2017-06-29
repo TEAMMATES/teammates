@@ -73,50 +73,6 @@ public final class TimeHelper {
 
     }
 
-    private static final Map<String, String> TIME_ZONE_DOUBLE_TO_ID = new HashMap<String, String>();
-
-    static {
-        mapDoubleToId("-12.0", "Etc/GMT+12");
-        mapDoubleToId("-11.0", "US/Samoa");
-        mapDoubleToId("-10.0", "US/Hawaii");
-        mapDoubleToId("-9.5", "Pacific/Marquesas");
-        mapDoubleToId("-9.0", "US/Alaska");
-        mapDoubleToId("-8.0", "America/Los_Angeles");
-        mapDoubleToId("-7.0", "America/Phoenix");
-        mapDoubleToId("-6.0", "America/Chicago");
-        mapDoubleToId("-5.0", "America/New_York");
-        mapDoubleToId("-4.5", "America/Caracas");
-        mapDoubleToId("-4.0", "America/Halifax");
-        mapDoubleToId("-3.5", "America/St_Johns");
-        mapDoubleToId("-3.0", "America/Sao_Paulo");
-        mapDoubleToId("-2.0", "America/Noronha");
-        mapDoubleToId("-1.0", "Atlantic/Cape_Verde");
-        mapDoubleToId("0.0", "UTC");
-        mapDoubleToId("1.0", "Europe/Paris");
-        mapDoubleToId("2.0", "Europe/Athens");
-        mapDoubleToId("3.0", "Africa/Nairobi");
-        mapDoubleToId("3.5", "Asia/Tehran");
-        mapDoubleToId("4.0", "Asia/Dubai");
-        mapDoubleToId("4.5", "Asia/Kabul");
-        mapDoubleToId("5.0", "Asia/Tashkent");
-        mapDoubleToId("5.5", "Asia/Colombo");
-        mapDoubleToId("5.75", "Asia/Kathmandu");
-        mapDoubleToId("6.0", "Asia/Almaty");
-        mapDoubleToId("6.5", "Asia/Rangoon");
-        mapDoubleToId("7.0", "Asia/Jakarta");
-        mapDoubleToId("8.0", "Asia/Singapore");
-        mapDoubleToId("8.75", "Australia/Eucla");
-        mapDoubleToId("9.0", "Asia/Tokyo");
-        mapDoubleToId("9.5", "Australia/Adelaide");
-        mapDoubleToId("10.0", "Australia/Canberra");
-        mapDoubleToId("10.5", "Australia/Lord_Howe");
-        mapDoubleToId("11.0", "Pacific/Noumea");
-        mapDoubleToId("12.0", "Pacific/Auckland");
-        mapDoubleToId("12.75", "Pacific/Chatham");
-        mapDoubleToId("13.0", "Pacific/Tongatapu");
-        mapDoubleToId("14.0", "Pacific/Kiritimati");
-    }
-
     private TimeHelper() {
         // utility class
     }
@@ -124,10 +80,6 @@ public final class TimeHelper {
     private static void map(String timeZone, String cities) {
         TIME_ZONE_CITIES_MAP.put(timeZone, cities);
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
-    }
-
-    private static void mapDoubleToId(String timeZone, String id) {
-        TIME_ZONE_DOUBLE_TO_ID.put(timeZone, id);
     }
 
     /**
@@ -270,8 +222,11 @@ public final class TimeHelper {
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
-        String timeZone = TIME_ZONE_DOUBLE_TO_ID.get(Double.toString(sessionTimeZone));
-
+        String sign = sessionTimeZone > 0 ? "+" : "-";
+        int hours = (int) sessionTimeZone;
+        int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
+        String offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
+        String timeZone = TimeZone.getTimeZone("GMT" + sign + offset).getID();
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
             sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
