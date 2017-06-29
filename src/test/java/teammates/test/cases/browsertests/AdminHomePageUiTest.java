@@ -185,6 +185,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
 
         ______TS("new instructor can view feedback sessions of sample course");
+        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+                .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
 
         verifyCanViewSesssion(demoCourseId, "First team feedback session",
                 "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
@@ -266,10 +270,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
     }
 
     private void verifyCanViewSesssion(String demoCourseId, String fsname, String resultHtml) throws Exception {
-        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-                .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
-        coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
-        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.loadInstructorHomeTab();
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         InstructorFeedbackResultsPage resultsPage =

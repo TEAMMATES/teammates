@@ -138,7 +138,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
 
     private List<FeedbackQuestionAttributes> getListOfQuestionAttributes(List<FeedbackQuestion> questions) {
-        List<FeedbackQuestionAttributes> questionAttributes = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionAttributes = new ArrayList<>();
 
         for (FeedbackQuestion question : questions) {
             if (!JDOHelper.isDeleted(question)) {
