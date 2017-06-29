@@ -75,6 +75,7 @@ public class FeedbackResponseCommentRow {
         this.showGiverNameTo = frc.showGiverNameTo;
 
         this.responseVisibilities = responseVisibilities;
+        setVisibilityIcon(showCommentTo);
 
         // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
@@ -267,8 +268,46 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabledOnlyOnHover = true;
     }
 
-    public void enableVisibilityIcon(String whoCanSeeComment) {
+    public void setVisibilityIcon(List<FeedbackParticipantType> whoCanSeeComment) {
+        this.whoCanSeeComment = getTooltipForVisibilityIcon(showCommentTo);
+    }
+
+    public String getTooltipForVisibilityIcon(List<FeedbackParticipantType> showCommentTo) {
+        StringBuilder visibleTo = new StringBuilder(100);
+        if (showCommentTo.size() == 0) {
+            this.hasVisibilityIcon = false;
+            return visibleTo.toString();
+        }
+        for (int j = 0; j < showCommentTo.size(); j++) {
+            FeedbackParticipantType participant = showCommentTo.get(j);
+            if (j == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
+                visibleTo.append("and ");
+            }
+            switch(participant) {
+            case GIVER:
+                visibleTo.append("response giver, ");
+                break;
+            case RECEIVER:
+                visibleTo.append("recipient, ");
+                break;
+            case OWN_TEAM_MEMBERS:
+                visibleTo.append("response giver's team members ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                visibleTo.append("response recipient's team members, ");
+                break;
+            case STUDENTS:
+                visibleTo.append("students in this course, ");
+                break;
+            case INSTRUCTORS:
+                visibleTo.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
         this.hasVisibilityIcon = true;
-        this.whoCanSeeComment = whoCanSeeComment;
+        //remove last comma and return
+        return visibleTo.toString().substring(0, visibleTo.toString().length() - 2);
     }
 }

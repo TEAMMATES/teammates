@@ -1435,7 +1435,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                            responseVisibilityMap);
-        frc.enableVisibilityIcon(getResponseCommentVisibilityString(frcAttributes, question));
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
             frc.enableDelete();

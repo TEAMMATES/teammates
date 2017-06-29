@@ -56,7 +56,6 @@ public class FeedbackResponseRow {
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities);
                 responseRow.enableDelete();
                 responseRow.enableEdit();
-                responseRow.enableVisibilityIcon(showCommentTo);
                 this.responseComments.add(responseRow);
             }
         }

@@ -130,9 +130,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 frc.enableDelete();
                 frc.enableEditDeleteOnHover();
             }
-            if (isVisibilityIconShown) {
-                frc.enableVisibilityIcon(whoCanSeeComment);
-            }
 
             comments.add(frc);
         }

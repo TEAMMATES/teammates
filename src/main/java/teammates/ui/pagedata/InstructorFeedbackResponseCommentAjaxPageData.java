@@ -33,7 +33,6 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
                                                getResponseVisibilities());
-        frc.enableVisibilityIcon(showCommentToString);
         frc.enableEdit();
         frc.enableDelete();
 
