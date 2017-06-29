@@ -163,7 +163,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
-                                      String gender, String moreInfo) {
+                                      UserGender gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -184,15 +184,15 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    private void ensureGenderIsSelectedAs(String gender) {
+    private void ensureGenderIsSelectedAs(UserGender gender) {
         switch (gender) {
-        case Const.GenderTypes.MALE:
+            case male:
             assertTrue(genderMaleRadio.isSelected());
             break;
-        case Const.GenderTypes.FEMALE:
+            case female:
             assertTrue(genderFemaleRadio.isSelected());
             break;
-        case Const.GenderTypes.OTHER:
+            case other:
             assertTrue(genderOtherRadio.isSelected());
             break;
         default:
