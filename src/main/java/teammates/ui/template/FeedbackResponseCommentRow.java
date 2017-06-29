@@ -78,7 +78,6 @@ public class FeedbackResponseCommentRow {
         this.showGiverNameTo = frc.showGiverNameTo;
 
         this.responseVisibilities = responseVisibilities;
-        setVisibilityIcon();
 
         // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
@@ -271,47 +270,9 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabledOnlyOnHover = true;
     }
 
-    private void setVisibilityIcon() {
-        this.whoCanSeeComment = getTooltipForVisibilityIcon(showCommentTo);
-    }
-
-    private String getTooltipForVisibilityIcon(List<FeedbackParticipantType> showCommentTo) {
-        StringBuilder visibleTo = new StringBuilder(100);
-        if (showCommentTo.isEmpty()) {
-            this.hasVisibilityIcon = false;
-            return visibleTo.toString();
-        }
-        for (int j = 0; j < showCommentTo.size(); j++) {
-            FeedbackParticipantType participant = showCommentTo.get(j);
-            if (j == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
-                visibleTo.append("and ");
-            }
-            switch(participant) {
-            case GIVER:
-                visibleTo.append("response giver, ");
-                break;
-            case RECEIVER:
-                visibleTo.append("recipient, ");
-                break;
-            case OWN_TEAM_MEMBERS:
-                visibleTo.append("response giver's team members ");
-                break;
-            case RECEIVER_TEAM_MEMBERS:
-                visibleTo.append("response recipient's team members, ");
-                break;
-            case STUDENTS:
-                visibleTo.append("other students in this course, ");
-                break;
-            case INSTRUCTORS:
-                visibleTo.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        this.hasVisibilityIcon = true;
-        //remove last comma and return
-        return visibleTo.toString().substring(0, visibleTo.toString().length() - 2);
+    public void setVisibilityIcon(boolean hasVisibilityIcon, String whoCanSeeComment) {
+        this.hasVisibilityIcon = hasVisibilityIcon;
+        this.whoCanSeeComment = whoCanSeeComment;
     }
 
     public String getCommentGiverName() {
