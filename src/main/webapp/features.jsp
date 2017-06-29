@@ -47,29 +47,29 @@
     </section>
 
     <section class="row">
-    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-      <h2 class="color_orange col-xs-12">Reports and statistics</h2>
-      <img class="img-responsive col-xs-12" src="images/feature-reportsandstatistics.png" alt="Reports and statistics">
-      <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-        There are many report formats for viewing responses collected, e.g. Group by team, then by feedback giver.
-        <br><br>
-        Some statistics for the responses are available too.
+      <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+        <h2 class="color_orange col-xs-12">Reports and statistics</h2>
+        <img class="img-responsive col-xs-12" src="images/feature-reportsandstatistics.png" alt="Reports and statistics">
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+          There are many report formats for viewing responses collected, e.g. Group by team, then by feedback giver.
+          <br><br>
+          Some statistics for the responses are available too.
+        </div>
+        <img class="img-responsive" src="images/raised-edge.png">
       </div>
-      <img class="img-responsive" src="images/raised-edge.png">
-    </div>
     </section>
 
     <section class="row">
-    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-      <h2 class="color_orange col-xs-12">Fine-grain access control</h2>
-      <img class="img-responsive col-xs-12" src="images/feature-finegrainaccesscontrol.png" alt="Fine-grain access control">
-      <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-        You can add more instructors (e.g. co-lecturers, visitors, tutors, etc.) to your courses and give them different access levels.
-        <br><br>
-        If required, you can even set which sessions of which section of students are accessible to a particular instructor.
+      <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+        <h2 class="color_orange col-xs-12">Fine-grain access control</h2>
+        <img class="img-responsive col-xs-12" src="images/feature-finegrainaccesscontrol.png" alt="Fine-grain access control">
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+          You can add more instructors (e.g. co-lecturers, visitors, tutors, etc.) to your courses and give them different access levels.
+          <br><br>
+          If required, you can even set which sessions of which section of students are accessible to a particular instructor.
+        </div>
+        <img class="img-responsive" src="images/raised-edge.png">
       </div>
-      <img class="img-responsive" src="images/raised-edge.png">
-    </div>
     </section>
 
     <section class="row">

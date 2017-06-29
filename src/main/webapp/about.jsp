@@ -1176,8 +1176,11 @@
         </tr>
         <tr>
           <td>Akshay Vijayvergia</td>
-          <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aslidego"
-            target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aslidego"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
         </tr>
         <tr>
           <td>Alexander Levy</td>
@@ -1965,8 +1968,11 @@
         </tr>
         <tr>
           <td>Shubham Jain</td>
-          <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashubhampkj"
-            target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashubhampkj"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
         </tr>
         <tr>
           <td>Shubham Nishad</td>
@@ -2129,4 +2135,5 @@
     <p>
       Would you like to join the TEAMMATES team as a contributor? <a href="contact.jsp">Contact Us</a>.
     </p>
+  </div>
 </t:staticPage>
