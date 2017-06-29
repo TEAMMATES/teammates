@@ -1,4 +1,6 @@
-import { toggleSort } from './sortBy.es6';
+import {
+    toggleSort,
+} from './sortBy.es6';
 
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support the function.

@@ -1,7 +1,18 @@
-import { StatusType } from '../common/const.es6';
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { setStatusMessage } from '../common/statusMessage.es6';
-import { highlightSearchResult } from '../common/ui.es6';
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    highlightSearchResult,
+} from '../common/ui.es6';
 
 function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button) {
     const params = `studentemail=${studentEmail

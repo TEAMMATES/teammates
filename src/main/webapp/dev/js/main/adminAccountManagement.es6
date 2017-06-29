@@ -1,7 +1,18 @@
-import { bindBackToTopButtons } from '../common/administrator.es6';
-import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
-import { toggleSort } from '../common/sortBy.es6';
+import {
+    bindBackToTopButtons,
+} from '../common/administrator.es6';
+
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    toggleSort,
+} from '../common/sortBy.es6';
 
 const entryPerPage = 200;
 
