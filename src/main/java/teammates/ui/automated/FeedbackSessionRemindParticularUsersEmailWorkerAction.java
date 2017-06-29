@@ -37,8 +37,8 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerAction extends Autom
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-            List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
-            List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+            List<StudentAttributes> studentsToRemindList = new ArrayList<>();
+            List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
 
             for (String userEmail : usersToRemind) {
                 StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);

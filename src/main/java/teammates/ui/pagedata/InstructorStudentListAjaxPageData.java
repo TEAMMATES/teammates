@@ -25,8 +25,7 @@ public class InstructorStudentListAjaxPageData extends PageData {
         this.courseId = courseId;
         this.courseIndex = courseIndex;
         this.hasSection = hasSection;
-        List<StudentListSectionData> sectionsDetails =
-                                        new ArrayList<StudentListSectionData>();
+        List<StudentListSectionData> sectionsDetails = new ArrayList<>();
         for (SectionDetailsBundle section : sections) {
             boolean isAllowedToViewStudentInSection = sectionPrivileges.get(section.name)
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);

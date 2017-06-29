@@ -71,7 +71,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         if (isForAllCourses) {
             courses = getCourses();
         } else {
-            courses = new HashSet<String>();
+            courses = new HashSet<>();
             courses.add(courseToAddSectionsTo);
         }
 
@@ -87,7 +87,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<Course> courses = (List<Course>) PM.newQuery(q).execute();
 
-        Set<String> allCourses = new HashSet<String>();
+        Set<String> allCourses = new HashSet<>();
 
         for (Course course : courses) {
             allCourses.add(course.getUniqueId());
@@ -96,7 +96,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     }
 
     private Set<String> filterLargeCoursesWithoutSections(Set<String> courses) {
-        Set<String> largeCoursesWithoutSections = new HashSet<String>();
+        Set<String> largeCoursesWithoutSections = new HashSet<>();
 
         CourseDetailsBundle courseDetails = null;
         for (String courseId : courses) {
@@ -243,7 +243,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         List<FeedbackResponse> responsesAsReceiver =
                 (List<FeedbackResponse>) PM.newQuery(q).execute(studentEmail, studentTeam, course);
 
-        List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>();
+        List<FeedbackResponse> responses = new ArrayList<>();
         responses.addAll(responsesAsGiver);
         responses.addAll(responsesAsReceiver);
 

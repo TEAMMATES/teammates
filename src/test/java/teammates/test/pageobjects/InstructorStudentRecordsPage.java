@@ -90,7 +90,7 @@ public class InstructorStudentRecordsPage extends AppPage {
     }
 
     public List<WebElement> getStudentFeedbackPanels() {
-        List<WebElement> webElements = new ArrayList<WebElement>();
+        List<WebElement> webElements = new ArrayList<>();
         for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='studentFeedback-']"))) {
             WebElement panel = e.findElement(By.cssSelector(".panel-collapse"));
             if (panel != null) {

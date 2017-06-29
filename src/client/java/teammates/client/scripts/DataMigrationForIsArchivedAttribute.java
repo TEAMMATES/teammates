@@ -73,7 +73,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) PM.newQuery(query).execute(true);
-        List<CourseAttributes> courseAttributesList = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseAttributesList = new ArrayList<>();
         for (Course c : courseList) {
             courseAttributesList.add(new CourseAttributes(c));
         }

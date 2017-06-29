@@ -12,7 +12,7 @@ import teammates.common.util.SanitizationHelper;
 public class CourseSummaryBundle {
 
     public CourseAttributes course;
-    public List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+    public List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>();
 
     public CourseSummaryBundle(CourseAttributes courseData) {
         this.course = courseData;
