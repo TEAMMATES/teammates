@@ -186,13 +186,13 @@ public class StudentProfilePage extends AppPage {
 
     private void ensureGenderIsSelectedAs(UserGender gender) {
         switch (gender) {
-            case male:
+        case male:
             assertTrue(genderMaleRadio.isSelected());
             break;
-            case female:
+        case female:
             assertTrue(genderFemaleRadio.isSelected());
             break;
-            case other:
+        case other:
             assertTrue(genderOtherRadio.isSelected());
             break;
         default:
