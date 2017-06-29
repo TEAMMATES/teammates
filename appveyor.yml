@@ -8,6 +8,7 @@ branches:
   only:
     - master
     - release
+    - teammatesv6
 
 skip_commits:
   files:
