@@ -12,7 +12,7 @@
                 </a>
             </span>
             <p>
-                Sections are meant for organizing students in courses with significantly large numbers of students. It is mandatory for courses with more than 100 students to organize a student into a section.
+                Sections are meant for organizing students in courses with significantly large numbers of students. It is mandatory for courses with more than 100 students to organize students into sections.
                 You are allowed to have sections for courses with less than 100 students, but it is not mandatory.
             </p>
         </li>
@@ -25,7 +25,6 @@
             <p>
                 You can specify the section of each student at the time of enrollment. You just have to include a
                 <b>'Section'</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
-                <br>More information can be found on the course enrollment page.
                 To view more information, go to the
                 <b>'Courses'</b> page, click on the
                 <b>'Enroll'</b> button for any course and scroll down to the
