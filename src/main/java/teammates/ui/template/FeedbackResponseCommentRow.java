@@ -271,13 +271,13 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabledOnlyOnHover = true;
     }
 
-    public void setVisibilityIcon(List<FeedbackParticipantType> whoCanSeeComment) {
+    private void setVisibilityIcon(List<FeedbackParticipantType> whoCanSeeComment) {
         this.whoCanSeeComment = getTooltipForVisibilityIcon(showCommentTo);
     }
 
-    public String getTooltipForVisibilityIcon(List<FeedbackParticipantType> showCommentTo) {
+    private String getTooltipForVisibilityIcon(List<FeedbackParticipantType> showCommentTo) {
         StringBuilder visibleTo = new StringBuilder(100);
-        if (showCommentTo.size() == 0) {
+        if (showCommentTo.isEmpty()) {
             this.hasVisibilityIcon = false;
             return visibleTo.toString();
         }
@@ -300,7 +300,7 @@ public class FeedbackResponseCommentRow {
                 visibleTo.append("response recipient's team members, ");
                 break;
             case STUDENTS:
-                visibleTo.append("students in this course, ");
+                visibleTo.append("other students in this course, ");
                 break;
             case INSTRUCTORS:
                 visibleTo.append("instructors, ");
