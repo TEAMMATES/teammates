@@ -51,7 +51,6 @@ public class InstructorCourseDetailsPageData extends PageData {
                 hrefDeleteStudents, null, null, courseId, isDisabled);
 
         this.sections = new ArrayList<>();
-
         for (SectionDetailsBundle section : courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<>();
             for (TeamDetailsBundle teamDetails : section.teams) {

@@ -24,14 +24,10 @@ public class DataBundle {
     public Map<String, CourseAttributes> courses = new LinkedHashMap<>();
     public Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
     public Map<String, StudentAttributes> students = new LinkedHashMap<>();
-    public Map<String, FeedbackSessionAttributes> feedbackSessions =
-            new LinkedHashMap<>();
-    public Map<String, FeedbackQuestionAttributes> feedbackQuestions =
-            new LinkedHashMap<>();
-    public Map<String, FeedbackResponseAttributes> feedbackResponses =
-            new LinkedHashMap<>();
-    public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments =
-            new LinkedHashMap<>();
+    public Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
+    public Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
+    public Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
+    public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
     public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
     public Map<String, AdminEmailAttributes> adminEmails = new LinkedHashMap<>();
 

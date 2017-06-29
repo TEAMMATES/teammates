@@ -203,7 +203,6 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<>();
         String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
-
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
                     template, subject, coOwnersLine));
@@ -381,7 +380,6 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails = new ArrayList<>();
         String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
-
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
                     template, subject, coOwnersLine));
