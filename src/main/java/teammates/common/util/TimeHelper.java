@@ -227,7 +227,7 @@ public final class TimeHelper {
         int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
         String offset = Integer.toString(hours);
         if (minutes != 0) {
-            offset = offset + Integer.toString(minutes);
+            offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
         }
         String timeZone = TimeZone.getTimeZone("GMT" + sign + offset).getID();
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
