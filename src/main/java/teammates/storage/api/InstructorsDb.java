@@ -59,7 +59,7 @@ public class InstructorsDb extends EntitiesDb {
      * Batch creates or updates documents for the given instructors.
      */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
-        List<SearchDocument> instructorDocuments = new ArrayList<SearchDocument>();
+        List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructorParams) {
             if (instructor.key == null) {
                 instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -153,7 +153,7 @@ public class InstructorsDb extends EntitiesDb {
         if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
         }
-        InstructorAttributes createdInstructor = new InstructorAttributes(instructor);
+        InstructorAttributes createdInstructor = InstructorAttributes.valueOf(instructor);
         putDocument(createdInstructor);
         return createdInstructor;
     }
@@ -173,7 +173,7 @@ public class InstructorsDb extends EntitiesDb {
             return null;
         }
 
-        return new InstructorAttributes(i);
+        return InstructorAttributes.valueOf(i);
     }
 
     /**
@@ -191,7 +191,7 @@ public class InstructorsDb extends EntitiesDb {
             return null;
         }
 
-        return new InstructorAttributes(i);
+        return InstructorAttributes.valueOf(i);
     }
 
     /**
@@ -212,7 +212,7 @@ public class InstructorsDb extends EntitiesDb {
             return null;
         }
 
-        return new InstructorAttributes(instructor);
+        return InstructorAttributes.valueOf(instructor);
     }
 
     /**
@@ -226,10 +226,10 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForEmail(email);
 
-        List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorDataList = new ArrayList<>();
         for (Instructor i : instructorList) {
             if (!JDOHelper.isDeleted(i)) {
-                instructorDataList.add(new InstructorAttributes(i));
+                instructorDataList.add(InstructorAttributes.valueOf(i));
             }
         }
 
@@ -248,10 +248,10 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId, omitArchived);
 
-        List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorDataList = new ArrayList<>();
         for (Instructor i : instructorList) {
             if (!JDOHelper.isDeleted(i)) {
-                instructorDataList.add(new InstructorAttributes(i));
+                instructorDataList.add(InstructorAttributes.valueOf(i));
             }
         }
 
@@ -269,10 +269,10 @@ public class InstructorsDb extends EntitiesDb {
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
 
-        List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorDataList = new ArrayList<>();
         for (Instructor i : instructorList) {
             if (!JDOHelper.isDeleted(i)) {
-                instructorDataList.add(new InstructorAttributes(i));
+                instructorDataList.add(InstructorAttributes.valueOf(i));
             }
         }
 
@@ -286,14 +286,14 @@ public class InstructorsDb extends EntitiesDb {
     @Deprecated
     public List<InstructorAttributes> getAllInstructors() {
 
-        List<InstructorAttributes> list = new LinkedList<InstructorAttributes>();
+        List<InstructorAttributes> list = new LinkedList<>();
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
         while (it.hasNext()) {
             Instructor instructor = it.next();
 
             if (!JDOHelper.isDeleted(instructor)) {
-                list.add(new InstructorAttributes(instructor));
+                list.add(InstructorAttributes.valueOf(instructor));
             }
         }
         return list;
@@ -331,7 +331,7 @@ public class InstructorsDb extends EntitiesDb {
 
         //TODO: make courseId+email the non-modifiable values
 
-        putDocument(new InstructorAttributes(instructorToUpdate));
+        putDocument(InstructorAttributes.valueOf(instructorToUpdate));
         log.info(instructorAttributesToUpdate.getBackupIdentifier());
         getPm().close();
     }
@@ -366,7 +366,7 @@ public class InstructorsDb extends EntitiesDb {
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
 
         //TODO: make courseId+email the non-modifiable values
-        putDocument(new InstructorAttributes(instructorToUpdate));
+        putDocument(InstructorAttributes.valueOf(instructorToUpdate));
         log.info(instructorAttributesToUpdate.getBackupIdentifier());
         getPm().close();
     }
@@ -385,7 +385,7 @@ public class InstructorsDb extends EntitiesDb {
             return;
         }
 
-        deleteDocument(new InstructorAttributes(instructorToDelete));
+        deleteDocument(InstructorAttributes.valueOf(instructorToDelete));
 
         getPm().deletePersistent(instructorToDelete);
         getPm().flush();
@@ -409,7 +409,7 @@ public class InstructorsDb extends EntitiesDb {
 
         Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
         if (instructorCheck != null) {
-            putDocument(new InstructorAttributes(instructorCheck));
+            putDocument(InstructorAttributes.valueOf(instructorCheck));
         }
 
         //TODO: reuse the method in the parent class instead
@@ -422,7 +422,7 @@ public class InstructorsDb extends EntitiesDb {
         List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
 
         for (Instructor instructor : instructorsToDelete) {
-            deleteDocument(new InstructorAttributes(instructor));
+            deleteDocument(InstructorAttributes.valueOf(instructor));
         }
 
         getPm().deletePersistentAll(instructorsToDelete);
@@ -439,7 +439,7 @@ public class InstructorsDb extends EntitiesDb {
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
 
         for (Instructor instructor : instructorList) {
-            deleteDocument(new InstructorAttributes(instructor));
+            deleteDocument(InstructorAttributes.valueOf(instructor));
         }
 
         getPm().deletePersistentAll(instructorList);
@@ -457,7 +457,7 @@ public class InstructorsDb extends EntitiesDb {
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
 
         for (Instructor instructor : instructorList) {
-            deleteDocument(new InstructorAttributes(instructor));
+            deleteDocument(InstructorAttributes.valueOf(instructor));
         }
         getPm().deletePersistentAll(instructorList);
         getPm().flush();

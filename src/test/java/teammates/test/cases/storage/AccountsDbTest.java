@@ -80,7 +80,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private List<AccountAttributes> createInstructorAccounts(
             int numOfInstructors) throws Exception {
         AccountAttributes a;
-        List<AccountAttributes> result = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> result = new ArrayList<>();
         for (int i = 0; i < numOfInstructors; i++) {
             a = getNewAccountAttributes();
             a.googleId = "id." + i;

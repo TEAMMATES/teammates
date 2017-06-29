@@ -756,7 +756,7 @@
       <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
-  <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+  <form action="/page/instructorFeedbackSessionsPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
     <input name="user" type="hidden" value="CFeedbackUiT.nosessions">
     <input name="isusingAjax" type="hidden" value="on">
   </form>
@@ -822,7 +822,7 @@
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -842,7 +842,7 @@
             <button class="btn btn-default" data-dismiss="modal" type="button">
               Cancel
             </button>
-            <input class="btn btn-primary" type="submit" value="Remind">
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
             <input name="user" type="hidden" value="CFeedbackUiT.nosessions">
           </div>
         </form>
@@ -921,7 +921,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×

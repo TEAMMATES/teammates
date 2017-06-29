@@ -95,7 +95,7 @@ public class PageData {
      */
     protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
             result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
         }
@@ -110,7 +110,7 @@ public class PageData {
 
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        ArrayList<ElementTag> result = new ArrayList<>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
             result.add(option);
@@ -134,7 +134,7 @@ public class PageData {
      */
     public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
         List<String> nationalities = NationalityHelper.getNationalities();
-        List<ElementTag> result = new ArrayList<ElementTag>();
+        List<ElementTag> result = new ArrayList<>();
 
         result.add(createOption("--- Select ---", "", !nationalities.contains(existingNationality)));
 
@@ -181,7 +181,7 @@ public class PageData {
      * Returns the grace period options as HTML code.
      */
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        ArrayList<ElementTag> result = new ArrayList<>();
         for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i),
                                             isGracePeriodToBeSelected(existingGracePeriod, i));
@@ -195,7 +195,7 @@ public class PageData {
      * By default the selected one is the last one.
      */
     public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
-        List<ElementTag> result = new ArrayList<ElementTag>();
+        List<ElementTag> result = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
                                              String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
@@ -396,14 +396,14 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbacksLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+    public String getInstructorFeedbackSessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
 
-    public String getInstructorFeedbacksLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+    public String getInstructorFeedbackSessionsLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         return link;
@@ -586,6 +586,14 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
+    public String getInstructorCourseStudentDeleteAllLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
         return link;

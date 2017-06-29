@@ -46,18 +46,18 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                 new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
         questions.add(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         questions.add(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1"));
         questions.add(dataBundle.feedbackQuestions.get("qn3InSession1InCourse1"));
 
-        Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
+        Map<String, Boolean> questionHasResponses = new HashMap<>();
         questionHasResponses.put(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId(), true);
 
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentList = new ArrayList<>();
         studentList.add(dataBundle.students.get("student1InCourse1"));
 
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorList = new ArrayList<>();
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
 
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
@@ -79,7 +79,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
         assertEquals(data.getInstructorFeedbackDeleteLink(fs.getCourseId(),
                                                           fs.getFeedbackSessionName(),
-                                                          Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE),
+                                                          Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE),
                      fsForm.getFsDeleteLink());
         assertEquals(TimeHelper.formatDate(fs.getEndTime()), fsForm.getFsEndDate());
 
@@ -182,14 +182,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
         // test question add form
         FeedbackQuestionEditForm newQuestionForm = data.getNewQnForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.getCourseId())
                         .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(-1, newQuestionForm.getQuestionIndex());
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                             .withUserId(instructor.googleId)
                             .withCourseId(fs.getCourseId())
                             .withSessionName(fs.getFeedbackSessionName()).toString(),
@@ -208,11 +208,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         fs.setPublishedEmailEnabled(false);
         fs.setClosingEmailEnabled(false);
 
-        questions = new ArrayList<FeedbackQuestionAttributes>();
+        questions = new ArrayList<>();
 
-        questionHasResponses = new HashMap<String, Boolean>();
-        studentList = new ArrayList<StudentAttributes>();
-        instructorList = new ArrayList<InstructorAttributes>();
+        questionHasResponses = new HashMap<>();
+        studentList = new ArrayList<>();
+        instructorList = new ArrayList<>();
         instructor = getInstructorFromBundle("instructor1OfCourse1");
 
         data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor);
@@ -255,13 +255,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(instructorList.size(), previewForm.getInstructorToPreviewAsOptions().size());
 
         newQuestionForm = data.getNewQnForm();
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.getCourseId())
                         .withSessionName(fs.getFeedbackSessionName()).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                          .withUserId(instructor.googleId)
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),
