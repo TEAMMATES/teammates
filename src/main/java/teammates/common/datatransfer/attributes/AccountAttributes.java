@@ -61,7 +61,7 @@ public class AccountAttributes extends EntityAttributes {
         this.isInstructor = isInstructor;
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = new StudentProfileAttributes();
+        this.studentProfile = StudentProfileAttributes.builder().build();
         this.studentProfile.googleId = this.googleId;
     }
 
@@ -72,7 +72,7 @@ public class AccountAttributes extends EntityAttributes {
         // toEntity() requires a non-null student profile
         boolean isStudentProfileNull = this.studentProfile == null;
         if (isStudentProfileNull) {
-            this.studentProfile = new StudentProfileAttributes();
+            this.studentProfile = StudentProfileAttributes.builder().build();
         }
         AccountAttributes copy = new AccountAttributes(this.toEntity());
         if (isStudentProfileNull) {

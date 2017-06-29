@@ -180,27 +180,37 @@ public class StudentProfileAttributes extends EntityAttributes {
         private final StudentProfileAttributes profileAttributes = new StudentProfileAttributes();
 
         public Builder withGoogleId(String googleId) {
-            profileAttributes.googleId = getOriginalOrDefaultIfNull(googleId);
+            if (googleId != null) {
+                profileAttributes.googleId = googleId;
+            }
             return this;
         }
 
         public Builder withShortName(String shortName) {
-            profileAttributes.shortName = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeName(shortName));
+            if (shortName != null) {
+                profileAttributes.shortName = SanitizationHelper.sanitizeName(shortName);
+            }
             return this;
         }
 
         public Builder withEmail(String email) {
-            profileAttributes.email = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeEmail(email));
+            if (email != null) {
+                profileAttributes.email = SanitizationHelper.sanitizeEmail(email);
+            }
             return this;
         }
 
         public Builder withInstitute(String institute) {
-            profileAttributes.institute = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeTitle(institute));
+            if (institute != null) {
+                profileAttributes.institute = SanitizationHelper.sanitizeTitle(institute);
+            }
             return this;
         }
 
         public Builder withNationality(String nationality) {
-            profileAttributes.nationality = getOriginalOrDefaultIfNull(SanitizationHelper.sanitizeName(nationality));
+            if (nationality != null) {
+                profileAttributes.nationality = SanitizationHelper.sanitizeName(nationality);
+            }
             return this;
         }
 
@@ -210,22 +220,22 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         public Builder withMoreInfo(String moreInfo) {
-            profileAttributes.moreInfo = getOriginalOrDefaultIfNull(moreInfo);
+            if (moreInfo != null) {
+                profileAttributes.moreInfo = moreInfo;
+            }
             return this;
         }
 
         public Builder withPictureKey(String pictureKey) {
-            profileAttributes.pictureKey = getOriginalOrDefaultIfNull(pictureKey);
+            if (pictureKey != null) {
+                profileAttributes.pictureKey = pictureKey;
+            }
             return this;
         }
 
         public Builder withModifiedDate(Date modifiedDate) {
             profileAttributes.modifiedDate = modifiedDate;
             return this;
-        }
-
-        private String getOriginalOrDefaultIfNull(String value) {
-            return value == null ? StringHelper.EMPTY : value;
         }
 
         public StudentProfileAttributes build() {

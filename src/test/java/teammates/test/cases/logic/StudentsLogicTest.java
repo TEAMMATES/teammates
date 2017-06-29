@@ -184,7 +184,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("success: edited profile");
 
-        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder().build();
 
         expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";

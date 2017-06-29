@@ -19,7 +19,6 @@ import teammates.common.exception.InvalidParametersException;
  */
 
 public final class StringHelper {
-    public static final String EMPTY = "";
     private static final Logger log = Logger.getLogger();
 
     private StringHelper() {

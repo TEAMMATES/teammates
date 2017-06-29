@@ -55,7 +55,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
@@ -113,7 +113,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("test updateAccount");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "idOfInstructor1OfCourse1";
         spa.institute = "dev";
         spa.shortName = "nam";

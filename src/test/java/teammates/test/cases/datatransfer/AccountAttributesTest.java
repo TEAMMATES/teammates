@@ -74,8 +74,8 @@ public class AccountAttributesTest extends BaseTestCase {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount =
-                new Account(account.googleId, account.name, account.isInstructor, account.email,
-                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+                new Account(account.googleId, account.name, account.isInstructor, account.email, account.institute,
+                        (StudentProfile) StudentProfileAttributes.builder().build().toEntity());
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
@@ -142,7 +142,7 @@ public class AccountAttributesTest extends BaseTestCase {
         boolean isInstructor = false;
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
         return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }

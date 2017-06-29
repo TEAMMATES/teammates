@@ -12,7 +12,6 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
@@ -28,7 +27,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @BeforeClass
     public void classSetup() {
-        profile = new StudentProfileAttributes();
+        profile = StudentProfileAttributes.builder().build();
         profile.googleId = "valid.googleId";
         profile.shortName = "shor";
         profile.institute = "institute";
@@ -56,13 +55,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
         assertEquals("other", profileAttributes.gender);
-        assertEquals(StringHelper.EMPTY, profileAttributes.googleId);
-        assertEquals(StringHelper.EMPTY, profileAttributes.shortName);
-        assertEquals(StringHelper.EMPTY, profileAttributes.email);
-        assertEquals(StringHelper.EMPTY, profileAttributes.institute);
-        assertEquals(StringHelper.EMPTY, profileAttributes.nationality);
-        assertEquals(StringHelper.EMPTY, profileAttributes.moreInfo);
-        assertEquals(StringHelper.EMPTY, profileAttributes.pictureKey);
+        assertEquals("", profileAttributes.googleId);
+        assertEquals("", profileAttributes.shortName);
+        assertEquals("", profileAttributes.email);
+        assertEquals("", profileAttributes.institute);
+        assertEquals("", profileAttributes.nationality);
+        assertEquals("", profileAttributes.moreInfo);
+        assertEquals("", profileAttributes.pictureKey);
     }
 
     @Test

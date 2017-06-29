@@ -45,7 +45,7 @@ public class AccountsDb extends EntitiesDb {
         try {
             // this is for legacy code to be handled
             if (accountToAdd != null && accountToAdd.studentProfile == null) {
-                accountToAdd.studentProfile = new StudentProfileAttributes();
+                accountToAdd.studentProfile = StudentProfileAttributes.builder().build();
                 accountToAdd.studentProfile.googleId = accountToAdd.googleId;
             }
             createEntity(accountToAdd);
@@ -169,7 +169,7 @@ public class AccountsDb extends EntitiesDb {
     public void updateAccount(AccountAttributes a)
             throws InvalidParametersException, EntityDoesNotExistException {
         if (a != null && a.studentProfile == null) {
-            a.studentProfile = new StudentProfileAttributes();
+            a.studentProfile = StudentProfileAttributes.builder().build();
             a.studentProfile.googleId = a.googleId;
         }
         updateAccount(a, false);

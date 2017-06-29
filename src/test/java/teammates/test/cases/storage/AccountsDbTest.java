@@ -115,7 +115,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountsDb.createAccount(a);
 
         ______TS("success case: duplicate account");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
@@ -306,7 +306,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.isInstructor = false;
         a.email = "valid@email.com";
         a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = a.googleId;
         a.studentProfile.institute = "TEAMMATES Test Institute 1";
 
