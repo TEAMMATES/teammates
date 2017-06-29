@@ -212,8 +212,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
                     pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
         }
 
-        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<>();
+        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<>();
         expectedInfoList.add(dataBundle.feedbackSessions.get("session1InCourse1"));
         actualInfoList.add(pageData.getBundle().feedbackSession);
 

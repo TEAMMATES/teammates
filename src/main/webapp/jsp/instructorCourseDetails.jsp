@@ -11,7 +11,8 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Course Details" jsIncludes="${jsIncludes}">
   <course:courseInformationContainer courseDetails="${data.courseDetails}"
       instructors="${data.instructors}"
-      courseRemindButton="${data.courseRemindButton}"/>
+      courseRemindButton="${data.courseRemindButton}"
+      courseDeleteAllButton="${data.courseDeleteAllButton}"/>
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
   <input type="hidden" id="show-comment-box" value="false">

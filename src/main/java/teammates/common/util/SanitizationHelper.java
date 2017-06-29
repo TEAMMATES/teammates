@@ -165,7 +165,7 @@ public final class SanitizationHelper {
      * Sanitizes a list of strings for inserting into HTML.
      */
     public static List<String> sanitizeForHtml(List<String> list) {
-        List<String> sanitizedList = new ArrayList<String>();
+        List<String> sanitizedList = new ArrayList<>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
         }
@@ -176,7 +176,7 @@ public final class SanitizationHelper {
      * Sanitizes a set of strings for inserting into HTML.
      */
     public static Set<String> sanitizeForHtml(Set<String> set) {
-        Set<String> sanitizedSet = new TreeSet<String>();
+        Set<String> sanitizedSet = new TreeSet<>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));
         }
@@ -214,7 +214,7 @@ public final class SanitizationHelper {
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
-        Set<String> textSetTemp = new HashSet<String>();
+        Set<String> textSetTemp = new HashSet<>();
         for (String text : sanitizedStringSet) {
             textSetTemp.add(desanitizeFromHtml(text));
         }
@@ -317,7 +317,7 @@ public final class SanitizationHelper {
      * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
-        List<String> sanitizedStrList = new ArrayList<String>();
+        List<String> sanitizedStrList = new ArrayList<>();
 
         Iterator<String> itr = strList.iterator();
         while (itr.hasNext()) {

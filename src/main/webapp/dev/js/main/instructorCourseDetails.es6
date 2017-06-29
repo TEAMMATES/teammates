@@ -8,6 +8,7 @@ import {
 
 import {
     attachEventToDeleteStudentLink,
+    attachEventToDeleteAllStudentLink,
     prepareInstructorPages,
     selectElementContents,
 } from '../common/instructor.es6';
@@ -107,6 +108,7 @@ $(document).ready(() => {
     attachEventToRemindStudentsButton();
     attachEventToSendInviteLink();
     attachEventToDeleteStudentLink();
+    attachEventToDeleteAllStudentLink();
 
     $('#btn-select-element-contents').on('click', () => {
         selectElementContents(document.getElementById('detailsTable'));

@@ -37,7 +37,7 @@ public class FeedbackResponseRow {
         } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
-        this.responseComments = new ArrayList<FeedbackResponseCommentRow>();
+        this.responseComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
