@@ -31,7 +31,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<Account> instructorAccounts = (List<Account>) PM.newQuery(query).execute();
 
-        HashMap<String, String> instructorInstitutions = new HashMap<String, String>();
+        HashMap<String, String> instructorInstitutions = new HashMap<>();
 
         for (Account a : instructorAccounts) {
             if (a.getInstitute() == null || a.getInstitute().isEmpty()) {
@@ -49,7 +49,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<Instructor> instructors = (List<Instructor>) PM.newQuery(query).execute();
 
-        HashMap<String, String> courseInstitutions = new HashMap<String, String>();
+        HashMap<String, String> courseInstitutions = new HashMap<>();
 
         for (Instructor i : instructors) {
             courseInstitutions.put(i.getCourseId(), instructorInstitutions.get(i.getGoogleId()));
@@ -65,7 +65,7 @@ public class DataMigrationAppendInstitutionForAccounts extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<CourseStudent> students = (List<CourseStudent>) PM.newQuery(query).execute();
 
-        HashMap<String, String> studentInstitutions = new HashMap<String, String>();
+        HashMap<String, String> studentInstitutions = new HashMap<>();
 
         for (CourseStudent s : students) {
             studentInstitutions.put(s.getGoogleId(), courseInstitutions.get(s.getCourseId()));

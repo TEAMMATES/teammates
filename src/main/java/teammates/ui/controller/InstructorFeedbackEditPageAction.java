@@ -34,7 +34,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 
-        Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
+        Map<String, Boolean> questionHasResponses = new HashMap<>();
 
         for (FeedbackQuestionAttributes question : questions) {
             boolean hasResponse = logic.areThereResponsesForQuestion(question.getId());

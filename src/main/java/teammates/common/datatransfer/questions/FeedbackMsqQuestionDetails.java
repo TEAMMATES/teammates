@@ -42,7 +42,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.MSQ);
 
         this.numOfMsqChoices = 0;
-        this.msqChoices = new ArrayList<String>();
+        this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
         this.maxSelectableChoices = Integer.MIN_VALUE;
@@ -53,7 +53,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         int numOfMsqChoices = 0;
-        List<String> msqChoices = new LinkedList<String>();
+        List<String> msqChoices = new LinkedList<>();
         boolean msqOtherEnabled = false;
 
         String otherOptionFlag =
@@ -115,7 +115,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor, int maxSelectableChoices) {
 
         this.numOfMsqChoices = 0;
-        this.msqChoices = new ArrayList<String>();
+        this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         this.maxSelectableChoices = maxSelectableChoices;
@@ -284,7 +284,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();
+        List<String> optionList = new ArrayList<>();
 
         switch (generateOptionsFor) {
         case NONE:
@@ -443,7 +443,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
         int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
@@ -472,7 +472,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
         int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
@@ -505,7 +505,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
@@ -527,7 +527,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
             if (!otherEnabled) {

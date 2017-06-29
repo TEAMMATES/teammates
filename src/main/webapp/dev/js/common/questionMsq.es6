@@ -1,4 +1,6 @@
-import { ParamsNames } from './const.es6';
+import {
+    ParamsNames,
+} from './const.es6';
 
 function setMaxValForMaxSelectableChoicesInput(questionNum) {
     const $maxSelectableChoicesCheckbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
@@ -24,7 +26,6 @@ function setMaxValForMaxSelectableChoicesInput(questionNum) {
         }
 
         const currentVal = $msqMaxSelectableChoices.val();
-        console.log(`maxValue = ${maxValue}`);
 
         $msqMaxSelectableChoices.prop('max', maxValue);
         $msqMaxSelectableChoices.val(Math.min(maxValue, currentVal));

@@ -1,4 +1,6 @@
-import { extractQuestionNumFromEditFormId } from '../main/instructorFeedbackEdit.es6';
+import {
+    extractQuestionNumFromEditFormId,
+} from '../main/instructorFeedbackEdit.es6';
 
 QUnit.module('instructorFeedbacks.js');
 

@@ -1,35 +1,126 @@
 /* global tinymce:false */
 
-import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { ParamsNames, StatusType } from '../common/const.es6';
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { prepareDatepickers } from '../common/datepicker.es6';
-import { FeedbackPath } from '../common/feedbackPath.es6';
-import { isWithinView } from '../common/helper.es6';
-import { prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
-import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
-        formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
-        from '../common/instructorFeedbacks.es6';
-import { addConstSumOption, hideConstSumOptionTable, removeConstSumOption,
-        updateConstSumPointsValue } from '../common/questionConstSum.es6';
-import { fixContribQnGiverRecipient, setContribQnVisibilityFormat, setDefaultContribQnVisibilityIfNeeded }
-        from '../common/questionContrib.es6';
-import { addMcqOption, removeMcqOption, toggleMcqGeneratedOptions,
-        toggleMcqOtherOptionEnabled, changeMcqGenerateFor } from '../common/questionMcq.es6';
-import { addMsqOption, removeMsqOption, toggleMsqGeneratedOptions, toggleMsqMaxSelectableChoices,
-        toggleMsqOtherOptionEnabled, changeMsqGenerateFor } from '../common/questionMsq.es6';
-import { updateNumScalePossibleValues } from '../common/questionNumScale.es6';
-import { addRankOption, hideRankOptionTable, removeRankOption } from '../common/questionRank.es6';
-import { addRubricCol, addRubricRow, bindAssignWeightsCheckboxes, hasAssignedWeights,
-        highlightRubricCol, highlightRubricRow, moveAssignWeightsCheckbox,
-        removeRubricCol, removeRubricRow } from '../common/questionRubric.es6';
-import { destroyEditor, richTextEditorBuilder } from '../common/richTextEditor.es6';
-import { scrollToElement } from '../common/scrollTo.es6';
-import { clearStatusMessages, setStatusMessage, setStatusMessageToForm } from '../common/statusMessage.es6';
-import { addLoadingIndicator, disallowNonNumericEntries, removeLoadingIndicator } from '../common/ui.es6';
-import { attachVisibilityCheckboxEvent, attachVisibilityDropdownEvent, formatCheckBoxes, getVisibilityMessage,
-        matchVisibilityOptionToFeedbackPath, showVisibilityCheckboxesIfCustomOptionSelected, tallyCheckboxes }
-        from '../common/visibilityOptions.es6';
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    ParamsNames,
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    prepareDatepickers,
+} from '../common/datepicker.es6';
+
+import {
+    FeedbackPath,
+} from '../common/feedbackPath.es6';
+
+import {
+    isWithinView,
+} from '../common/helper.es6';
+
+import {
+    prepareInstructorPages,
+    setupFsCopyModal,
+} from '../common/instructor.es6';
+
+import {
+    bindUncommonSettingsEvents,
+    collapseIfPrivateSession,
+    formatResponsesVisibilityGroup,
+    formatSessionVisibilityGroup,
+    showUncommonPanelsIfNotInDefaultValues,
+    updateUncommonSettingsInfo,
+} from '../common/instructorFeedbacks.es6';
+
+import {
+    addConstSumOption,
+    hideConstSumOptionTable,
+    removeConstSumOption,
+    updateConstSumPointsValue,
+} from '../common/questionConstSum.es6';
+
+import {
+    fixContribQnGiverRecipient,
+    setContribQnVisibilityFormat,
+    setDefaultContribQnVisibilityIfNeeded,
+} from '../common/questionContrib.es6';
+
+import {
+    addMcqOption,
+    removeMcqOption,
+    toggleMcqGeneratedOptions,
+    toggleMcqOtherOptionEnabled,
+    changeMcqGenerateFor,
+} from '../common/questionMcq.es6';
+
+import {
+    addMsqOption,
+    removeMsqOption,
+    toggleMsqGeneratedOptions,
+    toggleMsqMaxSelectableChoices,
+    toggleMsqOtherOptionEnabled,
+    changeMsqGenerateFor,
+} from '../common/questionMsq.es6';
+
+import {
+    updateNumScalePossibleValues,
+} from '../common/questionNumScale.es6';
+
+import {
+    addRankOption,
+    hideRankOptionTable,
+    removeRankOption,
+} from '../common/questionRank.es6';
+
+import {
+    addRubricCol,
+    addRubricRow,
+    bindAssignWeightsCheckboxes,
+    hasAssignedWeights,
+    highlightRubricCol,
+    highlightRubricRow,
+    moveAssignWeightsCheckbox,
+    removeRubricCol,
+    removeRubricRow,
+} from '../common/questionRubric.es6';
+
+import {
+    destroyEditor,
+    richTextEditorBuilder,
+} from '../common/richTextEditor.es6';
+
+import {
+    scrollToElement,
+} from '../common/scrollTo.es6';
+
+import {
+    clearStatusMessages,
+    setStatusMessage,
+    setStatusMessageToForm,
+} from '../common/statusMessage.es6';
+
+import {
+    addLoadingIndicator,
+    disallowNonNumericEntries,
+    removeLoadingIndicator,
+} from '../common/ui.es6';
+
+import {
+    attachVisibilityCheckboxEvent,
+    attachVisibilityDropdownEvent,
+    formatCheckBoxes,
+    getVisibilityMessage,
+    matchVisibilityOptionToFeedbackPath,
+    showVisibilityCheckboxesIfCustomOptionSelected,
+    tallyCheckboxes,
+ } from '../common/visibilityOptions.es6';
 
 const NEW_QUESTION = -1;
 
@@ -220,8 +311,9 @@ function disableQuestion(questionNum) {
 
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
+    if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+    } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
@@ -327,12 +419,13 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).show();
 
-    if ($(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
+    if ($(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#msqChoiceTable-${questionNum}`).hide();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
+    } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
+        $(`#msqChoiceTable-${questionNum}`).hide();
+        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
     } else {
         $(`#mcqChoiceTable-${questionNum}`).show();

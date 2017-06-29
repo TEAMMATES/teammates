@@ -26,7 +26,7 @@ import teammates.test.driver.Priority;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
-import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE}.
@@ -745,12 +745,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
                                                             int questionNumber) {
-        Set<String> expectedEnabledOptions = new HashSet<String>();
+        Set<String> expectedEnabledOptions = new HashSet<>();
         for (FeedbackParticipantType expectedType : expectedTypes) {
             expectedEnabledOptions.add(expectedType.toString());
         }
 
-        Set<String> actualEnableOptions = new HashSet<String>();
+        Set<String> actualEnableOptions = new HashSet<>();
         WebElement optionsTable = browser.driver.findElement(By.id("visibilityOptions-" + questionNumber));
         List<WebElement> enabledRows =
                 optionsTable.findElements(By.cssSelector("tr:not([style='display: none;'])"));
@@ -893,23 +893,30 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("check response rate before editing question");
 
-        InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
+        InstructorFeedbackSessionsPage feedbacksPage = navigateToInstructorFeedbackSessionsPage();
         feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
         feedbacksPage.verifyResponseValue("1 / 1", courseId, feedbackSessionName);
 
+        ______TS("check warning is displayed while editing visibility options of question with existing response");
+
         // Change the feedback path of the question and save
         feedbackEditPage = getFeedbackEditPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.enableOtherFeedbackPathOptions(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.TEAMS, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
+        ______TS("check no warning displayed while editing visibility options of question without responses");
+
+        assertFalse(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
         ______TS("check response rate after editing question");
 
-        feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage = navigateToInstructorFeedbackSessionsPage();
         feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
@@ -921,11 +928,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
-    private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
+    private InstructorFeedbackSessionsPage navigateToInstructorFeedbackSessionsPage() {
 
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        InstructorFeedbacksPage feedbacksPage =
-                AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
+        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE).withUserId(instructorId);
+        InstructorFeedbackSessionsPage feedbacksPage =
+                AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbackSessionsPage.class);
         feedbacksPage.waitForPageToLoad();
         return feedbacksPage;
     }
@@ -987,11 +994,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testDoneEditingLink() {
-        InstructorFeedbacksPage feedbackPage = feedbackEditPage.clickDoneEditingLink();
+        InstructorFeedbackSessionsPage feedbackPage = feedbackEditPage.clickDoneEditingLink();
 
         ______TS("Compare URLs");
 
-        String expectedRedirectUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String expectedRedirectUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .withSessionName(feedbackSessionName)
@@ -1020,7 +1027,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("session delete then accept");
 
         // check redirect to main feedback page
-        InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
+        InstructorFeedbackSessionsPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED,
                                     feedbackPage.getStatus());
         assertNull(getFeedbackSession(courseId, feedbackSessionName));
