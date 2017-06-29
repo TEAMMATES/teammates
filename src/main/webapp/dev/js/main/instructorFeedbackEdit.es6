@@ -1114,7 +1114,7 @@ $(document).ready(() => {
     prepareInstructorPages();
 
     $(document).on('click', '#fsDiscardChanges', () => {
-        const okCallback = function () {
+        const okCallback = () => {
             document.getElementById('form_feedbacksession').reset();
             disableEditFS();
         };
