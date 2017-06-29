@@ -93,7 +93,9 @@
         TEAMMATES community is growing fast, spanning over 1000 universities from many countries across the globe:
         Singapore, Canada, USA, UK, Turkey, Australia, Malaysia, Belgium, Taiwan, Macau, Sri Lanka, India, China, Vietnam, and more ...
       </p>
-      <p><a href="usermap.jsp">See who is using TEAMMATES.</a></p>
+      <p>
+        <a href="usermap.jsp">See who is using TEAMMATES.</a>
+      </p>
     </div>
   </div>
 

@@ -76,7 +76,7 @@
       <li>Then, check the Enable JavaScript checkbox.</li>
       <li>Close the window to save your changes.</li>
       <li>Finally, refresh your browser.</li>
-     </ol>
+    </ol>
   </div>
 
   <div id="opera">
