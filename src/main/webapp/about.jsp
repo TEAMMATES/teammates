@@ -921,7 +921,7 @@
         </tr>
         <tr>
           <td>Svitlana Nesterenko</td>
-          <td>\
+          <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASvetaNesterenko"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
