@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the panel heading of the course you want to archive.
-                <br>Then select <b>'Archive'</b> in the drop-down menu and </b>'OK'</b> to confirm.
+                <br>Then select <b>'Archive'</b> in the drop-down menu and <b>'OK'</b> to confirm.
                 <br>If successful, you should see a message in the home page which looks similar to this:
                 <br><br>
                 <div>
