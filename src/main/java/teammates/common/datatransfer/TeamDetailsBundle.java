@@ -14,6 +14,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 public class TeamDetailsBundle {
 
     public String name;
-    public List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+    public List<StudentAttributes> students = new ArrayList<>();
 
 }

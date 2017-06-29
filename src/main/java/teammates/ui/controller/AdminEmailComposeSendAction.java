@@ -19,8 +19,8 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSendAction extends Action {
 
-    private List<String> addressReceiver = new ArrayList<String>();
-    private List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<>();
+    private List<String> groupReceiver = new ArrayList<>();
 
     private boolean isAddressModeOn;
     private boolean isGroupModeOn;

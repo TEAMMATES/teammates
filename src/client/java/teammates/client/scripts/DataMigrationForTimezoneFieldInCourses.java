@@ -19,7 +19,7 @@ import teammates.storage.entity.Course;
 
 public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
 
-    private static final Map<String, String> timeZoneDoubleToIdMapping = new HashMap<String, String>();
+    private static final Map<String, String> timeZoneDoubleToIdMapping = new HashMap<>();
 
     static {
         map("-12.0", "Etc/GMT+12");
@@ -109,7 +109,7 @@ public class DataMigrationForTimezoneFieldInCourses extends RemoteApiClient {
     }
 
     private List<CourseAttributes> getAllCoursesWithoutTimeZone() {
-        List<CourseAttributes> coursesWithoutTimeZone = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> coursesWithoutTimeZone = new ArrayList<>();
         List<Course> courseEntities = getAllCourseEntities();
         for (Course courseEntity : courseEntities) {
             if (courseEntity.getTimeZone() == null && !JDOHelper.isDeleted(courseEntity)) {
