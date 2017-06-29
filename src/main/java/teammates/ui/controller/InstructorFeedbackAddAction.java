@@ -79,7 +79,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
             //      (similar to the one below)
             return createRedirectResult(
                     data.getInstructorFeedbackEditLink(
-                            fs.getCourseId(), fs.getFeedbackSessionName()));
+                            fs.getCourseId(), fs.getFeedbackSessionName(), "false"));
 
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);

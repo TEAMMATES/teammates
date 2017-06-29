@@ -53,7 +53,7 @@ public class InstructorFeedbackCopyAction extends Action {
             //      (similar to the one below)
             return createRedirectResult(
                     new PageData(account, sessionToken).getInstructorFeedbackEditLink(
-                            fs.getCourseId(), fs.getFeedbackSessionName()));
+                            fs.getCourseId(), fs.getFeedbackSessionName(), "false"));
 
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);

@@ -39,7 +39,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         }
 
         RedirectResult redirectResult = createRedirectResult(new PageData(account, sessionToken)
-                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName, "false"));
 
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
