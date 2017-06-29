@@ -763,10 +763,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
-
+        //To show comment only once for each response.
+        boolean hasComments = hasCommentsForResponses;
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
+            //To show comment only once for each response.
+            hasComments = (i < 1) ? hasComments : false;
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
@@ -791,7 +794,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(chosenIndexString) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
-                    + (hasCommentsForResponses
+                    + (hasComments
                             ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                     + Const.EOL);
         }

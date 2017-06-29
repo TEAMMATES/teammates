@@ -2246,7 +2246,7 @@ public class FeedbackSessionResultsBundle {
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             commentRow.append("," + instructorEmailNameTable.get(frc.giverEmail) + ","
-                    + getTextFromComment(frc.commentText));
+                    + SanitizationHelper.desanitizeFromHtml(getTextFromComment(frc.commentText)));
         }
         return commentRow;
     }
@@ -2262,6 +2262,6 @@ public class FeedbackSessionResultsBundle {
                 comment.append(element.absUrl("src") + ' ');
             }
         }
-        return SanitizationHelper.desanitizeFromHtml(comment.toString());
+        return SanitizationHelper.sanitizeForCsv(comment.toString());
     }
 }
