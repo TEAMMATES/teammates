@@ -90,7 +90,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         boolean shouldOmitArchived = true;
         Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
+        List<InstructorAttributes> instructorList = new ArrayList<>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
@@ -139,6 +139,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
             return JsonUtils.fromJson(jsonString, listType);
         }
 
-        return new ArrayList<FeedbackQuestionAttributes>();
+        return new ArrayList<>();
     }
 }

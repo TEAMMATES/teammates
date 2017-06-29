@@ -48,7 +48,7 @@ public abstract class EntitiesDb {
             "Trying to make an non-existent account an Instructor :";
 
     private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
-    private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<PersistenceManager>();
+    private static final ThreadLocal<PersistenceManager> PER_THREAD_PM = new ThreadLocal<>();
     private static final Logger log = Logger.getLogger();
 
     /**
@@ -109,8 +109,8 @@ public abstract class EntitiesDb {
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
-        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
-        List<Object> entities = new ArrayList<Object>();
+        List<EntityAttributes> entitiesToUpdate = new ArrayList<>();
+        List<Object> entities = new ArrayList<>();
 
         for (EntityAttributes entityToAdd : entitiesToAdd) {
             entityToAdd.sanitizeForSaving();
@@ -279,7 +279,7 @@ public abstract class EntitiesDb {
     }
 
     protected void putDocuments(String indexName, List<SearchDocument> documents) {
-        List<Document> searchDocuments = new ArrayList<Document>();
+        List<Document> searchDocuments = new ArrayList<>();
         for (SearchDocument document : documents) {
             searchDocuments.add(document.build());
         }
