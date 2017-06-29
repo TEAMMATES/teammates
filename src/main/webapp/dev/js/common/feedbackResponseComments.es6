@@ -11,19 +11,14 @@ function isInCommentsPage() {
     return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
 }
 
-function setInitialVisibilityOfCheckboxes(form) {
-    const tableInForm = form.find('table').first();
+function setInitialVisibilityOfCheckboxes(id, element) {
+    const tableInForm = element.find('table').first();
     const checkboxesInForm = tableInForm.find('tr').find('input.visibilityCheckbox');
     const valuesOfCheckbox = [];
     for (let i = 0; i < checkboxesInForm.length; i += 1) {
         valuesOfCheckbox.push($(checkboxesInForm[i]).prop('checked'));
     }
-
-    if (form.attr('class') === 'responseCommentAddForm') {
-        initialVisibilityOptions.set(form.parent().attr('id'), valuesOfCheckbox);
-    } else {
-        initialVisibilityOptions.set(form.attr('id'), valuesOfCheckbox);
-    }
+    initialVisibilityOptions.set(id, valuesOfCheckbox);
 }
 
 function getInitialVisibilityOfCheckboxes(e) {
@@ -386,7 +381,8 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         });
         /* eslint-enable camelcase */
     }
-    setInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
+    setInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
+        $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
     $(`#responseCommentAddForm${id}`).focus();
 }
 
@@ -424,7 +420,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $(`#responseCommentEditForm${id} > div > textarea`).val($(`#plainCommentText${id}`).text());
     $(`#responseCommentEditForm${id}`).show();
     $(`#responseCommentEditForm${id} > div > textarea`).focus();
-    setInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`));
+    setInitialVisibilityOfCheckboxes(`responseCommentEditForm${id}`, $(`#responseCommentEditForm${id}`));
     if (typeof richTextEditorBuilder !== 'undefined') {
         if (tinymce.get(`responsecommenttext${id}`)) {
             return;
