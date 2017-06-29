@@ -78,11 +78,11 @@ public class FeedbackSessionResponseStatus {
     };
 
     public FeedbackSessionResponseStatus() {
-        noResponse = new ArrayList<String>();
-        studentsWhoResponded = new ArrayList<String>();
-        emailNameTable = new HashMap<String, String>();
-        emailSectionTable = new HashMap<String, String>();
-        emailTeamNameTable = new HashMap<String, String>();
+        noResponse = new ArrayList<>();
+        studentsWhoResponded = new ArrayList<>();
+        emailNameTable = new HashMap<>();
+        emailSectionTable = new HashMap<>();
+        emailTeamNameTable = new HashMap<>();
     }
 
     /**

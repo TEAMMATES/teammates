@@ -20,8 +20,8 @@ public final class TimeHelper {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
-    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
+    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<>();
+    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<>();
 
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
@@ -100,7 +100,7 @@ public final class TimeHelper {
     }
 
     public static List<Double> getTimeZoneValues() {
-        return new ArrayList<Double>(TIME_ZONE_VALUES);
+        return new ArrayList<>(TIME_ZONE_VALUES);
     }
 
     /**

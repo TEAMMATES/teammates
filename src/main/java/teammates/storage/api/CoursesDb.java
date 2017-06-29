@@ -69,7 +69,7 @@ public class CoursesDb extends EntitiesDb {
     public List<CourseAttributes> getCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         List<Course> courses = getCourseEntities(courseIds);
-        List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseAttributes = new ArrayList<>();
         // TODO add method to get List<CourseAttributes> from List<Course>
         for (Course c : courses) {
             if (!JDOHelper.isDeleted(c)) {
@@ -92,7 +92,7 @@ public class CoursesDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) q.execute();
 
-        List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseDataList = new ArrayList<>();
         for (Course c : courseList) {
             if (!JDOHelper.isDeleted(c)) {
                 courseDataList.add(new CourseAttributes(c));
@@ -185,7 +185,7 @@ public class CoursesDb extends EntitiesDb {
 
     private List<Course> getCourseEntities(List<String> courseIds) {
         if (courseIds.isEmpty()) {
-            return new ArrayList<Course>();
+            return new ArrayList<>();
         }
 
         Query q = getPm().newQuery(Course.class);

@@ -50,7 +50,7 @@ public class CompileLogsAction extends AutomatedAction {
                                      .minLogLevel(LogLevel.ERROR);
 
         Iterable<RequestLogs> logs = logService.fetch(q);
-        List<AppLogLine> errorLogs = new ArrayList<AppLogLine>();
+        List<AppLogLine> errorLogs = new ArrayList<>();
 
         for (RequestLogs requestLogs : logs) {
             List<AppLogLine> logList = requestLogs.getAppLogLines();
