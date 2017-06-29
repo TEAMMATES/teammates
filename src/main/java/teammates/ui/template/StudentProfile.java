@@ -1,7 +1,6 @@
 package teammates.ui.template;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.util.SanitizationHelper;
 
 public class StudentProfile {
     private String pictureUrl;
@@ -22,14 +21,6 @@ public class StudentProfile {
         this.institute = student.institute;
         this.nationality = student.nationality;
         this.moreInfo = student.moreInfo;
-
-        // TODO: remove after StudentProfileAttributes are desanitized
-        this.shortName = SanitizationHelper.desanitizeIfHtmlSanitized(this.shortName);
-        this.gender = SanitizationHelper.desanitizeIfHtmlSanitized(this.gender);
-        this.email = SanitizationHelper.desanitizeIfHtmlSanitized(this.email);
-        this.institute = SanitizationHelper.desanitizeIfHtmlSanitized(this.institute);
-        this.nationality = SanitizationHelper.desanitizeIfHtmlSanitized(this.nationality);
-        this.moreInfo = SanitizationHelper.desanitizeIfHtmlSanitized(this.moreInfo);
     }
 
     public String getPictureUrl() {

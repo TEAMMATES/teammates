@@ -37,7 +37,7 @@ public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     private String currentFileName = "";
     private boolean hasPreviousEntity;
-    private Set<String> accountsSaved = new HashSet<String>();
+    private Set<String> accountsSaved = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         OfflineBackup offlineBackup = new OfflineBackup();
@@ -57,7 +57,7 @@ public class OfflineBackup extends RemoteApiClient {
      * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities.
      */
     private List<String> getModifiedLogs() {
-        List<String> modifiedLogs = new ArrayList<String>();
+        List<String> modifiedLogs = new ArrayList<>();
         try {
             //Opens a URL connection to obtain the entity modified logs
             URL url = new URL(TestProperties.TEAMMATES_URL + "/entityModifiedLogs");
@@ -83,7 +83,7 @@ public class OfflineBackup extends RemoteApiClient {
     private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
 
         //Extracts the course Ids to be backup from the logs
-        Set<String> courses = new HashSet<String>();
+        Set<String> courses = new HashSet<>();
         for (String course : modifiedLogs) {
             course = course.trim();
             if (!course.isEmpty()) {

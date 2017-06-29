@@ -68,7 +68,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                StatusMessageColor.WARNING));
         }
 
-        List<String> sessionNames = new ArrayList<String>();
+        List<String> sessionNames = new ArrayList<>();
         for (FeedbackSessionAttributes fsa : sessions) {
             sessionNames.add(fsa.getFeedbackSessionName());
         }

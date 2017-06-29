@@ -57,10 +57,9 @@ public class UploadBackupData extends RemoteApiClient {
     private static DataBundle data;
     private static String jsonString;
 
-    private static Set<String> coursesPersisted = new HashSet<String>();
-    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted =
-            new HashMap<String, FeedbackQuestionAttributes>();
-    private static HashMap<String, String> feedbackQuestionIds = new HashMap<String, String>();
+    private static Set<String> coursesPersisted = new HashSet<>();
+    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted = new HashMap<>();
+    private static HashMap<String, String> feedbackQuestionIds = new HashMap<>();
 
     private static Logic logic = new Logic();
     private static final CoursesDb coursesDb = new CoursesDb();
@@ -132,8 +131,8 @@ public class UploadBackupData extends RemoteApiClient {
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
                 data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
-                feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
-                feedbackQuestionIds = new HashMap<String, String>();
+                feedbackQuestionsPersisted = new HashMap<>();
+                feedbackQuestionIds = new HashMap<>();
 
                 if (!data.accounts.isEmpty()) {
                     // Accounts

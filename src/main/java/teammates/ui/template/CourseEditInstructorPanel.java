@@ -43,8 +43,8 @@ public class CourseEditInstructorPanel {
     private List<CourseEditSectionRow> createSectionRows(
             int instructorIndex, List<String> sectionNames, List<String> feedbackNames) {
         firstBlankSectionRowIndex = sectionNames.size();
-        Map<Integer, String> specialSectionNames = new TreeMap<Integer, String>();
-        Map<Integer, String> nonSpecialSectionNames = new TreeMap<Integer, String>();
+        Map<Integer, String> specialSectionNames = new TreeMap<>();
+        Map<Integer, String> nonSpecialSectionNames = new TreeMap<>();
 
         distinguishSpecialAndNonSpecialSections(sectionNames, specialSectionNames, nonSpecialSectionNames);
 
@@ -77,7 +77,7 @@ public class CourseEditInstructorPanel {
     private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(
             int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
             Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
-        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
+        List<CourseEditSectionRow> rows = new ArrayList<>();
 
         createSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, specialSectionNames);
         createNonSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, nonSpecialSectionNames);
@@ -196,7 +196,7 @@ public class CourseEditInstructorPanel {
     }
 
     private List<ElementTag> createPermissionInputGroup3ForInstructorPanel() {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         permissionInputGroup.add(createCheckBox("Sessions: Submit Responses and Add Comments",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
@@ -212,7 +212,7 @@ public class CourseEditInstructorPanel {
     }
 
     private List<ElementTag> createPermissionInputGroup2ForInstructorPanel() {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         permissionInputGroup.add(createCheckBox("View Students' Details",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
@@ -221,7 +221,7 @@ public class CourseEditInstructorPanel {
     }
 
     private List<ElementTag> createPermissionInputGroup1ForInstructorPanel() {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         permissionInputGroup.add(createCheckBox("Edit/Delete Course",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));

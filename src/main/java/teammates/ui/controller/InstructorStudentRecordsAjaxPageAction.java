@@ -47,11 +47,11 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         filterFeedbackSessions(courseId, feedbacks, instructor, student);
 
-        List<SessionAttributes> sessions = new ArrayList<SessionAttributes>();
+        List<SessionAttributes> sessions = new ArrayList<>();
         sessions.addAll(feedbacks);
         Collections.sort(sessions, SessionAttributes.DESCENDING_ORDER);
 
-        List<FeedbackSessionResultsBundle> results = new ArrayList<FeedbackSessionResultsBundle>();
+        List<FeedbackSessionResultsBundle> results = new ArrayList<>();
         for (SessionAttributes session : sessions) {
             if (session instanceof FeedbackSessionAttributes) {
                 if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {

@@ -102,7 +102,7 @@ public class AdminEmailLogPageAction extends Action {
      * Searches enough email logs within MAX_SEARCH_PERIOD hours.
      */
     private void searchEmailLogsWithTimeIncrement(AdminEmailLogPageData data) {
-        List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
+        List<EmailLogEntry> emailLogs = new LinkedList<>();
         List<String> versionToQuery = getVersionsForQuery(data.getVersions());
         AdminLogQuery query = new AdminLogQuery(versionToQuery, null, data.getToDate());
 
@@ -137,7 +137,7 @@ public class AdminEmailLogPageAction extends Action {
 
     private List<EmailLogEntry> filterLogsForEmailLogPage(List<AppLogLine> appLogLines,
                                                           AdminEmailLogPageData data) {
-        List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
+        List<EmailLogEntry> emailLogs = new LinkedList<>();
 
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
