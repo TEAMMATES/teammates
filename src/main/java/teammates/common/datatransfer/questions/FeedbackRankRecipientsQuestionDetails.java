@@ -189,6 +189,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
         }
         DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
 
@@ -201,8 +202,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
-            int selfRankIndex = getSelfRankIndex(responses, participantIdentifier);
-            String selfRank = selfRankIndex == -1 ? "-" : Integer.toString(ranks.get(selfRankIndex));
+            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
             fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
@@ -281,25 +282,20 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
-     * From the feedback responses, computes the index of self rank and returns it.
+     * Generates a key, value mapping. Each key corresponds to a recipient and its value is the normalised self rank.
      * @param responses  a list of responses
      */
-    private int getSelfRankIndex(List<FeedbackResponseAttributes> responses, String participantIdentifier) {
-        int index = 0;
+    private Map<String, Integer> generateSelfRankForEachRecipient(List<FeedbackResponseAttributes> responses) {
+        Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = getNormalisedRankForEachResponse(responses);
+        Map<String, Integer> recipientToSelfRank = new HashMap<>();
 
-        for (int i = 0; i < responses.size(); i++) {
-            FeedbackResponseAttributes response = responses.get(i);
-
-            if (response.recipient.equalsIgnoreCase(participantIdentifier)) {
-                if (response.giver.equalsIgnoreCase(participantIdentifier)) {
-                    return index;
-                }
-
-                index++;
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.recipient.equalsIgnoreCase(response.giver)) {
+                recipientToSelfRank.put(response.recipient, normalisedRankOfResponse.get(response));
             }
         }
 
-        return -1;
+        return recipientToSelfRank;
     }
 
     /**
