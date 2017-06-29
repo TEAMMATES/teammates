@@ -72,7 +72,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
         } else if (courseId == null || feedbackSessionName == null) {
             feedbackSessions = getAllFeedbackSessions();
         } else {
-            feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+            feedbackSessions = new ArrayList<>();
             feedbackSessions.add(logic.getFeedbackSession(feedbackSessionName, courseId));
         }
 
@@ -132,7 +132,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
             allPossibleRespondents.addAll(allInstructors);
             allPossibleRespondents.addAll(allStudents);
 
-            nonRespondentsEmails = new HashSet<String>();
+            nonRespondentsEmails = new HashSet<>();
             for (EntityAttributes possibleRespondent : allPossibleRespondents) {
                 if (possibleRespondent instanceof StudentAttributes) {
                     StudentAttributes student = (StudentAttributes) possibleRespondent;

@@ -136,7 +136,7 @@ public class AdminEmailsDb extends EntitiesDb {
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
+        List<AdminEmailAttributes> list = new LinkedList<>();
         List<AdminEmail> entities = getAdminEmailEntities();
         Iterator<AdminEmail> it = entities.iterator();
         while (it.hasNext()) {
@@ -195,7 +195,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
+        List<AdminEmailAttributes> list = new LinkedList<>();
 
         Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
@@ -225,7 +225,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
+        List<AdminEmailAttributes> list = new LinkedList<>();
 
         Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");
@@ -255,7 +255,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
+        List<AdminEmailAttributes> list = new LinkedList<>();
 
         Query q = getPm().newQuery(AdminEmail.class);
         q.declareParameters("boolean isInTrashBinParam");

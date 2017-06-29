@@ -1225,6 +1225,11 @@
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>
+                    <td>Komal Parmaar</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AParmaarK"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
                     <td>Leonard Hio</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aleonardhml"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
@@ -1247,6 +1252,11 @@
                 <tr>
                     <td>Logan Smith</td>
                     <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asmithla1"
+                        target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
+                </tr>
+                <tr>
+                    <td>Madhav Thakker</td>
+                    <td><a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AMaddyThakker"
                         target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements</a></td>
                 </tr>
                 <tr>

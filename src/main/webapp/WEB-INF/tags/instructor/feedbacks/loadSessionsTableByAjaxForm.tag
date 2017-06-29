@@ -6,7 +6,7 @@
  <%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
 
  <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm"
-    action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE %>">
+    action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE %>">
     <input type="hidden"
         name="<%= Const.ParamsNames.USER_ID %>"
         value="${data.account.googleId}">
