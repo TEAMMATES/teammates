@@ -78,7 +78,7 @@ public class FeedbackResponseCommentRow {
         this.showGiverNameTo = frc.showGiverNameTo;
 
         this.responseVisibilities = responseVisibilities;
-        setVisibilityIcon(showCommentTo);
+        setVisibilityIcon();
 
         // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
@@ -271,7 +271,7 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabledOnlyOnHover = true;
     }
 
-    private void setVisibilityIcon(List<FeedbackParticipantType> whoCanSeeComment) {
+    private void setVisibilityIcon() {
         this.whoCanSeeComment = getTooltipForVisibilityIcon(showCommentTo);
     }
 

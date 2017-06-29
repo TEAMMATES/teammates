@@ -108,7 +108,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             String showCommentToString = getResponseCommentVisibilityString(frca, question);
             String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
 
-            String whoCanSeeComment = null;
             boolean isVisibilityIconShown = false;
             if (feedbackSession.isPublished()) {
                 boolean isResponseCommentPublicToRecipient = !frca.showCommentTo.isEmpty();
