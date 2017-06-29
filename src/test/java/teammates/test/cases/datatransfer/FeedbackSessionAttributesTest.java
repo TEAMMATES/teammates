@@ -47,7 +47,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         ______TS("null parameter error messages");
 
-        List<String> expectedErrorMessage = new ArrayList<String>();
+        List<String> expectedErrorMessage = new ArrayList<>();
         String[] fieldNames = new String[]{
                 "feedback session name",
                 "course ID",

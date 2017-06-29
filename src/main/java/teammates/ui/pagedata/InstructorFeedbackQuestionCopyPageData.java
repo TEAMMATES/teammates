@@ -25,7 +25,7 @@ public class InstructorFeedbackQuestionCopyPageData extends PageData {
     }
 
     private List<FeedbackQuestionTableRow> buildCopyQuestionsModalRows(List<FeedbackQuestionAttributes> copiableQuestions) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
+        List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : copiableQuestions) {
             String courseId = question.courseId;

@@ -86,7 +86,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         FeedbackQuestionDetails updatedQuestionDetails = updatedQuestion.getQuestionDetails();
         List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails();
-        List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+        List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<>();
 
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));

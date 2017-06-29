@@ -120,7 +120,7 @@ public final class GoogleCloudStorageHelper {
         //                            ...
 
         // This is the list of list
-        List<List<String>> listOfList = new LinkedList<List<String>>();
+        List<List<String>> listOfList = new LinkedList<>();
 
         // Offset is needed for remembering where it stops from last reading
         int offset = 0;

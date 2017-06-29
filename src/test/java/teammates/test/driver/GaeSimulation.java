@@ -211,7 +211,7 @@ public class GaeSimulation {
             request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
         }
 
-        Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> paramMultiMap = new HashMap<>();
         for (int i = 0; i < parameters.length; i = i + 2) {
             String key = parameters[i];
             if (paramMultiMap.get(key) == null) {

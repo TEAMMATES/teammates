@@ -17,7 +17,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     public FeedbackMsqResponseDetails() {
         super(FeedbackQuestionType.MSQ);
-        this.answers = new ArrayList<String>();
+        this.answers = new ArrayList<>();
         isOther = false;
         otherFieldContent = "";
     }

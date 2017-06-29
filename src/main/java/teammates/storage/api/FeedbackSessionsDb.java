@@ -52,7 +52,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
 
-        List<FeedbackSessionAttributes> list = new LinkedList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> list = new LinkedList<>();
 
         final Query endTimequery = getPm().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
                                                     + "WHERE this.endTime>rangeStart && this.endTime<=rangeEnd "
@@ -77,8 +77,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackSession> startEntities = (List<FeedbackSession>) startTimequery.execute(curStart, curEnd);
 
-        List<FeedbackSession> endTimeEntities = new ArrayList<FeedbackSession>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<FeedbackSession>(startEntities);
+        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
+        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
 
         endTimeEntities.removeAll(startTimeEntities);
         startTimeEntities.removeAll(endTimeEntities);
@@ -147,7 +147,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     @Deprecated
     public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
         List<FeedbackSession> allFs = getAllFeedbackSessionEntities();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<>();
 
         for (FeedbackSession fs : allFs) {
             if (!JDOHelper.isDeleted(fs)) {
@@ -167,7 +167,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<FeedbackSession> fsList = getFeedbackSessionEntitiesForCourse(courseId);
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<>();
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
@@ -183,7 +183,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpenEmail() {
 
         List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingOpenEmail();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<>();
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
@@ -199,7 +199,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosingEmail() {
 
         List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingClosingEmail();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<>();
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
@@ -215,7 +215,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
 
         List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingClosedEmail();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<>();
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
@@ -231,7 +231,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
 
         List<FeedbackSession> fsList = getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail();
-        List<FeedbackSessionAttributes> fsaList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsaList = new ArrayList<>();
 
         for (FeedbackSession fs : fsList) {
             if (!JDOHelper.isDeleted(fs)) {
@@ -292,7 +292,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        List<String> emails = new ArrayList<String>();
+        List<String> emails = new ArrayList<>();
         emails.add(email);
         addInstructorRespondents(emails, feedbackSession);
     }
@@ -375,7 +375,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public void addStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
 
-        List<String> emails = new ArrayList<String>();
+        List<String> emails = new ArrayList<>();
         emails.add(email);
         addStudentRespondents(emails, feedbackSession);
     }

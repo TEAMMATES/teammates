@@ -342,7 +342,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      * @return list of responses excluding self given responses
      */
     private List<FeedbackResponseAttributes> getResponsesExcludingSelf(List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseAttributes> responsesExcludingSelf = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesExcludingSelf = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             if (!response.giver.equalsIgnoreCase(response.recipient)) {
                 responsesExcludingSelf.add(response);
@@ -383,7 +383,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
             return generateOptionRanksMapping(responsesExcludingSelf);
         }
-        return new HashMap<String, List<Integer>>();
+        return new HashMap<>();
     }
 
     private boolean shouldSelfBeExcludedFromRankings(FeedbackQuestionAttributes question) {
@@ -417,11 +417,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         if (responses.isEmpty()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         if (isAreDuplicatesAllowed()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         List<String> errors = new ArrayList<>();
 
