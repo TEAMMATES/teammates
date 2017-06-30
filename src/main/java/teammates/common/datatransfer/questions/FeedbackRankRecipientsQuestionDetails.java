@@ -181,15 +181,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses, question);
         String fragmentTemplateToUse = "";
         String templateToUse = "";
+        Map<String, Integer> recipientSelfRanks = new HashMap<>();
+
         if (shouldSelfBeExcludedFromRankings(question)) {
             fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT_EXCLUDING_SELF_RESPONSE;
             templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS_EXCLUDING_SELF_RESPONSE;
+            recipientSelfRanks = generateSelfRankForEachRecipient(responses);
         } else {
             fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
             templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
         }
+
         DecimalFormat df = new DecimalFormat("#.##");
-        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
 
