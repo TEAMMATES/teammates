@@ -162,10 +162,6 @@ public class BackDoorLogic extends Logic {
             adminEmailsDb.createAdminEmail(email);
         }
 
-        // any Db can be used to commit the changes.
-        // accountsDb is used as it is already used in the file
-        accountsDb.commitOutstandingChanges();
-
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
