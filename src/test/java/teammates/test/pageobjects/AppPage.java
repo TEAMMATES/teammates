@@ -308,7 +308,7 @@ public abstract class AppPage {
         waitForElementToBeClickable(closeButton);
     }
 
-    private void waitForModalToDisappear() {
+    public void waitForModalToDisappear() {
         By modalBackdrop = By.className("modal-backdrop");
         waitForElementToDisappear(modalBackdrop);
     }
