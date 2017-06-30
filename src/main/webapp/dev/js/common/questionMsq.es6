@@ -4,13 +4,13 @@ import {
 
 function setMaxValForMaxSelectableChoicesInput(questionNum) {
     const $maxSelectableChoicesCheckbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
-    const $generateOptionsCheckbox = $(`#generateOptionsCheckbox-${questionNum}`);
+    const $generateMsqOptionsCheckbox = $(`#generateMsqOptionsCheckbox-${questionNum}`);
 
     if ($maxSelectableChoicesCheckbox.prop('checked')) {
         let maxValue = 2;
         const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
 
-        if ($generateOptionsCheckbox.prop('checked')) {
+        if ($generateMsqOptionsCheckbox.prop('checked')) {
             const selectedVal = $(`#msqGenerateForSelect-${questionNum}`).prop('value');
 
             if (selectedVal === 'STUDENTS') {
