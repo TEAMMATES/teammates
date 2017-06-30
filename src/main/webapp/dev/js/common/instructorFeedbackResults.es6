@@ -142,10 +142,6 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     if (isButtonInExapandMode) {
         // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
-		//decrease top-margin of expand button
-		if($('#statusMessagesToUser').html().search('div') > 0){
-			$('#expand-collapse-button').css('margin-top','5px');
-		}
         expandPanels(targetPanels, areAjaxLoadedPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
     } else {
@@ -310,6 +306,12 @@ function prepareInstructorFeedbackResultsPage() {
             },
         });
     };
+	
+	//decrease top-margin of expand button
+	if($('#statusMessagesToUser').html().search('div') > 0){
+		$('#expand-collapse-button').css('margin-top','5px');
+		$('#expand-collapse-button + br').remove();
+	}
 
     // ajax-response-submit requires the user to click on it to load the noResponsePanel,
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
