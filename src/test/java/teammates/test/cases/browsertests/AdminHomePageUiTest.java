@@ -25,7 +25,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
-import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -193,8 +193,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         ______TS("new instructor can access sample coure feedback session adding page");
         instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
-        InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
-        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
+        InstructorFeedbackSessionsPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionsPage.html");
 
         ______TS("new instructor can archive sample course");
         instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);

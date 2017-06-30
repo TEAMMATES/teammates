@@ -52,7 +52,7 @@
                         </label>
                         <div class="col-sm-9">
                             <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
-                                placeholder="E.g.Co-lecturer, Teaching Assistant"
+                                placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor"
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
                         </div>
                     </div>

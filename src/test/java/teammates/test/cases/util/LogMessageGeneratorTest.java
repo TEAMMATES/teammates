@@ -28,7 +28,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         UserType loginUser = new UserType("googleIdABC");
         String url = "/randomPage";
-        Map<String, String[]> paramMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<>();
         Exception e = new PageNotFoundException("randomPage");
         String logMessagePrefix = "TEAMMATESLOG|||Error when getting ActionName for requestUrl : /randomPage"
                                   + "|||Servlet Action Failure|||true|||Unregistered|||Unknown|||googleIdABC|||Unknown|||";
@@ -54,7 +54,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
     public void generateLogMessage_basicInformation() {
         ______TS("Automated task");
         String url = Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS;
-        Map<String, String[]> paramMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<>();
         String logMessage = "TEAMMATESLOG|||feedbackSessionClosedReminders|||feedbackSessionClosedReminders|||true"
                             + "|||Auto|||Unknown|||Unknown|||Unknown|||auto task|||/auto/feedbackSessionClosedReminders";
 
@@ -71,7 +71,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Not login");
 
         String url = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        Map<String, String[]> paramMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<>();
         String logMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true|||Unknown|||Unknown"
                             + "|||Unknown|||Unknown|||Not authorized|||/page/instructorHomePage";
 
@@ -110,7 +110,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         ______TS("Google login (No account)");
 
         url = Const.ActionURIs.STUDENT_HOME_PAGE + "?course=A&user=test";
-        paramMap = new HashMap<String, String[]>();
+        paramMap = new HashMap<>();
         logMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true|||Unregistered|||Unknown"
                      + "|||googleId|||Unknown|||Try student home|||" + url;
         UserType userType = new UserType("googleId");
@@ -191,7 +191,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
     }
 
     private Map<String, String[]> generateRequestParamsWithRegKey() {
-        Map<String, String[]> params = new HashMap<String, String[]>();
+        Map<String, String[]> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, new String[] { "CS2103" });
         params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { "student@email.com" });
         params.put(Const.ParamsNames.REGKEY, new String[] { "KeyABC" });

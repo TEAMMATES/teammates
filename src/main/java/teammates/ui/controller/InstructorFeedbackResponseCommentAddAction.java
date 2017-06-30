@@ -79,14 +79,14 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
-        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {
                 feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
         if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
             for (String viewer : showGiverNameToArray) {
@@ -118,6 +118,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
         data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.question = logic.getFeedbackQuestion(feedbackQuestionId);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }

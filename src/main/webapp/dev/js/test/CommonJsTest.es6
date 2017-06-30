@@ -1,10 +1,35 @@
-import { StatusType } from '../common/const.es6';
-import { isDate, isNumber, isWithinView } from '../common/helper.es6';
-import { roundToThreeDp } from '../common/questionNumScale.es6';
-import { sanitizeForJs } from '../common/sanitizer.es6';
-import { Comparators, getPointValue } from '../common/sortBy.es6';
-import { clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
-import { addLoadingIndicator, removeLoadingIndicator } from '../common/ui.es6';
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    isDate,
+    isNumber,
+    isWithinView,
+} from '../common/helper.es6';
+
+import {
+    roundToThreeDp,
+} from '../common/questionNumScale.es6';
+
+import {
+    sanitizeForJs,
+} from '../common/sanitizer.es6';
+
+import {
+    Comparators,
+    getPointValue,
+} from '../common/sortBy.es6';
+
+import {
+    clearStatusMessages,
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    addLoadingIndicator,
+    removeLoadingIndicator,
+} from '../common/ui.es6';
 
 QUnit.module('common.js');
 

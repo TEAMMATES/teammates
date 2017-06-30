@@ -1,8 +1,23 @@
-import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { ParamsNames, StatusType } from '../common/const.es6';
-import { prepareInstructorPages } from '../common/instructor.es6';
-import { scrollToElement } from '../common/scrollTo.es6';
-import { TimeZone } from '../common/timezone.es6';
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    ParamsNames,
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    prepareInstructorPages,
+} from '../common/instructor.es6';
+
+import {
+    scrollToElement,
+} from '../common/scrollTo.es6';
+
+import {
+    TimeZone,
+} from '../common/timezone.es6';
 
 // global parameter to remember settings for custom access level
 
@@ -136,6 +151,9 @@ function hideTunePermissionDiv(instrNum) {
  */
 function enableFormEditInstructor(number) {
     $(`#instructorTable${number}`).find(':input').not('.immutable').prop('disabled', false);
+    if (!$(`#instructorTable${number}`).find(':input[type="checkbox"]').prop('checked')) {
+        $(`#instructorTable${number}`).find(':input[name="instructordisplayname"]').prop('readonly', true);
+    }
     $(`#instrEditLink${number}`).hide();
     $(`#instrCancelLink${number}`).show();
     $(`#accessControlInfoForInstr${number}`).hide();
@@ -471,6 +489,19 @@ $(document).ready(() => {
 
     $(document).on('click', '#btnShowNewInstructorForm', () => {
         showNewInstructorForm();
+    });
+
+    $('[name="instructorisdisplayed"]').change((e) => {
+        const $displayToStudentsAsTextField = $(e.target).parents('div.form-group').find('div.col-sm-9 input');
+        if ($(e.target).prop('checked')) {
+            $displayToStudentsAsTextField.prop('readonly', false);
+            $displayToStudentsAsTextField.prop('value', 'Instructor');
+            $displayToStudentsAsTextField.prop('placeholder', 'E.g.Co-lecturer, Teaching Assistant');
+        } else {
+            $displayToStudentsAsTextField.prop('readonly', true);
+            $displayToStudentsAsTextField.prop('value', '');
+            $displayToStudentsAsTextField.prop('placeholder', '(This instructor will NOT be displayed to students)');
+        }
     });
 
     const numOfInstr = $("form[id^='formEditInstructor']").length;
