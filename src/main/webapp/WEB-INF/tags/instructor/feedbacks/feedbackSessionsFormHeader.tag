@@ -60,7 +60,7 @@
                     <span class="glyphicon glyphicon-trash"></span> Delete
                 </a>
                 <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">
-                    <a class="btn btn-primary btn-sm" href="#"
+                    <a class="btn btn-primary btn-sm" href="javascript:;"
                         data-actionlink="${fsForm.copyToLink}"
                         data-courseid="${fsForm.courseId}"
                         data-fsname="${fsForm.fsName}"
