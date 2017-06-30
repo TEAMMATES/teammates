@@ -1067,7 +1067,7 @@
     "response1GracePeriodFeedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
-      "feedbackQuestionId": "2",
+      "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
       "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
