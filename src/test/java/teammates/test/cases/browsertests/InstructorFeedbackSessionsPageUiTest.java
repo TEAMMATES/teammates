@@ -583,8 +583,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
         String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
 
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+        assertTrue(feedbackPage.isSessionResultsOptionsCaretDisabled(courseId, sessionName));
 
         ______TS("MANUAL: publish link clickable");
 
