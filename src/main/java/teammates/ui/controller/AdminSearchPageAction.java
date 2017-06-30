@@ -69,11 +69,11 @@ public class AdminSearchPageAction extends Action {
 
         if (numOfResults > 0) {
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));
-            statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
+            statusToAdmin = "Search Key: " + data.searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
         } else {
             statusToUser.add(new StatusMessage("No result found, please try again", StatusMessageColor.WARNING));
-            statusToAdmin = "Search Key: " + searchKey + "<br>" + "No result found";
+            statusToAdmin = "Search Key: " + data.searchKey + "<br>" + "No result found";
             isError = true;
         }
 
