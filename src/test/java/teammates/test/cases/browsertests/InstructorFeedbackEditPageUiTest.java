@@ -435,7 +435,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.fillQuestionTextBox("new edits to question text", qnIndex);
-        feedbackEditPage.selectQuestionNumber(qnIndex, qnIndex + 1);
         feedbackEditPage.fillQuestionDescription("more details", qnIndex);
         String qnTextAfterEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertFalse(qnTextOriginal.equals(qnTextAfterEdit));
@@ -444,9 +443,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.isDiscardChangesButtonVisible(qnIndex));
         assertFalse(feedbackEditPage.isQuestionEnabled(qnIndex));
-        assertEquals(qnIndex, feedbackEditPage.getSelectedQuestionNumber(qnIndex));
         String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
+
+        ______TS("Try cancelling changes to question number");
+        feedbackEditPage.clickEditQuestionButton(qnIndex + 1);
+        feedbackEditPage.selectQuestionNumber(qnIndex + 1, qnIndex);
+        feedbackEditPage.clickDiscardChangesLink(qnIndex + 1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        assertEquals(qnIndex + 1, feedbackEditPage.getSelectedQuestionNumber(qnIndex + 1));
 
         ______TS("Try re-editing a question after cancelling, making sure that form controls still work");
         feedbackEditPage.clickEditQuestionButton(qnIndex);
