@@ -21,17 +21,17 @@
         <thead>
           <tr>
             <th id="button_sortid"
-              class="button-sort-ascending toggle-sort">ID <span class="icon-sort unsorted"></span></th>
+                class="button-sort-ascending toggle-sort">ID <span class="icon-sort unsorted"></span></th>
             <th id="button_sortname"
-              class="button-sort-none toggle-sort">Name <span class="icon-sort unsorted"></span></th>
+                class="button-sort-none toggle-sort">Name <span class="icon-sort unsorted"></span></th>
             <th id="button_sortdate"
-              class="button-sort-none toggle-sort">Date <span class="icon-sort unsorted"></span></th>
+                class="button-sort-none toggle-sort">Date <span class="icon-sort unsorted"></span></th>
             <th id="button_sortPoint" data-toggle-sort-comparator="sortByPoints"
-              class="button-sort-none toggle-sort">Point <span class="icon-sort unsorted"></span></th>
+                class="button-sort-none toggle-sort">Point <span class="icon-sort unsorted"></span></th>
             <th id="button_sortPointNumber" data-toggle-sort-comparator="sortByPoints"
-              class="button-sort-none toggle-sort">Point (Number) <span class="icon-sort unsorted"></span></th>
+                class="button-sort-none toggle-sort">Point (Number) <span class="icon-sort unsorted"></span></th>
             <th id="button_sortDiff" data-toggle-sort-comparator="sortByDiff"
-              class="button-sort-none toggle-sort">Diff <span class="icon-sort unsorted"></span></th>
+                class="button-sort-none toggle-sort">Diff <span class="icon-sort unsorted"></span></th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +64,9 @@
 
           <tr>
             <td >3</td>
-            <td ><div id="thiscomesfirst">Phan Thi Quynh Trang</div></td>
+            <td >
+              <div id="thiscomesfirst">Phan Thi Quynh Trang</div>
+            </td>
             <td >01 February 2012</td>
             <td >N/S</td>
             <td >0.45</td>
@@ -73,7 +75,9 @@
 
           <tr>
             <td >15</td>
-            <td ><div id="thiscomessecond">Ang Ji Kai</div></td>
+            <td >
+              <div id="thiscomessecond">Ang Ji Kai</div>
+            </td>
             <td >03 February 2012</td>
             <td >E -10%</td>
             <td >0.9</td>
