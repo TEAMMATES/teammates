@@ -141,10 +141,10 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(
-            String feedbackQuestionId, long range) {
+        String feedbackQuestionId, long range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionWithinRange(feedbackQuestionId, (int) range));
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionWithinRange(feedbackQuestionId, range));
     }
 
     /**
@@ -166,11 +166,11 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
-            String feedbackSessionName, String courseId, long range) {
+            String feedbackSessionName, String courseId, int range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionWithinRange(feedbackSessionName, courseId, (int) range));
+        return makeAttributes(getFeedbackResponseEntitiesForSessionWithinRange(feedbackSessionName, courseId, range));
     }
 
     /**
@@ -221,14 +221,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
-            String feedbackSessionName, String courseId, String section, long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
         return makeAttributes(
                 getFeedbackResponseEntitiesForSessionInSectionWithinRange(
-                        feedbackSessionName, courseId, section, (int) range));
+                        feedbackSessionName, courseId, section, range));
     }
 
     /**
@@ -237,14 +237,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String section, long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
         return makeAttributes(
                 getFeedbackResponseEntitiesForSessionFromSectionWithinRange(
-                        feedbackSessionName, courseId, section, (int) range));
+                        feedbackSessionName, courseId, section, range));
     }
 
     /**
@@ -253,14 +253,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
-            String feedbackSessionName, String courseId, String section, long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
         return makeAttributes(
                 getFeedbackResponseEntitiesForSessionToSectionWithinRange(
-                        feedbackSessionName, courseId, section, (int) range));
+                        feedbackSessionName, courseId, section, range));
     }
 
     /**
@@ -325,13 +325,13 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      *  @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
-            String giverEmail, String feedbackSessionName, String courseId, long range) {
+            String giverEmail, String feedbackSessionName, String courseId, int range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         return makeAttributes(getFeedbackResponseEntitiesFromGiverForSessionWithinRange(
-                giverEmail, feedbackSessionName, courseId, (int) range));
+                giverEmail, feedbackSessionName, courseId, range));
     }
 
     /**
