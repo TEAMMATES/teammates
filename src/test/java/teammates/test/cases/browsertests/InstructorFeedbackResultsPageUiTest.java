@@ -547,20 +547,22 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private void testRemindAllAction() {
 
-        ______TS("Typical case: remind all");
+        ______TS("Typical case: remind all: click on cancel");
 
-        resultsPage.clickRemindAllButton();
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.cancelRemindAllForm();
 
-        resultsPage.clickRemindAllButton();
-        resultsPage.waitForAjaxLoaderGifToDisappear();
+        ______TS("Typical case: remind all: click on remind with no students selected");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.deselectUsersInRemindAllForm();
         resultsPage.clickRemindButtonInModal();
         resultsPage.waitForAjaxLoaderGifToDisappear();
         resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
 
-        resultsPage.clickRemindAllButton();
-        resultsPage.waitForAjaxLoaderGifToDisappear();
+        ______TS("Typical case: remind all: click on remind with students selected");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.clickRemindButtonInModal();
         resultsPage.waitForAjaxLoaderGifToDisappear();
         resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
