@@ -384,7 +384,7 @@ function enableEditFS() {
  */
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
-                                       || $(`#questionTable-${questionNum}`).html();
+                                       || $(`#questionTable-${questionNum} > .panel-body`).html();
 }
 
 /**
@@ -602,8 +602,13 @@ function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $(`#questionTable-${questionNum}`).html(questionsBeforeEdit[questionNum]);
+        $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
+
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
+        $(`#button_question_submit-${questionNum}`).hide();
     }
 
     // re-attach events for form elements
