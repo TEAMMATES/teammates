@@ -621,10 +621,61 @@ input.inline {
     box-shadow: none;
 }
 
+.HelpHeading {
+    margin-bottom: 30px;
+}
+
+.helpGuideMenu {
+    display: none;
+}
+
+.helpGuideData {
+    margin-left: 0;
+    width: 70%;
+}
+
+.helpGuideSideBar {
+    height: 100vh;
+    position: fixed;
+    padding-right: 20px;
+    right: 0;
+    top: 15%;
+}
+
+.helpGuideSideBar > ul {
+    color: #333;
+    list-style-type: disc;
+}
+
+.helpGuideSideBar > ul > li {
+    color: #999;
+    font-size: 12px;
+    list-style-type: disc;
+}
+
+.helpGuideSideBar > ul > li > ul {
+    color: #999;
+    list-style-type: circle;
+}
+
 .btn-login:focus,
 .btn-login:hover,
 .btn-login:active {
     color: #00FF00;
+}
+
+@media screen and (max-width: 960px) {
+    .helpGuideMenu {
+        display: block;
+    }
+
+    .helpGuideData {
+        width: 100%;
+    }
+
+    .helpGuideSideBar {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {

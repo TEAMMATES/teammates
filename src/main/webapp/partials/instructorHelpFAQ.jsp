@@ -1,8 +1,8 @@
 <h4>
     <a name="faq">Frequently Asked Questions</a>
 </h4>
-<div id="contentHolder">
-    <div class="bulletPointsIndent">
+<div id="contentHolder" class="helpGuideData">
+    <div class="bulletPointsIndent" class="helpGuideData">
         <ul>
             <li>
                 <b>

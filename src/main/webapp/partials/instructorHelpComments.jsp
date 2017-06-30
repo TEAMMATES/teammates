@@ -1,7 +1,7 @@
 <h4>
     <a name="editComments">Comments</a>
 </h4>
-<div id="contentHolder">
+<div id="contentHolder" class="helpGuideData">
     <br>
     <ol style="list-style-type:none;">
         <li>

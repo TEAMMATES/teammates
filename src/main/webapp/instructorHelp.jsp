@@ -1,8 +1,8 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:helpPage>
-    <h1>Help for Instructors</h1>
+    <h1 class="helpHeading">Help for Instructors</h1>
     <a name="#top"></a>
-    <div id="contentHolder">
+    <div id="contentHolder" class="helpGuideMenu">
         <ul>
             <li>
                 <a href="#gs">Getting Started</a>
@@ -209,9 +209,73 @@
                 </div>
             </li>
         </ul>
+        <div class="separate-content-holder">
+            <hr>
+        </div>
     </div>
-    <div class="separate-content-holder">
-        <hr>
+    <div class="helpGuideSideBar" style=" width: 27%; ">
+        <ul>
+            <li>
+                <a href="#gs">Getting Started</a>
+            </li>
+            <li>
+                <a href="#faq">Frequently Asked Questions</a>
+            </li>
+            <li>
+                <a href="#tips">Tips for conducting 'team peer evaluation' sessions</a>
+            </li>
+            <li>
+                <a href="#editCourse">Add/Edit instructors</a>
+                <ul>
+                    <li>
+                        <a href="#editCourseAddInstructor">How do I add instructors to my course?</a>
+                    </li>
+                    <li>
+                        <a href="#editCourseEditInstructor">How do I edit instructors in my course?</a>
+                    </li>
+                    <li>
+                        <a href="#editCourseSetAccessLevel">How do I set different access level for an instructor?</a>
+                    </li>
+                    <li>
+                        <a href="#editCourseSetCustom">How do I set custom privileges for an instructor?</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#sessionTypes">Sessions</a>
+                <ul>
+                    <li>
+                        <a href="#fbSetupSession">Setting up a feedback session</a>
+                    </li>
+                    <li>
+                        <a href="#fbSetupQuestions">Setting up questions</a>
+                    </li>
+                    <li>
+                        <a href="#fbPreview">Previewing a session</a>
+                    </li>
+                    <li>
+                        <a href="#fbViewResults">Viewing results</a>
+                    </li>
+                    <li>
+                        <a href="#fbQuestionTypes">Question Types</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#editComments">Comments</a>
+                <ul>
+                    <li>
+                        <a href="#addResponseComments">Create comments for response</a>
+                    </li>
+                    <li>
+                        <a href="#editDeleteComments">Edit and delete comments</a>
+                    </li>
+                    <li>
+                        <a href="#searchComments">Search for comments</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
     <jsp:include page="partials/instructorHelpGettingStarted.jsp"/>
     <jsp:include page="partials/instructorHelpFAQ.jsp"/>
