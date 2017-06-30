@@ -156,7 +156,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
                         account.institute, new StudentProfileAttributes().toEntity());
         Account actualAccount = AccountAttributes.valueOf(expectedAccount).toEntity();
 
-
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
