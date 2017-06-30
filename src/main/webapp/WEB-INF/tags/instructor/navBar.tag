@@ -16,19 +16,19 @@
         </div>
         <div class="collapse navbar-collapse" id="contentLinks">
             <ul class="nav navbar-nav">
-                <li<c:if test="${fn:contains(data.class,'Home')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'Home')}"> class="active"</c:if>>
                     <a class='nav home' data-link="instructorHome" href="${data.instructorHomeLink}">Home</a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'InstructorCourse') && !fn:contains(data.class, 'CourseStudent')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'InstructorCourse') && !fn:contains(data.getClass(), 'CourseStudent')}"> class="active"</c:if>>
                     <a class='nav courses' data-link="instructorCourse" href="${data.instructorCoursesLink}">Courses</a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'Feedback')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'Feedback')}"> class="active"</c:if>>
                     <a class='nav evaluations' data-link="instructorEval" href="${data.instructorFeedbackSessionsLink}">Sessions</a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'Student')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'Student')}"> class="active"</c:if>>
                     <a class='nav students' data-link="instructorStudent" href="${data.instructorStudentListLink}">Students</a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'Search')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'Search')}"> class="active"</c:if>>
                     <a class='nav search' data-link="instructorSearch" href="${data.instructorSearchLink}">
                         Search
                     </a>

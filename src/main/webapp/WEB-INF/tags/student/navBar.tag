@@ -17,19 +17,19 @@
         </div>
         <div class="collapse navbar-collapse" id="contentLinks">
             <ul class="nav navbar-nav">
-                <li<c:if test="${fn:contains(data.class,'StudentHome')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'StudentHome')}"> class="active"</c:if>>
                     <a class="navLinks" id="studentHomeNavLink" href="${data.studentHomeLink}"
                        <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
                         Home
                     </a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'StudentProfilePage')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'StudentProfilePage')}"> class="active"</c:if>>
                     <a class="navLinks" id="studentProfileNavLink" href="${data.studentProfileLink}"
                        <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
                         Profile
                     </a>
                 </li>
-                <li<c:if test="${fn:contains(data.class,'StudentHelp')}"> class="active"</c:if>>
+                <li<c:if test="${fn:contains(data.getClass(), 'StudentHelp')}"> class="active"</c:if>>
                     <a id="studentHelpLink" class="nav" href="/studentHelp.jsp" target="_blank" rel="noopener noreferrer">Help</a>
                 </li>
             </ul>
