@@ -68,7 +68,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      * Initializes the answer list to have empty responses.
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
-        answer = new ArrayList<Integer>();
+        answer = new ArrayList<>();
         for (int i = 0; i < numSubQuestions; i++) {
             // -1 indicates no choice chosen
             answer.add(-1);

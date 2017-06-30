@@ -28,7 +28,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorList = new ArrayList<>();
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
         instructorList.add(dataBundle.instructors.get("instructor2OfCourse1"));
         instructorList.add(dataBundle.instructors.get("helperOfCourse1"));
@@ -38,11 +38,11 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
 
         int offset = -1;
 
-        List<String> sectionNames = new ArrayList<String>();
+        List<String> sectionNames = new ArrayList<>();
         sectionNames.add("Section 1");
         sectionNames.add("Section 2");
 
-        List<String> feedbackSessionNames = new ArrayList<String>();
+        List<String> feedbackSessionNames = new ArrayList<>();
         feedbackSessionNames.add("First feedback session");
         feedbackSessionNames.add("Second feedback session");
         feedbackSessionNames.add("Grace Period Session");
@@ -129,7 +129,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertTrue(pageData.getInstructorPanelList().get(0).getSectionRows().get(0).isSectionSpecial());
 
         ______TS("test empty sectionNames");
-        sectionNames = new ArrayList<String>();
+        sectionNames = new ArrayList<>();
         pageData = new InstructorCourseEditPageData(account, dummySessionToken, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
         assertNotNull(pageData.getAddInstructorPanel());

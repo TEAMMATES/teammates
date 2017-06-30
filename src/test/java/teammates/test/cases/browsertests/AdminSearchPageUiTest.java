@@ -174,7 +174,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Google ID",
                                                        "Institute",
                                                        "Options");
-            actualSessionTableHeaders = new ArrayList<String>();
+            actualSessionTableHeaders = new ArrayList<>();
 
             for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
@@ -193,7 +193,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Google ID[Details]",
                                                        "Comments",
                                                        "Options");
-            actualSessionTableHeaders = new ArrayList<String>();
+            actualSessionTableHeaders = new ArrayList<>();
             for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
             }

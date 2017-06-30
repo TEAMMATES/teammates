@@ -452,7 +452,7 @@ public final class Const {
         public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
 
         static {
-            Map<String, String> visibilityOptionInit = new LinkedHashMap<String, String>();
+            Map<String, String> visibilityOptionInit = new LinkedHashMap<>();
 
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
                                      "Shown anonymously to recipient and instructors");
@@ -470,28 +470,27 @@ public final class Const {
                 COMMON_FEEDBACK_PATHS;
 
         static {
-            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
-                    new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer = new LinkedHashMap<>();
 
             initializer.put(FeedbackParticipantType.SELF,
-                            new ArrayList<FeedbackParticipantType>(
-                                    Arrays.asList(FeedbackParticipantType.NONE,
-                                                  FeedbackParticipantType.SELF,
-                                                  FeedbackParticipantType.INSTRUCTORS)));
+                    new ArrayList<>(
+                            Arrays.asList(FeedbackParticipantType.NONE,
+                                    FeedbackParticipantType.SELF,
+                                    FeedbackParticipantType.INSTRUCTORS)));
 
             initializer.put(FeedbackParticipantType.STUDENTS,
-                            new ArrayList<FeedbackParticipantType>(
-                                    Arrays.asList(FeedbackParticipantType.NONE,
-                                                  FeedbackParticipantType.SELF,
-                                                  FeedbackParticipantType.INSTRUCTORS,
-                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
+                    new ArrayList<>(
+                            Arrays.asList(FeedbackParticipantType.NONE,
+                                    FeedbackParticipantType.SELF,
+                                    FeedbackParticipantType.INSTRUCTORS,
+                                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
 
             initializer.put(FeedbackParticipantType.INSTRUCTORS,
-                            new ArrayList<FeedbackParticipantType>(
-                                    Arrays.asList(FeedbackParticipantType.NONE,
-                                                  FeedbackParticipantType.SELF,
-                                                  FeedbackParticipantType.INSTRUCTORS)));
+                    new ArrayList<>(
+                            Arrays.asList(FeedbackParticipantType.NONE,
+                                    FeedbackParticipantType.SELF,
+                                    FeedbackParticipantType.INSTRUCTORS)));
 
             COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
         }
@@ -918,7 +917,7 @@ public final class Const {
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
         public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE = "/page/instructorEditInstructorFeedbackPage";
         public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE = "/page/instructorEditInstructorFeedbackSave";
-        public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
+        public static final String INSTRUCTOR_FEEDBACK_SESSIONS_PAGE = "/page/instructorFeedbackSessionsPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
@@ -1070,7 +1069,7 @@ public final class Const {
 
     public static class PageNames {
         public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
-        public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
+        public static final String INSTRUCTOR_FEEDBACK_SESSIONS_PAGE = "instructorFeedbackSessionsPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
@@ -1094,7 +1093,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp";
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
-        public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_SESSIONS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
                 "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
