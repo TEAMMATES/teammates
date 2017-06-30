@@ -192,7 +192,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     /**
-     * {@code newDisplayName} is verified depending on {@code newIsDisplayedToStudents}.
+     * Verifies that the fields contain the updated values. 
      * If {@code newIsDisplayedToStudents} is true, the field's value is checked against {@code newDisplayName}.
      * Otherwise, it is verified that the field's placeholder is shown as expected.
      */
