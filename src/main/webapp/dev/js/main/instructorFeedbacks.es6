@@ -235,7 +235,7 @@ const ajaxRequest = function (e) {
             $('#sessionList').html('');
             $('#loadSessionsFailErrorMsg').on('click', loadSessionsByAjax);
             const msg = 'Failed to load sessions. '
-                    + 'Please <a href="#" id="loadSessionsFailErrorMsg">click here</a> to retry.';
+                    + 'Please <a href="javascript:;" id="loadSessionsFailErrorMsg">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {
