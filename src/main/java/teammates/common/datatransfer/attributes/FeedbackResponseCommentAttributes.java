@@ -18,7 +18,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 /**
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
-public class FeedbackResponseCommentAttributes extends EntityAttributes {
+public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
     public String courseId;
     public String feedbackSessionName;
