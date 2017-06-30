@@ -1729,7 +1729,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
         String rangeString = params.get(PARAM_RANGE);
-        boolean isComplete = rangeString == null || allResponses.size() <= Long.parseLong(rangeString);
+        boolean isComplete = rangeString == null || allResponses.size() <= Integer.parseInt(rangeString);
 
         if (!isComplete) {
             putQuestionsIntoMap(allQuestions, relevantQuestions);
