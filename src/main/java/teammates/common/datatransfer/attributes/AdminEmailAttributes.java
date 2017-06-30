@@ -14,7 +14,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
-public class AdminEmailAttributes extends EntityAttributes {
+public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
     public String emailId;
     public List<String> addressReceiver;
@@ -62,7 +62,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public AdminEmail toEntity() {
         return new AdminEmail(addressReceiver, groupReceiver, subject, content, sendDate);
     }
 

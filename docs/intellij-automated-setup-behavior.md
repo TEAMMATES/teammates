@@ -250,7 +250,6 @@ The syntax for the pre-configured settings found below are as follows:
 | IntelliJ Setting                   | Node                                | Value                                                 |
 |------------------------------------|-------------------------------------|-------------------------------------------------------|
 | `Google App Engine` Facet          | `/facet[@type='google-app-engine']` | SDK home path is set                                  |
-| `JPA` Facet                        | `/facet[@type='jpa']`               | persistence.xml path                                  |
 | `Web Gradle : teammates.war` Facet | `/facet[@type='web']`               | Web and source folders and deployment descriptor path |
 
 **Parent Node:** `/module/component[@name='NewModuleRootManager']`
@@ -285,12 +284,6 @@ The syntax for the pre-configured settings found below are as follows:
 |------------------|------------------------|-----------------|
 | `Directory`      | `/mapping[@directory]` | `$PROJECT_DIR$` |
 | `vcs`            | `/mapping[@vcs]`       | `Git`           |
-
-When the following command is executed,
-```sh
-./gradlew setupIntellijSettings
-```
-The Gradle task `enhanceIntellijOutputClasses` is added to IntelliJ to run after every build.
 
 ## Static Analysis Tools Setup Behavior
 When the following command is executed,
