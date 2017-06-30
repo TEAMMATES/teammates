@@ -126,14 +126,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(indicateMissingResponsesCheckbox);
     }
 
-    public void clickRemindAllButton() {
+    public void clickRemindAllButtonAndWaitForFormToLoad() {
         click(remindAllButton);
-        ThreadHelper.waitFor(1000);
+        waitForRemindModalPresence();
+        WebElement remindButton = browser.driver.findElement(By.className("remind-particular-button"));
+        waitForElementToBeClickable(remindButton);
+    }
+
+    private void waitForRemindModalPresence() {
+        By modalBackdrop = By.className("modal-backdrop");
+        waitForElementPresence(modalBackdrop);
     }
 
     public void cancelRemindAllForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         click(remindModal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
     }
 
     public void deselectUsersInRemindAllForm() {
@@ -145,8 +153,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickRemindButtonInModal() {
-        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        click(remindModal.findElement(By.cssSelector("input[type='button']")));
+        click(By.className("remind-particular-button"));
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
