@@ -132,7 +132,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
                 .navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE))
                 .changePageType(AdminSearchPage.class);
 
-        String injectedScript = "Injected Script<script>alert('This is not good.');</script>";
+        String injectedScript = "Test Injected Script<script>alert('This is not good.');</script>";
         searchPageForInjection.inputSearchContent(injectedScript);
         searchPageForInjection.clickSearchButton();
         searchPageForInjection.waitForPageToLoad();
@@ -142,7 +142,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         try {
             browser.driver.switchTo().alert();
-            assert false;
+            signalFailureToDetectException("Script managed to get injected");
         } catch (NoAlertPresentException e) {
             // this is what we expect, since we expect the script injection to fail
         }
