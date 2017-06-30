@@ -81,7 +81,7 @@ public class InstructorCoursesPageData extends PageData {
         for (CourseAttributes course : archivedCourses) {
             idx++;
 
-            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            List<ElementTag> actionsParam = new ArrayList<>();
 
             String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
             ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
@@ -116,7 +116,7 @@ public class InstructorCoursesPageData extends PageData {
         for (CourseAttributes course : courses) {
             idx++;
 
-            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            List<ElementTag> actionsParam = new ArrayList<>();
 
             Boolean hasModifyPermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);

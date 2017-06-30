@@ -18,7 +18,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 /**
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
-public class FeedbackResponseCommentAttributes extends EntityAttributes {
+public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
     public String courseId;
     public String feedbackSessionName;
@@ -49,8 +49,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = null;
         this.giverSection = "None";
         this.receiverSection = "None";
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.showCommentTo = new ArrayList<>();
+        this.showGiverNameTo = new ArrayList<>();
         this.lastEditorEmail = null;
         this.lastEditedAt = null;
     }
@@ -74,8 +74,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.showCommentTo = new ArrayList<>();
+        this.showGiverNameTo = new ArrayList<>();
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
     }
@@ -114,8 +114,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
     private void setDefaultVisibilityOptions() {
         isVisibilityFollowingFeedbackQuestion = true;
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.showCommentTo = new ArrayList<>();
+        this.showGiverNameTo = new ArrayList<>();
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
@@ -136,7 +136,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 

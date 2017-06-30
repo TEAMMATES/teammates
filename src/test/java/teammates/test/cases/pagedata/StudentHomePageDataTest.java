@@ -161,8 +161,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
         sessionSubmissionStatusMap.put(submittedClosedSession, true);
 
         // Tooltip and button texts
-        tooltipTextMap = new HashMap<FeedbackSessionAttributes, String>();
-        buttonTextMap = new HashMap<FeedbackSessionAttributes, String>();
+        tooltipTextMap = new HashMap<>();
+        buttonTextMap = new HashMap<>();
         tooltipTextMap.put(submittedSession, Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE);
         buttonTextMap.put(submittedSession, "Edit Submission");
         tooltipTextMap.put(pendingSession, Const.Tooltips.FEEDBACK_SESSION_SUBMIT);
@@ -183,7 +183,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         CourseDetailsBundle oldCourseBundle = createCourseBundle(
                 course2, publishedSession, closedSession, submittedClosedSession);
 
-        courses = new ArrayList<CourseDetailsBundle>();
+        courses = new ArrayList<>();
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);
 
