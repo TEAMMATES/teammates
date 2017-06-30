@@ -24,9 +24,11 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
   <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
+
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
+
   <c:if test="${empty data.qnForms}">
     <br>
     <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
