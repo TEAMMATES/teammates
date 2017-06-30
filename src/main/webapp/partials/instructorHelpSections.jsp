@@ -44,8 +44,7 @@
                 <br>A new page will open which displays the student's profile and a field to edit the student's section. It should look something
                 <a href="#studentEditProfile">like this</a>.
                 <br>After editing the section name, click on
-                <b>'Save Changes'</b>. If successful, you will be redirected to the
-                <b>'Students'</b> page.
+                <b>'Save Changes'</b>.
             </p>
         </li>
     </ol>

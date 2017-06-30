@@ -189,8 +189,7 @@
                     </div>
                 </div>
                 <br>After making the necessary changes, click on
-                <b>'Save Changes'</b>. If successful, you will be redirected to the
-                <b>'Students'</b> page.
+                <b>'Save Changes'</b>.
             </div>
         </li>
     </ol>
