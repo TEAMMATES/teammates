@@ -60,7 +60,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         @SuppressWarnings("deprecation")
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
 
-        List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondents = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondents = new ArrayList<>();
 
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             if (feedbackSession.getRespondingStudentList().size() != 0

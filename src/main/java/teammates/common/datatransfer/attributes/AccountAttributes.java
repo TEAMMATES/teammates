@@ -10,12 +10,11 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.StudentProfile;
 
 /**
  * A data transfer object for Account entities.
  */
-public class AccountAttributes extends EntityAttributes {
+public class AccountAttributes extends EntityAttributes<Account> {
 
     public static final Date DEFAULT_DATE = new Date(0); // "Thu Jan 01 01:00:00 GMT 1970"
     public static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES = new StudentProfileAttributes();
@@ -76,33 +75,16 @@ public class AccountAttributes extends EntityAttributes {
                 .build();
     }
 
-    @Override
-    public Account toEntity() {
-        Assumption.assertNotNull(this.studentProfile);
-        return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
-    }
-
     /**
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        // toEntity() requires a non-null student profile
-        boolean isStudentProfileNull = this.studentProfile == null;
-        if (isStudentProfileNull) {
-            this.studentProfile = new StudentProfileAttributes();
-        }
-
         AccountAttributes copy = new AccountAttributesBuilder(
                 googleId, name, email, institute)
-                .withStudentProfileAttributes(studentProfile)
+                .withStudentProfileAttributes(this.studentProfile == null ? null : this.studentProfile.getCopy())
                 .withCreatedAt(createdAt)
                 .withIsInstructor(isInstructor)
                 .build();
-
-        if (isStudentProfileNull) {
-            copy.studentProfile = null;
-            this.studentProfile = null;
-        }
         return copy;
     }
 
@@ -133,7 +115,7 @@ public class AccountAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
 
@@ -151,6 +133,12 @@ public class AccountAttributes extends EntityAttributes {
 
         // No validation for isInstructor and createdAt fields.
         return errors;
+    }
+
+    @Override
+    public Account toEntity() {
+        Assumption.assertNotNull(this.studentProfile);
+        return new Account(googleId, name, isInstructor, email, institute, studentProfile.toEntity());
     }
 
     @Override

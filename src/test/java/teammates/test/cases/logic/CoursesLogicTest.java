@@ -460,7 +460,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
 
-        List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courses = new ArrayList<>();
         courses.add(course1);
         courses.add(course2);
         CourseAttributes.sortById(courses);
