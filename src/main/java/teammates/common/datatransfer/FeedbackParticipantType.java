@@ -23,7 +23,7 @@ public enum FeedbackParticipantType {
 
     public static final List<FeedbackParticipantType> GIVERS;
     static {
-        List<FeedbackParticipantType> giverInitializer = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> giverInitializer = new ArrayList<>();
         for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
             if (participantType.isValidGiver()) {
                 giverInitializer.add(participantType);
@@ -34,7 +34,7 @@ public enum FeedbackParticipantType {
 
     public static final List<FeedbackParticipantType> RECIPIENTS;
     static {
-        List<FeedbackParticipantType> recipientInitializer = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> recipientInitializer = new ArrayList<>();
         for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
             if (participantType.isValidRecipient()) {
                 recipientInitializer.add(participantType);
@@ -147,7 +147,7 @@ public enum FeedbackParticipantType {
      */
     public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
             String commaSeparatedValues) {
-        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> participantList = new ArrayList<>();
 
         if (commaSeparatedValues == null || commaSeparatedValues.isEmpty()) {
             return participantList;
