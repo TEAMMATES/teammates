@@ -331,6 +331,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
         assertTrue(instructorUpdated.hasObserverPrivileges());
+        assertFalse(instructorUpdated.hasManagerPrivileges());
 
         ______TS("Failure: invalid parameters");
 
@@ -403,6 +404,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
         assertTrue(instructorUpdated.hasObserverPrivileges());
+        assertFalse(instructorUpdated.hasCoownerPrivileges());
 
         ______TS("Failure: invalid parameters");
 
