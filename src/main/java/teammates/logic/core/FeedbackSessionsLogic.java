@@ -1954,7 +1954,7 @@ public final class FeedbackSessionsLogic {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         } else {
-            long range = Long.parseLong(params.get(PARAM_RANGE));
+            int range = Integer.parseInt(params.get(PARAM_RANGE));
             if (isInSection) {
                 return frLogic.getFeedbackResponsesForSessionInSectionWithinRange(
                         feedbackSessionName, courseId, section, range);
