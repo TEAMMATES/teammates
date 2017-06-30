@@ -40,7 +40,9 @@
     <div class="container theme-showcase">
       <div class="row">
         <div id="dhtmltooltip">
-        <div class="alert alert-warning"><h4>Please remember to log in</h4></div>
+        <div class="alert alert-warning">
+          <h4>Please remember to log in</h4>
+        </div>
       </div>
 
       <div class="intro">
@@ -62,71 +64,159 @@
             <td>
               <h2>Instructor Pages</h2>
               <ul class="nav">
-                <li><a href="#instructorHomePage">Instructor Home Page</a></li>
-                <li><a href="#instructorAddCoursePage">Instructor Add Course Page</a></li>
-                <li><a href="#instructorEditCoursePage">Instructor Edit Course Page</a></li>
-                <li><a href="#instructorEnrollPage">Instructor Enroll Students Page</a></li>
-                <li><a href="#instructorCourseDetailsPage">Instructor Course Details Page</a></li>
-                <li><a href="#instructorStudentListPage">Instructor Student List Page</a></li>
-                <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
-                <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
-                <li><a href="#instructorStudentRecordsPage">Instructor Student Records Page</a></li>
-                <li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
-                <li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
-                <li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
-                <li><a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a></li>
-                <li><a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a></li>
-                <li><a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a></li>
-                <li><a href="#instructorFeedbackResultsPageByGiverRecipientQuestion">Instructor Feedback Results Page (By giver-recipient-question)</a></li>
-                <li><a href="#instructorFeedbackResultsPageByRecipientGiverQuestion">Instructor Feedback Results Page (By recipient-giver-question)</a></li>
-                <li><a href="#instructorFeedbackResultsPageByGiverQuestionRecipient">Instructor Feedback Results Page (By giver-question-recipient)</a></li>
-                <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
-                <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
-                <li><a href="#instructorSearchPage">Instructor Search Page</a></li>
+                <li>
+                  <a href="#instructorHomePage">Instructor Home Page</a>
+                </li>
+                <li>
+                  <a href="#instructorAddCoursePage">Instructor Add Course Page</a>
+                </li>
+                <li>
+                  <a href="#instructorEditCoursePage">Instructor Edit Course Page</a>
+                </li>
+                <li>
+                  <a href="#instructorEnrollPage">Instructor Enroll Students Page</a>
+                </li>
+                <li>
+                  <a href="#instructorCourseDetailsPage">Instructor Course Details Page</a>
+                </li>
+                <li>
+                  <a href="#instructorStudentListPage">Instructor Student List Page</a>
+                </li>
+                <li>
+                  <a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a>
+                </li>
+                <li>
+                  <a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a>
+                </li>
+                <li>
+                  <a href="#instructorStudentRecordsPage">Instructor Student Records Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackPage">Instructor Feedback Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackPreviewAsInstructorPage">Instructor Feedback Preview as Instructor Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackSubmitPage">Instructor Feedback Submit Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackQuestionSubmitPage">Instructor Feedback Question Submit Page</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackResultsPageByGiverRecipientQuestion">Instructor Feedback Results Page (By giver-recipient-question)</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackResultsPageByRecipientGiverQuestion">Instructor Feedback Results Page (By recipient-giver-question)</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackResultsPageByGiverQuestionRecipient">Instructor Feedback Results Page (By giver-question-recipient)</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a>
+                </li>
+                <li>
+                  <a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a>
+                </li>
+                <li>
+                  <a href="#instructorSearchPage">Instructor Search Page</a>
+                </li>
               </ul>
             </td>
             <td>
               <h2>Student Pages</h2>
               <ul class="nav">
-                <li><a href="#studentHomePage">Student Home Page</a></li>
-                <li><a href="#studentProfilePage">Student Profile Page</a></li>
-                <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
-                <li><a href="#studentCourseJoinConfirmationPageNew">Student Course Join Confirmation Page (New)</a></li>
-                <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
-                <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
-                <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
-                <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
+                <li>
+                  <a href="#studentHomePage">Student Home Page</a>
+                </li>
+                <li>
+                  <a href="#studentProfilePage">Student Profile Page</a>
+                </li>
+                <li>
+                  <a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a>
+                </li>
+                <li>
+                  <a href="#studentCourseJoinConfirmationPageNew">Student Course Join Confirmation Page (New)</a>
+                </li>
+                <li>
+                  <a href="#studentCourseDetailsPage">Student Course Details Page</a>
+                </li>
+                <li>
+                  <a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a>
+                </li>
+                <li>
+                  <a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a>
+                </li>
+                <li>
+                  <a href="#studentFeedbackResultsPage">Student Feedback Results Page</a>
+                </li>
               </ul>
             <td>
             </td>
             <td>
               <h2>Admin Pages</h2>
               <ul class="nav">
-                <li><a href="#adminHomePage">Admin Home Page</a></li>
-                <li><a href="#adminSearchPage">Admin Search Page</a></li>
-                <li><a href="#adminActivityLogPage">Admin Activity Log Page</a></li>
+                <li>
+                  <a href="#adminHomePage">Admin Home Page</a>
+                </li>
+                <li>
+                  <a href="#adminSearchPage">Admin Search Page</a>
+                </li>
+                <li>
+                  <a href="#adminActivityLogPage">Admin Activity Log Page</a>
+                </li>
               </ul>
             </td>
             <td>
               <h2>Static Pages</h2>
               <ul class="nav">
-                <li><a href="#index">Home Page</a></li>
-                <li><a href="#features">Features Page</a></li>
-                <li><a href="#about">About Us Page</a></li>
-                <li><a href="#contact">Contact Page</a></li>
-                <li><a href="#terms">Terms Of Use Page</a></li>
-                <li><a href="#request">Request Account Page</a></li>
-                <li><a href="#usermap">Usermap Page</a></li>
-                <li><a href="#studentHelp">Student Help Page</a></li>
-                <li><a href="#instructorHelp">Instructor Help Page</a></li>
+                <li>
+                  <a href="#index">Home Page</a>
+                </li>
+                <li>
+                  <a href="#features">Features Page</a>
+                </li>
+                <li>
+                  <a href="#about">About Us Page</a>
+                </li>
+                <li>
+                  <a href="#contact">Contact Page</a>
+                </li>
+                <li>
+                  <a href="#terms">Terms Of Use Page</a>
+                </li>
+                <li>
+                  <a href="#request">Request Account Page</a>
+                </li>
+                <li>
+                  <a href="#usermap">Usermap Page</a>
+                </li>
+                <li>
+                  <a href="#studentHelp">Student Help Page</a>
+                </li>
+                <li>
+                  <a href="#instructorHelp">Instructor Help Page</a>
+                </li>
               </ul>
             </td>
             <td>
               <h2>Error Pages</h2>
               <ul class="nav">
-                <li><a href="#deadlineExceededErrorPage">Deadline Exceeded Error Page</a></li>
-                <li><a href="#errorPage">Error Page</a></li>
-                <li><a href="#entityNotFoundPage">Entity Not Found Page</a></li>
+                <li>
+                  <a href="#deadlineExceededErrorPage">Deadline Exceeded Error Page</a>
+                </li>
+                <li>
+                  <a href="#errorPage">Error Page</a>
+                </li>
+                <li>
+                  <a href="#entityNotFoundPage">Entity Not Found Page</a>
+                </li>
               </ul>
             </td>
           </tr>
