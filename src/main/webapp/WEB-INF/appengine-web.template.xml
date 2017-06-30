@@ -20,6 +20,9 @@
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
 
+    <!-- Run/deploy with Java 8 runtime -->
+    <runtime>java8</runtime>
+
     <!-- Enable session to maintain one-time status message -->
     <sessions-enabled>true</sessions-enabled>
 
