@@ -780,24 +780,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets results of a feedback session in a roster to show to an instructor.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
-            String feedbackSessionName, String courseId, String userEmail,
-            CourseRoster roster, Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
-        Map<String, String> params = new HashMap<>();
-        params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, String.valueOf(isIncludeResponseStatus));
-        params.put(PARAM_IN_SECTION, "true");
-        params.put(PARAM_FROM_SECTION, "false");
-        params.put(PARAM_TO_SECTION, "false");
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
-                courseId, userEmail,
-                UserRole.INSTRUCTOR, roster, params);
-    }
-
-    /**
      * Gets results of a feedback session to show to a student.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
