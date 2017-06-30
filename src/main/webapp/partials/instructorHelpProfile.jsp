@@ -190,13 +190,7 @@
                 </div>
                 <br>After making the necessary changes, click on
                 <b>'Save Changes'</b>. If successful, you will be redirected to the
-                <b>'Students'</b> page and you should see a box like this:
-                <br><br>
-                <div>
-                    <div class="overflow-auto alert alert-success statusMessage">
-                         The student has been edited successfully.
-                    </div>
-                </div>
+                <b>'Students'</b> page.
             </div>
         </li>
     </ol>

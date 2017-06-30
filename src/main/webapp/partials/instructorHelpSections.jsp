@@ -45,13 +45,7 @@
                 <a href="#studentEditProfile">like this</a>.
                 <br>After editing the section name, click on
                 <b>'Save Changes'</b>. If successful, you will be redirected to the
-                <b>'Students'</b> page and you should see a box like this:
-                <br><br>
-                <div>
-                    <div class="overflow-auto alert alert-success statusMessage">
-                         The student has been edited successfully.
-                    </div>
-                </div>
+                <b>'Students'</b> page.
             </p>
         </li>
     </ol>

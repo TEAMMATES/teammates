@@ -57,23 +57,9 @@
                 </div>
                 Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the panel heading of the course you want to archive.
                 <br>Then select <b>'Archive'</b> in the drop-down menu and <b>'OK'</b> to confirm.
-                <br>If successful, you should see a message in the home page which looks similar to this:
-                <br><br>
-                <div>
-                    <div class="overflow-auto alert alert-success statusMessage">
-                       The course AI532 has been archived. It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.
-                       Go there to undo the archiving and bring the course back to the home page.
-                    </div>
-                </div>
-                <br>You can also archive a course from the courses page. Go to the <b>'Courses'</b> page.
+
+                <br><br>You can also archive a course from the courses page. Go to the <b>'Courses'</b> page.
                 <br>Under 'Active Courses', click on the <b>'Archive'</b> button in the row corresponding to the course you want to archive.
-                <br>If successful, you should see a message in the home page which looks similar to this:
-                <br><br>
-                <div>
-                    <div class="overflow-auto alert alert-success statusMessage">
-                       The course AI532 has been archived. It will not appear in the home page any more.
-                    </div>
-                </div>
             </div>
         </li>
         <li>
@@ -117,13 +103,6 @@
             <div>
                 You can unarchive a course by clicking on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button in the list of archived courses in the
                 <b>'Courses'</b> page.
-                <br>If successful, you should see a message in the home page which looks similar to this:
-                <br><br>
-                <div>
-                    <div class="overflow-auto alert alert-success statusMessage">
-                       The course AI532 has been unarchived.
-                    </div>
-                </div>
             </div>
         </li>
     </ol>
