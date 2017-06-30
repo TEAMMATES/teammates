@@ -190,14 +190,14 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
 
-        verifyCanViewSesssion(demoCourseId, "First team feedback session",
+        verifyCanViewSessionResults(demoCourseId, "First team feedback session",
                 "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
-        verifyCanViewSesssion(demoCourseId, "Second team feedback session",
+        verifyCanViewSessionResults(demoCourseId, "Second team feedback session",
                 "/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
-        verifyCanViewSesssion(demoCourseId, "Session with different question types",
+        verifyCanViewSessionResults(demoCourseId, "Session with different question types",
                 "/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
-        ______TS("action failure : verify the given email is valid or not");
+        ______TS("action failure : trying to create instructor with an invalid email");
 
         AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
@@ -269,13 +269,13 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    private void verifyCanViewSesssion(String demoCourseId, String fsname, String resultHtml) throws Exception {
-        coursesPage.loadInstructorHomeTab();
-        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+    private void verifyCanViewSessionResults(
+            String courseId, String sessionName, String pathToExpectedHtml) throws Exception {
+        InstructorHomePage instructorHomePage = coursesPage.loadInstructorHomeTab();
         InstructorFeedbackResultsPage resultsPage =
-                instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, fsname);
+                instructorHomePage.clickFeedbackSessionViewResultsLink(courseId, sessionName);
         resultsPage.expandPanels();
-        resultsPage.verifyHtmlMainContent(resultHtml);
+        resultsPage.verifyHtmlMainContent(pathToExpectedHtml);
 
     }
 }
