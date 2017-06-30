@@ -79,13 +79,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        AccountAttributes copy = new AccountAttributesBuilder(
+        return new AccountAttributesBuilder(
                 googleId, name, email, institute)
                 .withStudentProfileAttributes(this.studentProfile == null ? null : this.studentProfile.getCopy())
                 .withCreatedAt(createdAt)
                 .withIsInstructor(isInstructor)
                 .build();
-        return copy;
     }
 
     public boolean isInstructor() {
