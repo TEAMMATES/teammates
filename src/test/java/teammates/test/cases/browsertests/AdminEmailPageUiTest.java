@@ -235,7 +235,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                                                                  "Group Receiver",
                                                                  "Subject",
                                                                  "Date");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
 
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailPage.getHeaderValueFromDataTable(0, 0, i));

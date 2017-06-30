@@ -33,7 +33,7 @@ public final class SearchManager {
     private static final String ERROR_EXCEED_DURATION =
             "Operation did not succeed in time: putting document %s into search index %s.";
     private static final Logger log = Logger.getLogger();
-    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String, Index>>();
+    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<>();
     private static final int MAX_RETRIES = 3;
 
     private SearchManager() {
@@ -138,7 +138,7 @@ public final class SearchManager {
      */
     private static List<Document> putDocuments(Index index, List<Document> documents) {
         PutResponse result = index.put(documents);
-        List<Document> failedDocuments = new ArrayList<Document>();
+        List<Document> failedDocuments = new ArrayList<>();
         for (int i = 0; i < documents.size(); i++) {
             boolean isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
             if (!isSuccessful) {
@@ -176,7 +176,7 @@ public final class SearchManager {
     private static Map<String, Index> getIndicesTable() {
         Map<String, Index> indicesTable = PER_THREAD_INDICES_TABLE.get();
         if (indicesTable == null) {
-            indicesTable = new HashMap<String, Index>();
+            indicesTable = new HashMap<>();
             PER_THREAD_INDICES_TABLE.set(indicesTable);
         }
         return indicesTable;

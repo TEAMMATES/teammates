@@ -53,7 +53,7 @@ public class DataMigrationForSentClosingEmailFieldInSessions extends RemoteApiCl
     }
 
     private List<FeedbackSessionAttributes> getNonPrivateFeedbackSessions() {
-        List<FeedbackSessionAttributes> sessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> sessions = new ArrayList<>();
         List<FeedbackSession> sessionEntities = getNonPrivateFeedbackSessionEntities();
         for (FeedbackSession sessionEntity : sessionEntities) {
             sessions.add(new FeedbackSessionAttributes(sessionEntity));
