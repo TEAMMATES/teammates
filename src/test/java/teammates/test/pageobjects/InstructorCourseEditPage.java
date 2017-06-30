@@ -461,9 +461,10 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public WebElement getDisplayNameField(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+        String displayNameFieldSelector = "#instructorTable" + instrNum + " input[name='"
                 + Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME
-                + "']"));
+                + "']";
+        return browser.driver.findElement(By.cssSelector(displayNameFieldSelector));
     }
 
     public String getInstructorName(int instrNum) {
@@ -475,15 +476,17 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public boolean getInstructorDisplayedToStudents(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+        String isDisplayedToStudentsCheckboxSelector = "#instructorTable" + instrNum + " input[name='"
                 + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
-                + "']")).isSelected();
+                + "']";
+        return browser.driver.findElement(By.cssSelector(isDisplayedToStudentsCheckboxSelector)).isSelected();
     }
 
     public String getInstructorDisplayName(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " input[name='"
+        String displayNameFieldSelector = "#instructorTable" + instrNum + " input[name='"
                 + Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME
-                + "']")).getAttribute("value");
+                + "']";
+        return browser.driver.findElement(By.cssSelector(displayNameFieldSelector)).getAttribute("value");
     }
 
     public String getInstructorAccessLevel(int instrNum) {
