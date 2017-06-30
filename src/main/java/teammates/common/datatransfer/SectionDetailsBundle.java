@@ -12,6 +12,6 @@ import java.util.List;
 public class SectionDetailsBundle {
 
     public String name;
-    public List<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+    public List<TeamDetailsBundle> teams = new ArrayList<>();
 
 }

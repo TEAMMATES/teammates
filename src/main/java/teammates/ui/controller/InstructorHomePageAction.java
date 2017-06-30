@@ -52,7 +52,7 @@ public class InstructorHomePageAction extends Action {
         Map<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, shouldOmitArchived);
 
-        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
+        ArrayList<CourseSummaryBundle> courseList = new ArrayList<>(courses.values());
 
         String sortCriteria = getSortCriteria();
         sortCourse(courseList, sortCriteria);

@@ -17,7 +17,7 @@ public class AdminLogQueryTest extends BaseTestCase {
     @Test
     public void testAdminLogQuery() {
         ______TS("Test constructor with parameters");
-        List<String> versionList = new ArrayList<String>();
+        List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
         Calendar cal = new GregorianCalendar();
         cal.set(1994, Calendar.MAY, 7, 15, 30, 12);
@@ -41,7 +41,7 @@ public class AdminLogQueryTest extends BaseTestCase {
 
     @Test
     public void testSetQueryWindowBackward() {
-        List<String> versionList = new ArrayList<String>();
+        List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
         Calendar cal = new GregorianCalendar();
         cal.set(2016, 4, 7, 15, 30, 12);

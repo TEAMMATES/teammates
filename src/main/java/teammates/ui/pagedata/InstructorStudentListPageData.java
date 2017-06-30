@@ -24,10 +24,8 @@ public class InstructorStudentListPageData extends PageData {
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
         super(account, sessionToken);
         this.searchBox = new InstructorStudentListSearchBox(getInstructorSearchLink(), searchKey, account.googleId);
-        List<InstructorStudentListFilterCourse> coursesForFilter =
-                                        new ArrayList<InstructorStudentListFilterCourse>();
-        List<InstructorStudentListStudentsTableCourse> coursesForStudentsTable =
-                                        new ArrayList<InstructorStudentListStudentsTableCourse>();
+        List<InstructorStudentListFilterCourse> coursesForFilter = new ArrayList<>();
+        List<InstructorStudentListStudentsTableCourse> coursesForStudentsTable = new ArrayList<>();
         for (InstructorStudentListPageCourseData islpcData : coursesToDisplay) {
             CourseAttributes course = islpcData.course;
             //TODO: [CourseAttribute] remove desanitization after data migration
