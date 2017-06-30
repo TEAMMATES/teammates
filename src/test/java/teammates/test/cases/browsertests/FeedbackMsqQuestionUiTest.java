@@ -182,7 +182,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 FeedbackParticipantType.NONE.toString());
         assertFalse(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
-        feedbackEditPage.clickGenerateOptionsCheckbox(1);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(1);
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
@@ -192,8 +192,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
-        assertFalse(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertFalse(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
         assertFalse(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 "msqGenerateForSelect-1",
@@ -205,8 +205,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: change generated type");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        assertTrue(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.selectMsqGenerateOptionsFor("teams", 1);
         feedbackEditPage.verifyFieldValue(

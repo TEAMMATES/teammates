@@ -188,7 +188,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 FeedbackParticipantType.NONE.toString());
         assertFalse(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
-        feedbackEditPage.clickGenerateOptionsCheckbox(1);
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(1);
         assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
@@ -198,8 +198,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
-        assertFalse(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertFalse(feedbackEditPage.isElementEnabled("generateMcqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox-1"));
         assertFalse(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 "mcqGenerateForSelect-1",
@@ -211,8 +211,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: change generated type");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        assertTrue(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("generateMcqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.selectMcqGenerateOptionsFor("teams", 1);
         feedbackEditPage.verifyFieldValue(

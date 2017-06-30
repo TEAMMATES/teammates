@@ -15,7 +15,7 @@ import teammates.storage.entity.Course;
 /**
  * The data transfer object for Course entities.
  */
-public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
+public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
         @Override
