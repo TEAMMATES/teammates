@@ -43,8 +43,7 @@
                 <b>'View'</b> button in the last column of the row corresponding to the student whose section you want to edit.
                 <br>A new page will open which displays the student's profile and a field to edit the student's section. It should look something
                 <a href="#studentEditProfile">like this</a>.
-                <br>After editing the section name, click on
-                <b>'Save Changes'</b>.
+                <br>After editing the section name, click on <b>'Save Changes'</b>.
             </p>
         </li>
     </ol>

@@ -188,8 +188,7 @@
                         </form>
                     </div>
                 </div>
-                <br>After making the necessary changes, click on
-                <b>'Save Changes'</b>.
+                <br>After making the necessary changes, click on <b>'Save Changes'</b>.
             </div>
         </li>
     </ol>
