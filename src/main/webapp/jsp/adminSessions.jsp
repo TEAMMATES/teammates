@@ -4,34 +4,34 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/sessions" prefix="adminSessions" %>
 <c:set var="cssIncludes">
-    <link type="text/css" href="/stylesheets/datepicker.css" rel="stylesheet">
+  <link type="text/css" href="/stylesheets/datepicker.css" rel="stylesheet">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/adminSessions.js"></script>
+  <script type="text/javascript" src="/js/adminSessions.js"></script>
 </c:set>
 <ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="TEAMMATES - Administrator Sessions" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
-    <h1>
-        <small>
-            Total: ${data.totalOngoingSessions} &nbsp; &nbsp;
-            Opened: ${data.totalOpenStatusSessions} &nbsp; &nbsp;
-            Closed: ${data.totalClosedStatusSessions} &nbsp; &nbsp;
-            Waiting To Open: ${data.totalWaitToOpenStatusSessions} &nbsp; &nbsp;
-            Institutions: ${data.totalInstitutes} &nbsp; &nbsp;
-            <br>
-            ${data.rangeStartString}&nbsp;&nbsp;
-            <span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}
-            &nbsp;${data.timeZoneAsString}
-        </small>
-        <br>
-        <a href="#" class="btn btn-info" id="btn-open-all-sections">Open All</a>
-        <a href="#" class="btn btn-warning" id="btn-close-all-sections">Collapse All</a>
-    </h1>
+  <h1>
+    <small>
+      Total: ${data.totalOngoingSessions} &nbsp; &nbsp;
+      Opened: ${data.totalOpenStatusSessions} &nbsp; &nbsp;
+      Closed: ${data.totalClosedStatusSessions} &nbsp; &nbsp;
+      Waiting To Open: ${data.totalWaitToOpenStatusSessions} &nbsp; &nbsp;
+      Institutions: ${data.totalInstitutes} &nbsp; &nbsp;
+      <br>
+      ${data.rangeStartString}&nbsp;&nbsp;
+      <span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}
+      &nbsp;${data.timeZoneAsString}
+    </small>
     <br>
-    <adminSessions:filter filter="${data.filter}"/>
-    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
-        <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.count}" showAll="${data.showAll}" />
-    </c:forEach>
-    <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a>
-    <a href="#" class="back-to-top-right">Top&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
+    <a href="#" class="btn btn-info" id="btn-open-all-sections">Open All</a>
+    <a href="#" class="btn btn-warning" id="btn-close-all-sections">Collapse All</a>
+  </h1>
+  <br>
+  <adminSessions:filter filter="${data.filter}"/>
+  <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+  <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
+    <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.count}" showAll="${data.showAll}" />
+  </c:forEach>
+  <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a>
+  <a href="#" class="back-to-top-right">Top&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
 </ta:adminPage>

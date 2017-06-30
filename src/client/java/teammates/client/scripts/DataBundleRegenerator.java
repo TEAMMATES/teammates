@@ -74,7 +74,7 @@ public final class DataBundleRegenerator {
 
     private static JSONObject maintainKeyOrder(JSONObject json) {
         JSONObject reprintedJson = new JSONObject();
-        List<String> keys = new ArrayList<String>();
+        List<String> keys = new ArrayList<>();
         for (Object key : json.keySet()) {
             keys.add((String) key);
         }

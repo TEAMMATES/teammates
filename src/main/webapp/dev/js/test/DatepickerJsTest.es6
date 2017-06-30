@@ -1,5 +1,8 @@
-import { getMaxDateForVisibleDate, getMinDateForPublishDate, triggerDatepickerOnClick }
-        from '../common/datepicker.es6';
+import {
+    getMaxDateForVisibleDate,
+    getMinDateForPublishDate,
+    triggerDatepickerOnClick,
+} from '../common/datepicker.es6';
 
 QUnit.module('datepicker.js');
 

@@ -33,8 +33,8 @@ public class InstructorFeedbackResultsSectionPanel {
         isDisplayingMissingParticipants = true;
 
         isAbleToLoadResponses = true;
-        isTeamWithResponses = new HashMap<String, Boolean>();
-        participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
+        isTeamWithResponses = new HashMap<>();
+        participantPanels = new LinkedHashMap<>();
     }
 
     public InstructorFeedbackResultsSectionPanel(String name, String nameForDisplay, boolean loadByAjax) {
@@ -63,7 +63,7 @@ public class InstructorFeedbackResultsSectionPanel {
         if (participantPanels.containsKey(currentTeam)) {
             teamsMembersPanels = participantPanels.get(currentTeam);
         } else {
-            teamsMembersPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+            teamsMembersPanels = new ArrayList<>();
         }
 
         teamsMembersPanels.add(giverPanel);
@@ -168,8 +168,7 @@ public class InstructorFeedbackResultsSectionPanel {
     }
 
     public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
-        List<InstructorFeedbackResultsParticipantPanel> sortedPanels =
-                new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+        List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<>();
         for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }
