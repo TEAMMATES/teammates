@@ -5,14 +5,6 @@
       <configuration>
       </configuration>
     </facet>
-    <facet type="jpa" name="JPA">
-      <configuration>
-        <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="" />
-        <datasource-mapping />
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/../../src/main/resources/META-INF/persistence.xml" />
-      </configuration>
-    </facet>
     <facet type="web" name="Web Gradle : teammates.war">
       <configuration>
         <descriptors>

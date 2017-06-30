@@ -13,7 +13,7 @@ import teammates.storage.entity.Instructor;
 /**
  * The data transfer class for Instructor entities.
  */
-public class InstructorAttributes extends EntityAttributes {
+public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
 
