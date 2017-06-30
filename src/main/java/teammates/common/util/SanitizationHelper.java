@@ -202,7 +202,6 @@ public final class SanitizationHelper {
                               .replace("&quot;", "\"")
                               .replace("&#x2f;", "/")
                               .replace("&#39;", "'")
-                              .replace("&#34;", "\"")
                               .replace("&amp;", "&");
     }
 

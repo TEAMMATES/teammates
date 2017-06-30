@@ -2246,7 +2246,7 @@ public class FeedbackSessionResultsBundle {
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             commentRow.append("," + instructorEmailNameTable.get(frc.giverEmail) + ","
-                    + SanitizationHelper.desanitizeFromHtml(getTextFromComment(frc.commentText)));
+                    + getTextFromComment(frc.commentText));
         }
         return commentRow;
     }
