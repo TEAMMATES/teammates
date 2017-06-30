@@ -49,11 +49,7 @@ The following plugins are needed:
      ![setupguide-4.png](images/setupguide-4.png)
 
    * Google App Engine: set up the following by going to `Google → ...`:
-     * Datanucleus version: `App Engine → Datastore → Datanucleus JDO/JPA Version` → select `v1`.
-
-       ![setupguide-5.png](images/setupguide-5.png)
-
-     * ORM Enhancement: `App Engine → ORM` → clear all the entries, and add the following entry: `src/main/java/teammates/storage/entity/*.java`.
+     * Disable Datanucleus: `App Engine` → uncheck `Use Datanucleus JDO/JPA to access the datastore`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
@@ -129,12 +125,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    ./gradlew setupIntellijProject
    ```
 
-1. Open the project in IntelliJ IDEA. It will generate some user specific settings. Wait for it to finish indexing.
-
-1. Run this command to automatically configure your user specific settings:
-   ```sh
-   ./gradlew setupIntellijProjectSettings
-   ```
+1. You can now open the project in IntelliJ IDEA.
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
 
@@ -187,11 +178,6 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
    #### Javascript
    Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
-
-   #### Additional Build Tasks
-   1. Open `View → Tool Windows → Gradle`.
-   1. Under `Tasks → intellij idea setup`, look for the task `enhanceIntellijOutputClasses`.
-   1. Right click and select `Execute After Build`.
 
 1. Click `OK`.
 

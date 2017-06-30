@@ -413,7 +413,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getSessionVisibleFromTime(), newSession.getResultsVisibleFromTime(),
                 newSession.getInstructions(), newSession.getGracePeriod());
 
-        List<String> expectedStatusStrings = new ArrayList<String>();
+        List<String> expectedStatusStrings = new ArrayList<>();
         expectedStatusStrings.add(String.format(
                 FieldValidator.TIME_FRAME_ERROR_MESSAGE,
                 FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME,
@@ -583,8 +583,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
         String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
 
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
+        assertTrue(feedbackPage.isSessionResultsOptionsCaretDisabled(courseId, sessionName));
 
         ______TS("MANUAL: publish link clickable");
 

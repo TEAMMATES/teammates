@@ -452,7 +452,7 @@ public final class Const {
         public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
 
         static {
-            Map<String, String> visibilityOptionInit = new LinkedHashMap<String, String>();
+            Map<String, String> visibilityOptionInit = new LinkedHashMap<>();
 
             visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
                                      "Shown anonymously to recipient and instructors");
@@ -470,28 +470,27 @@ public final class Const {
                 COMMON_FEEDBACK_PATHS;
 
         static {
-            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer =
-                    new LinkedHashMap<FeedbackParticipantType, List<FeedbackParticipantType>>();
+            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer = new LinkedHashMap<>();
 
             initializer.put(FeedbackParticipantType.SELF,
-                            new ArrayList<FeedbackParticipantType>(
-                                    Arrays.asList(FeedbackParticipantType.NONE,
-                                                  FeedbackParticipantType.SELF,
-                                                  FeedbackParticipantType.INSTRUCTORS)));
+                    new ArrayList<>(
+                            Arrays.asList(FeedbackParticipantType.NONE,
+                                    FeedbackParticipantType.SELF,
+                                    FeedbackParticipantType.INSTRUCTORS)));
 
             initializer.put(FeedbackParticipantType.STUDENTS,
-                            new ArrayList<FeedbackParticipantType>(
-                                    Arrays.asList(FeedbackParticipantType.NONE,
-                                                  FeedbackParticipantType.SELF,
-                                                  FeedbackParticipantType.INSTRUCTORS,
-                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                                                  FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
+                    new ArrayList<>(
+                            Arrays.asList(FeedbackParticipantType.NONE,
+                                    FeedbackParticipantType.SELF,
+                                    FeedbackParticipantType.INSTRUCTORS,
+                                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
 
             initializer.put(FeedbackParticipantType.INSTRUCTORS,
-                            new ArrayList<FeedbackParticipantType>(
-                                    Arrays.asList(FeedbackParticipantType.NONE,
-                                                  FeedbackParticipantType.SELF,
-                                                  FeedbackParticipantType.INSTRUCTORS)));
+                    new ArrayList<>(
+                            Arrays.asList(FeedbackParticipantType.NONE,
+                                    FeedbackParticipantType.SELF,
+                                    FeedbackParticipantType.INSTRUCTORS)));
 
             COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
         }

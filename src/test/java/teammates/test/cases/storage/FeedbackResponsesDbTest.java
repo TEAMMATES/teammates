@@ -802,7 +802,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 modifiedResponse.giver, modifiedResponse.recipient);
         FeedbackResponseDetails frd = modifiedResponse.getResponseDetails();
 
-        Map<String, String[]> requestParameters = new HashMap<String, String[]>();
+        Map<String, String[]> requestParameters = new HashMap<>();
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
 

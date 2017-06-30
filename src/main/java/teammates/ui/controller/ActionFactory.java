@@ -19,7 +19,7 @@ import teammates.common.util.Logger;
 public class ActionFactory {
     private static final Logger log = Logger.getLogger();
 
-    private static Map<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
+    private static Map<String, Class<? extends Action>> actionMappings = new HashMap<>();
 
     static {
         map(ADMIN_HOME_PAGE, AdminHomePageAction.class);

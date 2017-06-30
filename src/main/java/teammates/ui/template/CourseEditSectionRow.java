@@ -24,7 +24,7 @@ public class CourseEditSectionRow {
         this.instructorIndex = instructorIndex;
         this.panelIndex = panelIndex;
         this.instructor = instructor;
-        feedbackSessions = new ArrayList<CourseEditFeedbackSessionRow>();
+        feedbackSessions = new ArrayList<>();
 
         specialSections = createCheckboxesForSectionLevelPermissionsOfInstructors(sectionNames, panelIndex, sectionIndex);
         permissionInputGroup2 = createCheckboxesForStudentPermissionsOfInstructors(panelIndex);
@@ -38,7 +38,7 @@ public class CourseEditSectionRow {
                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
 
         for (String feedbackName : feedbackNames) {
-            List<ElementTag> checkBoxList = new ArrayList<ElementTag>();
+            List<ElementTag> checkBoxList = new ArrayList<>();
             for (String privilege : privileges) {
                 String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + panelIndex
                               + "feedback" + feedbackName;
@@ -102,7 +102,7 @@ public class CourseEditSectionRow {
      * @return             a list of checkboxes
      */
     private List<ElementTag> createCheckboxesForSessionPermissionsOfInstructors(int panelIndex) {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
@@ -133,7 +133,7 @@ public class CourseEditSectionRow {
      * @return             a list of checkboxes
      */
     private List<ElementTag> createCheckboxesForStudentPermissionsOfInstructors(int panelIndex) {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         String[] privileges = { Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS };
 
@@ -163,10 +163,10 @@ public class CourseEditSectionRow {
      */
     private List<List<ElementTag>> createCheckboxesForSectionLevelPermissionsOfInstructors(
                                    List<String> sectionNames, int panelIndex, int sectionIndex) {
-        List<List<ElementTag>> specialSections = new ArrayList<List<ElementTag>>();
+        List<List<ElementTag>> specialSections = new ArrayList<>();
         // i represents the row (vertical alignment) of the checkbox
         for (int i = 0; i < sectionNames.size(); i += 3) {
-            List<ElementTag> specialSectionGroup = new ArrayList<ElementTag>();
+            List<ElementTag> specialSectionGroup = new ArrayList<>();
 
             // j represents the column (horizontal alignment) of the checkbox
             for (int j = 0; j < 3 && i + j < sectionNames.size(); j++) {

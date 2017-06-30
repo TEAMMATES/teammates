@@ -278,7 +278,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
         assertEquals(5, retrieved.size());
 
-        List<String> idList = new ArrayList<String>();
+        List<String> idList = new ArrayList<>();
         idList.add("idOfInstructor1OfCourse1");
         idList.add("idOfInstructor2OfCourse1");
         idList.add("idOfInstructor3");
