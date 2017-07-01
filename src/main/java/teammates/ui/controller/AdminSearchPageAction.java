@@ -21,8 +21,8 @@ import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
 
-    private Map<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
-    private Map<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
+    private Map<String, String> tempCourseIdToInstituteMap = new HashMap<>();
+    private Map<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<>();
 
     @Override
     protected ActionResult execute() {
@@ -69,11 +69,11 @@ public class AdminSearchPageAction extends Action {
 
         if (numOfResults > 0) {
             statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));
-            statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
+            statusToAdmin = "Search Key: " + data.searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
         } else {
             statusToUser.add(new StatusMessage("No result found, please try again", StatusMessageColor.WARNING));
-            statusToAdmin = "Search Key: " + searchKey + "<br>" + "No result found";
+            statusToAdmin = "Search Key: " + data.searchKey + "<br>" + "No result found";
             isError = true;
         }
 
@@ -315,7 +315,7 @@ public class AdminSearchPageAction extends Action {
 
         if (fsa.isOpened()) {
             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                List<String> submitUrlList = new ArrayList<String>();
+                List<String> submitUrlList = new ArrayList<>();
                 submitUrlList.add(submitUrl);
                 data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
             } else {
@@ -326,7 +326,7 @@ public class AdminSearchPageAction extends Action {
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                List<String> submitUrlList = new ArrayList<String>();
+                List<String> submitUrlList = new ArrayList<>();
                 submitUrlList.add(submitUrl);
                 data.studentUnOpenedFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
             } else {
@@ -345,7 +345,7 @@ public class AdminSearchPageAction extends Action {
 
         if (fsa.isPublished()) {
             if (data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
-                List<String> viewResultUrlList = new ArrayList<String>();
+                List<String> viewResultUrlList = new ArrayList<>();
                 viewResultUrlList.add(viewResultUrl);
                 data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
             } else {

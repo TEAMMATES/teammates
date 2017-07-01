@@ -1,8 +1,25 @@
-import { showModalConfirmation } from '../common/bootboxWrapper.es6';
-import { StatusType } from '../common/const.es6';
-import { attachEventToDeleteStudentLink, prepareInstructorPages, selectElementContents } from '../common/instructor.es6';
-import { toggleSort } from '../common/sortBy.es6';
-import { setStatusMessage } from '../common/statusMessage.es6';
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    attachEventToDeleteStudentLink,
+    attachEventToDeleteAllStudentLink,
+    prepareInstructorPages,
+    selectElementContents,
+} from '../common/instructor.es6';
+
+import {
+    toggleSort,
+} from '../common/sortBy.es6';
+
+import {
+    setStatusMessage,
+} from '../common/statusMessage.es6';
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -91,6 +108,7 @@ $(document).ready(() => {
     attachEventToRemindStudentsButton();
     attachEventToSendInviteLink();
     attachEventToDeleteStudentLink();
+    attachEventToDeleteAllStudentLink();
 
     $('#btn-select-element-contents').on('click', () => {
         selectElementContents(document.getElementById('detailsTable'));

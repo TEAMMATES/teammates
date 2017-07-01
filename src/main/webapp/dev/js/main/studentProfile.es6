@@ -1,8 +1,22 @@
-import { StatusType } from '../common/const.es6';
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { scrollToTop } from '../common/scrollTo.es6';
-import { setStatusMessage } from '../common/statusMessage.es6';
-import { bindLinksInUnregisteredPage } from '../common/student.es6';
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    scrollToTop,
+} from '../common/scrollTo.es6';
+
+import {
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    bindLinksInUnregisteredPage,
+} from '../common/student.es6';
 
 function finaliseEditPictureForm() {
     const picture = $('#editableProfilePicture');

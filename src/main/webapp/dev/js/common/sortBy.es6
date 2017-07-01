@@ -1,4 +1,7 @@
-import { isDate, isNumber } from './helper.es6';
+import {
+    isDate,
+    isNumber,
+} from './helper.es6';
 
 /**
  * Returns false if the parameter is either one of null or undefined.

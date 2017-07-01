@@ -774,7 +774,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
 
         FeedbackResponseAttributes otherFr = dataBundle.feedbackResponses.get("response2ForQ1S1C1");
-        List<FeedbackResponseAttributes> responsesToAdd = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToAdd = new ArrayList<>();
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
 

@@ -1,5 +1,11 @@
-import { prepareInstructorPages } from '../common/instructor.es6';
-import { highlightSearchResult, toggleAdditionalQuestionInfo } from '../common/ui.es6';
+import {
+    prepareInstructorPages,
+} from '../common/instructor.es6';
+
+import {
+    highlightSearchResult,
+    toggleAdditionalQuestionInfo,
+} from '../common/ui.es6';
 
 window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
 

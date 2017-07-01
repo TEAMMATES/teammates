@@ -20,7 +20,7 @@ public class InstructorFeedbackResultsNoResponsePanel {
 
     public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus,
                                     Map<String, InstructorFeedbackResultsModerationButton> moderationButtons) {
-        this.instructorStatus = new HashMap<String, Boolean>();
+        this.instructorStatus = new HashMap<>();
         this.names = Collections.unmodifiableMap(responseStatus.emailNameTable);
         this.emails = getFilteredEmails(responseStatus.getStudentsWhoDidNotRespondToAnyQuestion());
         this.teams = getTeamsWithInstructorTeam(responseStatus.emailTeamNameTable,
