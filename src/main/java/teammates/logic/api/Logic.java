@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,6 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -96,7 +97,6 @@ public class Logic {
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
-
         accountsLogic.createAccount(accountToAdd);
     }
 
@@ -1784,26 +1784,6 @@ public class Logic {
 
     /**
      * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session of a roster.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(String feedbackSessionName,
-                                                                               String courseId, String userEmail,
-                                                                               CourseRoster roster,
-                                                                               Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail,
-                roster, isIncludeResponseStatus);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session in a specific section.
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -2177,7 +2157,8 @@ public class Logic {
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
 
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
+    public List<FeedbackResponseAttributes>
+    getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
