@@ -8,13 +8,11 @@
 
 <div class="form-group">
     <div class="align-center">
-
         <form action="${courseRemindButton.attributesToString}" tabindex="1">
             <span class="glyphicon glyphicon-envelope">
             </span>
             Remind Students to Join
         </form>
-
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
             <button type="submit" class="btn btn-primary" id="button_download" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>">
                 <i class="glyphicon glyphicon-download-alt"></i> Download Student List
@@ -22,7 +20,6 @@
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
         </form>
-
         <a href="${courseDeleteAllButton.attributesToString}" type="button" class="btn btn-danger">
             <span class="glyphicon glyphicon-trash"></span>
                 Delete All Students
@@ -35,7 +32,6 @@
                 </span>
             </span>
         </div>
-
         <form id="csvToHtmlForm">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
