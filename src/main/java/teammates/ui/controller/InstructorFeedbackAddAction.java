@@ -22,7 +22,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackSessionTemplates;
-import teammates.ui.pagedata.InstructorFeedbacksPageData;
+import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 
 public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractAction {
 
@@ -52,7 +52,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
 
-        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account, sessionToken);
+        InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {
             logic.createFeedbackSession(fs);
 
@@ -90,7 +90,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         boolean shouldOmitArchived = true;
         Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
+        List<InstructorAttributes> instructorList = new ArrayList<>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
@@ -103,7 +103,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
                                        feedbackSessionType);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
     }
 
     private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
@@ -139,6 +139,6 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
             return JsonUtils.fromJson(jsonString, listType);
         }
 
-        return new ArrayList<FeedbackQuestionAttributes>();
+        return new ArrayList<>();
     }
 }

@@ -1022,6 +1022,17 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
+    /**
+     * Deletes all the students in the course.
+     *
+     * @param courseId course id for the students
+     */
+    public void deleteAllStudentsInCourse(String courseId) {
+
+        Assumption.assertNotNull(courseId);
+        studentsLogic.deleteAllStudentsInCourse(courseId);
+    }
+
     public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
 
         Assumption.assertNotNull(courseId);
@@ -1638,7 +1649,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1658,7 +1669,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1677,7 +1688,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1695,7 +1706,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);

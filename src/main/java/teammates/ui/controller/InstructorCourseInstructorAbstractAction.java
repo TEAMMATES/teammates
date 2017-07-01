@@ -27,12 +27,12 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         } catch (EntityDoesNotExistException e) {
             return;
         }
-        HashMap<String, Boolean> isSectionSpecialMappings = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> isSectionSpecialMappings = new HashMap<>();
         for (String sectionName : sectionNames) {
             isSectionSpecialMappings.put(sectionName, false);
         }
 
-        List<String> feedbackNames = new ArrayList<String>();
+        List<String> feedbackNames = new ArrayList<>();
 
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
@@ -138,7 +138,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
     protected Map<String, List<String>> getSectionsWithSpecialPrivilegesFromParameters(
             InstructorAttributes instructor, List<String> sectionNames,
             Map<String, Boolean> isSectionSpecialMappings) {
-        HashMap<String, List<String>> specialSectionsInSectionGroups = new HashMap<String, List<String>>();
+        HashMap<String, List<String>> specialSectionsInSectionGroups = new HashMap<>();
         if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             getSectionsWithSpecialPrivilegesForCustomInstructor(sectionNames, isSectionSpecialMappings,
                                                                 specialSectionsInSectionGroups);

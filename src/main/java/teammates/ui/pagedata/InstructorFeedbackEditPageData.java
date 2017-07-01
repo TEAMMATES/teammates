@@ -47,7 +47,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
         buildFsForm(feedbackSession);
 
-        qnForms = new ArrayList<FeedbackQuestionEditForm>();
+        qnForms = new ArrayList<>();
         for (int i = 0; i < questions.size(); i++) {
             FeedbackQuestionAttributes question = questions.get(i);
             buildExistingQuestionForm(feedbackSession.getFeedbackSessionName(),
@@ -76,7 +76,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildBasicFsForm(FeedbackSessionAttributes fsa,
                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
-                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
 
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
@@ -125,17 +125,17 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private FeedbackQuestionVisibilitySettings configureVisibilitySettings(FeedbackQuestionAttributes question) {
-        Map<String, Boolean> isGiverNameVisibleFor = new HashMap<String, Boolean>();
+        Map<String, Boolean> isGiverNameVisibleFor = new HashMap<>();
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisibleFor.put(giverType.name(), true);
         }
 
-        Map<String, Boolean> isRecipientNameVisibleFor = new HashMap<String, Boolean>();
+        Map<String, Boolean> isRecipientNameVisibleFor = new HashMap<>();
         for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
             isRecipientNameVisibleFor.put(recipientType.name(), true);
         }
 
-        Map<String, Boolean> isResponsesVisibleFor = new HashMap<String, Boolean>();
+        Map<String, Boolean> isResponsesVisibleFor = new HashMap<>();
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisibleFor.put(participantType.name(), true);
         }
@@ -254,7 +254,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
 
-        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                                 .withUserId(account.googleId)
                                 .withCourseId(feedbackSession.getCourseId())
                                 .withSessionName(feedbackSession.getFeedbackSessionName())
@@ -266,7 +266,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getQuestionNumberOptions(int numQuestions) {
-        List<ElementTag> options = new ArrayList<ElementTag>();
+        List<ElementTag> options = new ArrayList<>();
 
         for (int opt = 1; opt < numQuestions + 1; opt++) {
             ElementTag option = createOption(String.valueOf(opt), String.valueOf(opt), false);
@@ -301,7 +301,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {
-        List<ElementTag> results = new ArrayList<ElementTag>();
+        List<ElementTag> results = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
             ElementTag option = createOption(instructor.name, instructor.email);
@@ -312,7 +312,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getPreviewAsStudentOptions(List<StudentAttributes> studentList) {
-        List<ElementTag> results = new ArrayList<ElementTag>();
+        List<ElementTag> results = new ArrayList<>();
 
         for (StudentAttributes student : studentList) {
             ElementTag option = createOption("[" + student.team + "] " + student.name, student.email);
@@ -352,7 +352,7 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return form submit action link
      */
     public String getEditCopyActionLink() {
-        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     public boolean getHasError() {
