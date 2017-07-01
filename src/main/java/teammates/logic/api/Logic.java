@@ -1649,7 +1649,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1669,7 +1669,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1688,7 +1688,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1706,7 +1706,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
