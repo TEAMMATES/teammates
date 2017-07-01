@@ -133,11 +133,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementToBeClickable(remindButton);
     }
 
-    private void waitForRemindModalPresence() {
-        By modalBackdrop = By.className("modal-backdrop");
-        waitForElementPresence(modalBackdrop);
-    }
-
     public void cancelRemindAllForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         click(remindModal.findElement(By.tagName("button")));

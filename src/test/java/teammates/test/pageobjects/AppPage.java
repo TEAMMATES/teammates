@@ -313,6 +313,11 @@ public abstract class AppPage {
         waitForElementToDisappear(modalBackdrop);
     }
 
+    public void waitForRemindModalPresence() {
+        By modalBackdrop = By.className("modal-backdrop");
+        waitForElementPresence(modalBackdrop);
+    }
+
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
