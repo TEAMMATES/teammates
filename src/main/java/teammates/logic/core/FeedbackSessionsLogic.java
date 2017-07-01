@@ -628,7 +628,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
@@ -639,7 +639,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -664,7 +664,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -687,7 +687,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -835,12 +835,12 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
-        long indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
+        int indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
 
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
-                indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+                indicatedRange, Const.FeedbackSessionResults.GRQ_SORT_TYPE);
         } else if (section == null) {
             results = getFeedbackSessionResultsForInstructorFromQuestion(
                     feedbackSessionName, courseId, userEmail, questionId);
@@ -879,6 +879,7 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
                     results, entry, isMissingResponsesShown, isStatsShown));
         }
+
         return exportBuilder.toString();
     }
 
@@ -904,15 +905,21 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(statistics).append(Const.EOL);
         }
 
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
-
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
-
+        //Sets header if there are no responses for a question
+        if (allResponses.isEmpty()) {
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(false, 0));
+        }
         for (FeedbackResponseAttributes response : allResponses) {
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients
+            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
+            int noOfComments = hasCommentsForResponses
+                    ? fsrBundle.responseComments.get(response.getId()).size()
+                    : 0;
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(hasCommentsForResponses, noOfComments));
             if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();
                 possibleRecipientsForGiver.clear();
@@ -940,7 +947,8 @@ public final class FeedbackSessionsLogic {
             prevGiver = response.giver;
 
             // Append row(s)
-            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
+                    hasCommentsForResponses));
         }
 
         // add the rows for the possible givers and recipients who have missing responses
@@ -1729,7 +1737,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
         String rangeString = params.get(PARAM_RANGE);
-        boolean isComplete = rangeString == null || allResponses.size() <= Long.parseLong(rangeString);
+        boolean isComplete = rangeString == null || allResponses.size() <= Integer.parseInt(rangeString);
 
         if (!isComplete) {
             putQuestionsIntoMap(allQuestions, relevantQuestions);
