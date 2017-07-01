@@ -42,8 +42,7 @@ public class InstructorFeedbackResultsRemindButton {
     }
 
     /**
-     * Retrieves the link to remind.
-     * @return the link to the remind
+     * Returns the URL that should be linked to the button.
      */
     public String getUrlLink() {
         return urlLink;
