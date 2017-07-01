@@ -6,7 +6,7 @@
 <%@ attribute name="remindButton" type="teammates.ui.template.InstructorFeedbackResultsRemindButton" required="true" %>
 
 <div class="remind-no-response">
-    <a href="#" data-actionlink="${remindButton.urlLink}" class="${remindButton.className}" data-toggle="modal"
+    <a href="javascript:;" data-actionlink="${remindButton.urlLink}" class="${remindButton.className}" data-toggle="modal"
             <c:if test="${remindButton.disabled}">disabled=""</c:if> data-target="#remindModal">
         ${remindButton.buttonText}
     </a>
