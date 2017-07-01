@@ -10,7 +10,7 @@
     <div class="align-center">
 
         <form action="${courseRemindButton.attributesToString}" tabindex="1">
-            <span class="glyphicon glyphicon-user">
+            <span class="glyphicon glyphicon-envelope">
             </span>
             Remind Students to Join
         </form>
