@@ -628,7 +628,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
@@ -639,7 +639,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -664,7 +664,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -687,7 +687,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -835,7 +835,7 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
-        long indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
+        int indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
 
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
@@ -1737,7 +1737,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
         String rangeString = params.get(PARAM_RANGE);
-        boolean isComplete = rangeString == null || allResponses.size() <= Long.parseLong(rangeString);
+        boolean isComplete = rangeString == null || allResponses.size() <= Integer.parseInt(rangeString);
 
         if (!isComplete) {
             putQuestionsIntoMap(allQuestions, relevantQuestions);
