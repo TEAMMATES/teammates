@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Config" %>
 <%@ tag import="teammates.common.util.Const" %>
-<form action="<%= Const.ActionURIs.ERROR_FEEDBACK_SUBMIT %>" method="post">
+<form action="<%= Const.ActionURIs.ERROR_FEEDBACK_SUBMIT %>" method="post" id="error-feedback-form">
     <div class="form-group">
         <label for="error-feedback-email-composer-recipient-email">To:</label>
         <br><em>Note: This is the TEAMMATES support email. It has been pre-filled for your convenience and is not editable. </em>
