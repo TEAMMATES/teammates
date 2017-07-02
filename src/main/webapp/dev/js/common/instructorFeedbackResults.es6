@@ -150,8 +150,8 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     // need to define corresponding {@code targetPanels}.
     const targetPanels = panels || $('div.panel-collapse');
 
-    const isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
-    if (isButtonInExapandMode) {
+    const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+    if (isButtonInExpandMode) {
         // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
         expandPanels(targetPanels, areAjaxLoadedPanels);
