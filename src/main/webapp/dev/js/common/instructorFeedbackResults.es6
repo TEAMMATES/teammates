@@ -319,7 +319,7 @@ function prepareInstructorFeedbackResultsPage() {
         });
     };
 
-    // decrease top-margin of expand button
+    // decrease top-margin of expand button, if status message is present
     if ($('#statusMessagesToUser').html().search('div') > 0) {
         $('#expand-collapse-button').css('margin-top', '5px');
         $('#expand-collapse-button + br').remove();
