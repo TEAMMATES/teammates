@@ -70,15 +70,15 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         fq.giverType = FeedbackParticipantType.NONE;
         fq.recipientType = FeedbackParticipantType.RECEIVER;
 
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showGiverNameTo = new ArrayList<>();
         fq.showGiverNameTo.add(FeedbackParticipantType.SELF);
         fq.showGiverNameTo.add(FeedbackParticipantType.STUDENTS);
 
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showRecipientNameTo = new ArrayList<>();
         fq.showRecipientNameTo.add(FeedbackParticipantType.SELF);
         fq.showRecipientNameTo.add(FeedbackParticipantType.STUDENTS);
 
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+        fq.showResponsesTo = new ArrayList<>();
         fq.showResponsesTo.add(FeedbackParticipantType.NONE);
         fq.showResponsesTo.add(FeedbackParticipantType.SELF);
 
@@ -167,13 +167,13 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         fq.recipientType = FeedbackParticipantType.TEAMS;
 
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showGiverNameTo = new ArrayList<>();
         fq.showGiverNameTo.add(FeedbackParticipantType.RECEIVER);
 
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showRecipientNameTo = new ArrayList<>();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
 
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+        fq.showResponsesTo = new ArrayList<>();
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
 
         assertTrue(fq.isValid());
@@ -203,7 +203,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         ______TS("test teams->none");
 
         FeedbackQuestionAttributes question = new FeedbackQuestionAttributes();
-        List<FeedbackParticipantType> participants = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> participants = new ArrayList<>();
 
         question.feedbackSessionName = "test session";
         question.courseId = "some course";
@@ -217,10 +217,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -239,10 +239,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.INSTRUCTORS);
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -262,10 +262,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.INSTRUCTORS);
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -287,9 +287,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -311,9 +311,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -335,9 +335,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 

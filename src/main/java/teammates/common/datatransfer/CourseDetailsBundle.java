@@ -21,8 +21,8 @@ public class CourseDetailsBundle {
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
 
-    public List<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
-    public List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+    public List<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<>();
+    public List<SectionDetailsBundle> sections = new ArrayList<>();
 
     public CourseDetailsBundle(CourseAttributes courseData) {
         this.course = courseData;
@@ -38,7 +38,7 @@ public class CourseDetailsBundle {
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsList() {
-        List<FeedbackSessionAttributes> feedbackSessionAttributes = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> feedbackSessionAttributes = new ArrayList<>();
         for (FeedbackSessionDetailsBundle feedbackSessionDetails : feedbackSessions) {
             feedbackSessionAttributes.add(feedbackSessionDetails.feedbackSession);
         }

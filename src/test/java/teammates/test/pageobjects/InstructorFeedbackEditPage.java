@@ -952,10 +952,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickRemoveMcqOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
 
-    public void clickGenerateOptionsCheckbox(int qnIndex) {
+    public void clickGenerateMcqOptionsCheckbox(int qnIndex) {
+        clickGenerateOptionsCheckbox(qnIndex, "generateMcqOptionsCheckbox");
+    }
+
+    public void clickGenerateMsqOptionsCheckbox(int qnIndex) {
+        clickGenerateOptionsCheckbox(qnIndex, "generateMsqOptionsCheckbox");
+    }
+
+    private void clickGenerateOptionsCheckbox(int qnIndex, String idPrefix) {
         String idSuffix = getIdSuffix(qnIndex);
 
-        WebElement generateOptionsCheckbox = browser.driver.findElement(By.id("generateOptionsCheckbox" + idSuffix));
+        WebElement generateOptionsCheckbox = browser.driver.findElement(By.id(idPrefix + idSuffix));
         click(generateOptionsCheckbox);
     }
 

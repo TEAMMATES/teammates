@@ -116,7 +116,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
      * an existing feedback session with a name conflicting with feedbackSessionName.
      */
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
-        List<String> courses = new ArrayList<String>();
+        List<String> courses = new ArrayList<>();
 
         for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =

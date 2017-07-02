@@ -1,24 +1,23 @@
 package teammates.storage.api;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.Query;
-
 import com.google.appengine.api.blobstore.BlobKey;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.LoadType;
+import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.AdminEmail;
 
@@ -28,13 +27,11 @@ import teammates.storage.entity.AdminEmail;
  * @see AdminEmail
  * @see AdminEmailAttributes
  */
-public class AdminEmailsDb extends EntitiesDb {
-
-    private static final Logger log = Logger.getLogger();
+public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> {
 
     public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
-            AdminEmail ae = (AdminEmail) createEntity(adminEmailToAdd);
+            AdminEmail ae = createEntity(adminEmailToAdd);
             return ae.getCreateDate();
         } catch (EntityAlreadyExistsException e) {
             try {
@@ -71,9 +68,7 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setIsInTrashBin(ae.isInTrashBin);
         adminEmailToUpdate.setSendDate(ae.sendDate);
 
-        log.info(ae.getBackupIdentifier());
-        closePm();
-
+        saveEntity(adminEmailToUpdate, ae);
     }
 
     /**
@@ -125,9 +120,7 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setIsInTrashBin(newAdminEmail.isInTrashBin);
         adminEmailToUpdate.setSendDate(newAdminEmail.sendDate);
 
-        log.info(newAdminEmail.getBackupIdentifier());
-        closePm();
-
+        saveEntity(adminEmailToUpdate, newAdminEmail);
     }
 
     /**
@@ -136,14 +129,7 @@ public class AdminEmailsDb extends EntitiesDb {
      */
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
-        List<AdminEmail> entities = getAdminEmailEntities();
-        Iterator<AdminEmail> it = entities.iterator();
-        while (it.hasNext()) {
-            list.add(new AdminEmailAttributes(it.next()));
-        }
-
-        return list;
+        return makeAttributes(getAdminEmailEntities());
     }
 
     /**
@@ -151,14 +137,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailById(String emailId) {
-
-        AdminEmail matched = getAdminEmailEntity(emailId);
-
-        if (matched == null) {
-            return null;
-        }
-
-        return new AdminEmailAttributes(matched);
+        return makeAttributesOrNull(getAdminEmailEntity(emailId));
     }
 
     /**
@@ -166,14 +145,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
-
-        AdminEmail matched = getAdminEmailEntity(subject, createDate);
-
-        if (matched == null) {
-            return null;
-        }
-
-        return new AdminEmailAttributes(matched);
+        return makeAttributesOrNull(getAdminEmailEntity(subject, createDate));
     }
 
     /**
@@ -181,13 +153,7 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return null if no matched email found
      */
     public AdminEmailAttributes getAdminEmailBySubject(String subject) {
-        AdminEmail matchedEmail = getAdminEmailEntityBySubject(subject);
-
-        if (matchedEmail == null) {
-            return null;
-        }
-
-        return new AdminEmailAttributes(matchedEmail);
+        return makeAttributesOrNull(getAdminEmailEntityBySubject(subject));
     }
 
     /**
@@ -195,29 +161,11 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailDrafts() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
-
-        Query q = getPm().newQuery(AdminEmail.class);
-        q.declareParameters("boolean isInTrashBinParam");
-        q.setFilter("isInTrashBin == isInTrashBinParam && sendDate == null");
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(false);
-
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
-            return list;
-        }
-
-        Iterator<AdminEmail> it = adminEmailList.iterator();
-        while (it.hasNext()) {
-            AdminEmail adminEmail = it.next();
-
-            if (!JDOHelper.isDeleted(adminEmail)) {
-                list.add(new AdminEmailAttributes(adminEmail));
-            }
-        }
-
-        return list;
+        return makeAttributes(
+                load()
+                .filter("isInTrashBin =", false)
+                .filter("sendDate =", null)
+                .list());
     }
 
     /**
@@ -225,29 +173,11 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
-
-        Query q = getPm().newQuery(AdminEmail.class);
-        q.declareParameters("boolean isInTrashBinParam");
-        q.setFilter("isInTrashBin == isInTrashBinParam && sendDate != null");
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(false);
-
-        if (adminEmailList.isEmpty()) {
-            return list;
-        }
-
-        Iterator<AdminEmail> it = adminEmailList.iterator();
-        while (it.hasNext()) {
-            AdminEmail adminEmail = it.next();
-
-            if (!JDOHelper.isDeleted(adminEmail)) {
-                list.add(new AdminEmailAttributes(adminEmail));
-            }
-        }
-
-        return list;
+        return makeAttributes(
+                load()
+                .filter("isInTrashBin =", false)
+                .filter("sendDate !=", null)
+                .list());
     }
 
     /**
@@ -255,91 +185,43 @@ public class AdminEmailsDb extends EntitiesDb {
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin() {
-        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
-
-        Query q = getPm().newQuery(AdminEmail.class);
-        q.declareParameters("boolean isInTrashBinParam");
-        q.setFilter("isInTrashBin == isInTrashBinParam");
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(true);
-
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
-            return list;
-        }
-
-        Iterator<AdminEmail> it = adminEmailList.iterator();
-        while (it.hasNext()) {
-            AdminEmail adminEmail = it.next();
-
-            if (!JDOHelper.isDeleted(adminEmail)) {
-                list.add(new AdminEmailAttributes(adminEmail));
-            }
-        }
-
-        return list;
+        return makeAttributes(
+                load().filter("isInTrashBin =", true).list());
     }
 
     private List<AdminEmail> getAdminEmailEntities() {
-        Query q = getPm().newQuery(AdminEmail.class);
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute();
-
-        return adminEmailList;
+        return load().list();
     }
 
     private AdminEmail getAdminEmailEntity(String adminEmailId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, adminEmailId);
 
-        Query q = getPm().newQuery(AdminEmail.class);
-        q.declareParameters("String adminEmailIdParam");
-        q.setFilter("emailId == adminEmailIdParam");
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(adminEmailId);
-
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+        Key<AdminEmail> key = makeKeyOrNullFromWebSafeString(adminEmailId);
+        if (key == null) {
             return null;
         }
-        return adminEmailList.get(0);
+
+        return ofy().load().key(key).now();
     }
 
     private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
-
-        Query q = getPm().newQuery(AdminEmail.class);
-        q.declareParameters("String subjectParam, java.util.Date createDateParam");
-        q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject, createDate);
-
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
-            return null;
-        }
-        return adminEmailList.get(0);
+        return load()
+                .filter("subject =", subject)
+                .filter("createDate =", createDate)
+                .first().now();
     }
 
     private AdminEmail getAdminEmailEntityBySubject(String subject) {
-
-        Query q = getPm().newQuery(AdminEmail.class);
-        q.declareParameters("String subjectParam");
-        q.setFilter("subject == subjectParam");
-        q.setRange(0, 1);
-
-        @SuppressWarnings("unchecked")
-        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(subject);
-
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
-            return null;
-        }
-        return adminEmailList.get(0);
+        return load().filter("subject =", subject).first().now();
     }
 
     @Override
-    protected Object getEntity(EntityAttributes attributes) {
-        AdminEmailAttributes adminEmailToGet = (AdminEmailAttributes) attributes;
+    protected LoadType<AdminEmail> load() {
+        return ofy().load().type(AdminEmail.class);
+    }
 
+    @Override
+    protected AdminEmail getEntity(AdminEmailAttributes adminEmailToGet) {
         if (adminEmailToGet.getEmailId() != null) {
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
         }
@@ -349,26 +231,25 @@ public class AdminEmailsDb extends EntitiesDb {
     }
 
     @Override
-    protected QueryWithParams getEntityKeyOnlyQuery(EntityAttributes attributes) {
-        Class<?> entityClass = AdminEmail.class;
-        String primaryKeyName = AdminEmail.PRIMARY_KEY_NAME;
-        AdminEmailAttributes aea = (AdminEmailAttributes) attributes;
-        String id = aea.emailId;
+    protected QueryKeys<AdminEmail> getEntityQueryKeys(AdminEmailAttributes attributes) {
+        Key<AdminEmail> key = makeKeyOrNullFromWebSafeString(attributes.emailId);
 
-        Query q = getPm().newQuery(entityClass);
-        Object[] params;
-
-        if (id == null) {
-            q.declareParameters("String subjectParam, java.util.Date createDateParam");
-            q.setFilter("subject == subjectParam && " + "createDate == createDateParam");
-            params = new Object[] {aea.subject, aea.createDate};
+        Query<AdminEmail> query;
+        if (key == null) {
+            query = load()
+                    .filter("subject =", attributes.subject)
+                    .filter("createDate =", attributes.createDate);
         } else {
-            q.declareParameters("String idParam");
-            q.setFilter(primaryKeyName + " == idParam");
-            params = new Object[] {id};
+            query = load().filterKey(key);
         }
 
-        return new QueryWithParams(q, params, primaryKeyName);
+        return query.keys();
     }
 
+    @Override
+    protected AdminEmailAttributes makeAttributes(AdminEmail entity) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+
+        return new AdminEmailAttributes(entity);
+    }
 }

@@ -46,18 +46,18 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                 new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
         questions.add(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         questions.add(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1"));
         questions.add(dataBundle.feedbackQuestions.get("qn3InSession1InCourse1"));
 
-        Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
+        Map<String, Boolean> questionHasResponses = new HashMap<>();
         questionHasResponses.put(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId(), true);
 
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentList = new ArrayList<>();
         studentList.add(dataBundle.students.get("student1InCourse1"));
 
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorList = new ArrayList<>();
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
 
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
@@ -208,11 +208,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         fs.setPublishedEmailEnabled(false);
         fs.setClosingEmailEnabled(false);
 
-        questions = new ArrayList<FeedbackQuestionAttributes>();
+        questions = new ArrayList<>();
 
-        questionHasResponses = new HashMap<String, Boolean>();
-        studentList = new ArrayList<StudentAttributes>();
-        instructorList = new ArrayList<InstructorAttributes>();
+        questionHasResponses = new HashMap<>();
+        studentList = new ArrayList<>();
+        instructorList = new ArrayList<>();
         instructor = getInstructorFromBundle("instructor1OfCourse1");
 
         data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor);

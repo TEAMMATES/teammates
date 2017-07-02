@@ -35,7 +35,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public FeedbackRankOptionsQuestionDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
 
-        this.options = new ArrayList<String>();
+        this.options = new ArrayList<>();
     }
 
     @Override
@@ -379,11 +379,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         if (responses.isEmpty()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         if (isAreDuplicatesAllowed()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         List<String> errors = new ArrayList<>();
 
