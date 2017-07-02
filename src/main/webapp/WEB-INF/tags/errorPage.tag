@@ -42,6 +42,6 @@
     </div>
     <t:bodyFooter />
 </body>
-<script type="text/javascript" src="/js/richTextEditor.js"></script>
+<script type="text/javascript" src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/js/errorPageEmailComposer.js"></script>
 </html>
