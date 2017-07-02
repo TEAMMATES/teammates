@@ -7,7 +7,6 @@
     <!-- This jsp-config element tag must be put above other tags or else it might cause all error pages to be non-accessible -->
     <jsp-config>
         <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
