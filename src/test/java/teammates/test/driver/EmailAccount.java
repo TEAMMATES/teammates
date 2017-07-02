@@ -131,9 +131,9 @@ public final class EmailAccount {
 
     private static String getTextFromPart(Part part) throws MessagingException, IOException {
         if (part.isMimeType("multipart/alternative")) {
-            return getTextFromMultiPartAlternative((Multipart) part);
+            return getTextFromMultiPartAlternative((Multipart) part.getContent());
         } else if (part.isMimeType("multipart/digest")) {
-            return getTextFromMultiPartDigest((Multipart) part);
+            return getTextFromMultiPartDigest((Multipart) part.getContent());
         } else if (mimeTypeCanBeHandledAsMultiPartMixed(part)) {
             return getTextHandledAsMultiPartMixed(part);
         }
@@ -199,7 +199,7 @@ public final class EmailAccount {
     }
 
     private static String getTextHandledAsMultiPartMixed(Part part) throws IOException, MessagingException {
-        return getTextFromMultiPartMixed((Multipart) part);
+        return getTextFromMultiPartMixed((Multipart) part.getContent());
     }
 
     private static String getTextFromMultiPartMixed(Multipart multipart) throws IOException, MessagingException {

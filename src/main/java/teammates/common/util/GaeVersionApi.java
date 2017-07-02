@@ -19,8 +19,8 @@ public class GaeVersionApi {
      */
     public List<Version> getAvailableVersions() {
         ModulesService modulesService = ModulesServiceFactory.getModulesService();
-        List<String> versionListInString = new ArrayList<String>(modulesService.getVersions(null)); // null == default module
-        List<Version> versionList = new ArrayList<Version>();
+        List<String> versionListInString = new ArrayList<>(modulesService.getVersions(null)); // null == default module
+        List<Version> versionList = new ArrayList<>();
         for (String versionInString : versionListInString) {
             versionList.add(new Version(versionInString));
         }
@@ -44,7 +44,7 @@ public class GaeVersionApi {
         List<Version> versionList = getAvailableVersions();
         Version currentVersion = getCurrentVersion();
 
-        List<String> resultVersions = new ArrayList<String>();
+        List<String> resultVersions = new ArrayList<>();
         try {
             int currentVersionIndex = versionList.indexOf(currentVersion);
             resultVersions = getSublistOfVersionList(versionList, currentVersionIndex, numVersions);
@@ -62,7 +62,7 @@ public class GaeVersionApi {
     private List<String> getSublistOfVersionList(List<Version> versionList, int startIndex, int maxAmount) {
         int endIndex = Math.min(startIndex + maxAmount, versionList.size());
         List<Version> versionSubList = versionList.subList(startIndex, endIndex);
-        List<String> versionListInString = new ArrayList<String>();
+        List<String> versionListInString = new ArrayList<>();
         for (Version version : versionSubList) {
             versionListInString.add(version.toStringWithDashes());
         }

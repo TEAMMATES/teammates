@@ -46,8 +46,8 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
     private void repairCourseStudents(CourseAttributes course) {
         List<StudentAttributes> studentList = getStudentsForCourse(course.getId());
 
-        Map<String, String> emailNameMap = new TreeMap<String, String>();
-        Set<String> duplicateEmailRecord = new TreeSet<String>();
+        Map<String, String> emailNameMap = new TreeMap<>();
+        Set<String> duplicateEmailRecord = new TreeSet<>();
         for (StudentAttributes student : studentList) {
             String duplicateEmailOwner =
                     emailNameMap.put(student.email, student.name);
@@ -78,7 +78,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
         @SuppressWarnings("unchecked")
         List<Course> courseList = (List<Course>) q.execute();
 
-        List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseDataList = new ArrayList<>();
         for (Course c : courseList) {
             courseDataList.add(new CourseAttributes(c));
         }
@@ -91,7 +91,7 @@ public class RepairStudentsWithDuplicateEmail extends RemoteApiClient {
 
         List<CourseStudent> studentList = getStudentEntitiesForCourse(courseId);
 
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentDataList = new ArrayList<>();
 
         for (CourseStudent s : studentList) {
             if (!JDOHelper.isDeleted(s)) {

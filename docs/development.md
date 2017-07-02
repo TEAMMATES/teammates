@@ -336,5 +336,3 @@ There are several files used to configure various aspects of the system.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
 * `datastore-indexes.xml`: Contains the Datastore indexes configuration.
-* `jdoconfig.xml`: Contains the JDO configuration.
-* `persistence.xml`: Contains the JPA configuration.
