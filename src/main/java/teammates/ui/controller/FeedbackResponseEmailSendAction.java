@@ -2,6 +2,9 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.PageData;
 
 public class FeedbackResponseEmailSendAction extends Action {
 
@@ -17,7 +20,9 @@ public class FeedbackResponseEmailSendAction extends Action {
         log.severe("Subject: " + emailSubject);
         log.severe("Content: " + emailContent);
         log.severe("URL: " + requestUrl);
-        return null;
+        PageData data = new PageData(account, sessionToken);
+        statusToUser.add(new StatusMessage("hello!", StatusMessageColor.SUCCESS));
+        return createShowPageResult(Const.ViewURIs.ACTION_NOT_FOUND_PAGE, data);
     }
 
 }
