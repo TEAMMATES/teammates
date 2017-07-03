@@ -57,7 +57,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         isCourseArchived = false;
         isInstructorAllowedToModify = true;
 
-        coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
+        coursesToDisplay = new ArrayList<>();
         coursesToDisplay.add(new InstructorStudentListPageCourseData(sampleCourse, isCourseArchived,
                                                                      isInstructorAllowedToModify));
 

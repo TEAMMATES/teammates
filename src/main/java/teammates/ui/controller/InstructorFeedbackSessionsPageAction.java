@@ -38,13 +38,12 @@ public class InstructorFeedbackSessionsPageAction extends InstructorFeedbackAbst
         // HashMap with courseId as key and InstructorAttributes as value
         Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(shouldOmitArchived);
 
-        List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(instructors.values());
+        List<InstructorAttributes> instructorList = new ArrayList<>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
 
         List<FeedbackSessionAttributes> existingFeedbackSessions;
         if (courses.isEmpty() || !data.isUsingAjax()) {
-            existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+            existingFeedbackSessions = new ArrayList<>();
         } else {
             existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
             if (existingFeedbackSessions.isEmpty()) {

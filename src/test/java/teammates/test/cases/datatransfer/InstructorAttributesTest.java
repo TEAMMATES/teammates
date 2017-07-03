@@ -10,12 +10,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
-import teammates.test.cases.BaseTestCase;
 
 /**
  * SUT: {@link InstructorAttributes}.
  */
-public class InstructorAttributesTest extends BaseTestCase {
+public class InstructorAttributesTest extends BaseAttributesTest {
 
     private static final String DEFAULT_ROLE_NAME = Const.InstructorPermissionRoleNames
             .INSTRUCTOR_PERMISSION_ROLE_COOWNER;
@@ -133,6 +132,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertFalse(instructor.isRegistered());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         String googleId = "valid.googleId";

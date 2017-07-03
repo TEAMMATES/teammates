@@ -53,7 +53,7 @@ public class InstructorCourseRemindAction extends Action {
         }
 
         /* Process sending emails and setup status to be shown to user and admin */
-        Map<String, JoinEmailData> emailDataMap = new TreeMap<String, JoinEmailData>();
+        Map<String, JoinEmailData> emailDataMap = new TreeMap<>();
 
         String redirectUrl = "";
         if (isSendingToStudent) {

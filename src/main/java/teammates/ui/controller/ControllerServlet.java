@@ -128,7 +128,7 @@ public class ControllerServlet extends HttpServlet {
             log.info(e.getMessage());
             cleanUpStatusMessageInSession(req);
 
-            List<StatusMessage> statusMessagesToUser = new ArrayList<StatusMessage>();
+            List<StatusMessage> statusMessagesToUser = new ArrayList<>();
             statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                        StatusMessageColor.WARNING));
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);

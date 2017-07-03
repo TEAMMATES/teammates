@@ -46,11 +46,11 @@ public final class DataGenerator {
     private static final Integer MAX_TEAM_SIZE = 5;
     private static final Integer MIN_TEAM_SIZE = 3;
 
-    private static final ArrayList<String> courses = new ArrayList<String>();
-    private static final HashMap<String, String> instructors = new HashMap<String, String>();
-    private static final ArrayList<String> studentEmails = new ArrayList<String>();
-    private static final ArrayList<String> students = new ArrayList<String>();
-    private static final ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
+    private static final ArrayList<String> courses = new ArrayList<>();
+    private static final HashMap<String, String> instructors = new HashMap<>();
+    private static final ArrayList<String> studentEmails = new ArrayList<>();
+    private static final ArrayList<String> students = new ArrayList<>();
+    private static final ArrayList<ArrayList<String>> teams = new ArrayList<>();
 
     private static final Random random = new Random();
 
@@ -137,12 +137,12 @@ public final class DataGenerator {
         //=====================================================================
 
         // randomly pick student indexes from global list to be put into this course
-        Set<Integer> studentIndexs = new HashSet<Integer>();
+        Set<Integer> studentIndexs = new HashSet<>();
         while (studentIndexs.size() < numOfStudent) {
             studentIndexs.add(random.nextInt(NUM_OF_STUDENTS));
         }
 
-        ArrayList<String> studentEmailInCourse = new ArrayList<String>();
+        ArrayList<String> studentEmailInCourse = new ArrayList<>();
         for (Integer integer : studentIndexs) {
             studentEmailInCourse.add(studentEmails.get(integer));
         }
@@ -152,7 +152,7 @@ public final class DataGenerator {
         int teamCount = 1;
         while (!studentEmailInCourse.isEmpty()) {
             long teamSize = random.nextInt(MAX_TEAM_SIZE - MIN_TEAM_SIZE + 1) + MIN_TEAM_SIZE;
-            ArrayList<String> team = new ArrayList<String>();
+            ArrayList<String> team = new ArrayList<>();
             for (int k = 0; !studentEmailInCourse.isEmpty() && k < teamSize; k++) {
 
                 String email = studentEmailInCourse.remove(0);
