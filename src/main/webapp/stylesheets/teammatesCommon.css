@@ -659,6 +659,13 @@ input.inline {
     }
 }
 
+@media (max-width: 767px) {
+    .margin-sm-15px {
+        margin-top: 15px;
+        min-width: 150px;
+    }
+}
+
 @media (max-width: 768px) {
     .btn-login {
         width: 100%;

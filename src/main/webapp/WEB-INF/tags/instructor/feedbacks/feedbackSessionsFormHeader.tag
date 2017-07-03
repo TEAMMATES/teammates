@@ -21,7 +21,7 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class="col-xs-1">
+            <div class="col-xs-2">
                 <h5>
                     <a href="/instructorHelp.jsp#fbSetupSession" target="_blank" rel="noopener noreferrer">
                         <span class="glyphicon glyphicon-info-sign"></span>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <h4 class="label-control col-xs-12 col-md-1 text-md">Or: </h4>
-        <div class="col-xs-12 col-md-3">
+        <div class="col-xs-12 col-md-4">
             <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
         </div>
     </div>

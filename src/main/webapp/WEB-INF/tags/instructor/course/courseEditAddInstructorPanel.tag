@@ -217,7 +217,7 @@
 
                                                 <div id="tuneSessionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" class="row" style="display: none;">
                                                     <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}sessionsset" value="false"/>
-                                                    <table class="table table-striped">
+                                                    <table class="table table-striped tab">
                                                         <thead>
                                                             <tr>
                                                                 <td>SessionName</td>

@@ -8,10 +8,8 @@
 <div id="accessControlEditDivForInstr${instructorPanel.index}">
     <c:if test="${instructorPanel.accessControlDisplayed}">
         <div class="form-group">
-            <div class="col-sm-3">
-                <label class="control-label pull-right">Access-level</label>
-            </div>
-
+            <label class="col-sm-3 control-label">Access-level:</label>
+            
             <div class="col-sm-9">
                 <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>"
                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${instructorPanel.index}"

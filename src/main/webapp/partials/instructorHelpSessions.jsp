@@ -201,10 +201,10 @@
                                     <div class="row">
                                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select the course for which the feedback session is to be created.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-4">
+                                                <h5 class="col-md-4">
                                                     <label for="courseid" class="control-label">Course ID</label>
                                                 </h5>
-                                                <div class="col-sm-8">
+                                                <div class="col-md-8">
                                                     <select class="form-control" name="courseid" id="courseid">
                                                         <option value="CS1101">CS1101</option>
                                                         <option value="CS2013">CS2103</option>
@@ -216,10 +216,10 @@
                                         </div>
                                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="You should not need to change this as your timezone is auto-detected. <br><br>However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-4">
+                                                <h5 class="col-md-4">
                                                     <label for="timezone" class="control-label">Timezone</label>
                                                 </h5>
-                                                <div class="col-sm-8">
+                                                <div class="col-md-8">
                                                     <select class="form-control" name="timezone" id="timezone">
                                                         <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
                                                         <option value="-11">(UTC -11:00) American Samoa, Niue</option>
@@ -270,11 +270,11 @@
                                     <div class="row">
                                         <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Enter the name of the feedback session e.g. Feedback Session 1.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-2">
+                                                <h5 class="col-md-2">
                                                     <label for="fsname" class="control-label">Session name
                                                     </label>
                                                 </h5>
-                                                <div class="col-sm-10">
+                                                <div class="col-md-10">
                                                     <input class="form-control" type="text" name="fsname" id="fsname" maxlength="38" value="" placeholder="e.g. Feedback for Project Presentation 1">
                                                 </div>
                                             </div>
@@ -284,10 +284,10 @@
                                     <div class="row" id="instructionsRow">
                                         <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> It will be displayed at the top of the page when users respond to the session.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-2">
+                                                <h5 class="col-md-2">
                                                     <label for="instructions" class="control-label">Instructions</label>
                                                 </h5>
-                                                <div class="col-sm-10">
+                                                <div class="col-md-10">
                                                     <textarea class="form-control" rows="4" cols="100%" name="instructions" id="instructions" placeholder="e.g. Please answer all the given questions.">Please answer all the given questions.</textarea>
                                                 </div>
                                             </div>
@@ -542,27 +542,27 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-2" data-toggle="tooltip" data-placement="top" title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
+                                        <div class="col-md-2" data-toggle="tooltip" data-placement="top" title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
                                             <div class="checkbox">
                                                 <label for="sendreminderemail_join">Join reminder
                                                 </label>
                                                 <input type="checkbox" id="sendreminderemail_join" disabled="">
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session is open for submission." disabled="">
+                                        <div class="col-md-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session is open for submission." disabled="">
                                             <div class="checkbox">
                                                 <label>Session opening reminder
                                                 </label>
                                                 <input type="checkbox" name="sendreminderemail" id="sendreminderemail_open" value="FEEDBACK_OPENING">
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
+                                        <div class="col-md-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
                                             <div class="checkbox">
                                                 <label for="sendreminderemail_closing">Session closing reminder</label>
                                                 <input type="checkbox" name="sendreminderemail" id="sendreminderemail_closing" value="FEEDBACK_CLOSING">
                                             </div>
                                         </div>
-                                        <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session results is published.">
+                                        <div class="col-md-4" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session results is published.">
                                             <div class="checkbox">
                                                 <label for="sendreminderemail_published">Results published announcement</label>
                                                 <input type="checkbox" name="sendreminderemail" id="sendreminderemail_published" value="FEEDBACK_PUBLISHED">
@@ -611,7 +611,7 @@
                 <div class="well well-plain inputTable" id="addNewQuestionTable">
                     <div class="row">
                         <div class="col-sm-12 row">
-                            <div class="col-md-12">
+                            <div class="col-sm-offset-3 col-sm-9">
                                 <button id="button_openframe" class="btn btn-primary margin-bottom-7px dropdown-toggle" type="button" data-toggle="dropdown">
                                     Add New Question <span class="caret"></span>
                                 </button>
@@ -953,7 +953,7 @@
 
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                <div class="col-md-4 form-inline mobile-align-left">
                                     <label for="input">To Team: </label>
                                     <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                         <option value="" selected=""></option>
@@ -962,7 +962,7 @@
                                         <option value="Team 3">Team 3</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-md-8 margin-md-15px">
                                     <div id="rich-text-toolbar-response-text-container-1-0"></div>
                                     <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
                                     <div class="margin-top-7px text-color-gray font-weight-normal">
@@ -978,7 +978,7 @@
 
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                <div class="col-md-4 form-inline mobile-align-left">
                                     <label for="input">To Team: </label>
                                     <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                         <option value="" selected=""></option>
@@ -987,7 +987,7 @@
                                         <option value="Team 3">Team 3</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-md-8 margin-md-15px">
                                     <div id="rich-text-toolbar-response-text-container-1-0"></div>
                                     <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
                                     <div class="margin-top-7px text-color-gray font-weight-normal">
@@ -1856,9 +1856,9 @@
                                 <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                             </div>
                             Participants who have not responded to any question</div>
-                        <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
+                        <div class="panel-collapse collapse in table-responsive" id="panelBodyCollapse-12" style="height: auto;">
                             <div class="panel-body padding-0">
-                                <table class="table table-striped table-bordered margin-0">
+                                <table class="table table-striped table-bordered margin-0 table-responsive">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
                                             <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this)" style="width: 30%;">

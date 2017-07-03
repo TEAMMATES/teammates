@@ -70,7 +70,7 @@
                             <div class="panel-heading">
                                 <strong>Course name appears here</strong>
                             </div>
-                            <div class="panel-body padding-0">
+                            <div class="panel-body padding-0 table-responsive">
                                 <table class="table table-bordered table-striped table-responsive margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -142,7 +142,7 @@
                             <div class="panel-heading">
                                 <strong>Course name appears here</strong>
                             </div>
-                            <div class="panel-body padding-0">
+                            <div class="panel-body padding-0 table-responsive">
                                 <table class="table table-bordered table-striped table-responsive margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
