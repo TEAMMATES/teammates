@@ -1777,26 +1777,6 @@ public class Logic {
 
     /**
      * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session of a roster.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(String feedbackSessionName,
-                                                                               String courseId, String userEmail,
-                                                                               CourseRoster roster,
-                                                                               Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail,
-                                                                            roster, isIncludeResponseStatus);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session in a specific section.
      * Preconditions: <br>
      * * All parameters are non-null.

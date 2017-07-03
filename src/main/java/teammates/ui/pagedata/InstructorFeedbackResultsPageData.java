@@ -1438,8 +1438,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            responseVisibilityMap, bundle.instructorEmailNameTable);
 
         if (isInstructorAllowedToEditAndDeleteComment) {
-            frc.enableEdit();
-            frc.enableDelete();
+            frc.enableEditDelete();
         }
 
         return frc;
