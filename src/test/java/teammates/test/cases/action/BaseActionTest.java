@@ -93,7 +93,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
      *         (together with the parameter name) inserted at the beginning.
      */
     protected String[] addUserIdToParams(String userId, String[] params) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(Const.ParamsNames.USER_ID);
         list.add(userId);
         for (String s : params) {
@@ -105,7 +105,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     private String[] addStudentAuthenticationInfo(String[] params) {
         StudentAttributes unregStudent =
                 StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(Const.ParamsNames.REGKEY);
         list.add(StringHelper.encrypt(unregStudent.key));
         list.add(Const.ParamsNames.STUDENT_EMAIL);
