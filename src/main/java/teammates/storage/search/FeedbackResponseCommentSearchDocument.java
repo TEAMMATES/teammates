@@ -321,10 +321,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
             bundle.instructorEmailNameTable.put(comment.giverEmail, commentGiverName);
-            if (!comment.lastEditorEmail.isEmpty()
-                    && !bundle.instructorEmailNameTable.containsKey(comment.lastEditorEmail)) {
-                InstructorAttributes instructor = instructorsDb.getInstructorForEmail(response.courseId,
-                        comment.lastEditorEmail);
+            boolean isLastEditorEmailInMap = !comment.lastEditorEmail.isEmpty()
+                    && bundle.instructorEmailNameTable.containsKey(comment.lastEditorEmail);
+            if (!isLastEditorEmailInMap) {
+                InstructorAttributes instructor =
+                        instructorsDb.getInstructorForEmail(response.courseId, comment.lastEditorEmail);
                 String commentLastEditorName = instructor.displayedName + " " + instructor.name;
                 bundle.instructorEmailNameTable.put(comment.lastEditorEmail, commentLastEditorName);
             }
