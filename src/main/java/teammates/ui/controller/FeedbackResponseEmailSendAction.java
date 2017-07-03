@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
@@ -13,15 +14,23 @@ public class FeedbackResponseEmailSendAction extends Action {
 
     @Override
     protected ActionResult execute() {
+        boolean isUserLoggedOn = true;
         // ensuring only our users can send us error feedback
-        gateKeeper.verifyLoggedInUserPrivileges();
+        try {
+            gateKeeper.verifyLoggedInUserPrivileges();
+        } catch (UnauthorizedAccessException e) {
+            isUserLoggedOn = false;
+        }
         String emailContent = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT);
         String emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
         log.severe("Subject: " + emailSubject);
         log.severe("Content: " + emailContent);
         log.severe("URL: " + requestUrl);
         PageData data = new PageData(account, sessionToken);
-        statusToUser.add(new StatusMessage("hello!", StatusMessageColor.SUCCESS));
+        statusToUser.add(new StatusMessage(
+                isUserLoggedOn ? Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS
+                        : Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_FAILED, 
+                isUserLoggedOn ? StatusMessageColor.SUCCESS : StatusMessageColor.DANGER));
         return createAjaxResult(data);
     }
 

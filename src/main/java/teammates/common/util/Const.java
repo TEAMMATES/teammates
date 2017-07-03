@@ -1467,6 +1467,9 @@ public final class Const {
         public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
                 "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
                 + "Enrollment for Course <span class=\"bold\">[%s]</span>";
+        public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your feedback has been received.";
+        public static final String ERROR_FEEDBACK_SUBMIT_FAILED = "For security reasons, "
+                + "we only accept feedback from users who are logged in.";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
