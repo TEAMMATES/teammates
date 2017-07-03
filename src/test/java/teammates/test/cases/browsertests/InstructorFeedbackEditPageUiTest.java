@@ -420,7 +420,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("TEXT");
-        feedbackEditPage.fillQuestionTextBoxForNewQuestion(qnTextOriginal + " 2");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Question text for question number 2");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
 
@@ -443,15 +443,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.isDiscardChangesButtonVisible(qnIndex));
         assertFalse(feedbackEditPage.isQuestionEnabled(qnIndex));
+        assertFalse(feedbackEditPage.isSelectQuestionNumberEnabled(qnIndex));
         String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
 
         ______TS("Try cancelling changes to question number");
-        feedbackEditPage.clickEditQuestionButton(qnIndex + 1);
-        feedbackEditPage.selectQuestionNumber(qnIndex + 1, qnIndex);
-        feedbackEditPage.clickDiscardChangesLink(qnIndex + 1);
+        qnIndex++;
+        feedbackEditPage.clickEditQuestionButton(qnIndex);
+        feedbackEditPage.selectQuestionNumber(qnIndex, 1);
+        feedbackEditPage.clickDiscardChangesLink(qnIndex);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertEquals(qnIndex + 1, feedbackEditPage.getSelectedQuestionNumber(qnIndex + 1));
+        assertEquals(qnIndex, feedbackEditPage.getSelectedQuestionNumber(qnIndex));
+        qnIndex--;
 
         ______TS("Try re-editing a question after cancelling, making sure that form controls still work");
         feedbackEditPage.clickEditQuestionButton(qnIndex);
