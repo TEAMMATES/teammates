@@ -52,42 +52,30 @@
         </c:if>
       </div>
       <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
-        <label>Activated additional settings:</label>
-        <c:choose>
-          <c:when test="${filterPanel.groupedByTeam || filterPanel.statsShown || filterPanel.missingResponsesShown}">
-            <ul>
-              <c:if test="${filterPanel.groupedByTeam}">
-                <li>
-                  <div data-toggle="tooltip" title="Group results in the current view by team">
-                    <div <c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
-                      Group by Teams
-                    </div>
-                  </div>
-                </li>
-              </c:if>
-              <c:if test="${filterPanel.statsShown}">
-                <li>
-                  <div data-toggle="tooltip" title="Show statistics">
-                    <div <c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
-                      Show Statistics
-                    </div>
-                  </div>
-                </li>
-              </c:if>
-              <c:if test="${filterPanel.missingResponsesShown}">
-                <li>
-                  <div data-toggle="tooltip" title="Indicate missing responses">
-                    Indicate Missing Responses
-                  </div>
-                </li>
-              </c:if>
-            </ul>
-          </c:when>
-          <c:otherwise>
-            <br>No additional filters applied.
-            <br>Click edit button to change settings
-          </c:otherwise>
-        </c:choose>
+        <label>Additional settings:</label>
+        <ul>
+          <li>
+            <div data-toggle="tooltip" title="Group results in the current view by team">
+              <div <c:if test="${not filterPanel.groupedByTeam}"> class="text-strike"</c:if>>
+                Group by Teams
+              </div>
+            </div>
+          </li>
+          <li>
+            <div data-toggle="tooltip" title="Show statistics">
+              <div <c:if test="${not filterPanel.statsShown}"> class="text-strike"</c:if>>
+                Show Statistics
+              </div>
+            </div>
+          </li>
+          <li>
+            <div data-toggle="tooltip" title="Indicate missing responses">
+              <div <c:if test="${not filterPanel.missingResponsesShown}"> class="text-strike"</c:if>>
+                Indicate Missing Responses
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="row">
