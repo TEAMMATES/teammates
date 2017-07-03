@@ -17,7 +17,7 @@ import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 
-public class InstructorFeedbacksPageData extends PageData {
+public class InstructorFeedbackSessionsPageData extends PageData {
 
     // Flag for deciding if loading the sessions table, or the new sessions form.
     // if true -> loads the sessions table, else load the form
@@ -27,7 +27,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
 
-    public InstructorFeedbacksPageData(AccountAttributes account, String sessionToken) {
+    public InstructorFeedbackSessionsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
     }
 
@@ -86,7 +86,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                     Map<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession,
                                     String feedbackSessionNameForSessionList) {
-        List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<>();
         for (FeedbackSessionAttributes existingFeedbackSession : existingFeedbackSessions) {
             if (instructors.get(existingFeedbackSession.getCourseId())
                            .isAllowedForPrivilege(
@@ -125,7 +125,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
                               FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
         }
@@ -172,7 +172,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                  Map<String, InstructorAttributes> instructors,
                                          String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
-        List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
+        List<FeedbackSessionsTableRow> rows = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             String courseId = session.getCourseId();
@@ -182,7 +182,7 @@ public class InstructorFeedbacksPageData extends PageData {
             String href = getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName());
 
             InstructorFeedbackSessionActions actions =
-                    getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                    getInstructorFeedbackSessionActions(session, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                                                         instructors.get(courseId));
 
             ElementTag elementAttributes;
@@ -218,7 +218,7 @@ public class InstructorFeedbacksPageData extends PageData {
      * @param defaultSessionType  either STANDARD or TEAMEVALUATION, the option that is selected on page load
      */
     private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        ArrayList<ElementTag> result = new ArrayList<>();
 
         ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD",
                                                           "STANDARD".equals(defaultSessionType));
@@ -235,7 +235,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private List<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String courseIdForNewSession,
                                                      Map<String, InstructorAttributes> instructors,
                                                      FeedbackSessionAttributes newFeedbackSession) {
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        ArrayList<ElementTag> result = new ArrayList<>();
 
         for (CourseAttributes course : courses) {
 
@@ -290,7 +290,7 @@ public class InstructorFeedbacksPageData extends PageData {
      * @return form submit action link
      */
     public String getRemindParticularStudentsLink() {
-        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     /**
@@ -299,7 +299,7 @@ public class InstructorFeedbacksPageData extends PageData {
      * @return form submit action link
      */
     public String getEditCopyActionLink() {
-        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     public void setUsingAjax(boolean isUsingAjax) {

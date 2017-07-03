@@ -15,26 +15,24 @@ apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.27"
-
-def jsoupVersion = "1.10.2"
-
-def checkstyleVersion = "6.19"
-def pmdVersion = "5.5.4"
-def findbugsVersion = "3.0.1"
-
 buildscript {
+    ext {
+        appengineVersion = "1.9.54"
+        jsoupVersion = "1.10.2"
+        checkstyleVersion = "6.19"
+        pmdVersion = "5.5.4"
+        findbugsVersion = "3.0.1"
+    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
+        classpath "com.google.appengine:gradle-appengine-plugin:${appengineVersion}"
     }
 }
 
 configurations {
     staticAnalysis
-    enhancer
     exclude
     testExclude
 }
@@ -58,9 +56,10 @@ dependencies {
 
     appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    compile         "com.google.appengine.tools:appengine-gcs-client:0.4.4",
+    compile         "com.google.appengine.tools:appengine-gcs-client:0.6",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.8.0",
+                    "com.googlecode.objectify:objectify:5.1.17",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
                     "com.mailjet:mailjet-client:4.0.5",
                     "com.sendgrid:sendgrid-java:2.2.2",
@@ -75,23 +74,9 @@ dependencies {
                     "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
                     "com.google.appengine:appengine-endpoints:${appengineVersion}",
                     "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "javax.jdo:jdo2-api:2.3-eb",
-                    "net.sf.jsr107cache:jsr107cache:1.1",
-                    "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
-                    "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
-                    "org.datanucleus:datanucleus-core:1.1.5",
-                    "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "xerces:xercesImpl:2.11.0"
+                    "net.sf.jsr107cache:jsr107cache:1.1"
 
     runtime         configurations.exclude
-
-    enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "joda-time:joda-time:2.9.7",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "org.datanucleus:datanucleus-core:1.1.5",
-                    "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
@@ -146,12 +131,11 @@ eclipse {
         natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
         buildCommand "org.eclipse.jdt.core.javabuilder"
         buildCommand "com.google.gdt.eclipse.core.webAppProjectValidator"
-        buildCommand "com.google.appengine.eclipse.core.enhancerbuilder"
         buildCommand "com.google.appengine.eclipse.core.projectValidator"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
     classpath {
-        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.27"
+        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-${appengineVersion}"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
         minusConfigurations = [configurations.exclude, configurations.testExclude]
@@ -306,164 +290,6 @@ task setupIntellijProject {
     finalizedBy addAppEngineSdkHomePath
 }
 
-// IntelliJ project settings setup
-static void throwUnexpectedNodeListSizeException(String taskName, String currentNode, String parentNode, int size) {
-    throw new GradleException('[' + taskName +  '] ' + currentNode + ' size in ' + parentNode +
-            ' node not expected to be' + size)
-}
-
-static Node findOrCreateExternalProjectsManagerComponent(Node xml, String parentTaskName) {
-    String componentName = 'ExternalProjectsManager'
-    Node componentNode = (Node)(xml.component.find { it.@name == componentName })
-
-    if (componentNode == null) {
-        xml.appendNode('component', [name: componentName])
-        componentNode = (Node) (xml.component.find { it.@name == componentName })
-
-        componentNode.appendNode('system', [id: 'GRADLE'])
-
-        Node systemNode = (Node)(componentNode.system[0])
-        Node stateNode = systemNode.appendNode('state')
-        Node projectsViewNode = stateNode.appendNode('projects_view')
-        Node treeStateNode = projectsViewNode.appendNode('tree_state')
-        Node pathNode = treeStateNode.appendNode('PATH')
-
-        Node firstPathElementNode = pathNode.appendNode('PATH_ELEMENT')
-        firstPathElementNode.appendNode('option', [name: 'myItemId', value: ''])
-        firstPathElementNode.appendNode('option', [name: 'myItemType', value: 'com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode'])
-
-        Node secondPathElementNode = pathNode.appendNode('PATH_ELEMENT')
-        secondPathElementNode.appendNode('option', [name: 'myItemId', value: 'teammates'])
-        secondPathElementNode.appendNode('option', [name: 'myItemType', value: 'com.intellij.openapi.externalSystem.view.ProjectNode'])
-    }
-
-    return componentNode
-}
-
-static NodeList getSystemNodeList(Node externalProjectsComponentNode, String parentTaskName) {
-    NodeList systemNodeList = externalProjectsComponentNode.system
-    if (systemNodeList.size() == 0) {
-        throw new GradleException('[' + parentTaskName + '] Cannot find system node in ExternalProjectsManager')
-    }
-
-    return systemNodeList
-}
-
-static Node findGradleSystemNode(NodeList systemNodeList, String parentTaskName) {
-    Node gradleSystemNode = (Node)(systemNodeList.find { it.@id == 'GRADLE' })
-    if (gradleSystemNode == null) {
-        throw new GradleException('[' + parentTaskName + '] Cannot find GRADLE from system node(s)')
-    }
-
-    return gradleSystemNode
-}
-
-static Node getStateNode(Node gradleSystemNode, String parentTaskName) {
-    NodeList stateNodeList = gradleSystemNode.state
-    if (stateNodeList.size() != 1) {
-        throwUnexpectedNodeListSizeException(parentTaskName, 'state', 'system', stateNodeList.size())
-    }
-    Node stateNode = (Node)(stateNodeList[0])
-
-    return stateNode
-}
-
-static NodeList getTaskPathNodeList(Node stateNode, String parentTaskName) {
-    NodeList taskPathNodeList = stateNode.task
-
-    if (taskPathNodeList.size() > 1) {
-        throwUnexpectedNodeListSizeException(parentTaskName, 'task', 'state', taskPathNodeList.size())
-    }
-
-    return taskPathNodeList
-}
-
-static Node getOrCreateTaskPathNode(NodeList taskPathNodeList, Node stateNode) {
-    if (taskPathNodeList.size() == 0) {
-        List stateNodeChildren = stateNode.children()
-        stateNodeChildren.add(0, new Node(null, 'task', [path: '$PROJECT_DIR$']))
-
-        NodeList newTaskPathNodeList = stateNode.task
-        Node taskPathNode = (Node)newTaskPathNodeList[0]
-
-        taskPathNode.appendNode('activation')
-
-        return taskPathNode
-    }
-
-    NodeList newTaskPathNodeList = taskPathNodeList
-    Node taskPathNode = (Node)newTaskPathNodeList[0]
-    return taskPathNode
-}
-
-static Node getActivationNode(Node taskPathNode, String parentTaskName) {
-    NodeList activationNodeList = taskPathNode.activation
-    if (activationNodeList.size() != 1) {
-        throwUnexpectedNodeListSizeException(parentTaskName, 'activation', 'state', activationNodeList.size())
-    }
-
-    return (Node)(activationNodeList[0])
-}
-
-static NodeList getAfterCompileNodeList(Node activationNode, String parentTaskName) {
-    NodeList afterCompileNodeList = activationNode.after_compile
-    if (afterCompileNodeList.size() > 1) {
-        throwUnexpectedNodeListSizeException(parentTaskName, 'after_compile', 'activation', afterCompileNodeList.size())
-    }
-
-    return afterCompileNodeList
-}
-
-task addIntelliJAfterBuildTask {
-    description 'Adds enhanceIntellijOutputClasses task to execute after build'
-    group intellijSetupGroup
-    doLast {
-        String workspaceXmlFilePath = '.idea/workspace.xml'
-        Node workspaceXml = new XmlParser().parse(workspaceXmlFilePath)
-
-        Node externalProjectsComponentNode = findOrCreateExternalProjectsManagerComponent(workspaceXml, name)
-        NodeList systemNodeList = getSystemNodeList(externalProjectsComponentNode, name)
-        Node gradleSystemNode = findGradleSystemNode(systemNodeList, name)
-        Node stateNode = getStateNode(gradleSystemNode, name)
-
-        // if the user somehow messed with the gradle tool window, the task path node may exist
-        // otherwise we create it
-        NodeList taskPathNodeList = getTaskPathNodeList(stateNode, name)
-        Node taskPathNode = getOrCreateTaskPathNode(taskPathNodeList, stateNode)
-
-        Node activationNode = getActivationNode(taskPathNode, name)
-
-        NodeList afterCompileNodeList = getAfterCompileNodeList(activationNode, name)
-
-        // activation node may exist but there is no after_compile node, for example if they have a after_sync node
-        String afterBuildTask = 'enhanceIntellijOutputClasses'
-        if (afterCompileNodeList.size() == 0) {
-            activationNode.appendNode('after_compile')
-            activationNode.after_compile[0].appendNode('task', [name: afterBuildTask])
-        } else {
-            Node afterCompileNode = (Node)(afterCompileNodeList[0])
-            Node taskNode = (Node)(afterCompileNode.task.find {it.@name == afterBuildTask})
-            if (taskNode == null) {
-                afterCompileNode.appendNode('task', [name: afterBuildTask])
-            }
-        }
-
-        new File(workspaceXmlFilePath).withWriter('UTF-8') { out ->
-            out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
-            def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
-            xmlNodePrinter.preserveWhitespace = true
-            xmlNodePrinter.print(workspaceXml)
-        }
-    }
-}
-
-task setupIntellijProjectSettings {
-    description 'Sets up settings in the IntelliJ project'
-    group intellijSetupGroup
-
-    dependsOn addIntelliJAfterBuildTask
-}
-
 // IntelliJ project static analysis plugins setup
 
 task copyIntelliJProjectPluginsSettings(type: Copy) {
@@ -491,9 +317,9 @@ task copyDepsToWebInfLib(type: Copy) {
     from configurations.runtime
     into "src/main/webapp/WEB-INF/lib/"
     rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
-    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
-    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
-    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
+    rename("appengine-endpoints-deps-${appengineVersion}.jar", "appengine-endpoints-deps.jar")
+    rename("appengine-endpoints-${appengineVersion}.jar", "appengine-endpoints.jar")
+    rename("appengine-api-labs-${appengineVersion}.jar", "appengine-api-labs.jar")
 }
 
 task resetEclipseDeps {
@@ -552,42 +378,6 @@ task removeDuplicateLibs(type: Delete) {
 }
 
 appengineExplodeApp.finalizedBy removeDuplicateLibs
-
-task enhancerRun {
-    doLast {
-        def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
-        ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
-        ant.enhance(failonerror: true, verbose: true) {
-            classpath {
-                pathelement(path: path)
-                pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
-                pathelement(path: project.configurations.enhancer.asPath)
-            }
-            fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
-            arg(value: "-enhancerVersion"); arg(value: "v1")
-            arg(value: "-api"); arg(value: "JPA")
-        }
-    }
-}
-
-enhancerRun.dependsOn appengineDownloadSdk
-enhancerRun.dependsOn project.classes
-enhancerRun.shouldRunAfter project.testClasses
-war.dependsOn enhancerRun
-
-task copyEnhancedClassesToExplodedWar(type: Copy) {
-    description 'Copy the enhanced classes to the exploded war'
-    group intellijSetupGroup
-
-    from sourceSets.main.output.classesDir.canonicalPath + '/teammates/storage/entity'
-    into war.destinationDir.canonicalPath + '/exploded/' + war.archiveName + '/WEB-INF/classes/teammates/storage/entity'
-}
-
-task enhanceIntellijOutputClasses(dependsOn: enhancerRun) {
-    description 'Enhance IntelliJ IDEA build output classes'
-    group intellijSetupGroup
-    finalizedBy copyEnhancedClassesToExplodedWar
-}
 
 // STATIC ANALYSIS TASKS
 
@@ -723,7 +513,6 @@ test {
     testLogging {
         events "passed"
     }
-    dependsOn enhancerRun
 }
 
 task localTests(type: Test) {
@@ -740,7 +529,6 @@ task localTests(type: Test) {
     testLogging {
         events "passed"
     }
-    dependsOn enhancerRun
 }
 
 task failedTests(type: Test) {
@@ -757,7 +545,6 @@ task failedTests(type: Test) {
     testLogging {
         events "passed"
     }
-    dependsOn enhancerRun
 }
 
 task ciTests {
@@ -791,7 +578,6 @@ task ciTests {
             afterSuite checkConfigFailureClosure
         }
         finalizedBy "killFirefox${id}"
-        dependsOn enhancerRun
         onlyIf {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }

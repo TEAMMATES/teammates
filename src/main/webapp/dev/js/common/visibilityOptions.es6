@@ -1,4 +1,6 @@
-import { ParamsNames } from './const.es6';
+import {
+    ParamsNames,
+} from './const.es6';
 
 const ROW_RECIPIENT = 1;
 const ROW_GIVER_TEAM = 2;

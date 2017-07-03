@@ -17,8 +17,8 @@ public class SessionAttributesTest extends BaseTestCase {
 
     @Test
     public void testSort() {
-        ArrayList<SessionAttributes> testList = new ArrayList<SessionAttributes>();
-        ArrayList<SessionAttributes> expected = new ArrayList<SessionAttributes>();
+        ArrayList<SessionAttributes> testList = new ArrayList<>();
+        ArrayList<SessionAttributes> expected = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
 

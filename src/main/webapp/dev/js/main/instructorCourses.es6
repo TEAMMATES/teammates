@@ -1,8 +1,25 @@
-import { ParamsNames, StatusType } from '../common/const.es6';
-import { prepareInstructorPages } from '../common/instructor.es6';
-import { toggleSort } from '../common/sortBy.es6';
-import { appendStatusMessage, clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
-import { TimeZone } from '../common/timezone.es6';
+import {
+    ParamsNames,
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    prepareInstructorPages,
+} from '../common/instructor.es6';
+
+import {
+    toggleSort,
+} from '../common/sortBy.es6';
+
+import {
+    appendStatusMessage,
+    clearStatusMessages,
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    TimeZone,
+} from '../common/timezone.es6';
 
 let isFetchingCourses = false;
 let needsRetrying = false;
@@ -68,7 +85,7 @@ $(document).ready(() => {
                 needsRetrying = true;
                 $('#coursesList').html('');
                 setStatusMessage(
-                    'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
+                    'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.'
                 , StatusType.WARNING);
                 $('#retryAjax').click((ev) => {
                     ev.preventDefault();

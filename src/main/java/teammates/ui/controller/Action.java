@@ -67,7 +67,7 @@ public abstract class Action {
     protected String statusToAdmin; // TODO: make this a list?
 
     /** Execution status info to be shown to the user. */
-    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
+    protected List<StatusMessage> statusToUser = new ArrayList<>();
 
     /**
      * Whether the execution completed without any errors or
@@ -517,7 +517,7 @@ public abstract class Action {
                 (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
 
         if (statusMessagesToUser == null) {
-            statusMessagesToUser = new ArrayList<StatusMessage>();
+            statusMessagesToUser = new ArrayList<>();
         }
 
         statusMessagesToUser.addAll(response.statusToUser);

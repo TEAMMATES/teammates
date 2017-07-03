@@ -26,7 +26,7 @@ public class DownloadAllCourseData extends OfflineBackup {
         String q = "SELECT FROM " + Course.class.getName();
         List<Course> courses = (List<Course>) PM.newQuery(q).execute();
 
-        Set<String> allCourses = new HashSet<String>();
+        Set<String> allCourses = new HashSet<>();
 
         for (Course course : courses) {
             allCourses.add(course.getUniqueId());

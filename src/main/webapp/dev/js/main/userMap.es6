@@ -1,6 +1,8 @@
 /* global d3:false Datamap:false */
 
-import { getCountryCode } from '../common/countryCodes.es6';
+import {
+    getCountryCode,
+} from '../common/countryCodes.es6';
 
 function getTooltipContent(data) {
     return `<div class="hoverinfo">

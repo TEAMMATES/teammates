@@ -16,7 +16,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
-public class FeedbackResponseAttributes extends EntityAttributes {
+public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
@@ -114,7 +114,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 

@@ -82,7 +82,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     }
 
     private List<CourseStudent> getStudentsFromCourses(List<CourseAttributes> courseList) {
-        List<CourseStudent> studentList = new ArrayList<CourseStudent>();
+        List<CourseStudent> studentList = new ArrayList<>();
         System.out.println("Number of courses in last year : " + courseList.size());
         for (CourseAttributes course : courseList) {
             System.out.println("Getting students of " + course.getId()
@@ -93,7 +93,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     }
 
     private List<CourseAttributes> getCoursesWithinOneYear() {
-        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseList = new ArrayList<>();
 
         Query q = PM.newQuery(Course.class);
         q.declareParameters("java.util.Date startTime");
@@ -113,7 +113,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
      * Creates a list of team names that contain extra spaces over courseId.
      */
     private Map<String, Set<String>> createCourseTeamNameList(List<CourseStudent> allStudents) {
-        Map<String, Set<String>> courseTeamListMap = new TreeMap<String, Set<String>>();
+        Map<String, Set<String>> courseTeamListMap = new TreeMap<>();
         for (CourseStudent studentEntity : allStudents) {
             if (!hasExtraSpaces(studentEntity.getTeamName())) {
                 continue;
