@@ -20,7 +20,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
-public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
+public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> implements SessionAttributes {
     private String feedbackSessionName;
     private String courseId;
     private String creatorEmail;

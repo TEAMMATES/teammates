@@ -42,7 +42,7 @@
 
                 <li <c:if test="${fn:contains(data.class,'AdminEmail')}">class="active dropdown"</c:if>
                     <c:if test="${not fn:contains(data.class,'AdminEmail')}">class="dropdown"</c:if>>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Email <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">

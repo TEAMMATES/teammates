@@ -108,13 +108,12 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
-            String feedbackSessionName, String courseId, long range) {
+            String feedbackSessionName, String courseId, int range) {
         return frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -122,8 +121,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -131,8 +129,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -144,7 +141,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(
-            String feedbackQuestionId, long range) {
+            String feedbackQuestionId, int range) {
         return frDb.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, range);
     }
 
@@ -187,7 +184,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
-            String giverEmail, String feedbackSessionName, String courseId, long range) {
+            String giverEmail, String feedbackSessionName, String courseId, int range) {
         return frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
     }
 
@@ -481,7 +478,7 @@ public final class FeedbackResponsesLogic {
         try {
             newResponse.setId(null);
             FeedbackResponse createdResponseEntity =
-                    (FeedbackResponse) frDb.createEntity(newResponse);
+                    frDb.createEntity(newResponse);
             frDb.deleteEntity(oldResponse);
             frcLogic.updateFeedbackResponseCommentsForChangingResponseId(
                     oldResponse.getId(), createdResponseEntity.getId());
@@ -636,7 +633,7 @@ public final class FeedbackResponsesLogic {
             feedbackResponse.setRecipientSection(enrollment.newSection);
         }
 
-        frDb.commitOutstandingChanges();
+        frDb.saveEntity(feedbackResponse);
 
         if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());

@@ -77,12 +77,12 @@ function addInstructorAjax(isError, data) {
             data.instructorName,
             data.instructorEmail,
             data.instructorInstitution,
-            data.instructorAddingResultForAjax,
+            data.isInstructorAddingResultForAjax,
             data.statusForAjax,
         );
     }
     $('#addInstructorResultTable tbody').append(rowText);
-    const isNotAddingResultForAjax = !(data && data.instructorAddingResultForAjax);
+    const isNotAddingResultForAjax = !(data && data.isInstructorAddingResultForAjax);
     if (isInputFromFirstPanel && isNotAddingResultForAjax) {
         const instructorsToBeRetried = `${$('#addInstructorDetailsSingleLine').val()
                                         + instructorDetailsList[paramsCounter]}\n`;
