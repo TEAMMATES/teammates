@@ -44,6 +44,10 @@ Run the following command:
 ```sh
 ./gradlew appengineRun
 ```
+Run the command below instead if you want the console output to be visible: 
+```sh
+./gradlew appengineRun -Pdisable_daemon
+```
 
 Wait until the task exits with a `BUILD SUCCESSFUL`.
 The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
