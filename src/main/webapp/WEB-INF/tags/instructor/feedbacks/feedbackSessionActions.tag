@@ -26,7 +26,7 @@
      data-placement="top"
      style="display: inline-block; padding-right: 5px;">
     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
-       href="#"
+       href="javascript:;"
        data-actionlink="${actions.editCopyLink}"
        data-courseid="${actions.courseId}"
        data-fsname="${actions.fsName}"
@@ -50,7 +50,7 @@
      data-toggle="tooltip"
      data-placement="top"
      style="display: inline-block; padding-right: 5px;">
-     <div class="btn-group margin-bottom-7px">
+    <div class="btn-group margin-bottom-7px">
         <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"
            href="${actions.resultsLink}">
             Results
@@ -99,7 +99,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="javascript:;"
                    data-actionlink="${actions.remindParticularStudentsPageLink}"
                    class="session-remind-particular-for-test"
                    data-courseid="${actions.courseId}"

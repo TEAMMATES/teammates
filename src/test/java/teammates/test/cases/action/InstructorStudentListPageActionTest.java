@@ -14,7 +14,7 @@ import teammates.ui.pagedata.InstructorStudentListPageData;
  * SUT: {@link InstructorStudentListPageAction}.
  */
 // Priority added due to conflict between InstructorStudentListPageActionTest,
-// StudentHomePageActionTest, and StudentCommentsPageActionTest.
+// and StudentHomePageActionTest.
 @Priority(-3)
 public class InstructorStudentListPageActionTest extends BaseActionTest {
 
