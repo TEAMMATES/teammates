@@ -22,7 +22,7 @@ public class FeedbackResponseEmailSendAction extends Action {
         log.severe("URL: " + requestUrl);
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage("hello!", StatusMessageColor.SUCCESS));
-        return createShowPageResult(Const.ViewURIs.ACTION_NOT_FOUND_PAGE, data);
+        return createAjaxResult(data);
     }
 
 }
