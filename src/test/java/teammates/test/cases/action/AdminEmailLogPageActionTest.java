@@ -63,6 +63,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         loadLogMessages();
         initVariable();
     }
@@ -430,8 +431,6 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreTypicalDataBundle();
         String[] submissionParams = new String[]{};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
