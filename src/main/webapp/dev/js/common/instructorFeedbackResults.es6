@@ -5,6 +5,10 @@ import {
 } from './instructor.es6';
 
 import {
+    prepareRemindModal,
+} from './remindModal.es6';
+
+import {
     setStatusMessage,
 } from './statusMessage.es6';
 
@@ -240,6 +244,24 @@ function getAppendedResponseRateData(data) {
     return appendedResponseStatus;
 }
 
+function toggleNoResponsePanel(e) {
+    const $targetElement = $(e.target);
+    if ($targetElement.is('a') || $targetElement.is('input')) {
+        return;
+    }
+    const $panel = $(this);
+    const $remindButton = $panel.find('.remind-no-response');
+    if ($panel.data('state') === 'up') {
+        $remindButton.show();
+        showSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'down');
+    } else {
+        $remindButton.hide();
+        hideSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'up');
+    }
+}
+
 function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
@@ -308,13 +330,18 @@ function prepareInstructorFeedbackResultsPage() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success(data) {
+                const remindButtonContent = $(data).find('.remind-no-response')[0];
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
-                $(panelHeading).removeClass('ajax-response-submit');
-                $(panelHeading).removeClass('ajax-response-auto');
-                $(panelHeading).off('click');
-                displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
-                $(panelHeading).click(toggleSingleCollapse);
-                $(panelHeading).trigger('click');
+                const $panelHeading = $(panelHeading);
+                $panelHeading.removeClass('ajax-response-submit');
+                $panelHeading.removeClass('ajax-response-auto');
+                $panelHeading.off('click');
+                displayIcon.html(remindButtonContent);
+                displayIcon.append('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
+                $panelHeading.data('state', 'up');
+                $panelHeading.click(toggleNoResponsePanel);
+                $panelHeading.trigger('click');
+                prepareRemindModal();
             },
         });
     };

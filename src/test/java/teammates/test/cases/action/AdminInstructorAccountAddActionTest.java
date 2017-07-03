@@ -174,9 +174,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
+        final String[] splitEmail = instructorEmail.split("@");
+        final String head = splitEmail[0];
+        final String emailAbbreviation = splitEmail[1].substring(0, 3);
         return head + "." + emailAbbreviation
                 + "-demo";
     }
