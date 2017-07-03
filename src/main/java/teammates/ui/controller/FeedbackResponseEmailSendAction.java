@@ -30,7 +30,7 @@ public class FeedbackResponseEmailSendAction extends Action {
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage(
                 isUserLoggedOn ? Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS
-                        : Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_FAILED, 
+                        : Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_FAILED,
                 isUserLoggedOn ? StatusMessageColor.SUCCESS : StatusMessageColor.DANGER));
         return createAjaxResult(data);
     }
