@@ -30,7 +30,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String pictureKey;
     public Date modifiedDate;
 
-    public StudentProfileAttributes() {
+    StudentProfileAttributes() {
         // just a container so all can be null
         this.googleId = "";
         this.shortName = "";
@@ -40,7 +40,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.gender = "other";
         this.moreInfo = "";
         this.pictureKey = "";
-        this.modifiedDate = null;
+        this.modifiedDate = new Date();
     }
 
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
@@ -234,7 +234,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public Builder withModifiedDate(Date modifiedDate) {
-            profileAttributes.modifiedDate = modifiedDate;
+            profileAttributes.modifiedDate = modifiedDate == null ? new Date() : modifiedDate;
             return this;
         }
 
