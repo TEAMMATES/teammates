@@ -312,7 +312,7 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<String>();
+        Set<String> result = new TreeSet<>();
         for (String s : strSet) {
             result.add(removeExtraSpace(s));
         }
@@ -417,7 +417,7 @@ public final class StringHelper {
     }
 
     private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<String>();
+        List<String> data = new ArrayList<>();
 
         boolean inquote = false;
         StringBuilder buffer = new StringBuilder();

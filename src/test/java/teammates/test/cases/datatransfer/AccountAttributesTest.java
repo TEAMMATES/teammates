@@ -10,14 +10,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AccountAttributes}.
  */
-public class AccountAttributesTest extends BaseTestCase {
+public class AccountAttributesTest extends BaseAttributesTest {
 
     //TODO: test toString() method
 
@@ -70,12 +68,13 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals("Account", account.getEntityTypeAsString());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount =
-                new Account(account.googleId, account.name, account.isInstructor, account.email, account.institute,
-                        (StudentProfile) StudentProfileAttributes.builder().build().toEntity());
+        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
+                account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
+
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());

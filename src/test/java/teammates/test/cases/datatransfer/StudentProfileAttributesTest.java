@@ -14,14 +14,13 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
  */
-public class StudentProfileAttributesTest extends BaseTestCase {
+public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     private StudentProfileAttributes profile;
 
@@ -99,7 +98,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testGetJsonString() throws Exception {
-        StudentProfileAttributes spa = StudentProfileAttributes.valueOf((StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
@@ -165,11 +164,12 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(profileToSanitizeExpected.pictureKey, profileToSanitize.pictureKey);
     }
 
+    @Override
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
         StudentProfileAttributes testProfile = StudentProfileAttributes.valueOf(expectedEntity);
-        StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
+        StudentProfile actualEntity = testProfile.toEntity();
 
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
         assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
@@ -184,7 +184,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentProfileAttributes spa = StudentProfileAttributes.valueOf((StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
 
         // the toString must be unique to the values in the object
@@ -204,7 +204,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         // tests both the constructor and the invalidity info
         expectedErrorMessages.add(

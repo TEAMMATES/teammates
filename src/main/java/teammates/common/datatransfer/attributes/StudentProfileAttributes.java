@@ -18,7 +18,7 @@ import teammates.storage.entity.StudentProfile;
 /**
  * The data transfer object for StudentProfile entities.
  */
-public class StudentProfileAttributes extends EntityAttributes {
+public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     public String googleId;
     public String shortName;
@@ -105,7 +105,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
 
@@ -143,7 +143,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
                                   new Text(moreInfo), new BlobKey(this.pictureKey));
     }

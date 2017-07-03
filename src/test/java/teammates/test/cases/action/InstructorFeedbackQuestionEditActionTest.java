@@ -1568,7 +1568,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     private String[] addQuestionIdToParams(String questionId, String[] params) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         list.add(questionId);
         for (String s : params) {

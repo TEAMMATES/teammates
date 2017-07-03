@@ -21,6 +21,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showCommentToString;
     public String showGiverNameToString;
     public String errorMessage;
+    public Map<String, String> instructorEmailNameTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
 
@@ -32,9 +33,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities());
-        frc.enableEdit();
-        frc.enableDelete();
+                                               getResponseVisibilities(), instructorEmailNameTable);
+        frc.enableEditDelete();
 
         return frc;
     }
