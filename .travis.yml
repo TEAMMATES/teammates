@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 
 branches:
   only:
@@ -12,7 +12,7 @@ notifications:
   email: false
 
 sudo: required
-dist: precise
+dist: trusty
 
 addons:
   firefox: "46.0"
