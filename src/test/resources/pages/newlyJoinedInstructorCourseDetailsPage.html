@@ -71,7 +71,7 @@
       </div>
       <div class="form-group">
         <div class="align-center">
-          <form action=" data-placement=" class="btn btn-primary" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" id="button_remind" tabindex="1" title="" top="">
+          <form class="btn btn-primary" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" id="button_remind" tabindex="1" title="" type="button">
             <span class="glyphicon glyphicon-envelope">
             </span>
             Remind Students to Join
@@ -85,7 +85,7 @@
             <input name="user" type="hidden" value="${test.instructor}">
             <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
           </form>
-          <form action=" id=" button-delete-all="" class="btn btn-primary course-student-delete-all-link" data-course-id="AHPUiT____.instr1_.gma-demo" href="/page/instructorCourseStudentDeleteAll?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" type="button">
+          <input class="btn btn-danger course-student-delete-all-link" data-course-id="AHPUiT____.instr1_.gma-demo" href="/page/instructorCourseStudentDeleteAll?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" id="button-delete-all" type="button">
             <span class="glyphicon glyphicon-trash">
             </span>
             Delete All Students
