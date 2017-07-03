@@ -28,6 +28,13 @@
       "email": "searchUI.Helper@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor3OfCourse1": {
+      "googleId": "searchUI.idOfInstructor3OfCourse1",
+      "name": "Instructor 3 of Course 1",
+      "isInstructor": true,
+      "email": "searchUI.instr3@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "student1InCourse1": {
       "googleId": "searchUI.student1InCourse1",
       "name": "Student 1 in course 1",
@@ -126,6 +133,29 @@
       "courseId": "searchUI.idOfTypicalCourse1",
       "name": "Instructor2 Course1",
       "email": "searchUI.instructor2@course1.tmt",
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor3OfCourse1": {
+      "googleId": "searchUI.idOfInstructor3OfCourse1",
+      "courseId": "searchUI.idOfTypicalCourse1",
+      "name": "Instructor3 Course1",
+      "email": "searchUI.instructor3@course1.tmt",
       "role": "Manager",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -552,9 +582,9 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "createdAt": "2015-02-01 11:59 PM UTC",
       "commentText": {
-        "value": "Instructor 2 edited comment to feedback Question 2"
+        "value": "Instructor 3 edited comment to feedback Question 2"
       },
-      "lastEditorEmail": "searchUI.instructor1@course1.tmt",
+      "lastEditorEmail": "searchUI.instructor3@course1.tmt",
       "lastEditedAt": "2012-02-02 11:59 PM UTC"
     }
   },
