@@ -22,12 +22,8 @@ $(document).ready(() => {
                 clearStatusMessages();
             },
             success(result) {
-                if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, StatusType.DANGER);
-                } else {
-                    setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
-                    $form.hide();
-                }
+                setStatusMessageToForm(result.statusMessagesToUser[0].text, result.statusMessagesToUser[0].color.toLowerCase(), $form);
+                $form.children().not('#statusMessagesToUser').hide();
             },
         });
     });
