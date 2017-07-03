@@ -239,6 +239,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses, question);
 
         DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> recipientSelfRanks = new HashMap<>();
+        
+        if (shouldSelfBeExcludedFromRankings(question)) {
+            recipientSelfRanks = generateSelfRankForEachRecipient(responses);
+        }
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
 
@@ -252,7 +257,13 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
-            fragments.append(option).append(',').append(df.format(average));
+            String selfRank = recipientSelfRanks.containsKey(entry.getKey())
+                    ? Integer.toString(recipientSelfRanks.get(entry.getKey())) : "-";
+
+            fragments.append(option);
+            fragments.append(',').append(selfRank);
+            fragments.append(',').append(df.format(average));
+
             if (shouldSelfBeExcludedFromRankings(question)) {
                 fragments.append(',').append(userAverageExcludingSelfText);
             }
@@ -262,7 +273,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 ? ", Average Rank Excluding Self"
                 : "";
 
-        return "Team, Recipient, Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
+        return "Team, Recipient, Self Rank, Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
     }
 
     /**
