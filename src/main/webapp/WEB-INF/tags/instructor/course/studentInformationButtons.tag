@@ -8,18 +8,22 @@
 
 <div class="form-group">
     <div class="align-center">
-        <input type="button" tabindex="1" value="Remind Students to Join"
-                ${courseRemindButton.attributesToString}>
-
+       <form action="${courseRemindButton.attributesToString}" tabindex="1">
+            <span class="glyphicon glyphicon-envelope">
+            </span>
+            Remind Students to Join
+        </form>
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
-            <input id="button_download" type="submit" class="btn btn-primary"
-                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                    value=" Download Student List ">
+            <button type="submit" class="btn btn-primary" id="button_download" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>">
+                <i class="glyphicon glyphicon-download-alt"></i> Download Student List
+            </button>
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
         </form>
-
-        <input type="button" value="Delete All Students" ${courseDeleteAllButton.attributesToString}>
+        <form action="${courseDeleteAllButton.attributesToString}" type="button">
+            <span class="glyphicon glyphicon-trash"></span>
+                Delete All Students
+            </form>
         <div>
             <span class="help-block">
                 Non-English characters not displayed properly in the downloaded file?

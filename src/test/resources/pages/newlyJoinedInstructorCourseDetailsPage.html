@@ -71,13 +71,25 @@
       </div>
       <div class="form-group">
         <div class="align-center">
-          <input class="btn btn-primary" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" id="button_remind" tabindex="1" title="" type="button" value="Remind Students to Join">
+          <form action=" data-placement=" class="btn btn-primary" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" id="button_remind" tabindex="1" title="" top="">
+            <span class="glyphicon glyphicon-envelope">
+            </span>
+            Remind Students to Join
+          </form>
           <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
-            <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List ">
+            <button class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit">
+              <i class="glyphicon glyphicon-download-alt">
+              </i>
+              Download Student List
+            </button>
             <input name="user" type="hidden" value="${test.instructor}">
             <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
           </form>
-          <input class="btn btn-primary course-student-delete-all-link" data-course-id="AHPUiT____.instr1_.gma-demo" href="/page/instructorCourseStudentDeleteAll?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" id="button-delete-all" type="button" value="Delete All Students">
+          <form action=" id=" button-delete-all="" class="btn btn-primary course-student-delete-all-link" data-course-id="AHPUiT____.instr1_.gma-demo" href="/page/instructorCourseStudentDeleteAll?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}&token=${sessionToken}" type="button">
+            <span class="glyphicon glyphicon-trash">
+            </span>
+            Delete All Students
+          </form>
           <div>
             <span class="help-block">
               Non-English characters not displayed properly in the downloaded file?
