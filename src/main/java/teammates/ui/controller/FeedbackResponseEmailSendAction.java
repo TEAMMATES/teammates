@@ -23,9 +23,10 @@ public class FeedbackResponseEmailSendAction extends Action {
         }
         String emailContent = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT);
         String emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
-        log.severe("Subject: " + emailSubject);
-        log.severe("Content: " + emailContent);
-        log.severe("URL: " + requestUrl);
+        log.severe("====== USER FEEDBACK ABOUT ERROR ====== \n"
+                + "ACCOUNT DETAILS: " + account.toString() + "\n"
+                + "SUBJECT: " + emailSubject + "\n"
+                + "FEEDBACK: " + emailContent);
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage(
                 isUserLoggedOn ? Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS
