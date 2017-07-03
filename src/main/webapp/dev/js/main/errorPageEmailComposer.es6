@@ -1,9 +1,4 @@
 import {
-    destroyEditor,
-    richTextEditorBuilder,
-} from '../common/richTextEditor.es6';
-
-import {
     clearStatusMessages,
     setStatusMessage,
     setStatusMessageToForm,
