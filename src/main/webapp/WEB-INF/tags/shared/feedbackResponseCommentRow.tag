@@ -35,7 +35,7 @@
             <span class="glyphicon glyphicon-eye-open"
                   data-toggle="tooltip"
                   data-placement="top"
-                  style="margin-left: 5px; margin-right: 10px;"
+                  style="margin-left: 5px;"
                   title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
         </c:if>
         <c:if test="${frc.editDeleteEnabled}">
