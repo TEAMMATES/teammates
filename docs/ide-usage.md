@@ -5,7 +5,7 @@
 
 ## Eclipse IDE
 
-> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
+> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Luna, Mars, or Neon](http://www.eclipse.org/downloads/).
@@ -64,9 +64,9 @@ The following plugins are needed:
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     * HTML: `Web → HTML Files → Editor → Indent using spaces`.
-     * CSS: `Web → CSS Files → Editor → Indent using spaces`.
-     * XML: `XML → XML Files → Editor → Indent using spaces`.
+     * HTML: `Eclipse → Preferences → Web → HTML Files → Editor → Indent using spaces`.
+     * CSS: `Eclipse → Preferences → Web → CSS Files → Editor → Indent using spaces`.
+     * XML: `Eclipse → Preferences → XML → XML Files → Editor → Indent using spaces`.
    * Validation:
      * We do not validate HTML, JSP, and XML. `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
      * Disable JavaScript validation for `node_modules` folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
