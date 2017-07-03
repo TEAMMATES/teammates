@@ -1083,8 +1083,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
             String parentUri, boolean isError, String userId, String courseId, String fsname) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         return pageDestination;
     }
@@ -1095,8 +1095,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         return pageDestination;
     }
 
