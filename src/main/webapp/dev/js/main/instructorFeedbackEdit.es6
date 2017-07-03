@@ -119,7 +119,7 @@ import {
     matchVisibilityOptionToFeedbackPath,
     showVisibilityCheckboxesIfCustomOptionSelected,
     tallyCheckboxes,
- } from '../common/visibilityOptions.es6';
+} from '../common/visibilityOptions.es6';
 
 const NEW_QUESTION = -1;
 
