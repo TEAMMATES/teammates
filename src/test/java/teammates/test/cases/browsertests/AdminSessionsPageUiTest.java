@@ -89,7 +89,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
                                                                "Start Time ",
                                                                "End Time ",
                                                                "Creator");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(sessionsPage.getHeaderValueFromDataTable(tableNum, 0, i));
         }

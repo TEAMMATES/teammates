@@ -775,6 +775,13 @@ input.inline {
     color: #2aabd2;
 }
 
+/*
+Default to alert color for visibility titles used within an alert context.
+*/
+.alert .visibility-title {
+    color: inherit;
+}
+
 .filename-preview {
     border: 0;
     background-color: white;
@@ -926,6 +933,11 @@ input.inline {
     display: block;
     color: gray;
     content: attr(data-placeholder);
+}
+
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
 }
 
 /*////////////////////////////////////////////////////////////

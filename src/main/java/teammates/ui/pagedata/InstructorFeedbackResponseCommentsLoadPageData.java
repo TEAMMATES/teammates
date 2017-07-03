@@ -123,7 +123,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                     frca, frca.giverEmail, giverName, recipientName, showCommentToString,
                     showGiverNameToString, responseVisibilities, instructorEmailNameTable);
 
-            frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
             frc.setVisibilityIcon(true, whoCanSeeComment);
             if (isAllowedToEditAndDeleteComment) {
                 frc.enableEdit();

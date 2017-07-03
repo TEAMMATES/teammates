@@ -85,7 +85,7 @@ $(document).ready(() => {
                 needsRetrying = true;
                 $('#coursesList').html('');
                 setStatusMessage(
-                    'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
+                    'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.'
                 , StatusType.WARNING);
                 $('#retryAjax').click((ev) => {
                     ev.preventDefault();
