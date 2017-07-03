@@ -210,14 +210,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         return responseVisibilityMap;
     }
 
-    private String getExtraClass(String giverEmail, String instructorEmail, boolean isPublic) {
-
-        return " giver_display-by-"
-             + (giverEmail.equals(instructorEmail) ? "you" : "others")
-             + " status_display-"
-             + (isPublic ? "public" : "private");
-    }
-
     public Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> getQuestionCommentsMap() {
         return questionCommentsMap;
     }
