@@ -9,8 +9,7 @@ import teammates.ui.pagedata.PageData;
 
 public class FeedbackResponseEmailSendAction extends Action {
 
-    private String recieverAddress;
-    private Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() {
