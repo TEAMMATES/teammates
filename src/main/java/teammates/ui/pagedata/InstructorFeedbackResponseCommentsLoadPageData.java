@@ -125,9 +125,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
             frc.setVisibilityIcon(true, whoCanSeeComment);
             if (isAllowedToEditAndDeleteComment) {
-                frc.enableEdit();
-                frc.enableDelete();
-                frc.enableEditDeleteOnHover();
+                frc.enableEditDelete();
             }
 
             comments.add(frc);
