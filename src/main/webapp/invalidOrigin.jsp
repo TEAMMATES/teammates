@@ -1,6 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <% response.setStatus(403);%>
 <t:errorPage>
+  <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <br><br>
   <div class="row">
     <div class="alert alert-warning col-md-4 col-md-offset-4">

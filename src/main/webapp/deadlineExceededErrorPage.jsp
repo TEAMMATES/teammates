@@ -1,6 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <% response.setStatus(500);%>
 <t:errorPage>
+  <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <div class="row">
     <div class="alert alert-warning col-md-4 col-md-offset-4">
       <img src="/images/error.png" style="margin: 0px 10px 10px 0px; height: 90px; float: left;">
