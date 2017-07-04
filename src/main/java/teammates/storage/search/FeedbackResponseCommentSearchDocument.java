@@ -303,7 +303,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             if (!isAdded.contains(session.getFeedbackSessionName())) {
                 isAdded.add(session.getFeedbackSessionName());
                 bundle.sessions.put(session.getSessionName(), session);
-                bundle.sessionsTimeZone.put(session.getSessionName(), session.getTimeZone());
             }
 
             // get giver and recipient names
