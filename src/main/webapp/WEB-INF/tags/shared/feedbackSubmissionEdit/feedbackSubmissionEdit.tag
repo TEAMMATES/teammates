@@ -10,9 +10,7 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
-    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
-    <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 
 <c:if test="${data.headerHidden}">
@@ -27,7 +25,7 @@
                         <div class="col-md-12">
                             <h3 class="text-center">
                                 You are moderating responses for ${isInstructor ? "instructor" : "student"} ${moderatedPersonName} (${moderatedPersonEmail})
-                                <small><a href="#" id="moderationHintButton"></a></small>
+                                <small><a href="javascript:;" id="moderationHintButton"></a></small>
                             </h3>
                             <ul id="moderationHint" class="hidden">
                                 <li>

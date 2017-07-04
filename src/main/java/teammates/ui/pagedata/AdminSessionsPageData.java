@@ -72,10 +72,6 @@ public class AdminSessionsPageData extends PageData {
         return totalInstitutes;
     }
 
-    public int getTableCount() {
-        return institutionPanels.size();
-    }
-
     public boolean isShowAll() {
         return isShowAll;
     }
@@ -104,7 +100,7 @@ public class AdminSessionsPageData extends PageData {
 
     @SuppressWarnings("deprecation")
     public List<String> getHourOptionsAsHtml(Date date) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
                        + (date.getHours() == i ? "selected" : "")
@@ -115,7 +111,7 @@ public class AdminSessionsPageData extends PageData {
 
     @SuppressWarnings("deprecation")
     public List<String> getMinuteOptionsAsHtml(Date date) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
                        + (date.getMinutes() == i ? "selected" : "")
@@ -169,7 +165,7 @@ public class AdminSessionsPageData extends PageData {
 
     public List<AdminFeedbackSessionRow> getFeedbackSessionRows(
             List<FeedbackSessionAttributes> feedbackSessions, Map<String, String> sessionToInstructorIdMap) {
-        List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<AdminFeedbackSessionRow>();
+        List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<>();
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             String googleId = sessionToInstructorIdMap.get(feedbackSession.getIdentificationString());
             feedbackSessionRows.add(new AdminFeedbackSessionRow(
@@ -197,7 +193,7 @@ public class AdminSessionsPageData extends PageData {
 
     public void setInstitutionPanels(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap) {
-        institutionPanels = new ArrayList<InstitutionPanel>();
+        institutionPanels = new ArrayList<>();
         for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : map.entrySet()) {
             institutionPanels.add(
                     new InstitutionPanel(

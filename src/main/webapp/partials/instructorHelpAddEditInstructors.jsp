@@ -21,7 +21,7 @@
 
                                 <a href="javascript:;" id="instrEditLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" disabled="">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                <a href="#" id="instrDeleteLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course" disabled="">
+                                <a href="javascript:;" id="instrDeleteLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course" disabled="">
                                     <span class="glyphicon glyphicon-trash"></span> Delete</a>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="align-center">
-                                            <input id="btnSaveInstructor3" type="button" onclick="return false" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
+                                            <input id="btnSaveInstructor3" type="button" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="align-center">
-                                            <input id="btnAddInstructor" type="button" onclick="return false" class="btn btn-primary" value="Add Instructor" tabindex="10">
+                                            <input id="btnAddInstructor" type="button" class="btn btn-primary" value="Add Instructor" tabindex="10">
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +216,7 @@
 
                                 <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" style="display: none;">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                <a href="#" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
+                                <a href="javascript:;" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
                                     <span class="glyphicon glyphicon-trash"></span> Delete</a>
                             </div>
                         </div>
@@ -435,7 +435,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="align-center">
-                                            <input id="btnSaveInstructor1" type="button" onclick="return false" class="btn btn-primary" style="" value="Save changes" tabindex="6">
+                                            <input id="btnSaveInstructor1" type="button" class="btn btn-primary" style="" value="Save changes" tabindex="6">
                                         </div>
                                     </div>
                                 </div>

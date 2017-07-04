@@ -60,8 +60,9 @@
                         </form>
                         <br>
                         <div>
-                            <f:feedbackSessionPublishButton buttonType="${sessionPanel.feedbackSessionPublishButton.buttonType}"
-                                                            publishButton="${sessionPanel.feedbackSessionPublishButton}" />
+                            <f:feedbackSessionPublishButton buttonType="btn ${sessionPanel.feedbackSessionPublishButton.buttonType}"
+                                                            publishButton="${sessionPanel.feedbackSessionPublishButton}"
+                                                            showTooltip="true" />
                         </div>
                         <br>
                         <div>
@@ -79,7 +80,7 @@
                     <span class="btn-link"
                           data-toggle="modal"
                           data-target="#fsResultsTableWindow"
-                          onclick="submitFormAjax()">click here</span>
+                          id="btn-display-table">Click here.</span>
                 </span>
             </div>
         </div>

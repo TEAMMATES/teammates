@@ -215,11 +215,6 @@
   </div>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <br>
-  <div class="text-muted">
-    Click on the panels below to expand
-  </div>
-  <br>
   <div class="panel panel-info">
     <div class="panel-heading" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
       <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
@@ -227,6 +222,10 @@
         <input name="user" type="hidden" value="instructorWith2Courses">
         <input id="numStudents-0" type="hidden" value="4">
       </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
       <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course2&user=instructorWith2Courses" id="enroll-0" title="">
         <span class="glyphicon glyphicon-list">
         </span>
@@ -247,27 +246,27 @@
               <th>
                 Photo
               </th>
-              <th class="button-sort-none" id="button_sortsection-0" onclick="toggleSort(this)">
+              <th class="toggle-sort button-sort-none" id="button_sortsection-0">
                 Section
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortteam-0" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortteam-0">
                 Team
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentname-0" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
                 Student Name
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
                 Status
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortemail-0" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortemail-0">
                 Email
                 <span class="icon-sort unsorted">
                 </span>
@@ -281,7 +280,7 @@
             <tr class="student_row" id="student-c0.0">
               <td id="studentphoto-c0.0">
                 <div class="profile-pic-icon-click align-center" data-link="" data-original-title="" title="">
-                  <img alt="No Image Given" class="" src="/images/profile_picture_default.png">
+                  <img alt="No Image Given" class="" src="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
                 </div>
               </td>
               <td id="studentsection-c0.0">
@@ -443,6 +442,10 @@
         <input name="user" type="hidden" value="instructorWith2Courses">
         <input id="numStudents-1" type="hidden" value="4">
       </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
       <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course3&user=instructorWith2Courses" id="enroll-1" title="">
         <span class="glyphicon glyphicon-list">
         </span>
@@ -463,27 +466,27 @@
               <th>
                 Photo
               </th>
-              <th class="button-sort-none hidden" id="button_sortsection-1" onclick="toggleSort(this)">
+              <th class="toggle-sort button-sort-none hidden" id="button_sortsection-1">
                 Section
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortteam-1" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortteam-1">
                 Team
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentname-1" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentname-1">
                 Student Name
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
                 Status
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortemail-1" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortemail-1">
                 Email
                 <span class="icon-sort unsorted">
                 </span>

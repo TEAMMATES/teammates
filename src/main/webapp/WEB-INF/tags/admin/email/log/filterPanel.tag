@@ -35,7 +35,7 @@
             <input type="hidden" id="query-keywords-for-content" value="${queryKeywordsForContent}">
 
             <div class="form-group">
-                <a href="#" class="btn btn-link center-block" onclick="toggleReference()">
+                <a href="javascript:;" class="btn btn-link center-block" id="btn-toggle-reference">
                     <span id="referenceText"> Show Reference</span><br>
                     <span class="glyphicon glyphicon-chevron-down" id="detailButton"></span>
                 </a>

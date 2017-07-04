@@ -15,13 +15,13 @@
         <script src="/js/common.js" type="text/javascript"></script>
     
     <script src="/js/instructor.js" type="text/javascript"></script>
-    <noscript>{*}</noscript>
 
 
 
 </head>
 
 <body>
+    <noscript>{*}</noscript>
     <div id="frameTop">
         
 
@@ -36,7 +36,7 @@
                 <ul id="navbar">
                     <li class="current"><a href="/page/instructorHomePage?user=${test.instructor}" class='nav home' data-link="instructorHome">Home</a></li>
                     <li><a href="/page/instructorCoursesPage?user=${test.instructor}" class='nav courses' data-link="instructorCourse">Courses</a></li>
-                    <li><a href="/page/instructorFeedbacksPage?user=${test.instructor}" class='nav evaluations' data-link="instructorEval">Sessions</a></li>
+                    <li><a href="/page/instructorFeedbackSessionsPage?user=${test.instructor}" class='nav evaluations' data-link="instructorEval">Sessions</a></li>
                     <li><a target="_blank" href="/instructorHelp.jsp" class='nav help'>Help</a></li>
                     <li><a href="/logout" class='nav logout'>Logout</a>
                      <b>(${test.instructor})</b></li>
@@ -85,7 +85,7 @@
                         View</a>
                     <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS1101&amp;user=${test.instructor}" class="t_course_edit0 color_white bold">
                         Edit</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorFeedbacksPage?user=${test.instructor}&amp;courseid=CHomeUiT.CS1101" class="t_course_add_eval0 color_white bold">
+                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorFeedbackSessionsPage?user=${test.instructor}&amp;courseid=CHomeUiT.CS1101" class="t_course_add_eval0 color_white bold">
                         Add Evaluation</a>
                     <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and sessions')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CHomeUiT.CS1101')" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&amp;next=%2Fpage%2FinstructorHomePage&amp;user=${test.instructor}" class="t_course_delete0 color_white bold">
                         Delete</a>
@@ -150,7 +150,7 @@
                         View</a>
                     <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Edit Course information and instructor list')" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&amp;user=${test.instructor}" class="t_course_edit1 color_white bold">
                         Edit</a>
-                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorFeedbacksPage?user=${test.instructor}&amp;courseid=CHomeUiT.CS2104" class="t_course_add_eval1 color_white bold">
+                    <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Add an evaluation for the course')" href="/page/instructorFeedbackSessionsPage?user=${test.instructor}&amp;courseid=CHomeUiT.CS2104" class="t_course_add_eval1 color_white bold">
                         Add Evaluation</a>
                     <a onmouseout="hideddrivetip()" onmouseover="ddrivetip('Delete the course and its corresponding students and sessions')" onclick="hideddrivetip(); return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&amp;next=%2Fpage%2FinstructorHomePage&amp;user=${test.instructor}" class="t_course_delete1 color_white bold">
                         Delete</a>

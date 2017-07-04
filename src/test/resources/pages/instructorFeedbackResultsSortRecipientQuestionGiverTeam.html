@@ -76,7 +76,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -93,8 +93,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -127,7 +127,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>
@@ -155,7 +155,7 @@
                 View:
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
+                <select class="form-control" id="viewSelect" name="frsorttype">
                   <option value="question">
                     Group by - Question
                   </option>
@@ -179,7 +179,7 @@
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox">
+                  <input checked="" class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -187,14 +187,14 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="" id="show-stats-checkbox" name="frshowstats" onchange="updateStatsCheckBox();" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
             </div>
             <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
-                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" onchange="this.form.submit()" type="checkbox" value="true">
+                <input checked="" id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
                 Indicate Missing Responses
               </div>
             </div>
@@ -207,7 +207,7 @@
                 Section:
               </label>
               <div class="col-sm-10">
-                <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
+                <select class="form-control" id="sectionSelect" name="frgroupbysection">
                   <option selected="" value="All">
                     All
                   </option>
@@ -228,7 +228,7 @@
       </div>
     </div>
     <div class="pull-right" style="margin-top:50px">
-      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" onclick="expandOrCollapsePanels(this)" title="">
+      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
         Expand All Sections
       </a>
     </div>
@@ -797,17 +797,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -872,17 +872,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1044,17 +1044,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1216,17 +1216,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1350,17 +1350,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1477,17 +1477,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1552,17 +1552,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1652,17 +1652,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1778,17 +1778,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -1877,17 +1877,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -2246,17 +2246,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -2374,17 +2374,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -2502,17 +2502,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -2674,17 +2674,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -2801,17 +2801,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -2897,17 +2897,17 @@
                                   <th>
                                     Photo
                                   </th>
-                                  <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this)" style="width: 15%; min-width: 67px;">
+                                  <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
                                     Team
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this)" style="width: 15%; min-width: 65px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
                                     Giver
                                     <span class="icon-sort unsorted">
                                     </span>
                                   </th>
-                                  <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this)" style="min-width: 95px;">
+                                  <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
                                     Feedback
                                     <span class="icon-sort unsorted">
                                     </span>
@@ -3024,6 +3024,36 @@
     </div>
     <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
       <div class="panel-body" id="sectionBody-2">
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ import teammates.storage.entity.Course;
 /**
  * The data transfer object for Course entities.
  */
-public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
+public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
         @Override
@@ -72,7 +72,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(getId()), errors);
 
@@ -116,7 +116,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public void sanitizeForSaving() {
-        name = SanitizationHelper.sanitizeForHtml(getName());
+        // no additional sanitization required
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import teammates.common.util.LogMessageGenerator;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -37,6 +39,11 @@ import teammates.logic.api.GateKeeper;
 public class ControllerServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
+
+    @Override
+    public void init() throws ServletException {
+        TimeHelper.setSystemTimeZoneIfRequired();
+    }
 
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -121,7 +128,7 @@ public class ControllerServlet extends HttpServlet {
             log.info(e.getMessage());
             cleanUpStatusMessageInSession(req);
 
-            List<StatusMessage> statusMessagesToUser = new ArrayList<StatusMessage>();
+            List<StatusMessage> statusMessagesToUser = new ArrayList<>();
             statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE,
                                                        StatusMessageColor.WARNING));
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);

@@ -20,6 +20,7 @@ chromedriver*
 *.md.html
 libs/
 *.js
+!webpack-*.config.js
 node_modules/
 npm-debug.log
 
@@ -62,3 +63,6 @@ gradle-app.setting
 
 ### Stylelint ###
 /.stylelintrc.yml
+
+### Gmail API Credentials ###
+/src/test/resources/gmail-api/

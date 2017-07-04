@@ -4,6 +4,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
 <%@ attribute name="courseRemindButton" type="teammates.ui.template.ElementTag" required="true" %>
+<%@ attribute name="courseDeleteAllButton" type="teammates.ui.template.ElementTag" required="true" %>
 
 <div class="form-group">
     <div class="align-center">
@@ -18,11 +19,12 @@
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
         </form>
 
+        <input type="button" value="Delete All Students" ${courseDeleteAllButton.attributesToString}>
         <div>
             <span class="help-block">
                 Non-English characters not displayed properly in the downloaded file?
-                <span class="btn-link" data-toggle="modal" data-target="#studentTableWindow" onclick="submitFormAjax()">
-                    click here
+                <span class="btn-link" data-toggle="modal" data-target="#studentTableWindow" id="btn-display-table">
+                    Click here.
                 </span>
             </span>
         </div>

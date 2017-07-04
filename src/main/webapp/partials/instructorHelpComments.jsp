@@ -41,7 +41,7 @@
                                 <div class="panel-heading">Question 3:
                                     <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
                                         <span >
-                                            <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-8')" data-more="[more]" data-less="[less]">[more]</a>
+                                            <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                                             <br>
                                             <span id="questionAdditionalInfo-3-giver-0-recipient-8" style="display:none;">Numerical-scale question:
                                                 <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
@@ -51,7 +51,7 @@
                                 <div class="panel-body">
                                     <div style="clear:both; overflow: hidden">
                                         <div class="pull-left">4</div>
-                                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(8,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="Add comment">
                                             <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                         </button>
                                     </div>
@@ -64,9 +64,14 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: Alice (Team 1)
+                                                                <br>
+                                                                Recipient: Rose (Team 2)
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
-                                                        <a id="frComment-visibility-options-trigger-8-0-1" class="btn btn-sm btn-info pull-right" onclick="toggleVisibilityEditForm(8,0,1)">
+                                                        <a id="frComment-visibility-options-trigger-8-0-1" class="btn btn-sm btn-info pull-right">
                                                             <span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options
                                                         </a>
                                                     </div>
@@ -125,7 +130,7 @@
                                                 </div>
                                                 <div class="col-sm-offset-5">
                                                     <a href="javascript:;" type="button" class="btn btn-primary" id="button_save_comment_for_add-8-0-1">Add</a>
-                                                    <input type="button" class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(8,0,1)">
+                                                    <input type="button" class="btn btn-default" value="Cancel">
                                                 </div>
                                             </form>
                                         </li>

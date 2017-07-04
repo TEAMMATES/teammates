@@ -39,7 +39,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         super(FeedbackQuestionType.CONSTSUM);
 
         this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<String>();
+        this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
@@ -140,7 +140,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             int points, boolean unevenDistribution) {
 
         this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<String>();
+        this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = true;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
@@ -394,9 +394,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
-        Map<String, String> identifierMap = new HashMap<String, String>();
+        Map<String, String> identifierMap = new HashMap<>();
 
         if (distributeToRecipients) {
             putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
@@ -458,9 +458,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
-        Map<String, String> identifierMap = new HashMap<String, String>();
+        Map<String, String> identifierMap = new HashMap<>();
 
         if (distributeToRecipients) {
             putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
@@ -483,13 +483,29 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
+            double total = computeTotal(points);
+
+            fragments.append(option)
+                    .append(',').append(df.format(average))
+                    .append(',').append(df.format(total))
+                    .append(',').append(StringHelper.join(",", toStringArray(points)))
+                    .append(Const.EOL);
 
         }
 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
-               + ", Average Points" + Const.EOL
+               + ", Average Points, Total Points, Received Points" + Const.EOL
                + fragments + Const.EOL;
+    }
+
+    private String[] toStringArray(List<Integer> points) {
+        String[] pointsArr = new String[points.size()];
+
+        for (int i = 0; i < points.size(); i++) {
+            pointsArr[i] = String.valueOf(points.get(i));
+        }
+
+        return pointsArr;
     }
 
     /**
@@ -540,7 +556,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private Map<String, List<Integer>> generateOptionPointsMapping(
             List<FeedbackResponseAttributes> responses) {
 
-        Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
+        Map<String, List<Integer>> optionPoints = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
 
@@ -563,7 +579,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String optionReceivingPoints, int pointsReceived) {
         List<Integer> points = optionPoints.get(optionReceivingPoints);
         if (points == null) {
-            points = new ArrayList<Integer>();
+            points = new ArrayList<>();
             optionPoints.put(optionReceivingPoints, points);
         }
 
@@ -655,7 +671,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
@@ -677,7 +693,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (responses.isEmpty()) {
             //No responses, no errors.
@@ -723,7 +739,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
             }
 
-            Set<Integer> answerSet = new HashSet<Integer>();
+            Set<Integer> answerSet = new HashSet<>();
             if (this.forceUnevenDistribution) {
                 for (int i : frd.getAnswerList()) {
                     if (answerSet.contains(i)) {

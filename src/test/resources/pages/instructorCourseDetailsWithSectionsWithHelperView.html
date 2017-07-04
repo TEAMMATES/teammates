@@ -80,11 +80,12 @@
             <input name="user" type="hidden" value="CCDetailsUiT.instr2Helper">
             <input name="courseid" type="hidden" value="CCDetailsUiT.CS2103">
           </form>
+          <input class="btn btn-primary course-student-delete-all-link" data-course-id="CCDetailsUiT.CS2103" disabled="" href="/page/instructorCourseStudentDeleteAll?courseid=CCDetailsUiT.CS2103&user=CCDetailsUiT.instr2Helper&token=${sessionToken}" id="button-delete-all" type="button" value="Delete All Students">
           <div>
             <span class="help-block">
               Non-English characters not displayed properly in the downloaded file?
-              <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                click here
+              <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" id="btn-display-table">
+                Click here.
               </span>
             </span>
           </div>
@@ -111,7 +112,7 @@
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                     Close
                   </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );" type="button">
+                  <button class="btn btn-primary" id="btn-select-element-contents" type="button">
                     Select Table
                   </button>
                 </div>
@@ -142,27 +143,27 @@
         <th>
           Photo
         </th>
-        <th class="button-sort-none" id="button_sortsection-0" onclick="toggleSort(this)">
+        <th class="toggle-sort button-sort-none" id="button_sortsection-0">
           Section
           <span class="icon-sort unsorted">
           </span>
         </th>
-        <th class="button-sort-none" id="button_sortteam-0" onclick="toggleSort(this)">
+        <th class="button-sort-none toggle-sort" id="button_sortteam-0">
           Team
           <span class="icon-sort unsorted">
           </span>
         </th>
-        <th class="button-sort-none" id="button_sortstudentname-0" onclick="toggleSort(this)">
+        <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
           Student Name
           <span class="icon-sort unsorted">
           </span>
         </th>
-        <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this)">
+        <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
           Status
           <span class="icon-sort unsorted">
           </span>
         </th>
-        <th class="button-sort-none" id="button_sortemail-0" onclick="toggleSort(this)">
+        <th class="button-sort-none toggle-sort" id="button_sortemail-0">
           Email
           <span class="icon-sort unsorted">
           </span>
@@ -186,7 +187,7 @@
           Tut Group 1
         </td>
         <td id="studentteam-c0.0.0">
-          Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+          Team 1
         </td>
         <td id="studentname-c0.0">
           Alice Betsy
@@ -225,7 +226,7 @@
           Tut Group 1
         </td>
         <td id="studentteam-c0.0.0">
-          Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+          Team 1
         </td>
         <td id="studentname-c0.1">
           Charlie Davis

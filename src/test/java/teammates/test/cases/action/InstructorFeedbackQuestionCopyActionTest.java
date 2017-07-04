@@ -24,12 +24,12 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
     @Override
     protected void prepareTestData() {
-        super.prepareTestData();
         // test data is refreshed before each test case
     }
 
     @BeforeMethod
     public void refreshTestData() {
+        super.prepareTestData();
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
     }

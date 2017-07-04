@@ -45,7 +45,7 @@
           </a>
         </li>
         <li class="active">
-          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor">
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=CFeedbackEditUiT.instructor">
             Sessions
           </a>
         </li>
@@ -91,23 +91,23 @@
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
-            <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" title="">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
+            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
               <span class="glyphicon glyphicon-ok">
               </span>
               Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackEditUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackEditUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
               <span class="glyphicon glyphicon-trash">
               </span>
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy">
                 <span class="glyphicon glyphicon-file">
                 </span>
                 Copy
@@ -292,8 +292,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
                     <p>
                       Instructions for first session
@@ -570,7 +568,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -816,7 +814,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -842,7 +840,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -876,7 +874,8 @@
   </div>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
+  <input id="num-questions" type="hidden" value="0">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-offset-3 col-sm-9">
@@ -946,7 +945,7 @@
           <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
             Copy Question
           </a>
-          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104&fsname=First+Session" id="button_done_editing">
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104&fsname=First+Session" id="button_done_editing">
             Done Editing
           </a>
         </div>
@@ -972,7 +971,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
                 Cancel
               </a>
             </span>
@@ -1001,8 +1000,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container">
-              </div>
               <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
               <input name="questiondescription" type="hidden">
@@ -1080,7 +1077,7 @@
                   <div class="checkbox padding-top-0">
                     <label class="bold-label">
                       <span class="inline-block">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMcqOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </span>
                     </label>
@@ -1156,7 +1153,7 @@
                   <div class="col-md-8 margin-bottom-7px">
                     <div class="checkbox">
                       <label class="bold-label">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMsqOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </label>
                     </div>
@@ -1655,7 +1652,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1676,7 +1673,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -2001,7 +1998,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -2038,41 +2035,9 @@
 </script>
 <script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
 </script>
-<script src="/js/richTextEditor.js" type="text/javascript">
-</script>
-<script src="/js/crypto.js" type="text/javascript">
-</script>
-<script src="/js/datepicker.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacks.js" type="text/javascript">
-</script>
 <script src="/js/instructorFeedbackEdit.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/feedbackPath.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/visibilityOptions.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionMcq.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionMsq.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionNumScale.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionConstSum.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionContrib.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionRubric.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackEdit/questionRank.js" type="text/javascript">
 </script>
 <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div">
 </div>

@@ -307,7 +307,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     private void initLogsAsTemplateRows(List<EmailLogEntry> entries) {
-        logs = new ArrayList<AdminEmailTableRow>();
+        logs = new ArrayList<>();
         for (EmailLogEntry entry : entries) {
             AdminEmailTableRow row = new AdminEmailTableRow(entry);
             logs.add(row);
