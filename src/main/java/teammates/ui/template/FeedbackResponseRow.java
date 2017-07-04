@@ -56,8 +56,7 @@ public class FeedbackResponseRow {
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
                         instructorEmailNameTable, results.feedbackSession.getTimeZone());
-                responseRow.enableDelete();
-                responseRow.enableEdit();
+                responseRow.enableEditDelete();
                 this.responseComments.add(responseRow);
             }
         }
