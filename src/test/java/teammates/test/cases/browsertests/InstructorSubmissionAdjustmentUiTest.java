@@ -16,6 +16,8 @@ import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.retry.RetryManager;
+import teammates.test.driver.retry.RetryableTaskReturns;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
@@ -63,8 +65,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         ______TS("typical case : existing student changes team");
         loadEnrollmentPage();
 
-        FeedbackSessionAttributes session = testData.feedbackSessions.get("session2InCourse1");
-        StudentAttributes student = testData.students.get("student1InCourse1");
+        final FeedbackSessionAttributes session = testData.feedbackSessions.get("session2InCourse1");
+        final StudentAttributes student = testData.students.get("student1InCourse1");
 
         //Verify pre-existing submissions and responses
         List<FeedbackResponseAttributes> oldResponsesForSession =
@@ -78,9 +80,20 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
                      + student.toEnrollmentString();
         enrollPage.enroll(enrollString);
 
-        int numberOfNewResponses =
-                getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();
-        assertEquals(0, numberOfNewResponses);
+        // It might take a while for the submission adjustment to persist (especially on the live server),
+        // during which the pre-existing submissions and responses would be counted.
+        // Hence, this needs to be retried several times until the count becomes zero.
+        RetryManager.runUntilSuccessful(new RetryableTaskReturns<Integer>("Assert outdated responses removed") {
+            @Override
+            public Integer run() {
+                return getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();
+            }
+
+            @Override
+            public boolean isSuccessful(Integer numberOfResponses) {
+                return numberOfResponses == 0;
+            }
+        });
 
     }
 
