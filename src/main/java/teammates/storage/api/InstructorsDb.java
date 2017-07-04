@@ -4,12 +4,8 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -24,6 +20,11 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
 import teammates.storage.search.SearchDocument;
+
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.cmd.LoadType;
+import com.googlecode.objectify.cmd.QueryKeys;
 
 /**
  * Handles CRUD operations for instructors.
@@ -401,7 +402,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
-        return load().filter("courseId =", courseId).list();
+        List<Instructor> instructorReturnList = new ArrayList<Instructor>();
+        instructorReturnList = load().filter("courseId =", courseId).list();
+
+        // Sort by Name.
+        Collections.sort(instructorReturnList, Instructor.COMPARE_BY_NAME);
+        return instructorReturnList;
     }
 
     private List<Instructor> getInstructorEntities() {

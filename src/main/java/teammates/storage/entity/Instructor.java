@@ -1,9 +1,9 @@
 package teammates.storage.entity;
 
 import java.security.SecureRandom;
+import java.util.Comparator;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -214,4 +214,10 @@ public class Instructor extends BaseEntity {
     public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
         this.instructorPrivilegesAsText = new Text(instructorPrivilegesAsText);
     }
+
+    public static Comparator<Instructor> COMPARE_BY_NAME = new Comparator<Instructor>() {
+        public int compare(Instructor one, Instructor other) {
+            return one.name.compareTo(other.name);
+        }
+    };
 }
