@@ -1059,8 +1059,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
                 int choice = rubricResponse.getAnswer(i);
 
-                ++numOfResponsesPerSubQuestionPerChoice[i][choice];
-                totalPerSubQuestion[i] += getRubricWeights().get(choice);
+                if (choice >= 0) {
+                    ++numOfResponsesPerSubQuestionPerChoice[i][choice];
+                    totalPerSubQuestion[i] += getRubricWeights().get(choice);
+                }
             }
         }
 
