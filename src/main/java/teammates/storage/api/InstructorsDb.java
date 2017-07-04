@@ -26,7 +26,6 @@ import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
 import teammates.storage.search.SearchDocument;
 
-
 /**
  * Handles CRUD operations for instructors.
  *
@@ -405,7 +404,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         List<Instructor> instructorReturnList = new ArrayList<Instructor>();
         instructorReturnList = load().filter("courseId =", courseId).list();
-        Collections.sort(instructorReturnList, Instructor.compare_by_name);
+        Collections.sort(instructorReturnList, Instructor.compareByName);
         return instructorReturnList;
     }
 

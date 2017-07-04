@@ -18,6 +18,15 @@ import com.googlecode.objectify.annotation.Unindex;
 public class Instructor extends BaseEntity {
 
     /**
+    * Sort the Instructors list alphabetically by name.
+    */
+    public static Comparator<Instructor> compareByName = new Comparator<Instructor>() {
+        public int compare(Instructor one, Instructor other) {
+            return one.name.toLowerCase().compareTo(other.name.toLowerCase());
+        }
+    };
+
+    /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
     @Id
@@ -94,15 +103,6 @@ public class Instructor extends BaseEntity {
         this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
         this.setRegistrationKey(key);
     }
-
-    /**
-    * Sort the Instructors list alphabetically by name
-    */
-    public static Comparator<Instructor> compare_by_name = new Comparator<Instructor>() {
-        public int compare(Instructor one, Instructor other) {
-            return one.name.toLowerCase().compareTo(other.name.toLowerCase());
-        }
-    };
 
     /**
      * Returns the unique ID of the entity (format: googleId%courseId).
