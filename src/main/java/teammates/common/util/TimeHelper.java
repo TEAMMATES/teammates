@@ -224,9 +224,9 @@ public final class TimeHelper {
         c.setTime(date);
         String timeZone = getCustomIdOfTimeZone(sessionTimeZone);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
+            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm Z");
             sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
-            return sdf.format(date) + " NOON UTC";
+            return sdf.format(date) + " NOON";
         }
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a Z");
         sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
@@ -460,7 +460,7 @@ public final class TimeHelper {
     }
 
     public static String getCustomIdOfTimeZone(double sessionTimeZone) {
-        String sign = sessionTimeZone > 0 ? "+" : "-";
+        String sign = sessionTimeZone > 0 ? "+" : "";
         int hours = (int) sessionTimeZone;
         int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
         String offset = Integer.toString(hours);
