@@ -96,6 +96,15 @@ public class Instructor extends BaseEntity {
     }
 
     /**
+    * Sort the Instructors list alphabetically by name
+    */
+    public static Comparator<Instructor> compare_by_name = new Comparator<Instructor>() {
+        public int compare(Instructor one, Instructor other) {
+            return one.name.toLowerCase().compareTo(other.name.toLowerCase());
+        }
+    };
+
+    /**
      * Returns the unique ID of the entity (format: googleId%courseId).
      */
     public String getUniqueId() {
@@ -214,10 +223,4 @@ public class Instructor extends BaseEntity {
     public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
         this.instructorPrivilegesAsText = new Text(instructorPrivilegesAsText);
     }
-
-    public static Comparator<Instructor> COMPARE_BY_NAME = new Comparator<Instructor>() {
-        public int compare(Instructor one, Instructor other) {
-            return one.name.compareTo(other.name);
-        }
-    };
 }
