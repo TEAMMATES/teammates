@@ -39,7 +39,7 @@
   <body>
     <div class="container theme-showcase">
       <div class="row">
-        <div id="dhtmltooltip">
+        <div id="dhtmltooltip"></div>
         <div class="alert alert-warning">
           <h4>Please remember to log in</h4>
         </div>
@@ -50,15 +50,17 @@
         <table class="table table-striped">
           <tr>
             <td>
-              <p>This page lists all of the pages which make up the TEAMMATES app. It is used for manually
-                 inspecting the TEAMMATES UI for visual defects. To load this page, you will need to run the test
-                 <strong>MashupPageUiTest.java</strong>.</p>
+              <p>
+                This page lists all of the pages which make up the TEAMMATES app. It is used for manually
+                inspecting the TEAMMATES UI for visual defects. To load this page, you will need to run the test
+                <strong>MashupPageUiTest.java</strong>.
+              </p>
             </td>
           </tr>
         </table>
-       </div>
-        <h1>Table Of Contents</h1>
-        <table class="table table-striped">
+      </div>
+      <h1>Table Of Contents</h1>
+      <table class="table table-striped">
         <tbody>
           <tr>
             <td>
@@ -157,7 +159,6 @@
                   <a href="#studentFeedbackResultsPage">Student Feedback Results Page</a>
                 </li>
               </ul>
-            <td>
             </td>
             <td>
               <h2>Admin Pages</h2>
