@@ -65,13 +65,18 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         List<AccountAttributes> instructorAccountsExpected = createInstructorAccounts(numOfInstructors);
         List<AccountAttributes> instructorAccountsActual = accountsDb.getInstructorAccounts();
-        for (AccountAttributes aa : instructorAccountsActual) {
-            // remove the created/modified dates due to their unpredictable nature
-            aa.createdAt = null;
-            aa.studentProfile.modifiedDate = null;
-        }
 
         assertEquals(numOfInstructors, instructorAccountsActual.size());
+
+        for (int i = 0; i < numOfInstructors; i++) {
+            // remove the created/modified dates due to their unpredictable nature
+            instructorAccountsExpected.get(i).createdAt = null;
+            instructorAccountsExpected.get(i).studentProfile.modifiedDate = null;
+
+            instructorAccountsActual.get(i).createdAt = null;
+            instructorAccountsActual.get(i).studentProfile.modifiedDate = null;
+        }
+
         AssertHelper.assertSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
 
         deleteInstructorAccounts(numOfInstructors);
