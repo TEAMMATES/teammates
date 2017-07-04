@@ -555,6 +555,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
+            if (Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)) {
+                // skip instructors team (contrib questions should only have responses from student teams)
+                continue;
+            }
             List<String> memberEmails = new ArrayList<>(bundle.rosterTeamNameMembersTable.get(teamName));
             Collections.sort(memberEmails);
             teamMembersEmail.put(teamName, memberEmails);
