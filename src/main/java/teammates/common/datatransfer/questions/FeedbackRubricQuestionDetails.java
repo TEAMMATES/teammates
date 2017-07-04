@@ -622,15 +622,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientStatsHtml = "";
 
         if (hasAssignedWeights) {
-            StringBuilder recipientStatsBuilder = new StringBuilder(100);
             StringBuilder headerBuilder = new StringBuilder(100);
             DecimalFormat dfWeight = new DecimalFormat("#.##");
             ArrayList<String> recipientStatsCols = new ArrayList<>();
-            
+
             recipientStatsCols.add("Team");
             recipientStatsCols.add("Recipient Name");
             recipientStatsCols.add("Sub Question");
-            
+
             for (int i = 0; i < rubricChoices.size(); i++) {
                 String weight = dfWeight.format(rubricWeights.get(i));
                 recipientStatsCols.add(rubricChoices.get(i) + " (Weight: " + weight + ")");
@@ -638,7 +637,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             recipientStatsCols.add("Total");
             recipientStatsCols.add("Average");
-            
+
             for (int i = 0; i < recipientStatsCols.size(); i++) {
                 headerBuilder.append(Templates.populateTemplate(
                         FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
@@ -648,17 +647,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
                     getPerRecipientStatistics(responses, bundle);
             StringBuilder bodyBuilder = new StringBuilder(100);
-            
+
             for (Map.Entry<String, RubricRecipientStatistics> entry : recipientStatsList) {
                 RubricRecipientStatistics stats = entry.getValue();
                 bodyBuilder.append(stats.getHtmlForAllSubQuestions());
             }
-            
+
             recipientStatsHtml = Templates.populateTemplate(FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, headerBuilder.toString(),
                     Slots.TABLE_BODY_HTML, bodyBuilder.toString());
         }
-        
+
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_RESULT_STATS,
                 Slots.STATS_TITLE, statsTitle,
@@ -772,6 +771,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         return csv.toString();
     }
+
     public List<Map.Entry<String, RubricRecipientStatistics>> getPerRecipientStatistics(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
@@ -806,7 +806,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
         });
-        
+
         return recipientStatsList;
     }
 
