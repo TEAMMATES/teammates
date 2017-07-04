@@ -222,14 +222,14 @@ public final class TimeHelper {
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
-        String timeZone = getCustomIdOfTimeZone(sessionTimeZone);
+        TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm Z");
-            sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
+            sdf.setTimeZone(timeZone);
             return sdf.format(date) + " NOON";
         }
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a Z");
-        sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
+        sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }
 
@@ -459,7 +459,7 @@ public final class TimeHelper {
 
     }
 
-    public static String getCustomIdOfTimeZone(double sessionTimeZone) {
+    public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {
         String sign = sessionTimeZone > 0 ? "+" : "-";
         int hours = (int) sessionTimeZone;
         int minutes = (int) ((Math.abs(sessionTimeZone) - Math.floor(Math.abs(sessionTimeZone))) * 60);
@@ -467,7 +467,8 @@ public final class TimeHelper {
         if (minutes != 0) {
             offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
         }
-        return TimeZone.getTimeZone("GMT" + sign + offset).getID();
+        String customId = TimeZone.getTimeZone("GMT" + sign + offset).getID();
+        return TimeZone.getTimeZone(customId);
     }
 
 }
