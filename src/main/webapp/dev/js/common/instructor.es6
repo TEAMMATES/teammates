@@ -3,6 +3,10 @@ import {
 } from './bootboxWrapper.es6';
 
 import {
+    scrollToElement,
+} from './scrollTo.es6';
+
+import {
     StatusType,
 } from './const.es6';
 
@@ -354,7 +358,25 @@ function sendRemindersToStudents(urlLink) {
         success(data) {
             const statusToUser = $(data).find('#statusMessagesToUser').html();
             $statusMessage.html(statusToUser);
+
+            scrollToElement($statusMessage[0], { duration: 1000 });
         },
+    });
+}
+
+function attachEventToDeleteAllStudentLink() {
+    $('body').on('click', '.course-student-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.target);
+        const messageText = `Are you sure you want to remove all students
+                from the course ${$clickedLink.data('courseId')}?`;
+        const okCallback = () => {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
     });
 }
 
@@ -465,6 +487,7 @@ function prepareInstructorPages() {
 
 export {
     attachEventToDeleteStudentLink,
+    attachEventToDeleteAllStudentLink,
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
