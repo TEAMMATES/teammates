@@ -331,6 +331,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
         assertTrue(instructorUpdated.hasObserverPrivileges());
+        // Verifying less privileged 'Observer' role did not return false positive in case old 'Manager' role is unchanged.
         assertFalse(instructorUpdated.hasManagerPrivileges());
 
         ______TS("Failure: invalid parameters");
@@ -404,6 +405,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
         assertTrue(instructorUpdated.hasObserverPrivileges());
+        // Verifying less privileged 'Observer' role did not return false positive in case old 'CoOwner' role is unchanged.
         assertFalse(instructorUpdated.hasCoownerPrivileges());
 
         ______TS("Failure: invalid parameters");
