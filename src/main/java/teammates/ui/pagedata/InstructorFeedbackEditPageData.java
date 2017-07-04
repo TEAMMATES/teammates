@@ -33,6 +33,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
     private String statusForAjax;
+    private String isToBeLoadedInEditMode;
     private boolean hasError;
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
@@ -42,7 +43,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
-                     InstructorAttributes instructor) {
+                     InstructorAttributes instructor, String loadInEditMode) {
         Assumption.assertNotNull(feedbackSession);
 
         buildFsForm(feedbackSession);
@@ -58,6 +59,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildNewQuestionForm(feedbackSession, questions.size() + 1);
 
         buildPreviewForm(feedbackSession, studentList, instructorList);
+
+        isToBeLoadedInEditMode = loadInEditMode;
 
     }
 
@@ -361,5 +364,9 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public void setHasError(boolean value) {
         this.hasError = value;
+    }
+
+    public String getIsToBeLoadedInEditMode() {
+        return isToBeLoadedInEditMode;
     }
 }

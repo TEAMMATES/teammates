@@ -21,6 +21,10 @@
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
   <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
+
+<c:set var="FEEDBACK_SESSION_ENABLE_EDIT">
+  <%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %>
+</c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
   <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
@@ -36,6 +40,7 @@
   </c:if>
    <br>
   <input type="hidden" id="num-questions" value="${fn:length(data.qnForms)}">
+  <input type="hidden" name="${FEEDBACK_SESSION_ENABLE_EDIT}" value="${data.isToBeLoadedInEditMode}">
   <c:forEach items="${data.qnForms}" var="question">
     <feedbackEdit:questionEditForm fqForm="${question}" />
   </c:forEach>

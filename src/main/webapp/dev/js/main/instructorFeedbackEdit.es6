@@ -1084,7 +1084,11 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.
-    enableEditFS();
+    if ($('input[name="editsessiondetails"]').prop('value') == 'true') {
+        enableEditFS();
+    } else {
+        disableEditFS();
+    }
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
