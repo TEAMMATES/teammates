@@ -23,8 +23,8 @@
       &nbsp;${data.timeZoneAsString}
     </small>
     <br>
-    <a href="#" class="btn btn-info" id="btn-open-all-sections">Open All</a>
-    <a href="#" class="btn btn-warning" id="btn-close-all-sections">Collapse All</a>
+    <a href="javascript:;" class="btn btn-info" id="btn-open-all-sections">Open All</a>
+    <a href="javascript:;" class="btn btn-warning" id="btn-close-all-sections">Collapse All</a>
   </h1>
   <br>
   <adminSessions:filter filter="${data.filter}"/>
@@ -32,6 +32,6 @@
   <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
     <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.count}" showAll="${data.showAll}" />
   </c:forEach>
-  <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a>
-  <a href="#" class="back-to-top-right">Top&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
+  <a href="javascript:;" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a>
+  <a href="javascript:;" class="back-to-top-right">Top&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
 </ta:adminPage>

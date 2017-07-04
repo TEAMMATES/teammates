@@ -555,6 +555,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
+            if (Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)) {
+                // skip instructors team (contrib questions should only have responses from student teams)
+                continue;
+            }
             List<String> memberEmails = new ArrayList<>(bundle.rosterTeamNameMembersTable.get(teamName));
             Collections.sort(memberEmails);
             teamMembersEmail.put(teamName, memberEmails);
@@ -940,7 +944,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private String getEqualShareHelpLinkIfNeeded(int responseIdx) {
         return responseIdx == 0
                 ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"
-                      + " More info about the equal share scale"
+                      + " More info about the <code>Equal Share</code> scale"
                 : "";
     }
 

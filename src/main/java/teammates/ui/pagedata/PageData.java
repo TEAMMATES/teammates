@@ -409,14 +409,6 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorStudentCommentClearPendingLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-        return link;
-    }
-
     /**
      * Retrieves the link to submit request to delete the session.
      * @param courseId course ID

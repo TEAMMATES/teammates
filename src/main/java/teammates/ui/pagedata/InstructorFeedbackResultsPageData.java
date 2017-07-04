@@ -25,6 +25,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -36,6 +37,7 @@ import teammates.ui.template.InstructorFeedbackResultsModerationButton;
 import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
+import teammates.ui.template.InstructorFeedbackResultsRemindButton;
 import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
@@ -1436,8 +1438,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            responseVisibilityMap, bundle.instructorEmailNameTable);
 
         if (isInstructorAllowedToEditAndDeleteComment) {
-            frc.enableEdit();
-            frc.enableDelete();
+            frc.enableEditDelete();
         }
 
         return frc;
@@ -1546,6 +1547,35 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         return moderationButtons;
+    }
+
+    private InstructorFeedbackResultsRemindButton buildRemindButtonForNoResponsePanel() {
+
+        boolean isSessionClosed = bundle.getFeedbackSession().isClosed();
+        String actionLink = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE);
+        actionLink = Url.addParamToUrl(actionLink, Const.ParamsNames.COURSE_ID, bundle.feedbackSession.getCourseId());
+        actionLink = Url.addParamToUrl(actionLink, Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                bundle.feedbackSession.getFeedbackSessionName());
+        actionLink = addSessionTokenToUrl(actionLink);
+
+        return new InstructorFeedbackResultsRemindButton(isSessionClosed,
+                "btn btn-default btn-xs btn-tm-actions remind-btn-no-response",
+                bundle.feedbackSession.getCourseId(),
+                bundle.feedbackSession.getFeedbackSessionName(),
+                "Remind All", actionLink);
+    }
+
+    private String getRemindParticularStudentsLink() {
+        String remindParticularStudentsLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+
+        String nextUrl = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
+        nextUrl = Url.addParamToUrl(nextUrl, Const.ParamsNames.COURSE_ID, bundle.feedbackSession.getCourseId());
+        nextUrl = Url.addParamToUrl(nextUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                bundle.feedbackSession.getFeedbackSessionName());
+        remindParticularStudentsLink = Url.addParamToUrl(remindParticularStudentsLink, Const.ParamsNames.NEXT_URL,
+                nextUrl);
+        remindParticularStudentsLink = addSessionTokenToUrl(remindParticularStudentsLink);
+        return remindParticularStudentsLink;
     }
 
     @Override
@@ -1669,7 +1699,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
-                                                            buildModerateButtonsForNoResponsePanel());
+                buildModerateButtonsForNoResponsePanel(),
+                buildRemindButtonForNoResponsePanel(),
+                getRemindParticularStudentsLink());
     }
 
     public void setStartIndex(int startIndex) {
