@@ -211,7 +211,7 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
+                  <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Please fill in the new feedback session.
                     </p>
@@ -799,6 +799,7 @@
   <br>
   <br>
   <input id="num-questions" type="hidden" value="0">
+  <input name="editsessiondetails" type="hidden" value="false">
   <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
