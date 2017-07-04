@@ -23,7 +23,7 @@ import teammates.storage.entity.Course;
  * <p>This script desanitizes the field of existing CourseAttributes if it is sanitized so that
  * all courses will have unsanitized values in these fields.</p>
  */
-public class DataMigrationForSanitizedDatainCourseAttributes extends RemoteApiClient {
+public class DataMigrationForSanitizedDataInCourseAttributes extends RemoteApiClient {
     /**
      * Will not perform updates on the datastore if true.
      */
@@ -32,7 +32,7 @@ public class DataMigrationForSanitizedDatainCourseAttributes extends RemoteApiCl
     private CoursesLogic coursesLogic = CoursesLogic.inst();
 
     public static void main(String[] args) throws IOException {
-        new DataMigrationForSanitizedDatainCourseAttributes().doOperationRemotely();
+        new DataMigrationForSanitizedDataInCourseAttributes().doOperationRemotely();
     }
 
     @Override
@@ -78,12 +78,5 @@ public class DataMigrationForSanitizedDatainCourseAttributes extends RemoteApiCl
         }
 
         coursesLogic.updateCourse(courseToUpdate);
-    }
-
-    /**
-     * Prints the {@code string} on system output, followed by a newline.
-     */
-    private void println(String string) {
-        System.out.println(string);
     }
 }
