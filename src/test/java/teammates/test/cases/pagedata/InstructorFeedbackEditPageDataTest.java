@@ -62,7 +62,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
 
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, "true");
 
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
@@ -215,7 +215,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         instructorList = new ArrayList<>();
         instructor = getInstructorFromBundle("instructor1OfCourse1");
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, "true");
         fsForm = data.getFsForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
                            .withUserId(instructor.googleId).toString(),
