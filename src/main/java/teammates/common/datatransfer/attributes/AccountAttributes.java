@@ -40,9 +40,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * Creates a new AccountAttributes with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
-     * {@code true} for {@code isInstructor} <br>
-     * {@code new Date(0)} for {@code createdAt} <br>
-     * {@code new StudentProfileAttributes()} for {@code studentProfile}
+     * <ul>
+     * <li>{@code true} for {@code isInstructor}</li>
+     * <li>{@code new Date(0)} for {@code createdAt}</li>
+     * <li>{@code new StudentProfileAttributes()} for {@code studentProfile}</li>
+     * </ul>
      */
     AccountAttributes(AccountAttributesBuilder builder) {
         this.googleId = SanitizationHelper.sanitizeGoogleId(builder.googleId);
@@ -55,11 +57,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.studentProfile = builder.studentProfile;
     }
 
-    /**
-     * valueOf(Account account) usages.
-     * @see teammates.storage.api.AccountsDb#getAccount(String, boolean)
-     * @see teammates.storage.api.AccountsDb#getInstructorAccounts()
-     */
     public static AccountAttributes valueOf(Account account) {
         return new AccountAttributesBuilder(
                 account.getGoogleId(),
@@ -183,12 +180,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     /**
      * AccountAttributesBuilder class for {@link AccountAttributes}.<br>
-     * Usages:
-     * @see teammates.logic.core.AccountsLogic#joinCourseForInstructorWithInstitute(String, String, String)
-     * @see teammates.logic.backdoor.BackDoorLogic #persistDataBundle(DataBundle)
-     * @see AccountAttributes#AccountAttributes(AccountAttributesBuilder)
-     * @see AccountAttributes#valueOf(Account)
-     * @see AccountAttributes#getCopy()
      */
     public static class AccountAttributesBuilder {
 
