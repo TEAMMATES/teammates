@@ -31,7 +31,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
-
     @BeforeTest
     public void testSetup() {
         gaeSimulation.setup();

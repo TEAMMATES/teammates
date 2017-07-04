@@ -24,6 +24,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         // test data is refreshed before each test case
     }
 
@@ -33,6 +34,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testAccessControl() {
         String[] params = new String[]{

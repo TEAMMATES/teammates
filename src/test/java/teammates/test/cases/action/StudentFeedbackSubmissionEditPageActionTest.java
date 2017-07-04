@@ -40,6 +40,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }

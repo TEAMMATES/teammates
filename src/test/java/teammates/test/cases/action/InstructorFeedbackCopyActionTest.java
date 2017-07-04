@@ -28,10 +28,12 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
     @BeforeMethod
     public void refreshTestData() {
+        super.prepareTestData();
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
     }
 
+    @Override
     @Test
     public void testAccessControl() {
 

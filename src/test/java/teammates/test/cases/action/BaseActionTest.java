@@ -54,7 +54,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         dataBundle = getTypicalDataBundle();
         typicalBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(typicalBundle);
-        removeAndRestoreTypicalDataBundle();
     }
 
     /** Executes the action and returns the result.
