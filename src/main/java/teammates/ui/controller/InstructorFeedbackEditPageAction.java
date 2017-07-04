@@ -25,6 +25,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         String loadInEditMode = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, loadInEditMode);
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
