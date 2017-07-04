@@ -53,11 +53,18 @@ The dev server URL will be `http://localhost:8888` as specified in `build.gradle
 
 #### Stopping the dev server
 
-Run the following command:
+If you start the server with ```./gradlew appengineRun```
+
+Run the following command 
 
 ```sh
 ./gradlew appengineStop
 ```
+
+If you start the server with ```./gradlew appengineRun -Pdisable_deamon```
+
+Press ```Ctrl+C``` will prompt the options to stop the server and type ```Y``` to terminate the server
+
 
 ### With Eclipse
 
