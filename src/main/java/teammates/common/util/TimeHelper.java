@@ -460,9 +460,9 @@ public final class TimeHelper {
     }
 
     public static String getCustomIdOfTimeZone(double sessionTimeZone) {
-        String sign = sessionTimeZone > 0 ? "+" : "";
+        String sign = sessionTimeZone > 0 ? "+" : "-";
         int hours = (int) sessionTimeZone;
-        int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
+        int minutes = (int) ((Math.abs(sessionTimeZone) - Math.floor(Math.abs(sessionTimeZone))) * 60);
         String offset = Integer.toString(hours);
         if (minutes != 0) {
             offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
