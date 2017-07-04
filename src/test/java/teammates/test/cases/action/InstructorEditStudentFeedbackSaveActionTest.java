@@ -26,6 +26,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -662,9 +663,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(dataBundle);
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
 
         String feedbackSessionName = "First feedback session";
         String courseId = student.course;

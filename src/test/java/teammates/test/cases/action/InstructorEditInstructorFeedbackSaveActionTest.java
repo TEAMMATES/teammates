@@ -25,6 +25,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -478,9 +479,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(dataBundle);
-        InstructorAttributes moderatedInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = moderatedInstructor.courseId;
         String feedbackSessionName = "";
         String moderatedInstructorEmail = "instructor1@course1.tmt";
