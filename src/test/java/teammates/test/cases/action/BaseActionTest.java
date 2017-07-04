@@ -35,8 +35,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected DataBundle dataBundle;
 
-    protected DataBundle typicalBundle;
-
     protected abstract String getActionUri();
 
     protected abstract Action getAction(String... params);
@@ -52,8 +50,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected void prepareTestData() {
         dataBundle = getTypicalDataBundle();
-        typicalBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(typicalBundle);
+        removeAndRestoreTypicalDataBundle();
     }
 
     /** Executes the action and returns the result.
