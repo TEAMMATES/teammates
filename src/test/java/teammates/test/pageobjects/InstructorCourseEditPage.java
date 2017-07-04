@@ -200,11 +200,10 @@ public class InstructorCourseEditPage extends AppPage {
             boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
         assertEquals(newName, getInstructorName(instrNum));
         assertEquals(newEmail, getInstructorEmail(instrNum));
+        assertEquals(newIsDisplayedToStudents, getInstructorDisplayedToStudents(instrNum));
         if (newIsDisplayedToStudents) {
-            assertTrue(getInstructorDisplayedToStudents(instrNum));
             assertEquals(newDisplayName, getInstructorDisplayName(instrNum));
         } else {
-            assertFalse(getInstructorDisplayedToStudents(instrNum));
             assertEquals("(This instructor will NOT be displayed to students)",
                     getDisplayNameField(instrNum).getAttribute("placeholder"));
         }
