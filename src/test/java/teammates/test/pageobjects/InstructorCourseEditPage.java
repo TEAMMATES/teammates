@@ -197,7 +197,7 @@ public class InstructorCourseEditPage extends AppPage {
      * Otherwise, it is verified that the display name field's placeholder is shown as expected.
      */
     public void verifyInstructorDetails(int instrNum, String newName, String newEmail,
-            Boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
+            boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
         assertEquals(newName, getInstructorName(instrNum));
         assertEquals(newEmail, getInstructorEmail(instrNum));
         if (newIsDisplayedToStudents) {
