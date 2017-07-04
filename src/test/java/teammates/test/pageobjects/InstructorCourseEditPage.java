@@ -192,7 +192,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     /**
-     * Verifies that the Instructor Details fields for the given {@code instrNum} contain the updated values.
+     * Verifies that the instructor details fields for the given {@code instrNum} contain the updated values.
      * If {@code newIsDisplayedToStudents} is true, the display name field is checked against {@code newDisplayName}.
      * Otherwise, it is verified that the display name field's placeholder is shown as expected.
      */
