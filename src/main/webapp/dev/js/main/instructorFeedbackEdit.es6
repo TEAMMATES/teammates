@@ -1067,12 +1067,13 @@ function readyFeedbackEditPage() {
     });
 
     // Bind destructive changes
-    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function () {
-        const editStatus = $(this).parents('form').attr('editStatus');
-        if (editStatus === 'hasResponses') {
-            $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
-        }
-    });
+    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').not('.visibilityCheckbox')
+            .change(function () {
+                const editStatus = $(this).parents('form').attr('editStatus');
+                if (editStatus === 'hasResponses') {
+                    $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
+                }
+            });
 
     $('#add-new-question-dropdown > li').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
