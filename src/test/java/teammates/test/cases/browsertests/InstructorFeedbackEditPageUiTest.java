@@ -1037,7 +1037,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
-                                    .withSessionName(feedbackSessionName);
+                                    .withSessionName(feedbackSessionName)
+                                    .withEnableSessionEditDetails("true");
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1049,7 +1050,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
-                                    .withSessionName(sessionWithoutQuestions);
+                                    .withSessionName(sessionWithoutQuestions)
+                                    .withEnableSessionEditDetails("true");
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
