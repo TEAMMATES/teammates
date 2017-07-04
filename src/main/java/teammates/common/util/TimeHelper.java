@@ -222,14 +222,7 @@ public final class TimeHelper {
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
-        String sign = sessionTimeZone > 0 ? "+" : "-";
-        int hours = (int) sessionTimeZone;
-        int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
-        String offset = Integer.toString(hours);
-        if (minutes != 0) {
-            offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
-        }
-        String timeZone = TimeZone.getTimeZone("GMT" + sign + offset).getID();
+        String timeZone = getCustomIdOfTimeZone(sessionTimeZone);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
             sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
@@ -464,6 +457,17 @@ public final class TimeHelper {
             return null;
         }
 
+    }
+
+    public static String getCustomIdOfTimeZone(double sessionTimeZone) {
+        String sign = sessionTimeZone > 0 ? "+" : "-";
+        int hours = (int) sessionTimeZone;
+        int minutes = (int) ((sessionTimeZone - Math.floor(sessionTimeZone)) * 60);
+        String offset = Integer.toString(hours);
+        if (minutes != 0) {
+            offset = Integer.toString(hours) + ":" + Integer.toString(minutes);
+        }
+        return TimeZone.getTimeZone("GMT" + sign + offset).getID();
     }
 
 }
