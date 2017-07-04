@@ -163,16 +163,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
-
-        if (actual.studentProfile == null) {
-            expected.studentProfile = null;
-        } else {
-            if (expected.studentProfile == null) {
-                expected.studentProfile = new StudentProfileAttributes();
-                expected.studentProfile.googleId = actual.googleId;
-            }
-            expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
-        }
+        expected.studentProfile = new StudentProfileAttributes();
+        expected.studentProfile.googleId = actual.googleId;
+        expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
     }
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);

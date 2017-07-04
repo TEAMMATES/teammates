@@ -44,7 +44,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * {@code new Date(0)} for {@code createdAt} <br>
      * {@code new StudentProfileAttributes()} for {@code studentProfile}
      */
-    public AccountAttributes(AccountAttributesBuilder builder) {
+    AccountAttributes(AccountAttributesBuilder builder) {
         this.googleId = SanitizationHelper.sanitizeGoogleId(builder.googleId);
         this.name = SanitizationHelper.sanitizeName(builder.name);
         this.email = SanitizationHelper.sanitizeEmail(builder.email);
@@ -216,7 +216,9 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public AccountAttributesBuilder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {
-            this.studentProfile = studentProfile;
+            if (studentProfile != null) {
+                this.studentProfile = studentProfile;
+            }
             return this;
         }
 

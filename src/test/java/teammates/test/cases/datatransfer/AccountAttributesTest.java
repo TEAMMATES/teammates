@@ -27,22 +27,24 @@ public class AccountAttributesTest extends BaseAttributesTest {
     private static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
             AccountAttributes.DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
 
+    private static final String VALID_GOOGLE_ID = "valid.google.id";
+    private static final String VALID_NAME = "valid name";
+    private static final String VALID_EMAIL = "valid@email.com";
+    private static final String VALID_INSTITUTE = "valid institute";
+
     @Test
     public void testBuilderWithRequiredValues() {
-        String validGoogleId = "valid.google.id";
-        String validName = "valid name";
-        String validEmail = "valid@email.com";
-        String validInstitute = "valid institute";
+
         AccountAttributes accountAttributes = new AccountAttributesBuilder(
-                validGoogleId, validName, validEmail, validInstitute)
+                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
                 .build();
 
-        assertEquals(validGoogleId, accountAttributes.googleId);
-        assertEquals(validName, accountAttributes.name);
-        assertEquals(validEmail, accountAttributes.email);
-        assertEquals(validInstitute, accountAttributes.institute);
+        assertEquals(VALID_GOOGLE_ID, accountAttributes.googleId);
+        assertEquals(VALID_NAME, accountAttributes.name);
+        assertEquals(VALID_EMAIL, accountAttributes.email);
+        assertEquals(VALID_INSTITUTE, accountAttributes.institute);
 
-        assertEquals(validGoogleId, accountAttributes.studentProfile.googleId);
+        assertEquals(VALID_GOOGLE_ID, accountAttributes.studentProfile.googleId);
 
     }
 
@@ -50,7 +52,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testBuilderWithDefaultOptionalValues() {
 
         AccountAttributes accountAttributes = new AccountAttributesBuilder(
-                "valid.google.id", "valid name", "valid@email.com", "valid institute")
+                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
                 .build();
 
         assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
@@ -65,6 +67,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes accountAttributesWithNullValues = new AccountAttributesBuilder(
                 null, null, null, null)
                 .withIsInstructor(null)
+                .withStudentProfileAttributes(null)
                 .withCreatedAt(null)
                 .build();
         // No default values for required params
@@ -75,13 +78,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         // Check default values for optional params
         assertEquals(DEFAULT_DATE, accountAttributesWithNullValues.createdAt);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributesWithNullValues.studentProfile);
         assertTrue(accountAttributesWithNullValues.isInstructor);
     }
 
     @Test
     public void testBuilderCopy() {
         AccountAttributes account = new AccountAttributesBuilder(
-                "valid.google.id", "valid name", "valid@email.com", "valid institute")
+                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
                 .build();
 
         AccountAttributes accountCopy = new AccountAttributesBuilder(
@@ -209,12 +213,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(a.getInstitute(), attr.institute);
         assertEquals(a.getName(), attr.name);
         assertEquals(null, a.getStudentProfile());
-        assertEquals(null, attr.studentProfile);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, attr.studentProfile);
 
     }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
-
         String googleId = "invalid google id";
         String name = ""; //invalid name
         boolean isInstructor = false;
@@ -229,20 +232,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
-
-        String googleId = "valid.google.id";
-        String name = "valid name";
-        boolean isInstructor = false;
-        String email = "valid@email.com";
-        String institute = "valid institute name";
-
-        return new AccountAttributesBuilder(googleId, name, email, institute)
-                .withIsInstructor(isInstructor)
+        return new AccountAttributesBuilder(VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+                .withIsInstructor(false)
                 .build();
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
-
         AccountAttributes account = new AccountAttributes();
 
         account.googleId = "googleId@gmail.com";
