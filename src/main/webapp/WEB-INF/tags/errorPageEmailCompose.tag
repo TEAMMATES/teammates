@@ -11,7 +11,7 @@
     <div class="form-group">
         <label for="error-feedback-email-composer-subject">Subject:</label>
         <br><em>Note: This field has also been pre-filled for convenience. Feel free to change it to suit your needs. </em>
-        <input type="text" value="Pre-defined subject" id="error-feedback-email-composer-subject" name=<%= Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT %> class="form-control">
+        <input type="text" value="<%= Const.ERROR_FEEDBACK_EMAIL_SUBJECT %>" id="error-feedback-email-composer-subject" name=<%= Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT %> class="form-control">
     </div>
     <div class="form-group">
         <label for="error-feedback-email-composer-content">Content:</label>

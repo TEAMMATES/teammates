@@ -100,6 +100,7 @@ public final class Const {
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
     public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+    public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
