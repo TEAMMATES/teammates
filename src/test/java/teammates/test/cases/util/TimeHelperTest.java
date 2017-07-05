@@ -207,4 +207,23 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
 
+    @Test
+    public void testFormatDateTimeForComments() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal.clear();
+        cal.set(2015, 10, 30, 12, 0, 0);
+        Date date = cal.getTime();
+        assertEquals("Mon, 30 Nov 2015, 12:00 +0000 NOON", TimeHelper.formatDateTimeForComments(date, 0));
+
+        cal.clear();
+        cal.set(2015, 10, 30, 4, 0, 0);
+        date = cal.getTime();
+        assertEquals("Mon, 30 Nov 2015, 12:00 +0800 NOON", TimeHelper.formatDateTimeForComments(date, 8));
+
+        cal.clear();
+        cal.set(2015, 10, 30, 4, 0, 0);
+        date = cal.getTime();
+        assertEquals("Mon, 30 Nov 2015, 04:00 PM +1200", TimeHelper.formatDateTimeForComments(date, 12));
+    }
+
 }

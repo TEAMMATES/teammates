@@ -221,8 +221,9 @@ public final class TimeHelper {
         }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
         TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
+        c.setTimeZone(timeZone);
+        c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm Z");
             sdf.setTimeZone(timeZone);
