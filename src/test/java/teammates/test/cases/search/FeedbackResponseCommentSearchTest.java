@@ -30,12 +30,19 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
+        ______TS("success: search for comments; no results found as instructor doesn;t have privileges");
+
+        instructors.add(dataBundle.instructors.get("helperOfCourse1"));
+        FeedbackResponseCommentSearchResultBundle bundle = commentsDb.search("\"self-feedback\"", instructors);
+        assertEquals(0, bundle.numberOfResults);
+        assertTrue(bundle.comments.isEmpty());
+
         ______TS("success: search for comments; query string does not match any comment");
 
         instructors.clear();
         instructors.add(dataBundle.instructors.get("instructor3OfCourse1"));
         instructors.add(dataBundle.instructors.get("instructor3OfCourse2"));
-        FeedbackResponseCommentSearchResultBundle bundle = commentsDb.search("non-existent", instructors);
+        bundle = commentsDb.search("non-existent", instructors);
         assertEquals(0, bundle.numberOfResults);
         assertTrue(bundle.comments.isEmpty());
 
