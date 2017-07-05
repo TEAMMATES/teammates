@@ -20,6 +20,7 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
+    private static final String DEFAULT_DELIMITER = ",";
 
     private StringHelper() {
         // utility class
@@ -560,7 +561,15 @@ public final class StringHelper {
      * with a copy of the specified delimiter.
      */
     public static String join(String delimiter, String... elements) {
-        StringBuffer result = new StringBuffer();
+        if (elements == null || elements.length == 0) {
+            return "";
+        }
+
+        if (delimiter == null) {
+            delimiter = DEFAULT_DELIMITER;
+        }
+
+        StringBuilder result = new StringBuilder();
         for (String element : elements) {
             result.append(element).append(delimiter);
         }
@@ -568,6 +577,31 @@ public final class StringHelper {
             result.delete(result.length() - delimiter.length(), result.length());
         }
         return result.toString();
+    }
+
+    /**
+     * Returns a new String composed of copies of the String elements joined together
+     * with a copy of the specified delimiter.
+     */
+    public static String join(String delimiter, List<Integer> elements) {
+        return join(delimiter, toStringArray(elements));
+    }
+
+    /**
+     * Converts list of integer to array of strings.
+     */
+    private static String[] toStringArray(List<Integer> elements) {
+        if (elements == null || elements.isEmpty()) {
+            return new String[] {};
+        }
+
+        String[] elementsArr = new String[elements.size()];
+
+        for (int i = 0; i < elements.size(); i++) {
+            elementsArr[i] = String.valueOf(elements.get(i));
+        }
+
+        return elementsArr;
     }
 
     /**
