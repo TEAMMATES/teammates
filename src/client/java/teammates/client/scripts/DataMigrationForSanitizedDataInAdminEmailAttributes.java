@@ -69,11 +69,4 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
             adminEmailsDb.updateAdminEmail(email);
         }
     }
-
-    /**
-     * Prints the {@code string} on system output, followed by a newline.
-     */
-    private void println(String string) {
-        System.out.println(string);
-    }
 }
