@@ -37,6 +37,12 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
      */
     private static final boolean isPreview = true;
 
+    /**
+     * Number of comments/documents to process per cycle.
+     * Maximum documents that can be updated in one request is 200 (limit imposed by GAE Search API).
+     */
+    private static final int batchSize = 200;
+
     private static final DateFormat oldDateFormat =
             DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.US);
     private static final DateFormat newDateFormat = new SimpleDateFormat(Const.SystemParams.DEFAULT_DATE_TIME_FORMAT);
@@ -65,7 +71,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
 
         int numberOfDocuments = 0;
         int numberOfUnaffectedDocuments = 0;
-        LoopHelper loopHelper = new LoopHelper(100, "comments analyzed.");
+        LoopHelper loopHelper = new LoopHelper(batchSize, "comments analyzed.");
 
         for (FeedbackResponseCommentAttributes comment : allComments) {
             loopHelper.recordLoop();
@@ -125,30 +131,42 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
         println("Running data migration for " + commentsToFix.size() + " documents in old date format...");
         println("Preview: " + isPreview);
 
-        int numberOfFixedDocuments = 0;
-        LoopHelper loopHelper = new LoopHelper(100, "documents fixed.");
+        List<Document> documentsToUpdate = new ArrayList<>();
+
+        LoopHelper loopHelper = new LoopHelper(batchSize, "documents processed.");
 
         for (FeedbackResponseCommentAttributes commentToFix : commentsToFix) {
             loopHelper.recordLoop();
+            queueDocumentUpdate(commentToFix, documentsToUpdate);
+
+            if (documentsToUpdate.size() == batchSize) {
+                updateAndClearDocuments(documentsToUpdate);
+            }
+        }
+        updateAndClearDocuments(documentsToUpdate);
+
+        println("\nComplete! If there are any errors shown above, please rerun this script.");
+    }
+
+    private void queueDocumentUpdate(FeedbackResponseCommentAttributes comment, List<Document> documentsToUpdate) {
+        documentsToUpdate.add(new FeedbackResponseCommentSearchDocument(comment).build());
+    }
+
+    private void updateAndClearDocuments(List<Document> documentsToUpdate) {
+        if (documentsToUpdate.isEmpty()) {
+            return;
+        }
+
+        println("Batch updating " + documentsToUpdate.size() + " documents...");
+
+        if (!isPreview) {
             try {
-                updateDocument(commentToFix);
-                numberOfFixedDocuments++;
+                SearchManager.putDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
             } catch (Exception e) {
-                println("Failed to fix document for:\n" + commentToFix);
+                throw new RuntimeException("Failed to update one or more documents. Please rerun this script.", e);
             }
         }
 
-        println("\n############## Data Migration Results ##############");
-        println("Number of documents fixed: " + numberOfFixedDocuments);
-        println("Number of documents not fixed (error): " + (commentsToFix.size() - numberOfFixedDocuments));
-        println("####################################################\n");
-    }
-
-    private void updateDocument(FeedbackResponseCommentAttributes comment) {
-        if (isPreview) {
-            return;
-        }
-        SearchManager.putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
-                new FeedbackResponseCommentSearchDocument(comment).build());
+        documentsToUpdate.clear();
     }
 }
