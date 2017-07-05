@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.OperationResult;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;
 import com.google.appengine.api.search.Query;
@@ -17,9 +18,9 @@ import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.StatusCode;
 
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
 import teammates.common.util.Logger;
-import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturnsThrows;
 
 /**
  * Manages {@link Document} and {@link Index} in the Datastore for use of search functions.
@@ -30,11 +31,10 @@ public final class SearchManager {
 
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
             "Failed to put document %s into search index %s due to non-transient backend issue: ";
-    private static final String ERROR_EXCEED_DURATION =
-            "Operation did not succeed in time: putting document %s into search index %s.";
     private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<>();
-    private static final int MAX_RETRIES = 3;
+
+    private static final RetryManager RM = new RetryManager(8);
 
     private SearchManager() {
         // utility class
@@ -44,108 +44,134 @@ public final class SearchManager {
      * Creates or updates the search document for the given document and index.
      */
     public static void putDocument(String indexName, Document document) {
-        Index index = getIndex(indexName);
+        try {
+            putDocumentWithRetry(indexName, document);
+        } catch (TeammatesException | AssertionError e) {
+            log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+    }
 
-        int delay = 2;
-        for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
-            try {
-                PutResponse result = index.put(document);
+    /**
+     * Tries putting a document, handling transient errors by retrying with exponential backoff.
+     *
+     * @throws TeammatesException if a non-transient error is encountered.
+     * @throws AssertionError if the operation fails after maximum retries.
+     */
+    private static void putDocumentWithRetry(String indexName, final Document document)
+            throws TeammatesException, AssertionError {
+        final Index index = getIndex(indexName);
 
-                if (Config.PERSISTENCE_CHECK_DURATION == 0) {
-                    continue;
-                }
+        /**
+         * The GAE Search API signals put document failure in two ways: it either
+         * returns a {@link PutResponse} containing an {@link OperationResult} with a non-OK {@link StatusCode}, or
+         * throws a {@link PutException} that also contains an embedded {@link OperationResult}.
+         * We handle both ways by examining the {@link OperationResult} to determine what kind of error it is. If it is
+         * transient, we use {@link RetryManager} to retry the operation; if it is
+         * non-transient, we do not retry but throw a {@link TeammatesException} upwards instead.
+         */
+        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<OperationResult, TeammatesException>("Put document") {
+            @Override
+            public OperationResult run() {
+                try {
+                    PutResponse response = index.put(document);
+                    return response.getResults().get(0);
 
-                int elapsedTime = 0;
-                boolean isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
-                while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                    ThreadHelper.waitBriefly();
-                    // retry putting the document
-                    result = index.put(document);
-                    isSuccessful = result.getResults().get(0).getCode() == StatusCode.OK;
-                    // check before incrementing to avoid boundary case problem
-                    if (!isSuccessful) {
-                        elapsedTime += ThreadHelper.WAIT_DURATION;
-                    }
-                }
-                if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                    log.info(String.format(ERROR_EXCEED_DURATION, document, indexName));
-                }
-
-            } catch (PutException e) {
-                if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                    // if it's a transient error in the server, it can be retried
-                    ThreadHelper.waitFor(delay * 1000);
-                    delay *= 2; // use exponential backoff
-                    continue;
-                } else {
-                    log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
-                            + TeammatesException.toStringWithStackTrace(e));
-                    break;
+                } catch (PutException e) {
+                    return e.getOperationResult();
                 }
             }
-        }
+
+            public boolean isSuccessful(OperationResult result) throws TeammatesException {
+                if (StatusCode.OK.equals(result.getCode())) {
+                    return true;
+                } else if (StatusCode.TRANSIENT_ERROR.equals(result.getCode())) {
+                    // A transient error can be retried
+                    return false;
+                } else {
+                    // A non-transient error signals that the operation should not be retried
+                    throw new TeammatesException(result.getMessage());
+                }
+            }
+        });
     }
 
     /**
      * Batch creates or updates the search documents for the given documents and index.
      */
     public static void putDocuments(String indexName, List<Document> documents) {
-        Index index = getIndex(indexName);
-
-        int delay = 2;
-        for (int attempts = 0; attempts < MAX_RETRIES; attempts++) {
-            try {
-                List<Document> failedDocuments = putDocuments(index, documents);
-                boolean isSuccessful = failedDocuments.isEmpty();
-
-                if (Config.PERSISTENCE_CHECK_DURATION == 0) {
-                    continue;
-                }
-
-                int elapsedTime = 0;
-                while (!isSuccessful && elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
-                    ThreadHelper.waitBriefly();
-                    isSuccessful = putDocuments(index, failedDocuments).isEmpty();
-
-                    // check before incrementing to avoid boundary case problem
-                    if (!isSuccessful) {
-                        elapsedTime += ThreadHelper.WAIT_DURATION;
-                    }
-                }
-                if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                    log.info(String.format(ERROR_EXCEED_DURATION, documents, indexName));
-                }
-
-            } catch (PutException e) {
-                if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                    // if it's a transient error in the server, it can be retried
-                    ThreadHelper.waitFor(delay * 1000);
-                    delay *= 2; // use exponential backoff
-                    continue;
-                } else {
-                    log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
-                            + TeammatesException.toStringWithStackTrace(e));
-                    break;
-                }
-            }
+        try {
+            putDocumentsWithRetry(indexName, documents);
+        } catch (TeammatesException | AssertionError e) {
+            log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
+                    + TeammatesException.toStringWithStackTrace(e));
         }
     }
 
     /**
-     * Puts {@code documents} in {@code index}.
+     * Tries putting multiple documents, handling transient errors by retrying with exponential backoff.
      *
-     * @return list of documents have not been put successfully
+     * @throws TeammatesException when only non-transient errors are encountered.
+     * @throws AssertionError if the operation fails after maximum retries.
      */
-    private static List<Document> putDocuments(Index index, List<Document> documents) {
-        PutResponse result = index.put(documents);
-        List<Document> failedDocuments = new ArrayList<>();
-        for (int i = 0; i < documents.size(); i++) {
-            boolean isSuccessful = result.getResults().get(i).getCode() == StatusCode.OK;
-            if (!isSuccessful) {
-                failedDocuments.add(documents.get(i));
+    private static void putDocumentsWithRetry(String indexName, final List<Document> documents)
+            throws TeammatesException, AssertionError {
+        final Index index = getIndex(indexName);
+
+        /**
+         * The GAE Search API allows batch putting a {@link List} of {@link Document}s.
+         * Results for each document are reported via a {@link List} of {@link OperationResult}s.
+         * We use {@link RetryManager} to retry putting a list of documents, with each retry re-putting only
+         * the documents that failed in the previous retry.
+         * If we encounter one or more transient errors, we retry the operation.
+         * If all results are non-transient errors, we give up and throw a {@link TeammatesException} upwards.
+         */
+        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<List<Document>, TeammatesException>("Put documents") {
+            @Override
+            public List<Document> run() throws TeammatesException {
+                try {
+                    PutResponse response = index.put(documents);
+                    List<OperationResult> results = response.getResults();
+
+                    List<Document> failedDocuments = new ArrayList<>();
+                    for (int i = 0; i < documents.size(); i++) {
+                        if (!StatusCode.OK.equals(results.get(i).getCode())) {
+                            failedDocuments.add(documents.get(i));
+                        }
+                    }
+
+                    return failedDocuments;
+
+                } catch (PutException e) {
+                    List<OperationResult> results = e.getResults();
+                    boolean hasTransientError = false;
+
+                    List<Document> failedDocuments = new ArrayList<>();
+                    for (int i = 0; i < documents.size(); i++) {
+                        StatusCode code = results.get(i).getCode();
+                        if (!StatusCode.OK.equals(code)) {
+                            failedDocuments.add(documents.get(i));
+                            if (StatusCode.TRANSIENT_ERROR.equals(code)) {
+                                hasTransientError = true;
+                            }
+                        }
+                    }
+
+                    if (failedDocuments.isEmpty() || hasTransientError) {
+                        // If there is at least one transient error, continue retrying
+                        return failedDocuments;
+                    } else {
+                        // If all errors are non-transient, do not continue retrying
+                        throw new TeammatesException(e);
+                    }
+                }
             }
-        }
-        return failedDocuments;
+
+            @Override
+            public boolean isSuccessful(List<Document> failedDocuments) {
+                return failedDocuments.isEmpty();
+            }
+        });
     }
 
     /**
