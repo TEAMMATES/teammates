@@ -16,7 +16,7 @@ import teammates.storage.entity.Account;
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
-    public static final Date DEFAULT_DATE = new Date(0); // "Thu Jan 01 01:00:00 GMT 1970"
+    public static final Date DEFAULT_DATE = new Date();
     public static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES = new StudentProfileAttributes();
 
     //Note: be careful when changing these variables as their names are used in *.json files.

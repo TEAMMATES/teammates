@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -162,8 +161,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
 
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
-        expected.createdAt = actual.createdAt;
-        expected.studentProfile = new StudentProfileAttributes();
+        expected.studentProfile = actual.studentProfile;
         expected.studentProfile.googleId = actual.googleId;
         expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
     }
