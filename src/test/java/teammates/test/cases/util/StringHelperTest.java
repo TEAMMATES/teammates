@@ -1,6 +1,7 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.crypto.Cipher;
@@ -398,19 +399,28 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testJoin() {
-        assertEquals("", StringHelper.join("", new String[] {}));
-        assertEquals("", StringHelper.join(",", new String[] {}));
-        assertEquals("", StringHelper.join("||", new String[] {}));
+        assertEquals("", StringHelper.join(""));
+        assertEquals("", StringHelper.join(","));
+        assertEquals("", StringHelper.join("||"));
 
-        assertEquals("test", StringHelper.join("", new String[] {"test"}));
-        assertEquals("test", StringHelper.join(",", new String[] {"test"}));
-        assertEquals("test", StringHelper.join("||", new String[] {"test"}));
-        assertEquals("testdata", StringHelper.join("", new String[] {"test", "data"}));
+        assertEquals("test", StringHelper.join("", "test"));
+        assertEquals("test", StringHelper.join(",","test"));
+        assertEquals("test", StringHelper.join("||", "test"));
+        assertEquals("testdata", StringHelper.join("", "test", "data"));
 
-        assertEquals("test,data", StringHelper.join(",", new String[] {"test", "data"}));
-        assertEquals("test||data", StringHelper.join("||", new String[] {"test", "data"}));
+        assertEquals("test,data", StringHelper.join(",", "test", "data"));
+        assertEquals("test||data", StringHelper.join("||", "test", "data"));
         assertEquals("test|||data|||testdata",
-                StringHelper.join("|||", new String[] {"test", "data", "testdata"}));
+                StringHelper.join("|||", "test", "data", "testdata"));
+    }
+
+    @Test
+    public void testJoinWithListOfIntegers() {
+        assertEquals("", StringHelper.join(",", (List<Integer>) null));
+        assertEquals("", StringHelper.join(",", new ArrayList<Integer>()));
+        assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
+        assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
+        assertEquals("5,14", StringHelper.join(null, Arrays.asList(5, 14)));
     }
 
     @Test
