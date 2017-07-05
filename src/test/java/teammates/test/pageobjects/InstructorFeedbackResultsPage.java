@@ -341,8 +341,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
 
-        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        verifyImageUrl(urlRegex, imgSrc);
+        verifyPopoverImageUrl(popoverSelector, urlRegex);
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
@@ -352,8 +351,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         moveToElement(By.cssSelector(headingSelector + " .profile-pic-icon-hover"));
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        verifyImageUrl(urlRegex, imgSrc);
+        verifyPopoverImageUrl(popoverSelector, urlRegex);
     }
 
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
@@ -362,8 +360,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
 
-        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        verifyImageUrl(urlRegex, imgSrc);
+        verifyPopoverImageUrl(popoverSelector, urlRegex);
     }
 
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -376,6 +373,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         moveToElement(By.cssSelector(cellSelector + " .profile-pic-icon-hover"));
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
+        verifyPopoverImageUrl(popoverSelector, urlRegex);
+    }
+
+    private void verifyPopoverImageUrl(String popoverSelector, String urlRegex) {
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
         verifyImageUrl(urlRegex, imgSrc);
     }
