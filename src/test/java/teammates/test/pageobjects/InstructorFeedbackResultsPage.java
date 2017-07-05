@@ -347,8 +347,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
         String headingSelector = "#panelHeading-" + panelHeadingIndex;
         String popoverSelector = headingSelector + " .popover-content";
+        String hoverSelector = headingSelector + " .profile-pic-icon-hover";
 
-        moveToElement(By.cssSelector(headingSelector + " .profile-pic-icon-hover"));
+        moveToElement(By.cssSelector(hoverSelector));
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
         verifyPopoverImageUrl(popoverSelector, urlRegex);
@@ -357,8 +358,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
         String bodyRowSelector = "#panelBodyCollapse-" + panelBodyIndex + " > .panel-body > .row";
         String popoverSelector = bodyRowSelector + " .popover-content";
+        String hoverSelector = bodyRowSelector + " .profile-pic-icon-hover";
 
-        moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
+        moveToElement(By.cssSelector(hoverSelector));
 
         verifyPopoverImageUrl(popoverSelector, urlRegex);
     }
@@ -369,8 +371,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
                               + " tr:nth-child(" + (tableRow + 1) + ")"
                               + " td:nth-child(" + (tableCol + 1) + ")";
         String popoverSelector = cellSelector + " .popover-content";
+        String hoverSelector = cellSelector + " .profile-pic-icon-hover";
 
-        moveToElement(By.cssSelector(cellSelector + " .profile-pic-icon-hover"));
+        moveToElement(By.cssSelector(hoverSelector));
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
         verifyPopoverImageUrl(popoverSelector, urlRegex);
