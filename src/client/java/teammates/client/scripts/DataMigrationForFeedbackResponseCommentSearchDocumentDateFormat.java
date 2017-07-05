@@ -157,7 +157,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
             return;
         }
 
-        print("Batch updating " + documentsToUpdate.size() + " documents...");
+        println("Batch updating " + documentsToUpdate.size() + " documents...");
 
         if (!isPreview) {
             try {
@@ -166,7 +166,6 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
                 throw new RuntimeException("Failed to update one or more documents. Please rerun this script.", e);
             }
         }
-        println(" done.");
 
         documentsToUpdate.clear();
     }
