@@ -2,17 +2,21 @@ package teammates.test.driver.retry;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.ThreadHelper;
-import teammates.test.driver.TestProperties;
 
 /**
  * Handles running and retrying of {@code Retryable} tasks.
  */
 public final class RetryManager {
 
-    private static final int MAX_DELAY_IN_S = TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2;
+    private final int maxDelayInS;
 
-    private RetryManager() {
-        // utility class
+    /**
+     * Creates a new {@link RetryManager} that retries tasks with exponential backoff.
+     *
+     * @param maxDelayInS maximum delay (in seconds) to wait before final retry.
+     */
+    public RetryManager(int maxDelayInS) {
+        this.maxDelayInS = maxDelayInS;
     }
 
     private enum SuccessCondition {
@@ -51,7 +55,7 @@ public final class RetryManager {
      * Runs {@code task}, retrying if needed using exponential backoff, until task is successful.
      * Returns {@code task} result or null if none.
      */
-    public static <T, E extends Throwable> T runUntilSuccessful(Retryable<T, E> task) throws E {
+    public <T, E extends Throwable> T runUntilSuccessful(Retryable<T, E> task) throws E {
         return doRetry(task, SuccessCondition.DEFAULT);
     }
 
@@ -59,7 +63,7 @@ public final class RetryManager {
      * Runs {@code task}, retrying if needed using exponential backoff, until task returns a non-null result.
      * Returns {@code task} result or null if none.
      */
-    public static <T, E extends Throwable> T runUntilNotNull(RetryableTaskReturnsThrows<T, E> task) throws E {
+    public <T, E extends Throwable> T runUntilNotNull(RetryableTaskReturnsThrows<T, E> task) throws E {
         return doRetry(task, SuccessCondition.NOT_NULL);
     }
 
@@ -69,15 +73,14 @@ public final class RetryManager {
      * Returns {@code task} result or null if none.
      */
     @SafeVarargs
-    public static <T, E extends Throwable, C extends Throwable> T runUntilNoException(
+    public final <T, E extends Throwable, C extends Throwable> T runUntilNoException(
             Retryable<T, E> task, Class<C>... exceptionTypes) throws E {
         return doRetry(task, exceptionTypes);
     }
 
-    private static <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition)
-            throws E {
+    private <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition) throws E {
         T result = task.runExec();
-        for (int delay = 1; !condition.isSuccessful(task) && delay <= MAX_DELAY_IN_S; delay *= 2) {
+        for (int delay = 1; !condition.isSuccessful(task) && delay <= maxDelayInS; delay *= 2) {
             logFailure(task, delay);
             ThreadHelper.waitFor(delay * 1000);
             task.beforeRetry();
@@ -91,9 +94,9 @@ public final class RetryManager {
 
     @SafeVarargs
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
-    private static <T, E extends Throwable, C extends Throwable> T doRetry(
+    private final <T, E extends Throwable, C extends Throwable> T doRetry(
             Retryable<T, E> task, Class<C>... exceptionTypes) throws E {
-        for (int delay = 1; delay <= MAX_DELAY_IN_S; delay *= 2) {
+        for (int delay = 1; delay <= maxDelayInS; delay *= 2) {
             try {
                 return task.runExec();
             } catch (Throwable e) {

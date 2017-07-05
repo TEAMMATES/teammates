@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.retry.RetryManager;
 import teammates.test.driver.retry.RetryableTaskReturns;
 
 /**
@@ -29,7 +28,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected AccountAttributes getAccountWithRetry(final String googleId) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
             @Override
             public AccountAttributes run() {
                 return getAccount(googleId);
@@ -47,7 +46,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourseWithRetry(final String courseId) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
             @Override
             public CourseAttributes run() {
                 return getCourse(courseId);
@@ -66,7 +65,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected FeedbackQuestionAttributes getFeedbackQuestionWithRetry(
             final String courseId, final String feedbackSessionName, final int qnNumber) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackQuestionAttributes>("getFeedbackQuestion") {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackQuestionAttributes>(
+                "getFeedbackQuestion") {
             @Override
             public FeedbackQuestionAttributes run() {
                 return getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
@@ -95,7 +95,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     protected FeedbackSessionAttributes getFeedbackSessionWithRetry(
             final String courseId, final String feedbackSessionName) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>("getFeedbackSession") {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>(
+                "getFeedbackSession") {
             @Override
             public FeedbackSessionAttributes run() {
                 return getFeedbackSession(courseId, feedbackSessionName);
@@ -113,7 +114,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
             @Override
             public InstructorAttributes run() {
                 return getInstructor(courseId, instructorEmail);
@@ -126,7 +127,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
+        return persistenceRetryManager.runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
             @Override
             public String run() {
                 return getKeyForInstructor(courseId, instructorEmail);

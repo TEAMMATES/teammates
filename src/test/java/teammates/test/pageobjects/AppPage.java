@@ -54,6 +54,8 @@ public abstract class AppPage {
     /** Browser instance the page is loaded into. */
     protected Browser browser;
 
+    protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
+
     // These are elements common to most pages in our app
 
     @FindBy(id = "statusMessagesToUser")
@@ -898,7 +900,8 @@ public abstract class AppPage {
     }
 
     public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
-        return RetryManager.runUntilNoException(new RetryableTaskReturnsThrows<AppPage, IOException>("HTML verification") {
+        return persistenceRetryManager.runUntilNoException(new RetryableTaskReturnsThrows<AppPage, IOException>(
+                "HTML verification") {
             @Override
             public AppPage run() throws IOException {
                 return verifyHtmlPart(MAIN_CONTENT, filePath);
