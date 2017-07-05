@@ -250,7 +250,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             if (shouldSelfBeExcludedFromRankings(question)) {
                 fragments.append(',').append(userAverageExcludingSelfText);
             }
-            fragments.append(",");
+            fragments.append(',');
             fragments.append(StringHelper.join(",", ranks));
             fragments.append(Const.EOL);
         }

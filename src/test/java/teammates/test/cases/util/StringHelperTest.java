@@ -404,7 +404,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.join("||"));
 
         assertEquals("test", StringHelper.join("", "test"));
-        assertEquals("test", StringHelper.join(",","test"));
+        assertEquals("test", StringHelper.join(",", "test"));
         assertEquals("test", StringHelper.join("||", "test"));
         assertEquals("testdata", StringHelper.join("", "test", "data"));
 

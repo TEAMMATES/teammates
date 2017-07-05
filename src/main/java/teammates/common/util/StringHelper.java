@@ -565,16 +565,14 @@ public final class StringHelper {
             return "";
         }
 
-        if (delimiter == null) {
-            delimiter = DEFAULT_DELIMITER;
-        }
+        String delim = delimiter == null ? DEFAULT_DELIMITER : delimiter;
 
         StringBuilder result = new StringBuilder();
         for (String element : elements) {
-            result.append(element).append(delimiter);
+            result.append(element).append(delim);
         }
-        if (result.length() > 0 && delimiter.length() > 0) {
-            result.delete(result.length() - delimiter.length(), result.length());
+        if (result.length() > 0 && delim.length() > 0) {
+            result.delete(result.length() - delim.length(), result.length());
         }
         return result.toString();
     }
