@@ -238,6 +238,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         editedSession.getInstructions(), editedSession.getGracePeriod(), false);
 
         // Click discard changes button, then cancel and verify html
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
         feedbackEditPage.clickDiscardChangesToSessionButton();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
