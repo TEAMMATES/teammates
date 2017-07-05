@@ -63,6 +63,13 @@ public abstract class RemoteApiClient {
     }
 
     /**
+     * Prints the {@code string} on system output.
+     */
+    protected void print(String string) {
+        System.out.print(string);
+    }
+
+    /**
      * This operation is meant to be overridden by child classes.
      */
     protected abstract void doOperation();
