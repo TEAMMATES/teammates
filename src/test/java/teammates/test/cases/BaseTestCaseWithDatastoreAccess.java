@@ -17,8 +17,8 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.RetryManager;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.retry.RetryManager;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore.

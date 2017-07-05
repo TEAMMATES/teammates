@@ -1,4 +1,4 @@
-package teammates.test.driver.retry;
+package teammates.common.util.retry;
 
 /**
  * Abstract implementation of a {@link Retryable} task that returns a result, for easy extending through anonymous classes.

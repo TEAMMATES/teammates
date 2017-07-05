@@ -1,12 +1,15 @@
-package teammates.test.driver.retry;
+package teammates.common.util.retry;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 
 /**
  * Handles running and retrying of {@code Retryable} tasks.
  */
 public final class RetryManager {
+
+    private static final Logger log = Logger.getLogger();
 
     private final int maxDelayInS;
 
@@ -131,7 +134,7 @@ public final class RetryManager {
     }
 
     private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
-        System.out.println(task.getName() + " failed; waiting " + delay + "s before retry");
+        log.info(task.getName() + " failed; waiting " + delay + "s before retry");
     }
 
     private static <T, E extends Throwable> void throwFinalFailure(Retryable<T, E> task) {

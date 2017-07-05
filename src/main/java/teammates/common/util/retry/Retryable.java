@@ -1,4 +1,4 @@
-package teammates.test.driver.retry;
+package teammates.common.util.retry;
 
 /**
  * Represents a task that can be retried.
