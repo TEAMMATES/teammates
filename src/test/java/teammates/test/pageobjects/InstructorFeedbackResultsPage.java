@@ -339,7 +339,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
         String popoverSelector = panelBodySelector + " .popover-content";
 
-        browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
+        waitForElementPresence(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
 
         verifyPopoverImageUrl(popoverSelector, urlRegex);
     }
