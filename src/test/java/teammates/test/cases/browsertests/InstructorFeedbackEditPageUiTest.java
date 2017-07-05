@@ -221,7 +221,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("test discard changes to feedback session");
 
+        By feedbackSessionEditFormSection = By.id("form_feedbacksession");
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickEditSessionButton();
+        feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
+
         // Make changes to Feedback session
+        feedbackEditPage.clickEditSessionButton();
         editedSession.setStartTime(Const.TIME_REPRESENTS_NOW);
         editedSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         editedSession.setInstructions(new Text("Made some more changes"));
@@ -230,7 +237,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         editedSession.getInstructions(), editedSession.getGracePeriod(), false);
 
         // Click discard changes button, then cancel and verify html
-        By feedbackSessionEditFormSection = By.id("form_feedbacksession");
         feedbackEditPage.clickDiscardChangesToSessionButton();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
