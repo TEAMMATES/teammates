@@ -86,12 +86,10 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
             String sampleDateString = extractSampleDateString(document);
             if (isInDateFormat(sampleDateString, oldDateFormat)) {
                 commentsToFix.add(comment);
+            } else if (isInDateFormat(sampleDateString, newDateFormat)) {
+                numberOfUnaffectedDocuments++;
             } else {
-                if (isInDateFormat(sampleDateString, newDateFormat)) {
-                    numberOfUnaffectedDocuments++;
-                } else {
-                    println("Unrecognised date format (" + sampleDateString + ") for:\n" + comment);
-                }
+                println("Unrecognised date format (" + sampleDateString + ") for:\n" + comment);
             }
         }
 
@@ -160,11 +158,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
         println("Batch updating " + documentsToUpdate.size() + " documents...");
 
         if (!isPreview) {
-            try {
-                SearchManager.putDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to update one or more documents. Please rerun this script.", e);
-            }
+            SearchManager.putDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
         }
 
         documentsToUpdate.clear();
