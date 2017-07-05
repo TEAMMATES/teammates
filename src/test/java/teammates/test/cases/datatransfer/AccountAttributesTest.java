@@ -158,7 +158,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account expectedAccount =
                 new Account(account.googleId, account.name, account.isInstructor, account.email,
                         account.institute, new StudentProfileAttributes().toEntity());
-        Account actualAccount = AccountAttributes.valueOf(expectedAccount).toEntity();
+        Account actualAccount = valueOf(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
@@ -239,7 +239,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     private AccountAttributes createAccountAttributesToSanitize() {
         AccountAttributes account = new AccountAttributes();
-
         account.googleId = "googleId@gmail.com";
         account.name = "'name'";
         account.institute = "\\/";
@@ -257,8 +256,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
         account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
 
-        return account;
-
+        return new AccountAttributesBuilder(
+                account.googleId, account.name, account.email, account.institute)
+                .withIsInstructor(account.isInstructor())
+                .withStudentProfileAttributes(account.studentProfile)
+                .build();
     }
 
 }
