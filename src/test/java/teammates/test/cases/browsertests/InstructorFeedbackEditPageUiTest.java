@@ -237,13 +237,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.editFeedbackSession(editedSession.getStartTime(), editedSession.getEndTime(),
                                         editedSession.getInstructions(), editedSession.getGracePeriod(), false);
 
-        // Click discard changes button, then cancel and verify html
+        // Click discard changes button, then click ok and verify html
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
         feedbackEditPage.clickDiscardChangesToSessionButton();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
 
-        // Click discard changes button, then cancel and verify html
+        // Click discard changes button, then click cancel and verify html
         feedbackEditPage.clickDiscardChangesToSessionButton();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
