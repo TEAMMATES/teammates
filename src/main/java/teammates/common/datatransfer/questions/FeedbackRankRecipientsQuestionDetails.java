@@ -240,7 +240,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         DecimalFormat df = new DecimalFormat("#.##");
         Map<String, Integer> recipientSelfRanks = new HashMap<>();
-        
+
         if (shouldSelfBeExcludedFromRankings(question)) {
             recipientSelfRanks = generateSelfRankForEachRecipient(responses);
         }
