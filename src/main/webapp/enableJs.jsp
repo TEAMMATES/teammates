@@ -6,11 +6,21 @@
 
   <div>
     <ul>
-      <li><a href="#ie">Internet Explorer</a></li>
-      <li><a href="#firefox">Mozilla Firefox</a></li>
-      <li><a href="#safari">Safari</a></li>
-      <li><a href="#opera">Opera</a></li>
-      <li><a href="#chrome">Chrome</a></li>
+      <li>
+        <a href="#ie">Internet Explorer</a>
+      </li>
+      <li>
+        <a href="#firefox">Mozilla Firefox</a>
+      </li>
+      <li>
+        <a href="#safari">Safari</a>
+      </li>
+      <li>
+        <a href="#opera">Opera</a>
+      </li>
+      <li>
+        <a href="#chrome">Chrome</a>
+      </li>
     </ul>
   </div>
 
@@ -76,7 +86,7 @@
         <li>Then, check the Enable JavaScript checkbox.</li>
         <li>Close the window to save your changes.</li>
         <li>Finally, refresh your browser.</li>
-       </ol>
+      </ol>
     </div>
 
     <div id="opera">

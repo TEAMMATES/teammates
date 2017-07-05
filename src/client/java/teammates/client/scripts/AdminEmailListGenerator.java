@@ -13,14 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.Query;
-
 import org.joda.time.DateTime;
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.InvalidParametersException;
@@ -189,9 +182,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet) {
-        String q = "SELECT FROM " + Instructor.class.getName();
-        @SuppressWarnings("unchecked")
-        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
+        List<Instructor> allInstructors = ofy().load().type(Instructor.class).list();
 
         for (Instructor instructor : allInstructors) {
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
@@ -207,9 +198,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet) {
-        String q = "SELECT FROM " + CourseStudent.class.getName();
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(q).execute();
+        List<CourseStudent> allStudents = ofy().load().type(CourseStudent.class).list();
 
         for (CourseStudent student : allStudents) {
             if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
@@ -380,36 +369,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     }
 
     private Course getCourseEntity(String courseId) {
-
-        Query q = PM.newQuery(Course.class);
-        q.declareParameters("String courseIdParam");
-        q.setFilter("ID == courseIdParam");
-
-        @SuppressWarnings("unchecked")
-        List<Course> courseList = (List<Course>) q.execute(courseId);
-
-        if (courseList.isEmpty() || JDOHelper.isDeleted(courseList.get(0))) {
-            return null;
-        }
-
-        return courseList.get(0);
+        return ofy().load().type(Course.class).id(courseId).now();
     }
 
     private Account getAccountEntity(String googleId) {
-
-        try {
-            Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = PM.getObjectById(Account.class, key);
-
-            if (JDOHelper.isDeleted(account)) {
-                return null;
-            }
-
-            return account;
-
-        } catch (IllegalArgumentException | JDOObjectNotFoundException e) {
-            return null;
-        }
+        return ofy().load().type(Account.class).id(googleId).now();
     }
 
     private String getCurrentDateForDisplay() {
