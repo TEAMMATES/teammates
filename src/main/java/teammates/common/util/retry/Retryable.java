@@ -15,6 +15,12 @@ public abstract class Retryable<T, E extends Throwable> {
      */
     protected String finalMessage;
 
+    /**
+     * An optional final object to embed in the {@link MaximumRetriesExceededException} thrown
+     * should the task fail after maximum retries.
+     */
+    protected Object finalData;
+
     public Retryable(String name) {
         this.name = name;
     }

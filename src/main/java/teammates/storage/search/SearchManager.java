@@ -122,7 +122,7 @@ public final class SearchManager {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (MaximumRetriesExceededException e) {
-            List<Document> failedDocuments = (List<Document>) e.finalResult;
+            List<Document> failedDocuments = (List<Document>) e.finalData;
             log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, failedDocuments, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         }
