@@ -21,7 +21,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.common.util.retry.RetryableTaskThrows;
 
 /**
@@ -132,7 +131,8 @@ public final class SearchManager {
      * Tries putting multiple documents, handling transient errors by retrying with exponential backoff.
      *
      * @throws PutException when only non-transient errors are encountered.
-     * @throws MaximumRetriesExceededException with list of failed documents if operation fails after maximum retries.
+     * @throws MaximumRetriesExceededException with list of failed {@link Document}s as final data and
+     *         final {@link OperationResult}'s message as final message, if operation fails after maximum retries.
      */
     private static void putDocumentsWithRetry(String indexName, final List<Document> documents)
             throws PutException, MaximumRetriesExceededException {
@@ -146,62 +146,56 @@ public final class SearchManager {
          * If we encounter one or more transient errors, we retry the operation.
          * If all results are non-transient errors, we give up and throw a PutException upwards.
          */
-        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<List<Document>, PutException>("Put documents") {
-            @Override
-            public List<Document> run() throws PutException {
-                List<Document> documentsToPut;
-                if (getResult() == null) {
-                    // Initial run; put given documents
-                    documentsToPut = documents;
-                } else {
-                    // Put failed documents from previous run
-                    documentsToPut = getResult();
-                }
+        RM.runUntilSuccessful(new RetryableTaskThrows<PutException>("Put documents") {
 
+            private List<Document> documentsToPut = documents;
+            private List<OperationResult> lastResults;
+            private List<String> lastIds;
+
+            @Override
+            public void run() throws PutException {
                 try {
                     PutResponse response = index.put(documentsToPut);
-                    List<OperationResult> results = response.getResults();
-
-                    List<Document> failedDocuments = new ArrayList<>();
-                    for (int i = 0; i < documentsToPut.size(); i++) {
-                        if (!StatusCode.OK.equals(results.get(i).getCode())) {
-                            failedDocuments.add(documentsToPut.get(i));
-                        }
-                    }
-
-                    return failedDocuments;
+                    lastResults = response.getResults();
+                    lastIds = response.getIds();
 
                 } catch (PutException e) {
-                    List<OperationResult> results = e.getResults();
-                    boolean hasTransientError = false;
-
-                    List<Document> failedDocuments = new ArrayList<>();
-                    for (int i = 0; i < documentsToPut.size(); i++) {
-                        StatusCode code = results.get(i).getCode();
-                        if (!StatusCode.OK.equals(code)) {
-                            failedDocuments.add(documentsToPut.get(i));
-                            if (StatusCode.TRANSIENT_ERROR.equals(code)) {
-                                hasTransientError = true;
-                            }
-                        }
-                    }
-
-                    // Update the final message to be shown if the task fails after maximum retries
-                    finalMessage = e.getOperationResult().getMessage();
-
-                    if (failedDocuments.isEmpty() || hasTransientError) {
-                        // If there is at least one transient error, continue retrying
-                        return failedDocuments;
-                    } else {
-                        // If all errors are non-transient, do not continue retrying
-                        throw e;
-                    }
+                    lastResults = e.getResults();
+                    lastIds = e.getIds();
                 }
             }
 
             @Override
-            public boolean isSuccessful(List<Document> failedDocuments) {
-                return failedDocuments.isEmpty();
+            public boolean isSuccessful() {
+                boolean hasTransientError = false;
+
+                List<Document> failedDocuments = new ArrayList<>();
+                for (int i = 0; i < documentsToPut.size(); i++) {
+                    StatusCode code = lastResults.get(i).getCode();
+                    if (!StatusCode.OK.equals(code)) {
+                        failedDocuments.add(documentsToPut.get(i));
+                        if (StatusCode.TRANSIENT_ERROR.equals(code)) {
+                            hasTransientError = true;
+                        }
+                    }
+                }
+
+                // Update the list of documents to be put during the next retry
+                documentsToPut = failedDocuments;
+
+                // Update the final message and data to be shown if the task fails after maximum retries
+                finalMessage = lastResults.get(0).getMessage();
+                finalData = documentsToPut;
+
+                if (documentsToPut.isEmpty()) {
+                    return true;
+                } else if (hasTransientError) {
+                    // If there is at least one transient error, continue retrying
+                    return false;
+                } else {
+                    // If all errors are non-transient, do not continue retrying
+                    throw new PutException(lastResults.get(0), lastResults, lastIds);
+                }
             }
         });
     }
