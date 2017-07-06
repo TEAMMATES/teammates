@@ -19,6 +19,7 @@ import com.google.appengine.api.search.StatusCode;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
 
@@ -30,7 +31,9 @@ import teammates.common.util.retry.RetryableTaskReturnsThrows;
 public final class SearchManager {
 
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
-            "Failed to put document %s into search index %s due to non-transient backend issue: ";
+            "Failed to put document(s) %s into search index %s due to non-transient backend issue: ";
+    private static final String ERROR_MAXIMUM_RETRIES_EXCEEDED =
+            "Failed to put document(s) %s into search index %s after maximum retries: ";
     private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<>();
 
@@ -46,8 +49,11 @@ public final class SearchManager {
     public static void putDocument(String indexName, Document document) {
         try {
             putDocumentWithRetry(indexName, document);
-        } catch (TeammatesException | AssertionError e) {
+        } catch (TeammatesException e) {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (MaximumRetriesExceededException e) {
+            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, document, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
@@ -56,10 +62,10 @@ public final class SearchManager {
      * Tries putting a document, handling transient errors by retrying with exponential backoff.
      *
      * @throws TeammatesException if a non-transient error is encountered.
-     * @throws AssertionError if the operation fails after maximum retries.
+     * @throws MaximumRetriesExceededException with final {@link OperationResult} if operation fails after maximum retries.
      */
     private static void putDocumentWithRetry(String indexName, final Document document)
-            throws TeammatesException, AssertionError {
+            throws TeammatesException, MaximumRetriesExceededException {
         final Index index = getIndex(indexName);
 
         /**
@@ -83,6 +89,9 @@ public final class SearchManager {
             }
 
             public boolean isSuccessful(OperationResult result) throws TeammatesException {
+                // Update the final message to be shown if the task fails after maximum retries
+                finalMessage = result.getMessage();
+
                 if (StatusCode.OK.equals(result.getCode())) {
                     return true;
                 } else if (StatusCode.TRANSIENT_ERROR.equals(result.getCode())) {
@@ -90,7 +99,7 @@ public final class SearchManager {
                     return false;
                 } else {
                     // A non-transient error signals that the operation should not be retried
-                    throw new TeammatesException(result.getMessage());
+                    throw new TeammatesException(finalMessage);
                 }
             }
         });
@@ -99,11 +108,16 @@ public final class SearchManager {
     /**
      * Batch creates or updates the search documents for the given documents and index.
      */
+    @SuppressWarnings("unchecked")
     public static void putDocuments(String indexName, List<Document> documents) {
         try {
             putDocumentsWithRetry(indexName, documents);
-        } catch (TeammatesException | AssertionError e) {
+        } catch (TeammatesException e) {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (MaximumRetriesExceededException e) {
+            List<Document> failedDocuments = (List<Document>) e.finalResult;
+            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, failedDocuments, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
@@ -112,10 +126,10 @@ public final class SearchManager {
      * Tries putting multiple documents, handling transient errors by retrying with exponential backoff.
      *
      * @throws TeammatesException when only non-transient errors are encountered.
-     * @throws AssertionError if the operation fails after maximum retries.
+     * @throws MaximumRetriesExceededException with list of failed documents if operation fails after maximum retries.
      */
     private static void putDocumentsWithRetry(String indexName, final List<Document> documents)
-            throws TeammatesException, AssertionError {
+            throws TeammatesException, MaximumRetriesExceededException {
         final Index index = getIndex(indexName);
 
         /**
@@ -165,6 +179,9 @@ public final class SearchManager {
                             }
                         }
                     }
+
+                    // Update the final message to be shown if the task fails after maximum retries
+                    finalMessage = e.getOperationResult().getMessage();
 
                     if (failedDocuments.isEmpty() || hasTransientError) {
                         // If there is at least one transient error, continue retrying

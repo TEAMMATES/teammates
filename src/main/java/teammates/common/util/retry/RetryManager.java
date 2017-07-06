@@ -138,6 +138,6 @@ public final class RetryManager {
     }
 
     private static <T, E extends Throwable> void throwFinalFailure(Retryable<T, E> task) {
-        Assumption.fail(task.getName() + " failed after maximum retries");
+        throw new MaximumRetriesExceededException(task);
     }
 }
