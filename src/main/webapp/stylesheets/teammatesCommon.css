@@ -974,6 +974,11 @@ Default to alert color for visibility titles used within an alert context.
     content: attr(data-placeholder);
 }
 
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
+}
+
 /*////////////////////////////////////////////////////////////
 /////////////////////// Modal Dialogs ///////////////////////
 //////////////////////////////////////////////////////////*/
