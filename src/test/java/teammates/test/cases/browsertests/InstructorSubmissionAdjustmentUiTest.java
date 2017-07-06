@@ -40,7 +40,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testAdjustmentOfSubsmission() throws MaximumRetriesExceededException {
+    public void testAdjustmentOfSubmission() throws MaximumRetriesExceededException {
 
         //load the enrollPage
         loadEnrollmentPage();
