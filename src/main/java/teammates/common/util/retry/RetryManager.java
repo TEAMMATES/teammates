@@ -122,7 +122,7 @@ public final class RetryManager {
             if (!isThrowableTypeIn(e, recognizedExceptionTypes)) {
                 throw e;
             }
-            throw new MaximumRetriesExceededException(task);
+            throw new MaximumRetriesExceededException(task, e);
         }
     }
 
