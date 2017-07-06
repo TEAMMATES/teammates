@@ -33,7 +33,7 @@ public final class SearchManager {
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
             "Failed to put document(s) %s into search index %s due to non-transient backend issue: ";
     private static final String ERROR_MAXIMUM_RETRIES_EXCEEDED =
-            "Failed to put document(s) %s into search index %s after maximum retries: ";
+            "Failed to put document(s) %s into search index %s after maximum retries: %s: ";
     private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<>();
 
@@ -53,7 +53,7 @@ public final class SearchManager {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (MaximumRetriesExceededException e) {
-            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, document, indexName)
+            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, document, indexName, e.finalMessage)
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
@@ -113,7 +113,6 @@ public final class SearchManager {
     /**
      * Batch creates or updates the search documents for the given documents and index.
      */
-    @SuppressWarnings("unchecked")
     public static void putDocuments(String indexName, List<Document> documents) {
         try {
             putDocumentsWithRetry(indexName, documents);
@@ -121,8 +120,8 @@ public final class SearchManager {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (MaximumRetriesExceededException e) {
-            List<Document> failedDocuments = (List<Document>) e.finalData;
-            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, failedDocuments, indexName)
+            Object failedDocuments = e.finalData;
+            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, failedDocuments, indexName, e.finalMessage)
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
