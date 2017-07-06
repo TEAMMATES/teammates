@@ -40,7 +40,7 @@ public class InstructorFeedbackSessionActions {
         this.fsName = feedbackSessionName;
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
-        this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName, "true");
+        this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName, true);
         this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
         this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);

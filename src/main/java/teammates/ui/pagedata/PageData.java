@@ -427,11 +427,11 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName, String loadInEditMode) {
+    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName, boolean loadInEditMode) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, loadInEditMode);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, Boolean.toString(loadInEditMode));
         link = addUserIdToUrl(link);
         return link;
     }

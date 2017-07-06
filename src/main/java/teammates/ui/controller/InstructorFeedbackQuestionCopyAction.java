@@ -59,6 +59,6 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
         }
 
         return createRedirectResult(new PageData(account, sessionToken)
-                .getInstructorFeedbackEditLink(courseId, feedbackSessionName, "false"));
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName, false));
     }
 }
