@@ -76,8 +76,8 @@ public final class RetryManager {
      * Returns {@code task} result or null if none.
      */
     @SafeVarargs
-    public final <T, E extends Throwable, C extends Throwable> T runUntilNoException(
-            Retryable<T, E> task, Class<C>... exceptionTypes) throws E {
+    public final <T, E extends Throwable> T runUntilNoException(
+            Retryable<T, E> task, Class<? extends Throwable>... exceptionTypes) throws E {
         return doRetry(task, exceptionTypes);
     }
 
@@ -97,8 +97,8 @@ public final class RetryManager {
 
     @SafeVarargs
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
-    private final <T, E extends Throwable, C extends Throwable> T doRetry(
-            Retryable<T, E> task, Class<C>... exceptionTypes) throws E {
+    private final <T, E extends Throwable> T doRetry(
+            Retryable<T, E> task, Class<? extends Throwable>... exceptionTypes) throws E {
         for (int delay = 1; delay <= maxDelayInS; delay *= 2) {
             try {
                 return task.runExec();
@@ -124,8 +124,8 @@ public final class RetryManager {
     }
 
     @SafeVarargs
-    private static <C extends Throwable> boolean isThrowableTypeIn(Throwable e, Class<C>... exceptionTypes) {
-        for (Class<C> exceptionType : exceptionTypes) {
+    private static boolean isThrowableTypeIn(Throwable e, Class<? extends Throwable>... exceptionTypes) {
+        for (Class<?> exceptionType : exceptionTypes) {
             if (exceptionType.isInstance(e)) {
                 return true;
             }
