@@ -30,9 +30,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         }
     };
 
-
-    //Note: be careful when changing these variables as their names are used in *.json files.
-
+    // Note: be careful when changing these variables as their names are used in *.json files.
     // Optional fields
     public Date createdAt;
 
@@ -40,7 +38,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private String id;
     private String name;
     private String timeZone;
-
 
     public CourseAttributes() {
         // attributes to be set after construction
