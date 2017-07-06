@@ -1,7 +1,7 @@
 package teammates.common.util.retry;
 
 @SuppressWarnings("serial")
-public class MaximumRetriesExceededException extends RuntimeException {
+public class MaximumRetriesExceededException extends Exception {
 
     public Object finalResult;
 

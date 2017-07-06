@@ -58,7 +58,7 @@ public final class RetryManager {
      * Runs {@code task}, retrying if needed using exponential backoff, until task is successful.
      * Returns {@code task} result or null if none.
      */
-    public <T, E extends Throwable> T runUntilSuccessful(Retryable<T, E> task) throws E {
+    public <T, E extends Throwable> T runUntilSuccessful(Retryable<T, E> task) throws E, MaximumRetriesExceededException {
         return doRetry(task, SuccessCondition.DEFAULT);
     }
 
@@ -66,7 +66,8 @@ public final class RetryManager {
      * Runs {@code task}, retrying if needed using exponential backoff, until task returns a non-null result.
      * Returns {@code task} result or null if none.
      */
-    public <T, E extends Throwable> T runUntilNotNull(RetryableTaskReturnsThrows<T, E> task) throws E {
+    public <T, E extends Throwable> T runUntilNotNull(RetryableTaskReturnsThrows<T, E> task)
+            throws E, MaximumRetriesExceededException {
         return doRetry(task, SuccessCondition.NOT_NULL);
     }
 
@@ -77,11 +78,13 @@ public final class RetryManager {
      */
     @SafeVarargs
     public final <T, E extends Throwable> T runUntilNoRecognizedException(
-            Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes) throws E {
+            Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes)
+            throws E, MaximumRetriesExceededException {
         return doRetry(task, recognizedExceptionTypes);
     }
 
-    private <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition) throws E {
+    private <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition)
+            throws E, MaximumRetriesExceededException {
         T result = task.runExec();
         for (int delay = 1; !condition.isSuccessful(task) && delay <= maxDelayInS; delay *= 2) {
             logFailure(task, delay);
@@ -90,7 +93,7 @@ public final class RetryManager {
             result = task.runExec();
         }
         if (!condition.isSuccessful(task)) {
-            throwFinalFailure(task);
+            throw new MaximumRetriesExceededException(task);
         }
         return result;
     }
@@ -98,7 +101,8 @@ public final class RetryManager {
     @SafeVarargs
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
     private final <T, E extends Throwable> T doRetry(
-            Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes) throws E {
+            Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes)
+            throws E, MaximumRetriesExceededException {
         for (int delay = 1; delay <= maxDelayInS; delay *= 2) {
             try {
                 return task.runExec();
@@ -118,8 +122,7 @@ public final class RetryManager {
             if (!isThrowableTypeIn(e, recognizedExceptionTypes)) {
                 throw e;
             }
-            throwFinalFailure(task);
-            return null;
+            throw new MaximumRetriesExceededException(task);
         }
     }
 
@@ -135,9 +138,5 @@ public final class RetryManager {
 
     private static <T, E extends Throwable> void logFailure(Retryable<T, E> task, int delay) {
         log.info(task.getName() + " failed; waiting " + delay + "s before retry");
-    }
-
-    private static <T, E extends Throwable> void throwFinalFailure(Retryable<T, E> task) {
-        throw new MaximumRetriesExceededException(task);
     }
 }

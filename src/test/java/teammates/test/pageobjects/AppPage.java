@@ -30,6 +30,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.test.driver.AssertHelper;
@@ -899,7 +900,8 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
-    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
+    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath)
+            throws IOException, MaximumRetriesExceededException {
         return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
                 "HTML verification") {
             @Override

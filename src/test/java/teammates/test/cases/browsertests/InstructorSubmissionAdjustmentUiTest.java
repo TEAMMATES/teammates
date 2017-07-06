@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
@@ -39,7 +40,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testAdjustmentOfSubsmission() {
+    public void testAdjustmentOfSubsmission() throws MaximumRetriesExceededException {
 
         //load the enrollPage
         loadEnrollmentPage();
