@@ -72,13 +72,13 @@ public final class RetryManager {
 
     /**
      * Runs {@code task}, retrying if needed using exponential backoff, until no exceptions of the specified
-     * {@code exceptionTypes} are caught.
+     * {@code recognizedExceptionTypes} are caught.
      * Returns {@code task} result or null if none.
      */
     @SafeVarargs
-    public final <T, E extends Throwable> T runUntilNoException(
-            Retryable<T, E> task, Class<? extends Throwable>... exceptionTypes) throws E {
-        return doRetry(task, exceptionTypes);
+    public final <T, E extends Throwable> T runUntilNoRecognizedException(
+            Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes) throws E {
+        return doRetry(task, recognizedExceptionTypes);
     }
 
     private <T, E extends Throwable> T doRetry(Retryable<T, E> task, SuccessCondition condition) throws E {
@@ -98,12 +98,12 @@ public final class RetryManager {
     @SafeVarargs
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
     private final <T, E extends Throwable> T doRetry(
-            Retryable<T, E> task, Class<? extends Throwable>... exceptionTypes) throws E {
+            Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes) throws E {
         for (int delay = 1; delay <= maxDelayInS; delay *= 2) {
             try {
                 return task.runExec();
             } catch (Throwable e) {
-                if (!isThrowableTypeIn(e, exceptionTypes)) {
+                if (!isThrowableTypeIn(e, recognizedExceptionTypes)) {
                     throw e;
                 }
                 // continue retry process
@@ -115,7 +115,7 @@ public final class RetryManager {
         try {
             return task.runExec();
         } catch (Throwable e) {
-            if (!isThrowableTypeIn(e, exceptionTypes)) {
+            if (!isThrowableTypeIn(e, recognizedExceptionTypes)) {
                 throw e;
             }
             throwFinalFailure(task);
@@ -124,9 +124,9 @@ public final class RetryManager {
     }
 
     @SafeVarargs
-    private static boolean isThrowableTypeIn(Throwable e, Class<? extends Throwable>... exceptionTypes) {
-        for (Class<?> exceptionType : exceptionTypes) {
-            if (exceptionType.isInstance(e)) {
+    private static boolean isThrowableTypeIn(Throwable e, Class<? extends Throwable>... recognizedExceptionTypes) {
+        for (Class<?> recognizedExceptionType : recognizedExceptionTypes) {
+            if (recognizedExceptionType.isInstance(e)) {
                 return true;
             }
         }

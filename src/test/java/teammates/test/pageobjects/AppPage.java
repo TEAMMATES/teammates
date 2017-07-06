@@ -900,7 +900,7 @@ public abstract class AppPage {
     }
 
     public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
-        return persistenceRetryManager.runUntilNoException(new RetryableTaskReturnsThrows<AppPage, IOException>(
+        return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
                 "HTML verification") {
             @Override
             public AppPage run() throws IOException {
