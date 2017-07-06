@@ -49,7 +49,7 @@ public final class SearchManager {
     public static void putDocument(String indexName, Document document) {
         try {
             putDocumentWithRetry(indexName, document);
-        } catch (TeammatesException e) {
+        } catch (PutException e) {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (MaximumRetriesExceededException e) {
@@ -61,11 +61,11 @@ public final class SearchManager {
     /**
      * Tries putting a document, handling transient errors by retrying with exponential backoff.
      *
-     * @throws TeammatesException if a non-transient error is encountered.
+     * @throws PutException if a non-transient error is encountered.
      * @throws MaximumRetriesExceededException with final {@link OperationResult} if operation fails after maximum retries.
      */
     private static void putDocumentWithRetry(String indexName, final Document document)
-            throws TeammatesException, MaximumRetriesExceededException {
+            throws PutException, MaximumRetriesExceededException {
         final Index index = getIndex(indexName);
 
         /*
@@ -74,9 +74,9 @@ public final class SearchManager {
          * throws a PutException that also contains an embedded OperationResult.
          * We handle both ways by examining the OperationResult to determine what kind of error it is. If it is
          * transient, we use RetryManager to retry the operation; if it is
-         * non-transient, we do not retry but throw a TeammatesException upwards instead.
+         * non-transient, we do not retry but throw a PutException upwards instead.
          */
-        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<OperationResult, TeammatesException>("Put document") {
+        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<OperationResult, PutException>("Put document") {
             @Override
             public OperationResult run() {
                 try {
@@ -88,7 +88,7 @@ public final class SearchManager {
                 }
             }
 
-            public boolean isSuccessful(OperationResult result) throws TeammatesException {
+            public boolean isSuccessful(OperationResult result) throws PutException {
                 // Update the final message to be shown if the task fails after maximum retries
                 finalMessage = result.getMessage();
 
@@ -99,7 +99,7 @@ public final class SearchManager {
                     return false;
                 } else {
                     // A non-transient error signals that the operation should not be retried
-                    throw new TeammatesException(finalMessage);
+                    throw new PutException(result);
                 }
             }
         });
@@ -112,7 +112,7 @@ public final class SearchManager {
     public static void putDocuments(String indexName, List<Document> documents) {
         try {
             putDocumentsWithRetry(indexName, documents);
-        } catch (TeammatesException e) {
+        } catch (PutException e) {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (MaximumRetriesExceededException e) {
@@ -125,11 +125,11 @@ public final class SearchManager {
     /**
      * Tries putting multiple documents, handling transient errors by retrying with exponential backoff.
      *
-     * @throws TeammatesException when only non-transient errors are encountered.
+     * @throws PutException when only non-transient errors are encountered.
      * @throws MaximumRetriesExceededException with list of failed documents if operation fails after maximum retries.
      */
     private static void putDocumentsWithRetry(String indexName, final List<Document> documents)
-            throws TeammatesException, MaximumRetriesExceededException {
+            throws PutException, MaximumRetriesExceededException {
         final Index index = getIndex(indexName);
 
         /*
@@ -138,11 +138,11 @@ public final class SearchManager {
          * We use RetryManager to retry putting a List of Documents, with each retry re-putting only
          * the documents that failed in the previous retry.
          * If we encounter one or more transient errors, we retry the operation.
-         * If all results are non-transient errors, we give up and throw a TeammatesException upwards.
+         * If all results are non-transient errors, we give up and throw a PutException upwards.
          */
-        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<List<Document>, TeammatesException>("Put documents") {
+        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<List<Document>, PutException>("Put documents") {
             @Override
-            public List<Document> run() throws TeammatesException {
+            public List<Document> run() throws PutException {
                 List<Document> documentsToPut;
                 if (getResult() == null) {
                     // Initial run; put given documents
@@ -188,7 +188,7 @@ public final class SearchManager {
                         return failedDocuments;
                     } else {
                         // If all errors are non-transient, do not continue retrying
-                        throw new TeammatesException(e);
+                        throw e;
                     }
                 }
             }
