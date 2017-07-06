@@ -1,5 +1,7 @@
 package teammates.logic.backdoor;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,6 +79,7 @@ public class BackDoorLogic extends Logic {
                 account.studentProfile = new StudentProfileAttributes();
                 account.studentProfile.googleId = account.googleId;
             }
+
         }
         accountsDb.createAccounts(accounts.values(), true);
 
@@ -90,8 +93,11 @@ public class BackDoorLogic extends Logic {
             validateInstructorPrivileges(instructor);
 
             if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
-                                                                  instructor.email, "TEAMMATES Test Institute 1");
+                AccountAttributes account = new AccountAttributesBuilder(
+                        instructor.googleId, instructor.name, instructor.email, "TEAMMATES Test Institute 1")
+                        .withIsInstructor(true)
+                        .build();
+
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
@@ -107,12 +113,15 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
-                                                                  student.email, "TEAMMATES Test Institute 1");
+                AccountAttributes account = new AccountAttributesBuilder(
+                        student.googleId, student.name, student.email, "TEAMMATES Test Institute 1")
+                        .withIsInstructor(false)
+                        .build();
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
                 }
+
                 studentAccounts.add(account);
             }
         }
@@ -350,15 +359,15 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId of the
-    * question the response is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number corresponding to the created response
-    * should be inserted in the json file in place of the actual response ID.<br>
-    * This method will then generate the correct ID and replace the field.
+     * This method is necessary to generate the feedbackQuestionId of the
+     * question the response is for.<br>
+     * Normally, the ID is already generated on creation,
+     * but the json file does not contain the actual response ID. <br>
+     * Therefore the question number corresponding to the created response
+     * should be inserted in the json file in place of the actual response ID.<br>
+     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
-    **/
+     **/
     private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response)
             throws EntityDoesNotExistException {
         try {
@@ -379,16 +388,16 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId
-    * and feedbackResponseId of the question and response the comment is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number and questionNumber%giverEmail%recipient
-    * corresponding to the created comment should be inserted in the json
-    * file in place of the actual ID.<br>
-    * This method will then generate the correct ID and replace the field.
+     * This method is necessary to generate the feedbackQuestionId
+     * and feedbackResponseId of the question and response the comment is for.<br>
+     * Normally, the ID is already generated on creation,
+     * but the json file does not contain the actual response ID. <br>
+     * Therefore the question number and questionNumber%giverEmail%recipient
+     * corresponding to the created comment should be inserted in the json
+     * file in place of the actual ID.<br>
+     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
-    **/
+     **/
     private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
@@ -406,7 +415,7 @@ public class BackDoorLogic extends Logic {
 
         responseComment.feedbackResponseId =
                 responseComment.feedbackQuestionId
-                + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+                        + "%" + responseIdParam[1] + "%" + responseIdParam[2];
     }
 
     public void removeDataBundle(DataBundle dataBundle) {
@@ -455,7 +464,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
-            byte[] pictureData) throws EntityDoesNotExistException, IOException {
+                                                     byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
     }

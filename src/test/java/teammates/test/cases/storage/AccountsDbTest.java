@@ -36,7 +36,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("typical success case without");
         AccountAttributes retrieved = accountsDb.getAccount(a.googleId);
         assertNotNull(retrieved);
-        assertNull(retrieved.studentProfile);
 
         ______TS("typical success with student profile");
         retrieved = accountsDb.getAccount(a.googleId, true);
@@ -158,9 +157,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
-                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH),
+                            FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                            FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.EMAIL_MAX_LENGTH),
                     e.getMessage());
         }
 
@@ -283,7 +282,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
 
-        ______TS("failure null paramter");
+        ______TS("failure null parameter");
 
         try {
             accountsDb.deleteAccount(null);

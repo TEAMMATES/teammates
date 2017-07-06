@@ -1,5 +1,7 @@
 package teammates.test.cases.logic;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -118,11 +120,18 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.deleteAccountCascade(instructorId);
         coursesLogic.deleteCourseCascade(instructorCourse);
 
+        StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(
+                instructorId, "ICET", "", "", "", "other", "", "");
+
+        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+                instructorId, "ICET Instr Name", "instructor@icet.tmt", "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(studentProfileAttributes)
+                .build();
+
         //create fresh test data
-        accountsLogic.createAccount(
-                new AccountAttributes(instructorId, "ICET Instr Name", true,
-                        "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
+        accountsLogic.createAccount(accountToAdd);
+
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
@@ -599,9 +608,15 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
-        AccountAttributes accountToAdd = new AccountAttributes(instructorId,
-                "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
+
+        StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(
+                instructorId, "Ins1", "", "", "", "male", "", "");
+
+        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+                instructorId, "Instructor 1", instructorEmail, "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(studentProfileAttributes)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
@@ -688,9 +703,15 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        accountToAdd = new AccountAttributes("tes.instructor",
-                "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
+        StudentProfileAttributes student = new StudentProfileAttributes(
+                "tes.instructor", "Ins 1", "", "", "", "male", "", "");
+
+        accountToAdd = new AccountAttributesBuilder(
+                "tes.instructor", "Instructor 1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(student)
+                .build();
+
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 

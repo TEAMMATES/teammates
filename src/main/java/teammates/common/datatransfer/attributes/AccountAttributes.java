@@ -16,61 +16,72 @@ import teammates.storage.entity.Account;
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
+    public static final Date DEFAULT_DATE = new Date();
+    public static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES = new StudentProfileAttributes();
+
     //Note: be careful when changing these variables as their names are used in *.json files.
 
+    // Required fields
     public String googleId;
     public String name;
-    public boolean isInstructor;
     public String email;
     public String institute;
+
+    // Optional fields
+    public boolean isInstructor;
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
-
-    public AccountAttributes(Account a) {
-        googleId = a.getGoogleId();
-        name = a.getName();
-        isInstructor = a.isInstructor();
-        email = a.getEmail();
-        institute = a.getInstitute();
-        createdAt = a.getCreatedAt();
-        studentProfile =
-                a.getStudentProfile() == null ? null : new StudentProfileAttributes(a.getStudentProfile());
-    }
 
     public AccountAttributes() {
         // attributes to be set after construction
     }
 
-    public AccountAttributes(String googleId, String name, boolean isInstructor,
-                String email, String institute, StudentProfileAttributes studentProfileAttributes) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = studentProfileAttributes;
-        this.studentProfile.sanitizeForSaving();
+    /**
+     * Creates a new AccountAttributes with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * <ul>
+     * <li>{@code true} for {@code isInstructor}</li>
+     * <li>{@code new Date(0)} for {@code createdAt}</li>
+     * <li>{@code new StudentProfileAttributes()} for {@code studentProfile}</li>
+     * </ul>
+     */
+    AccountAttributes(AccountAttributesBuilder builder) {
+        this.googleId = SanitizationHelper.sanitizeGoogleId(builder.googleId);
+        this.name = SanitizationHelper.sanitizeName(builder.name);
+        this.email = SanitizationHelper.sanitizeEmail(builder.email);
+        this.institute = SanitizationHelper.sanitizeTitle(builder.institute);
 
+        this.isInstructor = builder.isInstructor;
+        this.createdAt = builder.createdAt;
+        this.studentProfile = builder.studentProfile;
     }
 
-    public AccountAttributes(String googleId, String name, boolean isInstructor,
-                String email, String institute) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = new StudentProfileAttributes();
-        this.studentProfile.googleId = this.googleId;
+    public static AccountAttributes valueOf(Account account) {
+        return new AccountAttributesBuilder(
+                account.getGoogleId(),
+                account.getName(),
+                account.getEmail(),
+                account.getInstitute())
+                .withCreatedAt(account.getCreatedAt())
+                .withIsInstructor(account.isInstructor())
+                .withStudentProfileAttributes(
+                        (account.getStudentProfile() == null)
+                                ? null
+                                : new StudentProfileAttributes(account.getStudentProfile()))
+                .build();
     }
 
     /**
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        AccountAttributes copy = new AccountAttributes(googleId, name, isInstructor, email, institute);
-        copy.studentProfile = this.studentProfile == null ? null : this.studentProfile.getCopy();
-        return copy;
+        return new AccountAttributesBuilder(
+                googleId, name, email, institute)
+                .withStudentProfileAttributes(this.studentProfile == null ? null : this.studentProfile.getCopy())
+                .withCreatedAt(createdAt)
+                .withIsInstructor(isInstructor)
+                .build();
     }
 
     public boolean isInstructor() {
@@ -111,12 +122,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
         addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
 
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
-        // only check profile if the account is proper
+        // Only check profile if the account is proper
         if (errors.isEmpty()) {
             errors.addAll(this.studentProfile.getInvalidityInfo());
         }
 
-        //No validation for isInstructor and createdAt fields.
+        // No validation for isInstructor and createdAt fields.
         return errors;
     }
 
@@ -165,6 +176,60 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     public boolean isUserRegistered() {
         return googleId != null && !googleId.isEmpty();
+    }
+
+    /**
+     * AccountAttributesBuilder class for {@link AccountAttributes}.<br>
+     */
+    public static class AccountAttributesBuilder {
+
+        // Required fields
+        public final String googleId;
+        public final String name;
+        public final String email;
+        public String institute;
+
+        // Optional fields
+        public Boolean isInstructor;
+        public Date createdAt;
+        public StudentProfileAttributes studentProfile;
+
+        public AccountAttributesBuilder(String googleId, String name, String email, String institute) {
+            this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            this.name = SanitizationHelper.sanitizeName(name);
+            this.email = SanitizationHelper.sanitizeEmail(email);
+            this.institute = SanitizationHelper.sanitizeTitle(institute);
+
+            this.studentProfile = DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
+            this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            this.isInstructor = true;
+            this.createdAt = DEFAULT_DATE;
+        }
+
+        public AccountAttributesBuilder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {
+            if (studentProfile != null) {
+                this.studentProfile = studentProfile;
+            }
+            return this;
+        }
+
+        public AccountAttributesBuilder withIsInstructor(Boolean isInstructor) {
+            if (isInstructor != null) {
+                this.isInstructor = isInstructor;
+            }
+            return this;
+        }
+
+        public AccountAttributesBuilder withCreatedAt(Date createdAt) {
+            if (createdAt != null) {
+                this.createdAt = createdAt;
+            }
+            return this;
+        }
+
+        public AccountAttributes build() {
+            return new AccountAttributes(this);
+        }
     }
 
 }

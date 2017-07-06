@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -244,9 +246,10 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        AccountAttributes newStudentAccount = new AccountAttributes(
-                "idOfNewStudent", "nameOfNewStudent", false,
-                "newStudent@gmail.com", "TEAMMATES Test Institute 5");
+        AccountAttributes newStudentAccount = new AccountAttributesBuilder(
+                "idOfNewStudent", "nameOfNewStudent", "newStudent@gmail.com", "TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .build();
         accountsDb.createAccount(newStudentAccount);
 
         StudentAttributes newStudentAttributes = new StudentAttributes(
