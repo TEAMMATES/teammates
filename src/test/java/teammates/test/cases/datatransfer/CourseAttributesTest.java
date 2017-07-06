@@ -96,7 +96,6 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals(DEFAULT_DATE, validCourseAttributes.createdAt);
     }
 
-
     private static CourseAttributes generateValidCourseAttributesObject() {
         return new CourseAttributesBuilder(
                 VALID_COURSE_ID, VALID_NAME, VALID_TIMEZONE)
