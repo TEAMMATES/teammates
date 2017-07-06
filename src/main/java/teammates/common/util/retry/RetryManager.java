@@ -14,7 +14,13 @@ public final class RetryManager {
     private final int maxDelayInS;
 
     /**
-     * Creates a new {@link RetryManager} that retries tasks with exponential backoff.
+     * Creates a new {@link RetryManager} that contains methods to retry tasks.
+     * Generally, the methods retry tasks with exponential backoff until one of the following conditions is met:
+     * <ul>
+     *     <li>Task is successful (see specific method documentation for definition of success).</li>
+     *     <li>Maximum retries are exceeded (as determined by the specified maximum delay).</li>
+     *     <li>A {@link Throwable} of type specified in the task is encountered (this is thrown upwards).</li>
+     * </ul>
      *
      * @param maxDelayInS maximum delay (in seconds) to wait before final retry.
      */
@@ -56,7 +62,10 @@ public final class RetryManager {
 
     /**
      * Runs {@code task}, retrying if needed using exponential backoff, until task is successful.
-     * Returns {@code task} result or null if none.
+     *
+     * @returns {@code task} result or null if none.
+     * @throws E if encountered while running or evaluating {@code task}.
+     * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */
     public <T, E extends Throwable> T runUntilSuccessful(Retryable<T, E> task) throws E, MaximumRetriesExceededException {
         return doRetry(task, SuccessCondition.DEFAULT);
@@ -64,7 +73,10 @@ public final class RetryManager {
 
     /**
      * Runs {@code task}, retrying if needed using exponential backoff, until task returns a non-null result.
-     * Returns {@code task} result or null if none.
+     *
+     * @returns {@code task} result or null if none.
+     * @throws E if encountered while running or evaluating {@code task}.
+     * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */
     public <T, E extends Throwable> T runUntilNotNull(RetryableTaskReturnsThrows<T, E> task)
             throws E, MaximumRetriesExceededException {
@@ -74,7 +86,10 @@ public final class RetryManager {
     /**
      * Runs {@code task}, retrying if needed using exponential backoff, until no exceptions of the specified
      * {@code recognizedExceptionTypes} are caught.
-     * Returns {@code task} result or null if none.
+     *
+     * @returns {@code task} result or null if none.
+     * @throws E if encountered while running or evaluating {@code task}.
+     * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */
     @SafeVarargs
     public final <T, E extends Throwable> T runUntilNoRecognizedException(
