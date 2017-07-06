@@ -68,13 +68,13 @@ public final class SearchManager {
             throws TeammatesException, MaximumRetriesExceededException {
         final Index index = getIndex(indexName);
 
-        /**
+        /*
          * The GAE Search API signals put document failure in two ways: it either
-         * returns a {@link PutResponse} containing an {@link OperationResult} with a non-OK {@link StatusCode}, or
-         * throws a {@link PutException} that also contains an embedded {@link OperationResult}.
-         * We handle both ways by examining the {@link OperationResult} to determine what kind of error it is. If it is
-         * transient, we use {@link RetryManager} to retry the operation; if it is
-         * non-transient, we do not retry but throw a {@link TeammatesException} upwards instead.
+         * returns a PutResponse containing an OperationResult with a non-OK StatusCode, or
+         * throws a PutException that also contains an embedded OperationResult.
+         * We handle both ways by examining the OperationResult to determine what kind of error it is. If it is
+         * transient, we use RetryManager to retry the operation; if it is
+         * non-transient, we do not retry but throw a TeammatesException upwards instead.
          */
         RM.runUntilSuccessful(new RetryableTaskReturnsThrows<OperationResult, TeammatesException>("Put document") {
             @Override
@@ -132,13 +132,13 @@ public final class SearchManager {
             throws TeammatesException, MaximumRetriesExceededException {
         final Index index = getIndex(indexName);
 
-        /**
-         * The GAE Search API allows batch putting a {@link List} of {@link Document}s.
-         * Results for each document are reported via a {@link List} of {@link OperationResult}s.
-         * We use {@link RetryManager} to retry putting a list of documents, with each retry re-putting only
+        /*
+         * The GAE Search API allows batch putting a List of Documents.
+         * Results for each document are reported via a List of OperationResults.
+         * We use RetryManager to retry putting a List of Documents, with each retry re-putting only
          * the documents that failed in the previous retry.
          * If we encounter one or more transient errors, we retry the operation.
-         * If all results are non-transient errors, we give up and throw a {@link TeammatesException} upwards.
+         * If all results are non-transient errors, we give up and throw a TeammatesException upwards.
          */
         RM.runUntilSuccessful(new RetryableTaskReturnsThrows<List<Document>, TeammatesException>("Put documents") {
             @Override
