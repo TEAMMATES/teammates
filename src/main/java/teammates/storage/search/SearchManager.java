@@ -22,6 +22,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
+import teammates.common.util.retry.RetryableTaskThrows;
 
 /**
  * Manages {@link Document} and {@link Index} in the Datastore for use of search functions.
@@ -62,7 +63,8 @@ public final class SearchManager {
      * Tries putting a document, handling transient errors by retrying with exponential backoff.
      *
      * @throws PutException if a non-transient error is encountered.
-     * @throws MaximumRetriesExceededException with final {@link OperationResult} if operation fails after maximum retries.
+     * @throws MaximumRetriesExceededException with final {@link OperationResult}'s message as final message,
+     *         if operation fails after maximum retries.
      */
     private static void putDocumentWithRetry(String indexName, final Document document)
             throws PutException, MaximumRetriesExceededException {
@@ -76,30 +78,34 @@ public final class SearchManager {
          * transient, we use RetryManager to retry the operation; if it is
          * non-transient, we do not retry but throw a PutException upwards instead.
          */
-        RM.runUntilSuccessful(new RetryableTaskReturnsThrows<OperationResult, PutException>("Put document") {
+        RM.runUntilSuccessful(new RetryableTaskThrows<PutException>("Put document") {
+
+            private OperationResult lastResult;
+
             @Override
-            public OperationResult run() {
+            public void run() {
                 try {
                     PutResponse response = index.put(document);
-                    return response.getResults().get(0);
+                    lastResult = response.getResults().get(0);
 
                 } catch (PutException e) {
-                    return e.getOperationResult();
+                    lastResult = e.getOperationResult();
                 }
             }
 
-            public boolean isSuccessful(OperationResult result) throws PutException {
+            @Override
+            public boolean isSuccessful() throws PutException {
                 // Update the final message to be shown if the task fails after maximum retries
-                finalMessage = result.getMessage();
+                finalMessage = lastResult.getMessage();
 
-                if (StatusCode.OK.equals(result.getCode())) {
+                if (StatusCode.OK.equals(lastResult.getCode())) {
                     return true;
-                } else if (StatusCode.TRANSIENT_ERROR.equals(result.getCode())) {
+                } else if (StatusCode.TRANSIENT_ERROR.equals(lastResult.getCode())) {
                     // A transient error can be retried
                     return false;
                 } else {
                     // A non-transient error signals that the operation should not be retried
-                    throw new PutException(result);
+                    throw new PutException(lastResult);
                 }
             }
         });
