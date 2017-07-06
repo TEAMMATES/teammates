@@ -6,7 +6,6 @@ import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -31,9 +30,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
          */
 
         ______TS("success: typical case");
-        CourseAttributes c = new CourseAttributesBuilder(
-                "Computing101-fresh", "Basic Computing", "UTC")
-                .build();
+        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing", "UTC");
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
@@ -52,9 +49,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         coursesDb.deleteEntity(c);
 
         ______TS("fails: invalid parameters");
-        CourseAttributes invalidCourse = new CourseAttributesBuilder(
-                "invalid id spaces", "Basic Computing", "UTC")
-                .build();
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id spaces", "Basic Computing", "UTC");
         try {
             coursesDb.createEntity(invalidCourse);
             signalFailureToDetectException();

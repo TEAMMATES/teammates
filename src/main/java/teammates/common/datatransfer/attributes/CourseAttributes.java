@@ -16,7 +16,6 @@ import teammates.storage.entity.Course;
  * The data transfer object for Course entities.
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
-    public static final Date DEFAULT_DATE = new Date();
 
     private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
         @Override
@@ -30,44 +29,27 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         }
     };
 
-
     //Note: be careful when changing these variables as their names are used in *.json files.
-
-    // Optional fields
     public Date createdAt;
-
-    // Required fields
     private String id;
     private String name;
     private String timeZone;
-
 
     public CourseAttributes() {
         // attributes to be set after construction
     }
 
-    /**
-     * Creates a new CourseAttributes with default values for optional fields.
-     *
-     * <p>Following default value is set to it's corresponding attribute:
-     * <ul>
-     * <li>{@code new Date()} for {@code createdAt}</li>
-     * </ul>
-     */
-    CourseAttributes(CourseAttributesBuilder builder) {
-        this.id = SanitizationHelper.sanitizeTitle(builder.id);
-        this.name = SanitizationHelper.sanitizeTitle(builder.name);
-        this.timeZone = builder.timeZone;
-        this.createdAt = builder.createdAt;
+    public CourseAttributes(String courseId, String name, String timeZone) {
+        this.id = SanitizationHelper.sanitizeTitle(courseId);
+        this.name = SanitizationHelper.sanitizeTitle(name);
+        this.timeZone = timeZone;
     }
 
-    public static CourseAttributes valueOf(Course course) {
-        return new CourseAttributesBuilder(
-                course.getUniqueId(),
-                course.getName(),
-                course.getTimeZone())
-                .withCreatedAt(course.getCreatedAt())
-                .build();
+    public CourseAttributes(Course course) {
+        this.id = course.getUniqueId();
+        this.name = course.getName();
+        this.timeZone = course.getTimeZone();
+        this.createdAt = course.getCreatedAt();
     }
 
     public String getId() {
@@ -158,31 +140,4 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         Collections.sort(courses, createdDateComparator);
     }
 
-    public static class CourseAttributesBuilder {
-        // Optional fields
-        public Date createdAt;
-
-        // Required fields
-        private String id;
-        private String name;
-        private String timeZone;
-
-        public CourseAttributesBuilder(String courseId, String name, String timeZone) {
-            this.id = SanitizationHelper.sanitizeTitle(courseId);
-            this.name = SanitizationHelper.sanitizeTitle(name);
-            this.timeZone = timeZone;
-            this.createdAt = DEFAULT_DATE;
-        }
-
-        public CourseAttributesBuilder withCreatedAt(Date createdAt) {
-            if (createdAt != null) {
-                this.createdAt = createdAt;
-            }
-            return this;
-        }
-
-        public CourseAttributes build() {
-            return new CourseAttributes(this);
-        }
-    }
 }

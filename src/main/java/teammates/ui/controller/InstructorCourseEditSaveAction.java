@@ -25,9 +25,7 @@ public class InstructorCourseEditSaveAction extends Action {
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
-        CourseAttributes courseToEdit = new CourseAttributes.CourseAttributesBuilder(
-                courseId, courseName, courseTimeZone)
-                .build();
+        CourseAttributes courseToEdit = new CourseAttributes(courseId, courseName, courseTimeZone);
 
         try {
             logic.updateCourse(courseToEdit);

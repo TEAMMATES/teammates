@@ -14,7 +14,6 @@ import com.google.appengine.api.log.LogService.LogLevel;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -283,9 +282,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course join email");
 
-        CourseAttributes course = new CourseAttributesBuilder(
-                "course-id", "Course Name", "UTC")
-                .build();
+        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -331,9 +328,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course join email");
 
-        CourseAttributes course = new CourseAttributesBuilder(
-                "idOfTypicalCourse1", "Course Name", "UTC")
-                .build();
+        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
 
         StudentAttributes student = new StudentAttributes();
         student.name = "Student Name";
@@ -355,9 +350,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = new CourseAttributesBuilder(
-                "course-id", "Course Name", "UTC")
-                .build();
+        course = new CourseAttributes("course-id", "Course Name", "UTC");
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());

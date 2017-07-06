@@ -609,8 +609,6 @@ function restoreOriginal(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
         $(`#button_question_submit-${questionNum}`).hide();
-        $(`#questionnum-${questionNum}`).val(questionNum);
-        $(`#questionnum-${questionNum}`).prop('disabled', true);
     }
 
     // re-attach events for form elements

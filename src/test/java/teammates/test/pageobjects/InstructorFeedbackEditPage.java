@@ -14,7 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -565,23 +564,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public WebElement getSelectQuestionNumberDropdown(int qnNumber) {
-        return browser.driver.findElement(By.id("questionnum-" + qnNumber));
-    }
-
     public void selectQuestionNumber(int qnNumber, int newQnNumber) {
-        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
+        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
         selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
-    }
-
-    public boolean isSelectQuestionNumberEnabled(int qnNumber) {
-        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
-        return qnNumSelect.isEnabled();
-    }
-
-    public int getSelectedQuestionNumber(int qnNumber) {
-        Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
-        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText());
     }
 
     /**

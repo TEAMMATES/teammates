@@ -2,12 +2,9 @@ package teammates.test.cases.datatransfer;
 
 import static teammates.common.util.Const.EOL;
 
-import java.util.Date;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
@@ -20,11 +17,6 @@ public class CourseAttributesTest extends BaseTestCase {
 
     //TODO: add test for constructor
 
-    private static final String VALID_COURSE_ID = "valid-id-$_abc";
-    private static final String VALID_NAME = "valid-name";
-    private static final String VALID_TIMEZONE = "UTC";
-    private static final Date DEFAULT_DATE = CourseAttributes.DEFAULT_DATE;
-
     @Test
     public void testValidate() throws Exception {
 
@@ -35,9 +27,7 @@ public class CourseAttributesTest extends BaseTestCase {
         String veryLongId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         String invalidTimeZone = "InvalidTimeZone";
-        CourseAttributes invalidCourse = new CourseAttributesBuilder(
-                veryLongId, emptyName, invalidTimeZone)
-                .build();
+        CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName, invalidTimeZone);
 
         assertFalse("invalid value", invalidCourse.isValid());
         String errorMessage =
@@ -71,36 +61,8 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
 
-    @Test
-    public void testBuilderWithNullArguments() {
-        CourseAttributes courseAttributesWithNullValues = new CourseAttributesBuilder(
-                null, null, null)
-                .withCreatedAt(null)
-                .build();
-        // No default values for required params
-        assertNull(courseAttributesWithNullValues.getId());
-        assertNull(courseAttributesWithNullValues.getName());
-        assertNull(courseAttributesWithNullValues.getTimeZone());
-
-        // Check default values for optional params
-        assertEquals(DEFAULT_DATE, courseAttributesWithNullValues.createdAt);
-
-    }
-
-    @Test
-    public void testBuilderWithRequiredValues() {
-        CourseAttributes validCourseAttributes = generateValidCourseAttributesObject();
-        assertEquals(VALID_COURSE_ID, validCourseAttributes.getId());
-        assertEquals(VALID_NAME, validCourseAttributes.getName());
-        assertEquals(VALID_TIMEZONE, validCourseAttributes.getTimeZone());
-        assertEquals(DEFAULT_DATE, validCourseAttributes.createdAt);
-    }
-
-
     private static CourseAttributes generateValidCourseAttributesObject() {
-        return new CourseAttributesBuilder(
-                VALID_COURSE_ID, VALID_NAME, VALID_TIMEZONE)
-                .build();
+        return new CourseAttributes("valid-id-$_abc", "valid-name", "UTC");
     }
 
 }

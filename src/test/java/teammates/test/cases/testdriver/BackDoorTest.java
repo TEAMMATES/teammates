@@ -8,7 +8,6 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -157,9 +156,8 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         // another well-tested method.
 
         String courseId = "tmapitt.tcc.course";
-        CourseAttributes course = new CourseAttributesBuilder(
-                courseId, "Name of tmapitt.tcc.instructor", "UTC")
-                .build();
+        CourseAttributes course = new CourseAttributes(courseId,
+                "Name of tmapitt.tcc.instructor", "UTC");
 
         // Make sure not already inside
         BackDoor.deleteCourse(courseId);

@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
@@ -53,9 +52,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         shouldDisplayArchive = false;
 
         // only course ID and name are used
-        sampleCourse = new CourseAttributesBuilder(
-                "validCourseId", "Sample course name", "UTC")
-                .build();
+        sampleCourse = new CourseAttributes("validCourseId", "Sample course name", "UTC");
 
         isCourseArchived = false;
         isInstructorAllowedToModify = true;
