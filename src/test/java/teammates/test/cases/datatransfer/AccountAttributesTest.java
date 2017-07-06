@@ -252,7 +252,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String gender = "'\"'other";
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
-
         account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
                 profileInstitute, nationality, gender, moreInfo, pictureKey);
 

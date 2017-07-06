@@ -160,6 +160,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     protected abstract AccountAttributes getAccount(AccountAttributes account);
 
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
+
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
         expected.studentProfile = actual.studentProfile;
