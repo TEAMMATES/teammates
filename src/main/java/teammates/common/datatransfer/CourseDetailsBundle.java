@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.SanitizationHelper;
 
@@ -28,10 +29,11 @@ public class CourseDetailsBundle {
         this.course = courseData;
         //TODO: [CourseAttribute] remove desanitization after data migration
         //creating a new course with possibly desanitized name as course name cannot be accessed directly
-        this.course = new CourseAttributes(courseData.getId(),
+        this.course = new CourseAttributesBuilder(courseData.getId(),
                 SanitizationHelper.desanitizeIfHtmlSanitized(courseData.getName()),
-                courseData.getTimeZone());
-        this.course.createdAt = courseData.createdAt;
+                courseData.getTimeZone())
+                .withCreatedAt(courseData.createdAt)
+                .build();
     }
 
     /**

@@ -9,6 +9,7 @@ import java.util.List;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.CoursesLogic;
@@ -65,9 +66,10 @@ public class DataMigrationForSanitizedDataInCourseAttributes extends RemoteApiCl
 
     private void desanitizeAndUpdateCourse(Course originalCourse)
             throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes courseToUpdate = new CourseAttributes(originalCourse.getUniqueId(),
-                desanitizeFromHtml(originalCourse.getName()),
-                originalCourse.getTimeZone());
+        CourseAttributes courseToUpdate = new CourseAttributesBuilder(
+                originalCourse.getUniqueId(), desanitizeFromHtml(originalCourse.getName()),
+                originalCourse.getTimeZone())
+                .build();
 
         if (!courseToUpdate.isValid()) {
             throw new InvalidParametersException(courseToUpdate.getInvalidityInfo());

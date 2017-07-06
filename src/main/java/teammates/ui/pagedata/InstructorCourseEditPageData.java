@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -28,9 +29,10 @@ public class InstructorCourseEditPageData extends PageData {
         this.course = course;
         //TODO: [CourseAttribute] remove desanitization after data migration
         //creating a new course with possibly desanitized name as course name cannot be accessed directly
-        this.course = new CourseAttributes(course.getId(),
+        this.course = new CourseAttributesBuilder(course.getId(),
                 SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()),
-                course.getTimeZone());
+                course.getTimeZone())
+                .build();
         this.course.createdAt = course.createdAt;
 
         this.instructorToShowIndex = instructorToShowIndex;
