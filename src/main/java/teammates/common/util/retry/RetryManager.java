@@ -5,7 +5,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 
 /**
- * Handles running and retrying of {@code Retryable} tasks.
+ * Handles running and retrying of {@link Retryable} tasks.
  */
 public final class RetryManager {
 
