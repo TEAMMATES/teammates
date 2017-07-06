@@ -31,6 +31,10 @@ public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends
         return true;
     }
 
+    protected final T getResult() {
+        return result;
+    }
+
     /**
      * Checks whether the result is null.
      */

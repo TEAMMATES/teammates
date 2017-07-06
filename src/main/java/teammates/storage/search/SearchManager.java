@@ -129,14 +129,23 @@ public final class SearchManager {
         RM.runUntilSuccessful(new RetryableTaskReturnsThrows<List<Document>, TeammatesException>("Put documents") {
             @Override
             public List<Document> run() throws TeammatesException {
+                List<Document> documentsToPut;
+                if (getResult() == null) {
+                    // Initial run; put given documents
+                    documentsToPut = documents;
+                } else {
+                    // Put failed documents from previous run
+                    documentsToPut = getResult();
+                }
+
                 try {
-                    PutResponse response = index.put(documents);
+                    PutResponse response = index.put(documentsToPut);
                     List<OperationResult> results = response.getResults();
 
                     List<Document> failedDocuments = new ArrayList<>();
-                    for (int i = 0; i < documents.size(); i++) {
+                    for (int i = 0; i < documentsToPut.size(); i++) {
                         if (!StatusCode.OK.equals(results.get(i).getCode())) {
-                            failedDocuments.add(documents.get(i));
+                            failedDocuments.add(documentsToPut.get(i));
                         }
                     }
 
@@ -147,10 +156,10 @@ public final class SearchManager {
                     boolean hasTransientError = false;
 
                     List<Document> failedDocuments = new ArrayList<>();
-                    for (int i = 0; i < documents.size(); i++) {
+                    for (int i = 0; i < documentsToPut.size(); i++) {
                         StatusCode code = results.get(i).getCode();
                         if (!StatusCode.OK.equals(code)) {
-                            failedDocuments.add(documents.get(i));
+                            failedDocuments.add(documentsToPut.get(i));
                             if (StatusCode.TRANSIENT_ERROR.equals(code)) {
                                 hasTransientError = true;
                             }
