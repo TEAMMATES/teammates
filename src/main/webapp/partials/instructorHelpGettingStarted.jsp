@@ -315,6 +315,7 @@
                 </div>
                 <br>
                 <div class="helpSectionContent">
+
                     <ul>
                         <li>Session with your own questions</li>
                         <div style="margin: 0 auto; padding: 0 10px;">
@@ -350,6 +351,7 @@
                         </li>
                     </ul>
                     <br>
+
                 </div>
             </div>
         </li>

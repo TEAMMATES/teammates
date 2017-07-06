@@ -211,6 +211,7 @@
                         <div class="panel-heading">
                             <strong>Instructor 1:</strong>
                             <div class="pull-right">
+
                                 <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" style="display: none;">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                                 <a href="javascript:;" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
