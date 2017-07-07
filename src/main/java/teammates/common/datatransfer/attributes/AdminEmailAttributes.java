@@ -16,6 +16,8 @@ import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
+    public static final Date DEFAULT_DATE = new Date();
+
     // Required fields
     public List<String> addressReceiver;
     public List<String> groupReceiver;
@@ -34,6 +36,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         this.groupReceiver = builder.groupReceiver;
         this.content = builder.content;
         this.sendDate = builder.sendDate;
+
         this.createDate = builder.createDate;
         this.emailId = builder.emailId;
         this.isInTrashBin = builder.isInTrashBin;
@@ -46,9 +49,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
                 adminEmail.getGroupReceiver(),
                 adminEmail.getContent(),
                 adminEmail.getSendDate())
-                .withCreateDate(adminEmail.getCreateDate())
-                .withEmailId(adminEmail.getEmailId())
-                .withIsInTrashBin(adminEmail.getIsInTrashBin())
                 .build();
     }
 
@@ -176,9 +176,10 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             this.subject = subject;
             this.content = content;
             this.sendDate = sendDate;
-            this.createDate = createDate;
-            this.emailId = emailId;
-            this.isInTrashBin = isInTrashBin;
+
+            this.createDate = DEFAULT_DATE;
+            this.emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
+            this.isInTrashBin = false;
         }
 
         public AdminEmailAttributesBuilder withCreateDate(Date createDate) {
