@@ -39,14 +39,14 @@ In addition, the command will also *minify* the JavaScript files to reduce the s
 
 #### Starting the dev server
 
-To start the server in the background, run the following command 
+To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
-
 ```sh
 ./gradlew appengineRun
 ```
+
 To start the server in the foreground (e.g. if you want the console output to be visible),
-run the following command instead: 
+run the following command instead:
 ```sh
 ./gradlew appengineRun -Pdisable_daemon
 ```
@@ -55,14 +55,12 @@ The dev server URL will be `http://localhost:8888` as specified in `build.gradle
 
 #### Stopping the dev server
 
-If you started the server in the background, run the following command to stop it: 
-
+If you started the server in the background, run the following command to stop it:
 ```sh
 ./gradlew appengineStop
 ```
 
 If the server is running in the foreground, press `Ctrl + C` to stop it.
-
 
 ### With Eclipse
 
