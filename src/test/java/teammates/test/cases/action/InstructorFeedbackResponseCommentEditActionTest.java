@@ -43,13 +43,13 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
-                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+                typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
 
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Unsuccessful csae: not enough parameters");
@@ -328,7 +328,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         int questionNumber = 1;
         FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(
@@ -339,7 +339,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
+        FeedbackResponseCommentAttributes feedbackResponseComment = typicalBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C1");
 
         feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),

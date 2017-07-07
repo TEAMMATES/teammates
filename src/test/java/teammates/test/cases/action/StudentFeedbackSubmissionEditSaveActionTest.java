@@ -59,12 +59,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
 
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
         String[] submissionParams = new String[]{
@@ -175,7 +175,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
 
-        fr = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
+        fr = typicalBundle.feedbackResponses.get("response2ForQ2S1C1");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
@@ -914,8 +914,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     @Test
     public void testGracePeriodExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
-        StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        StudentAttributes studentInGracePeriod = typicalBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
         String[] submissionParams = new String[]{
@@ -999,7 +999,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -1015,15 +1015,15 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     private void testGracePeriodAccessControlForStudents() {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
         fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
-        dataBundle.feedbackSessions.put("gracePeriodSession", fs);
+        typicalBundle.feedbackSessions.put("gracePeriodSession", fs);
 
         assertFalse(fs.isOpened());
         assertTrue(fs.isInGracePeriod());
         assertFalse(fs.isClosed());
 
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1GracePeriodFeedback");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
