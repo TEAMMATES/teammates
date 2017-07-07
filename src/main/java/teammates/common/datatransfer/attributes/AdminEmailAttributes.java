@@ -16,36 +16,40 @@ import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
-    public String emailId;
+    // Required fields
     public List<String> addressReceiver;
     public List<String> groupReceiver;
     public String subject;
     public Date sendDate;
-    public Date createDate;
     public Text content;
+
+    // Optional fields
+    public Date createDate;
+    public String emailId;
     public boolean isInTrashBin;
 
-    public AdminEmailAttributes(AdminEmail ae) {
-        this.emailId = ae.getEmailId();
-        this.addressReceiver = ae.getAddressReceiver();
-        this.groupReceiver = ae.getGroupReceiver();
-        this.subject = ae.getSubject();
-        this.sendDate = ae.getSendDate();
-        this.createDate = ae.getCreateDate();
-        this.content = ae.getContent();
-        this.isInTrashBin = ae.getIsInTrashBin();
+    AdminEmailAttributes(AdminEmailAttributesBuilder builder) {
+        this.subject = builder.subject;
+        this.addressReceiver = builder.addressReceiver;
+        this.groupReceiver = builder.groupReceiver;
+        this.content = builder.content;
+        this.sendDate = builder.sendDate;
+        this.createDate = builder.createDate;
+        this.emailId = builder.emailId;
+        this.isInTrashBin = builder.isInTrashBin;
     }
 
-    public AdminEmailAttributes(String subject,
-                                List<String> addressReceiver,
-                                List<String> groupReceiver,
-                                Text content,
-                                Date sendDate) {
-        this.subject = subject;
-        this.addressReceiver = addressReceiver;
-        this.groupReceiver = groupReceiver;
-        this.content = content;
-        this.sendDate = sendDate;
+    public static AdminEmailAttributes valueOf(AdminEmail adminEmail) {
+        return new AdminEmailAttributesBuilder(
+                adminEmail.getSubject(),
+                adminEmail.getAddressReceiver(),
+                adminEmail.getGroupReceiver(),
+                adminEmail.getContent(),
+                adminEmail.getSendDate())
+                .withCreateDate(adminEmail.getCreateDate())
+                .withEmailId(adminEmail.getEmailId())
+                .withIsInTrashBin(adminEmail.getIsInTrashBin())
+                .build();
     }
 
     @Override
@@ -150,5 +154,50 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
 
     public String getFirstGroupReceiver() {
         return getGroupReceiver().get(0);
+    }
+
+    public static class AdminEmailAttributesBuilder {
+        // Required fields
+        public List<String> addressReceiver;
+        public List<String> groupReceiver;
+        public String subject;
+        public Date sendDate;
+        public Text content;
+
+        // Optional fields
+        public Date createDate;
+        public String emailId;
+        public boolean isInTrashBin;
+
+        public AdminEmailAttributesBuilder(String subject, List<String> addressReceiver, List<String> groupReceiver,
+                                           Text content, Date sendDate) {
+            this.addressReceiver = addressReceiver;
+            this.groupReceiver = groupReceiver;
+            this.subject = subject;
+            this.content = content;
+            this.sendDate = sendDate;
+            this.createDate = createDate;
+            this.emailId = emailId;
+            this.isInTrashBin = isInTrashBin;
+        }
+
+        public AdminEmailAttributesBuilder withCreateDate(Date createDate) {
+            this.createDate = createDate;
+            return this;
+        }
+
+        public AdminEmailAttributesBuilder withEmailId(String emailId) {
+            this.emailId = emailId;
+            return this;
+        }
+
+        public AdminEmailAttributesBuilder withIsInTrashBin(boolean isInTrashBin) {
+            this.isInTrashBin = isInTrashBin;
+            return this;
+        }
+
+        public AdminEmailAttributes build() {
+            return new AdminEmailAttributes(this);
+        }
     }
 }
