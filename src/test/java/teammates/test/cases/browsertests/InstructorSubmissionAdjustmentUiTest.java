@@ -40,7 +40,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testAdjustmentOfSubsmission() {
+    public void testAdjustmentOfSubsmissions() {
 
         //load the enrollPage
         loadEnrollmentPage();
