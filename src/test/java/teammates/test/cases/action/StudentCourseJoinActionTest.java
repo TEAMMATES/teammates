@@ -44,7 +44,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         RedirectResult redirectResult;
         String[] submissionParams;
 
-        StudentAttributes student1InCourse1 = dataBundle.students
+        StudentAttributes student1InCourse1 = typicalBundle.students
                 .get("student1InCourse1");
         StudentsDb studentsDb = new StudentsDb();
         student1InCourse1 = studentsDb.getStudentForGoogleId(
@@ -182,11 +182,11 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").getId()
+                Const.ParamsNames.COURSE_ID, typicalBundle.courses.get("typicalCourse1").getId()
         };
         verifyAccessibleWithoutLogin(submissionParams);
 
-        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        StudentAttributes unregStudent1 = typicalBundle.students.get("student1InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(key),

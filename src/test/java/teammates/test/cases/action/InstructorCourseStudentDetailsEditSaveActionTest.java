@@ -33,8 +33,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         String instructorId = instructor1OfCourse1.googleId;
         String newStudentEmail = "newemail@gmail.tmt";
@@ -193,7 +193,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
 
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
-        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+        StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         String takenStudentEmail = student2InCourse1.email;
 
         submissionParams = new String[]{
@@ -315,8 +315,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student3InCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student3InCourse1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,

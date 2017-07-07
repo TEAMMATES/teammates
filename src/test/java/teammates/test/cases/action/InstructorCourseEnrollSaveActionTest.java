@@ -38,7 +38,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
 
@@ -96,18 +96,18 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
-        StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
+        StudentAttributes modifiedStudent = typicalBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
         modifiedStudent.section = "Section 2";
         modifiedStudent.team = "Team 1.3";
         modifiedStudent.updateStatus = StudentUpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes unmodifiedStudent = dataBundle.students.get("student2InCourse1");
+        StudentAttributes unmodifiedStudent = typicalBundle.students.get("student2InCourse1");
         unmodifiedStudent.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes unmodifiedStudentWithExtraSpaces = dataBundle.students.get("student3InCourse1");
+        StudentAttributes unmodifiedStudentWithExtraSpaces = typicalBundle.students.get("student3InCourse1");
         unmodifiedStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
@@ -314,7 +314,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, ""
         };
 

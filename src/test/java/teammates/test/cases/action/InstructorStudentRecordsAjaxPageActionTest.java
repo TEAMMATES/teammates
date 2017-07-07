@@ -22,8 +22,8 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+        StudentAttributes student = typicalBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;
 
         gaeSimulation.loginAsInstructor(instructorId);
@@ -50,7 +50,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
 
         ______TS("Typical case: instructor cannot view sections");
 
-        instructor = dataBundle.instructors.get("helperOfCourse1");
+        instructor = typicalBundle.instructors.get("helperOfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         submissionParams = new String[] {
@@ -81,8 +81,8 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+        StudentAttributes student = typicalBundle.students.get("student2InCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,

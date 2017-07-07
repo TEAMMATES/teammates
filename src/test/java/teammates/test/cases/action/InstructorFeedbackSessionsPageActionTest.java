@@ -24,11 +24,11 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+        String instructorId = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
         String adminUserId = "admin.user";
         String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
 
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Typical case, 2 courses");
         if (CoursesLogic.inst().isCoursePresent("new-course")) {
@@ -128,7 +128,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID,
-                dataBundle.instructors.get("instructor1OfCourse1").courseId
+                typicalBundle.instructors.get("instructor1OfCourse1").courseId
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }

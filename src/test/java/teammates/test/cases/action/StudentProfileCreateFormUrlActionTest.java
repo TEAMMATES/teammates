@@ -22,7 +22,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
 
         testGenerateUploadUrlSuccessTypical(student);
         testGenerateUploadUrlSuccessMasqueradeMode(student);

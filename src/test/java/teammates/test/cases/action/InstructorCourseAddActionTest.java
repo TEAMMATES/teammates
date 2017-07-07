@@ -28,7 +28,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
 
         String adminUserId = "admin.user";
@@ -150,7 +150,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa2.id");
 
         ______TS("Test archived Courses");
-        InstructorAttributes instructorOfArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
+        InstructorAttributes instructorOfArchivedCourse = typicalBundle.instructors.get("instructorOfArchivedCourse");
         instructorId = instructorOfArchivedCourse.googleId;
 
         gaeSimulation.loginAsInstructor(instructorId);

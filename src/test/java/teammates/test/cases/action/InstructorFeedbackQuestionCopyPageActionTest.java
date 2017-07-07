@@ -22,13 +22,13 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
         ______TS("typical success case");
 
         FeedbackSessionAttributes feedbackSessionAttributes =
-                dataBundle.feedbackSessions.get("session1InCourse1");
+                typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
@@ -61,7 +61,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         }
 
         ______TS("failure: unsufficient permissions");
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("helperOfCourse1").googleId);
+        gaeSimulation.loginAsInstructor(typicalBundle.accounts.get("helperOfCourse1").googleId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),

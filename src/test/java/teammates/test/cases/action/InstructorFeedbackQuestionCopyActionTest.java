@@ -30,8 +30,6 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     @BeforeMethod
     public void refreshTestData() {
         super.prepareTestData();
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreTypicalDataBundle();
     }
 
     @Override
@@ -49,7 +47,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");
 
@@ -61,7 +59,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic
                                                    .inst()
                                                    .getFeedbackQuestion(session1.getFeedbackSessionName(),

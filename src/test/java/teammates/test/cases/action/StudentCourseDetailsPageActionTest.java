@@ -34,7 +34,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() {
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         String idOfCourseOfStudent = student1InCourse1.course;
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
@@ -112,7 +112,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
         ______TS("Typical case, student contains data requiring sanitization");
-        StudentAttributes studentTestingSanitization = dataBundle.students.get("student1InTestingSanitizationCourse");
+        StudentAttributes studentTestingSanitization = typicalBundle.students.get("student1InTestingSanitizationCourse");
         gaeSimulation.loginAsStudent(studentTestingSanitization.googleId);
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, studentTestingSanitization.course
@@ -141,7 +141,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
     @Test
     public void testTeamMemberDetailsOnViewTeamPage() {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
 
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
@@ -153,10 +153,10 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         expectedProfile.googleId = student.googleId;
         assertFalse(result.isError);
 
-        StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
 
         gaeSimulation.logoutUser();
-        gaeSimulation.loginAsStudent(dataBundle.accounts.get("student2InCourse1").googleId);
+        gaeSimulation.loginAsStudent(typicalBundle.accounts.get("student2InCourse1").googleId);
         String[] submissionParam = new String[] {
                 Const.ParamsNames.COURSE_ID, student1.course
         };
@@ -205,7 +205,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String idOfCourseOfStudent = dataBundle.students
+        String idOfCourseOfStudent = typicalBundle.students
                 .get("student1InCourse1").course;
 
         String[] submissionParams = new String[] {
@@ -216,7 +216,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
         verifyUnaccessibleWithoutLogin(submissionParams);
 
-        idOfCourseOfStudent = dataBundle.students.get("student2InCourse1").course;
+        idOfCourseOfStudent = typicalBundle.students.get("student2InCourse1").course;
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
         };

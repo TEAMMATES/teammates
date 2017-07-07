@@ -49,7 +49,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     }
 
     protected void prepareTestData() {
-        dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
     }
 

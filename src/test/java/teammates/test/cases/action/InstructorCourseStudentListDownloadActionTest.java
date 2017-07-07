@@ -23,8 +23,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
-        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        String instructorId = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
         gaeSimulation.loginAsInstructor(instructorId);
 
@@ -66,7 +66,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         student1InCourse1.name = "new name {new last name}";
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
 
@@ -142,7 +142,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, course.getId()

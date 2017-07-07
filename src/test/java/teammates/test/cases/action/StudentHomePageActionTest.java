@@ -31,7 +31,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
         String adminUserId = "admin.user";
 
@@ -102,7 +102,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ______TS("typical user, masquerade mode");
 
         gaeSimulation.loginAsAdmin(adminUserId);
-        studentId = dataBundle.students.get("student2InCourse2").googleId;
+        studentId = typicalBundle.students.get("student2InCourse2").googleId;
 
         // Access page in masquerade mode
         a = getAction(addUserIdToParams(studentId, submissionParams));
@@ -138,7 +138,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
         submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
                                         "idOfTypicalCourse2"};
-        student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
@@ -150,7 +150,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
         submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
                                         "idOfTypicalCourse1"};
-        student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);

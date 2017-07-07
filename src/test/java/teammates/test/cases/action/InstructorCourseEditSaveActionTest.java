@@ -22,7 +22,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
         String courseName = CoursesLogic.inst().getCourse(courseId).getName();
@@ -175,7 +175,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.courseId;
         String courseName = CoursesLogic.inst().getCourse(courseId).getName();
         String courseTimeZone = "UTC";

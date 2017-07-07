@@ -28,19 +28,19 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     @AfterClass
     public void classTearDown() {
         // delete entire session to clean the database
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 
     @Test
     public void testExecuteAndPostProcessMsq() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -193,13 +193,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessMcq() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -353,13 +353,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessNumScale() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -409,13 +409,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessConstSumOption() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -472,13 +472,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessConstSumRecipient() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -532,13 +532,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessContributionQuestion() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -635,7 +635,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcessRubricQuestion() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -643,7 +643,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         // tests when descriptions are missing as well.
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -700,7 +700,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -708,7 +708,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         verifyAssumptionFailure();
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -1015,7 +1015,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         FeedbackSessionAttributes fs =
-                dataBundle.feedbackSessions.get("empty.session");
+                typicalBundle.feedbackSessions.get("empty.session");
 
         String[] submissionParams =
                 createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());

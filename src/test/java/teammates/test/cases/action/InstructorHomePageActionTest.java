@@ -37,7 +37,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
         ______TS("instructor with no courses, right after registration (ie no persistence issue)");
 
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
+        gaeSimulation.loginAsInstructor(typicalBundle.accounts.get("instructorWithoutCourses").googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         AssertHelper.assertContainsRegex(
@@ -67,7 +67,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
 
         //access page in masquerade mode
-        String instructorWithMultipleCourses = dataBundle.accounts.get("instructor3").googleId;
+        String instructorWithMultipleCourses = typicalBundle.accounts.get("instructor3").googleId;
 
         //create another course for sorting
         Logic logic = new Logic();

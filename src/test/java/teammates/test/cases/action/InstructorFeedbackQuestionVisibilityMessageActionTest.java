@@ -23,11 +23,11 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        String instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+        String instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
 
         gaeSimulation.loginAsInstructor(instructor1OfCourse1);
 
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
                                             .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
@@ -81,7 +81,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
 
         ______TS("Custom Case Teams - data bundle params");
 
-        fs = dataBundle.feedbackSessions.get("session2InCourse1");
+        fs = typicalBundle.feedbackSessions.get("session2InCourse1");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         customParams = new String[]{
@@ -108,7 +108,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
 
         ______TS("Custom Case Instructor - data bundle params");
 
-        fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         customParams = new String[]{
@@ -135,12 +135,12 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
 
         ______TS("Private case, empty participant list - data bundle params");
 
-        String instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2").googleId;
+        String instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2").googleId;
 
         gaeSimulation.logoutUser(); // log out of instructor 1
         gaeSimulation.loginAsInstructor(instructor1OfCourse2);
 
-        fs = dataBundle.feedbackSessions.get("session1InCourse2");
+        fs = typicalBundle.feedbackSessions.get("session1InCourse2");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
         String[] privateParams = new String[]{

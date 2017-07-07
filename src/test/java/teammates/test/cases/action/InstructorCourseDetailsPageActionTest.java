@@ -23,7 +23,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
         ______TS("Not enough parameters");
@@ -64,7 +64,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        InstructorAttributes instructor4 = dataBundle.instructors.get("instructor4");
+        InstructorAttributes instructor4 = typicalBundle.instructors.get("instructor4");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor4.courseId
         };
@@ -96,7 +96,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, pageAction.getLogMessage(), adminUserId);
 
         ______TS("HTML Table needed");
-        instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
         submissionParams = new String[] {
@@ -184,7 +184,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
