@@ -1,5 +1,47 @@
 <div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Search
+  </h1>
   <br>
+  <div>
+    <form action="/page/instructorSearchPage?user=searchUI.idOfHelperOfCourse1" method="get" name="search_form">
+      <div class="well well-plain">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="response comment">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                Search
+              </button>
+            </span>
+          </div>
+          <input name="user" type="hidden" value="searchUI.idOfHelperOfCourse1">
+        </div>
+        <div class="form-group">
+          <ul class="list-inline">
+            <li>
+              <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
+              </span>
+            </li>
+            <li>
+              <input checked="" id="comments-for-responses-check" name="searchcommentforresponses" type="checkbox" value="true">
+              <label for="comments-for-responses-check">
+                Comments for responses
+              </label>
+            </li>
+            <li>
+              <input id="students-check" name="searchstudents" type="checkbox" value="true">
+              <label for="students-check">
+                Students
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
   <br>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
