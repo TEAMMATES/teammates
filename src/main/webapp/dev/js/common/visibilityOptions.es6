@@ -373,6 +373,9 @@ function updateVisibilityMessageDiv($containingForm) {
         type: 'POST',
         url,
         data: formData,
+        beforeSend() {
+            $visibilityMessageDiv.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
+        },
         success(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
