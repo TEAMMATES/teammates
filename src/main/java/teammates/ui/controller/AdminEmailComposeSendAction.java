@@ -170,14 +170,14 @@ public class AdminEmailComposeSendAction extends Action {
                                         List<String> groupReceiver,
                                         String content) {
 
-        AdminEmailAttributes fanalisedEmail = new AdminEmailAttributes(subject,
+        AdminEmailAttributes finalisedEmail = new AdminEmailAttributes(subject,
                                             addressReceiver,
                                             groupReceiver,
                                             new Text(content),
                                             new Date());
 
         try {
-            logic.updateAdminEmailById(fanalisedEmail, emailId);
+            logic.updateAdminEmailById(finalisedEmail, emailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             isError = true;
             setStatusForException(e);

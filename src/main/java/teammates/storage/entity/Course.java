@@ -2,42 +2,31 @@ package teammates.storage.entity;
 
 import java.util.Date;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import com.google.gson.annotations.SerializedName;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import teammates.common.util.Const;
 
 /**
  * Represents a course entity.
  */
-@PersistenceCapable
-public class Course extends Entity {
+@Entity
+@Index
+public class Course extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Course.class);
+    @Id
+    private String id;
 
-    @PrimaryKey
-    @Persistent
-    @SerializedName("id")
-    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
-    private String ID;
-    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
-
-    @Persistent
     private String name;
 
-    @Persistent
     private Date createdAt;
 
-    @Persistent
     private String timeZone;
+
+    @SuppressWarnings("unused") // required by Objectify
+    private Course() {
+    }
 
     public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
         this.setUniqueId(courseId);
@@ -55,11 +44,11 @@ public class Course extends Entity {
     }
 
     public String getUniqueId() {
-        return ID;
+        return id;
     }
 
     public void setUniqueId(String uniqueId) {
-        this.ID = uniqueId.trim();
+        this.id = uniqueId.trim();
     }
 
     public String getName() {

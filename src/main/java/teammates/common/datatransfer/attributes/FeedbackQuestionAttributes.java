@@ -19,7 +19,8 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
-public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
+public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
+        implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -290,12 +291,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public boolean areResponseDeletionsRequiredForChanges(FeedbackQuestionAttributes newAttributes) {
         if (!newAttributes.giverType.equals(this.giverType)
                 || !newAttributes.recipientType.equals(this.recipientType)) {
-            return true;
-        }
-
-        if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
-                || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
-                || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
             return true;
         }
 

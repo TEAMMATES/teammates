@@ -99,7 +99,7 @@ QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
         instructorName: 'testInstructorName',
         instructorEmail: 'testInstructorEmail',
         instructorInstitution: 'testInstructorInstitution',
-        instructorAddingResultForAjax: false,
+        isInstructorAddingResultForAjax: false,
         statusForAjax: true,
     };
 
@@ -107,7 +107,7 @@ QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
     const expected = getInstructorDetailsList().join(delimiter) + delimiter;
     assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is appended');
 
-    data.instructorAddingResultForAjax = true;
+    data.isInstructorAddingResultForAjax = true;
     addInstructorAjax(false, data);
     assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is not appended');
 

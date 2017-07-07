@@ -408,19 +408,6 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="Java Persistence API can only be applied to storage::entity">
-                <access-rule>
-                    <deny>
-                        <to>
-                            <include class="javax.jdo.annotations.**" />
-                            <include class="javax.jdo.listener.**" />
-                        </to>
-                        <allow>
-                            <from class="${storage}.entity.**" />
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
             <ruleset name="Google Cloud Storage API can only be accessed via GoogleCloudStorageHelper">
                 <access-rule>
                     <deny>
@@ -451,13 +438,17 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="JDO API can only be accessed via storage::api and client scripts">
+            <ruleset name="Objectify API can only be accessed via storage::api, Objectify base test case and client scripts">
                 <access-rule>
                     <deny>
-                        <to class="javax.jdo.*" />
+                        <to>
+                            <include class="com.googlecode.objectify.**" />
+                        </to>
                         <allow>
                             <from>
                                 <include class="${storage}.api.**" />
+                                <include class="${storage}.entity.**" />
+                                <include class="${testCases}.BaseTestCaseWithObjectifyAccess" />
                                 <include class="${client}.remoteapi.**" />
                                 <include class="${client}.scripts.**" />
                             </from>
@@ -474,6 +465,7 @@
                                 <include class="${common}.util.ActivityLogEntry" />
                                 <include class="${common}.util.HttpRequestHelper" />
                                 <include class="${logic}.backdoor.BackDoorServlet" />
+                                <include class="${storage}.api.OfyHelper" />
                                 <include class="${ui}.automated.**" />
                                 <include class="${ui}.controller.**" />
                                 <include class="${test}.driver.GaeSimulation" />
