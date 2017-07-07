@@ -191,7 +191,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
             templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
         }
-
         DecimalFormat df = new DecimalFormat("#.##");
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
