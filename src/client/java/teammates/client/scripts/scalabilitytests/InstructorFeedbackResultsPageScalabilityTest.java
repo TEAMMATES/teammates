@@ -1,6 +1,10 @@
 package teammates.client.scripts.scalabilitytests;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.Test;
@@ -122,12 +126,16 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void decreaseNumOfStudents(int remainingNumOfStudents) {
+        Map<String, StudentAttributes> remainingStudents = new LinkedHashMap<>();
+        int count = 0;
         for (String key : testData.students.keySet()) {
-            if (testData.students.size() <= remainingNumOfStudents) {
+            if (count >= remainingNumOfStudents) {
                 return;
             }
-            testData.students.remove(key);
+            remainingStudents.put(key, testData.students.get(key));
+            count++;
         }
+        testData.students = remainingStudents;
     }
 
     private void addQuestions(int numQuestionsToAdd) {
@@ -144,12 +152,16 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void decreaseNumOfQuestions(int remainingNumOfQuestions) {
+        Map<String, FeedbackQuestionAttributes> remainingQuestions = new LinkedHashMap<>();
+        int count = 0;
         for (String key : testData.feedbackQuestions.keySet()) {
-            if (testData.feedbackQuestions.size() <= remainingNumOfQuestions) {
+            if (count >= remainingNumOfQuestions) {
                 return;
             }
-            testData.feedbackQuestions.remove(key);
+            remainingQuestions.put(key, testData.feedbackQuestions.get(key));
+            count++;
         }
+        testData.feedbackQuestions = remainingQuestions;
     }
 
     private void updateFeedbackResponses() {
@@ -160,23 +172,30 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
         }
 
         // obtain set of keys for current Map of questions
-        Set<Integer> questionsNumbers = new HashSet<>(testData.feedbackQuestions.size());
+        Set<String> feedbackQuestionIds = new HashSet<>(testData.feedbackQuestions.size());
         for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
-            questionsNumbers.add(question.questionNumber);
+            feedbackQuestionIds.add(String.valueOf(question.questionNumber));
         }
+
+        List<String> keysOfFeedbackResponsesToDelete = new LinkedList<>();
 
         // check every feedback response if it should be included to test or excluded from it
         for (String key : testDataMax.feedbackResponses.keySet()) {
             if (studentsEmails.contains(testDataMax.feedbackResponses.get(key).giver)
                     && studentsEmails.contains(testDataMax.feedbackResponses.get(key).recipient)
-                    && questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)
+                    && feedbackQuestionIds.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId)
                     && !testData.feedbackResponses.containsKey(key)) {
                 testData.feedbackResponses.put(key, testDataMax.feedbackResponses.get(key));
             } else if ((!studentsEmails.contains(testDataMax.feedbackResponses.get(key).giver)
                     || !studentsEmails.contains(testDataMax.feedbackResponses.get(key).recipient)
-                    || !questionsNumbers.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId))
+                    || !feedbackQuestionIds.contains(testDataMax.feedbackResponses.get(key).feedbackQuestionId))
                     && testData.feedbackResponses.containsKey(key)) {
-                testData.feedbackResponses.remove(key);
+                keysOfFeedbackResponsesToDelete.add(key);
+            }
+        }
+        if (keysOfFeedbackResponsesToDelete.size() > 0) {
+            for (String removeKey : keysOfFeedbackResponsesToDelete) {
+                testData.feedbackResponses.remove(removeKey);
             }
         }
     }

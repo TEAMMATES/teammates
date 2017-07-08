@@ -29,10 +29,10 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
     private List<String> studentsNames = Arrays.asList(
-            "Student One", "Student Two", "Student Three", "Student Four", "Student Five", "Student Six",
-            "Student Seven", "Student Eight", "Student Nine", "Student Ten", "Student Eleven", "Student Twelve",
-            "Student Thirteen", "Student Fourteen", "Student Fifteen", "Student Sixteen", "Student Seventeen",
-            "Student Eighteen", "Student Nineteen", "Student Twenty");
+            "Student_One", "Student_Two", "Student_Three", "Student_Four", "Student_Five", "Student_Six",
+            "Student_Seven", "Student_Eight", "Student_Nine", "Student_Ten", "Student_Eleven", "Student_Twelve",
+            "Student_Thirteen", "Student_Fourteen", "Student_Fifteen", "Student_Sixteen", "Student_Seventeen",
+            "Student_Eighteen", "Student_Nineteen", "Student_Twenty");
 
     class EmptyObject {
     }
