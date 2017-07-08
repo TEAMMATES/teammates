@@ -1024,18 +1024,14 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
-function isFormModified($form) {    
+function isFormModified($form) {
     // check if no changes were made
     const questionNum = $form.attr('data-qnnumber');
-    console.log(`questionNum = ${questionNum}`);
 
     const htmlBeforeEdit = questionsAfterEnable[questionNum];
     const htmlAfterEdit = $(`#editquestionwrapper-${questionNum}`).html();
 
-    console.log(htmlBeforeEdit);
-    console.log(htmlAfterEdit);
     if (htmlBeforeEdit === htmlAfterEdit) {
-        alert('No changes were made');
         return false;
     }
 
