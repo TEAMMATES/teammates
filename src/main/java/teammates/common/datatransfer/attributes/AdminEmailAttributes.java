@@ -30,6 +30,16 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public String emailId;
     public boolean isInTrashBin;
 
+    /**
+     * Creates a new AdminEmail with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * <ul>
+     * <li>{@code false} for {@code isInTrashBin}</li>
+     * <li>{@code new Date()} for {@code createDate}</li>
+     * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
+     * </ul>
+     */
     AdminEmailAttributes(AdminEmailAttributesBuilder builder) {
         this.subject = builder.subject;
         this.addressReceiver = builder.addressReceiver;
@@ -42,13 +52,36 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         this.isInTrashBin = builder.isInTrashBin;
     }
 
-    public static AdminEmailAttributes valueOf(AdminEmail adminEmail) {
+    /**
+     * emailId is required by makeAttributes() .
+     * @see teammates.storage.api.AdminEmailsDb#makeAttributes(AdminEmail)
+     */
+    public static AdminEmailAttributes valueOfWithEmailId(AdminEmail adminEmail) {
         return new AdminEmailAttributesBuilder(
                 adminEmail.getSubject(),
                 adminEmail.getAddressReceiver(),
                 adminEmail.getGroupReceiver(),
                 adminEmail.getContent(),
                 adminEmail.getSendDate())
+                .withCreateDate(adminEmail.getCreateDate())
+                .withEmailId(adminEmail.getEmailId())
+                .withIsInTrashBin(adminEmail.getIsInTrashBin())
+                .build();
+    }
+
+    /**
+     * emailId omitted for testToEntity() due to NPE.
+     * see AdminEmailAttributesTest#testToEntity()
+     */
+    public static AdminEmailAttributes valueOfWithoutEmailId(AdminEmail adminEmail) {
+        return new AdminEmailAttributesBuilder(
+                adminEmail.getSubject(),
+                adminEmail.getAddressReceiver(),
+                adminEmail.getGroupReceiver(),
+                adminEmail.getContent(),
+                adminEmail.getSendDate())
+                .withCreateDate(adminEmail.getCreateDate())
+                .withIsInTrashBin(adminEmail.getIsInTrashBin())
                 .build();
     }
 
@@ -178,22 +211,28 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             this.sendDate = sendDate;
 
             this.createDate = DEFAULT_DATE;
-            this.emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
+            this.emailId = null;
             this.isInTrashBin = false;
         }
 
         public AdminEmailAttributesBuilder withCreateDate(Date createDate) {
-            this.createDate = createDate;
+            if (createDate != null) {
+                this.createDate = createDate;
+            }
             return this;
         }
 
         public AdminEmailAttributesBuilder withEmailId(String emailId) {
-            this.emailId = emailId;
+            if (emailId != null) {
+                this.emailId = emailId;
+            }
             return this;
         }
 
-        public AdminEmailAttributesBuilder withIsInTrashBin(boolean isInTrashBin) {
-            this.isInTrashBin = isInTrashBin;
+        public AdminEmailAttributesBuilder withIsInTrashBin(Boolean isInTrashBin) {
+            if (isInTrashBin != null) {
+                this.isInTrashBin = isInTrashBin;
+            }
             return this;
         }
 

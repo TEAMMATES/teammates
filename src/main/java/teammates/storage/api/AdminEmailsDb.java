@@ -250,6 +250,6 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
     protected AdminEmailAttributes makeAttributes(AdminEmail entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return AdminEmailAttributes.valueOf(entity);
+        return AdminEmailAttributes.valueOfWithEmailId(entity);
     }
 }

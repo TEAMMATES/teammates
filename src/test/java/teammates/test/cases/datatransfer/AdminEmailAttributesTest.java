@@ -1,8 +1,9 @@
 package teammates.test.cases.datatransfer;
 
 import static teammates.common.datatransfer.attributes.AdminEmailAttributes.AdminEmailAttributesBuilder;
+import static teammates.common.datatransfer.attributes.AdminEmailAttributes.valueOfWithoutEmailId;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.AdminEmail;
 
 /**
- * SUT: {@link AdminEmailAttributesTest}.
+ * SUT: {@link AdminEmailAttributes}.
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
@@ -33,24 +34,33 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void classSetup() {
         subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
         content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
-        emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
+        emailId = null;
         isInTrashBin = false;
         sendDate = new Date();
         createDate = new Date();
-        addressReceiverListString = new ArrayList<>();
-        groupReceiverListFileKey = new ArrayList<>();
-        addressReceiverListString.add(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
-        groupReceiverListFileKey.add(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
+        addressReceiverListString = Arrays.asList(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
+        groupReceiverListFileKey = Arrays.asList(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
+
     }
 
     @Override
     @Test
     public void testToEntity() {
         AdminEmailAttributes adminEmailAttributes = createValidAdminEmailAttributesObject();
-        AdminEmail expectedAdminEmail = new AdminEmail(
-                        adminEmailAttributes.getAddressReceiver(), adminEmailAttributes.getGroupReceiver(),
-                        adminEmailAttributes.getSubject(), adminEmailAttributes.content, adminEmailAttributes.sendDate);
-        AdminEmail actualAdminEmail = AdminEmailAttributes.valueOf(expectedAdminEmail).toEntity();
+
+        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
+                adminEmailAttributes.getSubject(),
+                adminEmailAttributes.getAddressReceiver(),
+                adminEmailAttributes.getGroupReceiver(),
+                adminEmailAttributes.content,
+                adminEmailAttributes.getSendDate())
+                .withCreateDate(adminEmailAttributes.getCreateDate())
+                .withEmailId(adminEmailAttributes.getEmailId())
+                .withIsInTrashBin(adminEmailAttributes.getIsInTrashBin())
+                .build();
+
+        AdminEmail expectedAdminEmail = attributes.toEntity();
+        AdminEmail actualAdminEmail = valueOfWithoutEmailId(expectedAdminEmail).toEntity();
 
         assertEquals(expectedAdminEmail.getSubject(), actualAdminEmail.getSubject());
         assertEquals(expectedAdminEmail.getAddressReceiver(), actualAdminEmail.getAddressReceiver());
@@ -62,9 +72,9 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private AdminEmailAttributes createValidAdminEmailAttributesObject() {
         return new AdminEmailAttributesBuilder(
                 subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .withIsInTrashBin(isInTrashBin)
                 .withCreateDate(createDate)
                 .withEmailId(emailId)
+                .withIsInTrashBin(isInTrashBin)
                 .build();
     }
 
