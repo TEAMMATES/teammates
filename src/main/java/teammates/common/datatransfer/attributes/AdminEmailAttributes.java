@@ -52,11 +52,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         this.isInTrashBin = builder.isInTrashBin;
     }
 
-    /**
-     * emailId is required by makeAttributes() .
-     * @see teammates.storage.api.AdminEmailsDb#makeAttributes(AdminEmail)
-     */
-    public static AdminEmailAttributes valueOfWithEmailId(AdminEmail adminEmail) {
+    public static AdminEmailAttributes valueOf(AdminEmail adminEmail) {
         return new AdminEmailAttributesBuilder(
                 adminEmail.getSubject(),
                 adminEmail.getAddressReceiver(),
@@ -65,22 +61,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
                 adminEmail.getSendDate())
                 .withCreateDate(adminEmail.getCreateDate())
                 .withEmailId(adminEmail.getEmailId())
-                .withIsInTrashBin(adminEmail.getIsInTrashBin())
-                .build();
-    }
-
-    /**
-     * emailId omitted for testToEntity() due to NPE.
-     * see AdminEmailAttributesTest#testToEntity()
-     */
-    public static AdminEmailAttributes valueOfWithoutEmailId(AdminEmail adminEmail) {
-        return new AdminEmailAttributesBuilder(
-                adminEmail.getSubject(),
-                adminEmail.getAddressReceiver(),
-                adminEmail.getGroupReceiver(),
-                adminEmail.getContent(),
-                adminEmail.getSendDate())
-                .withCreateDate(adminEmail.getCreateDate())
                 .withIsInTrashBin(adminEmail.getIsInTrashBin())
                 .build();
     }
