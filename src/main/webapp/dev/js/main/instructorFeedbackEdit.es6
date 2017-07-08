@@ -156,7 +156,8 @@ const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
-const questionsBeforeEdit = [];
+const questionsBeforeEnable = [];
+const questionsAfterEnable = [];
 
 function getCustomDateTimeFields() {
     return $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`)
@@ -263,6 +264,7 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.target);
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -383,8 +385,8 @@ function enableEditFS() {
  * @param questionNum
  */
 function backupQuestion(questionNum) {
-    questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
-                                       || $(`#questionTable-${questionNum} > .panel-body`).html();
+    questionsBeforeEnable[questionNum] = questionsBeforeEnable[questionNum]
+                                       || $(`#editquestionwrapper-${questionNum}`).html();
 }
 
 /**
@@ -472,6 +474,7 @@ function enableEdit(questionNum, maxQuestions) {
         if (questionNum === i) {
             backupQuestion(i);
             enableQuestion(i);
+            questionsAfterEnable[i] = questionsAfterEnable[i] || $(`#editquestionwrapper-${i}`).html();
         } else {
             disableQuestion(i);
         }
@@ -602,15 +605,7 @@ function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
-
-        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
-        $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
-        $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
-        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
-        $(`#button_question_submit-${questionNum}`).hide();
-        $(`#questionnum-${questionNum}`).val(questionNum);
-        $(`#questionnum-${questionNum}`).prop('disabled', true);
+        $(`#editquestionwrapper-${questionNum}`).html(questionsBeforeEnable[questionNum]);
     }
 
     // re-attach events for form elements
@@ -1029,6 +1024,24 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
+function isFormModified($form) {    
+    // check if no changes were made
+    const questionNum = $form.attr('data-qnnumber');
+    console.log(`questionNum = ${questionNum}`);
+
+    const htmlBeforeEdit = questionsAfterEnable[questionNum];
+    const htmlAfterEdit = $(`#editquestionwrapper-${questionNum}`).html();
+
+    console.log(htmlBeforeEdit);
+    console.log(htmlAfterEdit);
+    if (htmlBeforeEdit === htmlAfterEdit) {
+        alert('No changes were made');
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * This function is called on edit page load.
  */
@@ -1041,6 +1054,7 @@ function readyFeedbackEditPage() {
     // Bind submit text links
     $('a[id|=questionsavechangestext]').click(function () {
         const form = $(this).parents('form.form_question');
+        isFormModified(form);
         prepareDescription(form);
 
         $(this).parents('form.form_question').submit();
@@ -1062,6 +1076,7 @@ function readyFeedbackEditPage() {
     $('form.form_question').submit(function () {
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
         const formStatus = checkFeedbackQuestion(this);
+
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
         }
