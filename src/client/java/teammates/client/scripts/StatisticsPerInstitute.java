@@ -34,17 +34,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void doOperation() {
 
-        String queryString = "SELECT FROM " + CourseStudent.class.getName();
-        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(queryString).execute();
+        List<CourseStudent> allStudents = ofy().load().type(CourseStudent.class).list();
 
-        queryString = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(queryString).execute();
+        List<Instructor> allInstructors = ofy().load().type(Instructor.class).list();
 
-        queryString = "SELECT FROM " + Account.class.getName();
-        List<Account> allAccounts = (List<Account>) PM.newQuery(queryString).execute();
+        List<Account> allAccounts = ofy().load().type(Account.class).list();
 
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors, allAccounts);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
@@ -169,7 +165,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return statsBundle;
     }
 
-    @SuppressWarnings("unchecked")
     private String getInstituteForStudent(
             CourseStudent student, List<Instructor> allInstructors, List<Account> allAccounts) {
 
