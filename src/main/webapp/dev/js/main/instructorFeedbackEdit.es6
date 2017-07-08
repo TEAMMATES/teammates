@@ -149,6 +149,7 @@ const FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT = 'Rank recipients question';
 const DISPLAY_FEEDBACK_QUESTION_COPY_INVALID = 'There are no questions to be copied.';
 const DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
         'Please enter the maximum number of recipients each respondents should give feedback to.';
+const DISPLAY_FEEDBACK_QUESTION_NO_CHANGES = 'Please make changes to the question before saving.';
 const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
@@ -181,33 +182,43 @@ function getQuestionNumFromEditForm(form) {
  * @param form
  * @returns {Boolean}
  */
-function checkFeedbackQuestion(form) {
-    const recipientType = $(form).find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
+function checkFeedbackQuestion($form) {
+    // check if no changes were made
+    const questionNum = $form.attr('data-qnnumber');
+    const htmlBeforeEdit = questionsAfterEnable[questionNum];
+    const htmlAfterEdit = $(`#editquestionwrapper-${questionNum}`).html();
+
+    if (htmlBeforeEdit === htmlAfterEdit) {
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NO_CHANGES, StatusType.DANGER, $form);
+        return false;
+    }
+
+    const recipientType = $form.find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
                                .find(':selected')
                                .val();
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
-        if ($(form).find(`[name|=${ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
-                && !$(form).find('.numberOfEntitiesBox').val()) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
+        if ($form.find(`[name|=${ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
+                && !$form.find('.numberOfEntitiesBox').val()) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, $form);
             return false;
         }
     }
-    if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TEXT}]`).val()) {
-        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
+    if (!$form.find(`[name=${ParamsNames.FEEDBACK_QUESTION_TEXT}]`).val()) {
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, $form);
         return false;
     }
-    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
-        if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
-                || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
-                || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
+    if ($form.find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
+        if (!$form.find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
+                || !$form.find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
+                || !$form.find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, $form);
             return false;
         }
-        const qnNum = getQuestionNumFromEditForm(form);
+        const qnNum = getQuestionNumFromEditForm($form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         }
-        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, $form);
         return false;
     }
     return true;
@@ -1024,20 +1035,6 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
-function isFormModified($form) {
-    // check if no changes were made
-    const questionNum = $form.attr('data-qnnumber');
-
-    const htmlBeforeEdit = questionsAfterEnable[questionNum];
-    const htmlAfterEdit = $(`#editquestionwrapper-${questionNum}`).html();
-
-    if (htmlBeforeEdit === htmlAfterEdit) {
-        return false;
-    }
-
-    return true;
-}
-
 /**
  * This function is called on edit page load.
  */
@@ -1047,19 +1044,21 @@ function readyFeedbackEditPage() {
     // Disable all questions
     disableAllQuestions();
 
-    // Bind submit text links
-    $('a[id|=questionsavechangestext]').click(function () {
-        const form = $(this).parents('form.form_question');
-        isFormModified(form);
-        prepareDescription(form);
+    // validates and submits form
+    const validateAndSubmitForm = ($form) => {
+        addLoadingIndicator($('#button_submit_add'), 'Saving ');
+        const readyForSubmission = checkFeedbackQuestion($form);
 
-        $(this).parents('form.form_question').submit();
-    });
+        if (!readyForSubmission) {
+            // validation failed
+            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
+            return;
+        }
 
-    // Bind submit actions
-    $('form[id|=form_editquestion]').submit(function (event) {
-        prepareDescription($(event.currentTarget));
-        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
+        prepareDescription($form);
+
+        // destructive edits performed, warn user that responses must be deleted
+        if ($form.attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
             const okCallback = function () {
                 event.currentTarget.submit();
@@ -1067,16 +1066,20 @@ function readyFeedbackEditPage() {
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
                     null, null, StatusType.DANGER);
         }
+        
+        $form.submit();
+    };
+
+    // Bind submit text links
+    $('a[id|=questionsavechangestext]').click(function () {
+        const $form = $(this).parents('form.form_question');
+        validateAndSubmitForm($form);
     });
 
-    $('form.form_question').submit(function () {
-        addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        const formStatus = checkFeedbackQuestion(this);
-
-        if (!formStatus) {
-            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
-        }
-        return formStatus;
+    // Bind submit actions
+    $('button[id|=button_question_submit]').click(function () {
+        const $form = $(this).parents('form.form_question');
+        validateAndSubmitForm($form);
     });
 
     // Bind destructive changes
