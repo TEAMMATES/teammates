@@ -948,10 +948,9 @@ public final class FeedbackSessionsLogic {
         }
 
         int maxCommentsNum = 0;
-
         for (FeedbackResponseAttributes response : allResponses) {
             List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
-            if(commentAttributes != null && maxCommentsNum < commentAttributes.size()) {
+            if (commentAttributes != null && maxCommentsNum < commentAttributes.size()) {
                 maxCommentsNum = commentAttributes.size();
             }
         }
