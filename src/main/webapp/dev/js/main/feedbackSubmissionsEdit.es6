@@ -41,9 +41,13 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const SUCCESS_STATUS_MESSAGE = '.alert-success.statusMessage';
 
 // text displayed to user
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
+const RESPONSES_SUCCESSFULLY_SUBMITTED = '<p>All your responses have been successfully recorded! '
+        + 'You may now leave this page.</p>'
+        + '<p>Note that you can change your responses and submit them again any time before the session closes.</p>';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -923,12 +927,25 @@ function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
 
+function hasSuccessMessage() {
+    return $(SUCCESS_STATUS_MESSAGE).length;
+}
+
+function getSuccessMessage() {
+    return $(SUCCESS_STATUS_MESSAGE).html().trim();
+}
+
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
         showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
     }
 }
 
+function showModalSuccessIfResponsesSubmitted() {
+    if (hasSuccessMessage()) {
+        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED, null, StatusType.SUCCESS);
+    }
+}
 /**
  * Updates the length of the textArea
  * @param textAreaId - Id of text area for which char are to be counted
@@ -1060,6 +1077,8 @@ $(document).ready(() => {
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
+
+    showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
