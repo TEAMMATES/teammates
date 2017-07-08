@@ -3250,6 +3250,36 @@
       </div>
     </div>
   </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <div class="panel panel-default">
     <div class="panel-heading" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
@@ -3259,6 +3289,11 @@
         <input name="questionid" type="hidden" value="-1">
       </form>
       <div class="display-icon pull-right">
+        <div class="remind-no-response">
+          <a class="btn btn-default btn-xs btn-tm-actions remind-btn-no-response" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?user=CFResultsUiT.instr&courseid=CFResultsUiT.CS2104&fsname=First+Session&token=${sessionToken}" data-target="#remindModal" data-toggle="modal" href="javascript:;">
+            Remind All
+          </a>
+        </div>
         <span class="glyphicon pull-right glyphicon-chevron-up">
         </span>
       </div>
