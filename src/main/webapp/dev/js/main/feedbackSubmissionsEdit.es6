@@ -47,7 +47,7 @@ const MS_IN_FIFTEEN_MINUTES = 900000;
 // text displayed to user
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
 const SESSION_CLOSING_HEADER = 'Feedback Session Will Be Closing Soon';
-const SESSION_CLOSING_MESSAGE = 'Warning: you have only 15 minutes before the submission deadline expires!';
+const SESSION_CLOSING_MESSAGE = 'Warning: you have less than 15 minutes before the submission deadline expires!';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
