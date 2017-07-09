@@ -41,9 +41,13 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const END_TIME = $('#end-time').html().trim();
+const MS_IN_FIFTEEN_MINUTES = 900000;
 
 // text displayed to user
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
+const SESSION_CLOSING_HEADER = 'Feedback Session Will Be Closing Soon';
+const SESSION_CLOSING_MESSAGE = 'Warning: you have only 15 minutes before the submission deadline expires!';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -919,6 +923,15 @@ function hasWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).length;
 }
 
+function isSessionClosingSoon() {
+    const endDate = new Date(END_TIME);
+    const currentDate = new Date();
+    if (endDate - currentDate <= MS_IN_FIFTEEN_MINUTES) {
+        return true;
+    }
+    return false;
+}
+
 function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
@@ -926,6 +939,12 @@ function getWarningMessage() {
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
         showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
+    }
+}
+
+function showModalWarningIfSessionClosingSoon() {
+    if (isSessionClosingSoon()) {
+        showModalAlert(SESSION_CLOSING_HEADER, SESSION_CLOSING_MESSAGE, null, StatusType.WARNING);
     }
 }
 
@@ -1060,6 +1079,8 @@ $(document).ready(() => {
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
+
+    showModalWarningIfSessionClosingSoon();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
