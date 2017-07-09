@@ -149,7 +149,6 @@ const FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT = 'Rank recipients question';
 const DISPLAY_FEEDBACK_QUESTION_COPY_INVALID = 'There are no questions to be copied.';
 const DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
         'Please enter the maximum number of recipients each respondents should give feedback to.';
-const DISPLAY_FEEDBACK_QUESTION_NO_CHANGES = 'Please make changes to the question before saving.';
 const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. The question text cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
@@ -157,8 +156,8 @@ const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
-const questionsBeforeEnable = [];
-const questionsAfterEnable = [];
+const questionsBeforeEdit = [];
+const destructiveFieldsBackup = [];
 
 function getCustomDateTimeFields() {
     return $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`)
@@ -183,16 +182,6 @@ function getQuestionNumFromEditForm(form) {
  * @returns {Boolean}
  */
 function checkFeedbackQuestion($form) {
-    // check if no changes were made
-    const questionNum = $form.attr('data-qnnumber');
-    const htmlBeforeEdit = questionsAfterEnable[questionNum];
-    const htmlAfterEdit = $(`#editquestionwrapper-${questionNum}`).html();
-
-    if (htmlBeforeEdit === htmlAfterEdit) {
-        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NO_CHANGES, StatusType.DANGER, $form);
-        return false;
-    }
-
     const recipientType = $form.find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
                                .find(':selected')
                                .val();
@@ -396,8 +385,74 @@ function enableEditFS() {
  * @param questionNum
  */
 function backupQuestion(questionNum) {
-    questionsBeforeEnable[questionNum] = questionsBeforeEnable[questionNum]
+    questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
                                        || $(`#editquestionwrapper-${questionNum}`).html();
+}
+
+function isQuestionHavingResponses(questionNum) {
+    const EDIT_STATUS = $(`#form_editquestion-${questionNum}`).attr('editstatus');
+
+    return EDIT_STATUS === 'hasResponses' || EDIT_STATUS === 'mustDeleteResponses';
+}
+
+/**
+ * Checks if any changes were made to the destructive fields.
+ * Returns true if changes were made, else false.
+ * @param questionNum
+ */
+function isDestructiveFieldsModifed(questionNum) {
+    const $curr = $(`#form_editquestion-${questionNum}`).find(':input').not('.nonDestructive').not('.visibilityCheckbox');
+    const $prev = destructiveFieldsBackup[questionNum];
+
+    console.log($prev);
+    console.log($curr);
+    if ($curr.length !== $prev.length) {
+        console.log('Prev len = ' + $prev.length + ', html = ' + $prev.html());
+        console.log('Curr len = ' + $curr.length + ', html = ' + $curr.html());
+        return true;
+    }
+
+    const LENGTH = $prev.length;
+
+    for (let i = 0; i < LENGTH; i += 1) {
+        let prevVal = $($prev.get(i)).val();
+        let currVal = $($curr.get(i)).val();
+
+        if (prevVal !== currVal) {
+            console.log('Prev val = ' + prevVal + ', html = ' + $prev.get(i));
+            console.log('Curr val = ' + currVal + ', html = ' + $curr.get(i));
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function correctEditStatusIfRequired($form) {
+    const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
+
+    console.log(`questionNum = ${questionNum}`);
+    if (!isQuestionHavingResponses(questionNum)) {
+        // if question does not even have
+        // existing responses, do nothing
+        console.log('question doesnt have responses');
+        return;
+    }
+
+    if (isDestructiveFieldsModifed(questionNum)) {
+        $(`#form_editquestion-${questionNum}`).attr('editstatus', 'mustDeleteResponses');
+    } else {
+        $(`#form_editquestion-${questionNum}`).attr('editstatus', 'hasResponses');
+    }
+}
+
+/**
+ * Creates a copy of all the destructive fields.
+ * @param questionNum
+ */
+function backupDestructiveFields(questionNum) {
+    destructiveFieldsBackup[questionNum] = destructiveFieldsBackup[questionNum]
+            || $(`#form_editquestion-${questionNum}`).find(':input').not('.nonDestructive').not('.visibilityCheckbox');
 }
 
 /**
@@ -485,7 +540,10 @@ function enableEdit(questionNum, maxQuestions) {
         if (questionNum === i) {
             backupQuestion(i);
             enableQuestion(i);
-            questionsAfterEnable[i] = questionsAfterEnable[i] || $(`#editquestionwrapper-${i}`).html();
+
+            if (isQuestionHavingResponses(questionNum)) {
+                backupDestructiveFields(i);
+            }
         } else {
             disableQuestion(i);
         }
@@ -616,7 +674,7 @@ function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $(`#editquestionwrapper-${questionNum}`).html(questionsBeforeEnable[questionNum]);
+        $(`#editquestionwrapper-${questionNum}`).html(questionsBeforeEdit[questionNum]);
     }
 
     // re-attach events for form elements
@@ -1046,28 +1104,30 @@ function readyFeedbackEditPage() {
 
     // validates and submits form
     const validateAndSubmitForm = ($form) => {
-        addLoadingIndicator($('#button_submit_add'), 'Saving ');
+        const $saveQuestionBtn = $form.find('button[id^="button_question_submit"]');
+        addLoadingIndicator($saveQuestionBtn, 'Saving ');
         const readyForSubmission = checkFeedbackQuestion($form);
 
         if (!readyForSubmission) {
             // validation failed
-            removeLoadingIndicator($('#button_submit_add'), 'Save Question');
+            removeLoadingIndicator($saveQuestionBtn, 'Save Question');
             return;
         }
 
+        correctEditStatusIfRequired($form);
         prepareDescription($form);
 
         // destructive edits performed, warn user that responses must be deleted
         if ($form.attr('editStatus') === 'mustDeleteResponses') {
-            event.preventDefault();
+            //event.preventDefault();
             const okCallback = function () {
-                event.currentTarget.submit();
+                $form.submit();
             };
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
                     null, null, StatusType.DANGER);
+        } else {
+            $form.submit();
         }
-        
-        $form.submit();
     };
 
     // Bind submit text links
