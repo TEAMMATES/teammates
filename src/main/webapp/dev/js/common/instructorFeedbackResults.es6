@@ -346,12 +346,6 @@ function prepareInstructorFeedbackResultsPage() {
         });
     };
 
-    // decrease top-margin of expand button, if status message is present
-    if ($('#statusMessagesToUser').html().search('div') > 0) {
-        $('#expand-collapse-button').css('margin-top', '5px');
-        $('#expand-collapse-button + br').remove();
-    }
-
     // ajax-response-submit requires the user to click on it to load the noResponsePanel,
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
