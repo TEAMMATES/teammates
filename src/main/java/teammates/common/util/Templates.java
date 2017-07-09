@@ -379,7 +379,6 @@ public final class Templates {
             public static final String RANK_NUM_OPTIONS = "${numOfRankOptions}";
             public static final String RANK_RECIEVED = "${ranksReceived}";
             public static final String RANK_AVERAGE = "${averageRank}";
-            public static final String RANK_EXCLUDING_SELF_AVERAGE = "${averageRankExcludingSelf}";
             public static final String RANK_EDIT_FORM_OPTION_FRAGMENTS = "${rankEditFormOptionFragments}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_VALUE = "${areDuplicatesAllowedValue}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_CHECKED = "${areDuplicatesAllowedChecked}";
