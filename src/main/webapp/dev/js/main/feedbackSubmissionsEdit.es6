@@ -41,7 +41,7 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
-const END_TIME = $('#end-time').html().trim();
+const END_TIME = '#end-time';
 const MS_IN_FIFTEEN_MINUTES = 900000;
 
 // text displayed to user
@@ -924,7 +924,7 @@ function hasWarningMessage() {
 }
 
 function isSessionClosingSoon() {
-    const endDate = new Date(END_TIME);
+    const endDate = new Date($(END_TIME).html().trim());
     const currentDate = new Date();
     if (endDate - currentDate <= MS_IN_FIFTEEN_MINUTES) {
         return true;
