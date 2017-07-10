@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.Course;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
 
@@ -68,6 +69,21 @@ public class CourseAttributesTest extends BaseTestCase {
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
+    }
+
+    @Test
+    public void testToEntity() {
+        CourseAttributes attributes = generateValidCourseAttributesObject();
+
+        Course expectedCourse = new Course(attributes.getId(), attributes.getName(),
+                attributes.getTimeZone(), attributes.createdAt);
+
+        Course actualCourse = CourseAttributes.valueOf(expectedCourse).toEntity();
+
+        assertEquals(expectedCourse.getUniqueId(), actualCourse.getUniqueId());
+        assertEquals(expectedCourse.getName(), actualCourse.getName());
+        assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
+        assertEquals(expectedCourse.getCreatedAt(), actualCourse.getCreatedAt());
     }
 
     @Test
