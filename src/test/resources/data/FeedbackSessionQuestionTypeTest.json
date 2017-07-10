@@ -1589,6 +1589,50 @@
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
       }
     },
+    "response5ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response6ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response7ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response8ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student4InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
     "response1ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
