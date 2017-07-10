@@ -40,7 +40,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
 
-    public void testAdjustmentOfSubsmissions() {
+    
     @Test
     public void testAdjustmentOfSubmission() throws MaximumRetriesExceededException {
 
