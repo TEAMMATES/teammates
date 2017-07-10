@@ -513,6 +513,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private String getElementSrcWithRetryAfterWaitForPresence(By by) {
         try {
+            waitForAjaxLoaderGifToDisappear();
             return waitForElementPresence(by).getAttribute("src");
         } catch (StaleElementReferenceException e) {
             // Element changed (e.g. loading gif changed to actual image)
