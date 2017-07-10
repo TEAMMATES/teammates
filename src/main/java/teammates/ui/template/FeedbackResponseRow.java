@@ -138,7 +138,7 @@ public class FeedbackResponseRow {
         return removeEndComma(peopleCanViewString);
     }
 
-    public String removeEndComma(String str) {
+    private String removeEndComma(String str) {
         return str.substring(0, str.length() - 2);
     }
 }
