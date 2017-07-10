@@ -14,7 +14,7 @@
       showAll="${showAll}" />
 </c:if>
 <br>
-<div style="margin-top: 10px">
+<div style="margin-top:10px">
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </div>
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
