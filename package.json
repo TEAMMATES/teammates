@@ -33,7 +33,7 @@
     "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/**/*.es6\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
-    "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
+    "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces",
 	"private": true
   }
 }
