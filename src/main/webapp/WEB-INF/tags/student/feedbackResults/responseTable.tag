@@ -14,7 +14,9 @@
 </c:choose>
 
 <div class="panel ${panelHeaderClass}">
-  <div class="panel-heading"><b>To:</b> ${fn:escapeXml(responseTable.recipientName)}</div>
+  <div class="panel-heading">
+    <b>To:</b> ${fn:escapeXml(responseTable.recipientName)}
+  </div>
   <table class="table">
     <tbody>
       <c:forEach items="${responseTable.responses}" var="response">
