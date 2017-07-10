@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryableTask;
 import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
@@ -344,7 +347,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyPopoverImageUrl(popoverSelector, urlRegex);
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
+    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex)
+            throws MaximumRetriesExceededException {
         String headingSelector = "#panelHeading-" + panelHeadingIndex;
         String popoverSelector = headingSelector + " .popover-content";
         String hoverSelector = headingSelector + " .profile-pic-icon-hover";
@@ -352,21 +356,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
         moveToElement(By.cssSelector(hoverSelector));
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        verifyPopoverImageUrl(popoverSelector, urlRegex);
+        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
+                "Hover and verify student photo on heading");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
+    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex)
+            throws MaximumRetriesExceededException {
         String bodyRowSelector = "#panelBodyCollapse-" + panelBodyIndex + " > .panel-body > .row";
         String popoverSelector = bodyRowSelector + " .popover-content";
         String hoverSelector = bodyRowSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
 
-        verifyPopoverImageUrl(popoverSelector, urlRegex);
+        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
+                "Hover and verify student photo on body");
     }
 
-    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                  int tableCol, String urlRegex) {
+    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex)
+            throws MaximumRetriesExceededException {
         String cellSelector = "#questionBody-" + questionBodyIndex + " .dataTable tbody"
                               + " tr:nth-child(" + (tableRow + 1) + ")"
                               + " td:nth-child(" + (tableCol + 1) + ")";
@@ -376,7 +383,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
         moveToElement(By.cssSelector(hoverSelector));
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
-        verifyPopoverImageUrl(popoverSelector, urlRegex);
+        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
+                "Hover and verify photo on table cell");
+    }
+
+    /**
+     * Popovers triggered by hover actions sometimes fail to appear, resulting in a {@link WebDriverException}.
+     * Popover image verifications that depend on hover actions should therefore be retried several times,
+     * with the hover action triggered before each retry.
+     */
+    private void verifyPopoverImageUrlWithHoverRetry(
+            final String popoverSelector, final String hoverSelector, final String urlRegex, String taskName)
+            throws MaximumRetriesExceededException {
+        uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
+            @Override
+            public void run() {
+                verifyPopoverImageUrl(popoverSelector, urlRegex);
+            }
+
+            @Override
+            public void beforeRetry() {
+                moveToElement(By.cssSelector(hoverSelector));
+            }
+        }, WebDriverException.class);
     }
 
     private void verifyPopoverImageUrl(String popoverSelector, String urlRegex) {
@@ -384,13 +413,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyImageUrl(urlRegex, imgSrc);
     }
 
-    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                       String urlRegex) {
+    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex)
+            throws MaximumRetriesExceededException {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
-    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                           String urlRegex) {
+    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex)
+            throws MaximumRetriesExceededException {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 
