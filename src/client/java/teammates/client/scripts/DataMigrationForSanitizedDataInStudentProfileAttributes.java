@@ -98,11 +98,4 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
                 || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
                 || isSanitizedHtml(profile.gender) || isSanitizedHtml(profile.moreInfo);
     }
-
-    /**
-     * Prints the {@code string} on system output, followed by a newline.
-     */
-    private void println(String string) {
-        System.out.println(string);
-    }
 }
