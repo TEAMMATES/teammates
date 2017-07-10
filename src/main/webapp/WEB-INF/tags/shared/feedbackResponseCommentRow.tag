@@ -27,7 +27,7 @@
 </c:choose>
 
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
-    <div id="commentBar-${divId}" style="display:inline;">
+    <div id="commentBar-${divId}">
         <span class="text-muted">
             From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}
         </span>
