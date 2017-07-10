@@ -10,9 +10,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.retry.RetryManager;
-import teammates.test.driver.retry.RetryableTaskReturns;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -28,8 +28,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getAccount(account.googleId);
     }
 
-    protected AccountAttributes getAccountWithRetry(final String googleId) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
+    protected AccountAttributes getAccountWithRetry(final String googleId) throws MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
             @Override
             public AccountAttributes run() {
                 return getAccount(googleId);
@@ -46,8 +46,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getCourse(course.getId());
     }
 
-    protected CourseAttributes getCourseWithRetry(final String courseId) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
+    protected CourseAttributes getCourseWithRetry(final String courseId) throws MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
             @Override
             public CourseAttributes run() {
                 return getCourse(courseId);
@@ -65,8 +65,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackQuestionAttributes getFeedbackQuestionWithRetry(
-            final String courseId, final String feedbackSessionName, final int qnNumber) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackQuestionAttributes>("getFeedbackQuestion") {
+            final String courseId, final String feedbackSessionName, final int qnNumber)
+            throws MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackQuestionAttributes>(
+                "getFeedbackQuestion") {
             @Override
             public FeedbackQuestionAttributes run() {
                 return getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
@@ -94,8 +96,9 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackSessionAttributes getFeedbackSessionWithRetry(
-            final String courseId, final String feedbackSessionName) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>("getFeedbackSession") {
+            final String courseId, final String feedbackSessionName) throws MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>(
+                "getFeedbackSession") {
             @Override
             public FeedbackSessionAttributes run() {
                 return getFeedbackSession(courseId, feedbackSessionName);
@@ -112,8 +115,9 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getInstructor(instructor.courseId, instructor.email);
     }
 
-    protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
+    protected InstructorAttributes getInstructorWithRetry(final String courseId, final String instructorEmail)
+            throws MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
             @Override
             public InstructorAttributes run() {
                 return getInstructor(courseId, instructorEmail);
@@ -125,8 +129,9 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
     }
 
-    protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail) {
-        return RetryManager.runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
+    protected String getKeyForInstructorWithRetry(final String courseId, final String instructorEmail)
+            throws MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
             @Override
             public String run() {
                 return getKeyForInstructor(courseId, instructorEmail);
