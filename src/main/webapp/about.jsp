@@ -344,6 +344,14 @@
           </td>
         </tr>
         <tr>
+          <td>Aditya Hedge</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aadityavhegde"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Amar Prakash Pandey</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aamarlearning"
@@ -603,6 +611,14 @@
           <td>Koh Xian Hui</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AXianHuiKoh"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Komal Parmaar</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AParmaarK"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
           </td>
@@ -1151,14 +1167,6 @@
           </td>
         </tr>
         <tr>
-          <td>Aditya Hedge</td>
-          <td>
-            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aadityavhegde"
-                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
-            </a>
-          </td>
-        </tr>
-        <tr>
           <td>Aditya Jain</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3A95adityajain"
@@ -1415,6 +1423,14 @@
           </td>
         </tr>
         <tr>
+          <td>Gan Sie Huai</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ahuai99"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Gautam Dudeja</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AtheDiablo"
@@ -1506,6 +1522,14 @@
           <td>James Murithi</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajimmyshephard"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Jasmeet Kaur</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asneachta96"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
           </td>
@@ -1607,9 +1631,9 @@
           </td>
         </tr>
         <tr>
-          <td>Komal Parmaar</td>
+          <td>Ladislav Jaroščák</td>
           <td>
-            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3AParmaarK"
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aenaru"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
           </td>
@@ -1827,6 +1851,14 @@
           </td>
         </tr>
         <tr>
+          <td>Pravesh Jain</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Apraveshjain"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Prithviraj Billa</td>
           <td>bug reporting/fixing, enhancements</td>
         </tr>
@@ -1910,6 +1942,13 @@
             </a>
           </td>
         </tr>
+        <td>Sanjeev Kumar</td>
+        <td>
+          <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asanjeevbitx"
+              target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+          </a>
+        </td>
+      </tr>
         <tr>
           <td>Savin Varshney</td>
           <td>
@@ -1919,9 +1958,25 @@
           </td>
         </tr>
         <tr>
+          <td>Selvakumar Selvaraj</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASELVAKUMAR-S"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Sharthak Mishra</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASharUzumaki"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Shehan Vanderputt</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astanislous"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
           </td>
@@ -2066,6 +2121,14 @@
           <td>Umang Borad</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aumangborad123"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Urvashi Verma</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aihsavru"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
           </td>
