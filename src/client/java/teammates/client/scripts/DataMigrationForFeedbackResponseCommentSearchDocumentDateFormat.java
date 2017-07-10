@@ -116,7 +116,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
         return jsonParser.parse(frcaJson).getAsJsonObject().getAsJsonPrimitive("createdAt").getAsString();
     }
 
-    private synchronized boolean isInDateFormat(String dateString, DateFormat dateFormat) {
+    private boolean isInDateFormat(String dateString, DateFormat dateFormat) {
         try {
             dateFormat.parse(dateString);
             return true;
