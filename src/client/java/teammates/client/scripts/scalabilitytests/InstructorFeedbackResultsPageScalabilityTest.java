@@ -193,7 +193,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
                 keysOfFeedbackResponsesToDelete.add(key);
             }
         }
-        if (keysOfFeedbackResponsesToDelete.size() > 0) {
+        if (!keysOfFeedbackResponsesToDelete.isEmpty()) {
             for (String removeKey : keysOfFeedbackResponsesToDelete) {
                 testData.feedbackResponses.remove(removeKey);
             }
