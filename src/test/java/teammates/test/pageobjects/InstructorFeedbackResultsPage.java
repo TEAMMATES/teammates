@@ -338,13 +338,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
+    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) throws MaximumRetriesExceededException {
         String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
         String popoverSelector = panelBodySelector + " .popover-content";
+        String clickSelector = panelBodySelector + " .profile-pic-icon-click a";
 
-        waitForElementPresence(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
+        waitForElementPresence(By.cssSelector(clickSelector)).click();
 
-        verifyPopoverImageUrl(popoverSelector, urlRegex);
+        verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex)
@@ -404,6 +405,25 @@ public class InstructorFeedbackResultsPage extends AppPage {
             @Override
             public void beforeRetry() {
                 moveToElement(By.cssSelector(hoverSelector));
+            }
+        }, WebDriverException.class);
+    }
+
+    /**
+     * Similar to {@link #verifyPopoverImageUrlWithHoverRetry}, but for click actions.
+     */
+    private void verifyPopoverImageUrlWithClickRetry(
+            final String popoverSelector, final String clickSelector, final String urlRegex, String taskName)
+            throws MaximumRetriesExceededException {
+        uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
+            @Override
+            public void run() {
+                verifyPopoverImageUrl(popoverSelector, urlRegex);
+            }
+
+            @Override
+            public void beforeRetry() {
+                waitForElementPresence(By.cssSelector(clickSelector)).click();
             }
         }, WebDriverException.class);
     }
