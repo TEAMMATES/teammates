@@ -128,7 +128,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
         ArrayList<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            lists[i] = new ArrayList<StudentAttributes>();
+            lists[i] = new ArrayList<>();
         }
 
         for (StudentAttributes student : students) {

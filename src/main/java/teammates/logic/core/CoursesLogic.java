@@ -151,7 +151,7 @@ public final class CoursesLogic {
 
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
         CourseAttributes.sortById(courseList);
-        List<CourseDetailsBundle> courseDetailsList = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> courseDetailsList = new ArrayList<>();
 
         for (CourseAttributes c : courseList) {
 
@@ -220,14 +220,14 @@ public final class CoursesLogic {
         }
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
-        Set<String> sectionNameSet = new HashSet<String>();
+        Set<String> sectionNameSet = new HashSet<>();
         for (StudentAttributes sd : studentDataList) {
             if (!sd.section.equals(Const.DEFAULT_SECTION)) {
                 sectionNameSet.add(sd.section);
             }
         }
 
-        List<String> sectionNameList = new ArrayList<String>(sectionNameSet);
+        List<String> sectionNameList = new ArrayList<>(sectionNameSet);
         Collections.sort(sectionNameList);
 
         return sectionNameList;
@@ -246,7 +246,7 @@ public final class CoursesLogic {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(course.getId());
         StudentAttributes.sortBySectionName(students);
 
-        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        List<SectionDetailsBundle> sections = new ArrayList<>();
 
         SectionDetailsBundle section = null;
         int teamIndexWithinSection = 0;
@@ -313,7 +313,7 @@ public final class CoursesLogic {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
         StudentAttributes.sortBySectionName(students);
 
-        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        List<SectionDetailsBundle> sections = new ArrayList<>();
 
         SectionDetailsBundle section = null;
         int teamIndexWithinSection = 0;
@@ -371,7 +371,7 @@ public final class CoursesLogic {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
         StudentAttributes.sortByTeamName(students);
 
-        List<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+        List<TeamDetailsBundle> teams = new ArrayList<>();
 
         TeamDetailsBundle team = null;
 
@@ -473,7 +473,7 @@ public final class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
 
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         for (StudentAttributes s : studentDataList) {
             courseIds.add(s.course);
         }
@@ -505,7 +505,7 @@ public final class CoursesLogic {
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> courseIdList = new ArrayList<String>();
+        List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
             courseIdList.add(instructor.courseId);
@@ -552,8 +552,8 @@ public final class CoursesLogic {
     public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
-        List<String> courseIdList = new ArrayList<String>();
+        HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
+        List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorAttributesList) {
             courseIdList.add(instructor.courseId);
@@ -621,9 +621,9 @@ public final class CoursesLogic {
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
+        HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
-        List<String> courseIdList = new ArrayList<String>();
+        List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes ia : instructorAttributesList) {
             courseIdList.add(ia.courseId);
@@ -705,7 +705,7 @@ public final class CoursesLogic {
      */
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
                                              Map<String, InstructorAttributes> instructorsForCourses) {
-        List<String> archivedCourseIds = new ArrayList<String>();
+        List<String> archivedCourseIds = new ArrayList<>();
         for (CourseAttributes course : allCourses) {
             InstructorAttributes instructor = instructorsForCourses.get(course.getId());
             if (instructor.isArchived) {

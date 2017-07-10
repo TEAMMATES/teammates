@@ -179,14 +179,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
     private String getInstructorQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        Map<String, Double> min = new HashMap<String, Double>();
-        Map<String, Double> max = new HashMap<String, Double>();
-        Map<String, Double> average = new HashMap<String, Double>();
-        Map<String, Double> averageExcludingSelf = new HashMap<String, Double>();
-        Map<String, Double> total = new HashMap<String, Double>();
-        Map<String, Double> totalExcludingSelf = new HashMap<String, Double>();
-        Map<String, Integer> numResponses = new HashMap<String, Integer>();
-        Map<String, Integer> numResponsesExcludingSelf = new HashMap<String, Integer>();
+        Map<String, Double> min = new HashMap<>();
+        Map<String, Double> max = new HashMap<>();
+        Map<String, Double> average = new HashMap<>();
+        Map<String, Double> averageExcludingSelf = new HashMap<>();
+        Map<String, Double> total = new HashMap<>();
+        Map<String, Double> totalExcludingSelf = new HashMap<>();
+        Map<String, Integer> numResponses = new HashMap<>();
+        Map<String, Integer> numResponsesExcludingSelf = new HashMap<>();
 
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
@@ -248,14 +248,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
 
-        Map<String, Double> min = new HashMap<String, Double>();
-        Map<String, Double> max = new HashMap<String, Double>();
-        Map<String, Double> average = new HashMap<String, Double>();
-        Map<String, Double> averageExcludingSelf = new HashMap<String, Double>();
-        Map<String, Double> total = new HashMap<String, Double>();
-        Map<String, Double> totalExcludingSelf = new HashMap<String, Double>();
-        Map<String, Integer> numResponses = new HashMap<String, Integer>();
-        Map<String, Integer> numResponsesExcludingSelf = new HashMap<String, Integer>();
+        Map<String, Double> min = new HashMap<>();
+        Map<String, Double> max = new HashMap<>();
+        Map<String, Double> average = new HashMap<>();
+        Map<String, Double> averageExcludingSelf = new HashMap<>();
+        Map<String, Double> total = new HashMap<>();
+        Map<String, Double> totalExcludingSelf = new HashMap<>();
+        Map<String, Integer> numResponses = new HashMap<>();
+        Map<String, Integer> numResponsesExcludingSelf = new HashMap<>();
 
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
@@ -284,7 +284,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                                                 isRecipientTypeTeam, currentUserTeam);
 
         Set<String> recipientSet = numResponses.keySet();
-        ArrayList<String> recipientList = new ArrayList<String>();
+        ArrayList<String> recipientList = new ArrayList<>();
 
         boolean hasCurrentUserReceivedAnyResponse = recipientSet.contains(currentUserIdentifier);
 
@@ -451,14 +451,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return "";
         }
 
-        Map<String, Double> min = new HashMap<String, Double>();
-        Map<String, Double> max = new HashMap<String, Double>();
-        Map<String, Double> average = new HashMap<String, Double>();
-        Map<String, Double> averageExcludingSelf = new HashMap<String, Double>();
-        Map<String, Double> total = new HashMap<String, Double>();
-        Map<String, Double> totalExcludingSelf = new HashMap<String, Double>();
-        Map<String, Integer> numResponses = new HashMap<String, Integer>();
-        Map<String, Integer> numResponsesExcludingSelf = new HashMap<String, Integer>();
+        Map<String, Double> min = new HashMap<>();
+        Map<String, Double> max = new HashMap<>();
+        Map<String, Double> average = new HashMap<>();
+        Map<String, Double> averageExcludingSelf = new HashMap<>();
+        Map<String, Double> total = new HashMap<>();
+        Map<String, Double> totalExcludingSelf = new HashMap<>();
+        Map<String, Integer> numResponses = new HashMap<>();
+        Map<String, Integer> numResponsesExcludingSelf = new HashMap<>();
 
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
@@ -612,7 +612,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
+        List<String> hiddenRecipients = new ArrayList<>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.visibilityTable.get(response.getId())[1]
@@ -725,7 +725,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         if (minScale >= maxScale) {
             errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);
         }
@@ -739,7 +739,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackNumericalScaleResponseDetails frd =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();

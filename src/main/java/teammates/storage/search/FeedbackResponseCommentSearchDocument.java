@@ -56,11 +56,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
         course = coursesDb.getCourse(comment.courseId);
         giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
-        relatedInstructors = new ArrayList<InstructorAttributes>();
-        relatedStudents = new ArrayList<StudentAttributes>();
+        relatedInstructors = new ArrayList<>();
+        relatedStudents = new ArrayList<>();
 
         // prepare the response giver name and recipient name
-        Set<String> addedEmailSet = new HashSet<String>();
+        Set<String> addedEmailSet = new HashSet<>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
             InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.giver);
@@ -230,14 +230,14 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
 
         // get instructor's information
-        bundle.instructorEmails = new HashSet<String>();
-        Set<String> instructorCourseIdList = new HashSet<String>();
+        bundle.instructorEmails = new HashSet<>();
+        Set<String> instructorCourseIdList = new HashSet<>();
         for (InstructorAttributes ins : instructors) {
             bundle.instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
         }
 
-        Set<String> isAdded = new HashSet<String>();
+        Set<String> isAdded = new HashSet<>();
 
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
@@ -251,7 +251,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
             if (commentList == null) {
-                commentList = new ArrayList<FeedbackResponseCommentAttributes>();
+                commentList = new ArrayList<>();
                 bundle.comments.put(comment.feedbackResponseId, commentList);
             }
             commentList.add(comment);
@@ -266,7 +266,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<FeedbackResponseAttributes> responseList = bundle.responses.get(response.feedbackQuestionId);
             if (responseList == null) {
-                responseList = new ArrayList<FeedbackResponseAttributes>();
+                responseList = new ArrayList<>();
                 bundle.responses.put(response.feedbackQuestionId, responseList);
             }
             if (!isAdded.contains(response.getId())) {
@@ -284,7 +284,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<FeedbackQuestionAttributes> questionList = bundle.questions.get(question.feedbackSessionName);
             if (questionList == null) {
-                questionList = new ArrayList<FeedbackQuestionAttributes>();
+                questionList = new ArrayList<>();
                 bundle.questions.put(question.feedbackSessionName, questionList);
             }
             if (!isAdded.contains(question.getId())) {
@@ -321,6 +321,14 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
             bundle.instructorEmailNameTable.put(comment.giverEmail, commentGiverName);
+            boolean isLastEditorEmailInMap = !comment.lastEditorEmail.isEmpty()
+                    && bundle.instructorEmailNameTable.containsKey(comment.lastEditorEmail);
+            if (!isLastEditorEmailInMap) {
+                InstructorAttributes instructor =
+                        instructorsDb.getInstructorForEmail(response.courseId, comment.lastEditorEmail);
+                String commentLastEditorName = instructor.displayedName + " " + instructor.name;
+                bundle.instructorEmailNameTable.put(comment.lastEditorEmail, commentLastEditorName);
+            }
             bundle.numberOfResults++;
         }
 

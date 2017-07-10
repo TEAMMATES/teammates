@@ -15,8 +15,7 @@ public class StudentListTeamData {
     public StudentListTeamData(TeamDetailsBundle team, Map<String, String> emailPhotoUrlMapping, String googleId,
                                String sessionToken) {
         this.teamName = team.name;
-        List<StudentListStudentData> studentsDetails =
-                                        new ArrayList<StudentListStudentData>();
+        List<StudentListStudentData> studentsDetails = new ArrayList<>();
         for (StudentAttributes student : team.students) {
             studentsDetails.add(new StudentListStudentData(googleId, student.name, student.email, student.course,
                                                            student.getStudentStatus(),

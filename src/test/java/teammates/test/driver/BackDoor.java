@@ -415,7 +415,7 @@ public final class BackDoor {
     }
 
     private static Map<String, String> createParamMap(BackDoorOperation operation) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());
 
         // For authentication
