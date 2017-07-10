@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.AdminEmail;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
 
@@ -125,6 +126,19 @@ public class AdminEmailAttributesTest extends BaseTestCase {
 
         assertEquals(SanitizationHelper.sanitizeTextField(expectedAdminEmail.subject), actualAdminEmail.subject);
         assertEquals(SanitizationHelper.sanitizeForRichText(expectedAdminEmail.content), actualAdminEmail.content);
+    }
+
+    @Test
+    public void testToEntity() {
+        AdminEmailAttributes adminEmailAttributes = createValidAdminEmailAttributesObject();
+        AdminEmail adminEmail = adminEmailAttributes.toEntity();
+
+        // AdminEmailAttributes attributes = AdminEmailAttributes.valueOf(adminEmail); // fails with a NPE for emailId
+
+        assertEquals(adminEmailAttributes.addressReceiver, adminEmail.getAddressReceiver());
+        assertEquals(adminEmailAttributes.groupReceiver, adminEmail.getGroupReceiver());
+        assertEquals(adminEmailAttributes.content, adminEmail.getContent());
+        assertEquals(adminEmailAttributes.sendDate, adminEmail.getSendDate());
     }
 
     @Test
