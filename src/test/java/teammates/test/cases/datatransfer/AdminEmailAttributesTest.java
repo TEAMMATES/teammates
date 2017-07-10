@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -28,28 +27,12 @@ public class AdminEmailAttributesTest extends BaseTestCase {
     private static final Date DEFAULT_DATE = AdminEmailAttributes.DEFAULT_DATE;
     private static final boolean DEFAULT_IS_IN_TRASH_BIN = AdminEmailAttributes.DEFAULT_IS_IN_TRASH_BIN;
     private static final String DEFAULT_EMAIL_ID = AdminEmailAttributes.DEFAULT_EMAIL_ID;
-    private String subject;
-    private List<String> addressReceiverListString;
-    private List<String> groupReceiverListFileKey;
-    private Text content;
-    private Date sendDate;
-    private Date createDate;
-    private String emailId;
-    private boolean isInTrashBin;
-
-    @BeforeClass
-    public void classSetup() {
-        subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
-        content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
-        emailId = null;
-        isInTrashBin = false;
-        sendDate = new Date();
-        createDate = new Date();
-        addressReceiverListString =
-                Arrays.asList("example1@test.com", "example2@test.com");
-        groupReceiverListFileKey =
-                Collections.singletonList(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
-    }
+    private String subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
+    private Text content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
+    private Date sendDate = new Date();
+    private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
+    private List<String> groupReceiverListFileKey =
+            Collections.singletonList(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
 
     @Test
     public void testValidate() throws Exception {
@@ -161,9 +144,9 @@ public class AdminEmailAttributesTest extends BaseTestCase {
     private AdminEmailAttributes createValidAdminEmailAttributesObject() {
         return new AdminEmailAttributesBuilder(
                 subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .withCreateDate(createDate)
-                .withEmailId(emailId)
-                .withIsInTrashBin(isInTrashBin)
+                .withCreateDate(DEFAULT_DATE)
+                .withEmailId(DEFAULT_EMAIL_ID)
+                .withIsInTrashBin(DEFAULT_IS_IN_TRASH_BIN)
                 .build();
     }
 
