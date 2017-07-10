@@ -453,12 +453,12 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
                 boolean isVisibleResponse = true;
                 boolean isNotAllowedForInstructor =
-                            instructor == null
-                            || !instructor.isAllowedForPrivilege(
-                                    response.giverSection, response.feedbackSessionName,
+                        instructor == null
+                        || !instructor.isAllowedForPrivilege(
+                                response.giverSection, response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                            || !instructor.isAllowedForPrivilege(
-                                    response.recipientSection, response.feedbackSessionName,
+                        || !instructor.isAllowedForPrivilege(
+                                response.recipientSection, response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
                 if (isNotAllowedForInstructor) {
@@ -499,23 +499,23 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
                         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
                         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
-                                                 || comment.isVisibleTo(FeedbackParticipantType.GIVER);
+                                || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
                         if (isVisibleToGiver && emailList.contains(response.giver)) {
                             continue;
                         }
 
                         boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
-                                                    ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                                    : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+                                ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                        : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
 
                         if (isVisibleToReceiver && emailList.contains(response.recipient)) {
                             continue;
                         }
 
                         boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
-                                                      ? question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                                                      : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+                                ? question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                        : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
                         if (isVisibleToInstructor) {
                             continue;

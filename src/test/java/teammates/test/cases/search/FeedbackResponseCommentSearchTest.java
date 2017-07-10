@@ -30,7 +30,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
-        ______TS("success: search for comments; no results found as instructor doesn;t have privileges");
+        ______TS("success: search for comments; no results found as instructor doesn't have privileges");
 
         instructors.add(dataBundle.instructors.get("helperOfCourse1"));
         FeedbackResponseCommentSearchResultBundle bundle = commentsDb.search("\"self-feedback\"", instructors);
