@@ -36,7 +36,7 @@ public final class HtmlHelper {
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
-    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
+    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( -+[0-9])?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
 
@@ -492,7 +492,7 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now, 8));
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now, 0));
     }
 
 }

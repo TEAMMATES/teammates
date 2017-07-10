@@ -224,6 +224,16 @@ public class TimeHelperTest extends BaseTestCase {
         cal.set(2015, 10, 30, 4, 0, 0);
         date = cal.getTime();
         assertEquals("Mon, 30 Nov 2015, 04:00 PM +1200", TimeHelper.formatDateTimeForComments(date, 12));
+
+        cal.clear();
+        cal.set(2015, 10, 30, 16, 0, 0);
+        date = cal.getTime();
+        assertEquals("Mon, 30 Nov 2015, 12:00 -0400 NOON", TimeHelper.formatDateTimeForComments(date, -4));
+
+        cal.clear();
+        cal.set(2015, 10, 30, 16, 0, 0);
+        date = cal.getTime();
+        assertEquals("Mon, 30 Nov 2015, 11:45 AM -0415", TimeHelper.formatDateTimeForComments(date, -4.25));
     }
 
 }
