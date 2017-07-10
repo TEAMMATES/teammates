@@ -443,6 +443,11 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
+                      <td class="button-sort-none toggle-sort" id="button_sortname" style="width:10%;">
+                        Self Rank
+                        <span class="icon-sort unsorted">
+                        </span>
+                      </td>
                       <td class="button-sort-none toggle-sort" id="button_sortclaimed" style="width:15%;">
                         Average Rank
                         <span class="icon-sort unsorted">
@@ -470,6 +475,9 @@
                         1
                       </td>
                       <td>
+                        1
+                      </td>
+                      <td>
                         -
                       </td>
                     </tr>
@@ -481,10 +489,33 @@
                         Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                       </td>
                       <td>
-                        1 , 2
+                        1 , 1 , 3
+                      </td>
+                      <td>
+                        1
+                      </td>
+                      <td>
+                        1.67
                       </td>
                       <td>
                         1.5
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Team 2
+                      </td>
+                      <td>
+                        Charlie Davis
+                      </td>
+                      <td>
+                        1 , 2 , 2
+                      </td>
+                      <td>
+                        2
+                      </td>
+                      <td>
+                        1.67
                       </td>
                       <td>
                         1
@@ -565,6 +596,38 @@
                   </form>
                 </td>
               </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                    Charlie Davis
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  2
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                    <input name="fsname" type="hidden" value="Student Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
               <tr class="pending_response_row">
                 <td class="word-wrap-break middlealign color_neutral">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
@@ -642,6 +705,38 @@
                   </div>
                 </td>
                 <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                    Charlie Davis
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  1
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                    <input name="fsname" type="hidden" value="Student Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="benny.c.tmms@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                    Benny Charles
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break middlealign">
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                 </td>
                 <td class="word-wrap-break middlealign">
@@ -663,29 +758,59 @@
                   </form>
                 </td>
               </tr>
-              <tr class="pending_response_row">
-                <td class="word-wrap-break middlealign color_neutral">
+              <tr>
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="word-wrap-break middlealign color_neutral">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
                     Charlie Davis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="word-wrap-break middlealign color_neutral">
+                <td class="word-wrap-break middlealign">
+                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  2
+                </td>
+                <td>
+                  <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                    <input name="fsname" type="hidden" value="Student Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="charlie.d.tmms@gmail.tmt">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td class="word-wrap-break middlealign">
                   Team 2
                 </td>
-                <td class="word-wrap-break middlealign color_neutral">
+                <td class="word-wrap-break middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
                     Charlie Davis
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
-                <td class="word-wrap-break text-preserve-space color_neutral">
-                  <i>
-                    No Response
-                  </i>
+                <td class="word-wrap-break middlealign">
+                  Team 2
+                </td>
+                <td class="word-wrap-break middlealign">
+                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                    Charlie Davis
+                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+                  </div>
+                </td>
+                <td class="word-wrap-break text-preserve-space">
+                  3
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
