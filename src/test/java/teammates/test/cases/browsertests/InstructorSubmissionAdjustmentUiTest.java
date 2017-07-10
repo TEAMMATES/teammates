@@ -39,7 +39,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         removeAndRestoreDataBundle(testData);
     }
 
-    @Test
+   
     public void testAdjustmentOfSubsmissions() {
 
         //load the enrollPage
