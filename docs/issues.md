@@ -69,7 +69,7 @@ This label classifies the issue based on the **non-functional aspect** it tackle
 * `a-Process`: workflow management, release management
 * `a-Scalability`: related to behavior at increasing loads
 * `a-Security`: protection from security threats
-* `a-Storage`: database store, GAE datastore
+* `a-Storage`: database schema, GAE datastore
 * `a-Testing`: testing-related traits such as efficiency, robustness, and coverage
 * `a-UIX`: User Interface, User eXperience, responsiveness
 * No `a-*` label: no specific aspect tackled, usually the case for enhancements or new features
