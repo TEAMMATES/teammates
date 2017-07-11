@@ -395,32 +395,49 @@ function isQuestionHavingResponses(questionNum) {
     return EDIT_STATUS === 'hasResponses' || EDIT_STATUS === 'mustDeleteResponses';
 }
 
+function getDestructiveFields(questionNum) {
+    return $(`#form_editquestion-${questionNum}`)
+             .find(':input:enabled')
+             .not('button')
+             .not('.nonDestructive')
+             .not('.visibilityCheckbox')
+             .clone();
+}
+
 /**
  * Checks if any changes were made to the destructive fields.
  * Returns true if changes were made, else false.
  * @param questionNum
  */
 function isDestructiveFieldsModifed(questionNum) {
-    const $curr = $(`#form_editquestion-${questionNum}`).find(':input').not('.nonDestructive').not('.visibilityCheckbox');
+    const $curr = getDestructiveFields(questionNum);
     const $prev = destructiveFieldsBackup[questionNum];
 
-    console.log($prev);
-    console.log($curr);
     if ($curr.length !== $prev.length) {
-        console.log('Prev len = ' + $prev.length + ', html = ' + $prev.html());
-        console.log('Curr len = ' + $curr.length + ', html = ' + $curr.html());
+        console.log('prev.length = ' + $prev.length + ', curr.length = ' + $curr.length);
+        console.log('prev');
+        
+        for (let i = 0; i < $prev.length; i += 1) {
+            console.log($prev.get(i));
+        }
+        
+        console.log('curr');
+        
+        for (let i = 0; i < $curr.length; i += 1) {
+            console.log($curr.get(i));
+        }
+        
         return true;
     }
 
     const LENGTH = $prev.length;
 
     for (let i = 0; i < LENGTH; i += 1) {
-        let prevVal = $($prev.get(i)).val();
-        let currVal = $($curr.get(i)).val();
+        const prevVal = $($prev.get(i)).val();
+        const currVal = $($curr.get(i)).val();
 
         if (prevVal !== currVal) {
-            console.log('Prev val = ' + prevVal + ', html = ' + $prev.get(i));
-            console.log('Curr val = ' + currVal + ', html = ' + $curr.get(i));
+            console.log('prev = ' + prevVal + ', curr = ' + currVal);
             return true;
         }
     }
@@ -431,11 +448,9 @@ function isDestructiveFieldsModifed(questionNum) {
 function correctEditStatusIfRequired($form) {
     const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
 
-    console.log(`questionNum = ${questionNum}`);
     if (!isQuestionHavingResponses(questionNum)) {
         // if question does not even have
         // existing responses, do nothing
-        console.log('question doesnt have responses');
         return;
     }
 
@@ -451,8 +466,7 @@ function correctEditStatusIfRequired($form) {
  * @param questionNum
  */
 function backupDestructiveFields(questionNum) {
-    destructiveFieldsBackup[questionNum] = destructiveFieldsBackup[questionNum]
-            || $(`#form_editquestion-${questionNum}`).find(':input').not('.nonDestructive').not('.visibilityCheckbox');
+    destructiveFieldsBackup[questionNum] = destructiveFieldsBackup[questionNum] || getDestructiveFields(questionNum);
 }
 
 /**
@@ -892,21 +906,6 @@ function copyOptions(newType) {
 }
 
 /**
- * Sets the correct initial question number from the value field
- */
-function formatQuestionNumbers() {
-    const $questions = $('.questionTable');
-
-    $questions.each(function (index) {
-        const $selector = $(this).find('.questionNumber');
-        $selector.val(index + 1);
-        if (index !== $questions.size() - 1) {
-            $selector.prop('disabled', true);
-        }
-    });
-}
-
-/**
  * Adds event handler to load 'copy question' modal contents by ajax.
  */
 function setupQuestionCopyModal() {
@@ -1110,22 +1109,31 @@ function readyFeedbackEditPage() {
 
         if (!readyForSubmission) {
             // validation failed
+            console.log('validation failed');
             removeLoadingIndicator($saveQuestionBtn, 'Save Question');
             return;
         }
 
+        console.log('validation passed');
         correctEditStatusIfRequired($form);
+        console.log('edit status corrected');
         prepareDescription($form);
+        console.log('descrp prepared');
 
         // destructive edits performed, warn user that responses must be deleted
         if ($form.attr('editStatus') === 'mustDeleteResponses') {
-            //event.preventDefault();
             const okCallback = function () {
                 $form.submit();
             };
-            showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
+
+            const cancelCallback = function () {
+                removeLoadingIndicator($saveQuestionBtn, 'Save Question');
+            };
+
+            showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, cancelCallback,
                     null, null, StatusType.DANGER);
         } else {
+            console.log('submitting form');
             $form.submit();
         }
     };
@@ -1166,7 +1174,6 @@ function readyFeedbackEditPage() {
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
     formatCheckBoxes();
-    formatQuestionNumbers();
     collapseIfPrivateSession();
 
     setupFsCopyModal();
