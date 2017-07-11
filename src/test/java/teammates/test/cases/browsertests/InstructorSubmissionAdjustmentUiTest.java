@@ -38,9 +38,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
 
         removeAndRestoreDataBundle(testData);
     }
+    
     @Test
     public void testAdjustmentOfSubmission() throws MaximumRetriesExceededException {
-
 
         //load the enrollPage
         loadEnrollmentPage();
