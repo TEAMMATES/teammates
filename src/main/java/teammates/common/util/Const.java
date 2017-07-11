@@ -1474,8 +1474,6 @@ public final class Const {
                 + "Enrollment for Course <span class=\"bold\">[%s]</span>";
         public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your error report has been recorded. "
                 + "We will follow up with you in due course, usually, within 24 hours.";
-        public static final String ERROR_FEEDBACK_SUBMIT_FAILED = "Failed to record "
-                + "the error message. Please email our support team at teammates@comp.nus.edu.sg";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
