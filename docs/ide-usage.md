@@ -64,7 +64,8 @@ The following plugins are needed:
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     <br>You can find the Web and XML options in `Eclipse → Preferences → ...`.
+     
+     You can find the Web and XML options in `Eclipse → Preferences → ...`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
