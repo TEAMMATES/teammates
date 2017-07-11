@@ -178,6 +178,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
         // TODO: to implement a more sophisticated method to wait for the persistence of data
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        testEditSessionLink();
 
         // test expanded uncommon settings section
         feedbackEditPage.reloadPage();
