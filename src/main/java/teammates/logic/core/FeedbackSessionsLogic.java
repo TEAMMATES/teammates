@@ -942,7 +942,8 @@ public final class FeedbackSessionsLogic {
     }
 
     private int getMaxNumberOfResponseComments(List<FeedbackResponseAttributes> allResponses,
-                                               Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
+
         if (allResponses == null || allResponses.isEmpty()) {
             return 0;
         }
