@@ -160,10 +160,9 @@
       "Burnaby North Secondary School",
       "Capilano University",
       "Carleton University",
-      "Cegep de Bois-de-Boulogne",
       "Chetwynd Secondary School",
       "Collège Ahuntsic",
-      "College de Bois-de-Boulogne",
+      "Collège de Bois-de-Boulogne",
       "Collège Regina Assumpta",
       "Concordia University",
       "Conestoga College",
@@ -205,7 +204,7 @@
       "Simon Fraser University",
       "Southern Alberta Institute of Technology",
       "St. Andrew's College",
-      "St. Barbara Catholic Elementary School",
+      "St. Barbara Catholic Elementary",
       "St. David Catholic Elementary",
       "St. George's School",
       "St. Lawrence College",
@@ -295,7 +294,7 @@
     "Estonia": [
       "Oneself Limited",
       "University of Tartu",
-      "Tartu University Pärnu college"
+      "Tartu University Pärnu College"
     ],
     "Faroe Islands": [
       "University of the Faroe Islands"
@@ -344,7 +343,6 @@
       "SHIFTSCHOOL",
       "Technical University of Munich ",
       "TU Dresden",
-      "TU Munich",
       "Uni Hamburg",
       "Universität Augsburg",
       "Universität der Bundeswehr München",
@@ -680,7 +678,7 @@
       "Escola Profissional de Almada",
       "Faculdade de Engenharia da Universidade do Porto",
       "Musaic",
-      "School of education Porto",
+      "School of Education Porto",
       "Universidade do Minho"
     ],
     "Puerto Rico": [
@@ -747,8 +745,7 @@
       "Rosyth School",
       "Sengkang Secondary School",
       "Serangoon Junior College",
-      "SHATEC Institutes",
-      "SHATEC Pte Ltd",
+      "SHATEC Institutes Pte Ltd",
       "Silicon Straits",
       "Singapore Chinese Girls' School",
       "Singapore Institute of Technology",
@@ -1364,7 +1361,6 @@
       "Northwood University",
       "Norwich Technical High School",
       "Nyack High School",
-      "NYU Stern",
       "Oakton Community College",
       "Oberlin College",
       "Occidental College",
@@ -1532,7 +1528,6 @@
       "UNC Pembroke",
       "Union Mine High School",
       "United States Military Academy Preparatory School",
-      "University at Albany, SUNY",
       "Univeristy of North Georgia",
       "University at Albany, SUNY",
       "University at Buffalo",
