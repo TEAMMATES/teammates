@@ -237,7 +237,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // load single test data for all tests with maximum number of students and questions
         loadTestData(studentNumsMax, questionNumsMax);
-        
+
         // verify if test data already exists on datastore or persisting if absent
         verifyOrPersistTestDataToDatastore(testDataMax);
 
