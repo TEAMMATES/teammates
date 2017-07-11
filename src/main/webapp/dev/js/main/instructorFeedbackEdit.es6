@@ -1122,14 +1122,6 @@ $(document).ready(() => {
 
     prepareDatepickers();
 
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-        });
-        /* eslint-enable camelcase */
-    }
-
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
     bindParticipantSelectChangeEvents();
