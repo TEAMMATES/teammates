@@ -9,7 +9,7 @@ function addRankOption(questionNum) {
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
     $(`
-    <div id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+    <div id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}" class="margin-bottom-7px">
         <div class="input-group">
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
