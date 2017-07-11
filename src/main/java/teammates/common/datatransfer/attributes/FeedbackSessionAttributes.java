@@ -684,4 +684,19 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
     }
+
+    public String getTimeZoneString() {
+        StringBuffer timeZoneString = new StringBuffer("(UTC");
+        if (timeZone == 0.0) {
+            timeZoneString.append(')');
+            return timeZoneString.toString();
+        }
+        timeZoneString.append(timeZone < 0 ? " " : " +");
+        int hours = (int) timeZone;
+        double minutesInDecimal = timeZone - hours;
+        timeZoneString.append(hours);
+        timeZoneString.append(minutesInDecimal == 0.5 ? ":30" : ":00");
+        timeZoneString.append(')');
+        return timeZoneString.toString();
+    }
 }
