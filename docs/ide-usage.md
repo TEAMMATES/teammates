@@ -43,7 +43,7 @@ The following plugins are needed:
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
 
-1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`):
+1. Configure the following project-specific settings (all can be found in `Project → Properties → ...` except for HTML, CSS and XML settings which can be found at 'Eclipse -> Preferences'):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
      ![setupguide-4.png](images/setupguide-4.png)
@@ -64,9 +64,11 @@ The following plugins are needed:
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     * HTML: `Eclipse → Preferences → Web → HTML Files → Editor → Indent using spaces`.
-     * CSS: `Eclipse → Preferences → Web → CSS Files → Editor → Indent using spaces`.
-     * XML: `Eclipse → Preferences → XML → XML Files → Editor → Indent using spaces`.
+     
+     You can find Web and XML options in `Eclipse → Preferences`
+     * HTML: `Web → HTML Files → Editor → Indent using spaces`.
+     * CSS: `Web → CSS Files → Editor → Indent using spaces`.
+     * XML: `XML → XML Files → Editor → Indent using spaces`.
    * Validation:
      * We do not validate HTML, JSP, and XML. `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
      * Disable JavaScript validation for `node_modules` folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
