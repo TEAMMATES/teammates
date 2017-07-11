@@ -43,7 +43,7 @@ The following plugins are needed:
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
 
-1. Configure the following project-specific settings (all can be found in `Project → Properties → ...` except for HTML, CSS and XML settings which can be found at 'Eclipse -> Preferences'):
+1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for HTML, CSS and XML settings which can be found at `Eclipse -> Preferences`):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
      ![setupguide-4.png](images/setupguide-4.png)
@@ -65,7 +65,7 @@ The following plugins are needed:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      
-     You can find Web and XML options in `Eclipse → Preferences`
+     You can find the Web and XML options in `Eclipse → Preferences`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
