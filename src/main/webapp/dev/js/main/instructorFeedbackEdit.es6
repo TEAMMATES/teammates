@@ -609,6 +609,8 @@ function restoreOriginal(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
         $(`#button_question_submit-${questionNum}`).hide();
+        $(`#questionnum-${questionNum}`).val(questionNum);
+        $(`#questionnum-${questionNum}`).prop('disabled', true);
     }
 
     // re-attach events for form elements
@@ -1067,12 +1069,13 @@ function readyFeedbackEditPage() {
     });
 
     // Bind destructive changes
-    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function () {
-        const editStatus = $(this).parents('form').attr('editStatus');
-        if (editStatus === 'hasResponses') {
-            $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
-        }
-    });
+    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').not('.visibilityCheckbox')
+            .change(function () {
+                const editStatus = $(this).parents('form').attr('editStatus');
+                if (editStatus === 'hasResponses') {
+                    $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
+                }
+            });
 
     $('#add-new-question-dropdown > li').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
