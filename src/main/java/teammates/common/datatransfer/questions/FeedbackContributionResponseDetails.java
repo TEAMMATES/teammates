@@ -56,7 +56,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 
@@ -190,7 +190,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             contribQnStats = fqcd.getStudentResults(feedbackSessionResultsBundle, question);
 
             //Convert email to anonEmail and add stats.
-            Map<String, StudentResultSummary> anonContribQnStats = new HashMap<String, StudentResultSummary>();
+            Map<String, StudentResultSummary> anonContribQnStats = new HashMap<>();
             for (Map.Entry<String, StudentResultSummary> entry : contribQnStats.entrySet()) {
                 anonContribQnStats.put(
                         feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());

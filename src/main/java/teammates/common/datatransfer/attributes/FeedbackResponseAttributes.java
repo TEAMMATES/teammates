@@ -16,7 +16,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
-public class FeedbackResponseAttributes extends EntityAttributes {
+public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
@@ -51,15 +51,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
     public FeedbackResponseAttributes(String feedbackSessionName,
             String courseId, String feedbackQuestionId,
-            FeedbackQuestionType feedbackQuestionType, String giverEmail, String giverSection,
-            String recipientEmail, String recipientSection, Text responseMetaData) {
+            FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
+            String recipient, String recipientSection, Text responseMetaData) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
-        this.giver = giverEmail;
+        this.giver = giver;
         this.giverSection = giverSection;
-        this.recipient = recipientEmail;
+        this.recipient = recipient;
         this.recipientSection = recipientSection;
         this.responseMetaData = responseMetaData;
     }
@@ -114,7 +114,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
@@ -156,7 +156,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 + feedbackSessionName + ", courseId=" + courseId
                 + ", feedbackQuestionId=" + feedbackQuestionId
                 + ", feedbackQuestionType=" + feedbackQuestionType
-                + ", giverEmail=" + giver + ", recipientEmail=" + recipient
+                + ", giver=" + giver + ", recipient=" + recipient
                 + ", answer=" + responseMetaData + "]";
     }
 

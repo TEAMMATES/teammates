@@ -34,7 +34,7 @@ public class AdminEmailLogPageAction extends Action {
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"),
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, sessionToken, getRequestParamValue("filterQuery"),
                                                                getRequestParamAsBoolean("all"));
 
         if (data.getFilterQuery() == null) {
@@ -92,8 +92,8 @@ public class AdminEmailLogPageAction extends Action {
 
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                 + totalLogsSearched + "<br>"
-                + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                + nextEndTimeToSearch + "');\">Search More</button>";
+                + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
@@ -102,7 +102,7 @@ public class AdminEmailLogPageAction extends Action {
      * Searches enough email logs within MAX_SEARCH_PERIOD hours.
      */
     private void searchEmailLogsWithTimeIncrement(AdminEmailLogPageData data) {
-        List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
+        List<EmailLogEntry> emailLogs = new LinkedList<>();
         List<String> versionToQuery = getVersionsForQuery(data.getVersions());
         AdminLogQuery query = new AdminLogQuery(versionToQuery, null, data.getToDate());
 
@@ -129,15 +129,15 @@ public class AdminEmailLogPageAction extends Action {
         long nextEndTimeToSearch = query.getEndTime();
         String status = "&nbsp;&nbsp;Total Logs gone through in last search: "
                       + totalLogsSearched + "<br>"
-                      + "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
-                      + nextEndTimeToSearch + "');\">Search More</button>";
+                      + "<button class=\"btn-link\" id=\"button_older\" data-next-end-time-to-search=\""
+                      + nextEndTimeToSearch + "\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
 
     private List<EmailLogEntry> filterLogsForEmailLogPage(List<AppLogLine> appLogLines,
                                                           AdminEmailLogPageData data) {
-        List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
+        List<EmailLogEntry> emailLogs = new LinkedList<>();
 
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();

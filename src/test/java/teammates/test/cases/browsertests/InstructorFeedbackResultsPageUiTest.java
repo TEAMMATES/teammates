@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
@@ -46,12 +45,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testFrontEndActions() throws Exception {
-        testDefaultSort();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
         testShowStats();
-        testSearchScript();
+        testRemindAllAction();
     }
 
     @Test
@@ -383,7 +381,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewGiverPhotoOnTableCell(
                 0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by question for helper 1");
 
@@ -414,7 +412,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by giver > question > recipient");
 
@@ -428,7 +426,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink("1-2", "profile_picture_default.png");
+        resultsPage.clickViewPhotoLink("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
 
@@ -458,7 +456,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", "profile_picture_default.png");
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
     }
 
     private void testFilterAction() throws Exception {
@@ -511,19 +509,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: panels expand/collapse");
 
-        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
         clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsVisible();
 
         clickCollapseExpandButtonAndWaitForPanelsToCollapse();
-        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
@@ -547,6 +545,29 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
+    private void testRemindAllAction() {
+
+        ______TS("Typical case: remind all: click on cancel");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
+        resultsPage.cancelRemindAllForm();
+
+        ______TS("Typical case: remind all: click on remind with no students selected");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
+        resultsPage.deselectUsersInRemindAllForm();
+        resultsPage.clickRemindButtonInModal();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+
+        ______TS("Typical case: remind all: click on remind with students selected");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
+        resultsPage.clickRemindButtonInModal();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+    }
+
     @Test
     public void testIndicateMissingResponses() {
 
@@ -566,38 +587,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
     }
 
-    private void testSearchScript() throws Exception {
-
-        ______TS("Typical case: test search/filter script");
-
-        resultsPage.fillSearchBox("question 1");
-        ThreadHelper.waitFor(1000);
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
-
-        ______TS("Verify that search works on RGQ view");
-        resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.clickGroupByTeam();
-        clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        resultsPage.fillSearchBox("team 2");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRGQSearch.html");
-
-        resultsPage.fillSearchBox("alice");
-        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
-
-        resultsPage.fillSearchBox("Alice");
-        resultsPage.verifyPanelForParticipantIsDisplayed("CFResultsUiT.alice.b@gmail.tmt");
-
-        resultsPage.displayByQuestion();
-    }
-
-    private void testDefaultSort() throws Exception {
-
-        ______TS("Typical case: test default sort Team Name-->Giver display name");
-
-        resultsPage.fillSearchBox("default sort");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
-    }
-
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
     private void testFeedbackResponseCommentActions() throws Exception {
 
@@ -615,9 +604,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "Teammates Test");
         resultsPage.verifyContainsElement(By.id("frComment-visibility-options-trigger-0-1-0-1-1"));
-        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyContainsElement(By.id("visibility-options-0-1-0-1-2"));
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
@@ -625,17 +614,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "Teammates Test");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "Teammates Test");
 
         ______TS("Typical case: edit existing feedback response comment");
 
         resultsPage.editFeedbackResponseComment("-1-1-1-1-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
 
         ______TS("Typical case: delete existing feedback response comment");
 
@@ -645,17 +634,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "Teammates Test");
 
         resultsPage.editFeedbackResponseComment("-0-1-0-1-3", "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-0-1-3", "edited successive action comment",
-                "CFResultsUiT.instr@gmail.tmt");
+                "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
         resultsPage.deleteFeedbackResponseComment("-0-1-0-1-3");
@@ -664,7 +653,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }

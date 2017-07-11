@@ -19,16 +19,24 @@
       </div>
       <div class="col-sm-5 mobile-margin-top-10px">
         <span class="mobile-no-pull pull-right">
-          <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,2)" style="display: none;" title="">
+          <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questionedittext-1" style="display: none;" title="">
+            <span class="glyphicon glyphicon-pencil">
+            </span>
             Edit
           </a>
           <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="">
-            Save Changes
+            <span class="glyphicon glyphicon-ok">
+            </span>
+            Save
           </a>
-          <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="" title="">
-            Discard Changes
+          <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questiondiscardchanges-1" style="" title="">
+            <span class="glyphicon glyphicon-ban-circle">
+            </span>
+            Discard
           </a>
-          <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
+          <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="1" data-toggle="tooltip" title="">
+            <span class=" glyphicon glyphicon-trash">
+            </span>
             Delete
           </a>
         </span>
@@ -58,8 +66,6 @@
           </label>
         </h5>
         <div class="col-sm-10">
-          <div id="rich-text-toolbar-q-descr-container-1">
-          </div>
           <div class="panel panel-default panel-body question-description content-editor mce-content-body" contenteditable="true" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-1" spellcheck="false" style="position: relative;" tabindex="9" title="">
             <p>
               more details
@@ -117,13 +123,13 @@
       </div>
     </div>
     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-      <div class="col-sm-12 padding-0 margin-bottom-7px">
+      <div class="margin-bottom-7px">
         <b class="feedback-path-title">
           Feedback Path
         </b>
         (Who is giving feedback about whom?)
       </div>
-      <div class="feedback-path-dropdown col-sm-12 btn-group">
+      <div class="feedback-path-dropdown btn-group">
         <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
           Feedback session creator (i.e., me) will give feedback on
           <span class="glyphicon glyphicon-arrow-right">
@@ -138,7 +144,7 @@
             <a>
               Feedback session creator (i.e., me) will give feedback on...
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
               <li>
                 <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                   Nobody specific (For general class feedback)
@@ -156,7 +162,7 @@
             <a>
               Students in this course will give feedback on...
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
               <li>
                 <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                   Nobody specific (For general class feedback)
@@ -180,7 +186,7 @@
             <a>
               Instructors in this course will give feedback on...
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
               <li>
                 <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                   Nobody specific (For general class feedback)
@@ -209,7 +215,7 @@
             Who will give the feedback:
           </label>
           <div class="col-sm-8 col-lg-7">
-            <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+            <select class="form-control participantSelect" id="givertype-1" name="givertype">
               <option selected="" value="SELF">
                 Feedback session creator (i.e., me)
               </option>
@@ -230,7 +236,7 @@
             Who the feedback is about:
           </label>
           <div class="col-sm-8 col-lg-7">
-            <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+            <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype">
               <option selected="" value="SELF">
                 Giver (Self feedback)
               </option>
@@ -282,13 +288,13 @@
     </div>
     <br>
     <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-      <div class="col-sm-12 padding-0 margin-bottom-7px">
+      <div class="margin-bottom-7px">
         <b class="visibility-title">
           Visibility
         </b>
         (Who can see the responses?)
       </div>
-      <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+      <div class="visibility-options-dropdown btn-group margin-bottom-10px">
         <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
           Visible to recipient and instructors
         </button>
@@ -330,7 +336,7 @@
           </li>
         </ul>
       </div>
-      <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-1" style="display:none;">
+      <div class="visibilityOptions overflow-hidden" id="visibilityOptions-1" style="display:none;">
         <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
           <tbody>
             <tr>
@@ -430,7 +436,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-1">
+      <div class="visibilityMessage overflow-hidden" id="visibilityMessage-1">
         This is the visibility hint as seen by the feedback giver:
         <ul class="text-muted background-color-warning">
           <li>

@@ -1,17 +1,17 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.listener.StoreCallback;
-
 import com.google.appengine.api.datastore.Text;
+
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -20,38 +20,28 @@ import teammates.common.util.Const;
 /**
  * Represents a feedback question.
  */
-@PersistenceCapable
-public class FeedbackQuestion extends Entity implements StoreCallback {
+@Entity
+@Index
+public class FeedbackQuestion extends BaseEntity {
 
-    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes.
-
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackQuestion.class);
+    // TODO: where applicable, we should specify fields as @Unindex to prevent GAE from building unnecessary indexes.
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
      * the lastUpdate time stamp.
      **/
-    @NotPersistent
+    @Ignore
     public boolean keepUpdateTimestamp;
 
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private transient String feedbackQuestionId;
+    @Id
+    private Long feedbackQuestionId;
 
-    @Persistent
     private String feedbackSessionName;
 
-    @Persistent
     private String courseId;
 
     // TODO: Do we need this field since creator of FS = creator of qn? (can be removed -damith)
-    @Persistent
     private String creatorEmail;
 
     // TODO: rename to questionMetaData, will require database conversion
@@ -59,38 +49,31 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
 
     private Text questionDescription;
 
-    @Persistent
     private int questionNumber;
 
-    @Persistent
     private FeedbackQuestionType questionType;
 
-    @Persistent
     private FeedbackParticipantType giverType;
 
-    @Persistent
     private FeedbackParticipantType recipientType;
 
     // Check for consistency in questionLogic/questionAttributes.
     // (i.e. if type is own team, numberOfEntities must = 1).
-    @Persistent
     private int numberOfEntitiesToGiveFeedbackTo;
 
-    // We can actually query the list in JDOQL if needed.
-    @Persistent
-    private List<FeedbackParticipantType> showResponsesTo;
+    private List<FeedbackParticipantType> showResponsesTo = new ArrayList<>();
 
-    @Persistent
-    private List<FeedbackParticipantType> showGiverNameTo;
+    private List<FeedbackParticipantType> showGiverNameTo = new ArrayList<>();
 
-    @Persistent
-    private List<FeedbackParticipantType> showRecipientNameTo;
+    private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<>();
 
-    @Persistent
     private Date createdAt;
 
-    @Persistent
     private Date updatedAt;
+
+    @SuppressWarnings("unused") // required by Objectify
+    private FeedbackQuestion() {
+    }
 
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
@@ -113,9 +96,10 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
         this.giverType = giverType;
         this.recipientType = recipientType;
         this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
-        this.showResponsesTo = showResponsesTo;
-        this.showGiverNameTo = showGiverNameTo;
-        this.showRecipientNameTo = showRecipientNameTo;
+        this.showResponsesTo = showResponsesTo == null ? new ArrayList<FeedbackParticipantType>() : showResponsesTo;
+        this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
+        this.showRecipientNameTo =
+                showRecipientNameTo == null ? new ArrayList<FeedbackParticipantType>() : showRecipientNameTo;
         this.setCreatedAt(new Date());
     }
 
@@ -139,13 +123,8 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
     }
 
     public String getId() {
-        return feedbackQuestionId;
+        return Key.create(FeedbackQuestion.class, feedbackQuestionId).toWebSafeString();
     }
-
-    /* Auto generated. Don't set this.
-    public void setFeedbackQuestionId(String feedbackQuestionId) {
-        this.feedbackQuestionId = feedbackQuestionId;
-    }*/
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
@@ -253,11 +232,8 @@ public class FeedbackQuestion extends Entity implements StoreCallback {
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
-    /**
-     * Called by jdo before storing takes place.
-     */
-    @Override
-    public void jdoPreStore() {
+    @OnSave
+    public void updateLastUpdateTimestamp() {
         this.setLastUpdate(new Date());
     }
 }

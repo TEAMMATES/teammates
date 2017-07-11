@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     version="2.5">
-    
+
     <!-- This jsp-config element tag must be put above other tags or else it might cause all error pages to be non-accessible -->
     <jsp-config>
         <jsp-property-group>
@@ -12,23 +12,31 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
-    
+
     <filter>
-        <filter-name>appstats</filter-name>
-        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>appstats</filter-name>
-        <url-pattern>/page/*</url-pattern>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <listener>
+        <listener-class>teammates.storage.api.OfyHelper</listener-class>
+    </listener>
+
     <filter>
         <filter-name>appstats</filter-name>
-        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+        <filter-class>teammates.ui.controller.AppstatsFilter</filter-class>
         <init-param>
             <param-name>calculateRpcCosts</param-name>
             <param-value>true</param-value>
         </init-param>
     </filter>
+    <filter-mapping>
+        <filter-name>appstats</filter-name>
+        <url-pattern>/page/*</url-pattern>
+    </filter-mapping>
 
     <servlet>
         <servlet-name>appstats</servlet-name>
@@ -77,7 +85,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>BackDoorServlet</servlet-name>
         <servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
@@ -86,11 +94,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>BackDoorServlet</servlet-name>
         <url-pattern>/backdoor</url-pattern>
     </servlet-mapping>
-    
+
+    <!-- Workaround for serving index.jsp as the home page while avoiding the GAE infinite redirect issue for 404s -->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
-    
+    <servlet>
+        <servlet-name>HomePageServlet</servlet-name>
+        <jsp-file>/index.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomePageServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>EntityModifiedLogs</servlet-name>
         <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
@@ -99,11 +116,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>EntityModifiedLogs</servlet-name>
         <url-pattern>/entityModifiedLogs</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
@@ -113,7 +131,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <description>Servlet that handles all automated requests, e.g cron jobs and task queues</description>
         <servlet-name>AutomatedServlet</servlet-name>
@@ -124,18 +142,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>PublicImageServlet</servlet-name>
         <servlet-class>teammates.ui.controller.PublicImageServlet</servlet-class>
     </servlet>
-    
+
      <servlet-mapping>
         <servlet-name>PublicImageServlet</servlet-name>
         <url-pattern>/public/publicEmailImageServe</url-pattern>
         <url-pattern>/public/publicImageServe</url-pattern>
     </servlet-mapping>
-    
+
     <security-constraint>
       <web-resource-collection>
           <web-resource-name>AllPage</web-resource-name>
@@ -190,13 +208,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <web-resource-collection>
             <web-resource-name>TestPages</web-resource-name>
             <description>Page for testing use only</description>
-            <url-pattern>/dev/*</url-pattern>
+            <url-pattern>/test/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>PartialPages</web-resource-name>
+            <description>Partial pages should not be accessed</description>
+            <url-pattern>/partials/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
     <error-page>

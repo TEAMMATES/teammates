@@ -34,7 +34,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 
-        Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
+        Map<String, Boolean> questionHasResponses = new HashMap<>();
 
         for (FeedbackQuestionAttributes question : questions) {
             boolean hasResponse = logic.areThereResponsesForQuestion(question.getId());
@@ -67,7 +67,7 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
 
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
+        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
         data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);

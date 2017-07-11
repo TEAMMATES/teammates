@@ -24,7 +24,7 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
 
         List<CourseAttributes> allCourses = logic.getCoursesForInstructor(account.googleId);
 
-        List<CourseAttributes> coursesToAddToData = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> coursesToAddToData = new ArrayList<>();
 
         // Only add courses to data if the course is not archived and instructor has sufficient permissions
         for (CourseAttributes course : allCourses) {
@@ -40,8 +40,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
 
         CourseAttributes.sortByCreatedDate(coursesToAddToData);
 
-        InstructorFeedbackEditCopyPageData data =
-                new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, feedbackSessionName);
+        InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account, sessionToken,
+                coursesToAddToData, courseId, feedbackSessionName);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_COPY_MODAL, data);
     }

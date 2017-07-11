@@ -7,36 +7,37 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/email/log" prefix="adminEmailLog" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
-    <script type="text/javascript" src="/js/administrator.js"></script>
-    <script type="text/javascript" src="/js/adminEmailLog.js"></script>
+  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_HIGHLIGHT %>"></script>
+  <script type="text/javascript" src="/js/adminEmailLog.js"></script>
 </c:set>
 
 <ta:adminPage bodyTitle="Admin Email Log" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
-    <adminEmailLog:filterPanel filterQuery="${data.filterQuery}" queryKeywordsForReceiver="${data.queryKeywordsForReceiver}"
-                               queryKeywordsForSubject="${data.queryKeywordsForSubject}" queryKeywordsForContent="${data.queryKeywordsForContent}"/>
-    
-    <%-- this form is used to store parameters for ajaxloader only --%>
-    <form id="ajaxLoaderDataForm">
-        <input type="hidden" name="offset" value="">
-        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
-             in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-             logs despite any action or change in the page unless the page is reloaded with "?all=false" 
-             or simply reloaded with this parameter omitted. --%>
-        
-        <input type="hidden" id="filterQuery" name="filterQuery" value="${data.filterQuery}">
-    </form>
-    
-    <c:if test="${not empty data.queryMessage}">
-        <div class="alert alert-danger" id="queryMessage">
-            <span class="glyphicon glyphicon-warning-sign"></span>
-            <c:out value=" ${data.queryMessage}"/>
-        </div>
-    </c:if>
+  <adminEmailLog:filterPanel filterQuery="${data.filterQuery}" queryKeywordsForReceiver="${data.queryKeywordsForReceiver}"
+      queryKeywordsForSubject="${data.queryKeywordsForSubject}" queryKeywordsForContent="${data.queryKeywordsForContent}"/>
 
-    <br>
-    <br>
-    
-    <adminEmailLog:emailLogTable logs="${data.logs}"/>                       
-    <t:statusMessage doNotFocusToStatus="${true}" statusMessagesToUser="${data.statusMessagesToUser}" />
+  <%-- this form is used to store parameters for ajaxloader only --%>
+  <form id="ajaxLoaderDataForm">
+    <input type="hidden" name="offset" value="">
+    <%--
+      - This parameter determines whether the logs with requests contained in "excludedLogRequestURIs"
+      - in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+      - logs despite any action or change in the page unless the page is reloaded with "?all=false"
+      - or simply reloaded with this parameter omitted.
+      --%>
+
+    <input type="hidden" id="filterQuery" name="filterQuery" value="${data.filterQuery}">
+  </form>
+
+  <c:if test="${not empty data.queryMessage}">
+    <div class="alert alert-danger" id="queryMessage">
+      <span class="glyphicon glyphicon-warning-sign"></span>
+      <c:out value=" ${data.queryMessage}"/>
+    </div>
+  </c:if>
+
+  <br>
+  <br>
+
+  <adminEmailLog:emailLogTable logs="${data.logs}"/>
+  <t:statusMessage doNotFocusToStatus="${true}" statusMessagesToUser="${data.statusMessagesToUser}" />
 </ta:adminPage>

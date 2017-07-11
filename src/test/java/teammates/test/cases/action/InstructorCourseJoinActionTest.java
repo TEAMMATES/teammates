@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
@@ -45,9 +46,13 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorCourseJoinAction confirmAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(confirmAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
-                + "?error=false&user=idOfInstructor1OfCourse1"
-                + "&key=" + invalidEncryptedKey, pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
+                        false,
+                        "idOfInstructor1OfCourse1",
+                        invalidEncryptedKey),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -65,9 +70,13 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(confirmAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                        + "?key=" + StringHelper.encrypt(instructor.key)
-                        + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
+                        StringHelper.encrypt(instructor.key),
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
 
@@ -78,7 +87,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
 
         ______TS("Typical case: unregistered instructor, redirect to confirmation page");
 
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAT.instr@email.com");
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor", "ICJAT.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAT.instr";
 
@@ -98,10 +109,13 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = getShowPageResult(confirmAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION
-                     + "?error=false&user=ICJAT.instr"
-                     + "&key=" + StringHelper.encrypt(newInstructor.key),
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION,
+                        false,
+                        "ICJAT.instr",
+                        StringHelper.encrypt(newInstructor.key)),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -114,5 +128,32 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseJoinAction getAction(String... params) {
         return (InstructorCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId, String key) {
+        String pageDestination = parentUri;
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
+    }
+
+    protected String getPageResultDestination(String parentUri, String key, boolean isError, String userId) {
+        String pageDestination = parentUri;
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = Url.addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, invalidEncryptedKey
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 }

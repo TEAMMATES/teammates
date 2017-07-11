@@ -25,6 +25,8 @@ import com.meterware.servletunit.InvocationContext;
 import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
+import teammates.common.util.Const;
+import teammates.common.util.CryptoHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
@@ -199,9 +201,17 @@ public class GaeSimulation {
 
     private HttpServletRequest createWebRequest(String uri, String... parameters) {
 
-        WebRequest request = new PostMethodWebRequest("http://localhost:8888" + uri);
+        WebRequest request = new PostMethodWebRequest("http://localhost" + uri);
 
-        Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
+        if (Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(uri)) {
+            request.setHeaderField("referer", "http://localhost");
+
+            String sessionId = sc.getSession(true).getId();
+            String token = CryptoHelper.computeSessionToken(sessionId);
+            request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
+        }
+
+        Map<String, List<String>> paramMultiMap = new HashMap<>();
         for (int i = 0; i < parameters.length; i = i + 2) {
             String key = parameters[i];
             if (paramMultiMap.get(key) == null) {

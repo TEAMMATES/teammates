@@ -26,8 +26,9 @@ public class AdminEmailLogPageData extends PageData {
     private String statusForAjax;
     private QueryParameters q;
 
-    public AdminEmailLogPageData(AccountAttributes account, String filterQuery, boolean shouldShowAll) {
-        super(account);
+    public AdminEmailLogPageData(AccountAttributes account, String sessionToken, String filterQuery,
+            boolean shouldShowAll) {
+        super(account, sessionToken);
         this.filterQuery = filterQuery;
         this.shouldShowAll = shouldShowAll;
     }
@@ -306,7 +307,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     private void initLogsAsTemplateRows(List<EmailLogEntry> entries) {
-        logs = new ArrayList<AdminEmailTableRow>();
+        logs = new ArrayList<>();
         for (EmailLogEntry entry : entries) {
             AdminEmailTableRow row = new AdminEmailTableRow(entry);
             logs.add(row);

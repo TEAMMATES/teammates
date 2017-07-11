@@ -42,25 +42,25 @@ public class AdminActivityLogPageData extends PageData {
      * logs despite any action or change in the page unless the page is reloaded with "?all=false"
      * or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowAll;
+    private boolean shouldShowAllLogs;
 
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    private boolean ifShowTestData;
+    private boolean shouldShowTestData;
 
     private String statusForAjax;
     private QueryParameters q;
 
-    public AdminActivityLogPageData(AccountAttributes account) {
-        super(account);
+    public AdminActivityLogPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
         setDefaultLogSearchPeriod();
     }
 
     public List<String> getExcludedLogRequestUris() {
-        List<String> excludedList = new ArrayList<String>();
+        List<String> excludedList = new ArrayList<>();
         for (String excludedLogRequestUri : excludedLogRequestURIs) {
             excludedList.add(excludedLogRequestUri.substring(excludedLogRequestUri.lastIndexOf('/') + 1));
         }
@@ -80,27 +80,27 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     private void initLogsAsTemplateRows(List<ActivityLogEntry> entries) {
-        logs = new ArrayList<AdminActivityLogTableRow>();
+        logs = new ArrayList<>();
         for (ActivityLogEntry entry : entries) {
             AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
             logs.add(row);
         }
     }
 
-    public void setIfShowAll(boolean val) {
-        ifShowAll = val;
+    public void setShowAllLogs(boolean val) {
+        shouldShowAllLogs = val;
     }
 
-    public void setIfShowTestData(boolean val) {
-        ifShowTestData = val;
+    public void setShowTestData(boolean val) {
+        shouldShowTestData = val;
     }
 
-    public boolean getIfShowAll() {
-        return ifShowAll;
+    public boolean getShouldShowAllLogs() {
+        return shouldShowAllLogs;
     }
 
-    public boolean getIfShowTestData() {
-        return ifShowTestData;
+    public boolean getShouldShowTestData() {
+        return shouldShowTestData;
     }
 
     public String getFilterQuery() {
@@ -165,7 +165,7 @@ public class AdminActivityLogPageData extends PageData {
      * Returns true if the current log entry should be included.
      */
     private boolean shouldIncludeLogEntry(ActivityLogEntry logEntry) {
-        if (ifShowAll) {
+        if (shouldShowAllLogs) {
             return true;
         }
 
@@ -233,7 +233,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
-        versions = new ArrayList<String>();
+        versions = new ArrayList<>();
 
         if (query == null || query.isEmpty()) {
             return q;
@@ -354,7 +354,7 @@ public class AdminActivityLogPageData extends PageData {
 
     private List<String> getAllActionNames() {
 
-        List<String> actionNameList = new ArrayList<String>();
+        List<String> actionNameList = new ArrayList<>();
 
         for (Field field : Const.ActionURIs.class.getFields()) {
 

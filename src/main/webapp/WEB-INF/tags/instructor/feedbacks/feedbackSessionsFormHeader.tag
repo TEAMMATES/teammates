@@ -40,14 +40,13 @@
     <div class="row">
         <div class="col-sm-12">
             <span class="pull-right">
-                <a class="btn btn-primary btn-sm" id="fsEditLink"
+                <a class="btn btn-primary btn-sm enable-edit-fs" id="fsEditLink"
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
-                    data-toggle="tooltip" data-placement="top"
-                    ${fsForm.editButtonTags.attributesToString}>
-                    Edit
+                    data-toggle="tooltip" data-placement="top">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
-                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
-                    Save Changes
+                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-ok"></span> Save
                 </button>
                 <a href="${fsForm.fsDeleteLink}"
                     data-course-id="${fsForm.courseId}"
@@ -55,17 +54,17 @@
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
                     data-toggle="tooltip" data-placement="top"
                     class="btn btn-primary btn-sm" id="fsDeleteLink">
-                    Delete
+                    <span class="glyphicon glyphicon-trash"></span> Delete
                 </a>
                 <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">
-                    <a class="btn btn-primary btn-sm" href="#"
+                    <a class="btn btn-primary btn-sm" href="javascript:;"
                         data-actionlink="${fsForm.copyToLink}"
                         data-courseid="${fsForm.courseId}"
                         data-fsname="${fsForm.fsName}"
                         data-target="#fsCopyModal"
                         data-placement="top" id="button_fscopy"
                         data-toggle="modal">
-                        Copy
+                        <span class="glyphicon glyphicon-file"></span> Copy
                     </a>
                 </span>
             </span>

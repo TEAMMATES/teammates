@@ -30,8 +30,8 @@ public class InstructorCoursesPageData extends PageData {
     private String courseNameToShow;
     private Map<String, InstructorAttributes> instructorsForCourses;
 
-    public InstructorCoursesPageData(AccountAttributes account) {
-        super(account);
+    public InstructorCoursesPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
@@ -81,7 +81,7 @@ public class InstructorCoursesPageData extends PageData {
         for (CourseAttributes course : archivedCourses) {
             idx++;
 
-            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            List<ElementTag> actionsParam = new ArrayList<>();
 
             String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
             ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
@@ -116,7 +116,7 @@ public class InstructorCoursesPageData extends PageData {
         for (CourseAttributes course : courses) {
             idx++;
 
-            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            List<ElementTag> actionsParam = new ArrayList<>();
 
             Boolean hasModifyPermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);

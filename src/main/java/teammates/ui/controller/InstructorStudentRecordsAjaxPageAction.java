@@ -47,11 +47,11 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         filterFeedbackSessions(courseId, feedbacks, instructor, student);
 
-        List<SessionAttributes> sessions = new ArrayList<SessionAttributes>();
+        List<SessionAttributes> sessions = new ArrayList<>();
         sessions.addAll(feedbacks);
         Collections.sort(sessions, SessionAttributes.DESCENDING_ORDER);
 
-        List<FeedbackSessionResultsBundle> results = new ArrayList<FeedbackSessionResultsBundle>();
+        List<FeedbackSessionResultsBundle> results = new ArrayList<>();
         for (SessionAttributes session : sessions) {
             if (session instanceof FeedbackSessionAttributes) {
                 if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {
@@ -69,7 +69,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorStudentRecordsAjaxPageData data =
-                                        new InstructorStudentRecordsAjaxPageData(account, student, results);
+                                        new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }

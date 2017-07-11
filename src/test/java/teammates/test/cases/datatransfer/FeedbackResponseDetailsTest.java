@@ -37,7 +37,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         ______TS("TEXT Response");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
-        HashMap<String, String[]> requestParameters = new HashMap<String, String[]>();
+        HashMap<String, String[]> requestParameters = new HashMap<>();
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "text answer" });
 
@@ -194,17 +194,17 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         ______TS("CONSTSUM Response: typical case");
         String questionText = "question text";
-        List<String> constSumOptions = new ArrayList<String>();
+        List<String> constSumOptions = new ArrayList<>();
 
         constSumOptions.add("Option 1");
         constSumOptions.add("Option 2");
 
-        boolean pointsPerOption = false;
+        boolean isPointsPerOption = false;
         int points = 100;
-        boolean forceUnevenDistribution = false;
+        boolean shouldForceUnevenDistribution = false;
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                 new FeedbackConstantSumQuestionDetails(questionText, constSumOptions,
-                                                       pointsPerOption, points, forceUnevenDistribution);
+                                                       isPointsPerOption, points, shouldForceUnevenDistribution);
 
         requestParameters.put("questiontype-7", new String[] { "CONSTSUM" });
         requestParameters.put("responsetext-7-0", new String[] { "20", "80" });

@@ -24,7 +24,7 @@ public class StudentHomePageAction extends Action {
 
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
 
-        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> courses = new ArrayList<>();
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
 
         try {
@@ -53,7 +53,7 @@ public class StudentHomePageAction extends Action {
             }
         }
 
-        StudentHomePageData data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
+        StudentHomePageData data = new StudentHomePageData(account, sessionToken, courses, sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
     }

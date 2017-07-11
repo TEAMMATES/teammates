@@ -252,16 +252,16 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
-        List<String> emptyList = new ArrayList<String>();
+        List<String> emptyList = new ArrayList<>();
         assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
     }
 
     private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
-        List<String> unsanitized = new ArrayList<String>();
+        List<String> unsanitized = new ArrayList<>();
         unsanitized.add("aaa , bb\"b, c\"\"cc");
         unsanitized.add("aaa , bb\"b, c\"\"cc");
 
-        List<String> expected = new ArrayList<String>();
+        List<String> expected = new ArrayList<>();
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
 
@@ -286,5 +286,45 @@ public class SanitizationHelperTest extends BaseTestCase {
         expected = "concat('Team 1</td></div>',\"'\",'\"','')";
         assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
 
+    }
+
+    @Test
+    public void testIsSanitizedHtml() {
+        assertFalse("should return false if string is null",
+                SanitizationHelper.isSanitizedHtml(null));
+        assertFalse("should return false if empty string",
+                SanitizationHelper.isSanitizedHtml(""));
+
+        assertFalse("should return false for string with no special characters",
+                SanitizationHelper.isSanitizedHtml("This is an normal string."));
+
+        String sanitized = SanitizationHelper.sanitizeForHtml("<script>alert('hi');</script>");
+        assertTrue("should return true if string is sanitized",
+                SanitizationHelper.isSanitizedHtml(sanitized));
+
+        String unsanitized = "<not sanitized>" + sanitized;
+        assertFalse("should return false if string contains unsanitized characters",
+                SanitizationHelper.isSanitizedHtml(unsanitized));
+    }
+
+    @Test
+    public void testDesanitizeIfSanitized() {
+        assertNull("should return null if given null", SanitizationHelper.desanitizeIfHtmlSanitized(null));
+
+        String unsanitized = "This is a normal string...";
+        assertEquals("should return same unsanitized string if given unsanitized with normal characters",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+
+        unsanitized = "<script>alert('hi');</script>";
+        assertEquals("should return same unsanitized string if given unsanitized with special characters",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+
+        String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
+        assertEquals("should desanitize string if given sanitized",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(sanitized));
+
+        unsanitized = "\"not sanitized\"" + sanitized;
+        assertEquals("should return same unsanitized string if given unsanitized string containing sanitized sequences",
+                unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
     }
 }

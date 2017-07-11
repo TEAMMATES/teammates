@@ -48,14 +48,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -74,35 +71,26 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
         "sectionLevel": {
           "Section 2": {
             "canviewstudentinsection": false,
-            "cangivecommentinsection": false,
             "cansubmitsessioninsection": false,
             "canmodifysessioncommentinsection": false,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": false,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": false
           },
           "Section 1": {
             "canviewstudentinsection": true,
-            "cangivecommentinsection": true,
             "cansubmitsessioninsection": true,
             "canmodifysessioncommentinsection": false,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": false,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": false
           }
         },
         "sessionLevel": {}
@@ -779,6 +767,33 @@
         "RECEIVER",
         "INSTRUCTORS"
       ]
+    },
+    "studentQuestions9": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank yourself\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 9,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -804,6 +819,71 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.3": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.4": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.5": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.6": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.7": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
       },
       "giverSection": "Section 2",
       "recipientSection": "Section 1"
@@ -872,9 +952,21 @@
       },
       "giverSection": "None",
       "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn9.1": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "9",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "None",
+      "recipientSection": "Section 1"
     }
   },
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

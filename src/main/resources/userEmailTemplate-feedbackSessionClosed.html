@@ -1,5 +1,6 @@
 <p>Hello ${userName},</p>
 
+${instructorFragment}
 <p>
     The following session is now closed. You can still view your submission by going to the link sent earlier,
     but you will not be able to edit existing responses or submit new responses.
@@ -12,7 +13,7 @@
                     </strong>
                 </td>
                 <td style="padding:5px;">
-                    [${courseId}] ${courseName} 
+                    [${courseId}] ${courseName}
                 </td>
             </tr>
 
@@ -42,12 +43,16 @@
 </p>
 
 <p>
+    For any non-technical queries (e.g. assigned to the wrong team, misspelled name, request for deadline extension, etc.), you can contact your instructor(s) at: ${coOwnersEmails}.
+</p>
+
+<p>
     <strong>No action is required if you have already submitted.</strong>
-    <br>Any request for deadline extensions should be sent to the instructors of the course, 
-    not to the TEAMMATES support team. If you need any help or clarifications regarding TEAMMATES, 
+    <br>Any request for deadline extensions should be sent to the instructors of the course,
+    not to the TEAMMATES support team. If you need any help or clarifications regarding TEAMMATES,
     please email us at ${supportEmail}.
 </p>
 
-<p>Regards, 
+<p>Regards,
     <br>TEAMMATES Team.
 </p>

@@ -18,7 +18,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
-public class StudentAttributes extends EntityAttributes {
+public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
@@ -166,7 +166,7 @@ public class StudentAttributes extends EntityAttributes {
         Assumption.assertTrue(comments != null);
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (isRegistered()) {
             addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
@@ -267,7 +267,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public CourseStudent toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
 

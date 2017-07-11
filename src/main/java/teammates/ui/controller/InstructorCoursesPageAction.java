@@ -31,14 +31,14 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: This is a 'show page' type action. Therefore, we
          * prepare the matching PageData object, accessing the Logic
          * component if necessary.*/
-        InstructorCoursesPageData data = new InstructorCoursesPageData(account);
+        InstructorCoursesPageData data = new InstructorCoursesPageData(account, sessionToken);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         data.setUsingAjax(isUsingAjax != null);
 
-        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        List<CourseAttributes> allCourses = new ArrayList<CourseAttributes>();
-        List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
-        List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<>();
+        List<CourseAttributes> allCourses = new ArrayList<>();
+        List<CourseAttributes> activeCourses = new ArrayList<>();
+        List<CourseAttributes> archivedCourses = new ArrayList<>();
 
         if (data.isUsingAjax()) {
             // Get list of InstructorAttributes that belong to the user.

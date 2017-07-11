@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.template.CourseEditInstructorPanel;
 import teammates.ui.template.ElementTag;
 
@@ -19,12 +20,19 @@ public class InstructorCourseEditPageData extends PageData {
     private CourseEditInstructorPanel addInstructorPanel;
     private ElementTag addInstructorButton;
 
-    public InstructorCourseEditPageData(AccountAttributes account, CourseAttributes course,
+    public InstructorCourseEditPageData(AccountAttributes account, String sessionToken, CourseAttributes course,
                                         List<InstructorAttributes> instructorList,
                                         InstructorAttributes currentInstructor, int instructorToShowIndex,
                                         List<String> sectionNames, List<String> feedbackNames) {
-        super(account);
+        super(account, sessionToken);
         this.course = course;
+        //TODO: [CourseAttribute] remove desanitization after data migration
+        //creating a new course with possibly desanitized name as course name cannot be accessed directly
+        this.course = new CourseAttributes(course.getId(),
+                SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()),
+                course.getTimeZone());
+        this.course.createdAt = course.createdAt;
+
         this.instructorToShowIndex = instructorToShowIndex;
 
         createCourseRelatedButtons(currentInstructor);
@@ -44,7 +52,7 @@ public class InstructorCourseEditPageData extends PageData {
     private List<CourseEditInstructorPanel> createInstructorPanelList(InstructorAttributes currentInstructor,
                                            List<InstructorAttributes> instructorList,
                                            List<String> sectionNames, List<String> feedbackNames) {
-        List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
+        List<CourseEditInstructorPanel> panelList = new ArrayList<>();
         int instructorIndex = 0;
         for (InstructorAttributes instructor : instructorList) {
             instructorIndex++;
@@ -59,7 +67,7 @@ public class InstructorCourseEditPageData extends PageData {
     private List<CourseEditInstructorPanel> createInstructorPanelForSingleInstructor(InstructorAttributes currentInstructor,
                                     InstructorAttributes instructorForPanel, int instructorIndex,
                                     List<String> sectionNames, List<String> feedbackNames) {
-        List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
+        List<CourseEditInstructorPanel> panelList = new ArrayList<>();
         CourseEditInstructorPanel instructorPanel = createInstructorPanel(
                                                             currentInstructor,
                                                             instructorIndex, instructorForPanel,
@@ -144,7 +152,6 @@ public class InstructorCourseEditPageData extends PageData {
         button.setAttribute("type", "button");
         button.setAttribute("id", "btnShowNewInstructorForm");
         button.setAttribute("class", "btn btn-primary");
-        button.setAttribute("onclick", "showNewInstructorForm()");
         if (isDisabled) {
             button.setAttribute("disabled", null);
         }

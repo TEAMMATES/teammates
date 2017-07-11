@@ -3,9 +3,6 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,10 +21,8 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
-import teammates.test.pageobjects.InstructorFeedbackEditPage;
-import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorHomePage;
-import teammates.test.pageobjects.StudentCommentsPage;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -39,6 +34,7 @@ import teammates.test.pageobjects.StudentProfilePage;
 @Priority(6)
 public class AdminHomePageUiTest extends BaseUiTestCase {
     private AdminHomePage homePage;
+    private InstructorCoursesPage coursesPage;
 
     @Override
     protected void prepareTestData() {
@@ -67,7 +63,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtml("/adminHomePage.html");
     }
 
-    @SuppressWarnings("deprecation")
     private void testCreateInstructorAction() throws Exception {
 
         InstructorAttributes instructor = new InstructorAttributes();
@@ -86,12 +81,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
-        InstructorAttributes instructorInBackend = BackDoor.getInstructorByEmail(instructor.email, demoCourseId);
+        InstructorAttributes instructorInBackend = getInstructorWithRetry(demoCourseId, instructor.email);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
                                    Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION),
                      homePage.getMessageFromResultTable(1));
 
-        String encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -133,7 +128,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.createInstructor(shortName, instructor, institute);
 
-        encryptedKey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
         expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
@@ -145,11 +140,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.logout();
         //verify the instructor and the demo course have been created
-        assertNotNull(BackDoor.getCourse(demoCourseId));
-        assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
+        assertNotNull(getCourseWithRetry(demoCourseId));
+        assertNotNull(getInstructorWithRetry(demoCourseId, instructor.email));
 
         //get the joinURL which sent to the requester's email
-        String regkey = BackDoor.getEncryptedKeyForInstructor(demoCourseId, instructor.email);
+        String regkey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
@@ -167,10 +162,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
-        confirmationPage.clickConfirmButton();
+        confirmationPage.clickConfirmButtonWithRetry();
 
         //check a account has been created for the requester successfully
-        assertNotNull(BackDoor.getAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
+        assertNotNull(getAccountWithRetry(TestProperties.TEST_INSTRUCTOR_ACCOUNT));
 
         //verify sample course is accessible for newly joined instructor as an instructor
 
@@ -178,90 +173,31 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
 
-        ______TS("new instructor can access sample coure enroll page");
-        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
-        enrollPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEnrollPage.html");
-
-        ______TS("new instructor can access sample coure details page");
+        ______TS("new instructor can access sample course details page");
+        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseEnrollLink(demoCourseId);
         instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
         detailsPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseDetailsPage.html");
 
-        ______TS("new instructor can access sample coure edit page");
+        ______TS("new instructor can access sample course edit page");
         instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
 
-        ______TS("new instructor can access sample coure feedback session adding page");
-        instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
-        InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
-        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
-
-        ______TS("new instructor can archive sample course");
-        instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
-        instructorHomePage.clickArchiveCourseLinkAndConfirm(demoCourseId);
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePageSampleCourseArchived.html");
-
-        ______TS("new instructor can unarchive sample course");
+        ______TS("new instructor can view feedback sessions of sample course");
         AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-                                        .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
-        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+                .withUserId(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+        coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
-        coursesPage.unarchiveCourse(demoCourseId);
-        coursesPage.verifyHtmlMainContent("/newlyJoinedInstructorCoursesPageSampleCourseUnarhived.html");
 
-        ______TS("new instructor can access sample course students page");
-        coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
-        ______TS("new instructor can access sample course comments page");
-        coursesPage.loadInstructorCommentsTab().verifyHtmlMainContent("/newlyJoinedInstructorCommentsPage.html");
+        verifyCanViewSessionResults(demoCourseId, "First team feedback session",
+                "/newlyJoinedInstructorFirstFeedbackSessionResultsPage.html");
+        verifyCanViewSessionResults(demoCourseId, "Second team feedback session",
+                "/newlyJoinedInstructorSecondFeedbackSessionResultsPage.html");
+        verifyCanViewSessionResults(demoCourseId, "Session with different question types",
+                "/newlyJoinedInstructorThirdFeedbackSessionResultsPage.html");
 
-        ______TS("new instructor can view feedbackSession result of sample course");
-        coursesPage.loadInstructorHomeTab();
-        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickFeedbackSessionViewResultsLink(demoCourseId, "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
-
-        ______TS("new instructor can edit feedbackSession of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        InstructorFeedbackEditPage feedbackEditPage =
-                instructorHomePage.clickFeedbackSessionEditLink(demoCourseId, "Second team feedback session");
-
-        feedbackEditPage.clickEditSessionButton();
-
-        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession(demoCourseId,
-                                                                                "Second team feedback session");
-        feedbackEditPage.editFeedbackSession(feedbackSession.getStartTime(),
-                                             feedbackSession.getEndTime(),
-                                             new Text("updated instructions"),
-                                             feedbackSession.getGracePeriod());
-        feedbackEditPage.reloadPage();
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
-
-        ______TS("new instructor can click submit button of sample feedbackSession");
-        instructorHomePage.loadInstructorHomeTab();
-        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink(demoCourseId,
-                                                                                    "Second team feedback session");
-        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSubmissionEditPage.html");
-
-        ______TS("new instructor can send reminder of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionRemindLink(demoCourseId,
-                                                          "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionRemind.html");
-
-        ______TS("new instructor can unpublish feedbackSession of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionUnpublishLink(demoCourseId, "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionUnpublished.html");
-
-        ______TS("new instructor can publish feedbackSession of sample course");
-        instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionPublishLink(demoCourseId, "Second team feedback session");
-        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionPublished.html");
-
-        feedbacksPage.logout();
-
-        ______TS("action failure : invalid parameter");
+        ______TS("action failure : trying to create instructor with an invalid email");
 
         AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
@@ -307,11 +243,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         fsp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackSubmissionEdit.html");
 
         studentHomePage = fsp.loadStudentHomeTab();
-        StudentCommentsPage scp = studentHomePage.loadStudentCommentsTab();
-        scp.verifyHtmlMainContent("/newlyJoinedInstructorStudentCommentsPage.html");
-
-        studentHomePage = scp.loadStudentHomeTab();
-
         StudentProfilePage spp = studentHomePage.loadProfileTab();
         spp.verifyContains("Student Profile");
         spp.verifyContains("AHPUiT Instrúctör WithPlusInEmail");
@@ -338,4 +269,13 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
     }
 
+    private void verifyCanViewSessionResults(
+            String courseId, String sessionName, String pathToExpectedHtml) throws Exception {
+        InstructorHomePage instructorHomePage = coursesPage.loadInstructorHomeTab();
+        InstructorFeedbackResultsPage resultsPage =
+                instructorHomePage.clickFeedbackSessionViewResultsLink(courseId, sessionName);
+        resultsPage.expandPanels();
+        resultsPage.verifyHtmlMainContent(pathToExpectedHtml);
+
+    }
 }

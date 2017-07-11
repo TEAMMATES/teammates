@@ -1,0 +1,373 @@
+{
+  "accounts": {
+    "instructorWithSessions": {
+      "googleId": "CFeedbackUiT.instructor",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "helperWithSessions": {
+      "googleId": "CFeedbackUiT.helper",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithSessions2": {
+      "googleId": "CFeedbackUiT.instructor2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "teammates.test2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithoutCourses": {
+      "googleId": "CFeedbackUiT.nocourses",
+      "name": "instructor Without Courses",
+      "isInstructor": true,
+      "email": "teammates.test2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithoutSessions": {
+      "googleId": "CFeedbackUiT.nosessions",
+      "name": "Instructor Without Sessions",
+      "isInstructor": true,
+      "email": "teammates.test3@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "course": {
+      "id": "CFeedbackUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "courseWithoutSessions": {
+      "id": "CFeedbackUiT.coursewithoutsessions",
+      "name": "Course Without Sessions",
+      "timeZone": "UTC"
+    },
+    "anotherCourse": {
+      "id": "CFeedbackUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "teammates.test.instructor": {
+      "googleId": "CFeedbackUiT.instructor",
+      "courseId": "CFeedbackUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test1@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.helper": {
+      "googleId": "CFeedbackUiT.helper",
+      "courseId": "CFeedbackUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.helper@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "Ins.for.course.without.sessions": {
+      "googleId": "CFeedbackUiT.nosessions",
+      "courseId": "CFeedbackUiT.coursewithoutsessions",
+      "name": "Instructor Without Sessions",
+      "email": "teammates.test3@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor.for.different.course": {
+      "googleId": "CFeedbackUiT.instructor",
+      "courseId": "CFeedbackUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.test1@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.helper.for.different.course": {
+      "googleId": "CFeedbackUiT.helper",
+      "courseId": "CFeedbackUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "teammates.helper@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2": {
+      "googleId": "CFeedbackUiT.instructor2",
+      "courseId": "CFeedbackUiT.CS2104",
+      "name": "Teammates Test2",
+      "email": "teammates.test2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2.for.different.course": {
+      "googleId": "CFeedbackUiT.instructor2",
+      "courseId": "CFeedbackUiT.CS1101",
+      "name": "Teammates Test2",
+      "email": "teammates.test2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@CFeedbackUiT.CS2104": {
+      "googleId": "CFeedbackUiT.alice.tmms",
+      "email": "CFeedbackUiT.alice.b.tmms@gmail.tmt",
+      "course": "CFeedbackUiT.CS2104",
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "benny.tmms@CFeedbackUiT.CS2104": {
+      "googleId": "CFeedbackUiT.benny.tmms",
+      "email": "CFeedbackUiT.benny.tmms@gmail.tmt",
+      "course": "CFeedbackUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "charlie.tmms@CFeedbackUiT.CS1101": {
+      "googleId": "CFeedbackUiT.charlie.tmms",
+      "email": "CFeedbackUiT.charlie.tmms@gmail.tmt",
+      "course": "CFeedbackUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "danny.tmms@CFeedbackUiT.CS1101": {
+      "googleId": "CFeedbackUiT.danny.tmms",
+      "email": "CFeedbackUiT.danny.tmms@gmail.tmt",
+      "course": "CFeedbackUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    }
+  },
+  "feedbackSessions": {
+    "publishedSession": {
+      "feedbackSessionName": "First Session #1",
+      "courseId": "CFeedbackUiT.CS2104",
+      "creatorEmail": "teammates.test2@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2012-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "privateSession": {
+      "feedbackSessionName": "Private Session #",
+      "courseId": "CFeedbackUiT.CS2104",
+      "creatorEmail": "teammates.test1@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the second feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-02 11:59 PM UTC",
+      "sessionVisibleFromTime": "1970-11-27 12:00 AM UTC",
+      "resultsVisibleFromTime": "1970-11-27 12:00 AM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 20,
+      "feedbackSessionType": "PRIVATE",
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "manualSession": {
+      "feedbackSessionName": "Manual Session #1",
+      "courseId": "CFeedbackUiT.CS1101",
+      "creatorEmail": "teammates.test1@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the third feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-02 11:59 PM UTC",
+      "endTime": "2012-04-29 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "1970-01-01 12:00 AM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "openSession": {
+      "feedbackSessionName": "Open Session #",
+      "courseId": "CFeedbackUiT.CS1101",
+      "creatorEmail": "teammates.test2@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the fourth feedback session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-02 11:59 PM UTC",
+      "endTime": "2027-04-29 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "1970-01-01 12:00 AM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "awaitingSession": {
+      "feedbackSessionName": "Awaiting Session #",
+      "courseId": "CFeedbackUiT.CS2104",
+      "creatorEmail": "teammates.test2@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2014-04-01 11:59 PM UTC",
+      "startTime": "2027-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2014-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

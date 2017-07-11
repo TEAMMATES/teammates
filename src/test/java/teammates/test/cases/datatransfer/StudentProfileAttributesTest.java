@@ -1,6 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +12,15 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StudentProfileAttributes}.
  */
-public class StudentProfileAttributesTest extends BaseTestCase {
+public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     private StudentProfileAttributes profile;
 
@@ -55,19 +54,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testGetJsonString() throws Exception {
-        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
+        StudentProfileAttributes spa = new StudentProfileAttributes(profile.toEntity());
+        spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
                      + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
-                     /*
-                      *  Be careful:
-                      *  This comparison will fail if the test is run without
-                      *  the VM argument -Duser.timezone=UTC.
-                      */
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
                      spa.getJsonString());
     }
@@ -118,25 +111,21 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
         assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.googleId),
                      profileToSanitize.googleId);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.shortName),
-                     profileToSanitize.shortName);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.institute),
-                     profileToSanitize.institute);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.email),
-                     profileToSanitize.email);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.nationality),
-                     profileToSanitize.nationality);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.gender),
-                     profileToSanitize.gender);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
-                     profileToSanitize.moreInfo);
+        assertEquals(profileToSanitizeExpected.shortName, profileToSanitize.shortName);
+        assertEquals(profileToSanitizeExpected.institute, profileToSanitize.institute);
+        assertEquals(profileToSanitizeExpected.email, profileToSanitize.email);
+        assertEquals(profileToSanitizeExpected.nationality, profileToSanitize.nationality);
+        assertEquals(profileToSanitizeExpected.gender, profileToSanitize.gender);
+        assertEquals(profileToSanitizeExpected.moreInfo, profileToSanitize.moreInfo);
+        assertEquals(profileToSanitizeExpected.pictureKey, profileToSanitize.pictureKey);
     }
 
+    @Override
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
         StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
-        StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
+        StudentProfile actualEntity = testProfile.toEntity();
 
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
         assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
@@ -151,7 +140,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = new StudentProfileAttributes(profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
 
         // the toString must be unique to the values in the object
@@ -178,7 +167,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         // tests both the constructor and the invalidity info
         expectedErrorMessages.add(

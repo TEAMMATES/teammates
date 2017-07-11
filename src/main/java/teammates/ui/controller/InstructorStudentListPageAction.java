@@ -24,7 +24,7 @@ public class InstructorStudentListPageAction extends Action {
 
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
-        Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> instructors = new HashMap<>();
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         // Sort by creation date
@@ -49,7 +49,7 @@ public class InstructorStudentListPageAction extends Action {
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
 
-        List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
+        List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<>();
         for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
@@ -63,7 +63,7 @@ public class InstructorStudentListPageAction extends Action {
         }
 
         InstructorStudentListPageData data =
-                new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
+                new InstructorStudentListPageData(account, sessionToken, searchKey, displayArchive, coursesToDisplay);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
     }

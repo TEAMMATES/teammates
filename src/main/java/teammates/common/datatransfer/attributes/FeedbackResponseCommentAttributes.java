@@ -8,19 +8,17 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
-public class FeedbackResponseCommentAttributes extends EntityAttributes {
+public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
     public String courseId;
     public String feedbackSessionName;
@@ -31,7 +29,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     /* Response receiver section */
     public String receiverSection;
     public String feedbackResponseId;
-    public transient CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
@@ -52,8 +49,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = null;
         this.giverSection = "None";
         this.receiverSection = "None";
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.showCommentTo = new ArrayList<>();
+        this.showGiverNameTo = new ArrayList<>();
         this.lastEditorEmail = null;
         this.lastEditedAt = null;
     }
@@ -77,8 +74,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.showCommentTo = new ArrayList<>();
+        this.showGiverNameTo = new ArrayList<>();
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
     }
@@ -98,7 +95,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.sendingState = comment.getSendingState() == null ? CommentSendingState.SENT : comment.getSendingState();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
@@ -118,8 +114,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
     private void setDefaultVisibilityOptions() {
         isVisibilityFollowingFeedbackQuestion = true;
-        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.showCommentTo = new ArrayList<>();
+        this.showGiverNameTo = new ArrayList<>();
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
@@ -140,7 +136,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
@@ -156,7 +152,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                feedbackResponseId, sendingState, createdAt, commentText, giverSection, receiverSection,
+                feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 
@@ -209,14 +205,4 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
             }
         });
     }
-
-    public String getEditedAtText(Boolean isGiverAnonymous) {
-        if (this.lastEditedAt == null || this.lastEditedAt.equals(this.createdAt)) {
-            return "";
-        }
-        return "(last edited "
-             + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
-             + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
-    }
-
 }

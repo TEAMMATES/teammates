@@ -10,21 +10,20 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 public class StudentListSectionData {
 
     private String sectionName;
-    private boolean allowedToViewStudentInSection;
-    private boolean allowedToModifyStudent;
-    private boolean allowedToGiveCommentInSection;
+    private boolean isAllowedToViewStudentInSection;
+    private boolean isAllowedToModifyStudent;
+
     private List<StudentListTeamData> teams;
 
     public StudentListSectionData(SectionDetailsBundle section, boolean isAllowedToViewStudentInSection,
-                                  boolean isAllowedToModifyStudent, boolean isAllowedToGiveCommentInSection,
-                                  Map<String, String> emailPhotoUrlMapping, String googleId) {
+                                  boolean isAllowedToModifyStudent,
+                                  Map<String, String> emailPhotoUrlMapping, String googleId, String sessionToken) {
         this.sectionName = section.name;
-        this.allowedToViewStudentInSection = isAllowedToViewStudentInSection;
-        this.allowedToModifyStudent = isAllowedToModifyStudent;
-        this.allowedToGiveCommentInSection = isAllowedToGiveCommentInSection;
-        List<StudentListTeamData> teamsDetails = new ArrayList<StudentListTeamData>();
+        this.isAllowedToViewStudentInSection = isAllowedToViewStudentInSection;
+        this.isAllowedToModifyStudent = isAllowedToModifyStudent;
+        List<StudentListTeamData> teamsDetails = new ArrayList<>();
         for (TeamDetailsBundle team : section.teams) {
-            teamsDetails.add(new StudentListTeamData(team, emailPhotoUrlMapping, googleId));
+            teamsDetails.add(new StudentListTeamData(team, emailPhotoUrlMapping, googleId, sessionToken));
         }
         this.teams = teamsDetails;
     }
@@ -34,15 +33,11 @@ public class StudentListSectionData {
     }
 
     public boolean isAllowedToViewStudentInSection() {
-        return allowedToViewStudentInSection;
+        return isAllowedToViewStudentInSection;
     }
 
     public boolean isAllowedToModifyStudent() {
-        return allowedToModifyStudent;
-    }
-
-    public boolean isAllowedToGiveCommentInSection() {
-        return allowedToGiveCommentInSection;
+        return isAllowedToModifyStudent;
     }
 
     public List<StudentListTeamData> getTeams() {

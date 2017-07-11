@@ -32,8 +32,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
 
-    public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
-        super(account, student);
+    public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
+        super(account, student, sessionToken);
         isPreview = false;
         isModeration = false;
         isShowRealQuestionNumber = false;
@@ -173,7 +173,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
 
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         // Add an empty option first.
         result.add("<option value=\"\" " + (currentlySelectedOption == null ? "selected>" : ">")
                    + "</option>");
@@ -202,7 +202,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     private void createQuestionsWithResponses() {
-        questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
+        questionsWithResponses = new ArrayList<>();
         int qnIndx = 1;
 
         for (FeedbackQuestionAttributes questionAttributes : bundle.getSortedQuestions()) {
@@ -230,7 +230,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     private List<FeedbackSubmissionEditResponse> createResponses(
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
-        List<FeedbackSubmissionEditResponse> responses = new ArrayList<FeedbackSubmissionEditResponse>();
+        List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
 
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         int responseIndx = 0;

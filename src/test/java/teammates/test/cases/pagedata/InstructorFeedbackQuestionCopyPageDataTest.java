@@ -22,11 +22,11 @@ public class InstructorFeedbackQuestionCopyPageDataTest extends BaseTestCase {
     public void allTests() {
         ______TS("Typical case");
 
-        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
         copiableQuestions.addAll(dataBundle.feedbackQuestions.values());
 
         InstructorFeedbackQuestionCopyPageData data = new InstructorFeedbackQuestionCopyPageData(
-                dataBundle.accounts.get("instructor1OfCourse1"), copiableQuestions);
+                dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken, copiableQuestions);
         FeedbackQuestionCopyTable copyForm = data.getCopyQnForm();
         assertEquals(dataBundle.feedbackQuestions.size(), copyForm.getQuestionRows().size());
     }

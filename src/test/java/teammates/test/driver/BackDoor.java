@@ -243,6 +243,16 @@ public final class BackDoor {
     }
 
     /**
+     * Gets list of students data from the datastore.
+     */
+    public static List<StudentAttributes> getStudents(String courseId) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTS_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        String studentsJson = makePostRequest(params);
+        return JsonUtils.fromJson(studentsJson, new TypeToken<List<StudentAttributes>>(){}.getType());
+    }
+
+    /**
      * Gets the encrypted registration key for a student in the datastore.
      */
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
@@ -405,7 +415,7 @@ public final class BackDoor {
     }
 
     private static Map<String, String> createParamMap(BackDoorOperation operation) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());
 
         // For authentication
@@ -468,6 +478,24 @@ public final class BackDoor {
      */
     private static void removeAdminEmailsFromDataBundle(DataBundle dataBundle) {
         dataBundle.adminEmails = new HashMap<>();
+    }
+
+    /**
+     * Checks if a group recipient's file is present in GCS with specified Key.
+     */
+    public static boolean isGroupListFileKeyPresentInGcs(String groupListFileKey) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
+        return Boolean.parseBoolean(makePostRequest(params));
+    }
+
+    /**
+     * Deletes the uploaded test file for testing email using group mode.
+     */
+    public static String deleteGroupListFile(String groupListFileKey) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_DELETE_GROUP_LIST_FILE);
+        params.put(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY, groupListFileKey);
+        return makePostRequest(params);
     }
 
 }

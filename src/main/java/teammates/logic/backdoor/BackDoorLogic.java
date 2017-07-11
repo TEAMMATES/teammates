@@ -15,7 +15,6 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -33,7 +32,6 @@ import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.AdminEmailsDb;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -48,7 +46,6 @@ import teammates.storage.api.StudentsDb;
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
@@ -87,7 +84,7 @@ public class BackDoorLogic extends Logic {
         coursesDb.createCourses(courses.values());
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
-        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> instructorAccounts = new ArrayList<>();
         for (InstructorAttributes instructor : instructors.values()) {
 
             validateInstructorPrivileges(instructor);
@@ -106,7 +103,7 @@ public class BackDoorLogic extends Logic {
         instructorsDb.createInstructorsWithoutSearchability(instructors.values());
 
         Map<String, StudentAttributes> students = dataBundle.students;
-        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> studentAccounts = new ArrayList<>();
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
@@ -129,7 +126,7 @@ public class BackDoorLogic extends Logic {
         fbDb.createFeedbackSessions(sessions.values());
 
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
-        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        List<FeedbackQuestionAttributes> questionList = new ArrayList<>(questions.values());
 
         for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
@@ -142,7 +139,7 @@ public class BackDoorLogic extends Logic {
         }
         frDb.createFeedbackResponses(responses.values());
 
-        Set<String> sessionIds = new HashSet<String>();
+        Set<String> sessionIds = new HashSet<>();
 
         for (FeedbackResponseAttributes response : responses.values()) {
 
@@ -160,17 +157,10 @@ public class BackDoorLogic extends Logic {
         }
         fcDb.createFeedbackResponseComments(responseComments.values());
 
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        commentsDb.createComments(comments.values());
-
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
         for (AdminEmailAttributes email : adminEmails.values()) {
             adminEmailsDb.createAdminEmail(email);
         }
-
-        // any Db can be used to commit the changes.
-        // accountsDb is used as it is already used in the file
-        accountsDb.commitOutstandingChanges();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
@@ -244,12 +234,6 @@ public class BackDoorLogic extends Logic {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
                     responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
             fcDb.putDocument(fcInDb);
-        }
-
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        for (CommentAttributes comment : comments.values()) {
-            CommentAttributes commentInDb = commentsDb.getComment(comment);
-            commentsDb.putDocument(commentInDb);
         }
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
@@ -451,7 +435,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
         }
@@ -459,7 +443,6 @@ public class BackDoorLogic extends Logic {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
-            commentsDb.deleteCommentsForCourses(courseIds);
             fbDb.deleteFeedbackSessionsForCourses(courseIds);
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
@@ -475,5 +458,13 @@ public class BackDoorLogic extends Logic {
             byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
+    }
+
+    public boolean isGroupListFilePresentInGcs(String groupListKey) {
+        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(groupListKey));
+    }
+
+    public void deleteGroupListFile(String groupListFileKey) {
+        GoogleCloudStorageHelper.deleteFile(new BlobKey(groupListFileKey));
     }
 }

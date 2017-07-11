@@ -42,18 +42,13 @@
           </a>
         </li>
         <li>
-          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbacksPage?user=CCAddUiTest.instr2">
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=CCAddUiTest.instr2">
             Sessions
           </a>
         </li>
         <li>
           <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCAddUiTest.instr2">
             Students
-          </a>
-        </li>
-        <li>
-          <a class="nav comments" data-link="instructorComments" href="/page/instructorCommentsPage?user=CCAddUiTest.instr2">
-            Comments
           </a>
         </li>
         <li>
@@ -92,6 +87,7 @@
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseAdd" class="form form-horizontal" method="get" name="form_addcourse">
         <input id="instructorid" name="instructorid" type="hidden" value="CCAddUiTest.instr2">
+        <input name="token" type="hidden" value="${sessionToken}">
         <input name="user" type="hidden" value="CCAddUiTest.instr2">
         <div class="form-group">
           <label class="col-sm-3 control-label">
@@ -148,12 +144,12 @@
     <table class="table table-bordered table-striped" id="tableActiveCourses">
       <thead class="fill-primary">
         <tr>
-          <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this);">
+          <th class="button-sort-none toggle-sort button-sort-ascending" id="button_sortcourseid">
             Course ID
             <span class="icon-sort sorted-ascending">
             </span>
           </th>
-          <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this);">
+          <th class="button-sort-none toggle-sort" id="button_sortcoursename">
             Course Name
             <span class="icon-sort unsorted">
             </span>
@@ -209,7 +205,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -246,17 +242,9 @@
 </script>
 <script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
 <script src="https://unpkg.com/moment@2.17.1/min/moment.min.js" type="text/javascript">
 </script>
 <script src="https://unpkg.com/moment-timezone@0.5.11/builds/moment-timezone-with-data-2010-2020.min.js" type="text/javascript">
-</script>
-<script src="/js/timezone.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
 </script>
 <script src="/js/instructorCourses.js" type="text/javascript">
 </script>

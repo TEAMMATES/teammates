@@ -52,7 +52,7 @@ public class InstructorFeedbackCopyAction extends Action {
             //TODO: add a condition to include the status due to inconsistency problem of database
             //      (similar to the one below)
             return createRedirectResult(
-                    new PageData(account).getInstructorFeedbackEditLink(
+                    new PageData(account, sessionToken).getInstructorFeedbackEditLink(
                             fs.getCourseId(), fs.getFeedbackSessionName()));
 
         } catch (EntityAlreadyExistsException e) {
@@ -61,7 +61,7 @@ public class InstructorFeedbackCopyAction extends Action {
             setStatusForException(e);
         }
 
-        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
         return redirectResult;
     }

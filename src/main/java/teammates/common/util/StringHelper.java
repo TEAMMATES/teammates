@@ -281,7 +281,7 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<String>();
+        Set<String> result = new TreeSet<>();
         for (String s : strSet) {
             result.add(removeExtraSpace(s));
         }
@@ -368,14 +368,14 @@ public final class StringHelper {
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        boolean inquote = false;
+        boolean isInQuote = false;
 
         for (char c : chars) {
             if (c == '"') {
-                inquote = !inquote;
+                isInQuote = !isInQuote;
             }
 
-            if (c == '\n' && inquote) {
+            if (c == '\n' && isInQuote) {
                 buffer.append("<br>");
             } else {
                 buffer.append(c);
@@ -386,7 +386,7 @@ public final class StringHelper {
     }
 
     private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<String>();
+        List<String> data = new ArrayList<>();
 
         boolean inquote = false;
         StringBuilder buffer = new StringBuilder();
@@ -532,7 +532,6 @@ public final class StringHelper {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 
-
     /**
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
@@ -548,4 +547,24 @@ public final class StringHelper {
         return result.toString();
     }
 
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    public static boolean isTextContainingAny(String text, String... strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.length == 0) {
+            return true;
+        }
+
+        for (String string : strings) {
+            if (text.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

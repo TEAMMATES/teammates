@@ -9,13 +9,11 @@
 <%@ attribute name="primaryParticipantPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel" required="true" %>
 <%@ attribute name="secondaryParticipantIndex" type="java.lang.Integer" required="true" %>
 
-
-
 <div class="row ${secondaryParticipantIndex == 0 ? '' : 'border-top-gray'}">
     <%-- Left side of the panel --%>
-    <results:secondaryParticipantPanelSide primaryParticipantPanel="${primaryParticipantPanel}" 
+    <results:secondaryParticipantPanelSide primaryParticipantPanel="${primaryParticipantPanel}"
                                            secondaryParticipantPanelBody="${secondaryParticipantPanelBody}" />
-    
+
     <div class="col-md-10">
         <c:forEach var="responsePanel" items="${secondaryParticipantPanelBody.responsePanels}">
             <results:responsePanel responsePanel="${responsePanel}"/>

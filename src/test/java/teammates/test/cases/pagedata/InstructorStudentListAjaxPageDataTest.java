@@ -52,10 +52,6 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)
                                       .booleanValue(),
                      section.isAllowedToModifyStudent());
-        assertEquals(sectionPrivileges.get(sampleSection.name)
-                                      .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)
-                                      .booleanValue(),
-                     section.isAllowedToGiveCommentInSection());
         for (StudentListTeamData team : section.getTeams()) {
             testTeamContent(team);
         }
@@ -103,20 +99,19 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         sampleSection.teams.add(sampleTeam);
         sampleSection.name = "<valid section name>";
 
-        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        List<SectionDetailsBundle> sections = new ArrayList<>();
         sections.add(sampleSection);
 
-        sectionPrivileges = new HashMap<String, Map<String, Boolean>>();
-        Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();
+        sectionPrivileges = new HashMap<>();
+        Map<String, Boolean> sectionPrivilege = new HashMap<>();
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, true);
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, false);
-        sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, true);
         sectionPrivileges.put(sampleSection.name, sectionPrivilege);
 
-        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, String> emailPhotoUrlMapping = new HashMap<>();
         emailPhotoUrlMapping.put(sampleStudent.email, photoUrl);
 
-        return new InstructorStudentListAjaxPageData(acct, "valid course id", 1, true, sections,
+        return new InstructorStudentListAjaxPageData(acct, dummySessionToken, "valid course id", 1, true, sections,
                                                      sectionPrivileges, emailPhotoUrlMapping);
     }
 

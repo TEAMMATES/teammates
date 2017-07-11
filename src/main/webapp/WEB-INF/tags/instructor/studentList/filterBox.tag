@@ -1,5 +1,6 @@
 <%@ tag description="instructorStudentList - Student filter box" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="filterBox" type="teammates.ui.template.InstructorStudentListFilterBox" required="true" %>
 <div id="moreOptionsDiv" class="well well-plain"<c:if test="${empty filterBox.courses}"> style="display:none;"</c:if>>
     <div class="row">
@@ -18,7 +19,7 @@
                 </div>
                 <br>
                 <div class="checkbox">
-                    <input type="checkbox" value="" id="course_all"> 
+                    <input type="checkbox" value="" id="course_all">
                     <label for="course_all"><strong>Select all</strong></label>
                 </div>
                 <br>
@@ -26,7 +27,7 @@
                     <div class="checkbox">
                         <input id="course_check-${i.index}" type="checkbox">
                         <label for="course_check-${i.index}">
-                            [${course.courseId}] : ${course.courseName}
+                            [${course.courseId}] : ${fn:escapeXml(course.courseName)}
                         </label>
                     </div>
                 </c:forEach>
@@ -37,7 +38,7 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input type="checkbox" value="" id="section_all"> 
+                    <input type="checkbox" value="" id="section_all">
                     <label for="section_all"><strong>Select all</strong></label>
                 </div>
                 <br>

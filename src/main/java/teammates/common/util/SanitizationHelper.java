@@ -165,7 +165,7 @@ public final class SanitizationHelper {
      * Sanitizes a list of strings for inserting into HTML.
      */
     public static List<String> sanitizeForHtml(List<String> list) {
-        List<String> sanitizedList = new ArrayList<String>();
+        List<String> sanitizedList = new ArrayList<>();
         for (String str : list) {
             sanitizedList.add(sanitizeForHtml(str));
         }
@@ -176,7 +176,7 @@ public final class SanitizationHelper {
      * Sanitizes a set of strings for inserting into HTML.
      */
     public static Set<String> sanitizeForHtml(Set<String> set) {
-        Set<String> sanitizedSet = new TreeSet<String>();
+        Set<String> sanitizedSet = new TreeSet<>();
         for (String str : set) {
             sanitizedSet.add(sanitizeForHtml(str));
         }
@@ -214,7 +214,7 @@ public final class SanitizationHelper {
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
-        Set<String> textSetTemp = new HashSet<String>();
+        Set<String> textSetTemp = new HashSet<>();
         for (String text : sanitizedStringSet) {
             textSetTemp.add(desanitizeFromHtml(text));
         }
@@ -317,7 +317,7 @@ public final class SanitizationHelper {
      * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
-        List<String> sanitizedStrList = new ArrayList<String>();
+        List<String> sanitizedStrList = new ArrayList<>();
 
         Iterator<String> itr = strList.iterator();
         while (itr.hasNext()) {
@@ -363,5 +363,27 @@ public final class SanitizationHelper {
             return "''";
         }
         return "concat(" + result.toString() + "'')";
+    }
+
+    /**
+     * Returns true if the {@code string} has evidence of having been sanitized.
+     * A string is considered sanitized if it does not contain any of the chars '<', '>', '/', '\"', '\'',
+     * and contains at least one of their sanitized equivalents or the sanitized equivalent of '&'.
+     *
+     * <p>Eg. "No special characters", "{@code <p>&quot;with quotes&quot;</p>}" are considered to be not sanitized.<br>
+     *     "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
+     * </p>
+     */
+    public static boolean isSanitizedHtml(String string) {
+        return string != null
+                && !StringHelper.isTextContainingAny(string, "<", ">", "\"", "/", "\'")
+                && StringHelper.isTextContainingAny(string, "&lt;", "&gt;", "&quot;", "&#x2f;", "&#39;", "&amp;");
+    }
+
+    /**
+     * Returns the desanitized {@code string} if it is sanitized, otherwise returns the unchanged string.
+     */
+    public static String desanitizeIfHtmlSanitized(String string) {
+        return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
     }
 }

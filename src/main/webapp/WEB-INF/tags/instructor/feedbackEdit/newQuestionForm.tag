@@ -10,15 +10,14 @@
 
 <c:set var="NEW_QUESTION" value="-1" />
 
-<form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question" role="form" method="post"
+<form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question tally-checkboxes" role="form" method="post"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-    name="form_addquestions" onsubmit="tallyCheckboxes('${NEW_QUESTION}')" >
+    name="form_addquestions" data-qnnumber="${NEW_QUESTION}">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
-       
-        <div class="row">
-            <div class="col-sm-12 row">
-                <div class="col-sm-offset-3 col-sm-9">
 
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-9">
+                <div class="btn-group">
                     <button
                         id = "button_openframe"
                         class="btn btn-primary margin-bottom-7px dropdown-toggle"
@@ -28,21 +27,22 @@
                     <ul id="add-new-question-dropdown" class="dropdown-menu">
                         ${fqForm.questionTypeOptions}
                     </ul>
-
-                    <a href="/instructorHelp.jsp#fbQuestionTypes"
-                        target="_blank" rel="noopener noreferrer"> <i
-                        class="glyphicon glyphicon-info-sign"></i>
-                    </a> <a id="button_copy" class="btn btn-primary margin-bottom-7px" 
-                            data-actionlink="${data.instructorQuestionCopyPageLink}"
-                            data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
-                            data-target="#copyModal" data-toggle="modal">
-                        Copy Question
-                    </a>
-                    <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
-                        href="${fqForm.doneEditingLink}">
-                        Done Editing
-                    </a>
                 </div>
+
+                <a href="/instructorHelp.jsp#fbQuestionTypes"
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+                <a id="button_copy" class="btn btn-primary margin-bottom-7px"
+                        data-actionlink="${data.instructorQuestionCopyPageLink}"
+                        data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
+                        data-target="#copyModal" data-toggle="modal">
+                    Copy Question
+                </a>
+                <a id="button_done_editing" class="btn btn-primary margin-bottom-7px"
+                    href="${fqForm.doneEditingLink}">
+                    Done Editing
+                </a>
             </div>
         </div>
     </div>
@@ -68,8 +68,8 @@
                 </div>
                 <div class="col-sm-5 mobile-margin-top-10px">
                     <span class="mobile-no-pull pull-right">
-                        <a class="btn btn-primary btn-xs"
-                            onclick="discardChanges(${NEW_QUESTION})" data-toggle="tooltip" data-placement="top"
+                        <a class="btn btn-primary btn-xs btn-discard-changes"
+                            data-qnnumber="${NEW_QUESTION}" data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
                             Cancel
                         </a>
@@ -105,7 +105,6 @@
                         </label>
                     </h5>
                     <div class="col-sm-10">
-                        <div id="rich-text-toolbar-q-descr-container"></div>
                         <div class="panel panel-default panel-body question-description"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
                             data-toggle="tooltip" data-placement="top"
@@ -120,7 +119,7 @@
             </div>
             <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
             <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
-          
+
             <div>
                 <span class="pull-right">
                     <button id="button_submit_add" class="btn btn-primary" type="submit" tabindex="9">
@@ -141,4 +140,5 @@
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>"
         value="<%= FeedbackParticipantType.NONE.toString() %>"
         id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
+    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>

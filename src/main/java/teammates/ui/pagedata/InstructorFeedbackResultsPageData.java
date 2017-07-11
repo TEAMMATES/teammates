@@ -25,6 +25,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -36,6 +37,7 @@ import teammates.ui.template.InstructorFeedbackResultsModerationButton;
 import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
+import teammates.ui.template.InstructorFeedbackResultsRemindButton;
 import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
@@ -78,7 +80,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorFeedbackResultsQuestionTable> questionPanels;
     // for giver > question > recipient, recipient > question > giver,
     // giver > recipient > question, recipient > giver > question
-    private LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
+    private Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
 
     private Map<FeedbackQuestionAttributes, FeedbackQuestionDetails> questionToDetailsMap = new HashMap<>();
     private Map<String, String> profilePictureLinks = new HashMap<>();
@@ -87,8 +89,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
 
-    public InstructorFeedbackResultsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     /**
@@ -105,7 +107,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap =
                 bundle.getQuestionResponseMap();
-        questionPanels = new ArrayList<InstructorFeedbackResultsQuestionTable>();
+        questionPanels = new ArrayList<>();
 
         // if there is more than one question, we omit generation of responseRows,
         // and load them by ajax question by question
@@ -240,15 +242,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     String section,
                                     Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses,
                                     String additionalInfoId) {
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+        sectionPanels = new LinkedHashMap<>();
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
 
         String prevTeam = "";
 
         String sectionPrefix = String.format("section-%s-", getSectionPosition(section));
 
-        Set<String> teamsWithResponses = new HashSet<String>();
-        Set<String> teamMembersWithResponses = new HashSet<String>();
+        Set<String> teamsWithResponses = new HashSet<>();
+        Set<String> teamMembersWithResponses = new HashSet<>();
 
         // Iterate through the primary participant
         int primaryParticipantIndex = this.getStartIndex();
@@ -311,9 +313,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildSectionPanelForViewByParticipantQuestionParticipant(String section,
                                 Map<String, Map<FeedbackQuestionAttributes,
                                 List<FeedbackResponseAttributes>>> sortedResponses, String additionalInfoId) {
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+        sectionPanels = new LinkedHashMap<>();
 
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
                 viewType.isPrimaryGroupingOfGiverType() ? bundle.getQuestionResponseMapByGiverTeam()
                                                         : bundle.getQuestionResponseMapByRecipientTeam();
 
@@ -321,8 +323,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         String sectionPrefix = String.format("section-%s-", getSectionPosition(section));
 
-        Set<String> teamsWithResponses = new LinkedHashSet<String>();
-        Set<String> teamMembersWithResponses = new HashSet<String>();
+        Set<String> teamsWithResponses = new LinkedHashSet<>();
+        Set<String> teamMembersWithResponses = new HashSet<>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
 
@@ -501,7 +503,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-
+            boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
+                    .isCommentsOnResponsesAllowed();
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
@@ -510,15 +513,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
-                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection);
-
+                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
+                            isCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-            FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
+            if (isCommentsOnResponsesAllowed) {
+                Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
                                                             responseVisibilityMap, giverName, recipientName);
 
-            responsePanel.setFrcForAdding(frcForAdding);
+                responsePanel.setFrcForAdding(frcForAdding);
 
+            }
             responsePanels.add(responsePanel);
         }
 
@@ -529,8 +534,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String participantIdentifier,
             Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap,
             String additionalInfoId, int participantIndex) {
-        List<InstructorFeedbackResultsQuestionTable> questionTables =
-                new ArrayList<InstructorFeedbackResultsQuestionTable>();
+        List<InstructorFeedbackResultsQuestionTable> questionTables = new ArrayList<>();
 
         int questionIndex = 0;
         for (Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForParticipantForQuestion
@@ -584,7 +588,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                           String sectionName) {
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> emptyResponseMap =
                 new LinkedHashMap<>();
-        LinkedHashSet<String> emptyTeamList = new LinkedHashSet<String>();
+        LinkedHashSet<String> emptyTeamList = new LinkedHashSet<>();
         finalizeBuildingSectionPanel(sectionPanel, sectionName, emptyResponseMap, emptyTeamList);
     }
 
@@ -637,13 +641,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         // update the teams for the previous section
         Set<String> teamsInSection = bundle.getTeamsInSectionFromRoster(sectionName);
-        Set<String> teamsWithoutResponses = new HashSet<String>(teamsInSection);
+        Set<String> teamsWithoutResponses = new HashSet<>(teamsInSection);
         teamsWithoutResponses.removeAll(teamWithResponses);
 
         // create for every remaining team in the section, participantResultsPanels for every team member
         for (String teamWithoutResponses : teamsWithoutResponses) {
-            List<String> teamMembers = new ArrayList<String>(
-                                                     bundle.getTeamMembersFromRoster(teamWithoutResponses));
+            List<String> teamMembers = new ArrayList<>(bundle.getTeamMembersFromRoster(teamWithoutResponses));
             Collections.sort(teamMembers);
             if (viewType.isPrimaryGroupingOfGiverType()) {
                 addMissingParticipantsPanelsWithModerationButtonForTeam(
@@ -674,14 +677,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String teamName,
                                     Set<String> teamMembersWithResponses) {
 
-        Set<String> teamMembersEmail = new HashSet<String>();
+        Set<String> teamMembersEmail = new HashSet<>();
         teamMembersEmail.addAll(bundle.getTeamMembersFromRoster(teamName));
 
-        Set<String> teamMembersWithoutResponses = new HashSet<String>(teamMembersEmail);
+        Set<String> teamMembersWithoutResponses = new HashSet<>(teamMembersEmail);
         teamMembersWithoutResponses.removeAll(teamMembersWithResponses);
 
         // Create missing participants panels for the previous team
-        List<String> sortedTeamMembersWithoutResponses = new ArrayList<String>(teamMembersWithoutResponses);
+        List<String> sortedTeamMembersWithoutResponses = new ArrayList<>(teamMembersWithoutResponses);
         Collections.sort(sortedTeamMembersWithoutResponses);
 
         if (viewType.isPrimaryGroupingOfGiverType()) {
@@ -695,7 +698,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+        sectionPanels = new LinkedHashMap<>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
                 Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
@@ -715,7 +718,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildSectionPanelWithErrorMessage() {
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+        sectionPanels = new LinkedHashMap<>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
         sectionPanel.setSectionName(selectedSection);
@@ -795,8 +798,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                      InstructorFeedbackResultsSectionPanel sectionPanel,
                      Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
                      Set<String> teamsInSection) {
-        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables =
-                new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
+        Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables = new HashMap<>();
         for (String team : teamsInSection) {
             // skip team if no responses,
             // or if the team is an anonymous student's team or an anonymous team, or is "-"
@@ -804,8 +806,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 continue;
             }
 
-            List<InstructorFeedbackResultsQuestionTable> statisticsTablesForTeam =
-                    new ArrayList<InstructorFeedbackResultsQuestionTable>();
+            List<InstructorFeedbackResultsQuestionTable> statisticsTablesForTeam = new ArrayList<>();
 
             for (FeedbackQuestionAttributes question : bundle.questions.values()) {
                 if (!responsesGroupedByTeam.get(team).containsKey(question)) {
@@ -882,8 +883,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                               String additionalInfoId,
                                                               String participantIdentifier, boolean isShowingResponseRows) {
 
-        List<ElementTag> columnTags = new ArrayList<ElementTag>();
-        Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
+        List<ElementTag> columnTags = new ArrayList<>();
+        Map<String, Boolean> isSortable = new HashMap<>();
         boolean isCollapsible = true;
         List<InstructorFeedbackResultsResponseRow> responseRows = null;
 
@@ -948,20 +949,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags,
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none toggle-sort",
+                        "style", "width: 10%; min-width: 67px;");
         ElementTag giverElement =
-                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 65px;");
+                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none toggle-sort",
+                        "style", "width: 10%; min-width: 65px;");
         ElementTag recipientTeamElement =
-                new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending toggle-sort",
+                        "style", "width: 10%; min-width: 67px;");
         ElementTag recipientElement =
-                new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 10%; min-width: 90px;");
+                new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none toggle-sort",
+                        "style", "width: 10%; min-width: 90px;");
         ElementTag responseElement =
-                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 45%; min-width: 95px;");
+                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
+                        "style", "width: 45%; min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
                                                   "style", "width: 15%; min-width: 75px;");
 
@@ -983,14 +984,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
+                        "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement =
-                new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
+                new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none toggle-sort",
+                        "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement =
-                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "min-width: 95px;");
+                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
+                        "style", "min-width: 95px;");
 
         columnTags.add(photoElement);
         columnTags.add(recipientTeamElement);
@@ -1007,14 +1008,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement =
-                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+                new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
+                        "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement =
-                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
+                new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none toggle-sort",
+                        "style", "width: 15%; min-width: 65px;");
         ElementTag responseElement =
-                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick",
-                               "toggleSort(this)", "style", "min-width: 95px;");
+                new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
+                        "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions", "class", "action-header");
 
         columnTags.add(photoElement);
@@ -1037,10 +1038,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     private List<InstructorFeedbackResultsResponseRow> buildResponseRowsForQuestion(
             FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses) {
-        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<>();
 
         List<String> possibleGiversWithoutResponses = bundle.getPossibleGivers(question);
-        List<String> possibleReceiversWithoutResponsesForGiver = new ArrayList<String>();
+        List<String> possibleReceiversWithoutResponsesForGiver = new ArrayList<>();
 
         String prevGiver = "";
 
@@ -1111,7 +1112,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     FeedbackQuestionAttributes question,
                                     List<FeedbackResponseAttributes> responses,
                                     String participantIdentifier, boolean isFirstGroupedByGiver) {
-        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<>();
 
         List<String> possibleParticipantsWithoutResponses = isFirstGroupedByGiver
                                                           ? bundle.getPossibleRecipients(question, participantIdentifier)
@@ -1212,7 +1213,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                     List<String> possibleReceivers,
                                                                     String giverIdentifier,
                                                                     String giverName, String giverTeam) {
-        List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<>();
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
 
         for (String possibleRecipient : possibleReceivers) {
@@ -1247,7 +1248,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     FeedbackQuestionAttributes question,
                                     List<String> possibleGivers, String recipientIdentifier,
                                     String recipientName, String recipientTeam) {
-        List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<>();
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
 
         for (String possibleGiver : possibleGivers) {
@@ -1287,7 +1288,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorFeedbackResultsResponseRow> getRemainingMissingResponseRows(
             FeedbackQuestionAttributes question, List<String> remainingPossibleGivers,
             List<String> possibleRecipientsForGiver, String prevGiver) {
-        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<>();
 
         if (possibleRecipientsForGiver != null && isMissingResponsesShown) {
             responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
@@ -1398,14 +1399,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
-                                                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
+                                                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                                                 instructor,
                                                 "btn-primary btn-block");
     }
 
     private List<FeedbackResponseCommentRow> buildResponseComments(String giverName, String recipientName,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
-        List<FeedbackResponseCommentRow> comments = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frcAttributes : frcAttributesList) {
@@ -1434,11 +1435,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap);
+                                           responseVisibilityMap, bundle.instructorEmailNameTable);
 
         if (isInstructorAllowedToEditAndDeleteComment) {
-            frc.enableEdit();
-            frc.enableDelete();
+            frc.enableEditDelete();
         }
 
         return frc;
@@ -1460,8 +1460,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 FeedbackParticipantType.INSTRUCTORS
         };
 
-        frca.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        frca.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        frca.showCommentTo = new ArrayList<>();
+        frca.showGiverNameTo = new ArrayList<>();
         for (FeedbackParticipantType type : relevantTypes) {
             if (isResponseCommentVisibleTo(question, type)) {
                 frca.showCommentTo.add(type);
@@ -1547,6 +1547,35 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         return moderationButtons;
+    }
+
+    private InstructorFeedbackResultsRemindButton buildRemindButtonForNoResponsePanel() {
+
+        boolean isSessionClosed = bundle.getFeedbackSession().isClosed();
+        String actionLink = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE);
+        actionLink = Url.addParamToUrl(actionLink, Const.ParamsNames.COURSE_ID, bundle.feedbackSession.getCourseId());
+        actionLink = Url.addParamToUrl(actionLink, Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                bundle.feedbackSession.getFeedbackSessionName());
+        actionLink = addSessionTokenToUrl(actionLink);
+
+        return new InstructorFeedbackResultsRemindButton(isSessionClosed,
+                "btn btn-default btn-xs btn-tm-actions remind-btn-no-response",
+                bundle.feedbackSession.getCourseId(),
+                bundle.feedbackSession.getFeedbackSessionName(),
+                "Remind All", actionLink);
+    }
+
+    private String getRemindParticularStudentsLink() {
+        String remindParticularStudentsLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+
+        String nextUrl = addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
+        nextUrl = Url.addParamToUrl(nextUrl, Const.ParamsNames.COURSE_ID, bundle.feedbackSession.getCourseId());
+        nextUrl = Url.addParamToUrl(nextUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                bundle.feedbackSession.getFeedbackSessionName());
+        remindParticularStudentsLink = Url.addParamToUrl(remindParticularStudentsLink, Const.ParamsNames.NEXT_URL,
+                nextUrl);
+        remindParticularStudentsLink = addSessionTokenToUrl(remindParticularStudentsLink);
+        return remindParticularStudentsLink;
     }
 
     @Override
@@ -1670,7 +1699,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
-                                                            buildModerateButtonsForNoResponsePanel());
+                buildModerateButtonsForNoResponsePanel(),
+                buildRemindButtonForNoResponsePanel(),
+                getRemindParticularStudentsLink());
     }
 
     public void setStartIndex(int startIndex) {

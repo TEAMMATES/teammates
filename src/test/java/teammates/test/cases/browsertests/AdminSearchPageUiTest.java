@@ -8,10 +8,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AdminSearchPage;
 
@@ -35,6 +37,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     public void allTests() {
         testContent();
         testSearch();
+        testSanitization();
     }
 
     private void testContent() {
@@ -71,7 +74,8 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
 
         StudentAttributes student = testData.students.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        assertTrue(isStudentRowDisplayed(student, instructor));
+        CourseAttributes course = testData.courses.get("typicalCourse1");
+        assertStudentRowDisplayed(student, instructor, course);
 
         ______TS("search for student1 email");
 
@@ -93,6 +97,29 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
 
         assertTrue(isSearchPanelPresent());
         assertTrue(isSearchDataDisplayCorrect());
+    }
+
+    private void testSanitization() {
+        ______TS("search for student with data requiring sanitization");
+
+        searchPage.clearSearchBox();
+        String searchContent = "searchUI.normal@sanitization.tmt";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        StudentAttributes student = testData.students.get("student1InTestingSanitizationCourse");
+        InstructorAttributes instructor = testData.instructors.get("instructor1OfTestingSanitizationCourse");
+        CourseAttributes course = testData.courses.get("testingSanitizationCourse");
+        assertStudentRowDisplayed(student, instructor, course);
+
+        ______TS("search for instructor with data requiring sanitization");
+
+        searchPage.clearSearchBox();
+        searchContent = "searchUI.instructor1@sanitization.tmt";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        assertInstructorRowDisplayed(instructor, course);
     }
 
     private AdminSearchPage getAdminSearchPage() {
@@ -147,7 +174,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Google ID",
                                                        "Institute",
                                                        "Options");
-            actualSessionTableHeaders = new ArrayList<String>();
+            actualSessionTableHeaders = new ArrayList<>();
 
             for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
@@ -166,7 +193,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
                                                        "Google ID[Details]",
                                                        "Comments",
                                                        "Options");
-            actualSessionTableHeaders = new ArrayList<String>();
+            actualSessionTableHeaders = new ArrayList<>();
             for (int i = 0; i < numColumns; i++) {
                 actualSessionTableHeaders.add(searchPage.getHeaderValueFromDataTable(tableNum, 0, i));
             }
@@ -189,22 +216,13 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      *            a registered instructor with co-owner privileges or the
      *            privilege to modify instructors
      */
-    private boolean isStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs) {
+    private void assertStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs,
+                                              CourseAttributes course) {
 
-        By by = By.xpath("//table[@id = 'search_table']/tbody/tr[@class='studentRow']");
-        List<WebElement> studentRows = browser.driver.findElements(by);
+        WebElement studentRow = searchPage.getStudentRow(student);
 
-        for (WebElement studentRow : studentRows) {
-
-            boolean isStudentCorrect = isStudentContentCorrect(studentRow, student)
-                                       && isStudentLinkCorrect(studentRow, student, instructorToMasquaradeAs);
-
-            if (isStudentCorrect) {
-                return true;
-            }
-        }
-
-        return false;
+        assertStudentContentCorrect(studentRow, student, course);
+        assertTrue(isStudentLinkCorrect(studentRow, student, instructorToMasquaradeAs));
     }
 
     /**
@@ -216,9 +234,10 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      * @param student
      *            the student to be displayed
      */
-    private boolean isStudentContentCorrect(WebElement studentRow, StudentAttributes student) {
+    private void assertStudentContentCorrect(WebElement studentRow, StudentAttributes student, CourseAttributes course) {
 
         String actualDetails = studentRow.findElement(By.xpath("td[2]")).getText();
+        String actualCourseName = studentRow.findElement(By.xpath("td[2]")).getAttribute("data-original-title");
         String actualName = studentRow.findElement(By.xpath("td[3]")).getText();
         String actualGoogleId = studentRow.findElement(By.xpath("td[4]")).getText();
         String actualComment = studentRow.findElement(By.xpath("td[5]")).getText();
@@ -226,14 +245,18 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         String expectedDetails = student.course + "\n"
                                  + (student.section == null ? Const.DEFAULT_SECTION : student.section) + "\n"
                                  + student.team;
+        // courseName resides in tooltip and is expected to be sanitized in the attribute
+        // adjustments made based on differences in sanitization used in fn:escapeXml
+        String expectedCourseName = sanitizeWithFnEscapeXml(course.getName());
         String expectedName = student.name;
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.googleId);
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.comments);
 
-        return actualDetails.equals(expectedDetails)
-               && actualName.equals(expectedName)
-               && actualGoogleId.equals(expectedGoogleId)
-               && actualComment.equals(expectedComment);
+        assertEquals(expectedDetails, actualDetails);
+        assertEquals(expectedCourseName, actualCourseName);
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedGoogleId, actualGoogleId);
+        assertEquals(expectedComment, actualComment);
     }
 
     /**
@@ -273,4 +296,37 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         return actualNameLink.equals(expectedNameLink);
     }
 
+    /**
+     * Returns true if the instructor is displayed correctly in the instructor table.
+     *
+     * @param instructor                  the instructor to be displayed
+     */
+    private void assertInstructorRowDisplayed(InstructorAttributes instructor, CourseAttributes course) {
+
+        WebElement instructorRow = searchPage.getInstructorRow(instructor);
+
+        String actualCourseId = instructorRow.findElement(By.xpath("td[1]")).getText();
+        String actualCourseName = instructorRow.findElement(By.xpath("td[1]")).getAttribute("data-original-title");
+        String actualName = instructorRow.findElement(By.xpath("td[2]")).getText();
+        String actualGoogleId = instructorRow.findElement(By.xpath("td[3]")).getText();
+
+        String expectedCourseId = instructor.courseId;
+        // courseName resides in tooltip and is expected to be sanitized in the attribute
+        // adjustments made based on differences in sanitization used in fn:escapeXml
+        String expectedCourseName = sanitizeWithFnEscapeXml(course.getName());
+        String expectedName = instructor.name;
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.googleId);
+
+        assertEquals(expectedCourseId, actualCourseId);
+        assertEquals(expectedCourseName, actualCourseName);
+        assertEquals(expectedName, actualName);
+        assertEquals(expectedGoogleId, actualGoogleId);
+    }
+
+    private String sanitizeWithFnEscapeXml(String string) {
+        return SanitizationHelper.sanitizeForHtml(string)
+                .replace("&#39;", "&#039;")
+                .replace("&quot;", "&#034;")
+                .replace("&#x2f;", "/");
+    }
 }

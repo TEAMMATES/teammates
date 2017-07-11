@@ -1,15 +1,16 @@
 package teammates.ui.template;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
     private Long commentId;
-    private String extraClass = "";
     private String giverDisplay;
     private String createdAt;
     private String editedAt;
@@ -20,54 +21,50 @@ public class FeedbackResponseCommentRow {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+    private String commentGiverName;
 
     private String showCommentToString;
     private String showGiverNameToString;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
+    private Map<String, String> instructorEmailNameTable;
 
     private String whoCanSeeComment;
-    private boolean withVisibilityIcon;
-    private boolean withNotificationIcon;
-    private boolean withLinkToCommentsPage;
-    private String linkToCommentsPage;
 
-    private boolean editDeleteEnabled;
-    private boolean editDeleteEnabledOnlyOnHover;
-    private boolean instructorAllowedToDelete;
-    private boolean instructorAllowedToEdit;
+    private boolean hasVisibilityIcon;
 
-    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
+    private boolean isEditDeleteEnabled;
+
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
+            Map<String, String> instructorEmailNameTable) {
+        this.instructorEmailNameTable = instructorEmailNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
         this.commentText = frc.commentText.getValue();
+        this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
+        this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
-    // for editing / deleting comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                      String giverName, String recipientName, String showCommentToString,
-                                      String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
-        this(frc, giverDisplay);
+            String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable) {
+        this(frc, giverDisplay, instructorEmailNameTable);
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisibilities);
+                showCommentToString, showGiverNameToString, responseVisibilities);
     }
 
     // for adding comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
-                                      String giverName, String recipientName, String showCommentToString,
-                                      String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisibilities) {
+            String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisibilities);
+                showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
     }
 
-    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName,
+    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
             String showCommentToString, String showGiverNameToString,
             Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this.responseGiverName = giverName;
@@ -85,10 +82,6 @@ public class FeedbackResponseCommentRow {
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
 
-    }
-
-    public String getExtraClass() {
-        return extraClass;
     }
 
     public Long getCommentId() {
@@ -109,10 +102,6 @@ public class FeedbackResponseCommentRow {
 
     public String getCommentText() {
         return commentText;
-    }
-
-    public String getLinkToCommentsPage() {
-        return linkToCommentsPage;
     }
 
     public String getFeedbackResponseId() {
@@ -152,31 +141,11 @@ public class FeedbackResponseCommentRow {
     }
 
     public boolean isWithVisibilityIcon() {
-        return withVisibilityIcon;
-    }
-
-    public boolean isWithNotificationIcon() {
-        return withNotificationIcon;
-    }
-
-    public boolean isWithLinkToCommentsPage() {
-        return withLinkToCommentsPage;
+        return hasVisibilityIcon;
     }
 
     public boolean isEditDeleteEnabled() {
-        return editDeleteEnabled;
-    }
-
-    public boolean isEditDeleteEnabledOnlyOnHover() {
-        return editDeleteEnabledOnlyOnHover;
-    }
-
-    public boolean isInstructorAllowedToDelete() {
-        return instructorAllowedToDelete;
-    }
-
-    public boolean isInstructorAllowedToEdit() {
-        return instructorAllowedToEdit;
+        return isEditDeleteEnabled;
     }
 
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
@@ -259,40 +228,33 @@ public class FeedbackResponseCommentRow {
         return isShowGiverNameTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
-    public void setExtraClass(String extraClass) {
-        this.extraClass = extraClass;
-    }
-
-    private void enableEditDelete() {
-        this.editDeleteEnabled = true;
-    }
-
-    public void enableEdit() {
-        enableEditDelete();
-        this.instructorAllowedToEdit = true;
-    }
-
-    public void enableDelete() {
-        enableEditDelete();
-        this.instructorAllowedToDelete = true;
-    }
-
-    public void enableEditDeleteOnHover() {
-        this.editDeleteEnabledOnlyOnHover = true;
+    public void enableEditDelete() {
+        this.isEditDeleteEnabled = true;
     }
 
     public void enableVisibilityIcon(String whoCanSeeComment) {
-        this.withVisibilityIcon = true;
+        this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
 
-    public void enableNotificationIcon() {
-        this.withNotificationIcon = true;
+    public String getCommentGiverName() {
+        return commentGiverName;
     }
 
-    public FeedbackResponseCommentRow setLinkToCommentsPage(String linkToCommentsPage) {
-        this.withLinkToCommentsPage = true;
-        this.linkToCommentsPage = linkToCommentsPage;
-        return this;
+    private String getCommentGiverNameFromEmail(String giverEmail) {
+        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
+            return Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
+        }
+        return instructorEmailNameTable.get(giverEmail);
+    }
+
+    private String getEditedAtText(String lastEditorEmail, Date createdAt, Date lastEditedAt) {
+        if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+            return "";
+        }
+        boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
+        return "(last edited "
+                + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
+                + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt) + ")";
     }
 }

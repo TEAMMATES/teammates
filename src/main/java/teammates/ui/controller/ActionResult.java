@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.CryptoHelper;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -32,7 +36,7 @@ public abstract class ActionResult {
     protected AccountAttributes account;
 
     /** A list of status messages to be shown to the user. */
-    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
+    protected List<StatusMessage> statusToUser = new ArrayList<>();
 
     /**
      * Parameters to be sent with the result. These will be automatically added
@@ -40,7 +44,7 @@ public abstract class ActionResult {
      * is {@code /page/instructorHome} and if we have {@code user=abc} in this map,
      * the result will be sent to {@code /page/instructorHome?user=abc}
      */
-    protected Map<String, String> responseParams = new HashMap<String, String>();
+    protected Map<String, String> responseParams = new HashMap<>();
 
     public ActionResult(
             String destination,
@@ -57,7 +61,7 @@ public abstract class ActionResult {
      *         execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
-        List<String> statusMessageTexts = new ArrayList<String>();
+        List<String> statusMessageTexts = new ArrayList<>();
 
         for (StatusMessage msg : statusToUser) {
             statusMessageTexts.add(msg.getText());
@@ -83,6 +87,22 @@ public abstract class ActionResult {
      */
     public String getDestinationWithParams() {
         return appendParameters(destination, responseParams);
+    }
+
+    /**
+     * Compute session token a.k.a CSRF token from request session ID and write to cookie in response.
+     * Don't set if a valid token already exists.
+     * This cookie is used to add CSRF tokens to dynamically-generated links from JS code on the front-end.
+     */
+    public void writeSessionTokenToCookieIfRequired(HttpServletRequest req, HttpServletResponse resp) {
+        String sessionToken = CryptoHelper.computeSessionToken(req.getSession().getId());
+        String existingSessionToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.ParamsNames.SESSION_TOKEN);
+
+        if (sessionToken.equals(existingSessionToken)) {
+            return;
+        }
+
+        resp.addCookie(new Cookie(Const.ParamsNames.SESSION_TOKEN, sessionToken));
     }
 
     /**

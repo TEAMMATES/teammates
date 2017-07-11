@@ -17,7 +17,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     public FeedbackMsqResponseDetails() {
         super(FeedbackQuestionType.MSQ);
-        this.answers = new ArrayList<String>();
+        this.answers = new ArrayList<>();
         isOther = false;
         otherFieldContent = "";
     }
@@ -64,7 +64,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
 
         if (isAnswerBlank()) {

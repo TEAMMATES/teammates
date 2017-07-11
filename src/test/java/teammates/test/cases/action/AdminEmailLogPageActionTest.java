@@ -349,7 +349,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     }
 
     private List<String> generateExpectedMsgFrom(int[][] expectedLogs) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (int i = 0; i < expectedLogs.length; i++) {
             for (int j = 0; j < expectedLogs[i].length; j++) {
                 result.add(logMessages.get(i).get(expectedLogs[i][j]));
@@ -402,7 +402,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     }
 
     private List<EmailLogEntry> getLogsFromLogTemplateRows(List<AdminEmailTableRow> rows) {
-        List<EmailLogEntry> logs = new ArrayList<EmailLogEntry>();
+        List<EmailLogEntry> logs = new ArrayList<>();
         for (AdminEmailTableRow row : rows) {
             logs.add(row.getLogEntry());
         }
@@ -425,6 +425,11 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     @Override
     protected AdminEmailLogPageAction getAction(String... params) {
         return (AdminEmailLogPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
     }
 
 }

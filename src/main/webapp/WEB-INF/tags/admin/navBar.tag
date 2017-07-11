@@ -8,8 +8,8 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle"
                 data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span> 
-                <span class="icon-bar"></span> 
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
@@ -22,29 +22,29 @@
                 <li <c:if test="${fn:contains(data.class,'AdminHomePage')}">class="active"</c:if>>
                     <a href="<%=Const.ActionURIs.ADMIN_HOME_PAGE%>">Create Instructor</a>
                 </li>
-                
+
                 <!-- The link to Account Management Page will be hidden until it's scalable.
                 <li <c:if test="${fn:contains(data.class,'AdminAccountManagementPage')}">class="active"</c:if>>
                     <a href="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">Account Management</a>
                 </li>-->
-                
+
                 <li <c:if test="${fn:contains(data.class,'AdminSearchPage')}">class="active"</c:if>>
                     <a href="<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>">Search</a>
                 </li>
-                
+
                 <li <c:if test="${fn:contains(data.class,'AdminActivityLogPage')}">class="active"</c:if>>
                     <a href="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">Activity Log</a>
                 </li>
-                
+
                 <li <c:if test="${fn:contains(data.class,'AdminSessionsPage')}">class="active"</c:if>>
                     <a href="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
                 </li>
-                
+
                 <li <c:if test="${fn:contains(data.class,'AdminEmail')}">class="active dropdown"</c:if>
                     <c:if test="${not fn:contains(data.class,'AdminEmail')}">class="dropdown"</c:if>>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Email <span class="caret"></span>
-                    </a> 
+                    </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
                              <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Email</a>
@@ -60,11 +60,11 @@
                 <li>
                     <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">
                         <span class="glyphicon glyphicon-user"></span> Logout
-                        
+
                         (<span class="text-info" data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom">
                             ${data.account.truncatedGoogleId}
                         </span>)
-                    </a>  
+                    </a>
                 </li>
             </ul>
         </div>

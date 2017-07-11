@@ -24,7 +24,7 @@ public class AdminSessionsPageAction extends Action {
     private AdminSessionsPageData data;
 
     private Map<String, List<FeedbackSessionAttributes>> map;
-    private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
+    private Map<String, String> sessionToInstructorIdMap = new HashMap<>();
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
     private int totalClosedStatusSessions;
@@ -39,7 +39,7 @@ public class AdminSessionsPageAction extends Action {
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        data = new AdminSessionsPageData(account);
+        data = new AdminSessionsPageData(account, sessionToken);
 
         isShowAll = getRequestParamAsBoolean("all");
 
@@ -63,9 +63,9 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private void putIntoUnknownList(
-            HashMap<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
+            Map<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
         if (map.get("Unknown") == null) {
-            List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
+            List<FeedbackSessionAttributes> newList = new ArrayList<>();
             newList.add(fs);
             map.put("Unknown", newList);
         } else {
@@ -74,7 +74,7 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private void prepareDefaultPageData(Calendar calStart, Calendar calEnd) {
-        this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
+        this.map = new HashMap<>();
         this.totalOngoingSessions = 0;
         this.totalOpenStatusSessions = 0;
         this.totalClosedStatusSessions = 0;
@@ -166,7 +166,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>"
                           + "<span class=\"bold\"> No Ongoing Sessions</span>";
 
-            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
+            this.map = new HashMap<>();
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
             this.totalClosedStatusSessions = 0;
@@ -183,7 +183,7 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private ActionResult createAdminSessionPageResult(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
-        HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<String, List<FeedbackSessionAttributes>>();
+        HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<>();
         this.totalOngoingSessions = allOpenFeedbackSessionsList.size();
         this.totalOpenStatusSessions = getTotalNumOfOpenStatusSession(allOpenFeedbackSessionsList);
         this.totalClosedStatusSessions = getTotalNumOfCloseStatusSession(allOpenFeedbackSessionsList);
@@ -204,7 +204,7 @@ public class AdminSessionsPageAction extends Action {
                 }
 
                 if (map.get(account.institute) == null) {
-                    List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
+                    List<FeedbackSessionAttributes> newList = new ArrayList<>();
                     newList.add(fs);
                     map.put(account.institute, newList);
                 } else {
@@ -301,7 +301,7 @@ public class AdminSessionsPageAction extends Action {
         return numOfTotal;
     }
 
-    private int getTotalInstitutes(HashMap<String, List<FeedbackSessionAttributes>> map) {
+    private int getTotalInstitutes(Map<String, List<FeedbackSessionAttributes>> map) {
 
         int numOfTotal = 0;
         for (String key : map.keySet()) {

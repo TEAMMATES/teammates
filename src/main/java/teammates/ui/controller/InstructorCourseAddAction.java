@@ -36,14 +36,14 @@ public class InstructorCourseAddAction extends Action {
         gateKeeper.verifyInstructorPrivileges(account);
 
         /* Create a new course in the database */
-        data = new InstructorCoursesPageData(account);
+        data = new InstructorCoursesPageData(account, sessionToken);
         CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
-        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
-        List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<>();
+        List<CourseAttributes> activeCourses = new ArrayList<>();
+        List<CourseAttributes> archivedCourses = new ArrayList<>();
 
         // Get list of InstructorAttributes that belong to the user.
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
@@ -74,7 +74,7 @@ public class InstructorCourseAddAction extends Action {
             courseIdToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getId());
             courseNameToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getName());
 
-            List<String> statusMessageTexts = new ArrayList<String>();
+            List<String> statusMessageTexts = new ArrayList<>();
 
             for (StatusMessage msg : statusToUser) {
                 statusMessageTexts.add(msg.getText());
@@ -88,7 +88,8 @@ public class InstructorCourseAddAction extends Action {
 
         data.init(activeCourses, archivedCourses, instructorsForCourses, courseIdToShowParam, courseNameToShowParam);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
+        return isError ? createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data)
+                : createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     private void createCourse(CourseAttributes course) {

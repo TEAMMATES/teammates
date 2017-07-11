@@ -35,8 +35,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     private String statusForAjax;
     private boolean hasError;
 
-    public InstructorFeedbackEditPageData(AccountAttributes account) {
-        super(account);
+    public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
@@ -47,7 +47,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
         buildFsForm(feedbackSession);
 
-        qnForms = new ArrayList<FeedbackQuestionEditForm>();
+        qnForms = new ArrayList<>();
         for (int i = 0; i < questions.size(); i++) {
             FeedbackQuestionAttributes question = questions.get(i);
             buildExistingQuestionForm(feedbackSession.getFeedbackSessionName(),
@@ -76,7 +76,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildBasicFsForm(FeedbackSessionAttributes fsa,
                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.getCourseId(), fsa.getFeedbackSessionName(),
-                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+                                                              Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
 
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings,
@@ -125,17 +125,17 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private FeedbackQuestionVisibilitySettings configureVisibilitySettings(FeedbackQuestionAttributes question) {
-        Map<String, Boolean> isGiverNameVisibleFor = new HashMap<String, Boolean>();
+        Map<String, Boolean> isGiverNameVisibleFor = new HashMap<>();
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisibleFor.put(giverType.name(), true);
         }
 
-        Map<String, Boolean> isRecipientNameVisibleFor = new HashMap<String, Boolean>();
+        Map<String, Boolean> isRecipientNameVisibleFor = new HashMap<>();
         for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
             isRecipientNameVisibleFor.put(recipientType.name(), true);
         }
 
-        Map<String, Boolean> isResponsesVisibleFor = new HashMap<String, Boolean>();
+        Map<String, Boolean> isResponsesVisibleFor = new HashMap<>();
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisibleFor.put(participantType.name(), true);
         }
@@ -172,62 +172,62 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientAndInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isResponsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean giverNameVisibleToNoOne = question.showGiverNameTo.isEmpty();
+        boolean isGiverNameVisibleToNoOne = question.showGiverNameTo.isEmpty();
 
-        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleToNoOne;
+        return isResponsesVisibleOnlyToRecipientAndInstructors && isGiverNameVisibleToNoOne;
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientVisibleToInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isResponsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+        boolean isGiverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToInstructors;
+        return isResponsesVisibleOnlyToRecipientAndInstructors && isGiverNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToAnonymousToRecipientAndTeamVisibleToInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientTeamAndInstructors = question.showResponsesTo.size() == 4
+        boolean isResponsesVisibleOnlyToRecipientTeamAndInstructors = question.showResponsesTo.size() == 4
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                 && question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+        boolean isGiverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleOnlyToRecipientTeamAndInstructors && giverNameVisibleOnlyToInstructors;
+        return isResponsesVisibleOnlyToRecipientTeamAndInstructors && isGiverNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToVisibleToInstructorsOnly(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToInstructors = question.showResponsesTo.size() == 1
+        boolean isResponsesVisibleOnlyToInstructors = question.showResponsesTo.size() == 1
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean giverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
+        boolean isGiverNameVisibleOnlyToInstructors = question.showGiverNameTo.size() == 1
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean recipientNameVisibleOnlyToInstructors = question.showRecipientNameTo.size() == 1
+        boolean isRecipientNameVisibleOnlyToInstructors = question.showRecipientNameTo.size() == 1
                 && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-        return responsesVisibleOnlyToInstructors && giverNameVisibleOnlyToInstructors
-                && recipientNameVisibleOnlyToInstructors;
+        return isResponsesVisibleOnlyToInstructors && isGiverNameVisibleOnlyToInstructors
+                && isRecipientNameVisibleOnlyToInstructors;
     }
 
     private boolean isVisibilitySetToVisibleToRecipientAndInstructors(FeedbackQuestionAttributes question) {
-        boolean responsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isResponsesVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean giverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
+        boolean isGiverNameVisibleOnlyToRecipientAndInstructors = question.showGiverNameTo.size() == 2
                 && question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
-        boolean recipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
+        boolean isRecipientNameVisibleOnlyToRecipientAndInstructors = question.showResponsesTo.size() == 2
                 && question.showRecipientNameTo.size() == 2
                 && question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)
                 && question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER);
 
-        return responsesVisibleOnlyToRecipientAndInstructors && giverNameVisibleOnlyToRecipientAndInstructors
-                && recipientNameVisibleOnlyToRecipientAndInstructors;
+        return isResponsesVisibleOnlyToRecipientAndInstructors && isGiverNameVisibleOnlyToRecipientAndInstructors
+                && isRecipientNameVisibleOnlyToRecipientAndInstructors;
     }
 
     private FeedbackQuestionFeedbackPathSettings configureFeedbackPathSettings(
@@ -254,7 +254,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
 
-        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                                 .withUserId(account.googleId)
                                 .withCourseId(feedbackSession.getCourseId())
                                 .withSessionName(feedbackSession.getFeedbackSessionName())
@@ -266,7 +266,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getQuestionNumberOptions(int numQuestions) {
-        List<ElementTag> options = new ArrayList<ElementTag>();
+        List<ElementTag> options = new ArrayList<>();
 
         for (int opt = 1; opt < numQuestions + 1; opt++) {
             ElementTag option = createOption(String.valueOf(opt), String.valueOf(opt), false);
@@ -301,7 +301,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {
-        List<ElementTag> results = new ArrayList<ElementTag>();
+        List<ElementTag> results = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
             ElementTag option = createOption(instructor.name, instructor.email);
@@ -312,7 +312,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getPreviewAsStudentOptions(List<StudentAttributes> studentList) {
-        List<ElementTag> results = new ArrayList<ElementTag>();
+        List<ElementTag> results = new ArrayList<>();
 
         for (StudentAttributes student : studentList) {
             ElementTag option = createOption("[" + student.team + "] " + student.name, student.email);
@@ -352,7 +352,7 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return form submit action link
      */
     public String getEditCopyActionLink() {
-        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
     public boolean getHasError() {

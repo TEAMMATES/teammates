@@ -16,8 +16,7 @@ import teammates.common.util.Const.TaskQueue;
  */
 public class AutomatedActionFactory {
 
-    private static Map<String, Class<? extends AutomatedAction>> actionMappings =
-            new HashMap<String, Class<? extends AutomatedAction>>();
+    private static Map<String, Class<? extends AutomatedAction>> actionMappings = new HashMap<>();
 
     static {
         // Cron jobs
@@ -38,8 +37,6 @@ public class AutomatedActionFactory {
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, FeedbackSessionUnpublishedEmailWorkerAction.class);
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, InstructorCourseJoinEmailWorkerAction.class);
-        map(TaskQueue.PENDING_COMMENT_CLEARED_EMAIL_WORKER_URL, PendingCommentClearedEmailWorkerAction.class);
-        map(TaskQueue.PRODUCE_SEARCH_DOCUMENTS_COMMENTS_WORKER_URL, PutCommentDocumentWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, StudentCourseJoinEmailWorkerAction.class);
     }

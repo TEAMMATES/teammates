@@ -5,16 +5,15 @@
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/profile" prefix="tsp" %>
 <c:set var="cssIncludes">
-    <link type="text/css" rel="stylesheet" href="<%= FrontEndLibrary.JQUERY_GUILLOTINE_CSS %>">
+  <link type="text/css" rel="stylesheet" href="<%= FrontEndLibrary.JQUERY_GUILLOTINE_CSS %>">
 </c:set>
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_GUILLOTINE %>"></script>
-    <script type="text/javascript" src="/js/student.js"></script>
-    <script type="text/javascript" src="/js/studentProfile.js"></script>
+  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_GUILLOTINE %>"></script>
+  <script type="text/javascript" src="/js/studentProfile.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student Profile" bodyTitle="Student Profile" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
-    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <br>
-    <tsp:uploadPhotoModal modal="${data.uploadPhotoModal}" />
-    <tsp:studentProfileDiv profile="${data.profileEditBox}" />
+  <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+  <br>
+  <tsp:uploadPhotoModal modal="${data.uploadPhotoModal}" sessionToken="${data.sessionToken}" />
+  <tsp:studentProfileDiv profile="${data.profileEditBox}" sessionToken="${data.sessionToken}" />
 </ts:studentPage>

@@ -19,13 +19,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
-
-    @FindBy(id = "button_sortFromName")
-    public WebElement sortTableGiverButton;
 
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
@@ -41,6 +37,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "indicate-missing-responses-checkbox")
     public WebElement indicateMissingResponsesCheckbox;
+
+    @FindBy(className = "remind-btn-no-response")
+    public WebElement remindAllButton;
 
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -119,6 +118,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(collapseExpandButton);
     }
 
+    public void expandPanels() {
+        if (isElementPresent("collapse-panels-button")) {
+            clickCollapseExpandButton();
+            waitForPanelsToExpand();
+        }
+    }
+
     public void clickShowStats() {
         click(showStatsCheckbox);
     }
@@ -127,8 +133,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(indicateMissingResponsesCheckbox);
     }
 
-    public void fillSearchBox(String s) {
-        this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
+    public void clickRemindAllButtonAndWaitForFormToLoad() {
+        click(remindAllButton);
+        waitForRemindModalPresence();
+        WebElement remindButton = browser.driver.findElement(By.className("remind-particular-button"));
+        waitForElementToBeClickable(remindButton);
+    }
+
+    public void cancelRemindAllForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        click(remindModal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
+    }
+
+    public void deselectUsersInRemindAllForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        List<WebElement> usersToRemind = remindModal.findElements(By.name("usersToRemind"));
+        for (WebElement e : usersToRemind) {
+            markCheckBoxAsUnchecked(e);
+        }
+    }
+
+    public void clickRemindButtonInModal() {
+        click(By.className("remind-particular-button"));
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
@@ -315,7 +342,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
@@ -326,7 +353,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
@@ -336,7 +363,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
@@ -350,7 +377,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
 
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        verifyImageUrl(urlRegex, imgSrc);
     }
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,

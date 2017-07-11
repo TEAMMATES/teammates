@@ -10,9 +10,7 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
-    <script type="text/javascript" src="/js/richTextEditor.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
-    <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 
 <c:if test="${data.headerHidden}">
@@ -27,11 +25,11 @@
                         <div class="col-md-12">
                             <h3 class="text-center">
                                 You are moderating responses for ${isInstructor ? "instructor" : "student"} ${moderatedPersonName} (${moderatedPersonEmail})
-                                <small><a href="#" id="moderationHintButton"></a></small>
+                                <small><a href="javascript:;" id="moderationHintButton"></a></small>
                             </h3>
                             <ul id="moderationHint" class="hidden">
                                 <li>
-                                    The page below resembles the submission page as seen by the respondent ${moderatedPersonName} (${moderatedPersonEmail}). 
+                                    The page below resembles the submission page as seen by the respondent ${moderatedPersonName} (${moderatedPersonEmail}).
                                     You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
                                 </li>
                                 <li>
@@ -49,7 +47,7 @@
 <c:choose>
     <c:when test="${isInstructor}">
         <ti:instructorPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
-            <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>    
+            <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
         </ti:instructorPage>
     </c:when>
     <c:otherwise>
