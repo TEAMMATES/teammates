@@ -45,7 +45,7 @@ function addRubricRow(questionNum) {
                         <span class="glyphicon glyphicon-remove"></span>
                     </span>
                     <textarea class="form-control" rows="3" id="rubricSubQn-${questionNum}-${newRowNumber - 1}"
-                            name="rubricSubQn-${newRowNumber - 1}" required></textarea>
+                            name="rubricSubQn-${newRowNumber - 1}" required=""></textarea>
                 </div>
             </td>
             ${rubricRowBodyFragments}
