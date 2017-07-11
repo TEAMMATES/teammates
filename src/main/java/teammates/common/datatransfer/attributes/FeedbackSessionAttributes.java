@@ -694,9 +694,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         timeZoneString.append(timeZone < 0 ? " " : " +");
         int hours = (int) timeZone;
         double minutesInDecimal = timeZone - hours;
-        timeZoneString.append(hours);
-        timeZoneString.append(minutesInDecimal == 0.5 ? ":30" : ":00");
-        timeZoneString.append(')');
+        timeZoneString.append(hours)
+                .append(':')
+                .append(minutesInDecimal == 0.5 ? "30" : "00")
+                .append(')');
         return timeZoneString.toString();
     }
 }
