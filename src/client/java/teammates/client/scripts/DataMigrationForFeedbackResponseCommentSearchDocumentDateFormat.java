@@ -1,6 +1,8 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,7 @@ import java.util.Locale;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.gson.JsonParser;
 
@@ -18,6 +21,7 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.SearchManager;
@@ -143,7 +147,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
         }
         updateAndClearDocuments(documentsToUpdate);
 
-        println("\nComplete! If there are any errors shown above, please rerun this script.");
+        println("\nComplete! If there are any failures shown above, please rerun this script.");
     }
 
     private void queueDocumentUpdate(FeedbackResponseCommentAttributes comment, List<Document> documentsToUpdate) {
@@ -158,9 +162,44 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat ext
         println("Batch updating " + documentsToUpdate.size() + " documents...");
 
         if (!isPreview) {
-            SearchManager.putDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
+            try {
+                invokePutDocumentsWithRetry(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
+                println("Batch update succeeded.");
+            } catch (PutException e) {
+                println("Batch update failed with non-transient errors.");
+            } catch (MaximumRetriesExceededException e) {
+                println("Batch update failed after maximum retries.");
+            }
         }
 
         documentsToUpdate.clear();
+    }
+
+    /**
+     * Reflects private static method {@link SearchManager#putDocumentsWithRetry}.
+     *
+     * @throws PutException when only non-transient errors are encountered.
+     * @throws MaximumRetriesExceededException with list of failed {@link Document}s as final data and
+     *         final {@link com.google.appengine.api.search.OperationResult}'s message as final message,
+     *         if operation fails after maximum retries.
+     */
+    private static void invokePutDocumentsWithRetry(String indexName, List<Document> documents)
+            throws PutException, MaximumRetriesExceededException {
+        try {
+            Method method = SearchManager.class.getDeclaredMethod("putDocumentsWithRetry", String.class, List.class);
+            method.setAccessible(true);
+            method.invoke(null, indexName, documents);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            Throwable originalException = e.getCause();
+            if (originalException instanceof PutException) {
+                throw (PutException) originalException;
+            } else if (originalException instanceof MaximumRetriesExceededException) {
+                throw (MaximumRetriesExceededException) originalException;
+            } else {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
