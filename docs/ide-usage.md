@@ -43,7 +43,7 @@ The following plugins are needed:
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
 
-1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for HTML, CSS and XML settings which can be found at `Eclipse -> Preferences -> ...`):
+1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found at `Eclipse -> Preferences -> ...`):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
      ![setupguide-4.png](images/setupguide-4.png)
