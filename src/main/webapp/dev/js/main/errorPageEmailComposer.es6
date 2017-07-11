@@ -14,6 +14,9 @@ $(document).ready(() => {
             data: $form.serialize(),
             beforeSend() {
                 clearStatusMessages();
+                const $sendFeedbackButton = $('.btn-success'); 
+                $sendFeedbackButton.prop('disabled', true);
+                $sendFeedbackButton.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
             },
             success(result) {
                 setStatusMessageToForm(result.statusMessagesToUser[0].text,
