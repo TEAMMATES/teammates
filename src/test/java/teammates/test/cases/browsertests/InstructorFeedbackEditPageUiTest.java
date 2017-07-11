@@ -67,7 +67,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception {
         testContent();
 
-        testEditSessionLink();
         testEditSessionAction();
 
         testGeneralQuestionOperations();
@@ -115,6 +114,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // This is the full HTML verification for Instructor Feedback Edit Page, the rest can all be verifyMainHtml
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
+        assertTrue(feedbackEditPage.verifyEditSessionBoxIsEnabled());
 
     }
 
@@ -186,7 +186,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.isElementVisible("sendEmailsForPanel");
 
         // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
         feedbackEditPage.clickSaveSessionButton();
@@ -205,7 +204,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditManuallyPublished.html");
 
         // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
 
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
