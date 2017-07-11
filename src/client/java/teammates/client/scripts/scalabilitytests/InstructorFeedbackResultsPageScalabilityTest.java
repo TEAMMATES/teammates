@@ -41,7 +41,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     }
 
     private void refreshTestData(int numStudents, int numQuestions) {
-
         // modify set of students for each test according to its requirements
         if (testData.students.size() == 0) { // if current collection of students is empty
             addStudents(numStudents);
@@ -62,54 +61,66 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // modify set of responses for each test according to its sets of students and questions
         updateFeedbackResponses();
-
-        // perform test by reading each entity from datastore or persisting if absent
-        verifyOrPersistTestDataToDatastore();
     }
 
     // verify if entities for testing already exist in datastore
-    private void verifyOrPersistTestDataToDatastore() {
-        for (CourseAttributes course : testData.courses.values()) {
+    private void verifyOrPersistTestDataToDatastore(DataBundle dataToVerify) {
+        log.info("Verifying test data existance in datastore...");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.start();
+
+        for (CourseAttributes course : dataToVerify.courses.values()) {
             if (getCourse(course) == null) {
                 doPutCourse(course);
+                log.info("Course was added to datastore: " + course);
             }
         }
 
-        for (AccountAttributes account : testData.accounts.values()) {
+        for (AccountAttributes account : dataToVerify.accounts.values()) {
             if (getAccount(account) == null) {
                 doPutAccount(account);
+                log.info("Account was added to datastore: " + account);
             }
         }
 
-        for (FeedbackSessionAttributes feedbackSession : testData.feedbackSessions.values()) {
+        for (FeedbackSessionAttributes feedbackSession : dataToVerify.feedbackSessions.values()) {
             if (getFeedbackSession(feedbackSession) == null) {
                 doPutFeedbackSession(feedbackSession);
+                log.info("Feedback Session was added to datastore: " + feedbackSession);
             }
         }
 
-        for (InstructorAttributes instructor : testData.instructors.values()) {
+        for (InstructorAttributes instructor : dataToVerify.instructors.values()) {
             if (getInstructor(instructor) == null) {
                 doPutInstructor(instructor);
+                log.info("Instructor was added to datastore: " + instructor);
             }
         }
 
-        for (StudentAttributes student : testData.students.values()) {
+        for (StudentAttributes student : dataToVerify.students.values()) {
             if (getStudent(student) == null) {
                 doPutStudent(student);
+                log.info("Student was added to datastore: " + student);
             }
         }
 
-        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
+        for (FeedbackQuestionAttributes question : dataToVerify.feedbackQuestions.values()) {
             if (getFeedbackQuestion(question) == null) {
                 doPutFeedbackQuestion(question);
+                log.info("Feedback Question was added to datastore: " + question);
             }
         }
 
-        for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
+        int count = 1;
+        for (FeedbackResponseAttributes feedbackResponse : dataToVerify.feedbackResponses.values()) {
+
             if (getFeedbackResponse(feedbackResponse) == null) {
                 doPutFeedbackResponse(feedbackResponse);
+                log.info("Feedback Response was added to datastore (" + count + "): " + feedbackResponse);
+                count++;
             }
         }
+        log.info("Time taken: " + stopwatch.getTimeElapsedInSeconds());
     }
 
     private void addStudents(int numStudentsToAdd) {
@@ -226,6 +237,9 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         // load single test data for all tests with maximum number of students and questions
         loadTestData(studentNumsMax, questionNumsMax);
+        
+        // verify if test data already exists on datastore or persisting if absent
+        verifyOrPersistTestDataToDatastore(testDataMax);
 
         for (int studentLoad : studentLoads) {
             for (int questionLoad : questionLoads) {
