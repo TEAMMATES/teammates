@@ -36,12 +36,8 @@ public final class SearchManager {
             "Failed to put document(s) %s into search index %s after maximum retries: %s: ";
     private static final Logger log = Logger.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<>();
-<<<<<<< HEAD
-    private static final int MAX_RETRIES = 3;
-=======
 
     private static final RetryManager RM = new RetryManager(8);
->>>>>>> 99aaeabcbbf95cdbcbb40b1c80377d9ec87530c7
 
     private SearchManager() {
         // utility class

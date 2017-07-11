@@ -18,8 +18,6 @@ import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.retry.RetryManager;
-import teammates.test.driver.retry.RetryableTaskReturns;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
