@@ -155,7 +155,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      * Gets a Map with courseId as key, and InstructorAttributes as value.
      */
     protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<>();
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);

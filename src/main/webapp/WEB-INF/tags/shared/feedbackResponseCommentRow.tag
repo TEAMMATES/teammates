@@ -26,10 +26,10 @@
     </c:otherwise>
 </c:choose>
 
-<li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
+<li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">
-            From: ${fn:escapeXml(frc.giverDisplay)} [${frc.createdAt}] ${frc.editedAt}
+            From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}
         </span>
         <c:if test="${frc.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
@@ -47,8 +47,7 @@
                    data-toggle="tooltip"
                    data-placement="top"
                    title="<%= Const.Tooltips.COMMENT_DELETE %>"
-                   <c:if test="${frc.editDeleteEnabledOnlyOnHover}">style="display: none;"</c:if>
-                   <c:if test="${not frc.instructorAllowedToDelete}">disabled</c:if>>
+                   <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                 </a>
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
@@ -76,8 +75,7 @@
                data-toggle="tooltip"
                data-placement="top"
                title="<%= Const.Tooltips.COMMENT_EDIT %>"
-               <c:if test="${frc.editDeleteEnabledOnlyOnHover}">style="display: none;"</c:if>
-               <c:if test="${not frc.instructorAllowedToEdit}">disabled</c:if>>
+               <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
             </a>
         </c:if>

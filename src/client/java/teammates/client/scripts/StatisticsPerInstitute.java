@@ -9,13 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.Query;
-
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
@@ -32,7 +25,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private int iterationCounter;
 
-    private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
+    private HashMap<String, String> courseIdToInstituteMap = new HashMap<>();
+    private HashMap<String, String> googleIdToInstituteMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
@@ -40,16 +34,15 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void doOperation() {
 
-        String q = "SELECT FROM " + CourseStudent.class.getName();
-        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(q).execute();
+        List<CourseStudent> allStudents = ofy().load().type(CourseStudent.class).list();
 
-        q = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(q).execute();
+        List<Instructor> allInstructors = ofy().load().type(Instructor.class).list();
 
-        StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
+        List<Account> allAccounts = ofy().load().type(Account.class).list();
+
+        StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors, allAccounts);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
 
         String statsForUniqueStudentEmail =
@@ -74,14 +67,14 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
     }
 
-    private boolean isTestingInstructorData(Instructor instructor) {
+    private boolean isTestingInstructorData(Instructor instructor, List<Account> allAccounts) {
         boolean isTestingData = false;
 
         if (instructor.getEmail() != null && instructor.getEmail().toLowerCase().endsWith(".tmt")) {
             isTestingData = true;
         }
 
-        String instituteForInstructor = getInstituteForInstructor(instructor);
+        String instituteForInstructor = getInstituteForInstructor(instructor, allAccounts);
         if (instituteForInstructor == null || instituteForInstructor.contains("TEAMMATES Test Institute")) {
             isTestingData = true;
         }
@@ -96,14 +89,15 @@ public class StatisticsPerInstitute extends RemoteApiClient {
                 + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
     }
 
-    private boolean isTestingStudentData(CourseStudent student) {
+    private boolean isTestingStudentData(
+            CourseStudent student, List<Instructor> allInstructors, List<Account> allAccounts) {
         boolean isTestingData = false;
 
         if (student.getEmail().toLowerCase().endsWith(".tmt")) {
             isTestingData = true;
         }
 
-        if (getInstituteForStudent(student).contains("TEAMMATES Test Institute")) {
+        if (getInstituteForStudent(student, allInstructors, allAccounts).contains("TEAMMATES Test Institute")) {
             isTestingData = true;
         }
 
@@ -111,22 +105,20 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private StatsBundle generateStatsPerInstitute(
-            List<CourseStudent> allStudents, List<Instructor> allInstructors) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
-                new HashMap<String, HashMap<Integer, HashSet<String>>>();
-
-        HashSet<String> allInstructorEmailSet = new HashSet<String>();
-        HashSet<String> allStudentEmailSet = new HashSet<String>();
+            List<CourseStudent> allStudents, List<Instructor> allInstructors, List<Account> allAccounts) {
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<>();
+        HashSet<String> allInstructorEmailSet = new HashSet<>();
+        HashSet<String> allStudentEmailSet = new HashSet<>();
         int studentEmailCounter = 0;
         int instructorEmailCounter = 0;
 
         for (Instructor instructor : allInstructors) {
 
-            if (isTestingInstructorData(instructor) || instructor.getEmail() == null) {
+            if (isTestingInstructorData(instructor, allAccounts) || instructor.getEmail() == null) {
                 continue;
             }
 
-            String institute = getInstituteForInstructor(instructor);
+            String institute = getInstituteForInstructor(instructor, allAccounts);
 
             if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
@@ -141,11 +133,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         for (CourseStudent student : allStudents) {
 
-            if (isTestingStudentData(student) || student.getEmail() == null) {
+            if (isTestingStudentData(student, allInstructors, allAccounts) || student.getEmail() == null) {
                 continue;
             }
 
-            String institute = getInstituteForStudent(student);
+            String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
             if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
@@ -173,19 +165,16 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return statsBundle;
     }
 
-    @SuppressWarnings("unchecked")
-    private String getInstituteForStudent(CourseStudent student) {
+    private String getInstituteForStudent(
+            CourseStudent student, List<Instructor> allInstructors, List<Account> allAccounts) {
 
         if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
             return courseIdToInstituteMap.get(student.getCourseId());
         }
 
-        Query q = PM.newQuery(Instructor.class);
-        q.declareParameters("String courseIdParam");
-        q.setFilter("courseId == courseIdParam");
-        List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());
+        List<Instructor> instructorList = getInstructorsOfCourse(allInstructors, student.getCourseId());
 
-        String institute = getInstituteForInstructors(instructorList);
+        String institute = getInstituteForInstructors(instructorList, allAccounts);
 
         courseIdToInstituteMap.put(student.getCourseId(), institute);
 
@@ -193,12 +182,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     }
 
-    private String getInstituteForInstructors(List<Instructor> instructorList) {
+    private String getInstituteForInstructors(List<Instructor> instructorList, List<Account> allAccounts) {
         String institute = UNKNOWN_INSTITUTE;
 
         for (Instructor instructor : instructorList) {
 
-            String tempIns = getInstituteForInstructor(instructor);
+            String tempIns = getInstituteForInstructor(instructor, allAccounts);
             if (tempIns != null) {
                 institute = tempIns;
                 break;
@@ -209,34 +198,38 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return institute;
     }
 
-    private String getInstituteForInstructor(Instructor instructor) {
+    private String getInstituteForInstructor(Instructor instructor, List<Account> allAccounts) {
         if (instructor.getGoogleId() == null) {
             return null;
         }
 
-        Account account = getAccountEntity(instructor.getGoogleId());
-        if (account != null) {
-            return account.getInstitute();
+        return getInstituteFromGoogleId(instructor.getGoogleId(), allAccounts);
+    }
+
+    private List<Instructor> getInstructorsOfCourse(List<Instructor> allInstructors, String courseId) {
+        List<Instructor> instructorsOfCourse = new ArrayList<>();
+        for (Instructor instructor : allInstructors) {
+            if (instructor.getCourseId().equals(courseId)) {
+                instructorsOfCourse.add(instructor);
+            }
+        }
+
+        return instructorsOfCourse;
+    }
+
+    private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {
+        if (googleIdToInstituteMap.containsKey(googleId)) {
+            return googleIdToInstituteMap.get(googleId);
+        }
+
+        for (Account account : allAccounts) {
+            if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
+                googleIdToInstituteMap.put(googleId, account.getInstitute());
+                return account.getInstitute();
+            }
         }
 
         return null;
-    }
-
-    private Account getAccountEntity(String googleId) {
-
-        try {
-            Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
-            Account account = PM.getObjectById(Account.class, key);
-
-            if (JDOHelper.isDeleted(account)) {
-                return null;
-            }
-
-            return account;
-
-        } catch (IllegalArgumentException | JDOObjectNotFoundException e) {
-            return null;
-        }
     }
 
     private void print(List<InstituteStats> statList) {
@@ -260,7 +253,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
-        List<InstituteStats> list = new ArrayList<InstituteStats>();
+        List<InstituteStats> list = new ArrayList<>();
         for (Map.Entry<String, HashMap<Integer, HashSet<String>>> entry : institutes.entrySet()) {
             InstituteStats insStat = new InstituteStats();
             insStat.name = entry.getKey();

@@ -19,8 +19,8 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSendAction extends Action {
 
-    private List<String> addressReceiver = new ArrayList<String>();
-    private List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<>();
+    private List<String> groupReceiver = new ArrayList<>();
 
     private boolean isAddressModeOn;
     private boolean isGroupModeOn;
@@ -170,14 +170,14 @@ public class AdminEmailComposeSendAction extends Action {
                                         List<String> groupReceiver,
                                         String content) {
 
-        AdminEmailAttributes fanalisedEmail = new AdminEmailAttributes(subject,
+        AdminEmailAttributes finalisedEmail = new AdminEmailAttributes(subject,
                                             addressReceiver,
                                             groupReceiver,
                                             new Text(content),
                                             new Date());
 
         try {
-            logic.updateAdminEmailById(fanalisedEmail, emailId);
+            logic.updateAdminEmailById(finalisedEmail, emailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             isError = true;
             setStatusForException(e);

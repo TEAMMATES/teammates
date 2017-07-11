@@ -209,7 +209,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Typical case");
 
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentList = new ArrayList<>();
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
         studentList.add(
                 new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
@@ -219,7 +219,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid section");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             StudentAttributes addedStudent =
                     new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
@@ -233,7 +233,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid team");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);
@@ -319,7 +319,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
         StudentEnrollDetails studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
                                          course1Id, student1InCourse1.email, student1InCourse1.team,
@@ -349,7 +349,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: unmodified status");
 
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
                                          student1InCourse1.email, student1InCourse1.team,
@@ -378,7 +378,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student2InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         enrollmentList.add(studentDetails1);
 
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
@@ -401,7 +401,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
         String invalidInfoString = null;
         String expectedInvalidInfoString;
-        List<String> expectedInvalidInfoList = new ArrayList<String>();
+        List<String> expectedInvalidInfoList = new ArrayList<>();
 
         ______TS("enrollLines with invalid parameters");
         String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);

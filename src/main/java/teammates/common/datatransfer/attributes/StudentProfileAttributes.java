@@ -18,7 +18,7 @@ import teammates.storage.entity.StudentProfile;
 /**
  * The data transfer object for StudentProfile entities.
  */
-public class StudentProfileAttributes extends EntityAttributes {
+public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     public String googleId;
     public String shortName;
@@ -67,6 +67,15 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.modifiedDate = null;
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
+    public StudentProfileAttributes getCopy() {
+        StudentProfileAttributes newSpa = new StudentProfileAttributes(this.toEntity());
+        newSpa.modifiedDate = this.modifiedDate;
+        return newSpa;
+    }
+
     // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
@@ -93,7 +102,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
 
@@ -131,7 +140,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
                                   new Text(moreInfo), new BlobKey(this.pictureKey));
     }

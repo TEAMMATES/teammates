@@ -62,7 +62,7 @@ public class InstructorSearchPageAction extends Action {
 
             totalResultsSize = frCommentSearchResults.numberOfResults + studentSearchResults.numberOfResults;
 
-            Set<String> instructorEmails = new HashSet<String>();
+            Set<String> instructorEmails = new HashSet<>();
 
             for (InstructorAttributes instructor : instructors) {
                 instructorEmails.add(instructor.email);

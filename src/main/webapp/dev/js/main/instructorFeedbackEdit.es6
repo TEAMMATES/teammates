@@ -310,8 +310,9 @@ function disableQuestion(questionNum) {
 
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
+    if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+    } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
@@ -417,12 +418,13 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).show();
 
-    if ($(`#generateOptionsCheckbox-${questionNum}`).prop('checked')) {
+    if ($(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#msqChoiceTable-${questionNum}`).hide();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
+    } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
+        $(`#msqChoiceTable-${questionNum}`).hide();
+        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
     } else {
         $(`#mcqChoiceTable-${questionNum}`).show();
@@ -607,6 +609,8 @@ function restoreOriginal(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
         $(`#button_question_submit-${questionNum}`).hide();
+        $(`#questionnum-${questionNum}`).val(questionNum);
+        $(`#questionnum-${questionNum}`).prop('disabled', true);
     }
 
     // re-attach events for form elements
