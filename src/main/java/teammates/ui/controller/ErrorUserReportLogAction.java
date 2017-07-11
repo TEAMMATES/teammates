@@ -6,7 +6,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
 
-public class FeedbackResponseEmailSendAction extends Action {
+public class ErrorUserReportLogAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
