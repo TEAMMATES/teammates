@@ -7,8 +7,9 @@ import {
     StatusType,
 } from '../common/const.es6';
 
+const SUPPORT_EMAIL = $('#error-feedback-email-composer-recipient-email').prop('value');
 const ERROR_STATUS_MESSAGE = 'Failed to record the error message. Please email our support team at '
-        + '<a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a>.';
+        + `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>.`;
 
 function displayWarningStatus($form) {
     setStatusMessageToForm(ERROR_STATUS_MESSAGE,
