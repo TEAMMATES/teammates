@@ -213,12 +213,12 @@ public class TimeHelperTest extends BaseTestCase {
         cal.clear();
         cal.set(2015, 10, 30, 12, 0, 0);
         Date date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 +0000 NOON", TimeHelper.formatDateTimeForComments(date, 0));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON +0000", TimeHelper.formatDateTimeForComments(date, 0));
 
         cal.clear();
         cal.set(2015, 10, 30, 4, 0, 0);
         date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 +0800 NOON", TimeHelper.formatDateTimeForComments(date, 8));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON +0800", TimeHelper.formatDateTimeForComments(date, 8));
 
         cal.clear();
         cal.set(2015, 10, 30, 4, 0, 0);
@@ -228,7 +228,7 @@ public class TimeHelperTest extends BaseTestCase {
         cal.clear();
         cal.set(2015, 10, 30, 16, 0, 0);
         date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 -0400 NOON", TimeHelper.formatDateTimeForComments(date, -4));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON -0400", TimeHelper.formatDateTimeForComments(date, -4));
 
         cal.clear();
         cal.set(2015, 10, 30, 16, 0, 0);

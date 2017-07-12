@@ -4,6 +4,9 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
@@ -36,9 +39,10 @@ public final class HtmlHelper {
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
-    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( -+[0-9])?";
+    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( +-[0-9])?";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
+    private static final String REGEX_TIMEZONE_OFFSET = "(([\\+][0-9][0-9][0-9][0-9])|([\\-][0-9][0-9][0-9][0-9]))";
 
     private HtmlHelper() {
         // utility class
@@ -385,6 +389,7 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
+        sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
@@ -436,7 +441,7 @@ public final class HtmlHelper {
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
                       // date of next hour (datepicker's date is generated based on next hour's date)
                       .replace(dateOfNextHour, "${date.nexthour}")
-                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
+                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM +0000]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
@@ -493,6 +498,17 @@ public final class HtmlHelper {
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now, 0));
+    }
+
+    private static TimeZone getTimeZone(String content) {
+        Pattern pattern = Pattern.compile(REGEX_TIMEZONE_OFFSET);
+        Matcher matcher = pattern.matcher(content);
+        //set default timezone offset.
+        String timeZoneOffset = "+0000";
+        if (matcher.find()) {
+            timeZoneOffset = matcher.group(1);
+        }
+        return TimeZone.getTimeZone("GMT" + timeZoneOffset);
     }
 
 }
