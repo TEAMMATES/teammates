@@ -374,7 +374,7 @@ function updateVisibilityMessageDiv($containingForm) {
         url,
         data: formData,
         beforeSend() {
-            $visibilityMessageDiv.html("<img height='25' width='25' src='/images/ajax-loader.gif'/>");
+            $visibilityMessageDiv.html("<img src='/images/ajax-loader.gif'/>");
         },
         success(data) {
             // update stored form data
