@@ -32,7 +32,7 @@
                 <h2>Error Feedback Collection</h2>
             </div>
         </div>
-        <hr />
+        <hr>
         <div class="row">
             <div class="col-md-12">
                 <p>You seem to have encountered an error! If you think you were incorrectly shown this error page then we request you to take a moment and fill in the email below detailing your steps before you encountered it.</p>
