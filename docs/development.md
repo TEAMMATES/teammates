@@ -170,6 +170,7 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 
 * If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
   * Enter `about:config` into the Firefox address bar and set `network.http.use-cache = false`.
+  * If the above setting is not available, instead enter `about:config` into the Firefox address bar and set `browser.cache.disk.enable` to `false`.
 
 ### Using Chrome
 
