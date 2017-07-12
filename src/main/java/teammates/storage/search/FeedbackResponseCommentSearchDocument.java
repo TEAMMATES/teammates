@@ -456,10 +456,10 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                         instructor == null
                         || !instructor.isAllowedForPrivilege(
                                 response.giverSection, response.feedbackSessionName,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
                         || !instructor.isAllowedForPrivilege(
                                 response.recipientSection, response.feedbackSessionName,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
                 if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;
@@ -507,7 +507,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
                         boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
                                 ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                        : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+                                : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
 
                         if (isVisibleToReceiver && emailList.contains(response.recipient)) {
                             continue;
@@ -515,7 +515,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
                         boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
                                 ? question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                                        : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+                                : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
                         if (isVisibleToInstructor) {
                             continue;
