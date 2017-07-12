@@ -6,7 +6,7 @@
     <div class="form-group">
         <label for="error-feedback-email-composer-recipient-email">To:</label>
         <br><em>Note: This is the TEAMMATES support email. It has been pre-filled for your convenience and is not editable. </em>
-        <input type="email" value=<%= Config.SUPPORT_EMAIL %> id="error-feedback-email-composer-recipient-email" class="form-control" name=<%= Const.ParamsNames.ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS %> readonly>
+        <input type="email" value=<%= Config.SUPPORT_EMAIL %> id="error-feedback-email-composer-recipient-email" class="form-control" name=<%= Const.ParamsNames.ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS %> readonly="">
     </div>
     <div class="form-group">
         <label for="error-feedback-email-composer-subject">Subject:</label>
