@@ -414,19 +414,6 @@ function isDestructiveFieldsModifed(questionNum) {
     const $prev = destructiveFieldsBackup[questionNum];
 
     if ($curr.length !== $prev.length) {
-        console.log('prev.length = ' + $prev.length + ', curr.length = ' + $curr.length);
-        console.log('prev');
-        
-        for (let i = 0; i < $prev.length; i += 1) {
-            console.log($prev.get(i));
-        }
-        
-        console.log('curr');
-        
-        for (let i = 0; i < $curr.length; i += 1) {
-            console.log($curr.get(i));
-        }
-        
         return true;
     }
 
@@ -437,7 +424,6 @@ function isDestructiveFieldsModifed(questionNum) {
         const currVal = $($curr.get(i)).val();
 
         if (prevVal !== currVal) {
-            console.log('prev = ' + prevVal + ', curr = ' + currVal);
             return true;
         }
     }
@@ -689,6 +675,7 @@ function restoreOriginal(questionNum) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
         $(`#editquestionwrapper-${questionNum}`).html(questionsBeforeEdit[questionNum]);
+        bindSubmitHandlerForSubmitButtons();
     }
 
     // re-attach events for form elements
@@ -906,6 +893,21 @@ function copyOptions(newType) {
 }
 
 /**
+ * Sets the correct initial question number from the value field
+ */
+function formatQuestionNumbers() {
+    const $questions = $('.questionTable');
+
+    $questions.each(function (index) {
+        const $selector = $(this).find('.questionNumber');
+        $selector.val(index + 1);
+        if (index !== $questions.size() - 1) {
+            $selector.prop('disabled', true);
+        }
+    });
+}
+
+/**
  * Adds event handler to load 'copy question' modal contents by ajax.
  */
 function setupQuestionCopyModal() {
@@ -1092,15 +1094,7 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
-/**
- * This function is called on edit page load.
- */
-function readyFeedbackEditPage() {
-    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
-
-    // Disable all questions
-    disableAllQuestions();
-
+function bindSubmitHandlerForSubmitButtons() {
     // validates and submits form
     const validateAndSubmitForm = ($form) => {
         const $saveQuestionBtn = $form.find('button[id^="button_question_submit"]');
@@ -1109,16 +1103,12 @@ function readyFeedbackEditPage() {
 
         if (!readyForSubmission) {
             // validation failed
-            console.log('validation failed');
             removeLoadingIndicator($saveQuestionBtn, 'Save Question');
             return;
         }
 
-        console.log('validation passed');
         correctEditStatusIfRequired($form);
-        console.log('edit status corrected');
         prepareDescription($form);
-        console.log('descrp prepared');
 
         // destructive edits performed, warn user that responses must be deleted
         if ($form.attr('editStatus') === 'mustDeleteResponses') {
@@ -1133,7 +1123,6 @@ function readyFeedbackEditPage() {
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, cancelCallback,
                     null, null, StatusType.DANGER);
         } else {
-            console.log('submitting form');
             $form.submit();
         }
     };
@@ -1149,6 +1138,18 @@ function readyFeedbackEditPage() {
         const $form = $(this).parents('form.form_question');
         validateAndSubmitForm($form);
     });
+}
+
+/**
+ * This function is called on edit page load.
+ */
+function readyFeedbackEditPage() {
+    $(document).on('click', '.enable-edit-fs', () => enableEditFS());
+
+    // Disable all questions
+    disableAllQuestions();
+
+    bindSubmitHandlerForSubmitButtons();
 
     // Bind destructive changes
     $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').not('.visibilityCheckbox')
@@ -1174,6 +1175,7 @@ function readyFeedbackEditPage() {
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
     formatCheckBoxes();
+    formatQuestionNumbers();
     collapseIfPrivateSession();
 
     setupFsCopyModal();
