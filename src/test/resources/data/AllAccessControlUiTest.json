@@ -1056,7 +1056,7 @@
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
-      "giver": "student4InCourse1@gmail.tmt",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "responseMetaData": {
         "value": "Response from team 1 by (student 4) to team 1.2."
@@ -1067,9 +1067,9 @@
     "response1GracePeriodFeedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
-      "feedbackQuestionId": "2",
+      "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
-      "giver": "student4InCourse1@gmail.tmt",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "responseMetaData": {
         "value": "Response from team 1 by (student 4) to team 1.2."
