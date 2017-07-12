@@ -225,11 +225,11 @@ public final class TimeHelper {
         c.setTimeZone(timeZone);
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm 'NOON' Z");
+            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm 'NOON' 'UTC'Z");
             sdf.setTimeZone(timeZone);
             return sdf.format(date);
         }
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a Z");
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
         sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }
