@@ -26,8 +26,8 @@
 
   <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
     <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
-                   isShowRealQuestionNumber="${data.showRealQuestionNumber}"
-                   questionWithResponses="${questionWithResponses}"/>
+        isShowRealQuestionNumber="${data.showRealQuestionNumber}"
+        questionWithResponses="${questionWithResponses}"/>
   </c:forEach>
 
   <div class="bold align-center">
@@ -43,11 +43,11 @@
         <input type="checkbox" name="sendsubmissionemail">
         Send me a confirmation email
         <button type="submit" class="btn btn-primary center-block margin-top-7px"
-             id="response_submit_button" data-toggle="tooltip"
-             data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
-             <c:if test="${data.preview or (not data.submittable)}">
-               disabled style="background: #66727A;"
-             </c:if>>
+            id="response_submit_button" data-toggle="tooltip"
+            data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
+            <c:if test="${data.preview or (not data.submittable)}">
+              disabled style="background: #66727A;"
+            </c:if>>
           Submit Feedback
         </button>
       </c:otherwise>

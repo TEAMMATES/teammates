@@ -8,19 +8,19 @@
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
 
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>-${questionWithResponses.question.qnIndx}"
-           value="${questionWithResponses.question.questionType}">
+    value="${questionWithResponses.question.questionType}">
 
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>-${questionWithResponses.question.qnIndx}"
-           value="${questionWithResponses.question.questionId}">
+    value="${questionWithResponses.question.questionId}">
 
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL %>-${questionWithResponses.question.qnIndx}"
-           value="${questionWithResponses.numOfResponseBoxes}">
+    value="${questionWithResponses.numOfResponseBoxes}">
 
 <div class="form-horizontal">
   <div class="panel panel-primary"<c:if test="${questionWithResponses.question.moderatedQuestion}"> id="moderated-question"</c:if>>
 
-    <div class="panel-heading">Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber
-                                       : questionWithResponses.question.qnIndx}:
+    <div class="panel-heading">
+      Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber : questionWithResponses.question.qnIndx}:
       <br>
       <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
       <span class="text-preserve-space"><c:out value="${questionWithResponses.question.questionText}"/></span>
@@ -47,16 +47,16 @@
       </ul>
 
       <c:if test="${questionWithResponses.question.giverTeam}">
-          <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
+        <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
       </c:if>
 
       <c:if test="${questionWithResponses.numOfResponseBoxes eq 0}">
-         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
+        <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
 
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-                         questionWithResponses="${questionWithResponses}"/>
+            questionWithResponses="${questionWithResponses}"/>
       </c:forEach>
     </div>
   </div>

@@ -9,14 +9,18 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Course ID:</label>
           <div class="col-sm-10">
-            <p class="form-control-static"><c:out value="${feedbackSession.courseId}"/></p>
+            <p class="form-control-static">
+              <c:out value="${feedbackSession.courseId}"/>
+            </p>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-2 control-label">Session:</label>
           <div class="col-sm-10">
-            <p class="form-control-static"><c:out value="${feedbackSession.feedbackSessionName}"/></p>
+            <p class="form-control-static">
+              <c:out value="${feedbackSession.feedbackSessionName}"/>
+            </p>
           </div>
         </div>
 

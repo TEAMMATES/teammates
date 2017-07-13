@@ -24,7 +24,7 @@
 <br>
 <div class="form-group margin-0">
   <div ${isNumResponsesMax ? 'class="col-sm-2 form-inline mobile-align-left"' : 'class="col-sm-4 form-inline mobile-align-left"'}
-     ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
+      ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
     <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
 
@@ -33,17 +33,17 @@
         ${isNumResponsesMax ? 'style="display:none;max-width:125px"' : 'style="width:275px;max-width:275px"'}
         ${isSessionOpenForSubmission ? '' : 'disabled' }>
 
-        <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
-          ${option}
-        </c:forEach>
+      <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
+        ${option}
+      </c:forEach>
     </select>
   </div>
   <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
     ${response.submissionFormHtml}
     <c:if test="${response.existingResponse}">
       <input type="hidden"
-        name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-        value="<c:out value="${response.responseId}"/>">
+          name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+          value="<c:out value="${response.responseId}"/>">
     </c:if>
   </div>
 </div>
