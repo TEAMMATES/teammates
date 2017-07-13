@@ -144,6 +144,13 @@ public class BackDoorLogic extends Logic {
         injectRealIdsIntoResponses(responses.values(), cachedRealQuestionIds);
         frDb.createEntitiesDeferred(responses.values());
 
+        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+        injectRealIdsIntoResponseComments(responseComments.values(), cachedRealQuestionIds);
+        fcDb.createEntitiesDeferred(responseComments.values());
+
+        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
+        adminEmailsDb.createEntitiesDeferred(adminEmails.values());
+
         EntitiesDb.flush();
 
         Set<String> sessionIds = new HashSet<>();
@@ -157,15 +164,6 @@ public class BackDoorLogic extends Logic {
                 sessionIds.add(sessionId);
             }
         }
-
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        injectRealIdsIntoResponseComments(responseComments.values(), cachedRealQuestionIds);
-        fcDb.createEntitiesDeferred(responseComments.values());
-
-        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
-        adminEmailsDb.createEntitiesDeferred(adminEmails.values());
-
-        EntitiesDb.flush();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
