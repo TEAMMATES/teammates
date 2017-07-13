@@ -14,7 +14,6 @@ import teammates.test.cases.BaseTestCase;
  * SUT: {@link AdminLogQuery}.
  */
 public class AdminLogQueryTest extends BaseTestCase {
-    private final static long MILLIS_IN_YEAR = 365 * 24 * 60 * 60 * 1000L;
     @Test
     public void testAdminLogQuery() {
         ______TS("Test constructor with parameters");
