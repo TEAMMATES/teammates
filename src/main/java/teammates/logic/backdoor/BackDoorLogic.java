@@ -75,15 +75,6 @@ public class BackDoorLogic extends Logic {
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
 
-        Map<String, AccountAttributes> accounts = dataBundle.accounts;
-        for (AccountAttributes account : accounts.values()) {
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().build();
-                account.studentProfile.googleId = account.googleId;
-            }
-        }
-        accountsDb.createAccounts(accounts.values(), true);
-
         Map<String, CourseAttributes> courses = dataBundle.courses;
         coursesDb.createEntitiesDeferred(courses.values());
 
@@ -103,7 +94,7 @@ public class BackDoorLogic extends Logic {
                 instructorAccounts.add(account);
             }
         }
-        accountsDb.createAccounts(instructorAccounts, false);
+        accountsDb.createAccountsDeferred(instructorAccounts);
         instructorsDb.createEntitiesDeferred(instructors.values());
 
         Map<String, StudentAttributes> students = dataBundle.students;
@@ -120,8 +111,17 @@ public class BackDoorLogic extends Logic {
                 studentAccounts.add(account);
             }
         }
-        accountsDb.createAccounts(studentAccounts, false);
+        accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students.values());
+
+        Map<String, AccountAttributes> accounts = dataBundle.accounts;
+        for (AccountAttributes account : accounts.values()) {
+            if (account.studentProfile == null) {
+                account.studentProfile = StudentProfileAttributes.builder().build();
+                account.studentProfile.googleId = account.googleId;
+            }
+        }
+        accountsDb.createAccountsDeferred(accounts.values());
 
         Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
