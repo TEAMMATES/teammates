@@ -1430,6 +1430,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
 
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+        String whoCanSeeComment = null;
+        boolean isVisibilityIconShown = false;
+        if (bundle.feedbackSession.isPublished()) {
+            boolean isResponseCommentPublicToRecipient = !frcAttributes.showCommentTo.isEmpty();
+            isVisibilityIconShown = isResponseCommentPublicToRecipient;
+
+            if (isVisibilityIconShown) {
+                whoCanSeeComment = getTypeOfPeopleCanViewComment(frcAttributes, question);
+            }
+        }
 
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
@@ -1437,7 +1447,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                            responseVisibilityMap, bundle.instructorEmailNameTable,
                                            bundle.getTimeZone());
-
+        frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEditDelete();
         }
