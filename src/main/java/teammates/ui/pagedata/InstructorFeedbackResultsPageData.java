@@ -1475,7 +1475,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                                               getResponseCommentVisibilityString(question),
                                               getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
-                                              bundle.feedbackSession.getTimeZone());
+                                              bundle.getTimeZone());
     }
 
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {

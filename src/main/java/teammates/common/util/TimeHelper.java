@@ -224,12 +224,9 @@ public final class TimeHelper {
         TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
         c.setTimeZone(timeZone);
         c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm 'NOON' 'UTC'Z");
-            sdf.setTimeZone(timeZone);
-            return sdf.format(date);
-        }
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
+        String periodIndicator =
+                c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0 ? "'NOON'" : "a";
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm " + periodIndicator + " 'UTC'Z");
         sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }
@@ -463,8 +460,7 @@ public final class TimeHelper {
     public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {
         int hours = (int) sessionTimeZone;
         int minutes = (int) ((Math.abs(sessionTimeZone) - Math.floor(Math.abs(sessionTimeZone))) * 60);
-        String customId = TimeZone.getTimeZone(String.format("GMT%+03d:%02d", hours, minutes)).getID();
-        return TimeZone.getTimeZone(customId);
+        return TimeZone.getTimeZone(String.format("GMT%+03d:%02d", hours, minutes));
     }
 
 }

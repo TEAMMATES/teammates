@@ -39,10 +39,10 @@ public final class HtmlHelper {
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
-    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M?";
+    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M?|NOON";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
-    private static final String REGEX_TIMEZONE_OFFSET = "(([\\+][0-9][0-9][0-9][0-9])|([\\-][0-9][0-9][0-9][0-9]))";
+    private static final String REGEX_TIMEZONE_OFFSET = "([+-]\\d{4})";
 
     private HtmlHelper() {
         // utility class
@@ -389,6 +389,7 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
+        //A page can have only one time zone as we cannot have session with two different time zones.
         sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
@@ -441,7 +442,7 @@ public final class HtmlHelper {
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
                       // date of next hour (datepicker's date is generated based on next hour's date)
                       .replace(dateOfNextHour, "${date.nexthour}")
-                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM +0000]
+                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
