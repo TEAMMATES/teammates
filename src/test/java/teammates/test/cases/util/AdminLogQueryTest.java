@@ -23,7 +23,7 @@ public class AdminLogQueryTest extends BaseTestCase {
         Calendar cal = new GregorianCalendar();
         cal.set(1994, Calendar.MAY, 7, 15, 30, 12);
         long startTime = cal.getTimeInMillis();
-        long endTime = Math.addExact(startTime, Math.multiplyExact(22, MILLIS_IN_YEAR)); // about 22 years later
+        long endTime = Math.addExact(startTime, Math.multiplyExact(22L, MILLIS_IN_YEAR)); // about 22 years later
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
         assertEquals(startTime, query.getStartTime());
         assertEquals(endTime, query.getEndTime());
