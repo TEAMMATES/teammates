@@ -86,6 +86,25 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return entitiesToUpdate;
     }
 
+    public void createEntitiesDeferred(Collection<A> entitiesToAdd) throws InvalidParametersException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+
+        List<E> entities = new ArrayList<>();
+
+        for (A entityToAdd : entitiesToAdd) {
+            entityToAdd.sanitizeForSaving();
+
+            if (!entityToAdd.isValid()) {
+                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+            }
+
+            E entity = entityToAdd.toEntity();
+            entities.add(entity);
+        }
+
+        saveEntitiesDeferred(entities, entitiesToAdd);
+    }
+
     /**
      * Warning: Do not use this method unless a previous update might cause
      * adding of the new entity to fail due to EntityAlreadyExists exception
@@ -147,6 +166,21 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             log.info(attributes.getBackupIdentifier());
         }
         ofy().save().entities(entitiesToSave).now();
+    }
+
+    protected void saveEntitiesDeferred(Collection<E> entitiesToSave) {
+        saveEntitiesDeferred(entitiesToSave, makeAttributes(entitiesToSave));
+    }
+
+    protected void saveEntitiesDeferred(Collection<E> entitiesToSave, Collection<A> entitiesToSaveAttributesForLogging) {
+        for (A attributes : entitiesToSaveAttributesForLogging) {
+            log.info(attributes.getBackupIdentifier());
+        }
+        ofy().defer().save().entities(entitiesToSave);
+    }
+
+    public static void flush() {
+        ofy().flush();
     }
 
     // TODO: use this method for subclasses.

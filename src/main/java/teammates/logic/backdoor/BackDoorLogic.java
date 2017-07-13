@@ -33,6 +33,7 @@ import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.AdminEmailsDb;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -81,7 +82,7 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccounts(accounts.values(), true);
 
         Map<String, CourseAttributes> courses = dataBundle.courses;
-        coursesDb.createCourses(courses.values());
+        coursesDb.createEntitiesDeferred(courses.values());
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         List<AccountAttributes> instructorAccounts = new ArrayList<>();
@@ -100,7 +101,7 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.createAccounts(instructorAccounts, false);
-        instructorsDb.createInstructorsWithoutSearchability(instructors.values());
+        instructorsDb.createEntitiesDeferred(instructors.values());
 
         Map<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<>();
@@ -117,13 +118,13 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.createAccounts(studentAccounts, false);
-        studentsDb.createStudentsWithoutSearchability(students.values());
+        studentsDb.createEntitiesDeferred(students.values());
 
         Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
             cleanSessionData(session);
         }
-        fbDb.createFeedbackSessions(sessions.values());
+        fbDb.createEntitiesDeferred(sessions.values());
 
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<>(questions.values());
@@ -131,13 +132,17 @@ public class BackDoorLogic extends Logic {
         for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
         }
-        fqDb.createFeedbackQuestions(questionList);
+        fqDb.createEntitiesDeferred(questionList);
+
+        EntitiesDb.flush();
 
         Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
             injectRealIds(response);
         }
-        frDb.createFeedbackResponses(responses.values());
+        frDb.createEntitiesDeferred(responses.values());
+
+        EntitiesDb.flush();
 
         Set<String> sessionIds = new HashSet<>();
 
@@ -155,12 +160,12 @@ public class BackDoorLogic extends Logic {
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             injectRealIds(responseComment);
         }
-        fcDb.createFeedbackResponseComments(responseComments.values());
+        fcDb.createEntitiesDeferred(responseComments.values());
 
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
-        for (AdminEmailAttributes email : adminEmails.values()) {
-            adminEmailsDb.createAdminEmail(email);
-        }
+        adminEmailsDb.createEntitiesDeferred(adminEmails.values());
+
+        EntitiesDb.flush();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
