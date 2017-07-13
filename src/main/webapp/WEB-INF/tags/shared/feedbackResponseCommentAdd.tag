@@ -22,13 +22,13 @@
 <li class="list-group-item list-group-item-warning"
   id="showResponseCommentAddForm-${divId}" style="display: none;">
   <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
-                    secondIndex="${secondIndex}"
-                    thirdIndex="${thirdIndex}"
-                    fourthIndex="${fourthIndex}"
-                    frc="${frc}"
-                    divId="${divId}"
-                    formType="Add"
-                    textAreaId="responseCommentAddForm"
-                    submitLink="${submitLink}"
-                    buttonText="Add" />
+      secondIndex="${secondIndex}"
+      thirdIndex="${thirdIndex}"
+      fourthIndex="${fourthIndex}"
+      frc="${frc}"
+      divId="${divId}"
+      formType="Add"
+      textAreaId="responseCommentAddForm"
+      submitLink="${submitLink}"
+      buttonText="Add" />
 </li>
