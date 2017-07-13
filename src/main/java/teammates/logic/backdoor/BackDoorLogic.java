@@ -135,7 +135,7 @@ public class BackDoorLogic extends Logic {
 
         Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
-            response = injectRealIds(response);
+            injectRealIds(response);
         }
         frDb.createFeedbackResponses(responses.values());
 
@@ -341,12 +341,11 @@ public class BackDoorLogic extends Logic {
      * of private sessions by setting the feedbackSessionType field as PRIVATE
      * in the json file.
      */
-    private FeedbackSessionAttributes cleanSessionData(FeedbackSessionAttributes session) {
+    private void cleanSessionData(FeedbackSessionAttributes session) {
         if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
             session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         }
-        return session;
     }
 
     /**
@@ -359,7 +358,7 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException
     **/
-    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response)
+    private void injectRealIds(FeedbackResponseAttributes response)
             throws EntityDoesNotExistException {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
@@ -374,8 +373,6 @@ public class BackDoorLogic extends Logic {
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-
-        return response;
     }
 
     /**
