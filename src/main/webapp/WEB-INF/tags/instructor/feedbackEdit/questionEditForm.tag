@@ -97,7 +97,7 @@
                                 tabindex="9">
                                 ${fqForm.questionDescription}
                             </div>
-                            <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>">
+                            <input type="hidden" class="nonDestructive" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>">
                         </div>
                         ${fqForm.questionSpecificEditFormHtml}
                     </div>

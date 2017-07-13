@@ -399,6 +399,7 @@ function getDestructiveFields(questionNum) {
              .find(':input:enabled')
              .not('button')
              .not('.nonDestructive')
+             .not('input[name^="questiondescription"]')
              .not('.visibilityCheckbox')
              .clone();
 }
