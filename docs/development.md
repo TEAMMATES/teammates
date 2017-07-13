@@ -331,7 +331,7 @@ There are several files used to configure various aspects of the system.
 * `.travis.yml`: Contains the Travis CI job configuration.
 * `appveyor.yml`: Contains the AppVeyor CI job configuration.
 
-**Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](staticAnalysis.md).
+**Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
 * `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
 * `.stylelintrc`: Equivalent to `static-analysis/teammates-stylelint.yml`, currently only used for Stylelint integration in IntelliJ.
 
