@@ -2,7 +2,10 @@ package teammates.logic.backdoor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -137,9 +140,8 @@ public class BackDoorLogic extends Logic {
         EntitiesDb.flush();
 
         Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
-        for (FeedbackResponseAttributes response : responses.values()) {
-            injectRealIds(response);
-        }
+        Map<List<String>, String> cachedRealQuestionIds = new HashMap<>();
+        injectRealIdsIntoResponses(responses.values(), cachedRealQuestionIds);
         frDb.createEntitiesDeferred(responses.values());
 
         EntitiesDb.flush();
@@ -157,9 +159,7 @@ public class BackDoorLogic extends Logic {
         }
 
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            injectRealIds(responseComment);
-        }
+        injectRealIdsIntoResponseComments(responseComments.values(), cachedRealQuestionIds);
         fcDb.createEntitiesDeferred(responseComments.values());
 
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
@@ -361,22 +361,12 @@ public class BackDoorLogic extends Logic {
     * Therefore the question number corresponding to the created response
     * should be inserted in the json file in place of the actual response ID.<br>
     * This method will then generate the correct ID and replace the field.
-     * @throws EntityDoesNotExistException
     **/
-    private void injectRealIds(FeedbackResponseAttributes response)
-            throws EntityDoesNotExistException {
-        try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-
-            FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
-                    response.feedbackSessionName, response.courseId, qnNumber);
-            if (question == null) {
-                throw new EntityDoesNotExistException("question has not persisted yet");
-            }
-            response.feedbackQuestionId = question.getId();
-
-        } catch (NumberFormatException e) {
-            // Correct question ID was already attached to response.
+    private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
+            Map<List<String>, String> cachedRealQuestionIds) {
+        for (FeedbackResponseAttributes response : responses) {
+            response.feedbackQuestionId = getRealFeedbackQuestionId(
+                    response.feedbackSessionName, response.courseId, response.feedbackQuestionId, cachedRealQuestionIds);
         }
     }
 
@@ -389,26 +379,44 @@ public class BackDoorLogic extends Logic {
     * corresponding to the created comment should be inserted in the json
     * file in place of the actual ID.<br>
     * This method will then generate the correct ID and replace the field.
-     * @throws EntityDoesNotExistException
     **/
-    private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
-        try {
-            int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
+    private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
+            Map<List<String>, String> cachedRealQuestionIds) {
+        for (FeedbackResponseCommentAttributes comment : responseComments) {
+            String realQuestionId = getRealFeedbackQuestionId(
+                    comment.feedbackSessionName, comment.courseId, comment.feedbackQuestionId, cachedRealQuestionIds);
+            if (comment.feedbackQuestionId.equals(realQuestionId)) {
+                continue;
+            }
 
-            responseComment.feedbackQuestionId =
-                    feedbackQuestionsLogic.getFeedbackQuestion(
-                            responseComment.feedbackSessionName,
-                            responseComment.courseId,
-                            qnNumber).getId();
+            comment.feedbackQuestionId = realQuestionId;
+
+            String[] responseIdParam = comment.feedbackResponseId.split("%");
+            comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+        }
+    }
+
+    private String getRealFeedbackQuestionId(String feedbackSessionName, String courseId, String originalFeedbackQuestionId,
+            Map<List<String>, String> cachedRealQuestionIds) {
+        int qnNumber;
+        try {
+            qnNumber = Integer.parseInt(originalFeedbackQuestionId);
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
+            return originalFeedbackQuestionId;
         }
 
-        String[] responseIdParam = responseComment.feedbackResponseId.split("%");
+        List<String> questionKey = Collections.unmodifiableList(
+                Arrays.asList(feedbackSessionName, courseId, originalFeedbackQuestionId));
 
-        responseComment.feedbackResponseId =
-                responseComment.feedbackQuestionId
-                + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+        String realQuestionId = cachedRealQuestionIds.get(questionKey);
+
+        if (realQuestionId == null) {
+            realQuestionId = feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber).getId();
+            cachedRealQuestionIds.put(questionKey, realQuestionId);
+        }
+
+        return realQuestionId;
     }
 
     public void removeDataBundle(DataBundle dataBundle) {
