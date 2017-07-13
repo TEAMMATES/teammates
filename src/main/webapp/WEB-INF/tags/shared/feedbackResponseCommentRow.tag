@@ -41,13 +41,15 @@
     <c:if test="${frc.editDeleteEnabled}">
       <form class="responseCommentDeleteForm pull-right">
         <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
-           type="button"
-           id="commentdelete-${divId}"
-           class="btn btn-default btn-xs icon-button"
-           data-toggle="tooltip"
-           data-placement="top"
-           title="<%= Const.Tooltips.COMMENT_DELETE %>"
-           <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
+            type="button"
+            id="commentdelete-${divId}"
+            class="btn btn-default btn-xs icon-button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="<%= Const.Tooltips.COMMENT_DELETE %>"
+          <c:if test="${not frc.editDeleteEnabled}">
+            disabled
+          </c:if>>
           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
         </a>
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
@@ -58,24 +60,23 @@
         <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
         <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
       </form>
-      <a type="button"
-         id="commentedit-${divId}"
-         <c:choose>
-           <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
-             class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
-             data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
-             data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
-             <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+      <a type="button" id="commentedit-${divId}"
+          <c:choose>
+            <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
+              class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
+              data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
+              data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+              <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
              <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
-           </c:when>
-           <c:otherwise>
-             class="btn btn-default btn-xs icon-button pull-right"
-           </c:otherwise>
-         </c:choose>
-         data-toggle="tooltip"
-         data-placement="top"
-         title="<%= Const.Tooltips.COMMENT_EDIT %>"
-         <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
+            </c:when>
+            <c:otherwise>
+              class="btn btn-default btn-xs icon-button pull-right"
+            </c:otherwise>
+          </c:choose>
+          data-toggle="tooltip"
+          data-placement="top"
+          title="<%= Const.Tooltips.COMMENT_EDIT %>"
+          <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
         <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
       </a>
     </c:if>
@@ -86,16 +87,16 @@
     <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
     <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
     <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
-                      secondIndex="${secondIndex}"
-                      thirdIndex="${thirdIndex}"
-                      fourthIndex="${fourthIndex}"
-                      frcIndex="${frcIndex}"
-                      frc="${frc}"
-                      viewType = "${viewType}"
-                      divId="${divId}"
-                      formType="Edit"
-                      textAreaId="${textAreaId}"
-                      submitLink="${submitLink}"
-                      buttonText="Save" />
+        secondIndex="${secondIndex}"
+        thirdIndex="${thirdIndex}"
+        fourthIndex="${fourthIndex}"
+        frcIndex="${frcIndex}"
+        frc="${frc}"
+        viewType = "${viewType}"
+        divId="${divId}"
+        formType="Edit"
+        textAreaId="${textAreaId}"
+        submitLink="${submitLink}"
+        buttonText="Save" />
   </c:if>
 </li>
