@@ -13,7 +13,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
-- It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).
+- It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
