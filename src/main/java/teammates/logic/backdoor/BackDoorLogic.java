@@ -148,6 +148,17 @@ public class BackDoorLogic extends Logic {
         Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
             cleanSessionData(session);
+            String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+
+            List<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
+            List<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
+            List<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
+
+            courseInstructors = courseInstructors == null ? new ArrayList<InstructorAttributes>() : courseInstructors;
+            sessionQuestions = sessionQuestions == null ? new ArrayList<FeedbackQuestionAttributes>() : sessionQuestions;
+            sessionResponses = sessionResponses == null ? new ArrayList<FeedbackResponseAttributes>() : sessionResponses;
+
+            updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
         }
         fbDb.createEntitiesDeferred(sessions.values());
 
@@ -166,21 +177,61 @@ public class BackDoorLogic extends Logic {
 
         EntitiesDb.flush();
 
-        Set<String> sessionIds = new HashSet<>();
-        for (FeedbackResponseAttributes response : responses.values()) {
-            String sessionId = makeSessionKey(response.feedbackSessionName, response.courseId);
-            if (sessionIds.contains(sessionId)) {
-                continue;
-            }
-            updateRespondents(response.feedbackSessionName, response.courseId);
-            sessionIds.add(sessionId);
+        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
+
+    private void updateRespondents(FeedbackSessionAttributes session, List<InstructorAttributes> courseInstructors,
+            List<FeedbackQuestionAttributes> sessionQuestions, List<FeedbackResponseAttributes> sessionResponses) {
+        String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+
+        Map<String, List<String>> instructorQuestionKeysMap = new HashMap<>();
+        for (InstructorAttributes instructor : courseInstructors) {
+            List<FeedbackQuestionAttributes> questionsForInstructor = feedbackQuestionsLogic
+                    .getFeedbackQuestionsForInstructor(sessionQuestions, session.isCreator(instructor.email));
+
+            List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
+            instructorQuestionKeysMap.put(instructor.email, questionKeys);
         }
 
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+        Set<String> respondingInstructors = new HashSet<>();
+        Set<String> respondingStudents = new HashSet<>();
+
+        for (FeedbackResponseAttributes response : sessionResponses) {
+            String respondent = response.giver;
+            String responseQuestionNumber = response.feedbackQuestionId; // contains question number before injection
+            String responseQuestionKey = makeQuestionKey(sessionKey, responseQuestionNumber);
+
+            List<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
+            if (instructorQuestionKeys != null && instructorQuestionKeys.contains(responseQuestionKey)) {
+                respondingInstructors.add(respondent);
+            } else {
+                respondingStudents.add(respondent);
+            }
+        }
+
+        session.setRespondingInstructorList(respondingInstructors);
+        session.setRespondingStudentList(respondingStudents);
+    }
+
+    private List<String> makeQuestionKeys(List<FeedbackQuestionAttributes> questions, String sessionKey) {
+        List<String> questionKeys = new ArrayList<>();
+        for (FeedbackQuestionAttributes question : questions) {
+            String questionKey = makeQuestionKey(sessionKey, question.questionNumber);
+            questionKeys.add(questionKey);
+        }
+        return questionKeys;
     }
 
     private String makeSessionKey(String feedbackSessionName, String courseId) {
         return feedbackSessionName + "%" + courseId;
+    }
+
+    private String makeQuestionKey(String sessionKey, int questionNumber) {
+        return makeQuestionKey(sessionKey, String.valueOf(questionNumber));
+    }
+
+    private String makeQuestionKey(String sessionKey, String questionNumber) {
+        return sessionKey + "%" + questionNumber;
     }
 
     /**
