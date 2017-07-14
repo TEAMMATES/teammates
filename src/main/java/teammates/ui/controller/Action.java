@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -277,7 +278,7 @@ public abstract class Action {
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            AccountAttributes newLoggedInUser = new AccountAttributes();
+            AccountAttributes newLoggedInUser = new AccountAttributesBuilder().build();
             newLoggedInUser.googleId = currentUser.id;
             return newLoggedInUser;
         }
@@ -326,7 +327,7 @@ public abstract class Action {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         } else {
             // Unregistered and not logged in access given to page
-            loggedInUser = new AccountAttributes();
+            loggedInUser = new AccountAttributesBuilder().build();
             loggedInUser.email = student.email;
         }
 
@@ -365,7 +366,7 @@ public abstract class Action {
                         // since admin is masquerading, fabricate a regkey
                         regkey = "any-non-null-value";
                     }
-                    account = new AccountAttributes();
+                    account = new AccountAttributesBuilder().build();
                     account.googleId = paramRequestedUserId;
                 }
                 return account;

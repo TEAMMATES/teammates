@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
@@ -187,7 +187,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);
 
-        return new StudentHomePageData(new AccountAttributes(), dummySessionToken, courses, sessionSubmissionStatusMap);
+        return new StudentHomePageData(new AccountAttributesBuilder().build(),
+                dummySessionToken, courses, sessionSubmissionStatusMap);
     }
 
     private FeedbackSessionAttributes createFeedbackSession(String name,

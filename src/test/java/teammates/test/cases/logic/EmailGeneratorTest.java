@@ -13,6 +13,7 @@ import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogService.LogLevel;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -264,7 +265,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withKey(regkey)
                 .build();
 
-        AccountAttributes inviter = new AccountAttributes();
+        AccountAttributes inviter = new AccountAttributesBuilder().build();
         inviter.email = "instructor-joe@gmail.com";
         inviter.name = "Joe Wilson";
 

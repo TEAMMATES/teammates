@@ -33,10 +33,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
-    public AccountAttributes() {
-        // attributes to be set after construction
-    }
-
     /**
      * Creates a new AccountAttributes with default values for optional fields.
      *
