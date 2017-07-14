@@ -141,9 +141,18 @@ public class BackDoorLogic extends Logic {
         }
         fqDb.createEntitiesDeferred(questions.values());
 
+        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
+        Map<String, List<FeedbackResponseAttributes>> sessionResponsesMap = new HashMap<>();
+        for (FeedbackResponseAttributes response : responses.values()) {
+            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            if (!sessionResponsesMap.containsKey(sessionKey)) {
+                sessionResponsesMap.put(sessionKey, new ArrayList<FeedbackResponseAttributes>());
+            }
+            sessionResponsesMap.get(sessionKey).add(response);
+        }
+
         EntitiesDb.flush();
 
-        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         Map<List<String>, String> cachedRealQuestionIds = new HashMap<>();
         injectRealIdsIntoResponses(responses.values(), cachedRealQuestionIds);
         frDb.createEntitiesDeferred(responses.values());
