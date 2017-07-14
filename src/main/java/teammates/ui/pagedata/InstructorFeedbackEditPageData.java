@@ -43,7 +43,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
-                     InstructorAttributes instructor, String loadInEditMode) {
+                     InstructorAttributes instructor, boolean loadInEditMode) {
         Assumption.assertNotNull(feedbackSession);
 
         buildFsForm(feedbackSession);
@@ -60,7 +60,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
         buildPreviewForm(feedbackSession, studentList, instructorList);
 
-        isToBeLoadedInEditMode = loadInEditMode;
+        isToBeLoadedInEditMode = Boolean.toString(loadInEditMode);
 
     }
 
