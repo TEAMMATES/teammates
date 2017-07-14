@@ -33,17 +33,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
-    public AccountAttributes(Account a) {
-        googleId = a.getGoogleId();
-        name = a.getName();
-        isInstructor = a.isInstructor();
-        email = a.getEmail();
-        institute = a.getInstitute();
-        createdAt = a.getCreatedAt();
-        studentProfile =
-                a.getStudentProfile() == null ? null : StudentProfileAttributes.valueOf(a.getStudentProfile());
-    }
-
     public AccountAttributes() {
         // attributes to be set after construction
     }
