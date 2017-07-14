@@ -434,8 +434,14 @@ public class BackDoorLogic extends Logic {
     private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
             Map<String, String> questionRealQuestionIdMap) {
         for (FeedbackResponseAttributes response : responses) {
+            int questionNumber;
+            try {
+                questionNumber = Integer.parseInt(response.feedbackQuestionId);
+            } catch (NumberFormatException e) {
+                // question ID already injected
+                continue;
+            }
             String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
-            String questionNumber = response.feedbackQuestionId; // contains question number before injection
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
             response.feedbackQuestionId = questionRealQuestionIdMap.get(questionKey);
         }
@@ -454,8 +460,14 @@ public class BackDoorLogic extends Logic {
     private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
             Map<String, String> questionRealQuestionIdMap) {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
+            int questionNumber;
+            try {
+                questionNumber = Integer.parseInt(comment.feedbackQuestionId);
+            } catch (NumberFormatException e) {
+                // question ID already injected
+                continue;
+            }
             String sessionKey = makeSessionKey(comment.feedbackSessionName, comment.courseId);
-            String questionNumber = comment.feedbackQuestionId; // contains question number before injection
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
             comment.feedbackQuestionId = questionRealQuestionIdMap.get(questionKey);
 
