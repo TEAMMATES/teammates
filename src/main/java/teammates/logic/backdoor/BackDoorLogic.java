@@ -76,9 +76,15 @@ public class BackDoorLogic extends Logic {
         coursesDb.createEntitiesDeferred(courses.values());
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        Map<String, List<InstructorAttributes>> courseInstructorsMap = new HashMap<>();
         List<AccountAttributes> instructorAccounts = new ArrayList<>();
         for (InstructorAttributes instructor : instructors.values()) {
             validateInstructorPrivileges(instructor);
+
+            if (!courseInstructorsMap.containsKey(instructor.courseId)) {
+                courseInstructorsMap.put(instructor.courseId, new ArrayList<InstructorAttributes>());
+            }
+            courseInstructorsMap.get(instructor.courseId).add(instructor);
 
             if (instructor.googleId == null || instructor.googleId.isEmpty()) {
                 continue;
