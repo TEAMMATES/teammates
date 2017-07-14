@@ -13,11 +13,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.retry.RetryManager;
-import teammates.test.driver.retry.RetryableTaskReturns;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
@@ -40,7 +40,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testAdjustmentOfSubsmission() {
+    public void testAdjustmentOfSubmission() throws MaximumRetriesExceededException {
 
         //load the enrollPage
         loadEnrollmentPage();
@@ -83,7 +83,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         // It might take a while for the submission adjustment to persist (especially on the live server),
         // during which the pre-existing submissions and responses would be counted.
         // Hence, this needs to be retried several times until the count becomes zero.
-        RetryManager.runUntilSuccessful(new RetryableTaskReturns<Integer>("Assert outdated responses removed") {
+        persistenceRetryManager.runUntilSuccessful(new RetryableTaskReturns<Integer>("Assert outdated responses removed") {
             @Override
             public Integer run() {
                 return getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();
