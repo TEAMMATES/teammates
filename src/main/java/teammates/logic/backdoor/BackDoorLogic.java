@@ -152,15 +152,13 @@ public class BackDoorLogic extends Logic {
         EntitiesDb.flush();
 
         Set<String> sessionIds = new HashSet<>();
-
         for (FeedbackResponseAttributes response : responses.values()) {
-
             String sessionId = response.feedbackSessionName + "%" + response.courseId;
-
-            if (!sessionIds.contains(sessionId)) {
-                updateRespondents(response.feedbackSessionName, response.courseId);
-                sessionIds.add(sessionId);
+            if (sessionIds.contains(sessionId)) {
+                continue;
             }
+            updateRespondents(response.feedbackSessionName, response.courseId);
+            sessionIds.add(sessionId);
         }
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
