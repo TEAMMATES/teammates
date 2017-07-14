@@ -43,8 +43,11 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .withMoreInfo("moreInfo")
                 .build();
 
-        AccountAttributes accountWithStudentProfile = new AccountAttributesBuilder(
-                "id", "name", "test@email.com", "dev")
+        AccountAttributes accountWithStudentProfile = new AccountAttributesBuilder()
+                .withGoogleId("id")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(expectedSpa)
                 .build();

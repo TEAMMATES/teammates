@@ -76,8 +76,11 @@ public class StudentHomePageActionTest extends BaseActionTest {
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
         studentProfile.googleId = googleId;
 
-        AccountAttributes studentWithoutCourses = new AccountAttributesBuilder(
-                googleId, name, email, institute)
+        AccountAttributes studentWithoutCourses = new AccountAttributesBuilder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();

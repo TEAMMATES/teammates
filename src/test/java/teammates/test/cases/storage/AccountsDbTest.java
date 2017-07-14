@@ -115,8 +115,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
         StudentProfileAttributes studentProfile = null;
 
         ______TS("typical success case (legacy data)");
-        AccountAttributes a = new AccountAttributesBuilder(
-                googleId, name, email, institute)
+        AccountAttributes a = new AccountAttributesBuilder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
@@ -318,8 +321,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
         studentProfile.googleId = googleId;
         studentProfile.institute = "TEAMMATES Test Institute 1";
 
-        return new AccountAttributesBuilder(
-                googleId, name, email, institute)
+        return new AccountAttributesBuilder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();

@@ -35,8 +35,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testBuilderWithRequiredValues() {
 
-        AccountAttributes accountAttributes = new AccountAttributesBuilder(
-                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+        AccountAttributes accountAttributes = new AccountAttributesBuilder()
+                .withGoogleId(VALID_GOOGLE_ID)
+                .withName(VALID_NAME)
+                .withEmail(VALID_EMAIL)
+                .withInstitute(VALID_INSTITUTE)
                 .build();
 
         assertEquals(VALID_GOOGLE_ID, accountAttributes.googleId);
@@ -51,8 +54,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testBuilderWithDefaultOptionalValues() {
 
-        AccountAttributes accountAttributes = new AccountAttributesBuilder(
-                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+        AccountAttributes accountAttributes = new AccountAttributesBuilder()
+                .withGoogleId(VALID_GOOGLE_ID)
+                .withName(VALID_NAME)
+                .withEmail(VALID_EMAIL)
+                .withInstitute(VALID_INSTITUTE)
                 .build();
 
         assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
@@ -64,8 +70,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testBuilderWithNullArguments() {
-        AccountAttributes accountAttributesWithNullValues = new AccountAttributesBuilder(
-                null, null, null, null)
+        AccountAttributes accountAttributesWithNullValues = new AccountAttributesBuilder()
+                .withGoogleId(null)
+                .withName(null)
+                .withEmail(null)
+                .withInstitute(null)
                 .withIsInstructor(null)
                 .withStudentProfileAttributes(null)
                 .withCreatedAt(null)
@@ -84,12 +93,18 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testBuilderCopy() {
-        AccountAttributes account = new AccountAttributesBuilder(
-                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+        AccountAttributes account = new AccountAttributesBuilder()
+                .withGoogleId(VALID_GOOGLE_ID)
+                .withName(VALID_NAME)
+                .withEmail(VALID_EMAIL)
+                .withInstitute(VALID_INSTITUTE)
                 .build();
 
-        AccountAttributes accountCopy = new AccountAttributesBuilder(
-                account.googleId, account.name, account.email, account.institute)
+        AccountAttributes accountCopy = new AccountAttributesBuilder()
+                .withGoogleId(account.googleId)
+                .withName(account.name)
+                .withEmail(account.email)
+                .withInstitute(account.institute)
                 .build();
 
         assertEquals(account.googleId, accountCopy.googleId);
@@ -225,14 +240,22 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
-        return new AccountAttributesBuilder(googleId, name, email, institute)
+        return new AccountAttributesBuilder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
-        return new AccountAttributesBuilder(VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+        return new AccountAttributesBuilder()
+                .withGoogleId(VALID_GOOGLE_ID)
+                .withName(VALID_NAME)
+                .withEmail(VALID_EMAIL)
+                .withInstitute(VALID_INSTITUTE)
                 .withIsInstructor(false)
                 .build();
     }
@@ -266,8 +289,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withPictureKey(pictureKey)
                 .build();
 
-        return new AccountAttributesBuilder(
-                googleId, name, email, institute)
+        return new AccountAttributesBuilder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();

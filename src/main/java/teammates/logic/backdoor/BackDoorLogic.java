@@ -93,8 +93,11 @@ public class BackDoorLogic extends Logic {
             validateInstructorPrivileges(instructor);
 
             if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributesBuilder(
-                        instructor.googleId, instructor.name, instructor.email, "TEAMMATES Test Institute 1")
+                AccountAttributes account = new AccountAttributesBuilder()
+                        .withGoogleId(instructor.googleId)
+                        .withName(instructor.name)
+                        .withEmail(instructor.email)
+                        .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
                         .build();
 
@@ -113,8 +116,11 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributesBuilder(
-                        student.googleId, student.name, student.email, "TEAMMATES Test Institute 1")
+                AccountAttributes account = new AccountAttributesBuilder()
+                        .withGoogleId(student.googleId)
+                        .withName(student.name)
+                        .withEmail(student.email)
+                        .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(false)
                         .build();
                 if (account.studentProfile == null) {
