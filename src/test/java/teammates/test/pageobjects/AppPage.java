@@ -30,12 +30,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.retry.RetryManager;
-import teammates.test.driver.retry.RetryableTaskReturnsThrows;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -53,6 +54,12 @@ public abstract class AppPage {
 
     /** Browser instance the page is loaded into. */
     protected Browser browser;
+
+    /** Use for retrying due to persistence delays. */
+    protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
+
+    /** Use for retrying due to transient UI issues. */
+    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
 
     // These are elements common to most pages in our app
 
@@ -308,9 +315,14 @@ public abstract class AppPage {
         waitForElementToBeClickable(closeButton);
     }
 
-    private void waitForModalToDisappear() {
+    public void waitForModalToDisappear() {
         By modalBackdrop = By.className("modal-backdrop");
         waitForElementToDisappear(modalBackdrop);
+    }
+
+    public void waitForRemindModalPresence() {
+        By modalBackdrop = By.className("modal-backdrop");
+        waitForElementPresence(modalBackdrop);
     }
 
     /**
@@ -892,8 +904,10 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
-    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath) throws IOException {
-        return RetryManager.runUntilNoException(new RetryableTaskReturnsThrows<AppPage, IOException>("HTML verification") {
+    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath)
+            throws IOException, MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
+                "HTML verification") {
             @Override
             public AppPage run() throws IOException {
                 return verifyHtmlPart(MAIN_CONTENT, filePath);

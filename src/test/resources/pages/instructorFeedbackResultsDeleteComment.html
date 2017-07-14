@@ -360,6 +360,8 @@
                                   <span class="text-muted">
                                     From: Teammates Test [${datetime.now}]
                                   </span>
+                                  <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                                  </span>
                                   <form class="responseCommentDeleteForm pull-right">
                                     <a class="btn btn-default btn-xs icon-button" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResponseCommentDelete" id="commentdelete-0-0-1-1-1" title="" type="button">
                                       <span class="glyphicon glyphicon-trash glyphicon-primary">
@@ -461,6 +463,8 @@
                                 <div id="commentBar-0-0-1-1-2">
                                   <span class="text-muted">
                                     From: Teammates Test [${datetime.now}]
+                                  </span>
+                                  <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                   </span>
                                   <form class="responseCommentDeleteForm pull-right">
                                     <a class="btn btn-default btn-xs icon-button" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResponseCommentDelete" id="commentdelete-0-0-1-1-2" title="" type="button">
@@ -718,6 +722,36 @@
     </div>
     <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
       <div class="panel-body" id="sectionBody-2">
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+          </div>
+        </form>
       </div>
     </div>
   </div>
