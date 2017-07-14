@@ -185,6 +185,21 @@ public class BackDoorLogic extends Logic {
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
+    public String createFeedbackResponseAndUpdateSessionRespondents(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        try {
+            int questionNumber = Integer.parseInt(response.feedbackQuestionId);
+            response.feedbackQuestionId = feedbackQuestionsLogic
+                    .getFeedbackQuestion(response.feedbackSessionName, response.courseId, questionNumber)
+                    .getId(); // inject real question ID
+        } catch (NumberFormatException e) {
+            // question ID already injected
+        }
+        frDb.createEntityWithoutExistenceCheck(response);
+        updateRespondents(response.feedbackSessionName, response.courseId);
+        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
+
     private void updateRespondents(FeedbackSessionAttributes session, List<InstructorAttributes> courseInstructors,
             List<FeedbackQuestionAttributes> sessionQuestions, List<FeedbackResponseAttributes> sessionResponses) {
         String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
