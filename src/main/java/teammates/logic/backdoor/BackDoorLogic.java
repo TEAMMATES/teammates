@@ -146,7 +146,7 @@ public class BackDoorLogic extends Logic {
 
         Set<String> sessionIds = new HashSet<>();
         for (FeedbackResponseAttributes response : responses.values()) {
-            String sessionId = response.feedbackSessionName + "%" + response.courseId;
+            String sessionId = makeSessionKey(response.feedbackSessionName, response.courseId);
             if (sessionIds.contains(sessionId)) {
                 continue;
             }
@@ -155,6 +155,10 @@ public class BackDoorLogic extends Logic {
         }
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
+
+    private String makeSessionKey(String feedbackSessionName, String courseId) {
+        return feedbackSessionName + "%" + courseId;
     }
 
     /**
