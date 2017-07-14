@@ -86,10 +86,6 @@ public class BackDoorLogic extends Logic {
 
             AccountAttributes account = new AccountAttributes(
                     instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().build();
-                account.studentProfile.googleId = account.googleId;
-            }
             instructorAccounts.add(account);
         }
         accountsDb.createAccountsDeferred(instructorAccounts);
@@ -106,10 +102,6 @@ public class BackDoorLogic extends Logic {
 
             AccountAttributes account = new AccountAttributes(
                     student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().build();
-                account.studentProfile.googleId = account.googleId;
-            }
             studentAccounts.add(account);
         }
         accountsDb.createAccountsDeferred(studentAccounts);
