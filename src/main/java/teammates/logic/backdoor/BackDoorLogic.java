@@ -2,9 +2,7 @@ package teammates.logic.backdoor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -133,7 +131,6 @@ public class BackDoorLogic extends Logic {
             }
             sessionQuestionsMap.get(sessionKey).add(question);
         }
-        fqDb.createEntitiesDeferred(questions.values());
 
         Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         Map<String, List<FeedbackResponseAttributes>> sessionResponsesMap = new HashMap<>();
@@ -162,14 +159,22 @@ public class BackDoorLogic extends Logic {
         }
         fbDb.createEntitiesDeferred(sessions.values());
 
-        EntitiesDb.flush();
+        // This also flushes all previously deferred operations
+        List<FeedbackQuestionAttributes> createdQuestions =
+                fqDb.createFeedbackQuestionsWithoutExistenceCheck(questions.values());
 
-        Map<List<String>, String> cachedRealQuestionIds = new HashMap<>();
-        injectRealIdsIntoResponses(responses.values(), cachedRealQuestionIds);
+        Map<String, String> questionRealQuestionIdMap = new HashMap<>();
+        for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
+            String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
+            String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
+            questionRealQuestionIdMap.put(questionKey, createdQuestion.getId());
+        }
+
+        injectRealIdsIntoResponses(responses.values(), questionRealQuestionIdMap);
         frDb.createEntitiesDeferred(responses.values());
 
         Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        injectRealIdsIntoResponseComments(responseComments.values(), cachedRealQuestionIds);
+        injectRealIdsIntoResponseComments(responseComments.values(), questionRealQuestionIdMap);
         fcDb.createEntitiesDeferred(responseComments.values());
 
         Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
@@ -427,10 +432,12 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
     **/
     private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
-            Map<List<String>, String> cachedRealQuestionIds) {
+            Map<String, String> questionRealQuestionIdMap) {
         for (FeedbackResponseAttributes response : responses) {
-            response.feedbackQuestionId = getRealFeedbackQuestionId(
-                    response.feedbackSessionName, response.courseId, response.feedbackQuestionId, cachedRealQuestionIds);
+            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            String questionNumber = response.feedbackQuestionId; // contains question number before injection
+            String questionKey = makeQuestionKey(sessionKey, questionNumber);
+            response.feedbackQuestionId = questionRealQuestionIdMap.get(questionKey);
         }
     }
 
@@ -445,42 +452,16 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
     **/
     private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
-            Map<List<String>, String> cachedRealQuestionIds) {
+            Map<String, String> questionRealQuestionIdMap) {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
-            String realQuestionId = getRealFeedbackQuestionId(
-                    comment.feedbackSessionName, comment.courseId, comment.feedbackQuestionId, cachedRealQuestionIds);
-            if (comment.feedbackQuestionId.equals(realQuestionId)) {
-                continue;
-            }
-
-            comment.feedbackQuestionId = realQuestionId;
+            String sessionKey = makeSessionKey(comment.feedbackSessionName, comment.courseId);
+            String questionNumber = comment.feedbackQuestionId; // contains question number before injection
+            String questionKey = makeQuestionKey(sessionKey, questionNumber);
+            comment.feedbackQuestionId = questionRealQuestionIdMap.get(questionKey);
 
             String[] responseIdParam = comment.feedbackResponseId.split("%");
             comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
         }
-    }
-
-    private String getRealFeedbackQuestionId(String feedbackSessionName, String courseId, String originalFeedbackQuestionId,
-            Map<List<String>, String> cachedRealQuestionIds) {
-        int qnNumber;
-        try {
-            qnNumber = Integer.parseInt(originalFeedbackQuestionId);
-        } catch (NumberFormatException e) {
-            // Correct question ID was already attached to response.
-            return originalFeedbackQuestionId;
-        }
-
-        List<String> questionKey = Collections.unmodifiableList(
-                Arrays.asList(feedbackSessionName, courseId, originalFeedbackQuestionId));
-
-        String realQuestionId = cachedRealQuestionIds.get(questionKey);
-
-        if (realQuestionId == null) {
-            realQuestionId = feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, qnNumber).getId();
-            cachedRealQuestionIds.put(questionKey, realQuestionId);
-        }
-
-        return realQuestionId;
     }
 
     public void removeDataBundle(DataBundle dataBundle) {

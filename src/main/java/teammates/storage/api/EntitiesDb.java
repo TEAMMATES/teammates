@@ -86,7 +86,14 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return entitiesToUpdate;
     }
 
-    public void createEntitiesDeferred(Collection<A> entitiesToAdd) throws InvalidParametersException {
+    /**
+     * Queues creation of multiple entities. No actual writes are done until {@link #flush()} is called.
+     * Note that there is no check for existence - existing entities will be overwritten.
+     * If multiple entities with the same key are queued, only the last one queued will be created.
+     *
+     * @return list of created entities.
+     */
+    public List<E> createEntitiesDeferred(Collection<A> entitiesToAdd) throws InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
         List<E> entities = new ArrayList<>();
@@ -103,6 +110,8 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         }
 
         saveEntitiesDeferred(entities, entitiesToAdd);
+
+        return entities;
     }
 
     /**
