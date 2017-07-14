@@ -67,12 +67,9 @@ public class BackDoorLogic extends Logic {
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
-    public String persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
+    public String persistDataBundle(DataBundle dataBundle) throws InvalidParametersException, EntityDoesNotExistException {
         if (dataBundle == null) {
-            throw new InvalidParametersException(
-                    Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
+            throw new InvalidParametersException(Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
 
         Map<String, CourseAttributes> courses = dataBundle.courses;
@@ -81,18 +78,19 @@ public class BackDoorLogic extends Logic {
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         List<AccountAttributes> instructorAccounts = new ArrayList<>();
         for (InstructorAttributes instructor : instructors.values()) {
-
             validateInstructorPrivileges(instructor);
 
-            if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
-                                                                  instructor.email, "TEAMMATES Test Institute 1");
-                if (account.studentProfile == null) {
-                    account.studentProfile = StudentProfileAttributes.builder().build();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                instructorAccounts.add(account);
+            if (instructor.googleId == null || instructor.googleId.isEmpty()) {
+                continue;
             }
+
+            AccountAttributes account = new AccountAttributes(
+                    instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+            if (account.studentProfile == null) {
+                account.studentProfile = StudentProfileAttributes.builder().build();
+                account.studentProfile.googleId = account.googleId;
+            }
+            instructorAccounts.add(account);
         }
         accountsDb.createAccountsDeferred(instructorAccounts);
         instructorsDb.createEntitiesDeferred(instructors.values());
@@ -101,15 +99,18 @@ public class BackDoorLogic extends Logic {
         List<AccountAttributes> studentAccounts = new ArrayList<>();
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
-            if (student.googleId != null && !student.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
-                                                                  student.email, "TEAMMATES Test Institute 1");
-                if (account.studentProfile == null) {
-                    account.studentProfile = StudentProfileAttributes.builder().build();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                studentAccounts.add(account);
+
+            if (student.googleId == null || student.googleId.isEmpty()) {
+                continue;
             }
+
+            AccountAttributes account = new AccountAttributes(
+                    student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
+            if (account.studentProfile == null) {
+                account.studentProfile = StudentProfileAttributes.builder().build();
+                account.studentProfile.googleId = account.googleId;
+            }
+            studentAccounts.add(account);
         }
         accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students.values());
