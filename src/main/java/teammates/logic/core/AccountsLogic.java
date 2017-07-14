@@ -332,16 +332,17 @@ public final class AccountsLogic {
 
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = student.googleId;
-        account.email = student.email;
-        account.name = student.name;
-        account.isInstructor = false;
-        account.institute = getCourseInstitute(student.course);
 
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = student.googleId;
-        spa.institute = account.institute;
+        spa.institute = getCourseInstitute(student.course);
+
+        AccountAttributes account = new AccountAttributes.AccountAttributesBuilder(
+                student.googleId, student.name, student.email, getCourseInstitute(student.course))
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(spa)
+                .build();
+
         account.studentProfile = spa;
         accountsDb.createAccount(account);
     }

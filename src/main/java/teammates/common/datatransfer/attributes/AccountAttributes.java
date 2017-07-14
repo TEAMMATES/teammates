@@ -33,6 +33,17 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
+    public AccountAttributes(Account a) {
+        googleId = a.getGoogleId();
+        name = a.getName();
+        isInstructor = a.isInstructor();
+        email = a.getEmail();
+        institute = a.getInstitute();
+        createdAt = a.getCreatedAt();
+        studentProfile =
+                a.getStudentProfile() == null ? null : StudentProfileAttributes.valueOf(a.getStudentProfile());
+    }
+
     public AccountAttributes() {
         // attributes to be set after construction
     }
@@ -183,15 +194,19 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public static class AccountAttributesBuilder {
 
         // Required fields
-        public final String googleId;
-        public final String name;
-        public final String email;
+        public String googleId;
+        public String name;
+        public String email;
         public String institute;
 
         // Optional fields
         public Boolean isInstructor;
         public Date createdAt;
         public StudentProfileAttributes studentProfile;
+
+        public AccountAttributesBuilder() {
+            // attributes to be set after construction
+        }
 
         public AccountAttributesBuilder(String googleId, String name, String email, String institute) {
             this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);

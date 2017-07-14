@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -260,15 +261,21 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes createNewAccount() throws Exception {
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = "valid.googleId";
-        a.name = "Valid Fresh Account";
-        a.isInstructor = false;
-        a.email = "valid@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = a.googleId;
-        a.studentProfile.institute = "TEAMMATES Test Institute 1";
+        String googleId = "valid.googleId";
+        String name = "Valid Fresh Account";
+        boolean isInstructor = false;
+        String email = "valid@email.com";
+        String institute = "TEAMMATES Test Institute 1";
+
+        StudentProfileAttributes studentProfileAttributes = StudentProfileAttributes.builder().build();
+        studentProfileAttributes.googleId = googleId;
+        studentProfileAttributes.institute = "TEAMMATES Test Institute 1";
+
+        AccountAttributes a = new AccountAttributesBuilder(
+                googleId, name, email, institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfileAttributes)
+                .build();
 
         accountsDb.createAccount(a);
         return a;

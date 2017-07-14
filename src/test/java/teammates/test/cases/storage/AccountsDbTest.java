@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -106,15 +107,19 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateAccount() throws Exception {
 
-        ______TS("typical success case (legacy data)");
-        AccountAttributes a = new AccountAttributes();
+        String googleId = "test.account";
+        String name = "Test account Name";
+        boolean isInstructor = false;
+        String email = "fresh-account@email.com";
+        String institute = "TEAMMATES Test Institute 1";
+        StudentProfileAttributes studentProfile = null;
 
-        a.googleId = "test.account";
-        a.name = "Test account Name";
-        a.isInstructor = false;
-        a.email = "fresh-account@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = null;
+        ______TS("typical success case (legacy data)");
+        AccountAttributes a = new AccountAttributesBuilder(
+                googleId, name, email, institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
 
         accountsDb.createAccount(a);
 
@@ -304,16 +309,19 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes getNewAccountAttributes() {
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = "valid.googleId";
-        a.name = "Valid Fresh Account";
-        a.isInstructor = false;
-        a.email = "valid@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = a.googleId;
-        a.studentProfile.institute = "TEAMMATES Test Institute 1";
+        String googleId = "valid.googleId";
+        String name = "Valid Fresh Account";
+        boolean isInstructor = false;
+        String email = "valid@email.com";
+        String institute = "TEAMMATES Test Institute 1";
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
+        studentProfile.googleId = googleId;
+        studentProfile.institute = "TEAMMATES Test Institute 1";
 
-        return a;
+        return new AccountAttributesBuilder(
+                googleId, name, email, institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
     }
 }
