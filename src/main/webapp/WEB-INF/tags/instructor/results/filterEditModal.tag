@@ -11,7 +11,7 @@
         <h4 class="modal-title">Edit settings</h4>
       </div>
       <div class="modal-body">
-        <form role="form" method="post" action="${filterPanel.resultsLink}">
+        <form method="post" action="${filterPanel.resultsLink}">
           <div class="row">
             <div class="col-md-7">
               <div class="form-group">
