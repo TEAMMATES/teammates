@@ -46,8 +46,9 @@ public class AdminLogQueryTest extends BaseTestCase {
         versionList.add("5-44");
         Calendar cal = new GregorianCalendar();
         cal.set(2016, 4, 7, 15, 30, 12);
-        Long startTime = cal.getTimeInMillis();
-        Long endTime = startTime + 3 * 24 * 60 * 60 * 1000; // 3 days later
+        long startTime = cal.getTimeInMillis();
+        cal.add(Calendar.DAY_OF_MONTH, 3);
+        long endTime = cal.getTimeInMillis();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
         Long fourHours = Long.valueOf(4 * 60 * 60 * 1000);
         query.moveTimePeriodBackward(fourHours); // 4 hours before endTime
