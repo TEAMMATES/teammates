@@ -1087,7 +1087,7 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.
-    if ($('input[name="editsessiondetails"]').prop('value') === 'true') {
+    if ($(`[name=${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}]`).prop('value') === 'true') {
         enableEditFS();
     } else {
         disableEditFS();
