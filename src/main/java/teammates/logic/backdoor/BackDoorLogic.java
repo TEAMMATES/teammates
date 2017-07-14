@@ -122,12 +122,6 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.createAccountsDeferred(accounts.values());
 
-        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()) {
-            cleanSessionData(session);
-        }
-        fbDb.createEntitiesDeferred(sessions.values());
-
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         Map<String, List<FeedbackQuestionAttributes>> sessionQuestionsMap = new HashMap<>();
         for (FeedbackQuestionAttributes question : questions.values()) {
@@ -150,6 +144,12 @@ public class BackDoorLogic extends Logic {
             }
             sessionResponsesMap.get(sessionKey).add(response);
         }
+
+        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
+        for (FeedbackSessionAttributes session : sessions.values()) {
+            cleanSessionData(session);
+        }
+        fbDb.createEntitiesDeferred(sessions.values());
 
         EntitiesDb.flush();
 
