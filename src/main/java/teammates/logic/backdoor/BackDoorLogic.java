@@ -129,8 +129,15 @@ public class BackDoorLogic extends Logic {
         fbDb.createEntitiesDeferred(sessions.values());
 
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
+        Map<String, List<FeedbackQuestionAttributes>> sessionQuestionsMap = new HashMap<>();
         for (FeedbackQuestionAttributes question : questions.values()) {
             question.removeIrrelevantVisibilityOptions();
+
+            String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
+            if (!sessionQuestionsMap.containsKey(sessionKey)) {
+                sessionQuestionsMap.put(sessionKey, new ArrayList<FeedbackQuestionAttributes>());
+            }
+            sessionQuestionsMap.get(sessionKey).add(question);
         }
         fqDb.createEntitiesDeferred(questions.values());
 
