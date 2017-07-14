@@ -278,7 +278,7 @@ public abstract class Action {
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            AccountAttributes newLoggedInUser = new AccountAttributesBuilder().build();
+            AccountAttributes newLoggedInUser = new AccountAttributes();
             newLoggedInUser.googleId = currentUser.id;
             return newLoggedInUser;
         }
@@ -327,7 +327,7 @@ public abstract class Action {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         } else {
             // Unregistered and not logged in access given to page
-            loggedInUser = new AccountAttributesBuilder().build();
+            loggedInUser = new AccountAttributes();
             loggedInUser.email = student.email;
         }
 

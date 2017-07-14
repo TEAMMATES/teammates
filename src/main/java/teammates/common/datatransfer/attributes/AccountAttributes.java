@@ -33,6 +33,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
+    public AccountAttributes() {
+        // attributes to be set after construction
+    }
+
     /**
      * Creates a new AccountAttributes with default values for optional fields.
      *
@@ -193,8 +197,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public StudentProfileAttributes studentProfile = DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
 
         public AccountAttributesBuilder withGoogleId(String googleId) {
-            this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            if (googleId != null) {
+                this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+                this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            }
             return this;
         }
 
