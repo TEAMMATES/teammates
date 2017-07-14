@@ -404,7 +404,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         List<Instructor> instructorReturnList = load().filter("courseId =", courseId).list();
-        // instructorReturnList = load().filter("courseId =", courseId).list();
         Collections.sort(instructorReturnList, Instructor.compareByName);
         return instructorReturnList;
     }
