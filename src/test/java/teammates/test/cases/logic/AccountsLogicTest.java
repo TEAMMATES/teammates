@@ -57,7 +57,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
@@ -121,7 +121,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("test updateAccount");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "idOfInstructor1OfCourse1";
         spa.institute = "dev";
         spa.shortName = "nam";
@@ -235,8 +235,9 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
+        StudentProfileAttributes spa = StudentProfileAttributes.builder()
+                .withGoogleId(correctStudentId).withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
         AccountAttributes accountData = new AccountAttributesBuilder(
                 correctStudentId, "nameABC", "real@gmail.com", "TEAMMATES Test Institute 1")

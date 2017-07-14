@@ -17,7 +17,8 @@ import teammates.storage.entity.Account;
 public class AccountAttributes extends EntityAttributes<Account> {
 
     public static final Date DEFAULT_DATE = new Date();
-    public static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES = new StudentProfileAttributes();
+    public static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
+            StudentProfileAttributes.builder().build();
 
     //Note: be careful when changing these variables as their names are used in *.json files.
 
@@ -31,6 +32,17 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public boolean isInstructor;
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
+
+    public AccountAttributes(Account a) {
+        googleId = a.getGoogleId();
+        name = a.getName();
+        isInstructor = a.isInstructor();
+        email = a.getEmail();
+        institute = a.getInstitute();
+        createdAt = a.getCreatedAt();
+        studentProfile =
+                a.getStudentProfile() == null ? null : StudentProfileAttributes.valueOf(a.getStudentProfile());
+    }
 
     public AccountAttributes() {
         // attributes to be set after construction
@@ -65,10 +77,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
                 account.getInstitute())
                 .withCreatedAt(account.getCreatedAt())
                 .withIsInstructor(account.isInstructor())
-                .withStudentProfileAttributes(
-                        (account.getStudentProfile() == null)
-                                ? null
-                                : new StudentProfileAttributes(account.getStudentProfile()))
+                .withStudentProfileAttributes(account.getStudentProfile() == null
+                        ? null : StudentProfileAttributes.valueOf(account.getStudentProfile()))
                 .build();
     }
 

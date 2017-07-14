@@ -12,10 +12,13 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.RetryManager;
+import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore.
@@ -26,6 +29,8 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
+
+    protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
 
     protected void verifyPresentInDatastore(DataBundle data) {
         Map<String, AccountAttributes> accounts = data.accounts;
@@ -162,9 +167,20 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private void equalizeIrrelevantData(AccountAttributes expected, AccountAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.createdAt = actual.createdAt;
+
         expected.studentProfile = actual.studentProfile;
         expected.studentProfile.googleId = actual.googleId;
         expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
+
+        if (actual.studentProfile == null) {
+            expected.studentProfile = null;
+        } else {
+            if (expected.studentProfile == null) {
+                expected.studentProfile = StudentProfileAttributes.builder().build();
+                expected.studentProfile.googleId = actual.googleId;
+            }
+            expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;
+        }
     }
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);

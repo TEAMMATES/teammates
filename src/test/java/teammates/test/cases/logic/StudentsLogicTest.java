@@ -120,17 +120,13 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.deleteAccountCascade(instructorId);
         coursesLogic.deleteCourseCascade(instructorCourse);
 
-        StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(
-                instructorId, "ICET", "", "", "", "other", "", "");
-
-        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+        //create fresh test data
+        accountsLogic.createAccount(new AccountAttributesBuilder(
                 instructorId, "ICET Instr Name", "instructor@icet.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(studentProfileAttributes)
-                .build();
-
-        //create fresh test data
-        accountsLogic.createAccount(accountToAdd);
+                .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                        .withGoogleId(instructorId).withShortName("ICET").build())
+                .build());
 
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
@@ -193,7 +189,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("success: edited profile");
 
-        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder().build();
 
         expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
@@ -609,13 +605,14 @@ public class StudentsLogicTest extends BaseLogicTest {
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
 
-        StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(
-                instructorId, "Ins1", "", "", "", "male", "", "");
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+                .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
+                .build();
 
         AccountAttributes accountToAdd = new AccountAttributesBuilder(
                 instructorId, "Instructor 1", instructorEmail, "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(studentProfileAttributes)
+                .withStudentProfileAttributes(profileAttributes)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
@@ -703,13 +700,14 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        StudentProfileAttributes student = new StudentProfileAttributes(
-                "tes.instructor", "Ins 1", "", "", "", "male", "", "");
+        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
+                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
+                .build();
 
         accountToAdd = new AccountAttributesBuilder(
                 "tes.instructor", "Instructor 1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(student)
+                .withStudentProfileAttributes(studentAttributes)
                 .build();
 
         accountsLogic.createAccount(accountToAdd);

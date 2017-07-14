@@ -26,7 +26,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     @BeforeClass
     public void classSetup() {
-        profile = new StudentProfileAttributes();
+        profile = StudentProfileAttributes.builder().build();
         profile.googleId = "valid.googleId";
         profile.shortName = "shor";
         profile.institute = "institute";
@@ -35,6 +35,50 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         profile.gender = "female";
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
+    }
+
+    @Test
+    public void testBuilderWithDefaultOptionalValues() {
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder().build();
+        assertIsDefaultValues(profileAttributes);
+    }
+
+    @Test
+    public void testDefaultValueForGenderIfNullPassed() {
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+                .withGender(null)
+                .build();
+
+        assertIsDefaultValues(profileAttributes);
+    }
+
+    private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
+        assertEquals("other", profileAttributes.gender);
+        assertEquals("", profileAttributes.googleId);
+        assertEquals("", profileAttributes.shortName);
+        assertEquals("", profileAttributes.email);
+        assertEquals("", profileAttributes.institute);
+        assertEquals("", profileAttributes.nationality);
+        assertEquals("", profileAttributes.moreInfo);
+        assertEquals("", profileAttributes.pictureKey);
+    }
+
+    @Test
+    public void testValueOf() {
+        StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
+                "Teammates Institute", "American", "male",
+                new Text("hello"), new BlobKey("key"));
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
+
+        assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
+        assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
+        assertEquals(studentProfile.getEmail(), profileAttributes.email);
+        assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
+        assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
+        assertEquals(studentProfile.getGender(), profileAttributes.gender);
+        assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
+        assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
+
     }
 
     @Test
@@ -54,7 +98,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetJsonString() throws Exception {
-        StudentProfileAttributes spa = new StudentProfileAttributes(profile.toEntity());
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
@@ -73,7 +117,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
-        StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
+        StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile attributes");
         assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
@@ -81,7 +125,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void testGetInvalidityInfoForValidProfileWithEmptyValues() {
-        StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
+        StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile with empty attributes");
         validProfile.shortName = "";
@@ -124,7 +168,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
-        StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
+        StudentProfileAttributes testProfile = StudentProfileAttributes.valueOf(expectedEntity);
         StudentProfile actualEntity = testProfile.toEntity();
 
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
@@ -140,7 +184,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testToString() {
-        StudentProfileAttributes spa = new StudentProfileAttributes(profile.toEntity());
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
 
         // the toString must be unique to the values in the object
@@ -157,13 +201,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
                                   profile.institute, profile.nationality, profile.gender,
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
-    }
-
-    private StudentProfileAttributes createNewProfileAttributesFrom(
-            StudentProfileAttributes profile) {
-        return new StudentProfileAttributes(profile.googleId, profile.shortName, profile.email,
-                                            profile.institute, profile.nationality, profile.gender,
-                                            profile.moreInfo, profile.pictureKey);
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
@@ -187,7 +224,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                     FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                     FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.nationality));
-        expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
+
         return expectedErrorMessages;
     }
 
@@ -201,8 +238,16 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
-        return new StudentProfileAttributes(googleId, shortName, email, institute, nationality, gender,
-                                            moreInfo, pictureKey);
+        return StudentProfileAttributes.builder()
+                .withGoogleId(googleId)
+                .withShortName(shortName)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
     }
 
     private StudentProfileAttributes getStudentProfileAttributesToSanitize() {
@@ -215,8 +260,16 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 
-        return new StudentProfileAttributes(googleId, shortName, email, institute, nationality, gender,
-                                            moreInfo, pictureKey);
+        return StudentProfileAttributes.builder()
+                .withGoogleId(googleId)
+                .withShortName(shortName)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
     }
 
 }

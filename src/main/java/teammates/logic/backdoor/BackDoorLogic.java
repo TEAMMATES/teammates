@@ -76,7 +76,7 @@ public class BackDoorLogic extends Logic {
         Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile = StudentProfileAttributes.builder().build();
                 account.studentProfile.googleId = account.googleId;
             }
 
@@ -99,7 +99,7 @@ public class BackDoorLogic extends Logic {
                         .build();
 
                 if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile = StudentProfileAttributes.builder().build();
                     account.studentProfile.googleId = account.googleId;
                 }
                 instructorAccounts.add(account);
@@ -118,7 +118,7 @@ public class BackDoorLogic extends Logic {
                         .withIsInstructor(false)
                         .build();
                 if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile = StudentProfileAttributes.builder().build();
                     account.studentProfile.googleId = account.googleId;
                 }
 
@@ -426,7 +426,7 @@ public class BackDoorLogic extends Logic {
 
         for (AccountAttributes account : dataBundle.accounts.values()) {
             if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile = StudentProfileAttributes.builder().build();
                 account.studentProfile.googleId = account.googleId;
             }
         }
