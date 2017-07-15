@@ -334,20 +334,18 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public boolean isInstructorListSortedByName() {
-        boolean sorted = true;
+        boolean isSorted = true;
         List<String> instructorNames = new ArrayList<String>();
         List<WebElement> elements = browser.driver.findElements(By.xpath("//*[starts-with(@id, 'instructorname')]"));
         for (int i = 1; i < elements.size(); i++) {
-            // WebElement element = elements.get(i);
-            // instructorNames.add(element.getAttribute("value"));
             instructorNames.add(browser.driver.findElement(By.id("instructorname" + i)).getAttribute("value"));
         }
         for (int i = 1; i < instructorNames.size(); i++) {
             if (instructorNames.get(i - 1).compareTo(instructorNames.get(i)) > 0) {
-                sorted = false;
+                isSorted = false;
             }
         }
-        return sorted;
+        return isSorted;
     }
 
     public boolean clickOnNewInstructorAccessLevelViewDetails(String role) {
