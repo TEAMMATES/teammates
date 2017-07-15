@@ -45,7 +45,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
-                     InstructorAttributes instructor, CourseDetailsBundle courseDetails) {
+                     InstructorAttributes instructor, int numOfInstructors, CourseDetailsBundle courseDetails) {
         Assumption.assertNotNull(feedbackSession);
 
         buildFsForm(feedbackSession);
@@ -59,7 +59,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         }
 
         this.courseDetails = courseDetails;
-        numOfInstructors = instructorList.size();
+        // numOfInstructors can be different from instructorList.size()
+        this.numOfInstructors = numOfInstructors;
 
         buildNewQuestionForm(feedbackSession, questions.size() + 1);
 

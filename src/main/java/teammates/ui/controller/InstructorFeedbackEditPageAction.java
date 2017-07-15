@@ -68,6 +68,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         });
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        int numOfInstructors = instructorList.size();
 
         statusToAdmin = "instructorFeedbackEdit Page Load<br>"
                         + "Editing information for Feedback Session "
@@ -76,7 +77,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
         data.init(feedbackSession, questions, questionHasResponses, studentList, instructorsWhoCanSubmit, instructor,
-                logic.getCourseDetails(courseId));
+                numOfInstructors, logic.getCourseDetails(courseId));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
