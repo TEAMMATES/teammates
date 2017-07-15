@@ -59,10 +59,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public static CourseAttributes valueOf(Course course) {
-        return new CourseAttributesBuilder(
-                course.getUniqueId(),
-                course.getName(),
-                course.getTimeZone())
+        return new CourseAttributesBuilder()
+                .withCourseId(course.getUniqueId())
+                .withName(course.getName())
+                .withTimeZone(course.getTimeZone())
                 .withCreatedAt(course.getCreatedAt())
                 .build();
     }
@@ -156,19 +156,33 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public static class CourseAttributesBuilder {
-        // Optional fields
-        public Date createdAt;
+        // Optional field
+        public Date createdAt = DEFAULT_DATE;
 
         // Required fields
         private String id;
         private String name;
         private String timeZone;
 
-        public CourseAttributesBuilder(String courseId, String name, String timeZone) {
-            this.id = SanitizationHelper.sanitizeTitle(courseId);
-            this.name = SanitizationHelper.sanitizeTitle(name);
-            this.timeZone = timeZone;
-            this.createdAt = DEFAULT_DATE;
+        public CourseAttributesBuilder withCourseId(String id) {
+            if (id != null) {
+                this.id = SanitizationHelper.sanitizeTitle(id);
+            }
+            return this;
+        }
+
+        public CourseAttributesBuilder withName(String name) {
+            if (name != null) {
+                this.name = SanitizationHelper.sanitizeTitle(name);
+            }
+            return this;
+        }
+
+        public CourseAttributesBuilder withTimeZone(String timeZone) {
+            if (timeZone != null) {
+                this.timeZone = timeZone;
+            }
+            return this;
         }
 
         public CourseAttributesBuilder withCreatedAt(Date createdAt) {

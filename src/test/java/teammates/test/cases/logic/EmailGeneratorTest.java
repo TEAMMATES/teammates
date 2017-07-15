@@ -283,8 +283,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course join email");
 
-        CourseAttributes course = new CourseAttributesBuilder(
-                "course-id", "Course Name", "UTC")
+        CourseAttributes course = new CourseAttributesBuilder()
+                .withCourseId("course-id") .withName("Course Name") .withTimeZone("UTC")
                 .build();
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -331,8 +331,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course join email");
 
-        CourseAttributes course = new CourseAttributesBuilder(
-                "idOfTypicalCourse1", "Course Name", "UTC")
+        CourseAttributes course = new CourseAttributesBuilder()
+                .withCourseId("idOfTypicalCourse1") .withName("Course Name") .withTimeZone("UTC")
                 .build();
 
         StudentAttributes student = new StudentAttributes();
@@ -355,8 +355,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = new CourseAttributesBuilder(
-                "course-id", "Course Name", "UTC")
+        course = new CourseAttributesBuilder()
+                .withCourseId("course-id") .withName("Course Name") .withTimeZone("UTC")
                 .build();
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);

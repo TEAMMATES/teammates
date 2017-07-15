@@ -157,8 +157,8 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         // another well-tested method.
 
         String courseId = "tmapitt.tcc.course";
-        CourseAttributes course = new CourseAttributesBuilder(
-                courseId, "Name of tmapitt.tcc.instructor", "UTC")
+        CourseAttributes course = new CourseAttributesBuilder()
+                .withCourseId(courseId) .withName("Name of tmapitt.tcc.instructor") .withTimeZone("UTC")
                 .build();
 
         // Make sure not already inside

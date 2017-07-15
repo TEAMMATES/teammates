@@ -29,9 +29,10 @@ public class InstructorCourseEditPageData extends PageData {
         this.course = course;
         //TODO: [CourseAttribute] remove desanitization after data migration
         //creating a new course with possibly desanitized name as course name cannot be accessed directly
-        this.course = new CourseAttributesBuilder(course.getId(),
-                SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()),
-                course.getTimeZone())
+        this.course = new CourseAttributesBuilder()
+                .withCourseId(course.getId())
+                .withName(SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()))
+                .withTimeZone(course.getTimeZone())
                 .build();
         this.course.createdAt = course.createdAt;
 
