@@ -12,12 +12,10 @@
         editButton="${instructorPanel.editButton}"
         cancelButton="${instructorPanel.cancelButton}"
         deleteButton="${instructorPanel.deleteButton}"
-        instructor="${instructorPanel.instructor}"
-    />
+        instructor="${instructorPanel.instructor}"/>
 
     <course:courseEditInstructorListPanelBody
-        instructorPanel="${instructorPanel}"
-    />
+        instructorPanel="${instructorPanel}"/>
   </div>
   <br>
   <br>

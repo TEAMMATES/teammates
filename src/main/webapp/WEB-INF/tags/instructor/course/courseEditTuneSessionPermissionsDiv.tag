@@ -33,9 +33,9 @@
         <tr>
           <td>${feedbackSession.feedbackSessionName}</td>
           <c:forEach items="${feedbackSession.permissionCheckBoxes}" var="checkbox">
-            <td class="align-center">
-              <input ${checkbox.attributesToString} />
-            </td>
+          <td class="align-center">
+            <input ${checkbox.attributesToString} />
+          </td>
           </c:forEach>
         </tr>
       </c:forEach>

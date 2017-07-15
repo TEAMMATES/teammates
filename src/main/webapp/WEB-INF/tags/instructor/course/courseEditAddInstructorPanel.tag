@@ -36,10 +36,11 @@
 
         <div class="form-group">
           <label class="col-sm-3 control-label">Email:</label>
-          <div class="col-sm-9"><input class="form-control" type="text"
-            name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
-            data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
-            maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="9"/>
+          <div class="col-sm-9">
+            <input class="form-control" type="text"
+                name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
+                data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
+                maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="9"/>
           </div>
         </div>
 
@@ -47,13 +48,13 @@
           <div class="form-group">
             <label class="col-sm-3 control-label">
               <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked
-                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>">
+                  data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>">
               Display to students as:
             </label>
             <div class="col-sm-9">
               <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
-                placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor"
-                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
+                  placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor"
+                  data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
             </div>
           </div>
 
@@ -68,7 +69,8 @@
                   value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>"
                   checked>
               &nbsp;Co-owner: Can do everything
-              <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>">
+              <a href="javascript:;" class="view-role-details"
+                  data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>">
                 View Details
               </a>
               <br>
@@ -77,7 +79,8 @@
                   id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                   value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>" >
               &nbsp;Manager: Can do everything except for deleting the course
-              <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
+              <a href="javascript:;" class="view-role-details"
+                  data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
                 View Details
               </a>
               <br>
@@ -86,7 +89,8 @@
                   id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                   value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
               &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.
-              <a href="javascript:;" class="view-role-details" data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER %>">
+              <a href="javascript:;" class="view-role-details"
+                  data-role="<%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER %>">
                 View Details
               </a>
               <br>

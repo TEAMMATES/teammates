@@ -28,20 +28,20 @@
         <label class="col-sm-3 control-label">Course Name:</label>
         <div class="col-sm-9">
           <input class="form-control" type="text"
-            name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
-            value="${courseNameToShow}" data-toggle="tooltip" data-placement="top"
-            title="Enter the name of the course, e.g. Software Engineering."
-            maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
-            placeholder="e.g. Software Engineering" />
+              name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
+              value="${courseNameToShow}" data-toggle="tooltip" data-placement="top"
+              title="Enter the name of the course, e.g. Software Engineering."
+              maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2
+              placeholder="e.g. Software Engineering" />
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-3 control-label">Time Zone:</label>
         <div class="col-sm-9">
           <select class="form-control"
-            name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
-            id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
-            tabindex="3" placeholder="Select a time zone...">
+              name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+              id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+              tabindex="3" placeholder="Select a time zone...">
             <option value="">Select a time zone...</option>
           </select>
           <div class="alert alert-info time-zone-info-box">

@@ -88,8 +88,7 @@
       <course:courseEditTuneSessionPermissionsDiv
           instructorIndex="${instructorIndex}"
           panelIndex="${panelIndex}"
-          sectionRow="${sectionRow}"
-      />
+          sectionRow="${sectionRow}"/>
     </div>
   </div>
 </div>

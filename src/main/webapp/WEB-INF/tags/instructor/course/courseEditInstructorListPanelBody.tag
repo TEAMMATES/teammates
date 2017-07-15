@@ -24,9 +24,9 @@
           <c:choose>
             <c:when test="${not empty instructorPanel.instructor.googleId}">
               <input class="form-control immutable"
-                type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
-                value="${instructorPanel.instructor.googleId}"
-                maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" tabindex="3" disabled>
+                  type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
+                  value="${instructorPanel.instructor.googleId}"
+                  maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" tabindex="3" disabled>
             </c:when>
             <c:otherwise>
               <p class="form-control-static">
