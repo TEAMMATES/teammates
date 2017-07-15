@@ -38,8 +38,8 @@ public class InstructorCourseAddAction extends Action {
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account, sessionToken);
-        CourseAttributes newCourse = new CourseAttributesBuilder(
-                newCourseId, newCourseName, newCourseTimeZone)
+        CourseAttributes newCourse = new CourseAttributesBuilder()
+                .withCourseId(newCourseId) .withName(newCourseName) .withTimeZone(newCourseTimeZone)
                 .build();
         createCourse(newCourse);
 
