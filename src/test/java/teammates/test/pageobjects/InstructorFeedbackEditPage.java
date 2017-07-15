@@ -357,7 +357,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
 
-    public WebElement getRubicSubQuestionBox(int qnNumber, int subQnIndex) {
+    public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
         String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
@@ -366,13 +366,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isRubricSubQuestionBoxFocused(int qnNumber, int subQnIndex) {
-        WebElement subQnBox = getRubicSubQuestionBox(qnNumber, subQnIndex);
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
 
         return subQnBox.equals(browser.driver.switchTo().activeElement());
     }
 
     public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
-        WebElement subQnBox = getRubicSubQuestionBox(qnNumber, subQnIndex);
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
 
         fillTextBox(subQnBox, subQuestion);
     }
