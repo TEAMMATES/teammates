@@ -4,11 +4,11 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
  <form style="display:none;" id="ajaxForCourses" class="ajaxForCoursesForm"
-    action="<%= Const.ActionURIs.INSTRUCTOR_COURSES_PAGE %>">
-    <input type="hidden"
-        name="<%= Const.ParamsNames.USER_ID %>"
-        value="${data.account.googleId}">
-    <input type="hidden"
-        name="<%= Const.ParamsNames.IS_USING_AJAX %>"
-        value="on">
+  action="<%= Const.ActionURIs.INSTRUCTOR_COURSES_PAGE %>">
+  <input type="hidden"
+    name="<%= Const.ParamsNames.USER_ID %>"
+    value="${data.account.googleId}">
+  <input type="hidden"
+    name="<%= Const.ParamsNames.IS_USING_AJAX %>"
+    value="on">
 </form>
