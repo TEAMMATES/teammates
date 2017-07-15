@@ -2,7 +2,7 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
@@ -42,9 +42,8 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
 
         createStudent(name, email);
 
-        return new InstructorCourseStudentDetailsEditPageData(
-                new AccountAttributesBuilder().build(),
-                dummySessionToken, inputStudent, email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
+        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), dummySessionToken, inputStudent,
+                email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     private void createStudent(String name, String email) {

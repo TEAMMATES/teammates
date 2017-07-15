@@ -2,7 +2,7 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
@@ -118,9 +118,8 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
-        return new InstructorCourseStudentDetailsPageData(
-                new AccountAttributesBuilder().build(),
-                dummySessionToken, inputStudent, inputStudentProfile, hasSection);
+        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), dummySessionToken, inputStudent,
+                inputStudentProfile, hasSection);
     }
 
     private void createCommonData() {

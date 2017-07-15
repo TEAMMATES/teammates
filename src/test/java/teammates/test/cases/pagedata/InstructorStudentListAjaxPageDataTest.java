@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -84,7 +83,7 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     private InstructorStudentListAjaxPageData initializeData() {
         photoUrl = "validPhotoUrl";
 
-        acct = new AccountAttributesBuilder().build();
+        acct = new AccountAttributes();
         acct.googleId = "valid.id"; // only googleId is needed
 
         sampleStudent = new StudentAttributes();

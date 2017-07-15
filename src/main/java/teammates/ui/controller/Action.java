@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -366,7 +365,7 @@ public abstract class Action {
                         // since admin is masquerading, fabricate a regkey
                         regkey = "any-non-null-value";
                     }
-                    account = new AccountAttributesBuilder().build();
+                    account = new AccountAttributes();
                     account.googleId = paramRequestedUserId;
                 }
                 return account;

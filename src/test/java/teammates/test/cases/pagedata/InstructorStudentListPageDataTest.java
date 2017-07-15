@@ -6,7 +6,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
@@ -46,7 +45,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
     }
 
     private InstructorStudentListPageData initializeDataWithSearchKey() {
-        acct = new AccountAttributesBuilder().build();
+        acct = new AccountAttributes();
         acct.googleId = "valid.id"; // only googleId is used
 
         searchKey = "<script>alert(\"A search key\");</script>";

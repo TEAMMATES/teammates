@@ -197,10 +197,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public StudentProfileAttributes studentProfile = DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
 
         public AccountAttributesBuilder withGoogleId(String googleId) {
-            if (googleId != null) {
-                this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-                this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            }
+            this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
             return this;
         }
 
