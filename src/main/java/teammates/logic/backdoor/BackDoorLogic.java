@@ -65,7 +65,7 @@ public class BackDoorLogic extends Logic {
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
-    public String persistDataBundle(DataBundle dataBundle) throws InvalidParametersException, EntityDoesNotExistException {
+    public String persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException(Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
