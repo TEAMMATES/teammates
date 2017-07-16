@@ -75,6 +75,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt");
 
         assertEquals("<p>Good design</p>", fr.getResponseDetails().getAnswerString());
+        submitPage.waitForAndDismissAlertModal();
     }
 
     private void testAddResponse() throws Exception {
@@ -93,6 +94,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
+        submitPage.waitForAndDismissAlertModal();
     }
 
     private void testDeleteResponse() {
@@ -115,6 +117,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt",
                                           "student1InIESFPTCourse@gmail.tmt");
         assertNull(fr);
+        submitPage.waitForAndDismissAlertModal();
     }
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(
