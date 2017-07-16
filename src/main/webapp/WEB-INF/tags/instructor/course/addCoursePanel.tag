@@ -17,11 +17,11 @@
         <label class="col-sm-3 control-label">Course ID:</label>
         <div class="col-sm-3">
           <input class="form-control" type="text"
-            name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
-            value="${courseIdToShow}" data-toggle="tooltip" data-placement="top"
-            title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
-            maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
-            placeholder="e.g. CS3215-2013Semester1" />
+              name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
+              value="${courseIdToShow}" data-toggle="tooltip" data-placement="top"
+              title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
+              maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1"
+              placeholder="e.g. CS3215-2013Semester1" />
         </div>
       </div>
       <div class="form-group">

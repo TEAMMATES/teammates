@@ -25,7 +25,7 @@
 
     <button type="submit" value="Delete All Students" ${courseDeleteAllButton.attributesToString}>
       <span class="glyphicon glyphicon-trash"></span>
-        Delete All Students
+      Delete All Students
     </button>
     <div>
       <span class="help-block">
