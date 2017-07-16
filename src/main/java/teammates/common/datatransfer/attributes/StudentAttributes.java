@@ -8,6 +8,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.Strings;
+
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -18,7 +20,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
-public class StudentAttributes extends EntityAttributes {
+public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 
@@ -172,7 +174,7 @@ public class StudentAttributes extends EntityAttributes {
         Assumption.assertTrue(comments != null);
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (isRegistered()) {
             addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
@@ -273,7 +275,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     @Override
-    public Object toEntity() {
+    public CourseStudent toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
 
@@ -393,7 +395,7 @@ public class StudentAttributes extends EntityAttributes {
                 return lastName;
             }
 
-            if (StringHelper.isEmpty(studentAttributes.name)) {
+            if (Strings.isNullOrEmpty(studentAttributes.name)) {
                 return "";
             }
 

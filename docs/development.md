@@ -13,7 +13,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
-- It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).
+- It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
@@ -39,22 +39,28 @@ In addition, the command will also *minify* the JavaScript files to reduce the s
 
 #### Starting the dev server
 
-Run the following command:
-
+To start the server in the background, run the following command
+and wait until the task exits with a `BUILD SUCCESSFUL`:
 ```sh
 ./gradlew appengineRun
 ```
 
-Wait until the task exits with a `BUILD SUCCESSFUL`.
+To start the server in the foreground (e.g. if you want the console output to be visible),
+run the following command instead:
+```sh
+./gradlew appengineRun -Pdisable_daemon
+```
+
 The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
 
 #### Stopping the dev server
 
-Run the following command:
-
+If you started the server in the background, run the following command to stop it:
 ```sh
 ./gradlew appengineStop
 ```
+
+If the server is running in the foreground, press `Ctrl + C` to stop it.
 
 ### With Eclipse
 
@@ -163,7 +169,7 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
 * If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
-  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache = false`.
+  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
 
 ### Using Chrome
 
@@ -265,9 +271,38 @@ This instruction set assumes that the app identifier is `teammates-john`.
      `https://{version}-dot-teammates-john.appspot.com`, e.g `https://4-18-dot-teammates-john.appspot.com`.
 
 1. (Optional) You can run the tests against the deployed app.
+   * You need to setup `Gmail API` for the project as follows:
+   
+     **NOTE**
+     > Setup of Gmail API is required when testing against the staging server.\
+     See [Notes on Gmail API](#notes-about-using-the-gmail-api) for more details.
+     
+     * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
+       and click `API Manager`.\
+       Click `ENABLE API`.\
+       Click `Gmail API` under `G Suite APIs` and then click `ENABLE`.
+     * Alternatively, you can use [Gmail API Wizard](https://console.cloud.google.com/start/api?id=gmail) to enable
+       `Gmail API`.
+     * Click `Credentials` in the menu of the `API Manager`.
+     * Click `Create credentials` and then select `OAuth client ID`.
+     * Choose `Other`, give it a name, e.g. `teammates` and click `Create`. You will then get shown your client ID details,
+       click `OK`.
+     * Click the `Download JSON` icon.
+     * Copy the file to `src/test/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to
+       `client_secret.json`.
    * Edit `src/test/resources/test.properties` as instructed is in its comments.
-   * Run the full test suite or any subset of it as how you would have done it in dev server.
-     However, the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
+   * Run the full test suite or any subset of it as how you would have done it in dev server. You may want to run
+     `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first
+     time. Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with
+     no billing enabled.
+
+#### Notes on Gmail API
+1. We need to set up the Gmail API because our test suite uses the Gmail API to access Gmail accounts used for testing (these
+accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
+1. This setup is needed only when testing against the staging server because no actual emails are sent by the dev server and
+therefore delivery of emails is not tested when testing against the dev server.
+1. While we only show how to use the Gmail API with the TEAMMATES project in Google Cloud Console, it is also possible to use
+   the Gmail API with any other Google Cloud Platform project and use the credentials in our project.
 
 ## Running client scripts
 
@@ -307,5 +342,3 @@ There are several files used to configure various aspects of the system.
 * `cron.xml`: Contains the cron jobs specification.
 * `queue.xml`: Contains the task queues configuration.
 * `datastore-indexes.xml`: Contains the Datastore indexes configuration.
-* `jdoconfig.xml`: Contains the JDO configuration.
-* `persistence.xml`: Contains the JPA configuration.

@@ -1,6 +1,14 @@
-import { showModalConfirmation } from './bootboxWrapper.es6';
-import { StatusType } from './const.es6';
-import { disallowNonNumericEntries } from './ui.es6';
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
+
+import {
+    StatusType,
+} from './const.es6';
+
+import {
+    disallowNonNumericEntries,
+} from './ui.es6';
 
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
@@ -37,7 +45,7 @@ function addRubricRow(questionNum) {
                         <span class="glyphicon glyphicon-remove"></span>
                     </span>
                     <textarea class="form-control" rows="3" id="rubricSubQn-${questionNum}-${newRowNumber - 1}"
-                            name="rubricSubQn-${newRowNumber - 1}"></textarea>
+                            name="rubricSubQn-${newRowNumber - 1}" required=""></textarea>
                 </div>
             </td>
             ${rubricRowBodyFragments}

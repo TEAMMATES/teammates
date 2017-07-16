@@ -37,13 +37,13 @@
                                         <c:if test="${not empty response.responseComments}">
                                             <ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
                                                 <c:forEach items="${response.responseComments}" var="responseComment" varStatus="status">
-                                                    <c:if test="${viewType == 'GRQ'}">
+                                                    <c:if test="${forOrBy == 'by'}">
                                                         <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${personIndex.index + 1}"
-                                                                secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
+                                                                secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="GRQ"/>
                                                     </c:if>
-                                                    <c:if test="${viewType == 'RGQ'}">
+                                                    <c:if test="${forOrBy == 'for'}">
                                                         <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="1"
-                                                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="${viewType}"/>
+                                                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="RGQ"/>
                                                     </c:if>
                                                 </c:forEach>
                                             </ul>

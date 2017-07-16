@@ -14,11 +14,25 @@
       "email": "searchUI.instr2@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "searchUI.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "searchUI.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
     "helperOfCourse1": {
       "googleId": "searchUI.idOfHelperOfCourse1",
       "name": "Instructor 2 of Course 1",
       "isInstructor": true,
       "email": "searchUI.Helper@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor3OfCourse1": {
+      "googleId": "searchUI.idOfInstructor3OfCourse1",
+      "name": "Instructor 3 of Course 1",
+      "isInstructor": true,
+      "email": "searchUI.instr3@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "student1InCourse1": {
@@ -58,12 +72,35 @@
       "isInstructor": false,
       "email": "searchUI.student3InCourse1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "searchUI.student1InTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "searchUI.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
     "typicalCourse1": {
       "id": "searchUI.idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -114,6 +151,29 @@
         "sessionLevel": {}
       }
     },
+    "instructor3OfCourse1": {
+      "googleId": "searchUI.idOfInstructor3OfCourse1",
+      "courseId": "searchUI.idOfTypicalCourse1",
+      "name": "Instructor3 Course1",
+      "email": "searchUI.instructor3@course1.tmt",
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "helperOfCourse1": {
       "googleId": "searchUI.idOfHelperOfCourse1",
       "courseId": "searchUI.idOfTypicalCourse1",
@@ -132,6 +192,33 @@
           "canmodifysession": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "searchUI.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "searchUI.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -174,6 +261,15 @@
       "comments": "",
       "team": "Team 1.2",
       "section": "Section 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "searchUI.student1InTestingSanitizationCourse",
+      "email": "searchUI.normal@sanitization.tmt",
+      "course": "searchUI.idOfTestingSanitizationCourse",
+      "name": "Stud1<script> alert(\"hi!\"); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {
@@ -468,6 +564,28 @@
       "commentText": {
         "value": "Instructor 1 comment to feedback Question 2"
       }
+    },
+    "comment4FromT1C1ToR1Q2S1C1": {
+      "courseId": "searchUI.idOfTypicalCourse1",
+      "feedbackSessionName": "searchUI.First feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "searchUI.instructor2@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
+      "showCommentTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2015-02-04 11:59 PM UTC",
+      "commentText": {
+        "value": "Instructor 3 edited comment to feedback Question 2"
+      },
+      "lastEditorEmail": "searchUI.instructor3@course1.tmt",
+      "lastEditedAt": "2015-02-05 11:59 PM UTC"
     }
   },
   "profiles": {}

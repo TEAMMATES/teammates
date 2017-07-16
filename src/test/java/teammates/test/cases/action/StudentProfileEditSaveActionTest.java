@@ -55,7 +55,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(
                 getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, true, student.googleId),
                 result.getDestinationWithParams());
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1],
@@ -89,7 +89,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE
                         + "?error=true&user=" + student.googleId,
                 result.getDestinationWithParams());
-        expectedErrorMessages = new ArrayList<String>();
+        expectedErrorMessages = new ArrayList<>();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
@@ -184,7 +184,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);

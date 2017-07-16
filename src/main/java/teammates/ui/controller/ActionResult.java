@@ -36,7 +36,7 @@ public abstract class ActionResult {
     protected AccountAttributes account;
 
     /** A list of status messages to be shown to the user. */
-    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
+    protected List<StatusMessage> statusToUser = new ArrayList<>();
 
     /**
      * Parameters to be sent with the result. These will be automatically added
@@ -44,7 +44,7 @@ public abstract class ActionResult {
      * is {@code /page/instructorHome} and if we have {@code user=abc} in this map,
      * the result will be sent to {@code /page/instructorHome?user=abc}
      */
-    protected Map<String, String> responseParams = new HashMap<String, String>();
+    protected Map<String, String> responseParams = new HashMap<>();
 
     public ActionResult(
             String destination,
@@ -61,7 +61,7 @@ public abstract class ActionResult {
      *         execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
-        List<String> statusMessageTexts = new ArrayList<String>();
+        List<String> statusMessageTexts = new ArrayList<>();
 
         for (StatusMessage msg : statusToUser) {
             statusMessageTexts.add(msg.getText());

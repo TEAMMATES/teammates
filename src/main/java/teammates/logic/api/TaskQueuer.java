@@ -25,7 +25,7 @@ public class TaskQueuer {
     // while at the same time allowing this API to be mocked during test.
 
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> multisetParamMap = new HashMap<>();
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             multisetParamMap.put(entry.getKey(), new String[] { entry.getValue() });
         }
@@ -35,7 +35,7 @@ public class TaskQueuer {
 
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
                                    long countdownTime) {
-        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> multisetParamMap = new HashMap<>();
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             multisetParamMap.put(entry.getKey(), new String[] { entry.getValue() });
         }
@@ -77,7 +77,7 @@ public class TaskQueuer {
      * @param addressReceiverListString the list of email receivers given as String
      */
     public void scheduleAdminEmailPreparationInAddressMode(String emailId, String addressReceiverListString) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
         paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
 
@@ -101,7 +101,7 @@ public class TaskQueuer {
      */
     public void scheduleAdminEmailPreparationInGroupMode(String emailId, String groupReceiverListFileKey,
                                                          int emailListIndex, int emailIndex) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
         paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(emailListIndex));
@@ -121,7 +121,7 @@ public class TaskQueuer {
      */
     public void scheduleAdminEmailForSending(String emailId, String emailReceiver, String emailSubject,
                                              String emailContent) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, emailReceiver);
         paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, emailSubject);
         paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, emailContent);
@@ -147,7 +147,7 @@ public class TaskQueuer {
      * @param feedbackSessionName the name of the feedback session
      */
     public void scheduleFeedbackSessionReminders(String courseId, String feedbackSessionName) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
 
@@ -165,7 +165,7 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind) {
-        Map<String, String[]> paramMap = new HashMap<String, String[]>();
+        Map<String, String[]> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
@@ -181,7 +181,7 @@ public class TaskQueuer {
      * @param feedbackSessionName the name of the feedback session
      */
     public void scheduleFeedbackSessionPublishedEmail(String courseId, String feedbackSessionName) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
 
@@ -196,7 +196,7 @@ public class TaskQueuer {
      * @param feedbackSessionName the name of the feedback session
      */
     public void scheduleFeedbackSessionUnpublishedEmail(String courseId, String feedbackSessionName) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
 
@@ -214,7 +214,7 @@ public class TaskQueuer {
     public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
             String instructorEmail, String courseId) {
 
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
 
         paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
@@ -231,7 +231,7 @@ public class TaskQueuer {
      * @param studentEmail the email address of the student
      */
     public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail, boolean isRejoining) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
         paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
@@ -251,7 +251,7 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackResponseAdjustmentForCourse(String courseId, String feedbackSessionName,
                                                             List<StudentEnrollDetails> enrollmentList) {
-        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.COURSE_ID, courseId);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
@@ -292,7 +292,7 @@ public class TaskQueuer {
         String emailReceiver = email.getRecipient();
         String emailReplyToAddress = email.getReplyTo();
         try {
-            Map<String, String> paramMap = new HashMap<String, String>();
+            Map<String, String> paramMap = new HashMap<>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
             paramMap.put(ParamsNames.EMAIL_CONTENT, email.getContent());
             paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);

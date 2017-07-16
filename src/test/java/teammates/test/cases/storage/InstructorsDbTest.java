@@ -61,7 +61,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes i = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
+        InstructorAttributes i = InstructorAttributes.builder(googleId, courseId, name, email)
+                .withRole(role)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
 
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
@@ -274,7 +278,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
         assertEquals(5, retrieved.size());
 
-        List<String> idList = new ArrayList<String>();
+        List<String> idList = new ArrayList<>();
         idList.add("idOfInstructor1OfCourse1");
         idList.add("idOfInstructor2OfCourse1");
         idList.add("idOfInstructor3");
@@ -310,12 +314,25 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.name = "New Name";
         instructorToEdit.email = "InstrDbT.new-email@email.tmt";
+        instructorToEdit.isArchived = true;
+        instructorToEdit.role = "new role";
+        instructorToEdit.isDisplayedToStudents = false;
+        instructorToEdit.displayedName = "New Displayed Name";
+        instructorToEdit.privileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructorsDb.updateInstructorByGoogleId(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
                 instructorsDb.getInstructorForGoogleId(instructorToEdit.courseId, instructorToEdit.googleId);
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
+        assertTrue(instructorUpdated.isArchived);
+        assertEquals("new role", instructorUpdated.role);
+        assertFalse(instructorUpdated.isDisplayedToStudents);
+        assertEquals("New Displayed Name", instructorUpdated.displayedName);
+        assertTrue(instructorUpdated.hasObserverPrivileges());
+        // Verifying less privileged 'Observer' role did not return false positive in case old 'Manager' role is unchanged.
+        assertFalse(instructorUpdated.hasManagerPrivileges());
 
         ______TS("Failure: invalid parameters");
 
@@ -371,12 +388,25 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.googleId = "new-id";
         instructorToEdit.name = "New Name";
+        instructorToEdit.isArchived = true;
+        instructorToEdit.role = "new role";
+        instructorToEdit.isDisplayedToStudents = false;
+        instructorToEdit.displayedName = "New Displayed Name";
+        instructorToEdit.privileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructorsDb.updateInstructorByEmail(instructorToEdit);
 
         InstructorAttributes instructorUpdated =
                 instructorsDb.getInstructorForEmail(instructorToEdit.courseId, instructorToEdit.email);
         assertEquals("new-id", instructorUpdated.googleId);
         assertEquals("New Name", instructorUpdated.name);
+        assertTrue(instructorUpdated.isArchived);
+        assertEquals("new role", instructorUpdated.role);
+        assertFalse(instructorUpdated.isDisplayedToStudents);
+        assertEquals("New Displayed Name", instructorUpdated.displayedName);
+        assertTrue(instructorUpdated.hasObserverPrivileges());
+        // Verifying less privileged 'Observer' role did not return false positive in case old 'CoOwner' role is unchanged.
+        assertFalse(instructorUpdated.hasCoownerPrivileges());
 
         ______TS("Failure: invalid parameters");
 
