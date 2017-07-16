@@ -228,7 +228,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withFeedbackResponseCommentId(Long feedbackResponseCommentId) {
-            feedbackAttributes.feedbackResponseCommentId = feedbackResponseCommentId;
+            if (feedbackResponseCommentId != null) {
+                feedbackAttributes.feedbackResponseCommentId = feedbackResponseCommentId;
+            }
             return this;
         }
 
