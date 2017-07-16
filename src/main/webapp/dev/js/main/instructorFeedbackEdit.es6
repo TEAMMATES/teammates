@@ -394,14 +394,19 @@ function isQuestionHavingResponses(questionNum) {
     return EDIT_STATUS === 'hasResponses' || EDIT_STATUS === 'mustDeleteResponses';
 }
 
-function getDestructiveFields(questionNum) {
-    return $(`#form_editquestion-${questionNum}`)
-             .find(':input:enabled')
-             .not('button')
-             .not('.nonDestructive')
-             .not('input[name^="questiondescription"]')
-             .not('.visibilityCheckbox')
-             .clone();
+function getDestructiveFields(questionNum, clonejQueryObject = false) {
+    const $fields = $(`#form_editquestion-${questionNum}`)
+                     .find(':input:enabled')
+                     .not('button')
+                     .not('.nonDestructive')
+                     .not('input[name^="questiondescription"]')
+                     .not('.visibilityCheckbox');
+
+    if (clonejQueryObject) {
+        return $fields.clone();
+    }
+
+    return $fields;
 }
 
 /**
@@ -410,7 +415,7 @@ function getDestructiveFields(questionNum) {
  * @param questionNum
  */
 function isDestructiveFieldsModifed(questionNum) {
-    const $curr = getDestructiveFields(questionNum);
+    const $curr = getDestructiveFields(questionNum, true);
     const $prev = destructiveFieldsBackup[questionNum];
 
     if ($curr.length !== $prev.length) {
@@ -1114,6 +1119,7 @@ function readyFeedbackEditPage() {
     $('form[id|=form_editquestion]').submit(function (event) {
         prepareDescription($(event.currentTarget));
         correctEditStatusIfRequired($(event.currentTarget));
+
         if ($(this).attr('editStatus') === 'mustDeleteResponses') {
             event.preventDefault();
             const okCallback = function () {
