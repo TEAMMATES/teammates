@@ -41,8 +41,7 @@
           <course:courseEditTuneSectionPermissionsDiv
               instructorIndex="${instructorPanel.index}"
               panelIndex="${sectionRow.panelIndex}"
-              sectionRow="${sectionRow}"
-          />
+              sectionRow="${sectionRow}"/>
         </c:forEach>
 
         <a class="small show-tune-section-permissions" id="addSectionLevelForInstructor${instructorPanel.index}" href="javascript:;"
