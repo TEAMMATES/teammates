@@ -481,8 +481,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.copyFeedbackSession("(New Session ##)", newSession.getCourseId());
         feedbackPage.verifyStatus(
-                "\"(New Session ##)\" is not acceptable to TEAMMATES as a/an feedback session name because "
-                + "it starts with a non-alphanumeric character. "
+                "The field feedback session name starts with a non-alphanumeric character. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
 
@@ -533,10 +532,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.getFsCopyToModal().waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.getFsCopyToModal().isFormSubmissionStatusMessageVisible());
         feedbackPage.getFsCopyToModal().verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as a/an "
-                + "feedback session name because it contains invalid characters. "
-                + "All feedback session name must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+                "The field feedback session name contains invalid characters. All feedback session "
+                + "name must start with an alphanumeric character, and cannot contain any vertical "
+                + "bar (|) or percent sign (%).");
 
         feedbackPage.getFsCopyToModal().clickCloseButton();
 

@@ -89,8 +89,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
         String expectedError =
-                "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                + "it contains invalid characters. All person name must start with an "
+                "The field person name contains invalid characters. All person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
 
         AjaxResult rInvalidParam = getAjaxResult(a);

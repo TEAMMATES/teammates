@@ -95,8 +95,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
 
         expectedString =
-                teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
-                + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
+                teammatesLog + "Servlet Action Failure : The field feedback session name is too long. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
