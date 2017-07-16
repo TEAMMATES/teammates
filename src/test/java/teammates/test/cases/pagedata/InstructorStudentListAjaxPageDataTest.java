@@ -86,10 +86,9 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         acct = new AccountAttributes();
         acct.googleId = "valid.id"; // only googleId is needed
 
-        sampleStudent = new StudentAttributes();
-        sampleStudent.name = "<script>alert(\"Valid name\");</script>";
-        sampleStudent.email = "1+1@email.com";
-        sampleStudent.course = "valid course"; // only three fields needed
+        sampleStudent = StudentAttributes
+                .builder("valid course", "1+1@email.com", "<script>alert(\"Valid name\");</script>")
+                .build(); // only three fields needed
 
         sampleTeam = new TeamDetailsBundle();
         sampleTeam.students.add(sampleStudent);

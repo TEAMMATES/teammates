@@ -201,10 +201,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 instructor = logic.getInstructorForGoogleId(courseId, user);
             }
             if (student == null && unregisteredStudentEmail != null) {
-                student = new StudentAttributes();
-                student.email = unregisteredStudentEmail;
-                student.name = unregisteredStudentEmail;
-                student.key = unregisteredStudentRegisterationKey;
+                student = StudentAttributes.builder("", unregisteredStudentEmail, unregisteredStudentEmail)
+                        .withKey(unregisteredStudentRegisterationKey).build();
             }
             Assumption.assertFalse(student == null && instructor == null);
 

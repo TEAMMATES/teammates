@@ -80,7 +80,7 @@ public class CourseRosterTest extends BaseTestCase {
     private List<StudentAttributes> createStudentList(String... studentData) {
         List<StudentAttributes> students = new ArrayList<>();
         for (int i = 0; i < studentData.length; i += 2) {
-            StudentAttributes student = new StudentAttributes();
+            StudentAttributes student = StudentAttributes.builder("", "", "").build();
             student.team = studentData[i];
             student.email = studentData[i + 1];
             students.add(student);

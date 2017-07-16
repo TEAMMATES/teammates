@@ -287,14 +287,14 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("check for KeepExistingPolicy : change email only");
 
-        // create an empty student and then copy course and email attributes
-        StudentAttributes copyOfStudent1 = new StudentAttributes();
-        copyOfStudent1.course = student4InCourse1.course;
         originalEmail = student4InCourse1.email;
-
         String newEmail = student4InCourse1.email + "y";
         student4InCourse1.email = newEmail;
-        copyOfStudent1.email = newEmail;
+
+        // create an empty student and then copy course and email attributes
+        StudentAttributes copyOfStudent1 = StudentAttributes.builder(student4InCourse1.course, null, newEmail).build();
+        student4InCourse1.googleId = "";
+        student4InCourse1.section = "None";
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         verifyPresentInDatastore(student4InCourse1);

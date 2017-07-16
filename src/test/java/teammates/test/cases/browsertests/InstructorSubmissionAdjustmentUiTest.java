@@ -46,13 +46,12 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         loadEnrollmentPage();
 
         ______TS("typical case: enroll new student to existing course");
-        StudentAttributes newStudent = new StudentAttributes();
-        newStudent.section = "None";
-        newStudent.team = "Team 1.1</td></div>'\"";
-        newStudent.course = "idOfTypicalCourse1";
-        newStudent.email = "random@g.tmt";
-        newStudent.name = "someName";
-        newStudent.comments = "comments";
+        StudentAttributes newStudent = StudentAttributes
+                .builder("idOfTypicalCourse1", "someName", "random@g.tmt")
+                .withComments("comments")
+                .withTeam("Team 1.1</td></div>'\"")
+                .withSection("None")
+                .build();
 
         String enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
                             + newStudent.toEnrollmentString();

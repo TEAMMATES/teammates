@@ -46,7 +46,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     private transient Date createdAt;
     private transient Date updatedAt;
 
-    public StudentAttributes() {
+    StudentAttributes() {
         googleId = "";
         section = Const.DEFAULT_SECTION;
         updateStatus = StudentUpdateStatus.UNKNOWN;
@@ -379,9 +379,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public Builder withGoogleId(String googleId) {
-            studentAttributes.googleId = googleId == null
-                    ? ""
-                    : SanitizationHelper.sanitizeGoogleId(googleId);
+            if (googleId != null) {
+                studentAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            }
+
             return this;
         }
 

@@ -523,15 +523,9 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     private StudentAttributes generateValidStudentAttributesObject() {
-        StudentAttributes s = new StudentAttributes();
-        s.googleId = "valid.google.id";
-        s.name = "valid name";
-        s.email = "valid@email.com";
-        s.course = "valid-course-id";
-        s.comments = "";
-        s.team = "valid team";
-        s.section = "valid section";
-        return s;
+        return StudentAttributes.builder("valid-course-id", "valid name", "valid@email.com")
+                .withGoogleId("valid.google.id").withTeam("valid team").withSection("valid section")
+                .withComments("").build();
     }
 
 }
