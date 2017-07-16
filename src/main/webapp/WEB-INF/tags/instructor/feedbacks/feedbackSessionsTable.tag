@@ -28,7 +28,7 @@
     <c:choose>
       <c:when test="${not empty fsList.existingFeedbackSessions}">
         <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
-           <tr id="session${i.index}" ${sessionRow.rowAttributes.attributesToString}>
+          <tr id="session${i.index}" ${sessionRow.rowAttributes.attributesToString}>
             <td>${sessionRow.courseId}</td>
             <td>${sessionRow.name}</td>
             <td>
@@ -42,7 +42,7 @@
             <td class="no-print">
               <tif:feedbackSessionActions actions="${sessionRow.actions}" />
             </td>
-            </tr>
+          </tr>
         </c:forEach>
       </c:when>
       <c:otherwise>

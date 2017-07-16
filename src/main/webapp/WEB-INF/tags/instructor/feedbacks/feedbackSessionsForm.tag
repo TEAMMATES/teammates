@@ -42,7 +42,7 @@
                   </c:when>
                   <c:otherwise>
                       <h5 class="form-control-static font-weight-normal">
-                          ${fsForm.courseId}
+                        ${fsForm.courseId}
                       </h5>
                   </c:otherwise>
                 </c:choose>
