@@ -34,7 +34,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         institute = a.getInstitute();
         createdAt = a.getCreatedAt();
         studentProfile =
-                a.getStudentProfile() == null ? null : new StudentProfileAttributes(a.getStudentProfile());
+                a.getStudentProfile() == null ? null : StudentProfileAttributes.valueOf(a.getStudentProfile());
     }
 
     public AccountAttributes() {
@@ -60,7 +60,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.isInstructor = isInstructor;
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = new StudentProfileAttributes();
+        this.studentProfile = StudentProfileAttributes.builder().build();
         this.studentProfile.googleId = this.googleId;
     }
 
