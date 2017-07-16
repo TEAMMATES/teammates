@@ -13,7 +13,7 @@
         Course ID <span class="icon-sort unsorted"></span>
       </th>
       <th id="button_sortname" class="button-sort-none session-name-table-width toggle-sort">
-          Session Name <span class="icon-sort unsorted"></span>
+        Session Name <span class="icon-sort unsorted"></span>
       </th>
       <th>Status</th>
       <th>

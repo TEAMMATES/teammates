@@ -6,9 +6,9 @@
 <a href="${publishButton.actionLink}"
     class="<c:if test="${not empty buttonType}">${buttonType} </c:if>session-${publishButton.actionNameLowercase}-for-test"
     <c:if test="${showTooltip}">
-      title="${publishButton.tooltipText}"
-      data-toggle="tooltip"
-      data-placement="top"
+        title="${publishButton.tooltipText}"
+        data-toggle="tooltip"
+        data-placement="top"
     </c:if>
     data-sending-published-email="${publishButton.sendingPublishedEmail}"
     data-fsname="${publishButton.feedbackSessionName}"

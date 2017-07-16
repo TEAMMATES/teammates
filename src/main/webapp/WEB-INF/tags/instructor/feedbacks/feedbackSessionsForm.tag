@@ -257,8 +257,7 @@
         <div class="col-md-offset-5 col-md-3">
           <button id="button_submit" type="submit" class="btn btn-primary"
               <c:if test="${fsForm.submitButtonDisabled}">disabled</c:if>
-              <c:if test="${!fsForm.submitButtonVisible}"> style="display:none;" </c:if>
-          >
+              <c:if test="${!fsForm.submitButtonVisible}"> style="display:none;" </c:if>>
             ${fsForm.submitButtonText}
           </button>
         </div>
@@ -278,8 +277,8 @@
       <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseId}">
     </c:if>
     <input type="hidden"
-      name="<%= Const.ParamsNames.USER_ID %>"
-      value="${data.account.googleId}">
+        name="<%= Const.ParamsNames.USER_ID %>"
+        value="${data.account.googleId}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
   </form>
 </div>
