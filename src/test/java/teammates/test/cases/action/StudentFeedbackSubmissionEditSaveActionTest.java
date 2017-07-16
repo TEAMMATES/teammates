@@ -84,7 +84,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -108,7 +113,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -130,7 +139,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -156,7 +170,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -228,7 +247,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -295,7 +320,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -317,7 +347,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -348,7 +383,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session"),
                 r.getDestinationWithParams());
         FeedbackResponseAttributes finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -384,7 +424,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -406,7 +451,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -437,7 +487,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -467,7 +522,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -497,7 +557,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -538,7 +603,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "NUMSCALE+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -564,7 +634,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "NUMSCALE+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -604,7 +679,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -627,7 +707,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -661,7 +746,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONTRIB+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -684,7 +774,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONTRIB+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -933,9 +1028,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
-
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "Grace+Period+Session"),
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
@@ -951,7 +1050,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = getRedirectResult(a);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "Grace+Period+Session"),
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
