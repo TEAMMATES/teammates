@@ -37,7 +37,7 @@
 
     <c:choose>
       <c:when test="${empty data.bundle.questionResponseBundle}">
-          There are no questions for you to answer here!
+        There are no questions for you to answer here!
       </c:when>
       <c:otherwise>
         <input type="checkbox" name="sendsubmissionemail">
