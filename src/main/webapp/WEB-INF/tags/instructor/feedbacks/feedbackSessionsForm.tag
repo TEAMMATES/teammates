@@ -6,6 +6,7 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
+<%@ attribute name="fsEnableEdit" %>
 
 <div class="well well-plain">
     <form class="form-group" method="post"
@@ -278,4 +279,5 @@
             value="${data.account.googleId}">
         <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
     </form>
+    <div name="<%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %>" data-value="${fsEnableEdit}"></div>
 </div>
