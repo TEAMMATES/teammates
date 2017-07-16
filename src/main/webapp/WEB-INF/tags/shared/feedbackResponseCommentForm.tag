@@ -140,7 +140,7 @@
             </td>
           </tr>
         </c:if>
-         <c:if test="${frc.responseVisibleToStudents}">
+        <c:if test="${frc.responseVisibleToStudents}">
           <tr id="response-students-${divId}">
             <td class="text-left">
               <div data-toggle="tooltip"
