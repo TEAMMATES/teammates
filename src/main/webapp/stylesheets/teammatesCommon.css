@@ -1173,6 +1173,7 @@ Glyphicon for success status messages
 .alert-success:before {
     font-family: 'Glyphicons Halflings';
     display: inline-block;
-    padding-right: 2px;
+    padding-right: 0.5em;
     content: '\e084';
+    float: left;
 }
