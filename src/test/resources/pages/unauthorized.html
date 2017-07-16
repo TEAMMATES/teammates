@@ -21,6 +21,8 @@
   </div>
 </div>
 <div class="container" id="mainContent">
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
   <br>
   <br>
   <div class="row">
@@ -37,6 +39,53 @@
       <br>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 align-center">
+      <h2>
+        Error Feedback Collection
+      </h2>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+        You seem to have encountered an error! If you think you were incorrectly shown this error page then we request you to take a moment and fill in the email below detailing your steps before you encountered it.
+      </p>
+    </div>
+  </div>
+  <form action="/page/errorFeedbackSubmit" id="error-feedback-form" method="post">
+    <div class="form-group">
+      <label for="error-feedback-email-composer-recipient-email">
+        To:
+      </label>
+      <br>
+      <em>
+        Note: This is the TEAMMATES support email. It has been pre-filled for your convenience and is not editable.
+      </em>
+      <input class="form-control" id="error-feedback-email-composer-recipient-email" name="errorfeedbackemailreceiveraddress" readonly="" type="email" value="hirday.gupta@gmail.com">
+    </div>
+    <div class="form-group">
+      <label for="error-feedback-email-composer-subject">
+        Subject:
+      </label>
+      <br>
+      <em>
+        Note: This field has also been pre-filled for convenience. Feel free to change it to suit your needs.
+      </em>
+      <input class="form-control" id="error-feedback-email-composer-subject" name="errorfeedbackemailsubject" type="text" value="User-submitted Error Report">
+    </div>
+    <div class="form-group">
+      <label for="error-feedback-email-composer-content">
+        Content:
+      </label>
+      <textarea class="form-control" id="error-feedback-email-composer-content" name="errorfeedbackemailcontent" placeholder="Tell us the steps you took that led you to this error page">
+      </textarea>
+    </div>
+    <button class="btn btn-success" type="submit">
+      Send feedback
+    </button>
+  </form>
 </div>
 <div class="container-fluid" id="footerComponent">
   <div class="container">
@@ -64,5 +113,9 @@
     </div>
   </div>
 </div>
+<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
+</script>
+<script src="/js/errorPageEmailComposer.js" type="text/javascript">
+</script>
 </body>
 </html>
