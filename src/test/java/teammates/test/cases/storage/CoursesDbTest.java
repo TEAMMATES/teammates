@@ -54,7 +54,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    "not acceptable to TEAMMATES as a/an course ID because it is not in the correct format",
+                    "The field course ID is not in the correct format",
                     e.getMessage());
         }
 
@@ -64,7 +64,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(invalidNameCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
+            AssertHelper.assertContains("The field course name is too long",
                                         e.getMessage());
         }
 
@@ -75,7 +75,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(invalidTimeZoneCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
+            AssertHelper.assertContains("The field course time zone",
                                          e.getMessage());
         }
 
@@ -134,11 +134,11 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(invalidCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course ID because it is empty",
+            AssertHelper.assertContains("The field course ID is empty",
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is empty",
+            AssertHelper.assertContains("The field course name is empty",
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
+            AssertHelper.assertContains("The field course time zone",
                                         e.getMessage());
         }
 

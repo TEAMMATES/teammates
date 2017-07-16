@@ -85,7 +85,9 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
         String expectedStatus =
-                "\"!Not starting with alphanumeric\" is not acceptable to TEAMMATES as a/an email subject";
+                "The field email subject starts with a non-alphanumeric character. All email subject "
+                     + "must start with an alphanumeric character, and cannot contain any vertical "
+                     + "bar (|) or percent sign (%).";
         AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
 
         data = (AdminEmailComposePageData) pageResult.data;
@@ -268,7 +270,8 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         expectedLogSegment = Const.ACTION_RESULT_FAILURE;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
-        expectedStatus = "\"\" is not acceptable to TEAMMATES as a/an email subject";
+        expectedStatus = "The field email subject is empty. The value of a/an email subject "
+                             + "should be no longer than 200 characters. It should not be empty.";
         AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
 
         data = (AdminEmailComposePageData) pageResult.data;

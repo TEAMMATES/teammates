@@ -150,9 +150,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         expectedString =
                 teammatesLogMessage + "Servlet Action Failure : "
-                + "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
-                + "The value of a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackCopy";
+                + "The field feedback session name is empty. The value of a/an feedback session "
+                + "name should be no longer than 38 characters. It should not be empty."
+                + "|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Masquerade mode");

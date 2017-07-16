@@ -112,7 +112,7 @@ public class FieldValidator {
 
     // error message components
     public static final String ERROR_INFO =
-            "\"${userInput}\" is not acceptable to TEAMMATES as a/an ${fieldName} because it ${reason}.";
+            "The field ${fieldName} ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
             "The value of a/an ${fieldName} should be no longer than ${maxLength} characters.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY =
