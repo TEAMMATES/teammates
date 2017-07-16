@@ -18,7 +18,7 @@ import teammates.ui.pagedata.StudentHomePageData;
  * SUT: {@link StudentHomePageAction}.
  */
 // Priority added due to conflict between InstructorStudentListPageActionTest,
-// StudentHomePageActionTest, and StudentCommentsPageActionTest.
+// and StudentHomePageActionTest.
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
 
@@ -72,7 +72,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         studentWithoutCourses.email = "googleId.without.courses@email.tmt";
         studentWithoutCourses.institute = "TEAMMATES Test Institute 5";
         studentWithoutCourses.isInstructor = false;
-        studentWithoutCourses.studentProfile = new StudentProfileAttributes();
+        studentWithoutCourses.studentProfile = StudentProfileAttributes.builder().build();
         studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);

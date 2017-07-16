@@ -18,7 +18,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 /**
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
-public class FeedbackResponseCommentAttributes extends EntityAttributes {
+public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
     // Required fields
     public String courseId;
@@ -100,7 +100,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 

@@ -66,14 +66,14 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         //Edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
-        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {
                 feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
         if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
             for (String viewer : showGiverNameToArray) {

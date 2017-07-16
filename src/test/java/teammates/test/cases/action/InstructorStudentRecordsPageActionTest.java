@@ -92,7 +92,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
 
         InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
-        StudentProfileAttributes expectedProfile = new StudentProfileAttributes();
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder().build();
         expectedProfile.googleId = student.googleId;
         expectedProfile.modifiedDate = actualData.spa.modifiedDate;
         expectedProfile.pictureKey = actualData.spa.pictureKey;
@@ -150,7 +150,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         InstructorStudentRecordsPageAction aWithNoSession = getAction(submissionParamsWithNoSession);
         ShowPageResult rWithNoSession = getShowPageResult(aWithNoSession);
-        List<String> expectedMessages = new ArrayList<String>();
+        List<String> expectedMessages = new ArrayList<>();
         expectedMessages.add("No records were found for this student");
         expectedMessages.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
         AssertHelper.assertContains(expectedMessages, rWithNoSession.getStatusMessage());

@@ -108,13 +108,12 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
-            String feedbackSessionName, String courseId, long range) {
+            String feedbackSessionName, String courseId, int range) {
         return frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -122,8 +121,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -131,8 +129,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
-            String feedbackSessionName, String courseId, String section,
-            long range) {
+            String feedbackSessionName, String courseId, String section, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
@@ -144,7 +141,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(
-            String feedbackQuestionId, long range) {
+            String feedbackQuestionId, int range) {
         return frDb.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, range);
     }
 
@@ -187,7 +184,7 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
-            String giverEmail, String feedbackSessionName, String courseId, long range) {
+            String giverEmail, String feedbackSessionName, String courseId, int range) {
         return frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
     }
 
@@ -223,8 +220,7 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question, String userEmail,
             UserRole role, String section) {
 
-        List<FeedbackResponseAttributes> viewableResponses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
         // Add responses that the user submitted himself
         addNewResponses(
@@ -482,7 +478,7 @@ public final class FeedbackResponsesLogic {
         try {
             newResponse.setId(null);
             FeedbackResponse createdResponseEntity =
-                    (FeedbackResponse) frDb.createEntity(newResponse);
+                    frDb.createEntity(newResponse);
             frDb.deleteEntity(oldResponse);
             frcLogic.updateFeedbackResponseCommentsForChangingResponseId(
                     oldResponse.getId(), createdResponseEntity.getId());
@@ -637,7 +633,7 @@ public final class FeedbackResponsesLogic {
             feedbackResponse.setRecipientSection(enrollment.newSection);
         }
 
-        frDb.commitOutstandingChanges();
+        frDb.saveEntity(feedbackResponse);
 
         if (isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment) {
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
@@ -691,7 +687,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
 
-        Set<String> emails = new HashSet<String>();
+        Set<String> emails = new HashSet<>();
 
         for (FeedbackResponseAttributes response : responsesForQuestion) {
             this.deleteFeedbackResponseAndCascade(response);
@@ -768,8 +764,7 @@ public final class FeedbackResponsesLogic {
             List<FeedbackResponseAttributes> existingResponses,
             List<FeedbackResponseAttributes> newResponses) {
 
-        Map<String, FeedbackResponseAttributes> responses =
-                new HashMap<String, FeedbackResponseAttributes>();
+        Map<String, FeedbackResponseAttributes> responses = new HashMap<>();
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             responses.put(existingResponse.getId(), existingResponse);
@@ -785,8 +780,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamForQuestion(
             String feedbackQuestionId, String courseId, String teamName) {
 
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
         List<StudentAttributes> studentsInTeam =
                 studentsLogic.getStudentsForTeam(teamName, courseId);
 
@@ -806,8 +800,7 @@ public final class FeedbackResponsesLogic {
 
         List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, student.course);
 
-        List<FeedbackResponseAttributes> teamResponses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> teamResponses = new ArrayList<>();
 
         for (StudentAttributes studentInTeam : studentsInTeam) {
             if (studentInTeam.email.equals(student.email)) {
@@ -824,8 +817,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, String studentEmail) {
 
-        List<FeedbackResponseAttributes> viewableResponses =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             addNewResponses(viewableResponses,

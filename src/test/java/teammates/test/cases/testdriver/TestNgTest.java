@@ -91,7 +91,7 @@ public class TestNgTest extends BaseTestCase {
                                                                boolean areFilesInCurrentDirExcluded,
                                                                String packageName, String testNgXml) {
 
-        HashMap<String, String> testFiles = new HashMap<String, String>();
+        HashMap<String, String> testFiles = new HashMap<>();
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {

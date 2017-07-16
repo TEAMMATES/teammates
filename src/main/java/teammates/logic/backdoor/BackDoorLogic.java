@@ -74,7 +74,7 @@ public class BackDoorLogic extends Logic {
         Map<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile = StudentProfileAttributes.builder().build();
                 account.studentProfile.googleId = account.googleId;
             }
         }
@@ -84,7 +84,7 @@ public class BackDoorLogic extends Logic {
         coursesDb.createCourses(courses.values());
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
-        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> instructorAccounts = new ArrayList<>();
         for (InstructorAttributes instructor : instructors.values()) {
 
             validateInstructorPrivileges(instructor);
@@ -93,7 +93,7 @@ public class BackDoorLogic extends Logic {
                 AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
                                                                   instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile = StudentProfileAttributes.builder().build();
                     account.studentProfile.googleId = account.googleId;
                 }
                 instructorAccounts.add(account);
@@ -103,14 +103,14 @@ public class BackDoorLogic extends Logic {
         instructorsDb.createInstructorsWithoutSearchability(instructors.values());
 
         Map<String, StudentAttributes> students = dataBundle.students;
-        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> studentAccounts = new ArrayList<>();
         for (StudentAttributes student : students.values()) {
             student.section = student.section == null ? "None" : student.section;
             if (student.googleId != null && !student.googleId.isEmpty()) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
                                                                   student.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile = StudentProfileAttributes.builder().build();
                     account.studentProfile.googleId = account.googleId;
                 }
                 studentAccounts.add(account);
@@ -126,7 +126,7 @@ public class BackDoorLogic extends Logic {
         fbDb.createFeedbackSessions(sessions.values());
 
         Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
-        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        List<FeedbackQuestionAttributes> questionList = new ArrayList<>(questions.values());
 
         for (FeedbackQuestionAttributes question : questionList) {
             question.removeIrrelevantVisibilityOptions();
@@ -139,7 +139,7 @@ public class BackDoorLogic extends Logic {
         }
         frDb.createFeedbackResponses(responses.values());
 
-        Set<String> sessionIds = new HashSet<String>();
+        Set<String> sessionIds = new HashSet<>();
 
         for (FeedbackResponseAttributes response : responses.values()) {
 
@@ -161,10 +161,6 @@ public class BackDoorLogic extends Logic {
         for (AdminEmailAttributes email : adminEmails.values()) {
             adminEmailsDb.createAdminEmail(email);
         }
-
-        // any Db can be used to commit the changes.
-        // accountsDb is used as it is already used in the file
-        accountsDb.commitOutstandingChanges();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
@@ -421,7 +417,7 @@ public class BackDoorLogic extends Logic {
 
         for (AccountAttributes account : dataBundle.accounts.values()) {
             if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile = StudentProfileAttributes.builder().build();
                 account.studentProfile.googleId = account.googleId;
             }
         }
@@ -439,7 +435,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
         }

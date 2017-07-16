@@ -25,8 +25,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private int iterationCounter;
 
-    private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
-    private HashMap<String, String> googleIdToInstituteMap = new HashMap<String, String>();
+    private HashMap<String, String> courseIdToInstituteMap = new HashMap<>();
+    private HashMap<String, String> googleIdToInstituteMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
@@ -34,17 +34,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void doOperation() {
 
-        String queryString = "SELECT FROM " + CourseStudent.class.getName();
-        List<CourseStudent> allStudents = (List<CourseStudent>) PM.newQuery(queryString).execute();
+        List<CourseStudent> allStudents = ofy().load().type(CourseStudent.class).list();
 
-        queryString = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) PM.newQuery(queryString).execute();
+        List<Instructor> allInstructors = ofy().load().type(Instructor.class).list();
 
-        queryString = "SELECT FROM " + Account.class.getName();
-        List<Account> allAccounts = (List<Account>) PM.newQuery(queryString).execute();
+        List<Account> allAccounts = ofy().load().type(Account.class).list();
 
         StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors, allAccounts);
         List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
@@ -110,11 +106,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private StatsBundle generateStatsPerInstitute(
             List<CourseStudent> allStudents, List<Instructor> allInstructors, List<Account> allAccounts) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes =
-                new HashMap<String, HashMap<Integer, HashSet<String>>>();
-
-        HashSet<String> allInstructorEmailSet = new HashSet<String>();
-        HashSet<String> allStudentEmailSet = new HashSet<String>();
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<>();
+        HashSet<String> allInstructorEmailSet = new HashSet<>();
+        HashSet<String> allStudentEmailSet = new HashSet<>();
         int studentEmailCounter = 0;
         int instructorEmailCounter = 0;
 
@@ -171,7 +165,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         return statsBundle;
     }
 
-    @SuppressWarnings("unchecked")
     private String getInstituteForStudent(
             CourseStudent student, List<Instructor> allInstructors, List<Account> allAccounts) {
 
@@ -260,7 +253,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
-        List<InstituteStats> list = new ArrayList<InstituteStats>();
+        List<InstituteStats> list = new ArrayList<>();
         for (Map.Entry<String, HashMap<Integer, HashSet<String>>> entry : institutes.entrySet()) {
             InstituteStats insStat = new InstituteStats();
             insStat.name = entry.getKey();

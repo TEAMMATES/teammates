@@ -10,14 +10,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AccountAttributes}.
  */
-public class AccountAttributesTest extends BaseTestCase {
+public class AccountAttributesTest extends BaseAttributesTest {
 
     //TODO: test toString() method
 
@@ -70,12 +68,13 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals("Account", account.getEntityTypeAsString());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount =
-                new Account(account.googleId, account.name, account.isInstructor, account.email,
-                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
+                account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
+
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
@@ -83,8 +82,8 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-        String expectedProfile = new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString();
-        String actualProfile = new StudentProfileAttributes(actualAccount.getStudentProfile()).toString();
+        String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
+        String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
     }
 
@@ -142,7 +141,7 @@ public class AccountAttributesTest extends BaseTestCase {
         boolean isInstructor = false;
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
         return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }
@@ -176,8 +175,16 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
-                profileInstitute, nationality, gender, moreInfo, pictureKey);
+        account.studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(account.googleId)
+                .withShortName(shortName)
+                .withEmail(personalEmail)
+                .withInstitute(profileInstitute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
 
         return account;
 
