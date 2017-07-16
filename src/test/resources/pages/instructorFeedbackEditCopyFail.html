@@ -752,6 +752,8 @@
       <input name="user" type="hidden" value="FeedbackEditCopyinstructor">
       <input name="token" type="hidden" value="${sessionToken}">
     </form>
+    <div data-value="true" name="editsessiondetails">
+    </div>
   </div>
   <br>
   <div id="statusMessagesToUser" style="display: none;">
@@ -826,7 +828,6 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
-  <input name="editsessiondetails" type="hidden" value="true">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" editstatus="hasResponses" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
