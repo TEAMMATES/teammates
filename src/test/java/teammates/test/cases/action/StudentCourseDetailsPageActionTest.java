@@ -179,7 +179,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
