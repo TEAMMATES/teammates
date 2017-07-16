@@ -19,13 +19,13 @@
       <ul class="nav navbar-nav">
         <li<c:if test="${fn:contains(data.class,'StudentHome')}"> class="active"</c:if>>
           <a class="navLinks" id="studentHomeNavLink" href="${data.studentHomeLink}"
-            <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
+              <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
             Home
           </a>
         </li>
         <li<c:if test="${fn:contains(data.class,'StudentProfilePage')}"> class="active"</c:if>>
           <a class="navLinks" id="studentProfileNavLink" href="${data.studentProfileLink}"
-            <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
+              <c:if test="${isUnregistered}">data-unreg="true"</c:if>>
             Profile
           </a>
         </li>

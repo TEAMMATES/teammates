@@ -6,9 +6,7 @@
 
 <tr class="resultSubheader">
   <td>
-    <span class="bold">
-      <b>From:</b>
-    </span> ${fn:escapeXml(response.giverName)}
+    <span class="bold"><b>From:</b></span> ${fn:escapeXml(response.giverName)}
   </td>
 </tr>
 

@@ -10,8 +10,7 @@
     </strong>
     <span class="pull-right">
       <c:forEach items="${courseTable.buttons}" var="button">
-        <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top"
-            ${button.attributesToString}>
+        <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" ${button.attributesToString}>
           ${button.content}
         </a>
       </c:forEach>

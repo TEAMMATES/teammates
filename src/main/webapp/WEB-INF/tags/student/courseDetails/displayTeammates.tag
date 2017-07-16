@@ -16,10 +16,8 @@
         <c:forEach items="${data.studentCourseDetailsPanel.teammates}" var="student">
           <c:if test="${not (student.email eq data.studentCourseDetailsPanel.studentEmail)}">
             <tr>
-              <td class="teamMembersPhotoCell" title="${student.name}" data-toggle="tooltip"
-                  data-placement="top">
-                <img id="profilePic" src="${student.publicProfilePictureUrl}"
-                    class="profile-pic" data-toggle="modal">
+              <td class="teamMembersPhotoCell" title="${student.name}" data-toggle="tooltip" data-placement="top">
+                <img id="profilePic" src="${student.publicProfilePictureUrl}" class="profile-pic" data-toggle="modal">
               </td>
               <td class="teamMembersDetailsCell">
                 <label>Name:</label>
