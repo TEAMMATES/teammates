@@ -285,21 +285,18 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
-        FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        fsa.setFeedbackSessionName("fsTest1");
-        fsa.setCourseId("testCourse");
-        fsa.setCreatorEmail("valid@email.com");
-        fsa.setCreatedTime(new Date());
-        fsa.setStartTime(new Date());
-        fsa.setEndTime(new Date());
-        fsa.setSessionVisibleFromTime(new Date());
-        fsa.setResultsVisibleFromTime(new Date());
-        fsa.setGracePeriod(5);
-        fsa.setSentOpenEmail(true);
-        fsa.setSentPublishedEmail(true);
-        fsa.setInstructions(new Text("Give feedback."));
-        return fsa;
+        return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
+                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
+                .withCreatedTime(new Date())
+                .withStartTime(new Date())
+                .withEndTime(new Date())
+                .withSessionVisibleFromTime(new Date())
+                .withResultsVisibleFromTime(new Date())
+                .withGracePeriod(5)
+                .withSentOpenEmail(true)
+                .withSentPublishedEmail(true)
+                .withInstructions(new Text("Give feedback."))
+                .build();
     }
 
     @AfterClass

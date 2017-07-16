@@ -46,7 +46,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private transient Set<String> respondingInstructorList;
     private transient Set<String> respondingStudentList;
 
-    public FeedbackSessionAttributes() {
+    FeedbackSessionAttributes() {
         isOpeningEmailEnabled = true;
         isClosingEmailEnabled = true;
         isPublishedEmailEnabled = true;

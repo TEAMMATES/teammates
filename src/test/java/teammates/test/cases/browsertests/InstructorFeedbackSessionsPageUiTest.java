@@ -39,24 +39,22 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {
-        newSession = new FeedbackSessionAttributes();
-        newSession.setCourseId("CFeedbackUiT.CS1101");
-        newSession.setFeedbackSessionName("New Session ##");
-        // start time is in future, hence the year.
-        newSession.setStartTime(TimeHelper.convertToDate("2035-04-01 11:59 PM UTC"));
-        newSession.setEndTime(TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"));
-        newSession.setCreatorEmail("teammates.test1@gmail.tmt");
-        newSession.setCreatedTime(Const.TIME_REPRESENTS_NEVER);
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-        newSession.setGracePeriod(0);
-        newSession.setInstructions(new Text("Please fill in the new feedback session."));
-        newSession.setSentOpenEmail(false);
-        newSession.setSentPublishedEmail(false);
-        newSession.setTimeZone(8.0);
-        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        newSession.setClosingEmailEnabled(true);
-        newSession.setPublishedEmailEnabled(true);
+        newSession = FeedbackSessionAttributes
+                .builder("New Session ##", "CFeedbackUiT.CS1101", "teammates.test1@gmail.tmt")
+        .withStartTime(TimeHelper.convertToDate("2035-04-01 11:59 PM UTC"))
+        .withEndTime(TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"))
+        .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
+        .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+        .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
+        .withGracePeriod(0)
+        .withInstructions(new Text("Please fill in the new feedback session."))
+        .withSentOpenEmail(false)
+        .withSentPublishedEmail(false)
+        .withTimeZone(8.0)
+        .withFeedbackSessionType(FeedbackSessionType.STANDARD)
+        .withClosingEmailEnabled(true)
+        .withPublishedEmailEnabled(true)
+        .build();
 
         // the actual test data is refreshed before each test method
     }

@@ -34,15 +34,13 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         // TODO: When creating a new session, assert parameters are not null.
         // Not necessary when editing an existing session as null values do not affect data integrity.
 
-        FeedbackSessionAttributes attributes = new FeedbackSessionAttributes();
-        attributes.setCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID));
-
         String title = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         if (isCreatingNewSession) {
             title = SanitizationHelper.sanitizeTitle(title);
         }
-        attributes.setFeedbackSessionName(title);
-        attributes.setCreatorEmail(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR));
+        FeedbackSessionAttributes attributes = FeedbackSessionAttributes
+                .builder(title, Const.ParamsNames.COURSE_ID, Const.ParamsNames.FEEDBACK_SESSION_CREATOR)
+                .build();
 
         attributes.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),

@@ -192,13 +192,12 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
-        FeedbackSessionAttributes session = new FeedbackSessionAttributes();
-        session.setFeedbackSessionName(name);
-        session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetStart));
-        session.setEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetEnd));
-        session.setResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetPublish));
-        session.setSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
-        return session;
+        return FeedbackSessionAttributes.builder(name, null, null)
+                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetStart))
+                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetEnd))
+                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetPublish))
+                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1))
+                .build();
     }
 
     private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sessions) {
