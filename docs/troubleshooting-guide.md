@@ -119,7 +119,7 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
 * **ERROR**: Tests fail due to accented characters.
 
-  **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](setting-up.md).
+  **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](settingUp.md).
 
 * **ERROR**: Error message in the console about "incorrect date format".
 

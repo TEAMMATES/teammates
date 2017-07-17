@@ -53,8 +53,8 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         shouldDisplayArchive = false;
 
         // only course ID and name are used
-        sampleCourse = new CourseAttributesBuilder()
-                .withCourseId("validCourseId") .withName("Sample course name") .withTimeZone("UTC")
+        sampleCourse = new CourseAttributesBuilder(
+                "validCourseId", "Sample course name", "UTC")
                 .build();
 
         isCourseArchived = false;

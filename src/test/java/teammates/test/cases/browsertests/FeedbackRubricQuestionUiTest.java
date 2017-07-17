@@ -196,22 +196,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
-        ______TS("empty sub question test");
-        int questionNum = -1;
-        int subQuestionIndex = 1;
-
-        feedbackEditPage.fillRubricSubQuestionBox("", questionNum, subQuestionIndex);
-        feedbackEditPage.clickAddQuestionButton();
-        assertTrue(feedbackEditPage.isRubricSubQuestionBoxFocused(questionNum, subQuestionIndex));
-        feedbackEditPage.fillRubricSubQuestionBox("sub question text", questionNum, subQuestionIndex);
-        feedbackEditPage.clickAddRubricRowLink(questionNum);
-
-        subQuestionIndex += 1;
-
-        feedbackEditPage.clickAddQuestionButton();
-        assertTrue(feedbackEditPage.isRubricSubQuestionBoxFocused(questionNum, subQuestionIndex));
-        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(questionNum, subQuestionIndex);
-
         ______TS("empty weight test");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("empty weight test");

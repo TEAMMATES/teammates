@@ -136,8 +136,8 @@ ESLint integration is currently not supported for Eclipse.
 #### Configuring ESLint for IntelliJ
 
 1. If you have not installed Node.js and ESLint, please refer to
-[install necessary tools and languages](setting-up.md#step-1-install-necessary-tools-and-languages)
-and [set up project specific settings and dependencies](setting-up.md#step-3-set-up-project-specific-settings-and-dependencies).
+[install necessary tools and languages](settingUp.md#step-1-install-necessary-tools-and-languages)
+and [set up project specific settings and dependencies](settingUp.md#step-3-set-up-project-specific-settings-and-dependencies).
 1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
 1. Go to `Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
 1. Check the box next to `Enable`.
@@ -170,8 +170,8 @@ Stylelint integration is currently not supported for Eclipse.
 #### Configuring Stylelint for IntelliJ
 
 1. If you have not installed Node.js and ESLint, please refer to
-[install necessary tools and languages](setting-up.md#step-1-install-necessary-tools-and-languages)
-and [set up project specific settings and dependencies](setting-up.md#step-3-set-up-project-specific-settings-and-dependencies).
+[install necessary tools and languages](settingUp.md#step-1-install-necessary-tools-and-languages)
+and [set up project specific settings and dependencies](settingUp.md#step-3-set-up-project-specific-settings-and-dependencies).
 1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
 1. Go to `Languages & Frameworks → Stylesheets → Stylelint`.
 1. Check the box next to `Enable`.

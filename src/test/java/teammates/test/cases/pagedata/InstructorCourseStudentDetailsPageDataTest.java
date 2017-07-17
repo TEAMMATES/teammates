@@ -104,15 +104,8 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                             + Const.ParamsNames.USER_ID + "=null";
         }
 
-        inputStudentProfile = StudentProfileAttributes.builder()
-                .withShortName(shortName)
-                .withEmail(email)
-                .withInstitute(institute)
-                .withNationality(nationality)
-                .withGender(gender)
-                .withMoreInfo(moreInfo)
-                .withPictureKey(pictureKey)
-                .build();
+        inputStudentProfile = new StudentProfileAttributes(
+                null, shortName, email, institute, nationality, gender, moreInfo, pictureKey);
     }
 
     private InstructorCourseStudentDetailsPageData createData() {

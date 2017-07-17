@@ -21,7 +21,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
@@ -474,7 +473,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
-    private void testEditQuestionNumberAction() throws MaximumRetriesExceededException {
+    private void testEditQuestionNumberAction() {
         ______TS("edit question number success");
 
         feedbackEditPage.clickEditQuestionButton(2);
@@ -863,7 +862,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
     }
 
-    private void testDeleteQuestionAction(int qnNumber) throws MaximumRetriesExceededException {
+    private void testDeleteQuestionAction(int qnNumber) {
 
         ______TS("qn " + qnNumber + " delete then cancel");
 
@@ -880,7 +879,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testEditNonExistentQuestion() throws MaximumRetriesExceededException {
+    private void testEditNonExistentQuestion() {
 
         ______TS("test editing a non-existent question");
 
@@ -1059,7 +1058,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
     }
 
-    private void testDeleteSessionAction() throws MaximumRetriesExceededException {
+    private void testDeleteSessionAction() {
 
         ______TS("session delete then cancel");
 

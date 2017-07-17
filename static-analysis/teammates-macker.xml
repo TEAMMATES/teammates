@@ -395,7 +395,7 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="Search API can only be accessed via storage::api, storage::search and client scripts">
+            <ruleset name="Search API can only be accessed via storage::api and storage::search">
                 <access-rule>
                     <deny>
                         <to class="com.google.appengine.api.search.**" />
@@ -403,7 +403,6 @@
                             <from>
                                 <include class="${storage}.api.**" />
                                 <include class="${storage}.search.**" />
-                                <include class="${client}.scripts.**" />
                             </from>
                         </allow>
                     </deny>

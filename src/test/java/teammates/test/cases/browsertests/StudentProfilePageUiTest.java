@@ -129,15 +129,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: attempted script injection");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id")
-                .withShortName("name<script>alert(\"Hello world!\");</script>")
-                .withEmail("e@email.tmt")
-                .withGender("male")
-                .withMoreInfo("this is enough!$%&*</><script>alert(\"Hello world!\");</script>")
-                .withInstitute("inst<script>alert(\"Hello world!\");</script>")
-                .withNationality("American")
-                .build();
+        StudentProfileAttributes spa =
+                new StudentProfileAttributes("valid.id", "name<script>alert(\"Hello world!\");</script>",
+                        "e@email.tmt", " inst<script>alert(\"Hello world!\");</script>", "American",
+                        "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>", "");
         profilePage.editProfileThroughUi(
                 spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
@@ -158,11 +153,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: invalid institute with attempted script injection");
 
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id").withShortName("short.name").withEmail("e@email.tmt")
-                .withGender("male").withMoreInfo("this is enough!$%&*</>")
-                .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
-                .build();
+        spa = new StudentProfileAttributes("valid.id", "short.name", "e@email.tmt",
+                                            "<script>alert(\"Hello world!\");</script>",
+                                            "American", "male", "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
@@ -174,11 +167,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: invalid data");
 
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id").withShortName("$$short.name").withEmail("e@email.tmt")
-                .withGender("male").withMoreInfo("this is enough!$%&*</>")
-                .withInstitute(" inst  ").withNationality("American")
-                .build();
+        spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ", "American",
+                                           "male", "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",

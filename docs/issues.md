@@ -29,8 +29,11 @@ This label classifies the issue based on its **status**.
 This label classifies the issue based on its **type**.
 
 * `c.Bug`: a bug report
+* `c.Enhancement`: an enhancement to an existing functionality (not big enough to be considered as a user story)
+* `c.Story`: a user story, e.g. a feature request
 * `c.Epic`: a feature that is worth many user stories
 * `c.DevOps`: workflow-related or build-related improvements and additions
+* `c.Task`: other work items such as refactoring or updating documentation
 * `c.Release`: release-related issues; this is reserved for core team members working on managing release
 * `c.Message`: a means of communication with the dev team, e.g. help requests; while this is not an issue to be worked on, any contributor is welcome to chip in their opinions
 
@@ -65,11 +68,10 @@ This label classifies the issue based on the **non-functional aspect** it tackle
 * `a-Docs`: website, user docs, dev docs
 * `a-FaultTolerance`: resilience to user errors, environmental problems
 * `a-Performance`: speed of operation
-* `a-Persistence`: eventual consistency, CRUD operations
+* `a-Persistence`: database layer, GAE datastore
 * `a-Process`: workflow management, release management
 * `a-Scalability`: related to behavior at increasing loads
 * `a-Security`: protection from security threats
-* `a-Storage`: database schema, GAE datastore
 * `a-Testing`: testing-related traits such as efficiency, robustness, and coverage
 * `a-UIX`: User Interface, User eXperience, responsiveness
 * No `a-*` label: no specific aspect tackled, usually the case for enhancements or new features
@@ -83,12 +85,9 @@ This label classifies the issue based on the **functional aspect** it tackles.
 * `f-Courses`: courses, instructors, students, home page
 * `f-Email`: code related to sending emails
 * `f-Profiles`: user profiles
-* `f-Questions`: features related to specific question types
 * `f-Results`: session results, moderation, download
 * `f-Search`: search
-* `f-Sessions`: feedback session creation, editing
-* `f-Submissions`: feedback submissions
-* `f-Website`: front page, product website
+* `f-Submissions`: session creation, editing, submissions
 * No `f-*` label: no specific feature tackled, usually the case for refactoring
 
 ### Technology (`t-*`)
@@ -99,7 +98,6 @@ This label classifies the issue based on the **technology/tool stack** it involv
 * `t-CSS`: CSS, Bootstrap
 * `t-GAE`: Google App Engine-related technologies
 * `t-HTML`: HTML, Browsers
-* `t-Java`: Java-related technologies, e.g. language syntaxes
 * `t-JS`: JavaScript, jQuery, related frameworks such as Node.js
 * `t-JSTL`: JSP, JSTL, Servlets
-* No `t-*` label: usually documentation update, or mixture of many languages
+* No `t-*` label: usually only Java, or documentation update

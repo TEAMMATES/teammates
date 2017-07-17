@@ -70,8 +70,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("success: typical case");
 
-        CourseAttributes c = new CourseAttributesBuilder()
-                .withCourseId("Computing101-getthis") .withName("Basic Computing Getting") .withTimeZone("UTC")
+        CourseAttributes c = new CourseAttributesBuilder(
+                "Computing101-getthis", "Basic Computing Getting", "UTC")
                 .build();
         coursesDb.createEntity(c);
 
@@ -135,23 +135,23 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: not a sample course");
 
-        CourseAttributes notSampleCourse = new CourseAttributesBuilder()
-                .withCourseId("course.id") .withName("not sample course") .withTimeZone("UTC")
+        CourseAttributes notSampleCourse = new CourseAttributesBuilder(
+                "course.id", "not sample course", "UTC")
                 .build();
 
         assertFalse(coursesLogic.isSampleCourse(notSampleCourse.getId()));
 
         ______TS("typical case: is a sample course");
 
-        CourseAttributes sampleCourse = new CourseAttributesBuilder()
-                .withCourseId("course.id-demo3-demo3") .withName("sample course") .withTimeZone("UTC")
+        CourseAttributes sampleCourse = new CourseAttributesBuilder(
+                "course.id-demo3", "sample course", "UTC")
                 .build();
         assertTrue(coursesLogic.isSampleCourse(sampleCourse.getId()));
 
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
 
-        CourseAttributes sampleCourse2 = new CourseAttributesBuilder()
-                .withCourseId("course.id-demo3-demo33") .withName("sample course with additional -demo") .withTimeZone("UTC")
+        CourseAttributes sampleCourse2 = new CourseAttributesBuilder(
+                "course.id-demo3-demo33", "sample course with additional -demo", "UTC")
                 .build();
         assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
 
@@ -169,16 +169,16 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: not an existent course");
 
-        CourseAttributes nonExistentCourse = new CourseAttributesBuilder()
-                .withCourseId("non-existent-course") .withName("non existent course") .withTimeZone("UTC")
+        CourseAttributes nonExistentCourse = new CourseAttributesBuilder(
+                "non-existent-course", "non existent course", "UTC")
                 .build();
 
         assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
 
         ______TS("typical case: an existent course");
 
-        CourseAttributes existingCourse = new CourseAttributesBuilder()
-                .withCourseId("idOfTypicalCourse1") .withName("existing course") .withTimeZone("UTC")
+        CourseAttributes existingCourse = new CourseAttributesBuilder(
+                "idOfTypicalCourse1", "existing course", "UTC")
                 .build();
 
         assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
@@ -197,8 +197,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: verify a non-existent course");
 
-        CourseAttributes nonExistentCourse = new CourseAttributesBuilder()
-                .withCourseId("non-existent-course") .withName("non existent course") .withTimeZone("UTC")
+        CourseAttributes nonExistentCourse = new CourseAttributesBuilder(
+                "non-existent-course", "non existent course", "UTC")
                 .build();
 
         try {
@@ -210,8 +210,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: verify an existent course");
 
-        CourseAttributes existingCourse = new CourseAttributesBuilder()
-                .withCourseId("idOfTypicalCourse1") .withName("existing course") .withTimeZone("UTC")
+        CourseAttributes existingCourse = new CourseAttributesBuilder(
+                "idOfTypicalCourse1", "existing course", "UTC")
                 .build();
         coursesLogic.verifyCourseIsPresent(existingCourse.getId());
 
@@ -243,7 +243,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
@@ -299,7 +299,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -359,7 +359,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -411,7 +411,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -764,8 +764,8 @@ public class CoursesLogicTest extends BaseLogicTest {
          */
         ______TS("typical case");
 
-        CourseAttributes c = new CourseAttributesBuilder()
-                .withCourseId("Computing101-fresh") .withName("Basic Computing") .withTimeZone("Asia/Singapore")
+        CourseAttributes c = new CourseAttributesBuilder(
+                "Computing101-fresh", "Basic Computing", "Asia/Singapore")
                 .build();
         coursesLogic.createCourse(c.getId(), c.getName(), c.getTimeZone());
         verifyPresentInDatastore(c);
@@ -793,10 +793,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: account doesn't exist");
 
-        CourseAttributes c = new CourseAttributesBuilder()
-                .withCourseId("fresh-course-tccai")
-                .withName("Fresh course for tccai")
-                .withTimeZone("America/Los Angeles")
+        CourseAttributes c = new CourseAttributesBuilder(
+                "fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles")
                 .build();
 
         @SuppressWarnings("deprecation")
@@ -821,7 +819,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         a.email = i.email;
         a.institute = "TEAMMATES Test Institute 5";
         a.isInstructor = false;
-        a.studentProfile = StudentProfileAttributes.builder().build();
+        a.studentProfile = new StudentProfileAttributes();
         a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
@@ -838,8 +836,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         a.isInstructor = true;
         accountsDb.updateAccount(a);
 
-        CourseAttributes invalidCourse = new CourseAttributesBuilder()
-                .withCourseId("invalid id") .withName("Fresh course for tccai") .withTimeZone("InvalidTimeZone")
+        CourseAttributes invalidCourse = new CourseAttributesBuilder(
+                "invalid id", "Fresh course for tccai", "InvalidTimeZone")
                 .build();
 
         String expectedError =
@@ -864,10 +862,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("fails: error during instructor creation due to duplicate instructor");
 
         CourseAttributes courseWithDuplicateInstructor =
-                new CourseAttributesBuilder()
-                        .withCourseId("fresh-course-tccai") .withName("Fresh course for tccai") .withTimeZone("UTC")
-                        .build();
-
+                new CourseAttributesBuilder(
+                        "fresh-course-tccai", "Fresh course for tccai", "UTC")
+                .build();
         instructorsDb.createEntity(i); //create a duplicate instructor
 
         try {

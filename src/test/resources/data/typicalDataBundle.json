@@ -1197,15 +1197,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": [],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": []
     },
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
@@ -1476,22 +1470,6 @@
       "createdAt": "2026-01-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
-      }
-    },
-    "comment1FromT1C1ToR1Q1S1C2": {
-      "courseId": "idOfTypicalCourse2",
-      "feedbackSessionName": "Private feedback session",
-      "feedbackQuestionId": "1",
-      "giverEmail": "instructor3@course.tmt",
-      "giverSection": "None",
-      "receiverSection": "None",
-      "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2027-01-01 11:59 PM UTC",
-      "commentText": {
-        "value": "Instructor 3 comment to instr1C2 response to student1C2"
       }
     }
   },

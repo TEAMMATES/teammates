@@ -1,8 +1,8 @@
-package teammates.common.util.retry;
+package teammates.test.driver.retry;
 
 /**
  * Abstract implementation of a {@link Retryable} task, for easy extending through anonymous classes.
- * @param <E> Throwable type for signalling that the task should not be retried.
+ * @param <E> Throwable type.
  */
 public abstract class RetryableTaskThrows<E extends Throwable> extends Retryable<Void, E> {
 

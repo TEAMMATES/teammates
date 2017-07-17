@@ -268,7 +268,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
-            Map<String, AccountAttributes> googleIdAccountMap) {
+                                                       Map<String, AccountAttributes> googleIdAccountMap) {
         populateNullStudentProfiles(accounts);
         for (AccountAttributes account : accounts) {
             googleIdAccountMap.put(account.googleId, account);
@@ -276,8 +276,8 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
-            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
-            Map<String, AccountAttributes> googleIdAccountMap) {
+                                                             SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+                                                             Map<String, AccountAttributes> googleIdAccountMap) {
         for (InstructorAttributes instructor : instructors) {
             validateInstructorPrivileges(instructor);
 
@@ -292,7 +292,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processStudentsAndPopulateAccounts(Collection<StudentAttributes> students,
-            Map<String, AccountAttributes> googleIdAccountMap) {
+                                                    Map<String, AccountAttributes> googleIdAccountMap) {
         for (StudentAttributes student : students) {
             populateNullSection(student);
 
@@ -306,7 +306,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processQuestionsAndPopulateMap(Collection<FeedbackQuestionAttributes> questions,
-            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap) {
+                                                SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap) {
         for (FeedbackQuestionAttributes question : questions) {
             question.removeIrrelevantVisibilityOptions();
 
@@ -316,7 +316,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processResponsesAndPopulateMap(Collection<FeedbackResponseAttributes> responses,
-            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
+                                                SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
         for (FeedbackResponseAttributes response : responses) {
             String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
             sessionResponsesMap.put(sessionKey, response);
@@ -324,9 +324,9 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processSessionsAndUpdateRespondents(Collection<FeedbackSessionAttributes> sessions,
-            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
-            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
-            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
+                                                     SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+                                                     SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
+                                                     SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
         for (FeedbackSessionAttributes session : sessions) {
             cleanSessionData(session);
             String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
@@ -340,9 +340,9 @@ public class BackDoorLogic extends Logic {
     }
 
     private void updateRespondents(FeedbackSessionAttributes session,
-            Set<InstructorAttributes> courseInstructors,
-            Set<FeedbackQuestionAttributes> sessionQuestions,
-            Set<FeedbackResponseAttributes> sessionResponses) {
+                                   Set<InstructorAttributes> courseInstructors,
+                                   Set<FeedbackQuestionAttributes> sessionQuestions,
+                                   Set<FeedbackResponseAttributes> sessionResponses) {
         String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
         SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
@@ -395,16 +395,16 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId of the
-    * question the response is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number corresponding to the created response
-    * should be inserted in the json file in place of the actual response ID.<br>
-    * This method will then generate the correct ID and replace the field.
-    **/
+     * This method is necessary to generate the feedbackQuestionId of the
+     * question the response is for.<br>
+     * Normally, the ID is already generated on creation,
+     * but the json file does not contain the actual response ID. <br>
+     * Therefore the question number corresponding to the created response
+     * should be inserted in the json file in place of the actual response ID.<br>
+     * This method will then generate the correct ID and replace the field.
+     **/
     private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
-            Map<String, String> questionIdMap) {
+                                            Map<String, String> questionIdMap) {
         for (FeedbackResponseAttributes response : responses) {
             int questionNumber;
             try {
@@ -420,17 +420,17 @@ public class BackDoorLogic extends Logic {
     }
 
     /**
-    * This method is necessary to generate the feedbackQuestionId
-    * and feedbackResponseId of the question and response the comment is for.<br>
-    * Normally, the ID is already generated on creation,
-    * but the json file does not contain the actual response ID. <br>
-    * Therefore the question number and questionNumber%giverEmail%recipient
-    * corresponding to the created comment should be inserted in the json
-    * file in place of the actual ID.<br>
-    * This method will then generate the correct ID and replace the field.
-    **/
+     * This method is necessary to generate the feedbackQuestionId
+     * and feedbackResponseId of the question and response the comment is for.<br>
+     * Normally, the ID is already generated on creation,
+     * but the json file does not contain the actual response ID. <br>
+     * Therefore the question number and questionNumber%giverEmail%recipient
+     * corresponding to the created comment should be inserted in the json
+     * file in place of the actual ID.<br>
+     * This method will then generate the correct ID and replace the field.
+     **/
     private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
-            Map<String, String> questionIdMap) {
+                                                   Map<String, String> questionIdMap) {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
             int questionNumber;
             try {
@@ -587,7 +587,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
-            byte[] pictureData) throws EntityDoesNotExistException, IOException {
+                                                     byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
     }

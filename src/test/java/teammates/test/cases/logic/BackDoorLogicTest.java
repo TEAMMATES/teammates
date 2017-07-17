@@ -46,8 +46,8 @@ public class BackDoorLogicTest extends BaseLogicTest {
         }
 
         ______TS("invalid parameters in an entity");
-        CourseAttributes invalidCourse = new CourseAttributesBuilder()
-                .withCourseId("invalid id") .withName("valid course name") .withTimeZone("UTC")
+        CourseAttributes invalidCourse = new CourseAttributesBuilder(
+                "invalid id", "valid course name", "UTC")
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);

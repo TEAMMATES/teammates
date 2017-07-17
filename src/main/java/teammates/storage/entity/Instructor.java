@@ -193,7 +193,7 @@ public class Instructor extends BaseEntity {
     }
 
     public void setIsDisplayedToStudents(boolean shouldDisplayToStudents) {
-        this.isDisplayedToStudents = shouldDisplayToStudents;
+        this.isDisplayedToStudents = Boolean.valueOf(shouldDisplayToStudents);
     }
 
     public String getDisplayedName() {

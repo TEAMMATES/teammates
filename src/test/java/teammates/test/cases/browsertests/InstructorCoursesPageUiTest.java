@@ -34,11 +34,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private String instructorId;
 
     private CourseAttributes validCourse =
-            new CourseAttributes.CourseAttributesBuilder()
-                    .withCourseId(" CCAddUiTest.course1 ")
-                    .withName(" Software Engineering $^&*() ")
-                    .withTimeZone("Asia/Singapore")
-                    .build();
+            new CourseAttributes.CourseAttributesBuilder(
+                    " CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore")
+            .build();
 
     @Override
     protected void prepareTestData() {

@@ -42,17 +42,8 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithPictureKeyAndNoNullFields() {
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id.2")
-                .withShortName("short name")
-                .withEmail("e@mail2.com")
-                .withInstitute("inst")
-                .withNationality("American")
-                .withGender("male")
-                .withMoreInfo("more info")
-                .withPictureKey("pictureKey")
-                .build();
-
+        spa = new StudentProfileAttributes("valid.id.2", "short name", "e@mail2.com", "inst", "American",
+                                           "male", "more info", "pictureKey");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         isEditingPhoto = "false";
         pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
@@ -62,10 +53,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id.2")
-                .withGender("male")
-                .build();
+        spa = new StudentProfileAttributes("valid.id.2", null, null, null, null, "male", null, "");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         return new StudentProfilePageData(acct, dummySessionToken, isEditingPhoto);

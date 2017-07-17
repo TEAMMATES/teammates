@@ -184,7 +184,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = new StudentProfileAttributes();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
