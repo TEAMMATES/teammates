@@ -265,5 +265,4 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     }
 
     protected abstract String doPutDocuments(DataBundle testData);
-
 }

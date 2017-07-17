@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import org.kohsuke.randname.RandomNameGenerator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,8 +15,9 @@ import com.google.gson.GsonBuilder;
 /**
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
-@SuppressWarnings("PMD.UnusedPrivateField")//Inner classes and their fields are only used for JSON object generation.
+@SuppressWarnings("unused") // Inner classes and their fields are only used for JSON object generation.
 public class InstructorFeedbackResultsPageDataGenerator {
+
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
     private Map<String, Instructor> instructors = new HashMap<>();
@@ -27,6 +28,11 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject comments = new EmptyObject();
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
+    private List<String> studentsNames = Arrays.asList(
+            "Student_One", "Student_Two", "Student_Three", "Student_Four", "Student_Five", "Student_Six",
+            "Student_Seven", "Student_Eight", "Student_Nine", "Student_Ten", "Student_Eleven", "Student_Twelve",
+            "Student_Thirteen", "Student_Fourteen", "Student_Fifteen", "Student_Sixteen", "Student_Seventeen",
+            "Student_Eighteen", "Student_Nineteen", "Student_Twenty");
 
     class EmptyObject {
     }
@@ -167,9 +173,9 @@ public class InstructorFeedbackResultsPageDataGenerator {
         feedbackSessions.put("Open Session", new Session());
         instructors.put("CFResultsScT.instr", new Instructor());
 
-        RandomNameGenerator nameGenerator = new RandomNameGenerator();
+        // RandomNameGenerator nameGenerator = new RandomNameGenerator();
         for (int i = 0; i < numStudents; i++) {
-            String name = nameGenerator.next();
+            String name = studentsNames.get(i);
             students.put(name.replace("_", " "), new Student(name.replace("_", ".")));
         }
 
@@ -188,21 +194,17 @@ public class InstructorFeedbackResultsPageDataGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-        //Number of students and questions for each data set.
-        int[] studentNums = {10, 20};
-        int[] questionNums = {1, 5, 10};
+        // Maximum number of students and questions to create a single data set for all tests.
+        int studentNumsMax = 20;
+        int questionNumsMax = 10;
         String folderPath = "src/client/java/teammates/client/scripts/scalabilitytests/data/";
         new File(folderPath).mkdir();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        for (int studentNum : studentNums) {
-            for (int questionNum : questionNums) {
-                Writer writer = new FileWriter(
-                        folderPath
-                        + "InstructorFeedbackResultsPageScaleTest-" + studentNum
-                        + "Students" + questionNum + "Questions.json");
-                gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
-                writer.close();
-            }
-        }
+        Writer writer = new FileWriter(
+                folderPath
+                + "InstructorFeedbackResultsPageScaleTest-" + studentNumsMax
+                + "Students" + questionNumsMax + "Questions.json");
+        gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNumsMax, studentNumsMax), writer);
+        writer.close();
     }
 }

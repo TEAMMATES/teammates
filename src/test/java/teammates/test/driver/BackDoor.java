@@ -313,6 +313,15 @@ public final class BackDoor {
     }
 
     /**
+     * Persists a feedback session into the datastore.
+     */
+    public static String createFeedbackSession(FeedbackSessionAttributes feedbackSession) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackSessions.put("dummy-key", feedbackSession);
+        return restoreDataBundle(dataBundle);
+    }
+
+    /**
      * Gets a feedback question data from the datastore.
      */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
@@ -412,6 +421,15 @@ public final class BackDoor {
         params.put(BackDoorOperation.PARAMETER_GIVER_EMAIL, giverEmail);
         params.put(BackDoorOperation.PARAMETER_RECIPIENT, recipient);
         return makePostRequest(params);
+    }
+
+    /**
+     * Persists a feedback question into the datastore.
+     */
+    public static String createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackQuestions.put("dummy-key", feedbackQuestion);
+        return restoreDataBundle(dataBundle);
     }
 
     private static Map<String, String> createParamMap(BackDoorOperation operation) {
