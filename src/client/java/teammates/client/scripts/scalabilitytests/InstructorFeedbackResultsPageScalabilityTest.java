@@ -1,5 +1,8 @@
 package teammates.client.scripts.scalabilitytests;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.testng.annotations.Test;
 
 import teammates.client.scripts.util.Stopwatch;
@@ -14,7 +17,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
-import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -75,31 +77,35 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
             }
         }
 
-        int countStudents = 0;
+        int writesCounter = 0;
         for (StudentAttributes student : testData.students.values()) {
             if (getStudent(student) == null) {
                 doPutStudent(student);
-                log.info("Student was added to datastore (" + countStudents + "): " + student);
+                log.info("Student was added to datastore (" + writesCounter + "): " + student);
+                writesCounter++;
             }
         }
 
-        int countFeedbackQuestions = 0;
-        int countFeedbackResponses = 0;
+        Map<Integer, String> feedbackQuestionsRealIds = new TreeMap<>();
+        writesCounter = 0;
         for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
-            if (getFeedbackQuestion(question) == null) {
+            FeedbackQuestionAttributes questionInDatastore = getFeedbackQuestion(question);
+            if (questionInDatastore == null) {
                 doPutFeedbackQuestion(question);
-                log.info("Feedback Question was added to datastore (" + countFeedbackQuestions + "): " + question);
-                countFeedbackQuestions++;
+                log.info("Feedback Question was added to datastore (" + writesCounter + "): " + question);
+                writesCounter++;
             }
-            String feedbackQuestionRealId = getFeedbackQuestion(question).getId();
-            for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
-                feedbackResponse.feedbackQuestionId = feedbackQuestionRealId;
-                if (getFeedbackResponse(feedbackResponse) == null) {
-                    doPutFeedbackResponse(feedbackResponse);
-                    log.info("Feedback Response was added to datastore (" + countFeedbackResponses + "): "
-                            + feedbackResponse);
-                    countFeedbackResponses++;
-                }
+            feedbackQuestionsRealIds.put(questionInDatastore.questionNumber, questionInDatastore.getId());
+        }
+
+        writesCounter = 0;
+        for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
+            feedbackResponse.feedbackQuestionId = feedbackQuestionsRealIds.get(
+                    Integer.valueOf(feedbackResponse.feedbackQuestionId));
+            if (getFeedbackResponse(feedbackResponse) == null) {
+                doPutFeedbackResponse(feedbackResponse);
+                log.info("Feedback Response was added to datastore (" + writesCounter + "): " + feedbackResponse);
+                writesCounter++;
             }
         }
     }
