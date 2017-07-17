@@ -97,9 +97,7 @@ public class BackDoorLogic extends Logic {
                 continue;
             }
 
-            AccountAttributes account = new AccountAttributes(
-                    instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
-            instructorAccounts.add(account);
+            instructorAccounts.add(makeAccount(instructor));
         }
         accountsDb.createAccountsDeferred(instructorAccounts);
         instructorsDb.createEntitiesDeferred(instructors);
@@ -112,9 +110,7 @@ public class BackDoorLogic extends Logic {
                 continue;
             }
 
-            AccountAttributes account = new AccountAttributes(
-                    student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
-            studentAccounts.add(account);
+            studentAccounts.add(makeAccount(student));
         }
         accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students);
@@ -179,6 +175,16 @@ public class BackDoorLogic extends Logic {
         EntitiesDb.flush();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
+
+    private AccountAttributes makeAccount(InstructorAttributes instructor) {
+        return new AccountAttributes(
+                instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+    }
+
+    private AccountAttributes makeAccount(StudentAttributes student) {
+        return new AccountAttributes(
+                student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
     }
 
     public String createFeedbackResponseAndUpdateSessionRespondents(FeedbackResponseAttributes response)
