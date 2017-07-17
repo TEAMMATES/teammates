@@ -146,17 +146,9 @@ public class BackDoorLogic extends Logic {
         // This also flushes all previously deferred operations
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.createFeedbackQuestionsWithoutExistenceCheck(questions);
 
-        Map<String, String> questionRealQuestionIdMap = new HashMap<>();
-        for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
-            String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
-            String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
-            questionRealQuestionIdMap.put(questionKey, createdQuestion.getId());
-        }
+        injectRealIds(responses, responseComments, createdQuestions);
 
-        injectRealIdsIntoResponses(responses, questionRealQuestionIdMap);
         frDb.createEntitiesDeferred(responses);
-
-        injectRealIdsIntoResponseComments(responseComments, questionRealQuestionIdMap);
         fcDb.createEntitiesDeferred(responseComments);
 
         adminEmailsDb.createEntitiesDeferred(adminEmails);
@@ -426,6 +418,20 @@ public class BackDoorLogic extends Logic {
             session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         }
+    }
+
+    private void injectRealIds(
+            Collection<FeedbackResponseAttributes> responses, Collection<FeedbackResponseCommentAttributes> responseComments,
+            List<FeedbackQuestionAttributes> createdQuestions) {
+        Map<String, String> questionRealQuestionIdMap = new HashMap<>();
+        for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
+            String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
+            String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
+            questionRealQuestionIdMap.put(questionKey, createdQuestion.getId());
+        }
+
+        injectRealIdsIntoResponses(responses, questionRealQuestionIdMap);
+        injectRealIdsIntoResponseComments(responseComments, questionRealQuestionIdMap);
     }
 
     /**
