@@ -105,7 +105,7 @@ public class BackDoorLogic extends Logic {
 
         List<AccountAttributes> studentAccounts = new ArrayList<>();
         for (StudentAttributes student : students) {
-            student.section = student.section == null ? "None" : student.section;
+            populateNullSection(student);
 
             if (student.googleId == null || student.googleId.isEmpty()) {
                 continue;
@@ -401,7 +401,7 @@ public class BackDoorLogic extends Logic {
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
-        student.section = student.section == null ? "None" : student.section;
+        populateNullSection(student);
         updateStudentWithoutDocument(originalEmail, student);
     }
 
@@ -528,6 +528,10 @@ public class BackDoorLogic extends Logic {
                 account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
             }
         }
+    }
+
+    private void populateNullSection(StudentAttributes student) {
+        student.section = student.section == null ? "None" : student.section;
     }
 
     public boolean isPicturePresentInGcs(String pictureKey) {
