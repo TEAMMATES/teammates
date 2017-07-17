@@ -103,14 +103,7 @@ public class BackDoorLogic extends Logic {
         processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
 
         SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
-        for (FeedbackResponseAttributes response : responses) {
-            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
-            sessionResponsesMap.put(sessionKey, response);
-        }
-
-        for (FeedbackSessionAttributes session : sessions) {
-            cleanSessionData(session);
-            String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+        processResponsesAndPopulateMap(responses, sessionResponsesMap);
 
             Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
             Set<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
@@ -398,6 +391,14 @@ public class BackDoorLogic extends Logic {
 
             String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
             sessionQuestionsMap.put(sessionKey, question);
+        }
+    }
+
+    private void processResponsesAndPopulateMap(Collection<FeedbackResponseAttributes> responses,
+            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
+        for (FeedbackResponseAttributes response : responses) {
+            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            sessionResponsesMap.put(sessionKey, response);
         }
     }
 
