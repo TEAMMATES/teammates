@@ -83,7 +83,10 @@ public class BackDoorLogic extends Logic {
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
         Collection<AdminEmailAttributes> adminEmails = dataBundle.adminEmails.values();
 
+        // For ensuring only one account per Google ID is created
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
+
+        // For updating the student and instructor respondent lists in sessions before they are persisted
         SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
         SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
         SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
