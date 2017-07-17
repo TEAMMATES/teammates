@@ -111,6 +111,8 @@ public class FieldValidator {
     public static final String REASON_UNAVAILABLE_AS_CHOICE = "not available as a choice";
 
     // error message components
+    public static final String EMPTY_STRING_ERROR_INFO =
+            "The field ${fieldName} ${reason}.";
     public static final String ERROR_INFO =
             "\"${userInput}\" is not acceptable to TEAMMATES as a/an ${fieldName} because it ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
@@ -126,6 +128,8 @@ public class FieldValidator {
     // generic (i.e., not specific to any field) error messages
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
     public static final String INVALID_NAME_ERROR_MESSAGE =
@@ -145,19 +149,25 @@ public class FieldValidator {
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+           ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+    public static final String EMAIL_ERROR_MESSAGE_EMPTY_STRING =
+           EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
+    public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+    public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
 
     public static final String HINT_FOR_CORRECT_COURSE_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
@@ -282,7 +292,7 @@ public class FieldValidator {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_EMPTY,
+            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, email, EMAIL_FIELD_NAME, REASON_EMPTY,
                                             EMAIL_MAX_LENGTH);
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
@@ -314,7 +324,7 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
+            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING, googleId, GOOGLE_ID_FIELD_NAME,
                                             REASON_EMPTY, GOOGLE_ID_MAX_LENGTH);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
@@ -339,7 +349,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", courseId != null);
 
         if (courseId.isEmpty()) {
-            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
+            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, courseId, COURSE_ID_FIELD_NAME,
                                             REASON_EMPTY, COURSE_ID_MAX_LENGTH);
         }
         if (isUntrimmed(courseId)) {
@@ -504,7 +514,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
 
         if (value.isEmpty()) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, value, fieldName,
                                             REASON_EMPTY, maxLength);
         }
         if (isUntrimmed(value)) {

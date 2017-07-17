@@ -268,7 +268,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         expectedLogSegment = Const.ACTION_RESULT_FAILURE;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
-        expectedStatus = "\"\" is not acceptable to TEAMMATES as a/an email subject";
+        expectedStatus = "The field email subject";
         AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
 
         data = (AdminEmailComposePageData) pageResult.data;

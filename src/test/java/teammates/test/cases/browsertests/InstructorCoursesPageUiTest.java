@@ -196,10 +196,10 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         //one invalid case
         coursesPage.addCourse("", "").verifyStatus(
-                getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
+                getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, "",
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
                     FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
-                + getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                + getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
                       FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
                       FieldValidator.COURSE_NAME_MAX_LENGTH));
 

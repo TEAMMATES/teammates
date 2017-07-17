@@ -94,7 +94,7 @@ public class StudentAttributesTest extends BaseTestCase {
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
-                         FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidStudent.course,
+                         FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, invalidStudent.course,
                          FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
                          FieldValidator.COURSE_ID_MAX_LENGTH),
                      invalidStudent.getInvalidityInfo().get(0));
@@ -114,7 +114,7 @@ public class StudentAttributesTest extends BaseTestCase {
         assertFalse(invalidStudent.isValid());
         assertEquals(invalidStudent.getInvalidityInfo().get(0),
                      getPopulatedErrorMessage(
-                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
                          FieldValidator.PERSON_NAME_MAX_LENGTH));
 
@@ -122,7 +122,7 @@ public class StudentAttributesTest extends BaseTestCase {
         invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(getPopulatedErrorMessage(
-                         FieldValidator.EMAIL_ERROR_MESSAGE, "",
+                         FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING, "",
                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_EMPTY,
                          FieldValidator.EMAIL_MAX_LENGTH),
                      invalidStudent.getInvalidityInfo().get(0));
@@ -204,7 +204,7 @@ public class StudentAttributesTest extends BaseTestCase {
                     FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                     FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
                 + getPopulatedErrorMessage(
-                      FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
+                      FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, "",
                       FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
                       FieldValidator.COURSE_ID_MAX_LENGTH) + Const.EOL
                 + getPopulatedErrorMessage(
@@ -221,7 +221,7 @@ public class StudentAttributesTest extends BaseTestCase {
                       FieldValidator.STUDENT_ROLE_COMMENTS_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                       FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH) + Const.EOL
                 + getPopulatedErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
                       FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
                       FieldValidator.PERSON_NAME_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
