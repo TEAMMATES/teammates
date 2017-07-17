@@ -686,6 +686,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getEndTimeInIso8601Format() {
-        return TimeHelper.formatDateToIso8601(endTime, timeZone);
+        return TimeHelper.convertAndFormatDateToIso8601Utc(endTime, timeZone);
     }
 }
