@@ -96,7 +96,8 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students);
 
-        processAccounts(accounts);
+        Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
+        processAccountsAndPopulateMap(accounts, googleIdAccountMap);
         accountsDb.createAccountsDeferred(accounts);
 
         SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
@@ -294,8 +295,12 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    private void processAccounts(Collection<AccountAttributes> accounts) {
+    private void processAccountsAndPopulateMap(Collection<AccountAttributes> accounts,
+            Map<String, AccountAttributes> googleIdAccountMap) {
         populateNullStudentProfiles(accounts);
+        for (AccountAttributes account : accounts) {
+            googleIdAccountMap.put(account.googleId, account);
+        }
     }
 
     private void processQuestionsAndPopulateMap(Collection<FeedbackQuestionAttributes> questions,
