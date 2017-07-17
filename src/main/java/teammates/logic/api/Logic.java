@@ -87,7 +87,7 @@ public class Logic {
 
         StudentProfileAttributes studentProfile = studentProfileParam;
         if (studentProfile == null) {
-            studentProfile = StudentProfileAttributes.builder().build();
+            studentProfile = new StudentProfileAttributes();
             studentProfile.googleId = googleId;
         }
         AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,

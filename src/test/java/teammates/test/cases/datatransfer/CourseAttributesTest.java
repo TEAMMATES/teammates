@@ -36,10 +36,8 @@ public class CourseAttributesTest extends BaseTestCase {
         String veryLongId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         String invalidTimeZone = "InvalidTimeZone";
-        CourseAttributes invalidCourse = new CourseAttributesBuilder()
-                .withCourseId(veryLongId)
-                .withName(emptyName)
-                .withTimeZone(invalidTimeZone)
+        CourseAttributes invalidCourse = new CourseAttributesBuilder(
+                veryLongId, emptyName, invalidTimeZone)
                 .build();
 
         assertFalse("invalid value", invalidCourse.isValid());
@@ -91,8 +89,8 @@ public class CourseAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithNullArguments() {
-        CourseAttributes courseAttributesWithNullValues = new CourseAttributesBuilder()
-                .withCourseId(null) .withName(null) .withTimeZone(null)
+        CourseAttributes courseAttributesWithNullValues = new CourseAttributesBuilder(
+                null, null, null)
                 .withCreatedAt(null)
                 .build();
         // No default values for required params
@@ -115,8 +113,8 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     private static CourseAttributes generateValidCourseAttributesObject() {
-        return new CourseAttributesBuilder()
-                .withCourseId(VALID_COURSE_ID) .withName(VALID_NAME) .withTimeZone(VALID_TIMEZONE)
+        return new CourseAttributesBuilder(
+                VALID_COURSE_ID, VALID_NAME, VALID_TIMEZONE)
                 .build();
     }
 

@@ -67,13 +67,13 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getCsvHeader();
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader(int noOfComments) {
+    public String getCsvDetailedResponsesHeader(boolean hasCommentsForResponses, int noOfComments) {
         return "Team" + "," + "Giver's Full Name" + ","
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + getCsvHeader()
-               + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
+               + this.getCsvHeader() + (hasCommentsForResponses
+                       ? getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments) : "")
                + Const.EOL;
     }
 
@@ -245,13 +245,11 @@ public abstract class FeedbackQuestionDetails {
         return true;
     }
 
-    public String getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
+    public StringBuilder getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
         StringBuilder commentsHeader = new StringBuilder(200);
-
         for (int i = noOfComments; i > 0; i--) {
             commentsHeader.append("," + "Comment From" + "," + "Comment");
         }
-
-        return commentsHeader.toString();
+        return commentsHeader;
     }
 }

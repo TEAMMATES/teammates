@@ -5,7 +5,7 @@
 
 ## Eclipse IDE
 
-> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
+> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Luna, Mars, or Neon](http://www.eclipse.org/downloads/).
@@ -43,7 +43,7 @@ The following plugins are needed:
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
 
-1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
+1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
      ![setupguide-4.png](images/setupguide-4.png)
@@ -64,8 +64,6 @@ The following plugins are needed:
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
-     
-     You can find the Web and XML options in `Eclipse → Preferences → ...`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
@@ -115,7 +113,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
     1. Go to `Build, Execution, Deployment → Application Servers`.
     1. Click `+ → Google App Engine Dev Server → ... `. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder)
-       you downloaded in Step 3 of the [Setting up a development environment](setting-up.md) guide.
+       you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
     1. Ensure the `Name:` is of `AppEngine Dev <version>`.
 
 ### Automated Setup

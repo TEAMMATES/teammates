@@ -890,12 +890,18 @@ public final class FeedbackSessionsLogic {
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
-
-        int maxNumOfResponseComments = getMaxNumberOfResponseComments(allResponses, fsrBundle.getResponseComments());
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfResponseComments));
-
+        //Sets header if there are no responses for a question
+        if (allResponses.isEmpty()) {
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(false, 0));
+        }
         for (FeedbackResponseAttributes response : allResponses) {
 
+            // do not show all possible givers and recipients if there are anonymous givers and recipients
+            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
+            int noOfComments = hasCommentsForResponses
+                    ? fsrBundle.responseComments.get(response.getId()).size()
+                    : 0;
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(hasCommentsForResponses, noOfComments));
             if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();
                 possibleRecipientsForGiver.clear();
@@ -922,9 +928,7 @@ public final class FeedbackSessionsLogic {
                                                 response.recipient, fsrBundle);
             prevGiver = response.giver;
 
-            // do not show all possible givers and recipients if there are anonymous givers and recipients
-            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
-
+            // Append row(s)
             exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
                     hasCommentsForResponses));
         }
@@ -939,24 +943,6 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append(Const.EOL + Const.EOL);
         return exportBuilder;
-    }
-
-    private int getMaxNumberOfResponseComments(List<FeedbackResponseAttributes> allResponses,
-            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
-
-        if (allResponses == null || allResponses.isEmpty()) {
-            return 0;
-        }
-
-        int maxCommentsNum = 0;
-        for (FeedbackResponseAttributes response : allResponses) {
-            List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
-            if (commentAttributes != null && maxCommentsNum < commentAttributes.size()) {
-                maxCommentsNum = commentAttributes.size();
-            }
-        }
-
-        return maxCommentsNum;
     }
 
     /**

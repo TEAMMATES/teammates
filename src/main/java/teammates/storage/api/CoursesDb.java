@@ -112,8 +112,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         // only the courseId is important here, everything else are placeholders
-        deleteEntity(new CourseAttributesBuilder()
-                .withCourseId(courseId) .withName("Non-existent course") .withTimeZone("UTC")
+        deleteEntity(new CourseAttributesBuilder(
+                courseId, "Non-existent course", "UTC")
                 .build());
     }
 

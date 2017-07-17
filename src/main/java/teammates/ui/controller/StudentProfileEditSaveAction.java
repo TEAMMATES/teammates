@@ -42,7 +42,7 @@ public class StudentProfileEditSaveAction extends Action {
     }
 
     private StudentProfileAttributes extractProfileData() {
-        StudentProfileAttributes editedProfile = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes editedProfile = new StudentProfileAttributes();
 
         editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);

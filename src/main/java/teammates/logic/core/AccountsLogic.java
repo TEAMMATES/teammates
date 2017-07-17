@@ -338,7 +338,7 @@ public final class AccountsLogic {
         account.isInstructor = false;
         account.institute = getCourseInstitute(student.course);
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = student.googleId;
         spa.institute = account.institute;
         account.studentProfile = spa;

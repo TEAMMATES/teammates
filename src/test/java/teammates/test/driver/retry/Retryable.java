@@ -1,25 +1,13 @@
-package teammates.common.util.retry;
+package teammates.test.driver.retry;
 
 /**
  * Represents a task that can be retried.
  * @param <T> Result type.
- * @param <E> Throwable type for signalling that the task should not be retried.
+ * @param <E> Throwable type.
  */
 public abstract class Retryable<T, E extends Throwable> {
 
     protected String name;
-
-    /**
-     * An optional final message to show in the {@link MaximumRetriesExceededException} thrown
-     * should the task fail after maximum retries.
-     */
-    protected String finalMessage;
-
-    /**
-     * An optional final object to embed in the {@link MaximumRetriesExceededException} thrown
-     * should the task fail after maximum retries.
-     */
-    protected Object finalData;
 
     public Retryable(String name) {
         this.name = name;

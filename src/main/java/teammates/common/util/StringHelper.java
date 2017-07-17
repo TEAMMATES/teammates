@@ -25,14 +25,6 @@ public final class StringHelper {
         // utility class
     }
 
-    /**
-     * Checks whether the input string is empty or equals {@code null}.
-     * @param s The string to be checked
-     */
-    public static boolean isEmpty(String s) {
-        return s == null || s.isEmpty();
-    }
-
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
@@ -210,6 +202,29 @@ public final class StringHelper {
                                     " %+03d:%02d",
                                     (int) hourOffsetTimeZone,
                                     (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
+    }
+
+    //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
+    public static int countWords(String s) {
+        int wordCount = 0;
+        boolean isWord = false;
+        int endOfLine = s.length() - 1;
+        for (int i = 0; i < s.length(); i++) {
+            // if the char is a letter, word = true.
+            if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
+                isWord = true;
+                // if char isn't a letter and there have been letters before,
+                // counter goes up.
+            } else if (!Character.isLetter(s.charAt(i)) && isWord) {
+                wordCount++;
+                isWord = false;
+                // last word of String; if it doesn't end with a non letter, it
+                // wouldn't count without this.
+            } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
+                wordCount++;
+            }
+        }
+        return wordCount;
     }
 
     /**
@@ -483,7 +498,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (isEmpty(s)) {
+            if (s == null || s.isEmpty()) {
                 numOfEmptyStrings += 1;
             }
         }

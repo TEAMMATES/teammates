@@ -236,8 +236,8 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabled = true;
     }
 
-    public void setVisibilityIcon(boolean hasVisibilityIcon, String whoCanSeeComment) {
-        this.hasVisibilityIcon = hasVisibilityIcon;
+    public void enableVisibilityIcon(String whoCanSeeComment) {
+        this.hasVisibilityIcon = true;
         this.whoCanSeeComment = whoCanSeeComment;
     }
 

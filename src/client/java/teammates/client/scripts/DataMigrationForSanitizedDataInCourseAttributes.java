@@ -66,10 +66,9 @@ public class DataMigrationForSanitizedDataInCourseAttributes extends RemoteApiCl
 
     private void desanitizeAndUpdateCourse(Course originalCourse)
             throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes courseToUpdate = new CourseAttributesBuilder()
-                .withCourseId(originalCourse.getUniqueId())
-                .withName(desanitizeFromHtml(originalCourse.getName()))
-                .withTimeZone(originalCourse.getTimeZone())
+        CourseAttributes courseToUpdate = new CourseAttributesBuilder(
+                originalCourse.getUniqueId(), desanitizeFromHtml(originalCourse.getName()),
+                originalCourse.getTimeZone())
                 .build();
 
         if (!courseToUpdate.isValid()) {

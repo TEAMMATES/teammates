@@ -13,7 +13,7 @@ This is the project-wide development workflow for TEAMMATES.
 
 * This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/).
 * If you need any help regarding the workflow, please [post a new issue in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
-* It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).<br>
+* It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).<br>
   You are also encouraged to be reasonably familiar with how to [work with your own local copy of TEAMMATES](development.md).
 
 The following are the roles involved:
