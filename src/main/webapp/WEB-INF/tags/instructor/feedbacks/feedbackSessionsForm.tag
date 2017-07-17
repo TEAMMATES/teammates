@@ -41,9 +41,9 @@
                     </select>
                   </c:when>
                   <c:otherwise>
-                      <h5 class="form-control-static font-weight-normal">
-                        ${fsForm.courseId}
-                      </h5>
+                    <h5 class="form-control-static font-weight-normal">
+                      ${fsForm.courseId}
+                    </h5>
                   </c:otherwise>
                 </c:choose>
               </div>
@@ -99,9 +99,9 @@
                         value="${fsForm.fsName}">
                   </c:when>
                   <c:otherwise>
-                      <h5 class="form-control-static font-weight-normal">
-                        ${fsForm.fsName}
-                      </h5>
+                    <h5 class="form-control-static font-weight-normal">
+                      ${fsForm.fsName}
+                    </h5>
                   </c:otherwise>
                 </c:choose>
               </div>

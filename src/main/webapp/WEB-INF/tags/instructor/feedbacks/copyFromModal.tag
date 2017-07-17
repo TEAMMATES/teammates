@@ -49,7 +49,7 @@
           <%-- Previous Session --%>
           <label>Copy sessions/questions from</label>
           <table class="table-responsive table table-bordered table-hover margin-0"
-            id="copyTableModal">
+              id="copyTableModal">
             <thead class="fill-primary">
               <tr>
                 <th style="width:20px;">&nbsp;</th>
@@ -57,13 +57,13 @@
                 <th>Feedback Session Name</th>
               </tr>
             </thead>
-              <c:forEach items="${copyFromModal.existingFeedbackSessions}" var="session" varStatus="i">
-                <tr style="cursor:pointer;">
-                  <td><input type="radio"></td>
-                  <td>${session.courseId}</td>
-                  <td>${session.name}</td>
-                </tr>
-              </c:forEach>
+            <c:forEach items="${copyFromModal.existingFeedbackSessions}" var="session" varStatus="i">
+              <tr style="cursor:pointer;">
+                <td><input type="radio"></td>
+                <td>${session.courseId}</td>
+                <td>${session.name}</td>
+              </tr>
+            </c:forEach>
           </table>
           <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
               value="" id="modalSessionName">

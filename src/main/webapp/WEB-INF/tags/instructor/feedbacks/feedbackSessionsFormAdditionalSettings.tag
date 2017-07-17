@@ -92,8 +92,7 @@
             <label class="label-control">Responses visible from</label>
           </div>
         </div>
-        <div class="row radio"><%
-          %>
+        <div class="row radio">
           <h5 class="col-xs-2"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLECUSTOM %>"
               data-toggle="tooltip"
