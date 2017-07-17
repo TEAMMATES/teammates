@@ -148,11 +148,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getStartTimeString() {
-        return TimeHelper.formatTime12H(startTime);
+        return TimeHelper.formatDateTimeForFeedbackSubmissionEditPage(startTime, timeZone);
     }
 
     public String getEndTimeString() {
-        return TimeHelper.formatTime12H(endTime);
+        return TimeHelper.formatDateTimeForFeedbackSubmissionEditPage(endTime, timeZone);
     }
 
     public String getInstructionsString() {
@@ -685,19 +685,4 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.respondingStudentList = respondingStudentList;
     }
 
-    public String getTimeZoneString() {
-        StringBuffer timeZoneString = new StringBuffer("(UTC");
-        if (timeZone == 0.0) {
-            timeZoneString.append(')');
-            return timeZoneString.toString();
-        }
-        timeZoneString.append(timeZone < 0 ? " " : " +");
-        int hours = (int) timeZone;
-        double minutesInDecimal = timeZone - hours;
-        timeZoneString.append(hours)
-                .append(':')
-                .append(minutesInDecimal == 0.5 ? "30" : "00")
-                .append(')');
-        return timeZoneString.toString();
-    }
 }

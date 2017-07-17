@@ -27,14 +27,14 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Opening time:</label>
           <div class="col-sm-10">
-            <p class="form-control-static">${feedbackSession.startTimeString} <%= feedbackSession.getTimeZoneString() %></p>
+            <p class="form-control-static">${feedbackSession.startTimeString}</p>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-2 control-label">Closing time:</label>
           <div class="col-sm-10">
-            <p class="form-control-static">${feedbackSession.endTimeString} <%= feedbackSession.getTimeZoneString() %></p>
+            <p class="form-control-static">${feedbackSession.endTimeString}</p>
           </div>
         </div>
 

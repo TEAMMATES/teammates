@@ -252,6 +252,23 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
+    public static String formatDateTimeForFeedbackSubmissionEditPage(Date date, double timeZone) {
+        StringBuffer formattedDateTime = new StringBuffer(formatTime12H(date));
+        formattedDateTime.append(" (UTC");
+        if (timeZone == 0.0) {
+            formattedDateTime.append(')');
+            return formattedDateTime.toString();
+        }
+        formattedDateTime.append(timeZone < 0 ? " " : " +");
+        int hours = (int) timeZone;
+        double minutesInDecimal = timeZone - hours;
+        formattedDateTime.append(hours)
+                .append(':')
+                .append(minutesInDecimal == 0.5 ? "30" : "00")
+                .append(')');
+        return formattedDateTime.toString();
+    }
+
     public static String calendarToString(Calendar c) {
         if (c == null) {
             return "";
