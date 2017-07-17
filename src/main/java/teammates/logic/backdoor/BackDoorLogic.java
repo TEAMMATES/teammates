@@ -123,16 +123,6 @@ public class BackDoorLogic extends Logic {
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
-    private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return new AccountAttributes(
-                instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
-    }
-
-    private AccountAttributes makeAccount(StudentAttributes student) {
-        return new AccountAttributes(
-                student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
-    }
-
     public String createFeedbackResponseAndUpdateSessionRespondents(FeedbackResponseAttributes response)
             throws InvalidParametersException, EntityDoesNotExistException {
         try {
@@ -146,81 +136,6 @@ public class BackDoorLogic extends Logic {
         frDb.createEntityWithoutExistenceCheck(response);
         updateRespondents(response.feedbackSessionName, response.courseId);
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
-
-    private void updateRespondents(FeedbackSessionAttributes session, Set<InstructorAttributes> courseInstructors,
-            Set<FeedbackQuestionAttributes> sessionQuestions, Set<FeedbackResponseAttributes> sessionResponses) {
-        String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
-
-        SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
-        for (InstructorAttributes instructor : courseInstructors) {
-            List<FeedbackQuestionAttributes> questionsForInstructor = feedbackQuestionsLogic
-                    .getFeedbackQuestionsForInstructor(new ArrayList(sessionQuestions), session.isCreator(instructor.email));
-
-            List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
-            instructorQuestionKeysMap.putAll(instructor.email, questionKeys);
-        }
-
-        Set<String> respondingInstructors = new HashSet<>();
-        Set<String> respondingStudents = new HashSet<>();
-
-        for (FeedbackResponseAttributes response : sessionResponses) {
-            String respondent = response.giver;
-            String responseQuestionNumber = response.feedbackQuestionId; // contains question number before injection
-            String responseQuestionKey = makeQuestionKey(sessionKey, responseQuestionNumber);
-
-            Set<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
-            if (instructorQuestionKeys.contains(responseQuestionKey)) {
-                respondingInstructors.add(respondent);
-            } else {
-                respondingStudents.add(respondent);
-            }
-        }
-
-        session.setRespondingInstructorList(respondingInstructors);
-        session.setRespondingStudentList(respondingStudents);
-    }
-
-    /**
-     * Checks if the role of {@code instructor} matches its privileges.
-     *
-     * @param instructor
-     *            the {@link InstructorAttributes} of an instructor, cannot be
-     *            {@code null}
-     */
-    private void validateInstructorPrivileges(InstructorAttributes instructor) {
-
-        if (instructor.getRole() == null) {
-            return;
-        }
-
-        InstructorPrivileges privileges = instructor.privileges;
-
-        switch (instructor.getRole()) {
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            Assumption.assertTrue(privileges.hasCoownerPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            Assumption.assertTrue(privileges.hasManagerPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            Assumption.assertTrue(privileges.hasObserverPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            Assumption.assertTrue(privileges.hasTutorPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            break;
-
-        default:
-            Assumption.fail("Invalid instructor permission role name");
-            break;
-        }
     }
 
     /**
@@ -413,17 +328,39 @@ public class BackDoorLogic extends Logic {
         }
     }
 
-    /**
-     * This method ensures consistency for private feedback sessions
-     * between the type and visibility times. This allows easier creation
-     * of private sessions by setting the feedbackSessionType field as PRIVATE
-     * in the json file.
-     */
-    private void cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
-            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+    private void updateRespondents(FeedbackSessionAttributes session,
+            Set<InstructorAttributes> courseInstructors,
+            Set<FeedbackQuestionAttributes> sessionQuestions,
+            Set<FeedbackResponseAttributes> sessionResponses) {
+        String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+
+        SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
+        for (InstructorAttributes instructor : courseInstructors) {
+            List<FeedbackQuestionAttributes> questionsForInstructor = feedbackQuestionsLogic
+                    .getFeedbackQuestionsForInstructor(new ArrayList(sessionQuestions), session.isCreator(instructor.email));
+
+            List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
+            instructorQuestionKeysMap.putAll(instructor.email, questionKeys);
         }
+
+        Set<String> respondingInstructors = new HashSet<>();
+        Set<String> respondingStudents = new HashSet<>();
+
+        for (FeedbackResponseAttributes response : sessionResponses) {
+            String respondent = response.giver;
+            String responseQuestionNumber = response.feedbackQuestionId; // contains question number before injection
+            String responseQuestionKey = makeQuestionKey(sessionKey, responseQuestionNumber);
+
+            Set<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
+            if (instructorQuestionKeys.contains(responseQuestionKey)) {
+                respondingInstructors.add(respondent);
+            } else {
+                respondingStudents.add(respondent);
+            }
+        }
+
+        session.setRespondingInstructorList(respondingInstructors);
+        session.setRespondingStudentList(respondingStudents);
     }
 
     private void injectRealIds(
@@ -499,6 +436,87 @@ public class BackDoorLogic extends Logic {
         }
     }
 
+    /**
+     * Checks if the role of {@code instructor} matches its privileges.
+     *
+     * @param instructor
+     *            the {@link InstructorAttributes} of an instructor, cannot be
+     *            {@code null}
+     */
+    private void validateInstructorPrivileges(InstructorAttributes instructor) {
+
+        if (instructor.getRole() == null) {
+            return;
+        }
+
+        InstructorPrivileges privileges = instructor.privileges;
+
+        switch (instructor.getRole()) {
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+            Assumption.assertTrue(privileges.hasCoownerPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            Assumption.assertTrue(privileges.hasManagerPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            Assumption.assertTrue(privileges.hasObserverPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            Assumption.assertTrue(privileges.hasTutorPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+            break;
+
+        default:
+            Assumption.fail("Invalid instructor permission role name");
+            break;
+        }
+    }
+
+    /**
+     * This method ensures consistency for private feedback sessions
+     * between the type and visibility times. This allows easier creation
+     * of private sessions by setting the feedbackSessionType field as PRIVATE
+     * in the json file.
+     */
+    private void cleanSessionData(FeedbackSessionAttributes session) {
+        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
+            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        }
+    }
+
+    private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
+        for (AccountAttributes account : accounts) {
+            if (account.studentProfile == null) {
+                account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
+            }
+        }
+    }
+
+    private void populateNullSection(StudentAttributes student) {
+        student.section = student.section == null ? "None" : student.section;
+    }
+
+    private AccountAttributes makeAccount(InstructorAttributes instructor) {
+        return new AccountAttributes(
+                instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+    }
+
+    private AccountAttributes makeAccount(StudentAttributes student) {
+        return new AccountAttributes(
+                student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
+    }
+
+    private String makeSessionKey(String feedbackSessionName, String courseId) {
+        return feedbackSessionName + "%" + courseId;
+    }
+
     private List<String> makeQuestionKeys(List<FeedbackQuestionAttributes> questions, String sessionKey) {
         List<String> questionKeys = new ArrayList<>();
         for (FeedbackQuestionAttributes question : questions) {
@@ -506,10 +524,6 @@ public class BackDoorLogic extends Logic {
             questionKeys.add(questionKey);
         }
         return questionKeys;
-    }
-
-    private String makeSessionKey(String feedbackSessionName, String courseId) {
-        return feedbackSessionName + "%" + courseId;
     }
 
     private String makeQuestionKey(String sessionKey, int questionNumber) {
@@ -554,18 +568,6 @@ public class BackDoorLogic extends Logic {
             frDb.deleteFeedbackResponsesForCourses(courseIds);
             fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
         }
-    }
-
-    private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
-        for (AccountAttributes account : accounts) {
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
-            }
-        }
-    }
-
-    private void populateNullSection(StudentAttributes student) {
-        student.section = student.section == null ? "None" : student.section;
     }
 
     public boolean isPicturePresentInGcs(String pictureKey) {
