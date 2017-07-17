@@ -88,7 +88,7 @@ public class BackDoorLogic extends Logic {
         SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
         SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
 
-        processAccountsAndPopulateMap(accounts, googleIdAccountMap);
+        processAccountsAndPopulateAccountsMap(accounts, googleIdAccountMap);
         processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, googleIdAccountMap);
         processStudentsAndPopulateAccounts(students, googleIdAccountMap);
         processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
@@ -259,6 +259,14 @@ public class BackDoorLogic extends Logic {
         updateFeedbackQuestion(feedbackQuestion);
     }
 
+    private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
+            Map<String, AccountAttributes> googleIdAccountMap) {
+        populateNullStudentProfiles(accounts);
+        for (AccountAttributes account : accounts) {
+            googleIdAccountMap.put(account.googleId, account);
+        }
+    }
+
     private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
             SetMultimap<String, InstructorAttributes> courseInstructorsMap,
             Map<String, AccountAttributes> googleIdAccountMap) {
@@ -286,14 +294,6 @@ public class BackDoorLogic extends Logic {
                 continue;
             }
             googleIdAccountMap.put(student.googleId, makeAccount(student));
-        }
-    }
-
-    private void processAccountsAndPopulateMap(Collection<AccountAttributes> accounts,
-            Map<String, AccountAttributes> googleIdAccountMap) {
-        populateNullStudentProfiles(accounts);
-        for (AccountAttributes account : accounts) {
-            googleIdAccountMap.put(account.googleId, account);
         }
     }
 
