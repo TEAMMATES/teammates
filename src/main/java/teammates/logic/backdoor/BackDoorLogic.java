@@ -83,22 +83,19 @@ public class BackDoorLogic extends Logic {
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
         Collection<AdminEmailAttributes> adminEmails = dataBundle.adminEmails.values();
 
+        Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
+        processAccountsAndPopulateMap(accounts, googleIdAccountMap);
+
         coursesDb.createEntitiesDeferred(courses);
 
         SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
-        List<AccountAttributes> instructorAccounts = new ArrayList<>();
-        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, instructorAccounts);
-        accountsDb.createAccountsDeferred(instructorAccounts);
+        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, googleIdAccountMap);
         instructorsDb.createEntitiesDeferred(instructors);
 
-        List<AccountAttributes> studentAccounts = new ArrayList<>();
-        processStudentsAndPopulateAccounts(students, studentAccounts);
-        accountsDb.createAccountsDeferred(studentAccounts);
+        processStudentsAndPopulateAccounts(students, googleIdAccountMap);
         studentsDb.createEntitiesDeferred(students);
 
-        Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
-        processAccountsAndPopulateMap(accounts, googleIdAccountMap);
-        accountsDb.createAccountsDeferred(accounts);
+        accountsDb.createAccountsDeferred(googleIdAccountMap.values());
 
         SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
         processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
@@ -268,30 +265,32 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
-            SetMultimap<String, InstructorAttributes> courseInstructorsMap, List<AccountAttributes> instructorAccounts) {
+            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+            Map<String, AccountAttributes> googleIdAccountMap) {
         for (InstructorAttributes instructor : instructors) {
             validateInstructorPrivileges(instructor);
 
             courseInstructorsMap.put(instructor.courseId, instructor);
 
-            if (StringHelper.isEmpty(instructor.googleId)) {
+            if (StringHelper.isEmpty(instructor.googleId) || googleIdAccountMap.containsKey(instructor.googleId)) {
+                // No account, or account already exists in the data bundle
                 continue;
             }
-
-            instructorAccounts.add(makeAccount(instructor));
+            googleIdAccountMap.put(instructor.googleId, makeAccount(instructor));
         }
     }
 
     private void processStudentsAndPopulateAccounts(Collection<StudentAttributes> students,
-            List<AccountAttributes> studentAccounts) {
+            Map<String, AccountAttributes> googleIdAccountMap) {
         for (StudentAttributes student : students) {
             populateNullSection(student);
 
-            if (StringHelper.isEmpty(student.googleId)) {
+            if (StringHelper.isEmpty(student.googleId) || googleIdAccountMap.containsKey(student.googleId)) {
+                // No account, account already exists in the data bundle,
+                // or instructor account already exists (i.e. instructor is also a student)
                 continue;
             }
-
-            studentAccounts.add(makeAccount(student));
+            googleIdAccountMap.put(student.googleId, makeAccount(student));
         }
     }
 
