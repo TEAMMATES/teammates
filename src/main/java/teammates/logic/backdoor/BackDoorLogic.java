@@ -96,7 +96,7 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students);
 
-        populateNullStudentProfiles(accounts);
+        processAccounts(accounts);
         accountsDb.createAccountsDeferred(accounts);
 
         SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
@@ -292,6 +292,10 @@ public class BackDoorLogic extends Logic {
 
             studentAccounts.add(makeAccount(student));
         }
+    }
+
+    private void processAccounts(Collection<AccountAttributes> accounts) {
+        populateNullStudentProfiles(accounts);
     }
 
     private void processQuestionsAndPopulateMap(Collection<FeedbackQuestionAttributes> questions,
