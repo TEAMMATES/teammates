@@ -100,12 +100,7 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccountsDeferred(accounts);
 
         SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
-        for (FeedbackQuestionAttributes question : questions) {
-            question.removeIrrelevantVisibilityOptions();
-
-            String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
-            sessionQuestionsMap.put(sessionKey, question);
-        }
+        processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
 
         SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
         for (FeedbackResponseAttributes response : responses) {
@@ -393,6 +388,16 @@ public class BackDoorLogic extends Logic {
             }
 
             studentAccounts.add(makeAccount(student));
+        }
+    }
+
+    private void processQuestionsAndPopulateMap(Collection<FeedbackQuestionAttributes> questions,
+            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap) {
+        for (FeedbackQuestionAttributes question : questions) {
+            question.removeIrrelevantVisibilityOptions();
+
+            String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
+            sessionQuestionsMap.put(sessionKey, question);
         }
     }
 
