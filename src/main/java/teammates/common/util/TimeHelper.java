@@ -252,13 +252,13 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateForFeedbackSubmissionEditPage(Date date, double timeZone) {
+    public static String formateDateToIso8601(Date date, double timeZone) {
         if (date == null) {
             return "";
         }
         // Passing negative timeZone to convert to UTC.
         Calendar calInUtc = convertToUserTimeZone(dateToCalendar(date), -timeZone);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601);
         return sdf.format(calInUtc.getTime());
     }
 
