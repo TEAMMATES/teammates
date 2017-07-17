@@ -395,8 +395,8 @@ function bindAssignWeightsCheckboxes() {
  * all rubric questions. To be called in $(document).ready().
  */
 function bindMoveRubricColButtons() {
-    $('table[id^="rubricEditTable-"').each(function () {
-        const questionNum = $(this).closest('form').children('input[name="questionnum"]').val();
+    $('table[id^="rubricEditTable-"]').each(function () {
+        const questionNum = $(this).closest('form').data('qnnumber');
 
         $(`#rubric-options-row-${questionNum} td[class*="rubricCol-${questionNum}"]`).each(function () {
             const colNum = $(this).attr('data-col');
