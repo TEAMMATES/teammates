@@ -385,7 +385,7 @@ function enableEditFS() {
  */
 function backupQuestion(questionNum) {
     questionsBeforeEdit[questionNum] = questionsBeforeEdit[questionNum]
-                                       || $(`#editquestionwrapper-${questionNum}`).html();
+                                       || $(`#questionTable-${questionNum} > .panel-body`).html();
 }
 
 function isQuestionHavingResponses(questionNum) {
@@ -679,7 +679,21 @@ function restoreOriginal(questionNum) {
     if (questionNum === NEW_QUESTION) {
         hideNewQuestionAndShowNewQuestionForm();
     } else {
-        $(`#editquestionwrapper-${questionNum}`).html(questionsBeforeEdit[questionNum]);
+        $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
+
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
+        $(`#button_question_submit-${questionNum}`).hide();
+        $(`#questionnum-${questionNum}`).val(questionNum);
+        $(`#questionnum-${questionNum}`).prop('disabled', true);
+
+        const $form = $('#form_editquestion-1');
+
+        if ($form.attr('editstatus') === 'mustDeleteResponses') {
+            $form.attr('editstatus', 'hasResponses');
+        }
     }
 
     // re-attach events for form elements
