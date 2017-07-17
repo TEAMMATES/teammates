@@ -256,7 +256,6 @@ public final class TimeHelper {
         if (date == null) {
             return "";
         }
-        log.info("" + timeZone);
         // Passing negative timeZone to convert to UTC.
         Calendar calInUtc = convertToUserTimeZone(dateToCalendar(date), -timeZone);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
