@@ -43,7 +43,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * <p>Following default values are set to corresponding attributes:
      * <ul>
      * <li>{@code true} for {@code isInstructor}</li>
-     * <li>{@code new Date()} for {@code createdAt}</li>
+     * <li>{@code new Date(0)} for {@code createdAt}</li>
      * <li>{@code new StudentProfileAttributes()} for {@code studentProfile}</li>
      * </ul>
      */
@@ -59,11 +59,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     public static AccountAttributes valueOf(Account account) {
-        return new AccountAttributesBuilder()
-                .withGoogleId(account.getGoogleId())
-                .withName(account.getName())
-                .withEmail(account.getEmail())
-                .withInstitute(account.getInstitute())
+        return new AccountAttributesBuilder(
+                account.getGoogleId(),
+                account.getName(),
+                account.getEmail(),
+                account.getInstitute())
                 .withCreatedAt(account.getCreatedAt())
                 .withIsInstructor(account.isInstructor())
                 .withStudentProfileAttributes(account.getStudentProfile() == null
@@ -75,11 +75,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        return new AccountAttributesBuilder()
-                .withGoogleId(googleId)
-                .withName(name)
-                .withEmail(email)
-                .withInstitute(institute)
+        return new AccountAttributesBuilder(
+                googleId, name, email, institute)
                 .withStudentProfileAttributes(this.studentProfile == null ? null : this.studentProfile.getCopy())
                 .withCreatedAt(createdAt)
                 .withIsInstructor(isInstructor)
@@ -192,35 +189,20 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public String institute;
 
         // Optional fields
-        public Boolean isInstructor = true;
-        public Date createdAt = DEFAULT_DATE;
-        public StudentProfileAttributes studentProfile = DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
+        public Boolean isInstructor;
+        public Date createdAt;
+        public StudentProfileAttributes studentProfile;
 
-        public AccountAttributesBuilder withGoogleId(String googleId) {
+        public AccountAttributesBuilder(String googleId, String name, String email, String institute) {
             this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            this.name = SanitizationHelper.sanitizeName(name);
+            this.email = SanitizationHelper.sanitizeEmail(email);
+            this.institute = SanitizationHelper.sanitizeTitle(institute);
+
+            this.studentProfile = DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
             this.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            return this;
-        }
-
-        public AccountAttributesBuilder withName(String name) {
-            if (name != null) {
-                this.name = SanitizationHelper.sanitizeName(name);
-            }
-            return this;
-        }
-
-        public AccountAttributesBuilder withEmail(String email) {
-            if (email != null) {
-                this.email = SanitizationHelper.sanitizeEmail(email);
-            }
-            return this;
-        }
-
-        public AccountAttributesBuilder withInstitute(String institute) {
-            if (institute != null) {
-                this.institute = SanitizationHelper.sanitizeTitle(institute);
-            }
-            return this;
+            this.isInstructor = true;
+            this.createdAt = DEFAULT_DATE;
         }
 
         public AccountAttributesBuilder withStudentProfileAttributes(StudentProfileAttributes studentProfile) {

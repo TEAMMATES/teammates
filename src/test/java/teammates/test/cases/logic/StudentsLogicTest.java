@@ -121,11 +121,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         coursesLogic.deleteCourseCascade(instructorCourse);
 
         //create fresh test data
-        accountsLogic.createAccount(new AccountAttributesBuilder()
-                .withGoogleId(instructorId)
-                .withName("ICET Instr Name")
-                .withEmail("instructor@icet.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
+        accountsLogic.createAccount(new AccountAttributesBuilder(
+                instructorId, "ICET Instr Name", "instructor@icet.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(StudentProfileAttributes.builder()
                         .withGoogleId(instructorId).withShortName("ICET").build())
@@ -612,11 +609,8 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
                 .build();
 
-        AccountAttributes accountToAdd = new AccountAttributesBuilder()
-                .withGoogleId(instructorId)
-                .withName("Instructor 1")
-                .withEmail(instructorEmail)
-                .withInstitute("TEAMMATES Test Institute 1")
+        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+                instructorId, "Instructor 1", instructorEmail, "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(profileAttributes)
                 .build();
@@ -710,11 +704,8 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
                 .build();
 
-        accountToAdd = new AccountAttributesBuilder()
-                .withGoogleId("tes.instructor")
-                .withName("Instructor 1")
-                .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
+        accountToAdd = new AccountAttributesBuilder(
+                "tes.instructor", "Instructor 1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(studentAttributes)
                 .build();

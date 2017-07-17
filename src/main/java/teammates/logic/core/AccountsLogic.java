@@ -166,11 +166,8 @@ public final class AccountsLogic {
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
 
         if (account == null) {
-            createAccount(new AccountAttributesBuilder()
-                    .withGoogleId(googleId)
-                    .withName(instructor.name)
-                    .withEmail(instructor.email)
-                    .withInstitute(instituteToSave)
+            createAccount(new AccountAttributesBuilder(
+                    googleId, instructor.name, instructor.email, instituteToSave)
                     .withIsInstructor(true)
                     .build());
         } else {
@@ -340,11 +337,8 @@ public final class AccountsLogic {
         spa.googleId = student.googleId;
         spa.institute = getCourseInstitute(student.course);
 
-        AccountAttributes account = new AccountAttributes.AccountAttributesBuilder()
-                .withGoogleId(student.googleId)
-                .withName(student.name)
-                .withEmail(student.email)
-                .withInstitute(getCourseInstitute(student.course))
+        AccountAttributes account = new AccountAttributes.AccountAttributesBuilder(
+                student.googleId, student.name, student.email, getCourseInstitute(student.course))
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();

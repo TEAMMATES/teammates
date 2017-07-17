@@ -231,11 +231,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder()
-                .withGoogleId("instructor1")
-                .withName("instructor1")
-                .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build());
@@ -295,11 +292,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder()
-                .withGoogleId("instructor1")
-                .withName("instructor1")
-                .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build());
@@ -362,11 +356,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder()
-                .withGoogleId("instructor1")
-                .withName("instructor1")
-                .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build());
@@ -421,11 +412,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributesBuilder()
-                .withGoogleId("instructor1")
-                .withName("instructor1")
-                .withEmail("instructor@email.tmt")
-                .withInstitute("TEAMMATES Test Institute 1")
+        AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
+                "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build());
@@ -826,11 +814,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
         studentProfile.googleId = i.googleId;
 
-        AccountAttributes a = new AccountAttributesBuilder()
-                .withGoogleId(i.googleId)
-                .withName(i.name)
-                .withEmail(i.email)
-                .withInstitute("TEAMMATES Test Institute 5")
+        AccountAttributes a = new AccountAttributesBuilder(
+                i.googleId, i.name, i.email, "TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(studentProfile)
                 .build();

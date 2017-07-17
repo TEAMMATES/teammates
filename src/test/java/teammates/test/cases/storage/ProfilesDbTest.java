@@ -271,11 +271,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         studentProfileAttributes.googleId = googleId;
         studentProfileAttributes.institute = "TEAMMATES Test Institute 1";
 
-        AccountAttributes a = new AccountAttributesBuilder()
-                .withGoogleId(googleId)
-                .withName(name)
-                .withEmail(email)
-                .withInstitute(institute)
+        AccountAttributes a = new AccountAttributesBuilder(
+                googleId, name, email, institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfileAttributes)
                 .build();

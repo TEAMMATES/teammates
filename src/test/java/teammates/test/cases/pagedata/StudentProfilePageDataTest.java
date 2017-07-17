@@ -55,11 +55,8 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withPictureKey("pictureKey")
                 .build();
 
-        acct = new AccountAttributesBuilder()
-                .withGoogleId("valid.id")
-                .withName("full name")
-                .withEmail("e@mail1.com")
-                .withInstitute("inst")
+        acct = new AccountAttributesBuilder(
+                "valid.id", "full name", "e@mail1.com", "inst")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
@@ -77,11 +74,8 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withGender("male")
                 .build();
 
-        acct = new AccountAttributesBuilder()
-                .withGoogleId("valid.id")
-                .withName("full name")
-                .withEmail("e@mail1.com")
-                .withInstitute("inst")
+        acct = new AccountAttributesBuilder(
+                "valid.id", "full name", "e@mail1.com", "inst")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
