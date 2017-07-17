@@ -87,6 +87,19 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     }
 
     /**
+     * Creates multiple entities without checking for existence. Also calls {@link #flush()},
+     * leading to any previously deferred operations being written immediately.
+     *
+     * @return list of created entities.
+     */
+    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn") // Needs to flush before returning
+    public List<E> createEntitiesWithoutExistenceCheck(Collection<A> entitiesToAdd) throws InvalidParametersException {
+        List<E> createdEntities = createEntitiesDeferred(entitiesToAdd);
+        flush();
+        return createdEntities;
+    }
+
+    /**
      * Queues creation of multiple entities. No actual writes are done until {@link #flush()} is called.
      * Note that there is no check for existence - existing entities will be overwritten.
      * If multiple entities with the same key are queued, only the last one queued will be created.
