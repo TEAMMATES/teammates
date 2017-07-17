@@ -423,15 +423,20 @@ public class BackDoorLogic extends Logic {
     private void injectRealIds(
             Collection<FeedbackResponseAttributes> responses, Collection<FeedbackResponseCommentAttributes> responseComments,
             List<FeedbackQuestionAttributes> createdQuestions) {
+        Map<String, String> questionRealQuestionIdMap = makeQuestionIdMap(createdQuestions);
+
+        injectRealIdsIntoResponses(responses, questionRealQuestionIdMap);
+        injectRealIdsIntoResponseComments(responseComments, questionRealQuestionIdMap);
+    }
+
+    private Map<String, String> makeQuestionIdMap(List<FeedbackQuestionAttributes> createdQuestions) {
         Map<String, String> questionRealQuestionIdMap = new HashMap<>();
         for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
             String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
             String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
             questionRealQuestionIdMap.put(questionKey, createdQuestion.getId());
         }
-
-        injectRealIdsIntoResponses(responses, questionRealQuestionIdMap);
-        injectRealIdsIntoResponseComments(responseComments, questionRealQuestionIdMap);
+        return questionRealQuestionIdMap;
     }
 
     /**
