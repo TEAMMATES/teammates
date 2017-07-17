@@ -30,6 +30,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.AdminEmailsDb;
@@ -92,7 +93,7 @@ public class BackDoorLogic extends Logic {
             }
             courseInstructorsMap.get(instructor.courseId).add(instructor);
 
-            if (instructor.googleId == null || instructor.googleId.isEmpty()) {
+            if (StringHelper.isEmpty(instructor.googleId)) {
                 continue;
             }
 
@@ -107,7 +108,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students) {
             populateNullSection(student);
 
-            if (student.googleId == null || student.googleId.isEmpty()) {
+            if (StringHelper.isEmpty(student.googleId)) {
                 continue;
             }
 
