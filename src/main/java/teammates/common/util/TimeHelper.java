@@ -252,6 +252,9 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
+    /**
+     * Converts {@code date} to UTC according to the {@code timeZone} offset and formats it according to ISO8601.
+     */
     public static String formateDateToIso8601(Date date, double timeZone) {
         if (date == null) {
             return "";
