@@ -42,7 +42,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
     private void refreshTestData(String filename) {
         testData = loadDataBundle(DATA_FOLDER_PATH + filename);
         verifyOrPersistTestDataToDatastore();
-        // removeAndRestoreDataBundle(testData);
     }
 
     // verify if entities for testing already exist in datastore
