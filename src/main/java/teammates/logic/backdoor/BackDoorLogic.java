@@ -70,13 +70,21 @@ public class BackDoorLogic extends Logic {
             throw new InvalidParametersException(Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
 
-        Map<String, CourseAttributes> courses = dataBundle.courses;
-        coursesDb.createEntitiesDeferred(courses.values());
+        Collection<AccountAttributes> accounts = dataBundle.accounts.values();
+        Collection<CourseAttributes> courses = dataBundle.courses.values();
+        Collection<InstructorAttributes> instructors = dataBundle.instructors.values();
+        Collection<StudentAttributes> students = dataBundle.students.values();
+        Collection<FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
+        Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
+        Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<AdminEmailAttributes> adminEmails = dataBundle.adminEmails.values();
 
-        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        coursesDb.createEntitiesDeferred(courses);
+
         Map<String, List<InstructorAttributes>> courseInstructorsMap = new HashMap<>();
         List<AccountAttributes> instructorAccounts = new ArrayList<>();
-        for (InstructorAttributes instructor : instructors.values()) {
+        for (InstructorAttributes instructor : instructors) {
             validateInstructorPrivileges(instructor);
 
             if (!courseInstructorsMap.containsKey(instructor.courseId)) {
@@ -93,11 +101,10 @@ public class BackDoorLogic extends Logic {
             instructorAccounts.add(account);
         }
         accountsDb.createAccountsDeferred(instructorAccounts);
-        instructorsDb.createEntitiesDeferred(instructors.values());
+        instructorsDb.createEntitiesDeferred(instructors);
 
-        Map<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<>();
-        for (StudentAttributes student : students.values()) {
+        for (StudentAttributes student : students) {
             student.section = student.section == null ? "None" : student.section;
 
             if (student.googleId == null || student.googleId.isEmpty()) {
@@ -109,20 +116,18 @@ public class BackDoorLogic extends Logic {
             studentAccounts.add(account);
         }
         accountsDb.createAccountsDeferred(studentAccounts);
-        studentsDb.createEntitiesDeferred(students.values());
+        studentsDb.createEntitiesDeferred(students);
 
-        Map<String, AccountAttributes> accounts = dataBundle.accounts;
-        for (AccountAttributes account : accounts.values()) {
+        for (AccountAttributes account : accounts) {
             if (account.studentProfile == null) {
                 account.studentProfile = StudentProfileAttributes.builder().build();
                 account.studentProfile.googleId = account.googleId;
             }
         }
-        accountsDb.createAccountsDeferred(accounts.values());
+        accountsDb.createAccountsDeferred(accounts);
 
-        Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         Map<String, List<FeedbackQuestionAttributes>> sessionQuestionsMap = new HashMap<>();
-        for (FeedbackQuestionAttributes question : questions.values()) {
+        for (FeedbackQuestionAttributes question : questions) {
             question.removeIrrelevantVisibilityOptions();
 
             String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
@@ -132,9 +137,8 @@ public class BackDoorLogic extends Logic {
             sessionQuestionsMap.get(sessionKey).add(question);
         }
 
-        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         Map<String, List<FeedbackResponseAttributes>> sessionResponsesMap = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses.values()) {
+        for (FeedbackResponseAttributes response : responses) {
             String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
             if (!sessionResponsesMap.containsKey(sessionKey)) {
                 sessionResponsesMap.put(sessionKey, new ArrayList<FeedbackResponseAttributes>());
@@ -142,8 +146,7 @@ public class BackDoorLogic extends Logic {
             sessionResponsesMap.get(sessionKey).add(response);
         }
 
-        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()) {
+        for (FeedbackSessionAttributes session : sessions) {
             cleanSessionData(session);
             String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
@@ -157,11 +160,10 @@ public class BackDoorLogic extends Logic {
 
             updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
         }
-        fbDb.createEntitiesDeferred(sessions.values());
+        fbDb.createEntitiesDeferred(sessions);
 
         // This also flushes all previously deferred operations
-        List<FeedbackQuestionAttributes> createdQuestions =
-                fqDb.createFeedbackQuestionsWithoutExistenceCheck(questions.values());
+        List<FeedbackQuestionAttributes> createdQuestions = fqDb.createFeedbackQuestionsWithoutExistenceCheck(questions);
 
         Map<String, String> questionRealQuestionIdMap = new HashMap<>();
         for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
@@ -170,15 +172,13 @@ public class BackDoorLogic extends Logic {
             questionRealQuestionIdMap.put(questionKey, createdQuestion.getId());
         }
 
-        injectRealIdsIntoResponses(responses.values(), questionRealQuestionIdMap);
-        frDb.createEntitiesDeferred(responses.values());
+        injectRealIdsIntoResponses(responses, questionRealQuestionIdMap);
+        frDb.createEntitiesDeferred(responses);
 
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        injectRealIdsIntoResponseComments(responseComments.values(), questionRealQuestionIdMap);
-        fcDb.createEntitiesDeferred(responseComments.values());
+        injectRealIdsIntoResponseComments(responseComments, questionRealQuestionIdMap);
+        fcDb.createEntitiesDeferred(responseComments);
 
-        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
-        adminEmailsDb.createEntitiesDeferred(adminEmails.values());
+        adminEmailsDb.createEntitiesDeferred(adminEmails);
 
         EntitiesDb.flush();
 
