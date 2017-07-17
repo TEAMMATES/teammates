@@ -105,12 +105,7 @@ public class BackDoorLogic extends Logic {
         SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
         processResponsesAndPopulateMap(responses, sessionResponsesMap);
 
-            Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
-            Set<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
-            Set<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
-
-            updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
-        }
+        processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
         fbDb.createEntitiesDeferred(sessions);
 
         // This also flushes all previously deferred operations
@@ -399,6 +394,22 @@ public class BackDoorLogic extends Logic {
         for (FeedbackResponseAttributes response : responses) {
             String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
             sessionResponsesMap.put(sessionKey, response);
+        }
+    }
+
+    private void processSessionsAndUpdateRespondents(Collection<FeedbackSessionAttributes> sessions,
+            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
+            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
+        for (FeedbackSessionAttributes session : sessions) {
+            cleanSessionData(session);
+            String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+
+            Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
+            Set<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
+            Set<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
+
+            updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
         }
     }
 
