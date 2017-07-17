@@ -118,12 +118,7 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students);
 
-        for (AccountAttributes account : accounts) {
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().build();
-                account.studentProfile.googleId = account.googleId;
-            }
-        }
+        populateNullStudentProfiles(accounts);
         accountsDb.createAccountsDeferred(accounts);
 
         Map<String, List<FeedbackQuestionAttributes>> sessionQuestionsMap = new HashMap<>();
@@ -497,12 +492,7 @@ public class BackDoorLogic extends Logic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        for (AccountAttributes account : dataBundle.accounts.values()) {
-            if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().build();
-                account.studentProfile.googleId = account.googleId;
-            }
-        }
+        populateNullStudentProfiles(dataBundle.accounts.values());
         accountsDb.deleteAccounts(dataBundle.accounts.values());
 
         for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
@@ -529,6 +519,14 @@ public class BackDoorLogic extends Logic {
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
             fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
+        }
+    }
+
+    private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
+        for (AccountAttributes account : accounts) {
+            if (account.studentProfile == null) {
+                account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
+            }
         }
     }
 
