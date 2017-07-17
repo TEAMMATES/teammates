@@ -87,17 +87,7 @@ public class BackDoorLogic extends Logic {
 
         SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
         List<AccountAttributes> instructorAccounts = new ArrayList<>();
-        for (InstructorAttributes instructor : instructors) {
-            validateInstructorPrivileges(instructor);
-
-            courseInstructorsMap.put(instructor.courseId, instructor);
-
-            if (StringHelper.isEmpty(instructor.googleId)) {
-                continue;
-            }
-
-            instructorAccounts.add(makeAccount(instructor));
-        }
+        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, instructorAccounts);
         accountsDb.createAccountsDeferred(instructorAccounts);
         instructorsDb.createEntitiesDeferred(instructors);
 
@@ -384,6 +374,21 @@ public class BackDoorLogic extends Logic {
         FeedbackQuestionAttributes feedbackQuestion =
                 JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
         updateFeedbackQuestion(feedbackQuestion);
+    }
+
+    private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
+            SetMultimap<String, InstructorAttributes> courseInstructorsMap, List<AccountAttributes> instructorAccounts) {
+        for (InstructorAttributes instructor : instructors) {
+            validateInstructorPrivileges(instructor);
+
+            courseInstructorsMap.put(instructor.courseId, instructor);
+
+            if (StringHelper.isEmpty(instructor.googleId)) {
+                continue;
+            }
+
+            instructorAccounts.add(makeAccount(instructor));
+        }
     }
 
     /**
