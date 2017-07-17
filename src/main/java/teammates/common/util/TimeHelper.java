@@ -261,7 +261,7 @@ public final class TimeHelper {
         }
         // Passing negative timeZone to convert to UTC.
         Calendar calInUtc = convertToUserTimeZone(dateToCalendar(date), -timeZone);
-        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601);
+        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
         return sdf.format(calInUtc.getTime());
     }
 

@@ -110,7 +110,7 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
 
-    public static final String TIME_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
+    public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
 
     /*
      * Other Constants
