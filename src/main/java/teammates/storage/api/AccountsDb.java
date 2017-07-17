@@ -71,15 +71,15 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         }
     }
 
-    /* This function is used for persisting data bundle in testing process */
-    public void createAccountsDeferred(Collection<AccountAttributes> accountsToAdd)
+    @Override
+    public List<Account> createEntitiesDeferred(Collection<AccountAttributes> accountsToAdd)
             throws InvalidParametersException {
         List<StudentProfileAttributes> profilesToAdd = new LinkedList<>();
         for (AccountAttributes accountToAdd : accountsToAdd) {
             profilesToAdd.add(accountToAdd.studentProfile);
         }
         profilesDb.createEntitiesDeferred(profilesToAdd);
-        createEntitiesDeferred(accountsToAdd);
+        return super.createEntitiesDeferred(accountsToAdd);
     }
 
     /**

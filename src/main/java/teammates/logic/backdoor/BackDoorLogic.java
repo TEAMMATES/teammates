@@ -95,7 +95,7 @@ public class BackDoorLogic extends Logic {
         processResponsesAndPopulateMap(responses, sessionResponsesMap);
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
-        accountsDb.createAccountsDeferred(googleIdAccountMap.values());
+        accountsDb.createEntitiesDeferred(googleIdAccountMap.values());
         coursesDb.createEntitiesDeferred(courses);
         instructorsDb.createEntitiesDeferred(instructors);
         studentsDb.createEntitiesDeferred(students);
