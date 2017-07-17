@@ -34,7 +34,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Closing time:</label>
           <div class="col-sm-10">
-            <p class="form-control-static" id="end-time">${feedbackSession.endTimeString}</p>
+            <p class="form-control-static" id="end-time" data-end-time="<%= feedbackSession.getEndTimeInIso8601Format() %>"  >${feedbackSession.endTimeString}</p>
           </div>
         </div>
 

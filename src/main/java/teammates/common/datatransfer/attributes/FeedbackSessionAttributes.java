@@ -684,4 +684,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
     }
+    
+    public String getEndTimeInIso8601Format() {
+        return TimeHelper.formatDateForFeedbackSubmissionEditPage(endTime, timeZone);
+    }
 }
