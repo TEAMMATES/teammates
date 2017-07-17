@@ -498,4 +498,22 @@ public final class BackDoor {
         return makePostRequest(params);
     }
 
+    /**
+     * Persists a feedback session into the datastore.
+     */
+    public static String createFeedbackSession(FeedbackSessionAttributes feedbackSession) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackSessions.put("dummy-key", feedbackSession);
+        return restoreDataBundle(dataBundle);
+    }
+
+    /**
+     * Persists a feedback question into the datastore.
+     */
+    public static String createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackQuestions.put("dummy-key", feedbackQuestion);
+        return restoreDataBundle(dataBundle);
+    }
+
 }

@@ -3,10 +3,18 @@ package teammates.client.scripts.scalabilitytests;
 import org.testng.annotations.Test;
 
 import teammates.client.scripts.util.Stopwatch;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.test.cases.browsertests.BaseUiTestCase;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
@@ -31,7 +39,71 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
     private void refreshTestData(String filename) {
         testData = loadDataBundle(DATA_FOLDER_PATH + filename);
-        removeAndRestoreDataBundle(testData);
+        verifyOrPersistTestDataToDatastore();
+        // removeAndRestoreDataBundle(testData);
+    }
+
+    // verify if entities for testing already exist in datastore
+    private void verifyOrPersistTestDataToDatastore() {
+        log.info("Verifying test data existance in datastore...");
+
+        for (CourseAttributes course : testData.courses.values()) {
+            if (getCourse(course) == null) {
+                doPutCourse(course);
+                log.info("Course was added to datastore: " + course);
+            }
+        }
+
+        for (AccountAttributes account : testData.accounts.values()) {
+            if (getAccount(account) == null) {
+                doPutAccount(account);
+                log.info("Account was added to datastore: " + account);
+            }
+        }
+
+        for (FeedbackSessionAttributes feedbackSession : testData.feedbackSessions.values()) {
+            if (getFeedbackSession(feedbackSession) == null) {
+                doPutFeedbackSession(feedbackSession);
+                log.info("Feedback Session was added to datastore: " + feedbackSession);
+            }
+        }
+
+        for (InstructorAttributes instructor : testData.instructors.values()) {
+            if (getInstructor(instructor) == null) {
+                doPutInstructor(instructor);
+                log.info("Instructor was added to datastore: " + instructor);
+            }
+        }
+
+        int countStudents = 0;
+        for (StudentAttributes student : testData.students.values()) {
+            if (getStudent(student) == null) {
+                doPutStudent(student);
+                log.info("Student was added to datastore (" + countStudents + "): " + student);
+            }
+        }
+
+        int countFeedbackQuestions = 0;
+        int countFeedbackResponses = 0;
+        for (FeedbackQuestionAttributes question : testData.feedbackQuestions.values()) {
+            if (getFeedbackQuestion(question) == null) {
+                doPutFeedbackQuestion(question);
+                log.info("Feedback Question was added to datastore (" + countFeedbackQuestions + "): " + question);
+                countFeedbackQuestions++;
+            }
+            String feedbackQuestionRealId = getFeedbackQuestion(question).getId();
+            log.info("feedbackQuestionId: " + feedbackQuestionRealId);
+
+            for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
+                feedbackResponse.feedbackQuestionId = feedbackQuestionRealId;
+                if (getFeedbackResponse(feedbackResponse) == null) {
+                    doPutFeedbackResponse(feedbackResponse);
+                    log.info("Feedback Response was added to datastore (" + countFeedbackResponses + "): "
+                            + feedbackResponse);
+                    countFeedbackResponses++;
+                }
+            }
+        }
     }
 
     @Test

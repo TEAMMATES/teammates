@@ -15,7 +15,7 @@ import com.google.gson.GsonBuilder;
 /**
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
-@SuppressWarnings("PMD.UnusedPrivateField")//Inner classes and their fields are only used for JSON object generation.
+@SuppressWarnings("unused") // Inner classes and their fields are only used for JSON object generation.
 public class InstructorFeedbackResultsPageDataGenerator {
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
@@ -169,7 +169,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
 
         RandomNameGenerator nameGenerator = new RandomNameGenerator();
         for (int i = 0; i < numStudents; i++) {
-            String name = nameGenerator.next();
+            String name = "Name" + i + "_" + "Student" + i;
             students.put(name.replace("_", " "), new Student(name.replace("_", ".")));
         }
 
