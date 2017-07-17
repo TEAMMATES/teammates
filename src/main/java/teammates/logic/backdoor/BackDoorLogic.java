@@ -84,26 +84,21 @@ public class BackDoorLogic extends Logic {
         Collection<AdminEmailAttributes> adminEmails = dataBundle.adminEmails.values();
 
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
-        processAccountsAndPopulateMap(accounts, googleIdAccountMap);
-
-        coursesDb.createEntitiesDeferred(courses);
-
         SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
-        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, googleIdAccountMap);
-        instructorsDb.createEntitiesDeferred(instructors);
+        SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
+        SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
 
+        processAccountsAndPopulateMap(accounts, googleIdAccountMap);
+        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, googleIdAccountMap);
         processStudentsAndPopulateAccounts(students, googleIdAccountMap);
-        studentsDb.createEntitiesDeferred(students);
+        processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
+        processResponsesAndPopulateMap(responses, sessionResponsesMap);
+        processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
         accountsDb.createAccountsDeferred(googleIdAccountMap.values());
-
-        SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
-        processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
-
-        SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
-        processResponsesAndPopulateMap(responses, sessionResponsesMap);
-
-        processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
+        coursesDb.createEntitiesDeferred(courses);
+        instructorsDb.createEntitiesDeferred(instructors);
+        studentsDb.createEntitiesDeferred(students);
         fbDb.createEntitiesDeferred(sessions);
 
         // This also flushes all previously deferred operations
