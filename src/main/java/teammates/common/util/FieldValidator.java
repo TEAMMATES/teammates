@@ -149,9 +149,9 @@ public class FieldValidator {
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
-           ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+            ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
     public static final String EMAIL_ERROR_MESSAGE_EMPTY_STRING =
-           EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
