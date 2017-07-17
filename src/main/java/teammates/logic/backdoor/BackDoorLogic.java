@@ -216,27 +216,6 @@ public class BackDoorLogic extends Logic {
         session.setRespondingStudentList(respondingStudents);
     }
 
-    private List<String> makeQuestionKeys(List<FeedbackQuestionAttributes> questions, String sessionKey) {
-        List<String> questionKeys = new ArrayList<>();
-        for (FeedbackQuestionAttributes question : questions) {
-            String questionKey = makeQuestionKey(sessionKey, question.questionNumber);
-            questionKeys.add(questionKey);
-        }
-        return questionKeys;
-    }
-
-    private String makeSessionKey(String feedbackSessionName, String courseId) {
-        return feedbackSessionName + "%" + courseId;
-    }
-
-    private String makeQuestionKey(String sessionKey, int questionNumber) {
-        return makeQuestionKey(sessionKey, String.valueOf(questionNumber));
-    }
-
-    private String makeQuestionKey(String sessionKey, String questionNumber) {
-        return sessionKey + "%" + questionNumber;
-    }
-
     /**
      * Checks if the role of {@code instructor} matches its privileges.
      *
@@ -491,6 +470,27 @@ public class BackDoorLogic extends Logic {
             String[] responseIdParam = comment.feedbackResponseId.split("%");
             comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
         }
+    }
+
+    private List<String> makeQuestionKeys(List<FeedbackQuestionAttributes> questions, String sessionKey) {
+        List<String> questionKeys = new ArrayList<>();
+        for (FeedbackQuestionAttributes question : questions) {
+            String questionKey = makeQuestionKey(sessionKey, question.questionNumber);
+            questionKeys.add(questionKey);
+        }
+        return questionKeys;
+    }
+
+    private String makeSessionKey(String feedbackSessionName, String courseId) {
+        return feedbackSessionName + "%" + courseId;
+    }
+
+    private String makeQuestionKey(String sessionKey, int questionNumber) {
+        return makeQuestionKey(sessionKey, String.valueOf(questionNumber));
+    }
+
+    private String makeQuestionKey(String sessionKey, String questionNumber) {
+        return sessionKey + "%" + questionNumber;
     }
 
     public void removeDataBundle(DataBundle dataBundle) {
