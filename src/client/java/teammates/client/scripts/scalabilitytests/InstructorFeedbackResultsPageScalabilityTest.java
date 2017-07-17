@@ -92,8 +92,6 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
                 countFeedbackQuestions++;
             }
             String feedbackQuestionRealId = getFeedbackQuestion(question).getId();
-            log.info("feedbackQuestionId: " + feedbackQuestionRealId);
-
             for (FeedbackResponseAttributes feedbackResponse : testData.feedbackResponses.values()) {
                 feedbackResponse.feedbackQuestionId = feedbackQuestionRealId;
                 if (getFeedbackResponse(feedbackResponse) == null) {
