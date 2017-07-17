@@ -423,20 +423,20 @@ public class BackDoorLogic extends Logic {
     private void injectRealIds(
             Collection<FeedbackResponseAttributes> responses, Collection<FeedbackResponseCommentAttributes> responseComments,
             List<FeedbackQuestionAttributes> createdQuestions) {
-        Map<String, String> questionRealQuestionIdMap = makeQuestionIdMap(createdQuestions);
+        Map<String, String> questionIdMap = makeQuestionIdMap(createdQuestions);
 
-        injectRealIdsIntoResponses(responses, questionRealQuestionIdMap);
-        injectRealIdsIntoResponseComments(responseComments, questionRealQuestionIdMap);
+        injectRealIdsIntoResponses(responses, questionIdMap);
+        injectRealIdsIntoResponseComments(responseComments, questionIdMap);
     }
 
     private Map<String, String> makeQuestionIdMap(List<FeedbackQuestionAttributes> createdQuestions) {
-        Map<String, String> questionRealQuestionIdMap = new HashMap<>();
+        Map<String, String> questionIdMap = new HashMap<>();
         for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
             String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
             String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
-            questionRealQuestionIdMap.put(questionKey, createdQuestion.getId());
+            questionIdMap.put(questionKey, createdQuestion.getId());
         }
-        return questionRealQuestionIdMap;
+        return questionIdMap;
     }
 
     /**
@@ -449,7 +449,7 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
     **/
     private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
-            Map<String, String> questionRealQuestionIdMap) {
+            Map<String, String> questionIdMap) {
         for (FeedbackResponseAttributes response : responses) {
             int questionNumber;
             try {
@@ -460,7 +460,7 @@ public class BackDoorLogic extends Logic {
             }
             String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
-            response.feedbackQuestionId = questionRealQuestionIdMap.get(questionKey);
+            response.feedbackQuestionId = questionIdMap.get(questionKey);
         }
     }
 
@@ -475,7 +475,7 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
     **/
     private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
-            Map<String, String> questionRealQuestionIdMap) {
+            Map<String, String> questionIdMap) {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
             int questionNumber;
             try {
@@ -486,7 +486,7 @@ public class BackDoorLogic extends Logic {
             }
             String sessionKey = makeSessionKey(comment.feedbackSessionName, comment.courseId);
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
-            comment.feedbackQuestionId = questionRealQuestionIdMap.get(questionKey);
+            comment.feedbackQuestionId = questionIdMap.get(questionKey);
 
             String[] responseIdParam = comment.feedbackResponseId.split("%");
             comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
