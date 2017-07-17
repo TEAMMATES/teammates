@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
@@ -83,15 +85,12 @@ public class BackDoorLogic extends Logic {
 
         coursesDb.createEntitiesDeferred(courses);
 
-        Map<String, List<InstructorAttributes>> courseInstructorsMap = new HashMap<>();
+        SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
         List<AccountAttributes> instructorAccounts = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             validateInstructorPrivileges(instructor);
 
-            if (!courseInstructorsMap.containsKey(instructor.courseId)) {
-                courseInstructorsMap.put(instructor.courseId, new ArrayList<InstructorAttributes>());
-            }
-            courseInstructorsMap.get(instructor.courseId).add(instructor);
+            courseInstructorsMap.put(instructor.courseId, instructor);
 
             if (StringHelper.isEmpty(instructor.googleId)) {
                 continue;
@@ -118,37 +117,27 @@ public class BackDoorLogic extends Logic {
         populateNullStudentProfiles(accounts);
         accountsDb.createAccountsDeferred(accounts);
 
-        Map<String, List<FeedbackQuestionAttributes>> sessionQuestionsMap = new HashMap<>();
+        SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
         for (FeedbackQuestionAttributes question : questions) {
             question.removeIrrelevantVisibilityOptions();
 
             String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
-            if (!sessionQuestionsMap.containsKey(sessionKey)) {
-                sessionQuestionsMap.put(sessionKey, new ArrayList<FeedbackQuestionAttributes>());
-            }
-            sessionQuestionsMap.get(sessionKey).add(question);
+            sessionQuestionsMap.put(sessionKey, question);
         }
 
-        Map<String, List<FeedbackResponseAttributes>> sessionResponsesMap = new HashMap<>();
+        SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
         for (FeedbackResponseAttributes response : responses) {
             String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
-            if (!sessionResponsesMap.containsKey(sessionKey)) {
-                sessionResponsesMap.put(sessionKey, new ArrayList<FeedbackResponseAttributes>());
-            }
-            sessionResponsesMap.get(sessionKey).add(response);
+            sessionResponsesMap.put(sessionKey, response);
         }
 
         for (FeedbackSessionAttributes session : sessions) {
             cleanSessionData(session);
             String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
-            List<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
-            List<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
-            List<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
-
-            courseInstructors = courseInstructors == null ? new ArrayList<InstructorAttributes>() : courseInstructors;
-            sessionQuestions = sessionQuestions == null ? new ArrayList<FeedbackQuestionAttributes>() : sessionQuestions;
-            sessionResponses = sessionResponses == null ? new ArrayList<FeedbackResponseAttributes>() : sessionResponses;
+            Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
+            Set<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
+            Set<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
 
             updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
         }
@@ -202,17 +191,17 @@ public class BackDoorLogic extends Logic {
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
-    private void updateRespondents(FeedbackSessionAttributes session, List<InstructorAttributes> courseInstructors,
-            List<FeedbackQuestionAttributes> sessionQuestions, List<FeedbackResponseAttributes> sessionResponses) {
+    private void updateRespondents(FeedbackSessionAttributes session, Set<InstructorAttributes> courseInstructors,
+            Set<FeedbackQuestionAttributes> sessionQuestions, Set<FeedbackResponseAttributes> sessionResponses) {
         String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
-        Map<String, List<String>> instructorQuestionKeysMap = new HashMap<>();
+        SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
         for (InstructorAttributes instructor : courseInstructors) {
             List<FeedbackQuestionAttributes> questionsForInstructor = feedbackQuestionsLogic
-                    .getFeedbackQuestionsForInstructor(sessionQuestions, session.isCreator(instructor.email));
+                    .getFeedbackQuestionsForInstructor(new ArrayList(sessionQuestions), session.isCreator(instructor.email));
 
             List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
-            instructorQuestionKeysMap.put(instructor.email, questionKeys);
+            instructorQuestionKeysMap.putAll(instructor.email, questionKeys);
         }
 
         Set<String> respondingInstructors = new HashSet<>();
@@ -223,8 +212,8 @@ public class BackDoorLogic extends Logic {
             String responseQuestionNumber = response.feedbackQuestionId; // contains question number before injection
             String responseQuestionKey = makeQuestionKey(sessionKey, responseQuestionNumber);
 
-            List<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
-            if (instructorQuestionKeys != null && instructorQuestionKeys.contains(responseQuestionKey)) {
+            Set<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
+            if (instructorQuestionKeys.contains(responseQuestionKey)) {
                 respondingInstructors.add(respondent);
             } else {
                 respondingStudents.add(respondent);
