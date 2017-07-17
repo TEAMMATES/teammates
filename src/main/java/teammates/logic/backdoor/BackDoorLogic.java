@@ -92,15 +92,7 @@ public class BackDoorLogic extends Logic {
         instructorsDb.createEntitiesDeferred(instructors);
 
         List<AccountAttributes> studentAccounts = new ArrayList<>();
-        for (StudentAttributes student : students) {
-            populateNullSection(student);
-
-            if (StringHelper.isEmpty(student.googleId)) {
-                continue;
-            }
-
-            studentAccounts.add(makeAccount(student));
-        }
+        processStudentsAndPopulateAccounts(students, studentAccounts);
         accountsDb.createAccountsDeferred(studentAccounts);
         studentsDb.createEntitiesDeferred(students);
 
@@ -388,6 +380,19 @@ public class BackDoorLogic extends Logic {
             }
 
             instructorAccounts.add(makeAccount(instructor));
+        }
+    }
+
+    private void processStudentsAndPopulateAccounts(Collection<StudentAttributes> students,
+            List<AccountAttributes> studentAccounts) {
+        for (StudentAttributes student : students) {
+            populateNullSection(student);
+
+            if (StringHelper.isEmpty(student.googleId)) {
+                continue;
+            }
+
+            studentAccounts.add(makeAccount(student));
         }
     }
 
