@@ -60,13 +60,18 @@ public class BackDoorLogic extends Logic {
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     /**
-     * Persists given data in the datastore Works ONLY if the data is correct.
-     *  //Any existing copies of the data in the datastore will be overwritten.
-     *      - edit: use removeDataBundle to remove.
-     *              made this change for speed when deletion is not necessary.
-     * @return status of the request in the form 'status meassage'+'additional
-     *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
-     *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
+     * Persists data in the given {@link DataBundle} to the Datastore, including
+     * accounts, courses, instructors, students, sessions, questions, responses, comments and admin emails.
+     *
+     * <p>Accounts are generated for students and instructors with Google IDs
+     * if the corresponding accounts are not found in the data bundle.
+     * For question ID injection in responses and comments to work properly, all questions
+     * referenced by responses and comments must be included in the data bundle.
+     * For session respondent lists to be properly populated, all instructors, questions and responses
+     * relevant to each session must be included in the data bundle.</p>
+     *
+     * @return {@link Const.StatusCodes#BACKDOOR_STATUS_SUCCESS} if successful.
+     * @throws InvalidParametersException if invalid data is encountered.
      */
     public String persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
