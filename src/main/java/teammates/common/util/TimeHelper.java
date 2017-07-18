@@ -259,22 +259,6 @@ public final class TimeHelper {
         return formattedDateTime.toString();
     }
 
-    public static String formatTimeZoneOffsetInHoursAndMinutes(double timeZone) {
-        StringBuffer formattedTimeZoneString = new StringBuffer(" (UTC");
-        if (timeZone == 0.0) {
-            formattedTimeZoneString.append(')');
-            return formattedTimeZoneString.toString();
-        }
-        formattedTimeZoneString.append(timeZone < 0 ? " " : " +");
-        int hours = (int) timeZone;
-        double minutesInDecimal = timeZone - hours;
-        formattedTimeZoneString.append(hours)
-                .append(':')
-                .append((int) minutesInDecimal * 60)
-                .append(')');
-        return formattedTimeZoneString.toString();
-    }
-
     public static String calendarToString(Calendar c) {
         if (c == null) {
             return "";
