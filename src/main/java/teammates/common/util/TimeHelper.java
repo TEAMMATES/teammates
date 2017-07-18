@@ -215,7 +215,7 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateTimeForComments(Date date, double sessionTimeZone) {
+    public static String formatDateTimeForSessions(Date date, double sessionTimeZone) {
         if (date == null) {
             return "";
         }
