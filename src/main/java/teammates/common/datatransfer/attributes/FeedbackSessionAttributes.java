@@ -148,11 +148,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getStartTimeString() {
-        return TimeHelper.formatDateTimeForFeedbackSubmissionEditPage(startTime, timeZone);
+        return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
     public String getEndTimeString() {
-        return TimeHelper.formatDateTimeForFeedbackSubmissionEditPage(endTime, timeZone);
+        return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
     }
 
     public String getInstructionsString() {
