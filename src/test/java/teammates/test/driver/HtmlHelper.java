@@ -499,7 +499,7 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForSessions(now, 0));
+                      .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0));
     }
 
     private static TimeZone getTimeZone(String content) {
