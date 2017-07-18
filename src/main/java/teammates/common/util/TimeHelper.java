@@ -254,19 +254,24 @@ public final class TimeHelper {
 
     public static String formatDateTimeForFeedbackSubmissionEditPage(Date date, double timeZone) {
         StringBuffer formattedDateTime = new StringBuffer(formatTime12H(date));
-        formattedDateTime.append(" (UTC");
+        formattedDateTime.append(formatTimeZoneOffsetInHoursAndMinutes(timeZone));
+        return formattedDateTime.toString();
+    }
+
+    public static String formatTimeZoneOffsetInHoursAndMinutes(double timeZone) {
+        StringBuffer formattedTimeZoneString = new StringBuffer(" (UTC");
         if (timeZone == 0.0) {
-            formattedDateTime.append(')');
-            return formattedDateTime.toString();
+            formattedTimeZoneString.append(')');
+            return formattedTimeZoneString.toString();
         }
-        formattedDateTime.append(timeZone < 0 ? " " : " +");
+        formattedTimeZoneString.append(timeZone < 0 ? " " : " +");
         int hours = (int) timeZone;
         double minutesInDecimal = timeZone - hours;
-        formattedDateTime.append(hours)
+        formattedTimeZoneString.append(hours)
                 .append(':')
                 .append(minutesInDecimal == 0.5 ? "30" : "00")
                 .append(')');
-        return formattedDateTime.toString();
+        return formattedTimeZoneString.toString();
     }
 
     public static String calendarToString(Calendar c) {
