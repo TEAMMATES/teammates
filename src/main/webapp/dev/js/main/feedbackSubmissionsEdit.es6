@@ -132,15 +132,15 @@ function updateMsqOtherOptionField() {
     }
 }
 
-// Binds change event on MSQ checkboxes which
+// Binds change event on Msq checkboxes which
 // imposes and upper limit on selectable choices
-function bindMaxSelectableChoicesForMSQ(qNum) {
+function bindMaxSelectableChoicesForMsq(qNum) {
     const $hiddenInput = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
 
     if (!$hiddenInput.prop('disabled')) {
-        $hiddenInput.each(function () {
-            const maxSelectableChoices = $(this).val();
-            const $responseTable = $(this).siblings('table');
+        $hiddenInput.each((e) => {
+            const maxSelectableChoices = $(e.target).val();
+            const $responseTable = $(e.target).siblings('table');
 
             $responseTable.find(`input[name^="responsetext-${qNum}-"]`).change(function () {
                 const selectedChoices = $responseTable.find(`input[name^="responsetext-${qNum}-"]:checked`).length;
@@ -296,7 +296,7 @@ function prepareMSQQuestions() {
             }
         });
 
-        bindMaxSelectableChoicesForMSQ(qnNum);
+        bindMaxSelectableChoicesForMsq(qnNum);
     });
 }
 

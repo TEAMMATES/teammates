@@ -218,7 +218,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
-                        Integer.toString(isMaxSelectableChoicesDisabled ? 2 : maxSelectableChoices));
+                isMaxSelectableChoicesDisabled ? "" : Integer.toString(maxSelectableChoices));
     }
 
     @Override

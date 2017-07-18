@@ -507,7 +507,7 @@ public final class Const {
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         public static final String MSQ_ERROR_EXCEEDED_MAX_SELECTABLE_CHOICES =
                 "Exceeded max selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ
-                + ". Maximum selectable choices were: ";
+                + ". Maximum selectable choices is: ";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =

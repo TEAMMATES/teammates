@@ -7,7 +7,7 @@ function setMaxValForMaxSelectableChoicesInput(questionNum) {
     const $generateMsqOptionsCheckbox = $(`#generateMsqOptionsCheckbox-${questionNum}`);
 
     if ($maxSelectableChoicesCheckbox.prop('checked')) {
-        let maxValue = 2;
+        let maxValue;
         const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
 
         if ($generateMsqOptionsCheckbox.prop('checked')) {
