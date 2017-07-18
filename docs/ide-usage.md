@@ -115,7 +115,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
     1. Go to `Build, Execution, Deployment → Application Servers`.
     1. Click `+ → Google App Engine Dev Server → ... `. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder)
-       you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+       you downloaded in Step 3 of the [Setting up a development environment](setting-up.md) guide.
     1. Ensure the `Name:` is of `AppEngine Dev <version>`.
 
 ### Automated Setup
