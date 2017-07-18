@@ -269,7 +269,7 @@ public final class TimeHelper {
         double minutesInDecimal = timeZone - hours;
         formattedTimeZoneString.append(hours)
                 .append(':')
-                .append(minutesInDecimal == 0.5 ? "30" : "00")
+                .append((int) minutesInDecimal*60)
                 .append(')');
         return formattedTimeZoneString.toString();
     }
