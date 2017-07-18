@@ -29,6 +29,3 @@ build_script:
 test_script:
   - npm run build
   - gradlew.bat appengineRun ciTests
-
-on_finish:
-  - gradlew.bat appengineStop
