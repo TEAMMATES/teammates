@@ -227,20 +227,20 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateTimeForSessions(Date date, double sessionTimeZone) {
-        if (date == null) {
+    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
+        if (dateInUtc == null) {
             return "";
         }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
         c.setTimeZone(timeZone);
-        c.setTime(date);
+        c.setTime(dateInUtc);
         String periodIndicator =
                 c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0 ? "'NOON'" : "a";
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm " + periodIndicator + " 'UTC'Z");
         sdf.setTimeZone(timeZone);
-        return sdf.format(date);
+        return sdf.format(dateInUtc);
     }
 
     /**
