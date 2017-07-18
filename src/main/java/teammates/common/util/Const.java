@@ -1311,6 +1311,8 @@ public final class Const {
                 "The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
+        public static final String FEEDBACK_SESSION_CLOSED_STATUS = "is now closed. You can still view your submission by going to the link sent earlier,\n" +
+                " but you will not be able to edit existing responses or submit new responses";
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";

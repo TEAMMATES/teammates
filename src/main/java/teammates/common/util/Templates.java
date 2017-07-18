@@ -40,10 +40,12 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
+        public static final String DEFAULT_FRAGMENT_FEEDBACK_SESSION_SUPPORT =
+                FileHelper.readResourceFile("userEmailFragment-defaultSupportFragment.html");
+        public static final String FRAGMENT_CLOSED_SESSION_SUPPORT =
+                FileHelper.readResourceFile("userEmailFragment-sessionClosedSupportFragment.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSED =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosed.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =

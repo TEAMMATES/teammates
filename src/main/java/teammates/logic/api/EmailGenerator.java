@@ -46,20 +46,22 @@ public class EmailGenerator {
      * Generates the feedback session opening emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) {
-
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
         List<InstructorAttributes> instructors = isEmailNeeded
-                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                                                 : new ArrayList<InstructorAttributes>();
+                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                : new ArrayList<InstructorAttributes>();
         List<StudentAttributes> students = isEmailNeeded
-                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                                           : new ArrayList<StudentAttributes>();
+                ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                : new ArrayList<StudentAttributes>();
 
-        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                                                                      EmailType.FEEDBACK_OPENING.getSubject());
+        String templateWithSupportFragment = template.replace("${supportFragment}",
+                EmailTemplates.DEFAULT_FRAGMENT_FEEDBACK_SESSION_SUPPORT);
+
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, templateWithSupportFragment,
+                EmailType.FEEDBACK_OPENING.getSubject());
         for (EmailWrapper email : emails) {
             email.setContent(email.getContent().replace("${status}", "is now open"));
         }
@@ -76,10 +78,12 @@ public class EmailGenerator {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        String templateWithSupportFragment = template.replace("${supportFragment}",
+                EmailTemplates.DEFAULT_FRAGMENT_FEEDBACK_SESSION_SUPPORT);
         List<EmailWrapper> emails =
-                generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
+                generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, templateWithSupportFragment,
                                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
-        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
+        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, templateWithSupportFragment,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
 
         for (EmailWrapper email : emails) {
@@ -331,7 +335,19 @@ public class EmailGenerator {
         List<StudentAttributes> students = isEmailNeededForStudents
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
-        return generateFeedbackSessionClosedEmail(course, session, instructors, students);
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+
+        String templateWithSupportFragment = template.replace("${supportFragment}",
+                EmailTemplates.FRAGMENT_CLOSED_SESSION_SUPPORT);
+
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors,
+                templateWithSupportFragment, EmailType.FEEDBACK_CLOSED.getSubject());
+        for (EmailWrapper email : emails) {
+            email.setContent(email.getContent().replace("${status}", Const.StatusMessages.FEEDBACK_SESSION_CLOSED_STATUS));
+        }
+
+        return emails;
     }
 
     /**
@@ -463,58 +479,6 @@ public class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
-        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody);
-        return email;
-    }
-
-    private List<EmailWrapper> generateFeedbackSessionClosedEmail(
-            CourseAttributes course, FeedbackSessionAttributes session,
-            List<InstructorAttributes> instructors, List<StudentAttributes> students) {
-
-        List<EmailWrapper> emails = new ArrayList<>();
-
-        // The instructor preamble aims at informing the instructor about an email that has been sent to the students
-        // of his course
-        String instructorPreamble = generateInstructorPreamble(course.getId(), course.getName());
-
-        //The corresponding preamble for students is blank since these are the recipients of the initial email.
-        String studentPreamble = "";
-        String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
-
-        for (InstructorAttributes instructor : instructors) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, instructor.name, instructor.email,
-                    instructorPreamble, coOwnersLine));
-        }
-        for (StudentAttributes student : students) {
-            emails.add(generateFeedbackSessionClosedEmail(course, session, student.name, student.email,
-                    studentPreamble, coOwnersLine));
-        }
-
-        return emails;
-    }
-
-    /**
-     * Generates the feedback session closed email for both the instructors and the students with the given
-     * {@code userName} and {@code userEmail}.
-     */
-    private EmailWrapper generateFeedbackSessionClosedEmail(CourseAttributes course,
-            FeedbackSessionAttributes session, String userName, String userEmail,
-            String instructorFragment, String coOwnersLine) {
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSED;
-        String subject = EmailType.FEEDBACK_CLOSED.getSubject();
-
-        String emailBody = Templates.populateTemplate(template,
-                "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-                "${instructorFragment}", instructorFragment,
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
-                "${coOwnersEmails}", coOwnersLine,
-                "${supportEmail}", Config.SUPPORT_EMAIL);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
         email.setContent(emailBody);
         return email;
