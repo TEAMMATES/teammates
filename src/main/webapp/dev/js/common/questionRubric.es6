@@ -85,6 +85,12 @@ function moveRubricColIfPossible(questionNum, firstColIndex, isMoveLeft) {
     }
 
     swapRubricCol(questionNum, firstColIndex, secondColIndex);
+
+    const $form = $(`#form_editquestion-${questionNum}`);
+
+    if ($form.attr('editstatus') === 'hasResponses') {
+        $form.attr('editstatus', 'mustDeleteResponses');
+    }
 }
 
 function disableCornerMoveRubricColumnButtons(questionNum) {
