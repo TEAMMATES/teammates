@@ -97,8 +97,8 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     protected void removeAndRestoreTypicalDataBundle() {
-        DataBundle dataBundle = getTypicalDataBundle();
-        removeAndRestoreDataBundle(dataBundle);
+        typicalBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(typicalBundle);
     }
 
     @Override

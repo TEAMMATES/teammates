@@ -95,7 +95,6 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        dataBundle = getTypicalDataBundle();
         String[] submissionParams = new String[]{};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
