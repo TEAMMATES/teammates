@@ -78,8 +78,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void displayEditSettingsWindow() {
         WebElement editBtn = browser.driver.findElement(By.id("editBtn"));
         editBtn.click();
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("editModal")));
+        waitForElementVisibility(By.id("editModal"));
     }
 
     public void submitEditForm() {
