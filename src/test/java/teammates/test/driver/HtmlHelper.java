@@ -507,7 +507,7 @@ public final class HtmlHelper {
         Matcher matcher = pattern.matcher(content);
         //set default time zone offset.
         String timeZoneOffset = "+0000";
-        while (matcher.find()) {
+        if (matcher.find()) {
             timeZoneOffset = matcher.group(1);
         }
         return TimeZone.getTimeZone("GMT" + timeZoneOffset);
