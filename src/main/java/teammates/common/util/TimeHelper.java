@@ -215,20 +215,19 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateTimeForComments(Date date) {
+    public static String formatDateTimeForComments(Date date, double sessionTimeZone) {
         if (date == null) {
             return "";
         }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
+        TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
+        c.setTimeZone(timeZone);
         c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
-            sdf.setTimeZone(SystemParams.TIME_ZONE);
-            return sdf.format(date) + " NOON UTC";
-        }
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        String periodIndicator =
+                c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0 ? "'NOON'" : "a";
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm " + periodIndicator + " 'UTC'Z");
+        sdf.setTimeZone(timeZone);
         return sdf.format(date);
     }
 
@@ -456,6 +455,12 @@ public final class TimeHelper {
             return null;
         }
 
+    }
+
+    public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {
+        int hours = (int) sessionTimeZone;
+        int minutes = (int) ((Math.abs(sessionTimeZone) - Math.floor(Math.abs(sessionTimeZone))) * 60);
+        return TimeZone.getTimeZone(String.format("GMT%+03d:%02d", hours, minutes));
     }
 
 }
