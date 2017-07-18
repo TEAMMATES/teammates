@@ -215,7 +215,8 @@ public class StudentFeedbackResultsPageData extends PageData {
 
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
+                        bundle.getTimeZone()));
             }
         }
         return comments;

@@ -71,27 +71,15 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         }
     }
 
-    /* This function is used for persisting data bundle in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
+    @Override
+    public List<Account> createEntitiesDeferred(Collection<AccountAttributes> accountsToAdd)
             throws InvalidParametersException {
         List<StudentProfileAttributes> profilesToAdd = new LinkedList<>();
         for (AccountAttributes accountToAdd : accountsToAdd) {
             profilesToAdd.add(accountToAdd.studentProfile);
         }
-        profilesDb.createEntities(profilesToAdd);
-
-        List<AccountAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        if (updateAccount) {
-            for (AccountAttributes account : accountsToUpdate) {
-                try {
-                    updateAccount(account, true);
-                } catch (EntityDoesNotExistException e) {
-                    // This situation is not tested as replicating such a situation is
-                    // difficult during testing
-                    Assumption.fail("Account found to be already existing and not existing simultaneously");
-                }
-            }
-        }
+        profilesDb.createEntitiesDeferred(profilesToAdd);
+        return super.createEntitiesDeferred(accountsToAdd);
     }
 
     /**
