@@ -208,7 +208,7 @@ public class TimeHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testFormatDateTimeForComments() {
+    public void testFormatDateTimeForSessions() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.clear();
         cal.set(2015, 10, 30, 12, 0, 0);
