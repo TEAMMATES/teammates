@@ -1020,6 +1020,14 @@
           </td>
         </tr>
         <tr>
+          <td>Vishnu H Nair</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amalayaleecoder"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Wang Chao</td>
           <td>bug reporting/fixing, enhancements</td>
         </tr>
@@ -2234,14 +2242,6 @@
           </td>
         </tr>
         <tr>
-          <td>Vishnu H Nair</td>
-          <td>
-            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Amalayaleecoder"
-                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
-            </a>
-          </td>
-        </tr>
-        <tr>
           <td>Wang Yuqing</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayuqingw"
@@ -2274,7 +2274,7 @@
           </td>
         </tr>
         <tr>
-          <td>@yliang97</td>
+          <td>Yijia Liang</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ayliang97"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
