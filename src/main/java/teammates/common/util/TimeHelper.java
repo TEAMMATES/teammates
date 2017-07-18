@@ -251,14 +251,6 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateTimeForFeedbackSubmissionEditPage(Date date, double timeZone) {
-        StringBuffer formattedDateTime = new StringBuffer(formatTime12H(date));
-        formattedDateTime.append(" (")
-                         .append(getTimeZoneFromDoubleOffset(timeZone).getID().replace("GMT", "UTC "))
-                         .append(')');
-        return formattedDateTime.toString();
-    }
-
     public static String calendarToString(Calendar c) {
         if (c == null) {
             return "";
