@@ -253,7 +253,9 @@ public final class TimeHelper {
 
     public static String formatDateTimeForFeedbackSubmissionEditPage(Date date, double timeZone) {
         StringBuffer formattedDateTime = new StringBuffer(formatTime12H(date));
-        formattedDateTime.append(formatTimeZoneOffsetInHoursAndMinutes(timeZone));
+        formattedDateTime.append(" (")
+                         .append(getTimeZoneFromDoubleOffset(timeZone).getID())
+                         .append(')');
         return formattedDateTime.toString();
     }
 
