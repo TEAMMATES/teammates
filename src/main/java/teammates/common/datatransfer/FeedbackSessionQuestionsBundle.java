@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,13 +12,23 @@ import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
 
 public class FeedbackSessionQuestionsBundle {
 
     public FeedbackSessionAttributes feedbackSession;
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
     public Map<String, Map<String, String>> recipientList;
+    public Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses;
+    public Map<String, String> emailNameTable;
+    public Map<String, String> emailLastNameTable;
+    public Map<String, String> emailTeamNameTable;
+    public Map<String, String> commentGiverEmailNameTable;
+    public CourseRoster roster;
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
@@ -26,6 +37,28 @@ public class FeedbackSessionQuestionsBundle {
         this.questionResponseBundle = questionResponseBundle;
         this.recipientList = recipientList;
     }
+
+    public FeedbackSessionQuestionsBundle(
+            FeedbackSessionAttributes feedbackSession,
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
+            Map<String, Map<String, String>> recipientList,
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
+            Map<String, String> emailNameTable,
+            Map<String, String> emailLastNameTable,
+            Map<String, String> emailTeamNameTable,
+            CourseRoster roster) {
+        this.feedbackSession = feedbackSession;
+        this.questionResponseBundle = questionResponseBundle;
+        this.recipientList = recipientList;
+        this.commentsForResponses = commentsForResponses;
+        this.emailNameTable = emailNameTable;
+        this.emailLastNameTable = emailLastNameTable;
+        this.emailTeamNameTable = emailTeamNameTable;
+        this.roster = roster;
+        this.commentGiverEmailNameTable = getCommentGiverEmailNameTableFromRoster(roster);
+    }
+
+
 
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
         return questionResponseBundle;
@@ -136,5 +169,50 @@ public class FeedbackSessionQuestionsBundle {
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
             questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
         }
+    }
+
+    public String getNameForEmail(String email) {
+        String name = emailNameTable.get(email);
+        if (name == null || name.equals(Const.USER_IS_MISSING)) {
+            return Const.USER_UNKNOWN_TEXT;
+        } else if (name.equals(Const.USER_IS_NOBODY)) {
+            return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
+        } else {
+            return name;
+        }
+    }
+
+    public String getTeamNameForEmail(String email) {
+        String teamName = emailTeamNameTable.get(email);
+        if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        return teamName;
+    }
+
+    public String appendTeamNameToName(String name, String teamName) {
+        String outputName;
+        if (name.contains("Anonymous") || name.equals(Const.USER_UNKNOWN_TEXT)
+                || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
+            outputName = name;
+        } else {
+            outputName = name + " (" + teamName + ")";
+        }
+        return outputName;
+    }
+
+    private Map<String, String> getCommentGiverEmailNameTableFromRoster(CourseRoster roster) {
+        Map<String, String> commentGiverEmailNameTable = new HashMap<>();
+        List<InstructorAttributes> instructorList = roster.getInstructors();
+        for (InstructorAttributes instructor : instructorList) {
+            commentGiverEmailNameTable.put(instructor.email, instructor.name);
+        }
+        List<StudentAttributes> studentList = roster.getStudents();
+        for (StudentAttributes student : studentList) {
+            commentGiverEmailNameTable.put(student.email, student.name);
+        }
+        return commentGiverEmailNameTable;
     }
 }

@@ -41,10 +41,10 @@
                 <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
                     <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
                                                     secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
-                                                    fourthIndex="${fourthIndex}" frcIndex="${status.count}"/>
+                                                    fourthIndex="${fourthIndex}" frcIndex="${status.count}" isInstructor="true"/>
                 </c:forEach>
                 <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}"
-                                                    secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" />
+                                                    secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" isInstructor="true"/>
             </ul>
         </c:if>
 

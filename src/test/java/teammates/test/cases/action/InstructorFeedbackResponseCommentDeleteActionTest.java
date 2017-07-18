@@ -13,7 +13,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * SUT: {@link InstructorFeedbackResponseCommentDeleteAction}.
@@ -80,8 +80,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = getAjaxResult(action);
 
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        FeedbackResponseCommentAjaxPageData data =
+                (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
@@ -102,7 +102,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         action = getAction(submissionParams);
         result = getAjaxResult(action);
 
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
@@ -136,7 +136,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         action = getAction(submissionParams);
         result = getAjaxResult(action);
 
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
 
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,

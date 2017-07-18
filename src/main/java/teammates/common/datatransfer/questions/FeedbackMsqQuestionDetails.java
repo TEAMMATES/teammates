@@ -598,4 +598,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return (denominator == 0) ? 0 : numerator / denominator;
     }
 
+    @Override
+    public boolean isStudentsCommentsOnResponsesAllowed() {
+        return true;
+    }
 }

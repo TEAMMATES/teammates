@@ -11,6 +11,9 @@
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
 <%@ attribute name="viewType" %>
+<%@ attribute name="isOnFeedbackSubmissionEditPage" %>
+<%@ attribute name="isInstructor" required="true" %>
+<%@ attribute name="moderatedPersonEmail" %>
 <c:choose>
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
         <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
@@ -25,7 +28,6 @@
         <c:set var="divId" value="${frc.commentId}" />
     </c:otherwise>
 </c:choose>
-
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">
@@ -39,7 +41,14 @@
                   title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
         </c:if>
         <c:if test="${frc.editDeleteEnabled}">
-            <form class="responseCommentDeleteForm pull-right">
+            <c:choose>
+            <c:when test="${isOnFeedbackSubmissionEditPage}">
+                <div class="responseCommentDeleteForm pull-right">
+            </c:when>
+            <c:otherwise>
+                <form class="responseCommentDeleteForm pull-right">
+            </c:otherwise>
+            </c:choose>
                 <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
                    type="button"
                    id="commentdelete-${divId}"
@@ -57,7 +66,14 @@
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
                 <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-            </form>
+            <c:choose>
+            <c:when test="${isOnFeedbackSubmissionEditPage}">
+                </div>
+            </c:when>
+            <c:otherwise>
+                </form>
+            </c:otherwise>
+            </c:choose>
             <a type="button"
                id="commentedit-${divId}"
                <c:choose>
@@ -83,8 +99,16 @@
     <%-- Do not add whitespace between the opening and closing tags --%>
     <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
     <c:if test="${frc.editDeleteEnabled}">
+        <c:choose>
+        <c:when test="${isInstructor}">
+            <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
+        </c:when>
+        <c:otherwise>
+            <c:set var="submitLink">/page/StudentFeedbackResponseCommentAdd</c:set>
+        </c:otherwise>
+        </c:choose>
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
-        <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
+        
         <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
                                             secondIndex="${secondIndex}"
                                             thirdIndex="${thirdIndex}"
@@ -96,6 +120,9 @@
                                             formType="Edit"
                                             textAreaId="${textAreaId}"
                                             submitLink="${submitLink}"
-                                            buttonText="Save" />
+                                            buttonText="Save"
+                                            isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
+                                            isInstructor="${iInstructor}"
+                                            moderatedPersonEmail="${moderatedPersonEmail}"/>
     </c:if>
 </li>

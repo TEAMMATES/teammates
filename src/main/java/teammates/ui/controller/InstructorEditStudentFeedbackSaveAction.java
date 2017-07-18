@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -152,5 +153,16 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudent.email);
 
         return result;
+    }
+
+    @Override
+    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        statusToAdmin += "InstructorEditStudentFeedbackSaveAction:<br>"
+                + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                + feedbackResponseComment.feedbackSessionName + "<br>"
+                + "by: " + feedbackResponseComment.giverEmail + " at "
+                + feedbackResponseComment.createdAt + "<br>"
+                + "comment text: " + feedbackResponseComment.commentText.getValue();
     }
 }

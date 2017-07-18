@@ -5,6 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="tsfse" %>
 
 <%@ attribute name="moderatedPersonEmail" required="true" %>
+<%@ attribute name="isInstructor" required="true" %>
 
 <form method="post" name="form_submit_response" action="${data.submitAction}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.bundle.feedbackSession.feedbackSessionName}">
@@ -27,7 +28,8 @@
     <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
         <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
                                      isShowRealQuestionNumber="${data.showRealQuestionNumber}"
-                                     questionWithResponses="${questionWithResponses}"/>
+                                     questionWithResponses="${questionWithResponses}" isInstructor="${isInstructor}"
+                                     moderatedPersonEmail="${moderatedPersonEmail}"/>
     </c:forEach>
 
     <div class="bold align-center">

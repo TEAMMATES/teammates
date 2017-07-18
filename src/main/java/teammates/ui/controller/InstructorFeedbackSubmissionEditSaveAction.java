@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -98,5 +99,16 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     @Override
     protected void checkAdditionalConstraints() {
         // no additional constraints for the standard instructor submit page
+    }
+
+    @Override
+    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        statusToAdmin += "InstructorFeedbackSubmissionEditSaveAction:<br>"
+                + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                + feedbackResponseComment.feedbackSessionName + "<br>"
+                + "by: " + feedbackResponseComment.giverEmail + " at "
+                + feedbackResponseComment.createdAt + "<br>"
+                + "comment text: " + feedbackResponseComment.commentText.getValue();
     }
 }

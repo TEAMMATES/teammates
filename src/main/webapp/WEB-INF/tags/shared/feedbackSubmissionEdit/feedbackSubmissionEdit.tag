@@ -10,6 +10,7 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+    <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
 </c:set>
 
@@ -47,7 +48,7 @@
 <c:choose>
     <c:when test="${isInstructor}">
         <ti:instructorPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
-            <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
+            <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}" isInstructor="${isInstructor}"/>
         </ti:instructorPage>
     </c:when>
     <c:otherwise>
@@ -60,7 +61,7 @@
                     ${data.registerMessage}
                 </div>
             </c:if>
-            <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
+            <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}" isInstructor="${isInstructor}"/>
         </ts:studentPage>
     </c:otherwise>
 </c:choose>

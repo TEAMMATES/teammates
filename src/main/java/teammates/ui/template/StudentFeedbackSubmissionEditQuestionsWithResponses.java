@@ -7,6 +7,8 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private List<FeedbackSubmissionEditResponse> responses;
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
+    private boolean instructorCommentsOnResponsesAllowed;
+    private boolean studentCommentsOnResponsesAllowed;
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
                                     List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
@@ -15,6 +17,20 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;
         this.maxResponsesPossible = maxResponsesPossible;
+    }
+
+    public StudentFeedbackSubmissionEditQuestionsWithResponses(
+            FeedbackSubmissionEditQuestion question,
+            List<FeedbackSubmissionEditResponse> responses,
+            int numOfResponseBoxes, int maxResponsesPossible,
+            boolean instructorCommentsOnResponsesAllowed,
+            boolean studentCommentsOnResponsesAllowed) {
+        this.question = question;
+        this.responses = responses;
+        this.numOfResponseBoxes = numOfResponseBoxes;
+        this.maxResponsesPossible = maxResponsesPossible;
+        this.instructorCommentsOnResponsesAllowed = instructorCommentsOnResponsesAllowed;
+        this.studentCommentsOnResponsesAllowed = studentCommentsOnResponsesAllowed;
     }
 
     public FeedbackSubmissionEditQuestion getQuestion() {
@@ -31,5 +47,23 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
 
     public int getMaxResponsesPossible() {
         return maxResponsesPossible;
+    }
+
+    public boolean isInstructorCommentsOnResponsesAllowed() {
+        return instructorCommentsOnResponsesAllowed;
+    }
+
+    public void setInstructorCommentsOnResponsesAllowed(
+            boolean instructorCommentsOnResponsesAllowed) {
+        this.instructorCommentsOnResponsesAllowed = instructorCommentsOnResponsesAllowed;
+    }
+
+    public boolean isStudentCommentsOnResponsesAllowed() {
+        return studentCommentsOnResponsesAllowed;
+    }
+
+    public void setStudentCommentsOnResponsesAllowed(
+            boolean studentCommentsOnResponsesAllowed) {
+        this.studentCommentsOnResponsesAllowed = studentCommentsOnResponsesAllowed;
     }
 }

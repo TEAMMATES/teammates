@@ -13,7 +13,7 @@ import teammates.ui.template.FeedbackResponseCommentRow;
 /*
  * PageData: to be used for {@link FeedbackResponseCommentAttributes} in Ajax operations
  */
-public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
+public class FeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentAttributes comment;
     public String commentId;
     public String giverName;
@@ -21,11 +21,14 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showCommentToString;
     public String showGiverNameToString;
     public String errorMessage;
-    public Map<String, String> instructorEmailNameTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
+    public Map<String, String> commentGiverNameEmailTable;
+    public boolean commentGiverInstructor;
+    public String moderatedPersonEmail;
+    public boolean moderation;
 
-    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
+    public FeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
     }
 
@@ -33,7 +36,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities(), instructorEmailNameTable);
+                                               getResponseVisibilities(), commentGiverNameEmailTable);
         frc.enableEditDelete();
 
         return frc;
@@ -86,4 +89,31 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
             return false;
         }
     }
+
+    public boolean isCommentGiverInstructor() {
+        return commentGiverInstructor;
+    }
+
+    public void setCommentGiverInstructor(boolean commentGiverInstructor) {
+        this.commentGiverInstructor = commentGiverInstructor;
+    }
+
+    public String getModeratedPersonEmail() {
+        return moderatedPersonEmail;
+    }
+
+    public void setModeratedPersonEmail(String moderatedPersonEmail) {
+        this.moderatedPersonEmail = moderatedPersonEmail;
+    }
+
+    public boolean isModeration() {
+        return moderation;
+    }
+
+    public void setModeration(boolean moderation) {
+        this.moderation = moderation;
+    }
+
+
+
 }

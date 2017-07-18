@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +15,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -46,6 +49,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
+    protected List<String> commentsToAddIds = new ArrayList<String>();
+    protected Map<String, String> responseGiverMapForComments = new HashMap<String, String>();
+    protected Map<String, String> responseRecipientMapForComments = new HashMap<String, String>();
+    protected Map<String, String> questionIdsForComments = new HashMap<String, String>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -144,6 +151,18 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
+                    if (questionDetails.isStudentsCommentsOnResponsesAllowed()) {
+                        String commentText =
+                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                        + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
+                        if (commentText != null && !commentText.toString().isEmpty()) {
+                            String commentId = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
+                            questionIdsForComments.put(commentId, questionAttributes.getId());
+                            responseGiverMapForComments.put(commentId, response.giver);
+                            responseRecipientMapForComments.put(commentId, response.recipient);
+                            commentsToAddIds.add(commentId);
+                        }
+                    }
                 }
             }
 
@@ -175,6 +194,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         saveNewReponses(responsesToSave);
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
+        
+        saveResponsesComments(commentsToAddIds, responseGiverMapForComments, responseRecipientMapForComments,
+                questionIdsForComments);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -222,6 +244,23 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
         return createSpecificRedirectResult();
+    }
+
+    private void saveResponsesComments(List<String> commentsToAdd, Map<String, String> responseGiverMapForComments,
+            Map<String, String> responseRecipientMapForComments,
+            Map<String, String> questionIdsForComments) throws EntityDoesNotExistException {
+        for (String commentId : commentsToAdd) {
+            String questionId = questionIdsForComments.get(commentId);
+            String giver = responseGiverMapForComments.get(commentId);
+            String recipient = responseRecipientMapForComments.get(commentId);
+            FeedbackResponseAttributes responseToAddComment = logic.getFeedbackResponse(questionId, giver, recipient);
+            String commentText =
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentId);
+            String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentId);
+            String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentId);
+            createCommentsForResponses(courseId, feedbackSessionName, getUserEmailForCourse(), questionId,
+                    responseToAddComment, commentText, showCommentTo, showGiverNameTo);
+        }   
     }
 
     /**
@@ -388,6 +427,42 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
 
+    private void createCommentsForResponses(String courseId, String feedbackSessionName, String userEmailForCourse,
+            String questionId, FeedbackResponseAttributes response,
+            String commentText, String showCommentTo, String showGiverNameTo) throws EntityDoesNotExistException {
+
+        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
+                feedbackSessionName, questionId, userEmailForCourse, response.getId(), new Date(),
+                new Text(commentText), response.giverSection, response.recipientSection);
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
+            String[] showCommentToArray = showCommentTo.split(",");
+            for (String viewer : showCommentToArray) {
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for (String viewer : showGiverNameToArray) {
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+
+        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
+        try {
+            createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            logic.putDocument(createdComment);
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.WARNING));
+            isError = true;
+        }
+
+        if (!isError) {
+            setStatusToAdmin(feedbackResponseComment);
+        }
+    }
+
     protected abstract void appendRespondent();
 
     protected abstract void removeRespondent();
@@ -408,4 +483,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
 
     protected abstract RedirectResult createSpecificRedirectResult();
+
+    protected abstract void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
 }

@@ -50,7 +50,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedEntityIdentifier);
 
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
+        FeedbackSubmissionEditPageData data =
+                new FeedbackSubmissionEditPageData(account, studentUnderModeration, sessionToken);
 
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, studentUnderModeration.email);
@@ -62,6 +63,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.setHeaderHidden(true);
         data.setStudentToViewPageAs(studentUnderModeration);
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE);
+        data.setFeedbackSessionForInstructor(false);
 
         if (moderatedQuestionId != null) {
             data.setModeratedQuestionId(moderatedQuestionId);

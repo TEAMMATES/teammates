@@ -37,6 +37,12 @@ import {
     disallowNonNumericEntries,
 } from '../common/ui.es6';
 
+import {
+    enableHoverToDisplayEditOptions,
+    registerResponseCommentCheckboxEvent,
+    registerResponseCommentsEvent,
+} from '../common/feedbackResponseComments.es6';
+
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -957,6 +963,19 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
+function getResponseCommentsText() {
+    const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
+    $.each($responseCommentTables, (i, responseCommentTable) => {
+        const responseCommentTableId = $(responseCommentTable).attr('id');
+        const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
+        const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
+        if (editor !== null) {
+            const responseCommentTextId = `responsecommenttext-${responseCommentId}`;
+            $(`input[name=${responseCommentTextId}]`).val(editor.getContent());
+        }
+    });
+}
+
 $(document).ready(() => {
     const textFields = $('div[id^="responsetext-"]');
 
@@ -995,6 +1014,7 @@ $(document).ready(() => {
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
+        getResponseCommentsText();
 
         if (!validationStatus) {
             e.preventDefault();
@@ -1062,6 +1082,9 @@ $(document).ready(() => {
     showModalWarningIfSessionClosed();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    enableHoverToDisplayEditOptions();
 });
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;
