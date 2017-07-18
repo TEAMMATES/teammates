@@ -266,7 +266,7 @@ function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
     $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
-        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        const isGroupByTeam = $('#frgroupbyteam').get(0).checked;
         const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
         const panels = $(e.currentTarget).closest('.panel-success')
                             .children('.panel-collapse')
@@ -295,7 +295,7 @@ function prepareInstructorFeedbackResultsPage() {
 
     // auto select the html table when modal is shown
     $('#fsResultsTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('fsModalTable'));
+        selectElementContents($('#fsModalTable').get(0));
     });
 
     const panels = $('div.panel');
@@ -376,7 +376,7 @@ function prepareInstructorFeedbackResultsPage() {
     });
 
     $('#btn-select-element-contents').on('click', () => {
-        selectElementContents(document.getElementById('fsModalTable'));
+        selectElementContents($('#fsModalTable').get(0));
     });
 
     $('#btn-display-table').on('click', () => {
