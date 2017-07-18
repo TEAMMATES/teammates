@@ -112,7 +112,7 @@ public class FieldValidator {
 
     // error message components
     public static final String EMPTY_STRING_ERROR_INFO =
-            "The field ${fieldName} ${reason}.";
+            "The field ${fieldName} is empty.";
     public static final String ERROR_INFO =
             "\"${userInput}\" is not acceptable to TEAMMATES as a/an ${fieldName} because it ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
