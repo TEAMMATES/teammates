@@ -60,8 +60,8 @@ public class EmailGenerator {
         String templateWithSupportFragment = template.replace("${supportFragment}",
                 EmailTemplates.DEFAULT_FRAGMENT_FEEDBACK_SESSION_SUPPORT);
 
-        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, templateWithSupportFragment,
-                EmailType.FEEDBACK_OPENING.getSubject());
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students,
+                instructors, templateWithSupportFragment, EmailType.FEEDBACK_OPENING.getSubject());
         for (EmailWrapper email : emails) {
             email.setContent(email.getContent().replace("${status}", "is now open"));
         }
@@ -80,11 +80,10 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         String templateWithSupportFragment = template.replace("${supportFragment}",
                 EmailTemplates.DEFAULT_FRAGMENT_FEEDBACK_SESSION_SUPPORT);
-        List<EmailWrapper> emails =
-                generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, templateWithSupportFragment,
-                                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
-        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, templateWithSupportFragment,
-                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBasesForInstructorReminders(course, session,
+                instructorsToRemind, templateWithSupportFragment, EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
+        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify,
+                templateWithSupportFragment, EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
 
         for (EmailWrapper email : emails) {
             email.setContent(email.getContent().replace("${status}", "is still open for submissions"));
