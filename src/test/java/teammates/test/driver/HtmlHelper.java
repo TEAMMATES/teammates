@@ -389,7 +389,7 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
-        // get session's time zone from content (content here includes pages only with one time zone).
+        // get session's time zone from content.
         // this method is not applicable for pages with multiple time zones like InstructorSearchPage
         sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
