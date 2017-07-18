@@ -389,7 +389,8 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
-        // get session's time zone from content.
+        // get session's time zone from content (content here includes pages only with one time zone).
+        // this method is not applicable for pages with multiple time zones like InstructorSearchPage
         sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
@@ -502,10 +503,10 @@ public final class HtmlHelper {
     }
 
     private static TimeZone getTimeZone(String content) {
-        // searches for last String of pattern "UTC+xxxx" in the content.
+        // searches for first String of pattern "UTC+xxxx" in the content.
         Pattern pattern = Pattern.compile(REGEX_TIMEZONE_OFFSET);
         Matcher matcher = pattern.matcher(content);
-        //set default time zone offset.
+        // set default time zone offset.
         String timeZoneOffset = "+0000";
         if (matcher.find()) {
             timeZoneOffset = matcher.group(1);
