@@ -1,4 +1,8 @@
 import {
+    Const,
+} from '../common/const.es6';
+
+import {
     makeCsrfTokenParam,
 } from '../common/crypto.es6';
 
@@ -6,9 +10,140 @@ import {
     encodeHtmlString,
 } from '../common/sanitizer.es6';
 
+import {
+    assertDefined,
+    assert,
+} from '../common/assert.es6';
+
 /**
- * Functions defined and used in `/adminHome`
+ * Represents the result of an AJAX request made to add an instructor.
+ * Encapsulates the instructor for which an add was attempted and the AJAX response (responseData).
+ * The instructor can be either an actual Instructor or an InstructorError (which may arise
+ * from a parse error when Instructor.createFromString is used), but never null.
+ * The responseData is null exactly when the instructor is an InstructorError.
+ *
  */
+class InstructorAjaxResult {
+    constructor(instructor, responseData) {
+        assertDefined(instructor,
+                'InstructorAjaxResult cannot be constructed without instructor being defined.');
+        assert(!instructor.isError() || responseData === null,
+                'Response data must be null if instantiating with an error.');
+        this.instructor = instructor;
+        this.responseData = responseData;
+    }
+    /* eslint-disable class-methods-use-this */
+    isError() {
+        return this.instructor.isError();
+    }
+    /* eslint-enable class-methods-use-this */
+    isAddFailed() {
+        return !this.isError() && !this.responseData.isInstructorAddingResultForAjax;
+    }
+    /**
+     * If The AJAX request never happened because the instructor itself is erroneous,
+     * return the error message encapsulated in the InstructorError.
+     * Otherwise, return the AJAX status message.
+     */
+    getStatusMessage() {
+        if (this.isError()) {
+            return this.instructor.getErrorMessage();
+        }
+        return this.responseData.statusForAjax;
+    }
+}
+
+/**
+ * Stands in for an Instructor whenever an error occurs.
+ * The isError() method returns true here (but false in the Instructor class).
+ * In the event that a string was used to construct the Instructor
+ * but the construction failed, that string can be passed in to the InstructorError constructor.
+ */
+class InstructorError {
+    constructor(message, originalString) {
+        this.message = message;
+        this.originalString = originalString;
+    }
+    toString() {
+        return this.originalString;
+    }
+    /* eslint-disable class-methods-use-this */
+    isError() {
+        return true;
+    }
+    /* eslint-enable class-methods-use-this */
+    getErrorMessage() {
+        return this.message;
+    }
+}
+
+/**
+ * Represents an instructor.
+ * Contains the shortname, name, email and institution fields.
+ * Static "constructor" functions are used since constructors cannot be overloaded in ES6.
+ */
+class Instructor {
+    /**
+     * Takes in several instructor attributes and constructs an instructor.
+     */
+    static create(shortName, name, email, institution) {
+        const instructor = new Instructor();
+        instructor.shortName = shortName;
+        instructor.name = name;
+        instructor.email = email;
+        instructor.institution = institution;
+        return instructor;
+    }
+    /**
+     * Takes in a string in either of the following formats:
+     *  NAME | EMAIL | INSTITUTION
+     *  NAME\tEMAIL\tINSTITUTION
+     * If the string is in the correct format, parses it and constructs an Instructor.
+     * If the format is wrong, constructs and returns a InstructorError instead.
+     */
+    static createFromString(str) {
+        const regexForTestingStringFormat = /^([^|\t]+)(?:\t|(?:\s\|\s))([^|\t]+)(?:\t|(?:\s\|\s))([^|\t]+)$/;
+        const regexForSplittingString = /\t|(?:\s\|\s)/g;
+
+        const isStringInCorrectFormat = regexForTestingStringFormat.test(str);
+        if (!isStringInCorrectFormat) {
+            return new InstructorError(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, str);
+        }
+
+        const instructorData = str.split(regexForSplittingString);
+        const shortName = instructorData[0];
+        const name = instructorData[0];
+        const email = instructorData[1];
+        const institution = instructorData[2];
+        return Instructor.create(shortName, name, email, institution);
+    }
+    toString() {
+        return `${this.name} | ${this.email} | ${this.institution}`;
+    }
+    getParamString() {
+        return $.param({
+            instructorshortname: this.shortName,
+            instructorname: this.name,
+            instructoremail: this.email,
+            instructorinstitution: this.institution,
+        });
+    }
+    /* eslint-disable class-methods-use-this */
+    isError() {
+        return false;
+    }
+    /* eslint-enable class-methods-use-this */
+    static allFromString(multipleInstructorsString) {
+        return multipleInstructorsString
+            .split('\n')
+            .map(singleInstructorString => Instructor.createFromString(singleInstructorString));
+    }
+    static allToString(instructors) {
+        return instructors
+            .map(instructor => instructor.toString())
+            .join('\n');
+    }
+}
 
 /**
  * Generates HTML text for a row containing instructor's information
@@ -36,11 +171,6 @@ function createRowForResultTable(shortName, name, email, institution, isSuccess,
     `;
 }
 
-let paramsCounter = 0;
-let paramsList = [];    // list of parameter strings that will be sent via ajax
-let instructorDetailsList = [];
-let isInputFromFirstPanel = false;
-
 /**
  * Disables the Add Instructor form.
  */
@@ -56,116 +186,116 @@ function disableAddInstructorForm() {
 /**
  * Enables the Add Instructor form.
  */
-const enableAddInstructorFormImpl = () => {
+function enableAddInstructorForm() {
     $('.addInstructorBtn').each(function () {
         $(this).html('Add Instructor');
     });
     $('.addInstructorFormControl').each(function () {
         $(this).prop('disabled', false);
     });
-};
+}
 
-let enableAddInstructorForm = enableAddInstructorFormImpl;
+/**
+ * Is called as part of the callback to the AJAX call used to add instructors.
+ * Updates the table that displays whether adding the instructor was successful.
+ * In the event of an error, preserves the text entered into the forms so that a
+ * retry can be attempted.
+ */
+function updateInstructorAddStatus(ajaxResults) {
+    for (let i = 0; i < ajaxResults.length; i += 1) {
+        const ajaxResult = ajaxResults[i];
 
-function addInstructorAjax(isError, data) {
-    let rowText;
-    if (isError) {
-        rowText = createRowForResultTable('-', '-', '-', '-', false, 'Cannot send Ajax Request!');
-    } else {
-        rowText = createRowForResultTable(
-            data.instructorShortName,
-            data.instructorName,
-            data.instructorEmail,
-            data.instructorInstitution,
-            data.isInstructorAddingResultForAjax,
-            data.statusForAjax,
-        );
-    }
-    $('#addInstructorResultTable tbody').append(rowText);
-    const isNotAddingResultForAjax = !(data && data.isInstructorAddingResultForAjax);
-    if (isInputFromFirstPanel && isNotAddingResultForAjax) {
-        const instructorsToBeRetried = `${$('#addInstructorDetailsSingleLine').val()
-                                        + instructorDetailsList[paramsCounter]}\n`;
-        $('#addInstructorDetailsSingleLine').val(instructorsToBeRetried);
-    }
-    paramsCounter += 1;
-    const panelHeader = `<strong>Result (${paramsCounter}/${paramsList.length})</strong>`;
-    $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
-    if (paramsCounter < paramsList.length) {
-        addInstructorByAjaxRecursively(); // eslint-disable-line no-use-before-define
-    } else {
-        enableAddInstructorForm();
+        const shortName = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorShortName;
+        const name = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorName;
+        const email = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorEmail;
+        const institution = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorInstitution;
+        const isSuccess = !ajaxResult.isError() && !ajaxResult.isAddFailed();
+        const status = ajaxResult.getStatusMessage();
+
+        const rowText = createRowForResultTable(shortName, name, email, institution, isSuccess, status);
+        $('#addInstructorResultTable tbody').append(rowText);
+        const panelHeader = `<strong>Result (${i + 1}/${ajaxResults.length})</strong>`;
+        $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
     }
 }
 
 /**
- * Sends Ajax request to add new instructor(s).
- * It only sends another Ajax request after it finishes.
+ * Takes in a list of instructor objects and a postprocessing function.
+ * Adds the instructors and calls the postprocessing function on the instructors
  */
-const addInstructorByAjaxRecursivelyImpl = () => {
-    $.ajax({
-        type: 'POST',
-        url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${paramsList[paramsCounter]}`,
-        beforeSend: disableAddInstructorForm,
-        error() {
-            addInstructorAjax(true, null);
-        },
-        success(data) {
-            addInstructorAjax(false, data);
-        },
-    });
-};
+function addInstructors(instructors, postProcess) {
+    const ajaxResults = [];
 
-let addInstructorByAjaxRecursively = addInstructorByAjaxRecursivelyImpl;
-
-/**
- * Reads information of instructor(s) from the first panel and adds each instructor one by one.
- */
-function addInstructorFromFirstFormByAjax() {
-    $('#addInstructorResultPanel').show();    // show the hidden panel
-    isInputFromFirstPanel = true;
-
-    let multipleLineText = $('#addInstructorDetailsSingleLine').val();    // get input from the first panel
-    multipleLineText = multipleLineText.trim();
-    if (multipleLineText.length > 0) {
-        instructorDetailsList = multipleLineText.split('\n');
-        paramsList = [];
-        for (let i = 0; i < instructorDetailsList.length; i += 1) {
-            instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g, '|');
-            paramsList[i] = `instructordetailssingleline=${encodeURIComponent(instructorDetailsList[i])}`;
+    /* eslint-disable no-shadow */
+    const addInstructorsHelper = (instructors) => {
+        if (instructors.length === 0) {
+            postProcess(ajaxResults);
+            enableAddInstructorForm();
+            return;
         }
-    }
-    paramsCounter = 0;
-    $('#addInstructorResultTable tbody').html('');    // clear table
-    $('#addInstructorDetailsSingleLine').val('');    // clear input form
-    $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>');    // clear panel header
-    if (paramsList.length > 0) {
-        addInstructorByAjaxRecursively();
-    }
+
+        const firstInstructor = instructors[0];
+        const remainingInstructors = instructors.slice(1);
+
+        if (firstInstructor.isError()) {
+            ajaxResults.push(new InstructorAjaxResult(firstInstructor, null));
+            addInstructorsHelper(remainingInstructors);
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${firstInstructor.getParamString()}`,
+                beforeSend: disableAddInstructorForm,
+                error() {
+                    const ajaxError = new InstructorError('Cannot send Ajax Request!');
+                    ajaxResults.push(new InstructorAjaxResult(ajaxError, null));
+                    addInstructorsHelper(remainingInstructors);
+                },
+                success(data) {
+                    ajaxResults.push(new InstructorAjaxResult(firstInstructor, data));
+                    addInstructorsHelper(remainingInstructors);
+                },
+            });
+        }
+    };
+    /* eslint-enable no-shadow */
+
+    addInstructorsHelper(instructors, postProcess);
 }
 
-/**
- * Reads information of the instructor from the second panel then add him/her.
- */
+function addInstructorFromFirstFormByAjax() {
+    const $instructorsAddTextArea = $('#addInstructorDetailsSingleLine');
+
+    const instructors = Instructor.allFromString($instructorsAddTextArea.val());
+    const postProcess = (ajaxResults) => {
+        const failedInstructors = ajaxResults
+            .filter(ajaxResult => ajaxResult.isError() || ajaxResult.isAddFailed())
+            .map(ajaxResult => ajaxResult.instructor);
+        const failedInstructorsString = Instructor.allToString(failedInstructors);
+        $instructorsAddTextArea.val(failedInstructorsString);
+        updateInstructorAddStatus(ajaxResults);
+    };
+
+    $('#addInstructorResultPanel').show(); // show the hidden panel
+    $('#addInstructorResultTable tbody').html(''); // clear table
+    $('#addInstructorDetailsSingleLine').val(''); // clear input form
+    $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>'); // clear panel header
+
+    addInstructors(instructors, postProcess);
+}
+
 function addInstructorFromSecondFormByAjax() {
-    $('#addInstructorResultPanel').show();    // show the hidden panel
-    isInputFromFirstPanel = false;
+    $('#addInstructorResultPanel').show(); // show the hidden panel
+    $('#addInstructorResultTable tbody').html(''); // clear table
+    $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>'); // clear panel header
 
-    const instructorDetails = encodeURIComponent(`${$('#instructorName').val()}|${$('#instructorEmail').val()
-                             }|${$('#instructorInstitution').val()}`);
-    instructorDetailsList = [instructorDetails];
-    const params = $.param({
-        instructorshortname: $('#instructorShortName').val(),
-        instructorname: $('#instructorName').val(),
-        instructoremail: $('#instructorEmail').val(),
-        instructorinstitution: $('#instructorInstitution').val(),
-    });
-    paramsList = [params];
+    const instructorToAdd = Instructor.create(
+            $('#instructorShortName').val(),
+            $('#instructorName').val(),
+            $('#instructorEmail').val(),
+            $('#instructorInstitution').val());
+    const postProcess = ajaxResults => updateInstructorAddStatus(ajaxResults);
 
-    paramsCounter = 0;
-    $('#addInstructorResultTable tbody').html('');    // clear table
-    $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>');    // clear panel header
-    addInstructorByAjaxRecursively();
+    addInstructors([instructorToAdd], postProcess);
 }
 
 $(document).ready(() => {
@@ -178,69 +308,8 @@ $(document).ready(() => {
     });
 });
 
-function stubEnableAddInstructorForm(fn) {
-    enableAddInstructorForm = fn;
-}
-
-function unstubEnableAddInstructorForm() {
-    enableAddInstructorForm = enableAddInstructorFormImpl;
-}
-
-function stubAddInstructorByAjaxRecursively(fn) {
-    addInstructorByAjaxRecursively = fn;
-}
-
-function unstubAddInstructorByAjaxRecursively() {
-    addInstructorByAjaxRecursively = addInstructorByAjaxRecursivelyImpl;
-}
-
-function getParamsList() {
-    return paramsList;
-}
-
-function getParamsCounter() {
-    return paramsCounter;
-}
-
-function getInstructorDetailsList() {
-    return instructorDetailsList;
-}
-
-function getIsInputFromFirstPanel() {
-    return isInputFromFirstPanel;
-}
-
-function setParamsList(list) {
-    paramsList = list;
-}
-
-function setParamsCounter(n) {
-    paramsCounter = n;
-}
-
-function setInstructorDetailsList(list) {
-    instructorDetailsList = list;
-}
-
-function setIsInputFromFirstPanel(bool) {
-    isInputFromFirstPanel = bool;
-}
-
 export {
-    addInstructorAjax,
-    addInstructorFromFirstFormByAjax,
-    addInstructorFromSecondFormByAjax,
+    Instructor,
+    InstructorError,
     createRowForResultTable,
-    getInstructorDetailsList,
-    getIsInputFromFirstPanel,
-    getParamsCounter,
-    getParamsList,
-    setInstructorDetailsList,
-    setIsInputFromFirstPanel,
-    setParamsCounter,
-    setParamsList,
-    stubAddInstructorByAjaxRecursively,
-    stubEnableAddInstructorForm,
-    unstubAddInstructorByAjaxRecursively,
-    unstubEnableAddInstructorForm,
 };
