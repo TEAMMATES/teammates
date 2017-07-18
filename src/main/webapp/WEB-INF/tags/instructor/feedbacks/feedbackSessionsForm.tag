@@ -24,8 +24,7 @@
               data-placement="top">
             <div class="form-group<c:if test="${fsForm.showNoCoursesMessage}"> has-error</c:if>">
               <h5 class="col-sm-2 col-md-4">
-                <label class="control-label"
-                    for="<%= Const.ParamsNames.COURSE_ID %>">
+                <label class="control-label" for="<%= Const.ParamsNames.COURSE_ID %>">
                   Course ID
                 </label>
               </h5>
@@ -55,8 +54,7 @@
               data-placement="top">
             <div class="form-group">
               <h5 class="col-sm-2 col-md-4">
-                <label class="control-label"
-                    for="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
+                <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
                   Timezone
                 </label>
               </h5>
@@ -83,8 +81,7 @@
               data-placement="top">
             <div class="form-group">
               <h5 class="col-sm-2">
-                <label class="control-label"
-                    for="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>">
+                <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>">
                   Session name
                 </label>
               </h5>
@@ -116,8 +113,7 @@
               data-placement="top">
             <div class="form-group">
               <h5 class="col-sm-2 margin-top-0">
-                <label class="control-label"
-                    for="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>">
+                <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>">
                   Instructions
                 </label>
               </h5>
@@ -140,8 +136,7 @@
               data-placement="top">
             <div class="row">
               <div class="col-xs-12">
-                <label class="label-control"
-                    for="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTDATE %>">
+                <label class="label-control" for="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTDATE %>">
                   Submission opening time
                 </label>
               </div>
@@ -173,8 +168,7 @@
               data-placement="top">
             <div class="row">
               <div class="col-xs-12">
-                <label class="label-control"
-                    for="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>">
+                <label class="label-control" for="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>">
                   Submission closing time
                 </label>
               </div>
@@ -206,8 +200,7 @@
               data-placement="top">
             <div class="row">
               <div class="col-xs-12">
-                <label class="control-label"
-                    for="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>">
+                <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>">
                   Grace period
                 </label>
               </div>
@@ -276,9 +269,7 @@
     <c:if test="${!fsForm.courseIdEditable}">
       <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseId}">
     </c:if>
-    <input type="hidden"
-        name="<%= Const.ParamsNames.USER_ID %>"
-        value="${data.account.googleId}">
+    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
   </form>
 </div>

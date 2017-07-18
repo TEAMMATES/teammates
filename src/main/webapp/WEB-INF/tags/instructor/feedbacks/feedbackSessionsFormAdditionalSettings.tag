@@ -174,12 +174,12 @@
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER %>"
                 <c:if test="${additionalSettings.responseVisibleNeverChecked}">checked</c:if>>
           </div>
-         </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
- <div class="panel panel-primary" style="display:none;" id="sendEmailsForPanel">
+<div class="panel panel-primary" style="display:none;" id="sendEmailsForPanel">
   <div class="panel-body">
     <div class="row">
       <div class="col-md-12">
@@ -188,9 +188,9 @@
     </div>
     <div class="row">
       <div class="col-md-3"
-        title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL %>"
-        data-toggle="tooltip"
-        data-placement="top">
+          title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL %>"
+          data-toggle="tooltip"
+          data-placement="top">
         <div class="checkbox">
           <label>Session opening reminder</label>
           <input type="checkbox"

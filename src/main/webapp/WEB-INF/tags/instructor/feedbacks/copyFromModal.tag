@@ -6,7 +6,7 @@
 <%@ attribute name="copyFromModal" type="teammates.ui.template.FeedbackSessionsCopyFromModal" required="true"%>
 
 <div class="modal fade" id="copyModal" tabindex="-1" role="dialog"
-  aria-labelledby="copyModalTitle" aria-hidden="true">
+    aria-labelledby="copyModalTitle" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -48,8 +48,7 @@
           </div>
           <%-- Previous Session --%>
           <label>Copy sessions/questions from</label>
-          <table class="table-responsive table table-bordered table-hover margin-0"
-              id="copyTableModal">
+          <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
             <thead class="fill-primary">
               <tr>
                 <th style="width:20px;">&nbsp;</th>

@@ -17,44 +17,43 @@
       </th>
       <th>Status</th>
       <th>
-        <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>"
-            data-toggle="tooltip" data-placement="top">
+        <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" data-toggle="tooltip" data-placement="top">
           Response Rate
         </span>
       </th>
       <th class="no-print">Action(s)</th>
     </tr>
   </thead>
-    <c:choose>
-      <c:when test="${not empty fsList.existingFeedbackSessions}">
-        <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
-          <tr id="session${i.index}" ${sessionRow.rowAttributes.attributesToString}>
-            <td>${sessionRow.courseId}</td>
-            <td>${sessionRow.name}</td>
-            <td>
-              <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
-                ${sessionRow.status}
-              </span>
-            </td>
-            <td class="session-response-for-test">
-              <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
-            </td>
-            <td class="no-print">
-              <tif:feedbackSessionActions actions="${sessionRow.actions}" />
-            </td>
-          </tr>
-        </c:forEach>
-      </c:when>
-      <c:otherwise>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+  <c:choose>
+    <c:when test="${not empty fsList.existingFeedbackSessions}">
+      <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
+        <tr id="session${i.index}" ${sessionRow.rowAttributes.attributesToString}>
+          <td>${sessionRow.courseId}</td>
+          <td>${sessionRow.name}</td>
+          <td>
+            <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
+              ${sessionRow.status}
+            </span>
+          </td>
+          <td class="session-response-for-test">
+            <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
+          </td>
+          <td class="no-print">
+            <tif:feedbackSessionActions actions="${sessionRow.actions}" />
+          </td>
         </tr>
-      </c:otherwise>
-    </c:choose>
+      </c:forEach>
+    </c:when>
+    <c:otherwise>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </c:otherwise>
+  </c:choose>
 </table>
 <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
 <br><br><br>
