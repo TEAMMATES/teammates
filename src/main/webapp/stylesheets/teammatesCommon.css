@@ -935,6 +935,11 @@ Default to alert color for visibility titles used within an alert context.
     content: attr(data-placeholder);
 }
 
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
+}
+
 /* features page */
 
 .features-page-img {
@@ -951,11 +956,6 @@ Default to alert color for visibility titles used within an alert context.
 
 .features-page-text-bottom {
     margin-top: 15px;
-}
-
-.remind-no-response {
-    display: inline-block;
-    padding-right: 5px;
 }
 
 /*////////////////////////////////////////////////////////////
