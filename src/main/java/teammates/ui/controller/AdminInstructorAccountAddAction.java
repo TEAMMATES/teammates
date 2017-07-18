@@ -25,7 +25,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -191,14 +190,7 @@ public class AdminInstructorAccountAddAction extends Action {
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
         BackDoorLogic backDoorLogic = new BackDoorLogic();
-
-        try {
-            backDoorLogic.persistDataBundle(data);
-        } catch (EntityDoesNotExistException e) {
-            ThreadHelper.waitFor(Config.PERSISTENCE_CHECK_DURATION);
-            backDoorLogic.persistDataBundle(data);
-            log.warning("Data Persistence was Checked Twice in This Request");
-        }
+        backDoorLogic.persistDataBundle(data);
 
         List<FeedbackResponseCommentAttributes> frComments =
                 logic.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
