@@ -1,20 +1,11 @@
 import {
-    addInstructorAjax,
-    addInstructorFromFirstFormByAjax,
-    addInstructorFromSecondFormByAjax,
+    Const,
+} from '../common/const.es6';
+
+import {
+    Instructor,
+    InstructorError,
     createRowForResultTable,
-    getInstructorDetailsList,
-    getIsInputFromFirstPanel,
-    getParamsCounter,
-    getParamsList,
-    setInstructorDetailsList,
-    setIsInputFromFirstPanel,
-    setParamsCounter,
-    setParamsList,
-    stubAddInstructorByAjaxRecursively,
-    stubEnableAddInstructorForm,
-    unstubAddInstructorByAjaxRecursively,
-    unstubEnableAddInstructorForm,
 } from '../main/adminHome.es6';
 
 QUnit.module('AdminHome.js');
@@ -45,138 +36,63 @@ QUnit.test('createRowForResultTable(shortName, name, email, institution, isSucce
     [true, false].forEach(testCreateRowForResultTable);
 });
 
-const addInstructorDetailsSingleLine = '<textarea id="addInstructorDetailsSingleLine"></textarea>';
-
-QUnit.module('addInstructorAjax', {
-    beforeEach() {
-        setParamsCounter(0);
-        setParamsList([]);
-        setIsInputFromFirstPanel(false);
-    },
+QUnit.test('test conversion from instructor list to pipe-separated string', (assert) => {
+    assert.expect(1);
+    const instructorList = [
+        Instructor.create('testShortName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),
+        Instructor.create('testShortName2', 'testName2', 'testEmail2@email.com', 'testInstitution2'),
+        Instructor.create('testShortName3', 'testName3', 'testEmail3@email.com', 'testInstitution3'),
+    ];
+    const instructorStringExpected = 'testName1 | testEmail1@email.com | testInstitution1\n'
+            + 'testName2 | testEmail2@email.com | testInstitution2\n'
+            + 'testName3 | testEmail3@email.com | testInstitution3';
+    assert.equal(Instructor.allToString(instructorList), instructorStringExpected);
 });
 
-QUnit.test('test when paramsCounter >= paramsList.length', (assert) => {
-    assert.expect(2);
-
-    stubEnableAddInstructorForm(() => {
-        assert.ok(true, 'enableAddInstructorForm is called');
-    });
-    addInstructorAjax(true, null);
-    unstubEnableAddInstructorForm();
-    assert.equal(getParamsCounter(), 1, 'counter is incremented');
+QUnit.test('test conversion from pipe-separated string to instructor list', (assert) => {
+    assert.expect(1);
+    const instructorString = 'testName1 | testEmail1@email.com | testInstitution1\n'
+        + 'testName2 | testEmail2@email.com | testInstitution2\n'
+        + 'testName3 | testEmail3@email.com | testInstitution3';
+    const instructorListExpected = [
+        Instructor.create('testName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),
+        Instructor.create('testName2', 'testName2', 'testEmail2@email.com', 'testInstitution2'),
+        Instructor.create('testName3', 'testName3', 'testEmail3@email.com', 'testInstitution3'),
+    ];
+    assert.deepEqual(Instructor.allFromString(instructorString), instructorListExpected);
 });
-QUnit.test('test when paramsCounter < paramsList.length', (assert) => {
+
+QUnit.test('test conversion from tab- and pipe-separated string to instructor list', (assert) => {
+    assert.expect(1);
+    const instructorString = 'testName1 | testEmail1@email.com | testInstitution1\n'
+        + 'testName2\ttestEmail2@email.com\ttestInstitution2\n'
+        + 'testName3 | testEmail3@email.com | testInstitution3';
+    const instructorListExpected = [
+        Instructor.create('testName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),
+        Instructor.create('testName2', 'testName2', 'testEmail2@email.com', 'testInstitution2'),
+        Instructor.create('testName3', 'testName3', 'testEmail3@email.com', 'testInstitution3'),
+    ];
+    assert.deepEqual(Instructor.allFromString(instructorString), instructorListExpected);
+});
+
+QUnit.test('test conversion from erroneous pipe-separated string to instructor list', (assert) => {
     assert.expect(1);
 
-    setParamsList([0, 1]);
+    const str1 = 'testName1 | testEmail1@email.com | testInstitution1';
+    const str2 = 'testName2 ||||| testInstitution2';
+    const str3 = 'testName3 | testEmail3@email.com | testInstitution3';
+    const str4 = 'testName4 | testEmail4@email.com | testInstitution4 | ????';
+    const str5 = 'testName5 | testEmail5@email.com | testInstitution5';
+    const str6 = 'testName6 testEmail6@email.com | testInstitution6';
 
-    stubAddInstructorByAjaxRecursively(() => {
-        assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    });
-    addInstructorAjax(true, null);
-    unstubAddInstructorByAjaxRecursively();
-});
-QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
-    const delimiter = '\n';
-    const fixture = $('#qunit-fixture');
-    fixture.append(addInstructorDetailsSingleLine);
-
-    const testString = 'testString';
-    setParamsList([0, 1]);
-    setInstructorDetailsList([testString, testString]);
-    setIsInputFromFirstPanel(true);
-    stubAddInstructorByAjaxRecursively(() => {
-        assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    });
-
-    addInstructorAjax(true, null);
-
-    assert.equal($('#addInstructorDetailsSingleLine').val(),
-        testString + delimiter, 'data appended to addInstructorDetailsSingleLine');
-
-    const data = {
-        instructorShortName: 'testShortName',
-        instructorName: 'testInstructorName',
-        instructorEmail: 'testInstructorEmail',
-        instructorInstitution: 'testInstructorInstitution',
-        isInstructorAddingResultForAjax: false,
-        statusForAjax: true,
-    };
-
-    addInstructorAjax(false, data);
-    const expected = getInstructorDetailsList().join(delimiter) + delimiter;
-    assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is appended');
-
-    data.isInstructorAddingResultForAjax = true;
-    addInstructorAjax(false, data);
-    assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is not appended');
-
-    unstubAddInstructorByAjaxRecursively();
-});
-
-QUnit.module('addInstructor', {
-    afterEach() {
-        setParamsCounter(0);
-        setParamsList([]);
-        setInstructorDetailsList([]);
-        setIsInputFromFirstPanel(false);
-    },
-});
-QUnit.test('addInstructorFromFirstFormByAjax', (assert) => {
-    assert.expect(4);
-    // initialize test data
-    const delimiter = '\n';
-    const testData = ['test', 'test1'];
-
-    // initialize input dom
-    const fixture = $('#qunit-fixture');
-    fixture.append(`<textarea id="addInstructorDetailsSingleLine" type="text">${testData.join(delimiter)}</textarea>`);
-
-    // test state changes and logic flow
-    setIsInputFromFirstPanel(false);
-    stubAddInstructorByAjaxRecursively(() => {
-        assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    });
-    addInstructorFromFirstFormByAjax();
-    unstubAddInstructorByAjaxRecursively();
-
-    assert.ok(getIsInputFromFirstPanel(), 'isInputFromFirstPanel is set to true');
-
-    // test state data is correctly inserted
-    assert.equal(getInstructorDetailsList().length, testData.length, 'data appended to instructorDetailsList');
-    assert.equal(getParamsList().length, testData.length, 'data appended to paramsList');
-});
-QUnit.test('addInstructorFromSecondFormByAjax', (assert) => {
-    assert.expect(8);
-
-    // initialize fields to be used
-    const fields = ['instructorShortName', 'instructorName', 'instructorEmail', 'instructorInstitution'];
-    const testValues = fields.map(field => `${field}test`);
-
-    // initialize input dom
-    const fixture = $('#qunit-fixture');
-    const addInstructorFields = fields.map((field, i) => {
-        const testValue = testValues[i];
-        return `<input id="${field}" type="text" value="${testValue}">`;
-    });
-    fixture.append(addInstructorFields.join());
-
-    // test state changes and logic flow
-    setIsInputFromFirstPanel(true);
-    stubAddInstructorByAjaxRecursively(() => {
-        assert.ok(true, 'addInstructorByAjaxRecursively is called');
-    });
-    addInstructorFromSecondFormByAjax();
-    unstubAddInstructorByAjaxRecursively();
-
-    assert.notOk(getIsInputFromFirstPanel(), 'isInputFromFirstPanel is set to false');
-
-    // test state data is correctly inserted
-    assert.equal(getInstructorDetailsList().length, 1, 'data appended to instructorDetailsList');
-    assert.equal(getParamsList().length, 1, 'data appended to paramsList');
-    const firstParams = getParamsList()[0];
-    fields.forEach((field, i) => {
-        const fieldValue = testValues[i];
-        assert.contains(firstParams, fieldValue, `${fieldValue} is inserted into paramsList`);
-    });
+    const instructorString = [str1, str2, str3, str4, str5, str6].join('\n');
+    const instructorListExpected = [
+        Instructor.create('testName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),
+        new InstructorError(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, str2),
+        Instructor.create('testName3', 'testName3', 'testEmail3@email.com', 'testInstitution3'),
+        new InstructorError(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, str4),
+        Instructor.create('testName5', 'testName5', 'testEmail5@email.com', 'testInstitution5'),
+        new InstructorError(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, str6),
+    ];
+    assert.deepEqual(Instructor.allFromString(instructorString), instructorListExpected);
 });
