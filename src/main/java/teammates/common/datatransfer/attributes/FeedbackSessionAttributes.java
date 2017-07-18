@@ -684,5 +684,4 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
     }
-
 }
