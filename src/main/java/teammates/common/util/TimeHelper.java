@@ -167,6 +167,18 @@ public final class TimeHelper {
     }
 
     /**
+     * Converts the {@code localDate} to UTC by adding/subtracting the {@code localTimeZone} offset.
+     * 
+     * @deprecated Method should be removed once all time data is migrated to UTC. 
+     */
+    @Deprecated
+    public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
+        Calendar localCal = dateToCalendar(localDate);
+        localCal.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * (-localTimeZone)));
+        return localCal.getTime();
+    }
+
+    /**
      * Formats a date in the corresponding option value in 'Time' dropdowns The
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
