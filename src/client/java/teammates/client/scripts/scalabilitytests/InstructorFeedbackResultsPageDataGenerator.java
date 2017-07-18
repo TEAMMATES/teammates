@@ -167,7 +167,6 @@ public class InstructorFeedbackResultsPageDataGenerator {
         feedbackSessions.put("Open Session", new Session());
         instructors.put("CFResultsScT.instr", new Instructor());
 
-        RandomNameGenerator nameGenerator = new RandomNameGenerator();
         for (int i = 0; i < numStudents; i++) {
             String name = "Name" + i + "_" + "Student" + i;
             students.put(name.replace("_", " "), new Student(name.replace("_", ".")));
