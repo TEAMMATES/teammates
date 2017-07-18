@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbackResults - by question" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -21,7 +22,7 @@
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-${questionPanel.question.questionNumber}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>" value="${data.missingResponsesShown}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${data.selectedSection}">
+                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${fn:escapeXml(data.selectedSection)}">
             </form>
             <div class='display-icon pull-right'>
                 <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
@@ -39,7 +40,7 @@
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
-                <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${data.selectedSection}">
+                <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${fn:escapeXml(data.selectedSection)}">
                 <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${showStats}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${data.missingResponsesShown}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="${questionPanel.question.feedbackQuestionId}">
