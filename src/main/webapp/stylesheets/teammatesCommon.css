@@ -942,8 +942,7 @@ Default to alert color for visibility titles used within an alert context.
 
 /* features page */
 
-.features-page-img {
-    height: 75%;
+.img-responsive.features-page-img {
     max-width: 75%;
 }
 
