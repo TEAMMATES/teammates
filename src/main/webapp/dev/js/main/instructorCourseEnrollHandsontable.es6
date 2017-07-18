@@ -78,10 +78,12 @@ function updateDataDump() {
         let splitData = $('#enrollstudents').val().split('\n');
         columns = splitData[0].split('|');
         splitData = splitData.slice(1, -1);
-        for (let erow = 0; erow < splitData.length; erow += 1) {
-            data.push(splitData[erow].split('|'));
+        if (splitData.length > 0) {
+            for (let erow = 0; erow < splitData.length; erow += 1) {
+                data.push(splitData[erow].split('|'));
+            }
+            handsontable.loadData(data);
         }
-        handsontable.loadData(data);
         handsontable.updateSettings({
             colHeaders: columns,
         });
