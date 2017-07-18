@@ -39,7 +39,7 @@ public final class HtmlHelper {
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
-    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M?|NOON)";
+    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
     private static final String REGEX_TIMEZONE_OFFSET = "UTC([+-]\\d{4})";
@@ -389,7 +389,7 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
-        //Get session's time zone from content.
+        // get session's time zone from content.
         sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
@@ -502,7 +502,7 @@ public final class HtmlHelper {
     }
 
     private static TimeZone getTimeZone(String content) {
-        //Searches for last String of pattern "UTC+0800" in the content.
+        // searches for last String of pattern "UTC+xxxx" in the content.
         Pattern pattern = Pattern.compile(REGEX_TIMEZONE_OFFSET);
         Matcher matcher = pattern.matcher(content);
         //set default time zone offset.
