@@ -347,8 +347,9 @@ public class BackDoorLogic extends Logic {
 
         SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
         for (InstructorAttributes instructor : courseInstructors) {
-            List<FeedbackQuestionAttributes> questionsForInstructor = feedbackQuestionsLogic
-                    .getFeedbackQuestionsForInstructor(new ArrayList(sessionQuestions), session.isCreator(instructor.email));
+            List<FeedbackQuestionAttributes> questionsForInstructor =
+                    feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(
+                            new ArrayList<>(sessionQuestions), session.isCreator(instructor.email));
 
             List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
             instructorQuestionKeysMap.putAll(instructor.email, questionKeys);
