@@ -354,7 +354,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                           FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
                           FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                           FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
-                            + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
+                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }
 
