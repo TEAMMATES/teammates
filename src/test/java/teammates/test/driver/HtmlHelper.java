@@ -510,11 +510,7 @@ public final class HtmlHelper {
         while (matcher.find()) {
             timeZoneOffset = matcher.group(1);
         }
-        return TimeZone.getTimeZone("GMT" + removeUtc(timeZoneOffset));
-    }
-
-    private static String removeUtc(String timeZoneOffset) {
-        return timeZoneOffset.substring(0, 2);
+        return TimeZone.getTimeZone("GMT" + timeZoneOffset);
     }
 
 }
