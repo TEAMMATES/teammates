@@ -168,8 +168,8 @@ public final class TimeHelper {
 
     /**
      * Converts the {@code localDate} from {@code localTimeZone}) to UTC through shifting by the offset.
-     * 
-     * @deprecated Method should be removed once all time data is migrated to UTC. 
+     *
+     * @deprecated Method should be removed once all time data is migrated to UTC.
      */
     @Deprecated
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
