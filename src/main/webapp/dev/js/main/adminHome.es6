@@ -221,7 +221,12 @@ function updateInstructorAddStatus(ajaxResults) {
 
 /**
  * Takes in a list of instructor objects and a postprocessing function.
- * Adds the instructors and calls the postprocessing function on the instructors
+ * Adds the instructors one by one recursively, in the following manner:
+ *  Base Case -      If there are no instructors left to add, the postProcess function is called.
+ *  Recursive Case - Add the first instructor, and make a recursive call to add the remaining
+ *                   instructors in the AJAX callback function.
+ * This is done as it is the simplest solution that sidesteps race conditions and
+ * does not involve busy waiting in the main thread.
  */
 function addInstructors(instructors, postProcess) {
     const ajaxResults = [];
