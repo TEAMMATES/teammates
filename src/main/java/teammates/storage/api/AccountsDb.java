@@ -41,7 +41,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         try {
             // this is for legacy code to be handled
             if (accountToAdd != null && accountToAdd.studentProfile == null) {
-                accountToAdd.studentProfile = new StudentProfileAttributes();
+                accountToAdd.studentProfile = StudentProfileAttributes.builder().build();
                 accountToAdd.studentProfile.googleId = accountToAdd.googleId;
             }
             createEntity(accountToAdd);
@@ -71,15 +71,27 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         }
     }
 
-    @Override
-    public List<Account> createEntitiesDeferred(Collection<AccountAttributes> accountsToAdd)
+    /* This function is used for persisting data bundle in testing process */
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount)
             throws InvalidParametersException {
         List<StudentProfileAttributes> profilesToAdd = new LinkedList<>();
         for (AccountAttributes accountToAdd : accountsToAdd) {
             profilesToAdd.add(accountToAdd.studentProfile);
         }
-        profilesDb.createEntitiesDeferred(profilesToAdd);
-        return super.createEntitiesDeferred(accountsToAdd);
+        profilesDb.createEntities(profilesToAdd);
+
+        List<AccountAttributes> accountsToUpdate = createEntities(accountsToAdd);
+        if (updateAccount) {
+            for (AccountAttributes account : accountsToUpdate) {
+                try {
+                    updateAccount(account, true);
+                } catch (EntityDoesNotExistException e) {
+                    // This situation is not tested as replicating such a situation is
+                    // difficult during testing
+                    Assumption.fail("Account found to be already existing and not existing simultaneously");
+                }
+            }
+        }
     }
 
     /**
@@ -138,7 +150,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
                 existingProfile = new StudentProfile(a.studentProfile.googleId);
             }
 
-            StudentProfileAttributes existingProfileAttributes = new StudentProfileAttributes(existingProfile);
+            StudentProfileAttributes existingProfileAttributes = StudentProfileAttributes.valueOf(existingProfile);
             a.studentProfile.modifiedDate = existingProfileAttributes.modifiedDate;
 
             // if the student profile has changed then update the store
@@ -155,7 +167,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     public void updateAccount(AccountAttributes a)
             throws InvalidParametersException, EntityDoesNotExistException {
         if (a != null && a.studentProfile == null) {
-            a.studentProfile = new StudentProfileAttributes();
+            a.studentProfile = StudentProfileAttributes.builder().build();
             a.studentProfile.googleId = a.googleId;
         }
         updateAccount(a, false);

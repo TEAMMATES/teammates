@@ -128,8 +128,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         addNonEmptyError(validator.getInvalidityInfoForPersonName(displayedName), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForRole(role), errors);
-
         return errors;
     }
 

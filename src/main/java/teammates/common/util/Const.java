@@ -385,7 +385,8 @@ public final class Const {
                 "View how this session would look like to a student who is submitting feedback.<br>"
                 + "Preview is unavailable if the course has yet to have any student enrolled.";
         public static final String FEEDBACK_PREVIEW_ASINSTRUCTOR =
-                "View how this session would look like to an instructor who is submitting feedback.";
+                "View how this session would look like to an instructor who is submitting feedback.<br>"
+                + "Only instructors with submit privileges are included in the list.";
 
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "

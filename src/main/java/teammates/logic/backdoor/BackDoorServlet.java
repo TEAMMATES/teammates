@@ -183,11 +183,6 @@ public class BackDoorServlet extends HttpServlet {
         case OPERATION_IS_PICTURE_PRESENT_IN_GCS:
             String pictureKey = req.getParameter(BackDoorOperation.PARAMETER_PICTURE_KEY);
             return String.valueOf(backDoorLogic.isPicturePresentInGcs(pictureKey));
-        case OPERATION_CREATE_FEEDBACK_RESPONSE:
-            String feedbackResponseJsonString = req.getParameter(BackDoorOperation.PARAMETER_FEEDBACK_RESPONSE_JSON);
-            FeedbackResponseAttributes feedbackResponse =
-                    JsonUtils.fromJson(feedbackResponseJsonString, FeedbackResponseAttributes.class);
-            return backDoorLogic.createFeedbackResponseAndUpdateSessionRespondents(feedbackResponse);
         case OPERATION_PERSIST_DATABUNDLE:
             String dataBundleJsonString = req.getParameter(BackDoorOperation.PARAMETER_DATABUNDLE_JSON);
             DataBundle dataBundle = JsonUtils.fromJson(dataBundleJsonString, DataBundle.class);

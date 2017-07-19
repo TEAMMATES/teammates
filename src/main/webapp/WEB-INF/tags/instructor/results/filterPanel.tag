@@ -1,6 +1,5 @@
 <%@ tag description="instructorFeedbackResultsTop - Filter Panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 <%@ attribute name="showAll" required="true" %>
@@ -79,8 +78,8 @@
                                         All
                                     </option>
                                     <c:forEach items="${filterPanel.sections}" var="section">
-                                        <option value="${fn:escapeXml(section)}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
-                                            ${fn:escapeXml(section)}
+                                        <option value="${section}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
+                                            ${section}
                                         </option>
                                     </c:forEach>
                                     <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>

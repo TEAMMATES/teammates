@@ -43,19 +43,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Creates multiple questions without checking for existence. Also calls {@link #flush()},
-     * leading to any previously deferred operations being written immediately. This is needed
-     * to update the question entities with actual question IDs.
-     *
-     * @returns list of created {@link FeedbackQuestionAttributes} containing actual question IDs.
-     */
-    public List<FeedbackQuestionAttributes> createFeedbackQuestionsWithoutExistenceCheck(
-            Collection<FeedbackQuestionAttributes> questions) throws InvalidParametersException {
-        List<FeedbackQuestion> createdQuestions = createEntitiesWithoutExistenceCheck(questions);
-        return makeAttributes(createdQuestions);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return Null if not found.

@@ -311,8 +311,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <p>Also builds team statistics tables for every team.
      */
     private void buildSectionPanelForViewByParticipantQuestionParticipant(String section,
-                              Map<String, Map<FeedbackQuestionAttributes,
-                                      List<FeedbackResponseAttributes>>> sortedResponses, String additionalInfoId) {
+                  Map<String, Map<FeedbackQuestionAttributes,
+                          List<FeedbackResponseAttributes>>> sortedResponses, String additionalInfoId) {
         sectionPanels = new LinkedHashMap<>();
 
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam =
@@ -464,8 +464,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private List<InstructorFeedbackResultsResponsePanel> buildResponsePanels(final String additionalInfoId,
-                                                     int primaryParticipantIndex, int secondaryRecipientIndex,
-                                                     List<FeedbackResponseAttributes> giverResponses) {
+                                             int primaryParticipantIndex, int secondaryRecipientIndex,
+                                             List<FeedbackResponseAttributes> giverResponses) {
         List<InstructorFeedbackResultsResponsePanel> responsePanels = new ArrayList<>();
 
         for (int responseIndex = 0; responseIndex < giverResponses.size(); responseIndex++) {
@@ -1405,7 +1405,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private List<FeedbackResponseCommentRow> buildResponseComments(String giverName, String recipientName,
-                                       FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
+                               FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
@@ -1417,8 +1417,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private FeedbackResponseCommentRow buildResponseComment(String giverName, String recipientName,
-                            FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-                            FeedbackResponseCommentAttributes frcAttributes) {
+                        FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+                        FeedbackResponseCommentAttributes frcAttributes) {
         boolean isInstructorGiver = instructor.email.equals(frcAttributes.giverEmail);
         boolean isInstructorWithPrivilegesToModify =
                 instructor.isAllowedForPrivilege(

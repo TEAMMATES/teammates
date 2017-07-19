@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="f" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ attribute name="sessionPanel" type="teammates.ui.template.InstructorFeedbackResultsSessionPanel" required="true" %>
 <div class="well well-plain padding-0">
@@ -55,7 +54,7 @@
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
-                            <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${fn:escapeXml(sessionPanel.selectedSection)}">
+                            <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
                             <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
                         </form>

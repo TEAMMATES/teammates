@@ -334,10 +334,10 @@ public final class TimeHelper {
         }
 
         return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-               || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
-               || date.equals(Const.TIME_REPRESENTS_LATER)
-               || date.equals(Const.TIME_REPRESENTS_NEVER)
-               || date.equals(Const.TIME_REPRESENTS_NOW);
+                || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+                || date.equals(Const.TIME_REPRESENTS_LATER)
+                || date.equals(Const.TIME_REPRESENTS_NEVER)
+                || date.equals(Const.TIME_REPRESENTS_NOW);
 
     }
 
@@ -444,11 +444,11 @@ public final class TimeHelper {
     public static String convertToStandardDuration(Long timeInMilliseconds) {
 
         return timeInMilliseconds == null
-             ? ""
-             : String.format("%d:%d:%d",
-                             timeInMilliseconds / 60000,
-                             timeInMilliseconds / 1000,
-                             timeInMilliseconds % 1000);
+                ? ""
+                : String.format("%d:%d:%d",
+                timeInMilliseconds / 60000,
+                timeInMilliseconds / 1000,
+                timeInMilliseconds % 1000);
     }
 
     /**

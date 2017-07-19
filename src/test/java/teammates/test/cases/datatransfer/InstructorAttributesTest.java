@@ -168,7 +168,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         i.name = "";
         i.email = "invalid email";
         i.courseId = "";
-        i.role = "invalidRole";
 
         assertFalse("invalid value", i.isValid());
         String errorMessage =
@@ -185,8 +184,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
-                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role);
+                      FieldValidator.EMAIL_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
 
         i.googleId = null;
@@ -202,8 +200,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
-                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role);
+                      FieldValidator.EMAIL_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
 

@@ -112,7 +112,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
 
-        instructorsDb.createEntitiesWithoutExistenceCheck(Arrays.asList(ins1InCourse1));
+        instructorsDb.createInstructorsWithoutSearchability(Arrays.asList(ins1InCourse1));
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
         verifySearchResults(results, ins1InCourse2, ins1InTestingSanitizationCourse);
 

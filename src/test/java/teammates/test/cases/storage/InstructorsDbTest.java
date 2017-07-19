@@ -79,7 +79,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             AssertHelper.assertContains(String.format(InstructorsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Instructor"),
-                                        e.getMessage());
+                    e.getMessage());
         }
 
         ______TS("Failure: create an instructor with invalid parameters");
@@ -91,9 +91,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedErrorMessage(
-                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
-                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.GOOGLE_ID_MAX_LENGTH),
+                            FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                            FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.GOOGLE_ID_MAX_LENGTH),
                     e.getMessage());
         }
 
@@ -106,10 +106,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
-                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
-                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role),
+                            FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                            FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
+                            + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role),
                     e.getMessage());
         }
 
@@ -347,13 +347,13 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedEmptyStringErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
-                    + getPopulatedErrorMessage(
-                          FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
-                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                          FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
-                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
+                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                            FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                            + getPopulatedErrorMessage(
+                            FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
+                            FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
+                            + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }
 
@@ -368,8 +368,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
-                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
-                        e.getMessage());
+                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
+                    e.getMessage());
         }
 
         ______TS("Failure: null parameters");
@@ -423,13 +423,13 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedErrorMessage(
-                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
-                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
-                    + getPopulatedEmptyStringErrorMessage(
-                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
-                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
+                            FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
+                            FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                            FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
+                            + getPopulatedEmptyStringErrorMessage(
+                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                            FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                            + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }
 
@@ -444,8 +444,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(
-                        EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
-                        e.getMessage());
+                    EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT,
+                    e.getMessage());
         }
 
         ______TS("Failure: null parameters");

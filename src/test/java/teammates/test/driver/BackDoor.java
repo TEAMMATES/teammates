@@ -357,10 +357,9 @@ public final class BackDoor {
      * Persists a feedback response into the datastore.
      */
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        String feedbackResponseJson = JsonUtils.toJson(feedbackResponse);
-        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_CREATE_FEEDBACK_RESPONSE);
-        params.put(BackDoorOperation.PARAMETER_FEEDBACK_RESPONSE_JSON, feedbackResponseJson);
-        return makePostRequest(params);
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
+        return restoreDataBundle(dataBundle);
     }
 
     /**
