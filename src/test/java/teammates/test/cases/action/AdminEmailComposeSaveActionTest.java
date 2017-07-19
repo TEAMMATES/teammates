@@ -268,7 +268,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         expectedLogSegment = Const.ACTION_RESULT_FAILURE;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
-        expectedStatus = "The field email subject";
+        expectedStatus = "The field email subject is empty. The value of a/an email subject should be no";
         AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
 
         data = (AdminEmailComposePageData) pageResult.data;
