@@ -504,11 +504,8 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-<<<<<<< HEAD
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.convertAndFormatDateToIso8601Utc(now, 0.0));
-=======
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now, 0));
     }
 
     private static TimeZone getTimeZone(String content) {
@@ -521,7 +518,6 @@ public final class HtmlHelper {
             timeZoneOffset = matcher.group(1);
         }
         return TimeZone.getTimeZone("GMT" + timeZoneOffset);
->>>>>>> TEAMMATES/master
     }
 
 }
