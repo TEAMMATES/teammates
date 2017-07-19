@@ -174,7 +174,7 @@ public final class TimeHelper {
     @Deprecated
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
         Calendar localCal = dateToCalendar(localDate);
-        localCal.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * (-localTimeZone)));
+        localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
         return localCal.getTime();
     }
 
