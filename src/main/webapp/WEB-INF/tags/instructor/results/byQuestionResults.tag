@@ -9,6 +9,6 @@
 <br>
 
 <c:forEach items="${questionPanels}" var="questionPanel" varStatus="i">
-    <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}"
-                           questionPanel="${questionPanel}"/>
+  <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}"
+      questionPanel="${questionPanel}"/>
 </c:forEach>
