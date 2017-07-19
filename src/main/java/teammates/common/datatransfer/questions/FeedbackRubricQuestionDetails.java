@@ -212,9 +212,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // TODO: need to check for exact match.
 
         // Responses require deletion if choices change
-        if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices
-                || !this.rubricChoices.containsAll(newRubricDetails.rubricChoices)
-                || !newRubricDetails.rubricChoices.containsAll(this.rubricChoices)) {
+        if (!this.rubricChoices.equals(newRubricDetails.rubricChoices)) {
             return true;
         }
 
