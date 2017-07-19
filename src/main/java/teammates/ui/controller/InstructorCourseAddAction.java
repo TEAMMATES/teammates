@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -38,9 +37,7 @@ public class InstructorCourseAddAction extends Action {
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account, sessionToken);
-        CourseAttributes newCourse = new CourseAttributesBuilder(
-                newCourseId, newCourseName, newCourseTimeZone)
-                .build();
+        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */

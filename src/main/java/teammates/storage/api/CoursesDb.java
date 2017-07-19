@@ -11,7 +11,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -112,9 +111,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         // only the courseId is important here, everything else are placeholders
-        deleteEntity(new CourseAttributesBuilder(
-                courseId, "Non-existent course", "UTC")
-                .build());
+        deleteEntity(new CourseAttributes(courseId, "Non-existent course", "UTC"));
     }
 
     @Override
@@ -150,6 +147,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     protected CourseAttributes makeAttributes(Course entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return CourseAttributes.valueOf(entity);
+        return new CourseAttributes(entity);
     }
 }

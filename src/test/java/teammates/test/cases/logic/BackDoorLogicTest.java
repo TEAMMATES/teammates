@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import static teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -46,9 +44,7 @@ public class BackDoorLogicTest extends BaseLogicTest {
         }
 
         ______TS("invalid parameters in an entity");
-        CourseAttributes invalidCourse = new CourseAttributesBuilder(
-                "invalid id", "valid course name", "UTC")
-                .build();
+        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "valid course name", "UTC");
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);
         try {

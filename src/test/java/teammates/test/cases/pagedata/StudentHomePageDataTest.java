@@ -11,7 +11,6 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -141,10 +140,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     private StudentHomePageData createData() {
         // Courses
-        CourseAttributes course1 = new CourseAttributesBuilder(
-                "course-id-1", "old-course", "UTC").build();
-        CourseAttributes course2 = new CourseAttributesBuilder(
-                "course-id-2", "new-course", "UTC").build();
+        CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course", "UTC");
+        CourseAttributes course2 = new CourseAttributes("course-id-2", "new-course", "UTC");
 
         // Feedback sessions
         submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
