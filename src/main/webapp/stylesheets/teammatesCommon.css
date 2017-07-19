@@ -1170,3 +1170,11 @@ Prevent Long URL From Breaking Out of Container
 /*
 Glyphicon for success status messages
 */
+
+.icon-success:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: .5em;
+    content: '\e084';
+    vertical-align: middle;
+}
