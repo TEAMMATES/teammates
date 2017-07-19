@@ -2,6 +2,49 @@ import {
     ParamsNames,
 } from './const.es6';
 
+function getMaxSelectableChoices(questionNum) {
+    $(`#msqMaxSelectableChoices-${questionNum}`).val();
+}
+
+function setMaxSelectableChoices(questionNum, newVal) {
+    if (newVal >= 2) {
+        // No use if max selectable choices were 1
+        $(`#msqMaxSelectableChoices-${questionNum}`).val(newVal);
+        $(`#msqMaxSelectableChoices-${questionNum}`).val(Math.max(1, newVal - 1));
+    }
+}
+
+function getMinSelectableChoices(questionNum) {
+    $(`#msqMaxSelectableChoices-${questionNum}`).val();
+}
+
+function setMinSelectableChoices(questionNum, newVal) {
+    if (newVal >= 1) {
+        // No use if min selectable choices where 0
+        $(`#msqMinSelectableChoices-${questionNum}`).val(Math.min(newVal, getMaxSelectableChoices(questionNum)));
+    }
+}
+
+/**
+ * Returns total number of options for the selected generate options from select box.
+ * Eg. if 'instructors' is selected, returns number of instructors for feedback session.
+ * Assumes that 'generateOptions' checkbox is checked.
+ */
+function getNumOfOptionsForSelectedGenerateOptions(questionNum) {
+    const val;
+    const category = $(`#msqGenerateForSelect-${questionNum}`).prop('value');
+
+    if (category === 'STUDENTS') {
+        val = $('#num-students').val();
+    } else if (category === 'TEAMS') {
+        val = $('#num-teams').val();
+    } else {
+        val = $('#num-instructors').val();
+    }
+
+    return val;
+}
+
 function setMaxValForMaxSelectableChoicesInput(questionNum) {
     const $maxSelectableChoicesCheckbox = $(`#msqEnableMaxSelectableChoices-${questionNum}`);
     const $generateMsqOptionsCheckbox = $(`#generateMsqOptionsCheckbox-${questionNum}`);
@@ -9,6 +52,28 @@ function setMaxValForMaxSelectableChoicesInput(questionNum) {
     if ($maxSelectableChoicesCheckbox.prop('checked')) {
         let maxValue;
         const $msqMaxSelectableChoices = $(`#msqMaxSelectableChoices-${questionNum}`);
+
+        if ($generateMsqOptionsCheckbox.prop('checked')) {
+            maxValue = getNumOfOptionsForSelectedGenerateOptions(questionNum);
+        } else {
+            // don't count last div as it is the "add option" button
+            maxValue = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
+        }
+
+        const currentVal = $msqMaxSelectableChoices.val();
+
+        $msqMaxSelectableChoices.prop('max', maxValue);
+        setMaxSelectableChoices(questionNum, Math.min(maxValue, currentVal));
+    }
+}
+
+function setMaxValForMinSelectableChoicesInput(questionNum) {
+    const $minSelectableChoicesCheckbox = $(`#msqEnableMinSelectableChoices-${questionNum}`);
+    const $generateMsqOptionsCheckbox = $(`#generateMsqOptionsCheckbox-${questionNum}`);
+
+    if ($minSelectableChoicesCheckbox.prop('checked')) {
+        let maxValue;
+        const $msqMinSelectableChoices = $(`#msqMinSelectableChoices-${questionNum}`);
 
         if ($generateMsqOptionsCheckbox.prop('checked')) {
             const selectedVal = $(`#msqGenerateForSelect-${questionNum}`).prop('value');
@@ -25,10 +90,11 @@ function setMaxValForMaxSelectableChoicesInput(questionNum) {
             maxValue = $(`#msqChoiceTable-${questionNum}`).children('div').length - 1;
         }
 
-        const currentVal = $msqMaxSelectableChoices.val();
+        const currentVal = $msqMinSelectableChoices.val();
+        const maxSelectableChoices = 
 
-        $msqMaxSelectableChoices.prop('max', maxValue);
-        $msqMaxSelectableChoices.val(Math.min(maxValue, currentVal));
+        $msqMinSelectableChoices.prop('max', Math.min(maxValue - 1, );
+        $msqMinSelectableChoices.val(Math.min(maxValue, currentVal));
     }
 }
 

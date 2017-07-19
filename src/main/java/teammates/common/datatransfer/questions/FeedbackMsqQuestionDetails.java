@@ -37,6 +37,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
     private int maxSelectableChoices;
+    private int minSelectableChoices;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -46,6 +47,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
         this.maxSelectableChoices = Integer.MIN_VALUE;
+        this.minSelectableChoices = Integer.MIN_VALUE;
     }
 
     @Override
@@ -65,12 +67,19 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         int msqMaxSelectableChoices = Integer.MIN_VALUE;
+        int msqMinSelectableChoices = Integer.MIN_VALUE;
 
         String maxSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES);
+        String minSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES);
 
         if (maxSelectableChoicesParam != null) {
             msqMaxSelectableChoices = Integer.parseInt(maxSelectableChoicesParam);
+        }
+
+        if (minSelectableChoicesParam != null) {
+            msqMinSelectableChoices = Integer.parseInt(maxSelectableChoicesParam);
         }
 
         String generatedMsqOptions =
@@ -93,9 +102,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
 
-            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled, msqMaxSelectableChoices);
+            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled, msqMaxSelectableChoices,
+                    msqMinSelectableChoices);
         } else {
-            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions), msqMaxSelectableChoices);
+            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions), msqMaxSelectableChoices,
+                    msqMinSelectableChoices);
         }
         return true;
     }
@@ -103,22 +114,26 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private void setMsqQuestionDetails(int numOfMsqChoices,
             List<String> msqChoices,
             boolean otherEnabled,
-            int maxSelectableChoices) {
+            int maxSelectableChoices,
+            int minSelectableChoices) {
 
         this.numOfMsqChoices = numOfMsqChoices;
         this.msqChoices = msqChoices;
         this.otherEnabled = otherEnabled;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
         this.maxSelectableChoices = maxSelectableChoices;
+        this.minSelectableChoices = minSelectableChoices;
     }
 
-    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor, int maxSelectableChoices) {
+    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor, int maxSelectableChoices,
+            int minSelectableChoices) {
 
         this.numOfMsqChoices = 0;
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         this.maxSelectableChoices = maxSelectableChoices;
+        this.minSelectableChoices = minSelectableChoices;
         Assumption.assertTrue("Can only generate students, teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
                 || generateOptionsFor == FeedbackParticipantType.TEAMS
@@ -216,6 +231,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
                 Slots.DISABLED, isMaxSelectableChoicesDisabled ? "disabled" : "",
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
+                Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
                 isMaxSelectableChoicesDisabled ? "" : Integer.toString(maxSelectableChoices));

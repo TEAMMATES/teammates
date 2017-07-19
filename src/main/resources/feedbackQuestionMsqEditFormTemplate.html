@@ -65,6 +65,22 @@
                     id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}-${questionNumber}"
                     min="2" value="${msqMaxSelectableChoices}"/>
         </div>
+        <div class="col-md-9 margin-bottom-7px">
+            <div class="checkbox">
+                <label class="bold-label">
+                    <input type="checkbox" disabled ${enabledMinSelectableChoices}
+                            name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}"
+                            id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}-${questionNumber}">
+                    Minimum number of options a respondent is allowed to select
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <input type="number" disabled class="form-control"
+                    name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}"
+                    id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}-${questionNumber}"
+                    min="1" value="${msqMinSelectableChoices}"/>
+        </div>
         <input type="hidden"
             id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
             name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}"
