@@ -40,10 +40,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         account = createInvalidAccountAttributesObject();
         String expectedError =
-                getPopulatedErrorMessage(
+                getPopulatedEmptyStringErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
                       FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
                       FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,

@@ -64,8 +64,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String emptyValue = "";
         assertEquals("invalid: empty",
-                     "\"\" is not acceptable to TEAMMATES as a/an my field because it is empty. The value of "
-                         + "a/an my field should be no longer than 50 characters. It should not be empty.",
+                     "The field my field is empty. The value of a/an my field should be no longer "
+                         + "than 50 characters. It should not be empty.",
                      FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                              maxLength, emptyValue));
 

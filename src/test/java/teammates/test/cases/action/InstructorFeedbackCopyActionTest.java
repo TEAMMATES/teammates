@@ -143,8 +143,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                            .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
-        assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
-                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+        assertEquals(getPopulatedEmptyStringErrorMessage(
+                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
+                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                          FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
 

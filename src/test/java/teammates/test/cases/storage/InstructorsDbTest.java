@@ -343,10 +343,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
+                    getPopulatedEmptyStringErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, instructorToEdit.name,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                        FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
                     + getPopulatedErrorMessage(
                           FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
                           FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
@@ -421,10 +420,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                         FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
                         FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
-                    + getPopulatedErrorMessage(
+                    + getPopulatedEmptyStringErrorMessage(
                           FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, instructorToEdit.name,
-                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                          FieldValidator.PERSON_NAME_MAX_LENGTH),
+                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH),
                     e.getMessage());
         }
 

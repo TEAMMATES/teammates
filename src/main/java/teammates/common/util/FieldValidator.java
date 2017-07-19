@@ -292,7 +292,7 @@ public class FieldValidator {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, email, EMAIL_FIELD_NAME, REASON_EMPTY,
+            return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, email, EMAIL_FIELD_NAME,
                                             EMAIL_MAX_LENGTH);
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
@@ -324,8 +324,8 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_EMPTY, GOOGLE_ID_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING, googleId,
+                                            GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
@@ -349,8 +349,8 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", courseId != null);
 
         if (courseId.isEmpty()) {
-            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, courseId, COURSE_ID_FIELD_NAME,
-                                            REASON_EMPTY, COURSE_ID_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, courseId,
+                                            COURSE_ID_FIELD_NAME, COURSE_ID_MAX_LENGTH);
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
@@ -514,8 +514,8 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
 
         if (value.isEmpty()) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, value, fieldName,
-                                            REASON_EMPTY, maxLength);
+            return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                            value, fieldName, maxLength);
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -732,5 +732,17 @@ public class FieldValidator {
         return messageTemplate.replace("${userInput}", userInput)
                               .replace("${fieldName}", fieldName)
                               .replace("${reason}", errorReason);
+    }
+
+    public static String getPopulatedEmptyStringErrorMessage(
+            String messageTemplate, String userInput, String fieldName, int maxLength) {
+        return getPopulatedEmptyStringErrorMessage(messageTemplate, userInput, fieldName)
+                   .replace("${maxLength}", String.valueOf(maxLength));
+    }
+
+    private static String getPopulatedEmptyStringErrorMessage(
+            String messageTemplate, String userInput, String fieldName) {
+        return messageTemplate.replace("${userInput}", userInput)
+                              .replace("${fieldName}", fieldName);
     }
 }
