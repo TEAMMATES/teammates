@@ -24,6 +24,7 @@ function populateStatusMessageDiv(message, status) {
     $statusMessageDivContent.addClass('alert');
     // Default the status type to info if any invalid status is passed in
     $statusMessageDivContent.addClass(`alert-${StatusType.isValidType(status) ? status : StatusType.INFO}`);
+    $statusMessageDivContent.addClass(`icon-${StatusType.isValidType(status) ? status : StatusType.INFO}`);
     $statusMessageDivContent.addClass('statusMessage');
     $statusMessageDivContent.html(message);
 
