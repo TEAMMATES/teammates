@@ -23,7 +23,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails,
                                        String[] answer) {
-        List<Integer> rankAnswer = new ArrayList<Integer>();
+        List<Integer> rankAnswer = new ArrayList<>();
         for (String answerPart : answer) {
             try {
                 rankAnswer.add(Integer.parseInt(answerPart));

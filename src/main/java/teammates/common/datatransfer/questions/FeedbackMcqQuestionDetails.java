@@ -40,7 +40,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.MCQ);
 
         this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<String>();
+        this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
@@ -63,7 +63,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackQuestionType questionType) {
 
         int numOfMcqChoices = 0;
-        List<String> mcqChoices = new LinkedList<String>();
+        List<String> mcqChoices = new LinkedList<>();
         boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
 
         if ("on".equals(HttpRequestHelper.getValueFromParamMap(
@@ -109,7 +109,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     private void setMcqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
         this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<String>();
+        this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
@@ -231,7 +231,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();
+        List<String> optionList = new ArrayList<>();
 
         switch (generateOptionsFor) {
         case NONE:
@@ -379,7 +379,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
         for (String option : mcqChoices) {
             answerFrequency.put(option, 0);
@@ -430,7 +430,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
         for (String option : mcqChoices) {
             answerFrequency.put(option, 0);
@@ -483,7 +483,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
@@ -498,7 +498,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         for (FeedbackResponseAttributes response : responses) {
             FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();

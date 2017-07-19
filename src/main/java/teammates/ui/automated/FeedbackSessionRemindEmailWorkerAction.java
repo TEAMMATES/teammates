@@ -43,7 +43,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
-            List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+            List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             for (StudentAttributes student : studentList) {
                 if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
                     studentsToRemindList.add(student);
@@ -51,7 +51,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             }
 
             // Filter out instructors who have submitted the feedback session
-            List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+            List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
             for (InstructorAttributes instructor : instructorList) {
                 if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.email)) {
                     instructorsToRemindList.add(instructor);

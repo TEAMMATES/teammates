@@ -20,7 +20,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
-public class FeedbackSessionAttributes extends EntityAttributes implements SessionAttributes {
+public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> implements SessionAttributes {
     // Required fields
     private String feedbackSessionName;
     private String courseId;
@@ -173,7 +173,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         // Check for null fields.
 

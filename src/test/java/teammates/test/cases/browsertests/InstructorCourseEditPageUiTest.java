@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -52,6 +54,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testEditCourseAction();
         testDeleteCourseAction();
 
+        testSanitization();
     }
 
     private void testContent() throws Exception {
@@ -150,9 +153,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     private void testInviteInstructorAction() {
         ______TS("success: invite an uregistered instructor");
-        int unregisteredInsturctorIndex = 4;
+        int unregisteredInstructorIndex = 4;
 
-        courseEditPage.clickInviteInstructorLink(unregisteredInsturctorIndex);
+        courseEditPage.clickInviteInstructorLink(unregisteredInstructorIndex);
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
@@ -224,14 +227,38 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.getEditInstructorLink(editInstructorIndex).getText().contains("Edit failed."));
         courseEditPage.reloadPage();
 
-        ______TS("success: edit an instructor");
+        ______TS("success: edit instructor, make hidden and verify changes");
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", false, "",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
+                false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt",
+        ______TS("success: unhide instructor and verify changes");
+
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
+                true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        ______TS("success: edit yet-to-join instructor, make hidden and verify changes");
+
+        editInstructorIndex = 3;
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", false, "",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        assertTrue(courseEditPage.isInstructorListSortedByName());
+
+        ______TS("success: unhide yet-to-join instructor and verify changes");
+
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", true,
+                "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
 
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
 
+        editInstructorIndex = 1;
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
         assertTrue(courseEditPage.isInstructorEditable(editInstructorIndex));
 
@@ -369,13 +396,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
 
-        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail,
+        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail, true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
-        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt",
+        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
 
@@ -652,10 +679,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorPrivileges privilege =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
-        InstructorAttributes instructor =
-                new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt",
-                                         Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
-                                         "Teammates Reg", privilege);
+        InstructorAttributes instructor = InstructorAttributes
+                .builder("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt")
+                .withDisplayedName("Teammates Reg")
+                .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
+                .withPrivileges(privilege)
+                .build();
         BackDoor.createInstructor(instructor);
 
         // Create an unregistered instructor with co-owner privilege
@@ -747,6 +776,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isInstructorEditable(unregInstrNum));
         assertEquals("true", courseEditPage.getEmailField(unregInstrNum).getAttribute("readonly"));
         assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
+    }
+
+    private void testSanitization() throws IOException {
+        ______TS("page load: data requires sanitization");
+
+        instructorId = testData.instructors.get("InsCrsEdit.instructor1OfTestingSanitizationCourse").googleId;
+        courseId = testData.courses.get("InsCrsEdit.testingSanitizationCourse").getId();
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTestingSanitization.html");
     }
 
     private InstructorCourseEditPage getCourseEditPage() {

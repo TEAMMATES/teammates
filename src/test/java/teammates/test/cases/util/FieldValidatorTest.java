@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -96,12 +97,12 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetValidityInfoForNonHtmlField_unsanitizedInput_returnErrorString() {
-        String unsanitizedInput = "Invalid unsanitized input <>\\/'&";
+        String unsanitizedInput = "Invalid unsanitized input <>\"/'&";
         String testFieldName = "Inconsequential test field name";
         String actual = validator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
         assertEquals("Invalid unsanitized input should return error string",
                      "The provided Inconsequential test field name is not acceptable to TEAMMATES as it "
-                         + "cannot contain the following special html characters in brackets: (&lt; &gt; \\ "
+                         + "cannot contain the following special html characters in brackets: (&lt; &gt; &quot; "
                          + "&#x2f; &#39; &amp;)",
                      actual);
     }
@@ -387,6 +388,39 @@ public class FieldValidatorTest extends BaseTestCase {
         actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Unsanitized, invalid gender should return appropriate error string",
                 String.format(GENDER_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidGender)),
+                actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForRole_null_throwException() {
+        String errorMessageForNullRole = "Did not throw the expected AssertionError for null value";
+        try {
+            validator.getInvalidityInfoForRole(null);
+            signalFailureToDetectException(errorMessageForNullRole);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    @Test
+    public void testGetInvalidityInfoForRole_valid_returnEmptyString() {
+        String validRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String actual = validator.getInvalidityInfoForRole(validRole);
+        assertEquals("Valid role should return empty string", "", actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForRole_invalid_returnErrorString() {
+        String invalidRole = "student leader";
+        String actual = validator.getInvalidityInfoForRole(invalidRole);
+        assertEquals("Invalid role should return appropriate error string",
+                String.format(ROLE_ERROR_MESSAGE, invalidRole),
+                actual);
+
+        invalidRole = "<script> alert('hi!'); </script>";
+        actual = validator.getInvalidityInfoForRole(invalidRole);
+        assertEquals("Unsanitized, invalid role should return appropriate error string",
+                String.format(ROLE_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidRole)),
                 actual);
     }
 

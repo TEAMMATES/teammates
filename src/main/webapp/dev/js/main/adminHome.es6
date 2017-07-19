@@ -1,5 +1,10 @@
-import { makeCsrfTokenParam } from '../common/crypto.es6';
-import { encodeHtmlString } from '../common/sanitizer.es6';
+import {
+    makeCsrfTokenParam,
+} from '../common/crypto.es6';
+
+import {
+    encodeHtmlString,
+} from '../common/sanitizer.es6';
 
 /**
  * Functions defined and used in `/adminHome`
@@ -72,12 +77,12 @@ function addInstructorAjax(isError, data) {
             data.instructorName,
             data.instructorEmail,
             data.instructorInstitution,
-            data.instructorAddingResultForAjax,
+            data.isInstructorAddingResultForAjax,
             data.statusForAjax,
         );
     }
     $('#addInstructorResultTable tbody').append(rowText);
-    const isNotAddingResultForAjax = !(data && data.instructorAddingResultForAjax);
+    const isNotAddingResultForAjax = !(data && data.isInstructorAddingResultForAjax);
     if (isInputFromFirstPanel && isNotAddingResultForAjax) {
         const instructorsToBeRetried = `${$('#addInstructorDetailsSingleLine').val()
                                         + instructorDetailsList[paramsCounter]}\n`;

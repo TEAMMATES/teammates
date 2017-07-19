@@ -17,16 +17,20 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.RetryManager;
+import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore.
  */
-public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
+public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithObjectifyAccess {
 
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
+
+    protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
 
     protected void verifyPresentInDatastore(DataBundle data) {
         Map<String, AccountAttributes> accounts = data.accounts;
@@ -50,7 +54,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    private EntityAttributes getEntity(EntityAttributes expected) {
+    private EntityAttributes<?> getEntity(EntityAttributes<?> expected) {
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
 
@@ -80,9 +84,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         }
     }
 
-    protected void verifyAbsentInDatastore(EntityAttributes entity) {
+    protected void verifyAbsentInDatastore(EntityAttributes<?> entity) {
         int retryLimit = VERIFICATION_RETRY_COUNT;
-        EntityAttributes actual = getEntity(entity);
+        EntityAttributes<?> actual = getEntity(entity);
         while (actual != null && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
@@ -91,9 +95,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         assertNull(actual);
     }
 
-    protected void verifyPresentInDatastore(EntityAttributes expected) {
+    protected void verifyPresentInDatastore(EntityAttributes<?> expected) {
         int retryLimit = VERIFICATION_RETRY_COUNT;
-        EntityAttributes actual = getEntity(expected);
+        EntityAttributes<?> actual = getEntity(expected);
         while (actual == null && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
@@ -102,7 +106,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
         verifyEquals(expected, actual);
     }
 
-    private void verifyEquals(EntityAttributes expected, EntityAttributes actual) {
+    private void verifyEquals(EntityAttributes<?> expected, EntityAttributes<?> actual) {
         if (expected instanceof AccountAttributes) {
             AccountAttributes expectedAccount = ((AccountAttributes) expected).getCopy();
             AccountAttributes actualAccount = (AccountAttributes) actual;
@@ -168,7 +172,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCase {
             expected.studentProfile = null;
         } else {
             if (expected.studentProfile == null) {
-                expected.studentProfile = new StudentProfileAttributes();
+                expected.studentProfile = StudentProfileAttributes.builder().build();
                 expected.studentProfile.googleId = actual.googleId;
             }
             expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;

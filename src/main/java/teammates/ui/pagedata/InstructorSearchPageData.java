@@ -93,14 +93,14 @@ public class InstructorSearchPageData extends PageData {
     private void setSearchCommentsForResponsesTables(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        searchCommentsForResponsesTables = new ArrayList<SearchCommentsForResponsesTable>();
+        searchCommentsForResponsesTables = new ArrayList<>();
         searchCommentsForResponsesTables.add(new SearchCommentsForResponsesTable(
                                                createFeedbackSessionRows(frcSearchResultBundle)));
     }
 
     private void setSearchStudentsTables(StudentSearchResultBundle studentSearchResultBundle) {
 
-        searchStudentsTables = new ArrayList<SearchStudentsTable>(); // 1 table for each course
+        searchStudentsTables = new ArrayList<>(); // 1 table for each course
         List<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(studentSearchResultBundle);
 
         for (String courseId : courseIdList) {
@@ -112,7 +112,7 @@ public class InstructorSearchPageData extends PageData {
     private List<FeedbackSessionRow> createFeedbackSessionRows(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
+        List<FeedbackSessionRow> rows = new ArrayList<>();
 
         for (String fsName : frcSearchResultBundle.questions.keySet()) {
             String courseId = frcSearchResultBundle.sessions.get(fsName).getCourseId();
@@ -127,7 +127,7 @@ public class InstructorSearchPageData extends PageData {
                                     String fsName,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<QuestionTable> questionTables = new ArrayList<QuestionTable>();
+        List<QuestionTable> questionTables = new ArrayList<>();
         List<FeedbackQuestionAttributes> questionList = frcSearchResultBundle.questions.get(fsName);
 
         for (FeedbackQuestionAttributes question : questionList) {
@@ -146,7 +146,7 @@ public class InstructorSearchPageData extends PageData {
                                     FeedbackQuestionAttributes question,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<ResponseRow> rows = new ArrayList<ResponseRow>();
+        List<ResponseRow> rows = new ArrayList<>();
         List<FeedbackResponseAttributes> responseList = frcSearchResultBundle.responses.get(question.getId());
 
         for (FeedbackResponseAttributes responseEntry : responseList) {
@@ -164,7 +164,7 @@ public class InstructorSearchPageData extends PageData {
                                     FeedbackResponseAttributes responseEntry,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<FeedbackResponseCommentRow> rows = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseCommentRow> rows = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
                                                               .comments.get(responseEntry.getId());
 
@@ -175,7 +175,9 @@ public class InstructorSearchPageData extends PageData {
                 frCommentGiver = frc.giverEmail;
             }
 
-            FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver);
+            double sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
+            FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
+                    frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
 
             rows.add(frcDiv);
         }
@@ -184,12 +186,12 @@ public class InstructorSearchPageData extends PageData {
 
     private List<StudentListSectionData> createStudentRows(String courseId,
                                                            StudentSearchResultBundle studentSearchResultBundle) {
-        List<StudentListSectionData> rows = new ArrayList<StudentListSectionData>();
+        List<StudentListSectionData> rows = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = filterStudentsByCourse(
                                                        courseId, studentSearchResultBundle);
-        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<String, List<String>>();
-        Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<String, List<StudentAttributes>>();
-        Map<String, String> emailToPhotoUrlMap = new HashMap<String, String>();
+        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<>();
+        Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<>();
+        Map<String, String> emailToPhotoUrlMap = new HashMap<>();
         for (StudentAttributes student : studentsInCourse) {
             String teamName = student.team;
             String sectionName = student.section;
@@ -206,11 +208,11 @@ public class InstructorSearchPageData extends PageData {
                 sectionNameToTeamNameMap.get(sectionName).add(teamName);
             }
         }
-        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        List<SectionDetailsBundle> sections = new ArrayList<>();
         for (Map.Entry<String, List<String>> entry : sectionNameToTeamNameMap.entrySet()) {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
             sdb.name = entry.getKey();
-            ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+            ArrayList<TeamDetailsBundle> teams = new ArrayList<>();
             for (String teamName : entry.getValue()) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();
                 tdb.name = teamName;
@@ -237,7 +239,7 @@ public class InstructorSearchPageData extends PageData {
 
     private List<String> getCourseIdsFromStudentSearchResultBundle(
                                     StudentSearchResultBundle studentSearchResultBundle) {
-        List<String> courses = new ArrayList<String>();
+        List<String> courses = new ArrayList<>();
 
         for (StudentAttributes student : studentSearchResultBundle.studentList) {
             String course = student.course;
@@ -256,7 +258,7 @@ public class InstructorSearchPageData extends PageData {
                                     String courseId,
                                     StudentSearchResultBundle studentSearchResultBundle) {
 
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> students = new ArrayList<>();
 
         for (StudentAttributes student : studentSearchResultBundle.studentList) {
             if (courseId.equals(student.course)) {

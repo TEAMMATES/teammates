@@ -1,5 +1,14 @@
-import { showModalConfirmation } from './bootboxWrapper.es6';
-import { StatusType } from './const.es6';
+import {
+    showModalConfirmation,
+} from './bootboxWrapper.es6';
+
+import {
+    scrollToElement,
+} from './scrollTo.es6';
+
+import {
+    StatusType,
+} from './const.es6';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -334,6 +343,43 @@ function attachEventToDeleteStudentLink() {
     });
 }
 
+function sendRemindersToStudents(urlLink) {
+    const $statusMessage = $('#statusMessagesToUser');
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        beforeSend() {
+            $statusMessage.html('<img src="/images/ajax-loader.gif">');
+            $statusMessage.css('display', 'block');
+        },
+        error() {
+            $statusMessage.html('An error has occurred while sending reminder. Please try again.');
+        },
+        success(data) {
+            const statusToUser = $(data).find('#statusMessagesToUser').html();
+            $statusMessage.html(statusToUser);
+
+            scrollToElement($statusMessage[0], { duration: 1000 });
+        },
+    });
+}
+
+function attachEventToDeleteAllStudentLink() {
+    $('body').on('click', '.course-student-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.target);
+        const messageText = `Are you sure you want to remove all students
+                from the course ${$clickedLink.data('courseId')}?`;
+        const okCallback = () => {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deletion', messageText, okCallback, null,
+                null, null, StatusType.DANGER);
+    });
+}
+
 function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', (event) => {
         event.preventDefault();
@@ -342,7 +388,8 @@ function bindRemindButtons() {
         const messageText = `Send e-mails to remind students who have not submitted their feedback for ${
                            $button.data('fsname')}?`;
         const okCallback = function () {
-            window.location = $button.attr('href');
+            const urlLink = $button.attr('href');
+            sendRemindersToStudents(urlLink);
         };
 
         showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
@@ -440,6 +487,7 @@ function prepareInstructorPages() {
 
 export {
     attachEventToDeleteStudentLink,
+    attachEventToDeleteAllStudentLink,
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
@@ -450,4 +498,5 @@ export {
     prepareInstructorPages,
     selectElementContents,
     setupFsCopyModal,
+    sendRemindersToStudents,
 };

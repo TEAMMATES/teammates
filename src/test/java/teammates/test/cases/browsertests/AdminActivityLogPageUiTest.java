@@ -2,6 +2,7 @@ package teammates.test.cases.browsertests;
 
 import java.util.Calendar;
 
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.Test;
 
@@ -9,6 +10,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.pageobjects.AdminActivityLogPage;
+import teammates.test.pageobjects.AdminSearchPage;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_ACTIVITY_LOG_PAGE}.
@@ -29,6 +31,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         testReference();
         testViewActionsLink();
         testInputValidation();
+        testSanitization();
     }
 
     private void testUserTimezone() {
@@ -120,6 +123,29 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
 
+    }
+
+    private void testSanitization() {
+        ______TS("safe against injection from admin search page");
+
+        AdminSearchPage searchPageForInjection = logPage
+                .navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE))
+                .changePageType(AdminSearchPage.class);
+
+        String injectedScript = "Test Injected Script<script>alert('This is not good.');</script>";
+        searchPageForInjection.inputSearchContent(injectedScript);
+        searchPageForInjection.clickSearchButton();
+        searchPageForInjection.waitForPageToLoad();
+
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
+        logPage.waitForPageToLoad();
+
+        try {
+            browser.driver.switchTo().alert();
+            signalFailureToDetectException("Script managed to get injected");
+        } catch (NoAlertPresentException e) {
+            // this is what we expect, since we expect the script injection to fail
+        }
     }
 
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {

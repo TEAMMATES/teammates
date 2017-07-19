@@ -38,7 +38,6 @@ import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
@@ -88,7 +87,7 @@ public class Logic {
 
         StudentProfileAttributes studentProfile = studentProfileParam;
         if (studentProfile == null) {
-            studentProfile = new StudentProfileAttributes();
+            studentProfile = StudentProfileAttributes.builder().build();
             studentProfile.googleId = googleId;
         }
         AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,
@@ -228,19 +227,14 @@ public class Logic {
             accountsLogic.createAccount(account);
         }
 
-        String role = roleParam == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : roleParam;
-        String displayedName = displayedNameParam == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedNameParam;
-        InstructorAttributes instructor = null;
+        // In case when roleParam is null, default values used both for role and for privileges.
+        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
+        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
+                .withRole(roleParam).withDisplayedName(displayedNameParam)
+                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
+                .withIsArchived(isArchived)
+                .build();
 
-        if (privileges == null) {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, isDisplayedToStudents,
-                                                  displayedName, new InstructorPrivileges(role));
-        } else {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
-        }
-
-        instructor.isArchived = isArchived;
-        instructor.isDisplayedToStudents = isDisplayedToStudents;
         instructorsLogic.createInstructor(instructor);
     }
 
@@ -257,9 +251,9 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor =
-                new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
-
+        InstructorAttributes instructor = InstructorAttributes.builder(null, courseId, name, email)
+                .withRole(role).withPrivileges(new InstructorPrivileges(role))
+                .build();
         instructorsLogic.createInstructor(instructor);
     }
 
@@ -1028,6 +1022,17 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
+    /**
+     * Deletes all the students in the course.
+     *
+     * @param courseId course id for the students
+     */
+    public void deleteAllStudentsInCourse(String courseId) {
+
+        Assumption.assertNotNull(courseId);
+        studentsLogic.deleteAllStudentsInCourse(courseId);
+    }
+
     public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
 
         Assumption.assertNotNull(courseId);
@@ -1644,7 +1649,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1664,7 +1669,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1683,7 +1688,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1701,7 +1706,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1768,26 +1773,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session of a roster.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(String feedbackSessionName,
-                                                                               String courseId, String userEmail,
-                                                                               CourseRoster roster,
-                                                                               Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail,
-                                                                            roster, isIncludeResponseStatus);
     }
 
     /**

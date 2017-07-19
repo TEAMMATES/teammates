@@ -1,8 +1,23 @@
-import { StatusType } from '../common/const.es6';
-import { attachEventToDeleteStudentLink, bindStudentPhotoLink, executeCopyCommand, prepareInstructorPages,
-        selectElementContents } from '../common/instructor.es6';
-import { toggleSort } from '../common/sortBy.es6';
-import { clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
+import {
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    attachEventToDeleteStudentLink,
+    bindStudentPhotoLink,
+    executeCopyCommand,
+    prepareInstructorPages,
+    selectElementContents,
+} from '../common/instructor.es6';
+
+import {
+    toggleSort,
+} from '../common/sortBy.es6';
+
+import {
+    clearStatusMessages,
+    setStatusMessage,
+} from '../common/statusMessage.es6';
 
 // Trigger ajax request for a course through clicking the heading
 function triggerAjax(e) {
