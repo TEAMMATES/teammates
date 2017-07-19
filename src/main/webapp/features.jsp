@@ -208,7 +208,7 @@
             There is no limit on the number of courses or sessions you could have either.
           </div>
         </div>
-        <img class="row features-page-img" src="images/raised-edge.png">
+        <img class="img-responsive features-page-img" src="images/raised-edge.png">
       </div>
     </section>
 
