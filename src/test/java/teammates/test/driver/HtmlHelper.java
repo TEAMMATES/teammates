@@ -37,6 +37,8 @@ public final class HtmlHelper {
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
+    private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC = 
+            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9].[0-9]?[0-9]?[0-9]Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
 
@@ -386,6 +388,8 @@ public final class HtmlHelper {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
         String dateTimeNow = sdf.format(now);
+        SimpleDateFormat sdfForIso8601 = new SimpleDateFormat("yyyy-MM-dd'T'");
+        String dateTimeNowInIso8601 = sdfForIso8601.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
                       .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
@@ -438,6 +442,7 @@ public final class HtmlHelper {
                       .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
+                      .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -492,7 +497,8 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.convertAndFormatDateToIso8601Utc(now, 0.0));
     }
 
 }
