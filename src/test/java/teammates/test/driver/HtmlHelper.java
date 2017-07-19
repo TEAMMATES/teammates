@@ -474,7 +474,8 @@ public final class HtmlHelper {
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**
