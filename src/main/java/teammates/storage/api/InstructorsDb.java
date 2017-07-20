@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.appengine.api.search.Results;
@@ -122,20 +123,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
             putDocument(instructor);
-        }
-    }
-
-    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd)
-            throws InvalidParametersException {
-
-        List<InstructorAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
-
-        for (InstructorAttributes instructor : instructorsToUpdate) {
-            try {
-                updateInstructorByEmail(instructor);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
         }
     }
 
@@ -291,6 +278,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
         instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
         instructorToUpdate.setRole(instructorAttributesToUpdate.role);
+        instructorToUpdate.setIsDisplayedToStudents(instructorAttributesToUpdate.isDisplayedToStudents);
         instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
 
@@ -401,7 +389,9 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
-        return load().filter("courseId =", courseId).list();
+        List<Instructor> instructorReturnList = load().filter("courseId =", courseId).list();
+        Collections.sort(instructorReturnList, Instructor.compareByName);
+        return instructorReturnList;
     }
 
     private List<Instructor> getInstructorEntities() {

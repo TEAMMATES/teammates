@@ -383,7 +383,8 @@ public final class Const {
                 "View how this session would look like to a student who is submitting feedback.<br>"
                 + "Preview is unavailable if the course has yet to have any student enrolled.";
         public static final String FEEDBACK_PREVIEW_ASINSTRUCTOR =
-                "View how this session would look like to an instructor who is submitting feedback.";
+                "View how this session would look like to an instructor who is submitting feedback.<br>"
+                + "Only instructors with submit privileges are included in the list.";
 
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "
@@ -1404,6 +1405,10 @@ public final class Const {
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
                 + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href=\"/\" target=\"_blank\">home page</a>.";
+
+        public static final String NEW_INSTRUCTOR_TEXT_MESSAGE = "New to TEAMMATES? You may wish to have a look at our "
+                + "Getting Started Guide.\n"
+                + "A video tour is also available in our home page.";
 
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "
