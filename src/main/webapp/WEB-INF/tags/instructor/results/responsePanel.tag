@@ -11,7 +11,7 @@
 <div class="panel panel-info">
   <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
   <div class="panel-heading">
-  Question ${responsePanel.question.questionNumber}: <span class="text-preserve-space">${responsePanel.questionText}${responsePanel.additionalInfoText}</span>
+    Question ${responsePanel.question.questionNumber}: <span class="text-preserve-space">${responsePanel.questionText}${responsePanel.additionalInfoText}</span>
   </div>
   <div class="panel-body">
     <div style="clear:both; overflow: hidden">
@@ -36,7 +36,7 @@
     <c:set var="fourthIndex" value="${responsePanel.sectionId}"/>
     <c:if test="${responsePanel.commentsOnResponsesAllowed}">
       <ul class="list-group" id="responseCommentTable-${responsePanel.sectionId}-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
-        style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
+          style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
         <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
           <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
               secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"

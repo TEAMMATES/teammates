@@ -11,23 +11,23 @@
   <c:if test="${responseRow.giverDisplayed}">
     <c:if test="${responseRow.giverProfilePictureAColumn}">
       <td class="middlealign">
-       <c:choose>
-        <c:when test="${not empty responseRow.giverProfilePictureLink}">
-          <div class="profile-pic-icon-click align-center" data-link="${responseRow.giverProfilePictureLink}">
-            <a class="student-profile-pic-view-link btn-link">
-              View Photo
-            </a>
-            <img src="" alt="No Image Given" class="hidden">
-          </div>
-        </c:when>
-        <c:otherwise>
-            <div class="align-center" data-link="">
+        <c:choose>
+          <c:when test="${not empty responseRow.giverProfilePictureLink}">
+            <div class="profile-pic-icon-click align-center" data-link="${responseRow.giverProfilePictureLink}">
               <a class="student-profile-pic-view-link btn-link">
-                No Photo
+                View Photo
               </a>
+              <img src="" alt="No Image Given" class="hidden">
             </div>
-        </c:otherwise>
-       </c:choose>
+          </c:when>
+          <c:otherwise>
+              <div class="align-center" data-link="">
+                <a class="student-profile-pic-view-link btn-link">
+                  No Photo
+                </a>
+              </div>
+          </c:otherwise>
+        </c:choose>
       </td>
     </c:if>
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
@@ -58,28 +58,28 @@
             </div>
           </c:when>
           <c:otherwise>
-              <div class="align-center" data-link="">
-                <a class="student-profile-pic-view-link btn-link">
-                  No Photo
-                </a>
-              </div>
+            <div class="align-center" data-link="">
+              <a class="student-profile-pic-view-link btn-link">
+                No Photo
+              </a>
+            </div>
           </c:otherwise>
         </c:choose>
       </td>
     </c:if>
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
-    <c:choose>
-      <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
-        <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
+      <c:choose>
+        <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
+          <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
+            ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
+            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+          </div>
+        </c:when>
+        <c:otherwise>
           ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
-          <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-        </div>
-      </c:when>
-      <c:otherwise>
-        ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
-      </c:otherwise>
-    </c:choose>
+        </c:otherwise>
+      </c:choose>
     </td>
   </c:if>
   <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->

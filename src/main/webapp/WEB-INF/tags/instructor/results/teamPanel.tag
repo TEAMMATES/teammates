@@ -68,14 +68,14 @@
             <hr class="margin-top-0">
           </c:if>
        </div>
-       </c:if>
+      </c:if>
 
       <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
         <c:forEach items="${participantPanels}" var="participantPanel">
           <results:participantPanel isShowingAll="${isShowingAll}" participantPanel="${participantPanel}"
               isSecondaryParticipantType="${isSecondaryParticipantType}"/>
         </c:forEach>
-       </c:if>
+      </c:if>
 
     </div>
   </div>

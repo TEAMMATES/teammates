@@ -30,7 +30,7 @@
                      <td><i>${fn:escapeXml(noResponsePanel.teams[email])}</i></td>
                 </c:when>
                 <c:otherwise>
-                     <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
+                  <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
                 </c:otherwise>
               </c:choose>
               <td>${fn:escapeXml(noResponsePanel.names[email])}</td>

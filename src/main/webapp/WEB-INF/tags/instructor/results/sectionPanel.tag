@@ -54,7 +54,7 @@
                 <span class="glyphicon glyphicon-chevron-down"></span>
               </div>
             </div>
-           </div>
+          </div>
         </div>
 
         <form style="display:none;" id="seeMore-${sectionIndex}" class="seeMoreForm-${sectionIndex}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
