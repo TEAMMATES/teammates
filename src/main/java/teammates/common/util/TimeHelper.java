@@ -266,14 +266,13 @@ public final class TimeHelper {
     /**
      * Converts {@code date} to UTC according to the {@code timeZone} offset and formats it according to ISO8601.
      */
-    public static String convertAndFormatDateToIso8601Utc(Date date, double timeZone) {
-        if (date == null) {
+    public static String formatDateToIso8601Utc(Date dateInUtc, double timeZone) {
+        if (dateInUtc == null) {
             return "";
         }
         // Passing negative timeZone to convert to UTC.
-        Calendar calInUtc = convertToUserTimeZone(dateToCalendar(date), -timeZone);
         SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
-        return sdf.format(calInUtc.getTime());
+        return sdf.format(dateInUtc);
     }
 
     public static String calendarToString(Calendar c) {
