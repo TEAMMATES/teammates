@@ -47,7 +47,7 @@ bootbox.dialog = function (params) {
                             return {
                                 addClass() {
                                     // stub the subsequent method calls
-                                }
+                                },
                             };
                         },
                     };
