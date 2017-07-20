@@ -924,7 +924,11 @@ function hasWarningMessage() {
 }
 
 function isSessionClosingSoon() {
-    const endDate = new Date($(END_TIME).data('end-time'));
+    const endTimeData = $(END_TIME).data('end-time');
+    if (!endTimeData) {
+        return false;
+    }
+    const endDate = new Date(endTimeData);
     const currentDate = new Date();
     const remainingTime = endDate - currentDate;
     if (remainingTime <= MS_IN_FIFTEEN_MINUTES && remainingTime > 0) {
