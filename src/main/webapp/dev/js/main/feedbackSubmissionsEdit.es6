@@ -931,10 +931,7 @@ function isSessionClosingSoon() {
     const endDate = new Date(endTimeData);
     const currentDate = new Date();
     const remainingTime = endDate - currentDate;
-    if (remainingTime <= MS_IN_FIFTEEN_MINUTES && remainingTime > 0) {
-        return true;
-    }
-    return false;
+    return remainingTime <= MS_IN_FIFTEEN_MINUTES && remainingTime > 0;
 }
 
 function getWarningMessage() {
