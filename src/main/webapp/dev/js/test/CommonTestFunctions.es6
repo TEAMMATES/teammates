@@ -42,7 +42,15 @@ bootbox.dialog = function (params) {
         find() {
             return {
                 addClass() {
-                    // stub the subsequent method calls
+                    return {
+                        find() {
+                            return {
+                                addClass() {
+                                    // stub the subsequent method calls
+                                }
+                            };
+                        },
+                    };
                 },
             };
         },
