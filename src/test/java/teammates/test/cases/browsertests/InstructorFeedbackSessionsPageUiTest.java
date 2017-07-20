@@ -243,7 +243,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 
-        ______TS("success case: private session, boundary length name, timezone = 5.75, only results email");
+        ______TS("success case: private session, boundary length name, only results email");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.clickEditUncommonSettingsButtons();
@@ -256,7 +256,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("private session of characters1234567 #");
         newSession.setCourseId("CFeedbackUiT.CS2104");
-        newSession.setTimeZone(5.75);
         newSession.setEndTime(null);
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
@@ -274,10 +273,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
 
-        feedbackPage.addFeedbackSessionWithTimeZone(
+        feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 null, null, null, null,
-                null, -1, newSession.getTimeZone());
+                null, -1);
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.setStartTime(savedSession.getStartTime());
