@@ -273,13 +273,16 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
 
-        feedbackPage.addFeedbackSessionWithStandardTimeZone(
+        feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 null, null, null, null,
                 null, -1);
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
+        // start time and time zone are autodetected and set by the browser
+        // since they vary from system to system, we do not test for their values
         newSession.setStartTime(savedSession.getStartTime());
+        newSession.setTimeZone(savedSession.getTimeZone());
 
         assertEquals(newSession.toString(), savedSession.toString());
 
