@@ -266,7 +266,7 @@ public final class TimeHelper {
     /**
      * Converts {@code date} to UTC according to the {@code timeZone} offset and formats it according to ISO8601.
      */
-    public static String formatDateToIso8601Utc(Date dateInUtc, double timeZone) {
+    public static String formatDateToIso8601Utc(Date dateInUtc) {
         if (dateInUtc == null) {
             return "";
         }
