@@ -245,22 +245,23 @@ function addInstructors(instructors, postProcess) {
         if (firstInstructor.isError()) {
             ajaxResults.push(new InstructorAjaxResult(firstInstructor, null));
             addInstructorsHelper(remainingInstructors);
-        } else {
-            $.ajax({
-                type: 'POST',
-                url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${firstInstructor.getParamString()}`,
-                beforeSend: disableAddInstructorForm,
-                error() {
-                    const ajaxError = new InstructorError('Cannot send Ajax Request!');
-                    ajaxResults.push(new InstructorAjaxResult(ajaxError, null));
-                    addInstructorsHelper(remainingInstructors);
-                },
-                success(data) {
-                    ajaxResults.push(new InstructorAjaxResult(firstInstructor, data));
-                    addInstructorsHelper(remainingInstructors);
-                },
-            });
+            return;
         }
+
+        $.ajax({
+            type: 'POST',
+            url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${firstInstructor.getParamString()}`,
+            beforeSend: disableAddInstructorForm,
+            error() {
+                const ajaxError = new InstructorError('Cannot send Ajax Request!');
+                ajaxResults.push(new InstructorAjaxResult(ajaxError, null));
+                addInstructorsHelper(remainingInstructors);
+            },
+            success(data) {
+                ajaxResults.push(new InstructorAjaxResult(firstInstructor, data));
+                addInstructorsHelper(remainingInstructors);
+            },
+        });
     };
     /* eslint-enable no-shadow */
 
