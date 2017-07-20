@@ -1455,9 +1455,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR =
                 "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
-        public static final String FEEDBACK_SESSION_CLOSED_MESSAGE =
-                "is now closed. You can still view your submission by going to the link sent earlier, "
-                        + "but you will not be able to edit existing responses or submit new responses";
 
         public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
                 + "that are currently open and view results without logging in. To access other features "
@@ -1547,6 +1544,14 @@ public final class Const {
 
         public static final String ERROR_LOG_FORMAT = "Email log message is not in expected format."
                 + " Raw log message: %1$s";
+    }
+
+    public static class EmailTemplateMessages {
+        public static final String FEEDBACK_SESSION_CLOSED_MESSAGE =
+                "is now closed. You can still view your submission by going to the link sent earlier, "
+                + "but you will not be able to edit existing responses or submit new responses";
+        public static final String FEEDBACK_ACTION_SUBMIT = "submit";
+        public static final String FEEDBACK_ACTION_VIEW = "view";
     }
 
 }
