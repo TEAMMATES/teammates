@@ -240,16 +240,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         clickSubmitButton();
     }
 
-    public void addFeedbackSessionWithTimeZone(
-            String feedbackSessionName,
-            String courseId,
-            Date startTime,
-            Date endTime,
-            Date visibleTime,
-            Date publishTime,
-            Text instructions,
-            int gracePeriod,
-            double timeZone) {
+    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId, Date startTime,
+            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod, double timeZone) {
 
         selectTimeZone(timeZone);
 
