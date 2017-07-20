@@ -102,8 +102,19 @@ class Instructor {
      * If the format is wrong, constructs and returns a InstructorError instead.
      */
     static createFromString(str) {
-        const regexForTestingStringFormat = /^([^|\t]+)(?:\t|(?:\s\|\s))([^|\t]+)(?:\t|(?:\s\|\s))([^|\t]+)$/;
-        const regexForSplittingString = /\t|(?:\s\|\s)/g;
+        const regexStringForPipeSeparator = '(?:\\s*\\|\\s*)';
+        const regexStringForTabSeparator = '\\t+';
+        const regexStringForSeparator = `(?:${regexStringForTabSeparator}|${regexStringForPipeSeparator})`;
+        const regexStringForFields = '([^|\\t]+)';
+
+        const regexForTestingStringFormat = new RegExp(`^${[
+            regexStringForFields, // name
+            regexStringForSeparator,
+            regexStringForFields, // email
+            regexStringForSeparator,
+            regexStringForFields, // institution
+        ].join('')}$`);
+        const regexForSplittingString = new RegExp(regexStringForSeparator, 'g');
 
         const isStringInCorrectFormat = regexForTestingStringFormat.test(str);
         if (!isStringInCorrectFormat) {

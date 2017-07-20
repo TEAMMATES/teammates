@@ -52,8 +52,8 @@ QUnit.test('test conversion from instructor list to pipe-separated string', (ass
 QUnit.test('test conversion from pipe-separated string to instructor list', (assert) => {
     assert.expect(1);
     const instructorString = 'testName1 | testEmail1@email.com | testInstitution1\n'
-        + 'testName2 | testEmail2@email.com | testInstitution2\n'
-        + 'testName3 | testEmail3@email.com | testInstitution3';
+        + 'testName2  |   testEmail2@email.com | testInstitution2\n'
+        + 'testName3| testEmail3@email.com   |  testInstitution3';
     const instructorListExpected = [
         Instructor.create('testName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),
         Instructor.create('testName2', 'testName2', 'testEmail2@email.com', 'testInstitution2'),
@@ -78,11 +78,11 @@ QUnit.test('test conversion from tab- and pipe-separated string to instructor li
 QUnit.test('test conversion from erroneous pipe-separated string to instructor list', (assert) => {
     assert.expect(1);
 
-    const str1 = 'testName1 | testEmail1@email.com | testInstitution1';
+    const str1 = 'testName1  |   testEmail1@email.com | testInstitution1';
     const str2 = 'testName2 ||||| testInstitution2';
-    const str3 = 'testName3 | testEmail3@email.com | testInstitution3';
-    const str4 = 'testName4 | testEmail4@email.com | testInstitution4 | ????';
-    const str5 = 'testName5 | testEmail5@email.com | testInstitution5';
+    const str3 = 'testName3|  testEmail3@email.com     |testInstitution3';
+    const str4 = 'testName4 | testEmail4@email.com   | testInstitution4 | ????';
+    const str5 = 'testName5| testEmail5@email.com | testInstitution5';
     const str6 = 'testName6 testEmail6@email.com | testInstitution6';
 
     const instructorString = [str1, str2, str3, str4, str5, str6].join('\n');
