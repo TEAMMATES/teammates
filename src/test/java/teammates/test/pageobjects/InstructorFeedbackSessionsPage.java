@@ -391,7 +391,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
     }
 
-    public void addFeedbackSession(String feedbackSessionName, String courseId, Date startTime,
+    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
             Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
 
         addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime,

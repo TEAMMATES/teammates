@@ -187,14 +187,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         Text instructions = newSession.getInstructions();
 
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getEndTime(), newSession.getStartTime(), null, null,
                 instructions, newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
         assertEquals("<p>" + instructions.getValue() + "</p>", feedbackPage.getInstructions());
 
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 instructions, newSession.getGracePeriod());
@@ -221,7 +221,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("Team peer evaluation session");
 
         String templateSessionName = "Team Peer Evaluation Session";
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 templateSessionName, newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
@@ -237,7 +237,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
@@ -273,7 +273,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
 
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 null, null, null, null,
                 null, -1);
@@ -406,7 +406,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setGracePeriod(30);
         newSession.setInstructions(new Text("Test instructions"));
 
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(),
                 newSession.getSessionVisibleFromTime(), newSession.getResultsVisibleFromTime(),
@@ -436,7 +436,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("bad name %% #");
         newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
@@ -919,7 +919,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.selectSessionType("Session with your own questions");
         String templateSessionName = "!Invalid name";
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 templateSessionName, newSession.getCourseId(),
                 TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"),
                 TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
@@ -958,7 +958,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickNeverPublishTimeButton();
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(),
