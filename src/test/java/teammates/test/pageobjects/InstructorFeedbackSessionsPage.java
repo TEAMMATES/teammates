@@ -257,6 +257,13 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                 feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
     }
 
+    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
+            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
+
+        addFeedbackSessionWithTimeZone(
+                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod, 8.0);
+    }
+
     private void selectTimeZone(double timeZone) {
         String timeZoneString = Double.toString(timeZone);
 
@@ -407,13 +414,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public String getClientTimeZone() {
         return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
-    }
-
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
-
-        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime,
-                visibleTime, publishTime, instructions, gracePeriod, 8.0);
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {
