@@ -505,7 +505,7 @@ public final class HtmlHelper {
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
-                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.convertAndFormatDateToIso8601Utc(now, 0.0));
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now));
     }
 
     private static TimeZone getTimeZone(String content) {
