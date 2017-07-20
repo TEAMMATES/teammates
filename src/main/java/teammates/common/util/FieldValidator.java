@@ -762,14 +762,9 @@ public class FieldValidator {
                               .replace("${reason}", errorReason);
     }
 
-    public static String getPopulatedEmptyStringErrorMessage(
-            String messageTemplate, String fieldName, int maxLength) {
-        return getPopulatedEmptyStringErrorMessage(messageTemplate, userInput, fieldName)
-                   .replace("${maxLength}", String.valueOf(maxLength));
-    }
-
-    private static String getPopulatedEmptyStringErrorMessage(
-            String messageTemplate, String fieldName) {
-        return messageTemplate.replace("${fieldName}", fieldName);
+    public static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
+            String fieldName, int maxLength) {
+        return messageTemplate.replace("${fieldName}", fieldName)
+                              .replace("${maxLength}", String.valueOf(maxLength));
     }
 }
