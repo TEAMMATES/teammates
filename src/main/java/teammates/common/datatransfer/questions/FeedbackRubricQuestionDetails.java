@@ -530,6 +530,33 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
 
+    private String getRecipientStatsHeaderFragmentHtml(String header) {
+        return Templates.populateTemplate(
+                FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
+                Slots.STATS_TITLE, header);
+    }
+
+    public String getRecipientStatsHeaderHtml() {
+        StringBuilder headerBuilder = new StringBuilder(100);
+        DecimalFormat dfWeight = new DecimalFormat("#.##");
+        StringBuilder choicesHtmlBuilder = new StringBuilder(100);
+
+        for (int i = 0; i < rubricChoices.size(); i++) {
+            String weight = dfWeight.format(rubricWeights.get(i));
+            String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i) + " (Weight: " + weight + ")");
+            choicesHtmlBuilder.append(html);
+        }
+
+        headerBuilder.append(getRecipientStatsHeaderFragmentHtml("Team"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Recipient Name"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Sub Question"))
+                     .append(choicesHtmlBuilder.toString())
+                     .append(getRecipientStatsHeaderFragmentHtml("Total"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Average"));
+
+        return headerBuilder.toString();
+    }
+
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
                                                   FeedbackQuestionAttributes question, String studentEmail,
@@ -622,28 +649,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientStatsHtml = "";
 
         if (hasAssignedWeights) {
-            StringBuilder headerBuilder = new StringBuilder(100);
-            DecimalFormat dfWeight = new DecimalFormat("#.##");
-            ArrayList<String> recipientStatsCols = new ArrayList<>();
-
-            recipientStatsCols.add("Team");
-            recipientStatsCols.add("Recipient Name");
-            recipientStatsCols.add("Sub Question");
-
-            for (int i = 0; i < rubricChoices.size(); i++) {
-                String weight = dfWeight.format(rubricWeights.get(i));
-                recipientStatsCols.add(rubricChoices.get(i) + " (Weight: " + weight + ")");
-            }
-
-            recipientStatsCols.add("Total");
-            recipientStatsCols.add("Average");
-
-            for (int i = 0; i < recipientStatsCols.size(); i++) {
-                headerBuilder.append(Templates.populateTemplate(
-                        FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
-                        Slots.STATS_TITLE, recipientStatsCols.get(i)));
-            }
-
             List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
                     getPerRecipientStatistics(responses, bundle);
             StringBuilder bodyBuilder = new StringBuilder(100);
@@ -654,7 +659,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             recipientStatsHtml = Templates.populateTemplate(FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS,
-                    Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, headerBuilder.toString(),
+                    Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, getRecipientStatsHeaderHtml(),
                     Slots.TABLE_BODY_HTML, bodyBuilder.toString());
         }
 
