@@ -264,13 +264,12 @@ public final class TimeHelper {
     }
 
     /**
-     * Converts {@code date} to UTC according to the {@code timeZone} offset and formats it according to ISO8601.
+     * Formats {@code dateInUtc} according to the ISO8601 format.
      */
     public static String formatDateToIso8601Utc(Date dateInUtc) {
         if (dateInUtc == null) {
             return "";
         }
-        // Passing negative timeZone to convert to UTC.
         SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
         return sdf.format(dateInUtc);
     }
