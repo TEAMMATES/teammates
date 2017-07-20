@@ -32,11 +32,12 @@ function showModalAlert(titleText, messageText, okButtonText, color) {
             },
         },
     })
-    // applies bootstrap color to title background and adds relevant icon before title
     .find('.modal-header')
-    .addClass(`alert-${color}` || StatusType.DEFAULT)
+        // applies bootstrap color to title background
+        .addClass(`alert-${color}` || StatusType.DEFAULT)
     .find('.modal-title')
-    .addClass(`icon-${color}` || StatusType.DEFAULT);
+        // adds relevant icon before title
+        .addClass(`icon-${color}` || StatusType.DEFAULT);
 }
 
 /**
@@ -65,11 +66,12 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
             },
         },
     })
-    // applies bootstrap color to title background and adds relevant icon before title
     .find('.modal-header')
-    .addClass(`alert-${color}` || StatusType.DEFAULT)
+        // applies bootstrap color to title background
+        .addClass(`alert-${color}` || StatusType.DEFAULT)
     .find('.modal-title')
-    .addClass(`icon-${color}` || StatusType.DEFAULT);
+        // adds relevant icon before title
+        .addClass(`icon-${color}` || StatusType.DEFAULT);
 }
 
 /**
@@ -104,11 +106,12 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
             },
         },
     })
-    // applies bootstrap color to title background and adds relevant icon before title
     .find('.modal-header')
-    .addClass(`alert-${color}` || StatusType.DEFAULT)
+        // applies bootstrap color to title background
+        .addClass(`alert-${color}` || StatusType.DEFAULT)
     .find('.modal-title')
-    .addClass(`icon-${color}` || StatusType.DEFAULT);
+        // adds relevant icon before title
+        .addClass(`icon-${color}` || StatusType.DEFAULT);
 }
 
 export {
