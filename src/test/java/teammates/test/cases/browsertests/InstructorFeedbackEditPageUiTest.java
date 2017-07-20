@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -77,6 +78,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDoneEditingLink();
 
         testDeleteSessionAction();
+
+        testSanitization();
     }
 
     private void testGeneralQuestionOperations() throws Exception {
@@ -742,6 +745,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 Arrays.asList(FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS),
                 1);
 
+    }
+
+    private void testSanitization() throws IOException {
+        ______TS("Test sanitization for edit page");
+
+        instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
+        FeedbackSessionAttributes session = testData.feedbackSessions.get("session1InTestingSanitizationCourse");
+        courseId = session.getCourseId();
+        feedbackSessionName = session.getFeedbackSessionName();
+
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPageTestingSanitization.html");
+
+        ______TS("Test sanitization for copy question modal");
+
+        feedbackEditPage.clickCopyButton();
+        feedbackEditPage.waitForCopyTableToLoad();
+        feedbackEditPage.verifyHtmlPart(By.id("copyModal"), "/instructorFeedbackCopyQuestionModalTestingSanitization.html");
     }
 
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
