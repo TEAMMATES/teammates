@@ -206,7 +206,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(sendPublishedEmailCheckbox);
     }
 
-    public void addFeedbackSessionWithTimeZone(
+    public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
             Date startTime,
@@ -214,20 +214,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             Date visibleTime,
             Date publishTime,
             Text instructions,
-            int gracePeriod,
-            double timeZone) {
+            int gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
-
-        String timeZoneString = Double.toString(timeZone);
-
-        double fractionalPart = timeZone % 1;
-
-        if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) timeZone);
-        }
-
-        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
 
         waitForElementVisibility(courseIdDropdown);
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
@@ -249,6 +238,30 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
 
         clickSubmitButton();
+    }
+
+    public void addFeedbackSessionWithTimeZone(
+            String feedbackSessionName,
+            String courseId,
+            Date startTime,
+            Date endTime,
+            Date visibleTime,
+            Date publishTime,
+            Text instructions,
+            int gracePeriod,
+            double timeZone) {
+
+        String timeZoneString = Double.toString(timeZone);
+
+        double fractionalPart = timeZone % 1;
+
+        if (fractionalPart == 0.0) {
+            timeZoneString = Integer.toString((int) timeZone);
+        }
+
+        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
+
+        addFeedbackSession(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
     }
 
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
