@@ -251,6 +251,13 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             int gracePeriod,
             double timeZone) {
 
+        selectTimeZone(timeZone);
+
+        addFeedbackSession(
+                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
+    }
+
+    private void selectTimeZone(double timeZone) {
         String timeZoneString = Double.toString(timeZone);
 
         double fractionalPart = timeZone % 1;
@@ -260,8 +267,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
 
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
-
-        addFeedbackSession(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
     }
 
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
