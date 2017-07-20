@@ -8,7 +8,7 @@
   <script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Course Details" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="Course Details [Instructor]" bodyTitle="Course Details" jsIncludes="${jsIncludes}">
   <course:courseInformationContainer courseDetails="${data.courseDetails}"
       instructors="${data.instructors}"
       courseRemindButton="${data.courseRemindButton}"

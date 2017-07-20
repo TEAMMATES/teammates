@@ -10,7 +10,7 @@
   <script type="text/javascript" src="/js/adminEmail.js"></script>
 </c:set>
 
-<ta:adminPage bodyTitle="Admin Email" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
+<ta:adminPage bodyTitle="Admin Email" pageTitle="Admin Email [Administrator]" jsIncludes="${jsIncludes}">
   <adminEmail:navTabs isCompose="${data.adminEmailCompose}" isDraft="${data.adminEmailDraft}"
       isSent="${data.adminEmailSent}" isTrash="${data.adminEmailTrash}"/>
 
