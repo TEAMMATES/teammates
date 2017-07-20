@@ -10,7 +10,7 @@
   <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
 </c:set>
 <c:set var="bodyTitle">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
+<ti:instructorPage pageTitle="Student Records [Instructor]" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <div class="container-fluid">
     <c:if test="${not empty data.studentProfile}">

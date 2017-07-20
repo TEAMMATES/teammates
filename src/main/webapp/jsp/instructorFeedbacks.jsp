@@ -11,7 +11,7 @@
   <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
   <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="Add New Feedback Session [Instructor]" bodyTitle="Add New Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
   <c:if test="${!data.usingAjax}">
     <feedbacks:feedbackSessionsForm fsForm="${data.newFsForm}"/>

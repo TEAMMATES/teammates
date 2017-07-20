@@ -6,7 +6,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/instructorStudentList.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Student List" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="Student List [Instructor]" bodyTitle="Student List" jsIncludes="${jsIncludes}">
   <tisl:searchBox searchBox="${data.searchBox}" />
   <br>
   <h2>Filter Students</h2>

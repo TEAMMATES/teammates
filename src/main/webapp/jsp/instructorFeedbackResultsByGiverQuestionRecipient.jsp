@@ -6,7 +6,7 @@
   <script type="text/javascript" src="/js/instructorFeedbackResultsGQR.js"></script>
 </c:set>
 
-<results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
+<results:resultsPage pageTitle="Feedback Session Results [Instructor]" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
   <results:bySectionPanels isGroupedByQuestion="${true}" isGroupedByTeam="${data.groupedByTeam}"
       isShowingAll="${data.bundle.complete}" />
 </results:resultsPage>

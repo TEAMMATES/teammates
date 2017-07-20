@@ -8,7 +8,7 @@
   <script type="text/javascript" src="/js/adminHome.js"></script>
 </c:set>
 
-<ta:adminPage bodyTitle="Add New Instructor" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
+<ta:adminPage bodyTitle="Add New Instructor" pageTitle="Add New Instructor [Administrator]" jsIncludes="${jsIncludes}">
   <adminHome:adminCreateInstructorAccountWithOneBoxForm instructorDetailsSingleLine="${data.instructorDetailsSingleLine}"/>
   <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}"
       instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
