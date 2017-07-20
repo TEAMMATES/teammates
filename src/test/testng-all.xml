@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="all-tests">
+    <listeners>
+        <listener class-name="teammates.test.driver.PriorityInterceptor" />
+    </listeners>
+
+    <suite-files>
+        <!-- include only testng-ci as it is a superset of testng-staging -->
+        <suite-file path="testng-ci.xml" />
+        <suite-file path="testng-local.xml" />
+    </suite-files>
+</suite>
