@@ -504,7 +504,7 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now, 0))
+                      .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForComments(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.convertAndFormatDateToIso8601Utc(now, 0.0));
     }
 
