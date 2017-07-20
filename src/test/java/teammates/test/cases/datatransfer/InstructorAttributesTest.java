@@ -177,10 +177,10 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                     FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                     FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
                 + getPopulatedEmptyStringErrorMessage(
-                      FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, i.courseId,
+                      FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                       FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
                 + getPopulatedEmptyStringErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, i.name,
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                       FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
@@ -194,10 +194,10 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertFalse("invalid value", i.isValid());
         errorMessage =
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, i.courseId,
+                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
                 + getPopulatedEmptyStringErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, i.name,
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                       FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, i.email,

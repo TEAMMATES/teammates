@@ -743,7 +743,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.changePageType(InstructorCourseEditPage.class);
         courseEditPage.verifyStatus(
                 getPopulatedEmptyStringErrorMessage(
-                                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
+                                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
     }
 

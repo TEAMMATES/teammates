@@ -185,7 +185,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private boolean hasStatusMessageNoSubject() throws Exception {
         return emailPage.getStatus().equals(
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));
     }
 

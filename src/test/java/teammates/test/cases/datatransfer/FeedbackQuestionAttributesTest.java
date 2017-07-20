@@ -85,15 +85,15 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(fq.isValid());
 
         String errorMessage = getPopulatedEmptyStringErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, fq.creatorEmail,
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                                   FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + EOL
                               + getPopulatedEmptyStringErrorMessage(
-                                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, fq.courseId,
+                                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
                               + "Invalid creator's email: "
                               + getPopulatedEmptyStringErrorMessage(
-                                    FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING, fq.creatorEmail,
+                                    FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING,
                                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.EMAIL_MAX_LENGTH) + EOL
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + EOL

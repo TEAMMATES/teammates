@@ -196,10 +196,10 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         //one invalid case
         coursesPage.addCourse("", "").verifyStatus(
-                getPopulatedEmptyStringErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING, "",
+                getPopulatedEmptyStringErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
                 + getPopulatedEmptyStringErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                       FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
 
         //Checking max-length enforcement by the text boxes

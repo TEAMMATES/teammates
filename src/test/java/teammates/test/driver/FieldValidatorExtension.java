@@ -31,7 +31,7 @@ public final class FieldValidatorExtension {
 
         if (value.isEmpty()) {
             return FieldValidator.getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, value, fieldName, maxLength);
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, fieldName, maxLength);
         }
         if (FieldValidator.isUntrimmed(value)) {
             return FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);

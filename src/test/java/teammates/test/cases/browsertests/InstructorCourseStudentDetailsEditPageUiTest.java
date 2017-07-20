@@ -65,14 +65,14 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         editPage.submitUnsuccessfully(null, "", null, null)
                 .verifyStatus(getPopulatedEmptyStringErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.TEAM_NAME_MAX_LENGTH));
 
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully("", newTeamName, null, null)
                 .verifyStatus(getPopulatedEmptyStringErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, "",
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH));
 
         ______TS("long student name and the team field is not edited");

@@ -88,7 +88,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
 
         // get updated results and compare
         statusMessage = getPopulatedEmptyStringErrorMessage(
-                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, courseName,
+                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                             FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
