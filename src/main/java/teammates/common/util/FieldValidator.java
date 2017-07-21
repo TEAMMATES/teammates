@@ -94,6 +94,15 @@ public class FieldValidator {
             Collections.unmodifiableList(
                     Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
 
+    public static final String ROLE_FIELD_NAME = "access-level";
+    public static final List<String> ROLE_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
@@ -174,6 +183,9 @@ public class FieldValidator {
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
             + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
             + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+
+    public static final String ROLE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -481,6 +493,22 @@ public class FieldValidator {
         if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
                                             REASON_UNAVAILABLE_AS_CHOICE);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code role} is one of the recognized roles {@link #ROLE_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code role} is not acceptable.
+     *         Returns an empty string if the {@code role} is acceptable.
+     */
+    public String getInvalidityInfoForRole(String role) {
+        Assumption.assertTrue("Non-null value expected", role != null);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
+
+        if (!ROLE_ACCEPTED_VALUES.contains(role)) {
+            return String.format(ROLE_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
     }
