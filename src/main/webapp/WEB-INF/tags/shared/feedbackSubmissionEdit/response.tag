@@ -38,7 +38,7 @@
       </c:forEach>
     </select>
   </div>
-  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
+  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if><c:if test="${not isSessionOpenForSubmission}"> disabled-div</c:if>">
     ${response.submissionFormHtml}
     <c:if test="${response.existingResponse}">
       <input type="hidden"

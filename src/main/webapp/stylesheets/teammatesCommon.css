@@ -154,6 +154,11 @@ Apply to alert to override Bootstrap's default 3d alerts
     width: 100%;
 }
 
+.disabled-div {
+    pointer-events: none;
+    opacity: .8;
+}
+
 /*
 Allow only mouse hover events for the element.
 !important is required to override Bootstrap .disabled class matches
