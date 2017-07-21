@@ -1545,13 +1545,4 @@ public final class Const {
         public static final String ERROR_LOG_FORMAT = "Email log message is not in expected format."
                 + " Raw log message: %1$s";
     }
-
-    public static class EmailTemplateMessages {
-        public static final String FEEDBACK_SESSION_CLOSED_MESSAGE =
-                "is now closed. You can still view your submission by going to the link sent earlier, "
-                + "but you will not be able to edit existing responses or submit new responses";
-        public static final String FEEDBACK_ACTION_SUBMIT = "submit";
-        public static final String FEEDBACK_ACTION_VIEW = "view";
-    }
-
 }

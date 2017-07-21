@@ -35,6 +35,12 @@ import teammates.logic.core.StudentsLogic;
  * @see EmailWrapper
  */
 public class EmailGenerator {
+    private static final String FEEDBACK_SESSION_OPEN_STATUS = "is still open for submissions";
+    private static final String FEEDBACK_ACTION_SUBMIT = "submit";
+    private static final String FEEDBACK_ACTION_VIEW = "view";
+    private static final String FEEDBACK_SESSION_CLOSED_MESSAGE =
+            "is now closed. You can still view your submission by going to the link sent earlier, "
+                    + "but you will not be able to edit existing responses or submit new responses";
 
     private static final Logger log = Logger.getLogger();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -75,12 +81,10 @@ public class EmailGenerator {
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String template = EmailTemplates.USER_FEEDBACK_SESSION
-                .replace("${status}", "is still open for submissions");
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_SESSION_OPEN_STATUS);
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
-                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), "",
-                        Const.EmailTemplateMessages.FEEDBACK_ACTION_SUBMIT);
+                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
 
@@ -198,13 +202,13 @@ public class EmailGenerator {
 
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
-            String template, String subject, String additionalInstructions, String feedbackAction) {
+            String template, String subject) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
-                    template, subject, coOwnersLine, additionalInstructions, feedbackAction));
+                    template, subject, coOwnersLine));
         }
         return emails;
     }
@@ -236,7 +240,7 @@ public class EmailGenerator {
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template, String subject, String coOwnersLine, String additionalInstructions, String feedbackAction) {
+            String template, String subject, String coOwnersLine) {
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
@@ -260,8 +264,8 @@ public class EmailGenerator {
                 "${reportUrl}", reportUrl,
                 "${coOwnersEmails}", coOwnersLine,
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${additionalInstructions}", additionalInstructions,
-                "${feedbackAction}", feedbackAction);
+                "${additionalInstructions}", "",
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -331,11 +335,11 @@ public class EmailGenerator {
                                            : new ArrayList<StudentAttributes>();
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION
-                .replace("${status}", Const.EmailTemplateMessages.FEEDBACK_SESSION_CLOSED_MESSAGE);
+                .replace("${status}", FEEDBACK_SESSION_CLOSED_MESSAGE);
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_CLOSED.getSubject(), EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
-                Const.EmailTemplateMessages.FEEDBACK_ACTION_VIEW);
+                FEEDBACK_ACTION_VIEW);
     }
 
     /**
@@ -382,7 +386,7 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject) {
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template, subject, "",
-                Const.EmailTemplateMessages.FEEDBACK_ACTION_SUBMIT);
+                FEEDBACK_ACTION_SUBMIT);
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
