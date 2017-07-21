@@ -27,7 +27,7 @@ import com.google.common.reflect.ClassPath;
 import teammates.test.cases.BaseTestCase;
 
 /**
- * Verifies that the TestNG configuration files contains all the test cases in the project.
+ * Verifies that the TestNG suite files contains all the test cases in the project.
  */
 public class TestNgTest extends BaseTestCase {
 
