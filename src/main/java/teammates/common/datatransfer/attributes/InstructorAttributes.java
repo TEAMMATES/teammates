@@ -19,7 +19,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
 
     /**
-     * Sort the Instructors list alphabetically by name.
+     * Sorts the Instructors list alphabetically by name.
      */
     public static Comparator<InstructorAttributes> compareByName = new Comparator<InstructorAttributes>() {
         public int compare(InstructorAttributes one, InstructorAttributes other) {
