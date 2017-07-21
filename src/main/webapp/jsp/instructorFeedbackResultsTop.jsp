@@ -18,7 +18,7 @@
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </div>
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
-    <r:expandCollapseButton filterPanel="${data.filterPanel}"
+    <r:expandCollapseButton sortType="${data.filterPanel.sortType}"
                     showAll="${showAll}" />
 </c:if>
 <c:if test="${noResponses and showAll}">
