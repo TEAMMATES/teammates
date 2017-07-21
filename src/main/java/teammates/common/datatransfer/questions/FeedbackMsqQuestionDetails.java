@@ -163,7 +163,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
 
-        if (this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
+        if (this.maxSelectableChoices != newMsqDetails.maxSelectableChoices) {
+            return true;
+        }
+
+        if (this.minSelectableChoices != newMsqDetails.minSelectableChoices) {
             return true;
         }
 
@@ -231,10 +235,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
                 Slots.DISABLED, isMaxSelectableChoicesDisabled ? "disabled" : "",
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
-                Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
-                isMaxSelectableChoicesDisabled ? "" : Integer.toString(maxSelectableChoices));
+                        isMaxSelectableChoicesDisabled ? "" : Integer.toString(maxSelectableChoices));
     }
 
     @Override
@@ -364,6 +367,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
+        boolean isMinSelectableChoicesDisabled = minSelectableChoices == Integer.MIN_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.MSQ_EDIT_FORM,
@@ -384,11 +388,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Slots.MSQ_CHECKED_ENABLE_MAX_SELECTABLE_CHOICES, isMaxSelectableChoicesDisabled ? "" : "checked",
+                Slots.MSQ_CHECKED_ENABLE_MIN_SELECTABLE_CHOICES, isMinSelectableChoicesDisabled ? "" : "checked",
                 Slots.MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES,
                         Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES,
+                Slots.MSQ_PARAM_ENABLED_MIN_SELECTABLE_CHOICES,
+                        Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES,
                 Slots.MSQ_PARAM_MAX_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES,
+                Slots.MSQ_PARAM_MIN_SELECTABLE_CHOICES, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES,
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
-                        isMaxSelectableChoicesDisabled ? "2" : Integer.toString(maxSelectableChoices));
+                        isMaxSelectableChoicesDisabled ? "2" : Integer.toString(maxSelectableChoices),
+                Slots.MSQ_MIN_SELECTABLE_CHOICES,
+                                isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices));
     }
 
     @Override
