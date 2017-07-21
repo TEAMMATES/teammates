@@ -102,30 +102,28 @@ class Instructor {
      * If the format is wrong, constructs and returns a InstructorError instead.
      */
     static createFromString(str) {
-        const regexStringForPipeSeparator = '(?:\\s*\\|\\s*)';
+        const regexStringForPipeSeparator = '(?: *\\| *)';
         const regexStringForTabSeparator = '\\t+';
         const regexStringForSeparator = `(?:${regexStringForTabSeparator}|${regexStringForPipeSeparator})`;
-        const regexStringForFields = '([^|\\t]+)';
+        const regexStringForFields = '([^|\\t]+?)';
 
-        const regexForTestingStringFormat = new RegExp(`^${[
+        const instructorMatchRegex = new RegExp(`^${[
             regexStringForFields, // name
             regexStringForSeparator,
             regexStringForFields, // email
             regexStringForSeparator,
             regexStringForFields, // institution
         ].join('')}$`);
-        const regexForSplittingString = new RegExp(regexStringForSeparator, 'g');
 
-        const isStringInCorrectFormat = regexForTestingStringFormat.test(str);
-        if (!isStringInCorrectFormat) {
+        const instructorData = str.match(instructorMatchRegex);
+        if (instructorData === null) {
             return new InstructorError(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, str);
         }
 
-        const instructorData = str.split(regexForSplittingString);
-        const shortName = instructorData[0];
-        const name = instructorData[0];
-        const email = instructorData[1];
-        const institution = instructorData[2];
+        const shortName = instructorData[1];
+        const name = instructorData[1];
+        const email = instructorData[2];
+        const institution = instructorData[3];
         return Instructor.create(shortName, name, email, institution);
     }
     toString() {
