@@ -17,8 +17,8 @@
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </div>
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
-    <r:expandCollapseButton sortType="${data.filterPanel.sortType}"
-                    showAll="${showAll}" />
+  <r:expandCollapseButton sortType="${data.filterPanel.sortType}"
+      showAll="${showAll}" />
 </c:if>
 <c:if test="${noResponses and showAll}">
   <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
