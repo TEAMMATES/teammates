@@ -7,11 +7,14 @@ import java.util.Set;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnLoad;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents an instructor-created Feedback Session.
@@ -45,15 +48,27 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private Date createdTime;
 
+    @IgnoreSave
     private Date startTime;
 
+    private Date startTimeUtc;
+
+    @IgnoreSave
     private Date endTime;
 
-    @Unindex
-    private Date sessionVisibleFromTime;
+    private Date endTimeUtc;
 
     @Unindex
+    @IgnoreSave
+    private Date sessionVisibleFromTime;
+
+    private Date sessionVisibleFromTimeUtc;
+
+    @Unindex
+    @IgnoreSave
     private Date resultsVisibleFromTime;
+
+    private Date resultsVisibleFromTimeUtc;
 
     /** This is legacy data that is no longer used. <br>
      * The value is set to Const.INT_UNINITIALIZED if it is already processed or
@@ -95,20 +110,20 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
+            String creatorEmail, Text instructions, Date createdTime, Date startTimeUtc, Date endTimeUtc,
+            Date sessionVisibleFromTimeUtc, Date resultsVisibleFromTimeUtc, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
+        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTimeUtc, endTimeUtc,
+             sessionVisibleFromTimeUtc, resultsVisibleFromTimeUtc, timeZone, gracePeriod, feedbackSessionType,
              sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
+            String creatorEmail, Text instructions, Date createdTime, Date startTimeUtc, Date endTimeUtc,
+            Date sessionVisibleFromTimeUtc, Date resultsVisibleFromTimeUtc, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -118,10 +133,10 @@ public class FeedbackSession extends BaseEntity {
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
         this.createdTime = createdTime;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
+        this.startTimeUtc = startTimeUtc;
+        this.endTimeUtc = endTimeUtc;
+        this.sessionVisibleFromTimeUtc = sessionVisibleFromTimeUtc;
+        this.resultsVisibleFromTimeUtc = resultsVisibleFromTimeUtc;
         this.timeZone = Const.INT_UNINITIALIZED;
         this.timeZoneDouble = timeZone;
         this.gracePeriod = gracePeriod;
@@ -136,6 +151,26 @@ public class FeedbackSession extends BaseEntity {
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
         this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void populateUtcFieldsFromLegacyFieldsIfRequired() {
+        if (startTime == null && endTime == null && sessionVisibleFromTime == null && resultsVisibleFromTime == null) {
+            return;
+        }
+
+        startTimeUtc = convertToUtcUnlessSpecial(startTime);
+        endTimeUtc = convertToUtcUnlessSpecial(endTime);
+        sessionVisibleFromTimeUtc = convertToUtcUnlessSpecial(sessionVisibleFromTimeUtc);
+        resultsVisibleFromTimeUtc = convertToUtcUnlessSpecial(resultsVisibleFromTimeUtc);
+    }
+
+    private Date convertToUtcUnlessSpecial(Date localDate) {
+        if (localDate == null) {
+            return null;
+        }
+        return TimeHelper.isSpecialTime(localDate) ? localDate : TimeHelper.convertLocalDateToUtc(localDate, timeZoneDouble);
     }
 
     public String getFeedbackSessionName() {
@@ -178,36 +213,36 @@ public class FeedbackSession extends BaseEntity {
         this.createdTime = createdTime;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStartTimeUtc() {
+        return startTimeUtc;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTimeUtc(Date startTimeUtc) {
+        this.startTimeUtc = startTimeUtc;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getEndTimeUtc() {
+        return endTimeUtc;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndTimeUtc(Date endTimeUtc) {
+        this.endTimeUtc = endTimeUtc;
     }
 
-    public Date getSessionVisibleFromTime() {
-        return sessionVisibleFromTime;
+    public Date getSessionVisibleFromTimeUtc() {
+        return sessionVisibleFromTimeUtc;
     }
 
-    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
+    public void setSessionVisibleFromTimeUtc(Date sessionVisibleFromTimeUtc) {
+        this.sessionVisibleFromTimeUtc = sessionVisibleFromTimeUtc;
     }
 
-    public Date getResultsVisibleFromTime() {
-        return resultsVisibleFromTime;
+    public Date getResultsVisibleFromTimeUtc() {
+        return resultsVisibleFromTimeUtc;
     }
 
-    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
+    public void setResultsVisibleFromTimeUtc(Date resultsVisibleFromTimeUtc) {
+        this.resultsVisibleFromTimeUtc = resultsVisibleFromTimeUtc;
     }
 
     /** This method automatically converts the legacy timeZone field to
@@ -345,10 +380,10 @@ public class FeedbackSession extends BaseEntity {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName
                 + ", courseId=" + courseId + ", creatorId=" + creatorEmail
                 + ", instructions=" + instructions + ", createdTime="
-                + createdTime + ", startTime=" + startTime + ", endTime="
-                + endTime + ", sessionVisibleFromTime="
-                + sessionVisibleFromTime + ", resultsVisibleFromTime="
-                + resultsVisibleFromTime + ", timeZone=" + timeZone
+                + createdTime + ", startTimeUtc=" + startTimeUtc + ", endTimeUtc="
+                + endTimeUtc + ", sessionVisibleFromTimeUtc="
+                + sessionVisibleFromTimeUtc + ", resultsVisibleFromTimeUtc="
+                + resultsVisibleFromTimeUtc + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
                 + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail

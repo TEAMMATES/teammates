@@ -159,10 +159,10 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         fs.setInstructions(newAttributes.getInstructions());
-        fs.setStartTime(newAttributes.getStartTime());
-        fs.setEndTime(newAttributes.getEndTime());
-        fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
-        fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
+        fs.setStartTimeUtc(newAttributes.getStartTime());
+        fs.setEndTimeUtc(newAttributes.getEndTime());
+        fs.setSessionVisibleFromTimeUtc(newAttributes.getSessionVisibleFromTime());
+        fs.setResultsVisibleFromTimeUtc(newAttributes.getResultsVisibleFromTime());
         fs.setTimeZone(newAttributes.getTimeZone());
         fs.setGracePeriod(newAttributes.getGracePeriod());
         fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
