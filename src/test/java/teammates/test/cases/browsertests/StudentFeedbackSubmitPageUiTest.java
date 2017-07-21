@@ -1,7 +1,6 @@
 package teammates.test.cases.browsertests;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
