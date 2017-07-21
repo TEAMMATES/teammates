@@ -32,7 +32,7 @@ import teammates.test.cases.BaseTestCase;
 public class TestNgTest extends BaseTestCase {
 
     @Test
-    public void checkTestsInTestNg() throws IOException, ParserConfigurationException, SAXException {
+    public void allTestsIncludedInSuites() throws IOException, ParserConfigurationException, SAXException {
         final List<String> fullyQualifiedMethodNamesWithTestAnnotation =
                 getFullyQualifiedMethodNamesWithAnnotation(Test.class);
 
