@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
-<%@ attribute name="showAll" required="true" %>
 <form class="form-horizontal" role="form" method="post" action="${filterPanel.resultsLink}">
     <div class="panel panel-info margin-0">
         <div class="panel-body">

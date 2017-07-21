@@ -10,8 +10,7 @@
 <r:sessionPanel sessionPanel="${data.sessionPanel}" />
 
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
-  <r:filterPanel filterPanel="${data.filterPanel}"
-      showAll="${showAll}" />
+  <r:filterPanel filterPanel="${data.filterPanel}"/>
 </c:if>
 <br>
 <div style="margin-top:10px">
