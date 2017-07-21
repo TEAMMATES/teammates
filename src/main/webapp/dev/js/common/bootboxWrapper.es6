@@ -28,16 +28,16 @@ function showModalAlert(titleText, messageText, okButtonText, color) {
         buttons: {
             okay: {
                 label: okButtonText || DEFAULT_OK_TEXT,
-                className: `modal-btn-ok btn-${color}` || StatusType.DEFAULT,
+                className: `modal-btn-ok btn-${color || StatusType.DEFAULT}`,
             },
         },
     })
     .find('.modal-header')
         // applies bootstrap color to title background
-        .addClass(`alert-${color}` || StatusType.DEFAULT)
+        .addClass(`alert-${color || StatusType.DEFAULT}`)
     .find('.modal-title')
         // adds relevant icon before title
-        .addClass(`icon-${color}` || StatusType.DEFAULT);
+        .addClass(`icon-${color || StatusType.DEFAULT}`);
 }
 
 /**
@@ -61,17 +61,17 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
             },
             ok: {
                 label: okButtonText || DEFAULT_OK_TEXT,
-                className: `modal-btn-ok btn-${color}` || StatusType.DEFAULT,
+                className: `modal-btn-ok btn-${color || StatusType.DEFAULT}`,
                 callback: okCallback,
             },
         },
     })
     .find('.modal-header')
         // applies bootstrap color to title background
-        .addClass(`alert-${color}` || StatusType.DEFAULT)
+        .addClass(`alert-${color || StatusType.DEFAULT}`)
     .find('.modal-title')
         // adds relevant icon before title
-        .addClass(`icon-${color}` || StatusType.DEFAULT);
+        .addClass(`icon-${color || StatusType.DEFAULT}`);
 }
 
 /**
@@ -91,12 +91,12 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
         buttons: {
             yes: {
                 label: yesButtonText || DEFAULT_YES_TEXT,
-                className: `modal-btn-ok btn-${color}` || StatusType.DEFAULT,
+                className: `modal-btn-ok btn-${color || StatusType.DEFAULT}`,
                 callback: yesButtonCallback,
             },
             no: {
                 label: noButtonText || DEFAULT_NO_TEXT,
-                className: `modal-btn-ok btn-${color}` || StatusType.DEFAULT,
+                className: `modal-btn-ok btn-${color || StatusType.DEFAULT}`,
                 callback: noButtonCallback,
             },
             cancel: {
@@ -108,10 +108,10 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
     })
     .find('.modal-header')
         // applies bootstrap color to title background
-        .addClass(`alert-${color}` || StatusType.DEFAULT)
+        .addClass(`alert-${color || StatusType.DEFAULT}`)
     .find('.modal-title')
         // adds relevant icon before title
-        .addClass(`icon-${color}` || StatusType.DEFAULT);
+        .addClass(`icon-${color || StatusType.DEFAULT}`);
 }
 
 export {
