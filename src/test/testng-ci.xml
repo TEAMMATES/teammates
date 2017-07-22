@@ -73,7 +73,7 @@
             <class name="teammates.test.cases.browsertests.InstructorEditStudentFeedbackPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackEditCopyUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackEditPageUiTest" />
-            <class name="teammates.test.cases.browsertests.InstructorFeedbackPageUiTest" />
+            <class name="teammates.test.cases.browsertests.InstructorFeedbackSessionsPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorStudentListPageUiTest" />
@@ -86,8 +86,6 @@
             <class name="teammates.test.cases.browsertests.StudentFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.browsertests.InstructorCourseDetailsPageUiTest" />
-            <class name="teammates.test.cases.browsertests.InstructorCommentsPageUiTest" />
-            <class name="teammates.test.cases.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSessionsPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSearchPageUiTest" />

@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
@@ -30,8 +31,13 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
 
         testActionWithInvalidParameters(student);
-        testActionTypicalSuccess(student);
+        testActionSuccess(student, "Typical Case");
         testActionInMasqueradeMode(student);
+
+        student = dataBundle.accounts.get("student1InTestingSanitizationCourse");
+        // simulate sanitization that occurs before persistence
+        student.sanitizeForSaving();
+        testActionSuccess(student, "Typical case: attempted script injection");
     }
 
     private void testActionWithInvalidParameters(AccountAttributes student) throws Exception {
@@ -46,10 +52,10 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         RedirectResult result = getRedirectResult(action);
 
         assertTrue(result.isError);
-        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE
-                                    + "?error=true&user=" + student.googleId,
-                                    result.getDestinationWithParams());
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, true, student.googleId),
+                result.getDestinationWithParams());
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1],
@@ -69,22 +75,71 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                   + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
                                   + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Failure case: invalid parameters with attempted script injection");
+
+        submissionParams = createInvalidParamsForProfileWithScriptInjection();
+        expectedProfile = getProfileAttributesFrom(submissionParams);
+        expectedProfile.googleId = student.googleId;
+
+        action = getAction(submissionParams);
+        result = getRedirectResult(action);
+
+        assertTrue(result.isError);
+        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE
+                        + "?error=true&user=" + student.googleId,
+                result.getDestinationWithParams());
+        expectedErrorMessages = new ArrayList<>();
+
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                        SanitizationHelper.sanitizeForHtml(submissionParams[1]),
+                        FieldValidator.PERSON_NAME_FIELD_NAME,
+                        FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                        FieldValidator.PERSON_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE,
+                        SanitizationHelper.sanitizeForHtml(submissionParams[3]),
+                        FieldValidator.EMAIL_FIELD_NAME,
+                        FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH));
+        expectedErrorMessages.add(
+                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                        SanitizationHelper.sanitizeForHtml(submissionParams[5]),
+                        FieldValidator.INSTITUTE_NAME_FIELD_NAME,
+                        FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
+        expectedErrorMessages.add(
+                String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
+                        SanitizationHelper.sanitizeForHtml(submissionParams[7])));
+        expectedErrorMessages.add(
+                String.format(FieldValidator.GENDER_ERROR_MESSAGE,
+                        SanitizationHelper.sanitizeForHtml(submissionParams[9])));
+
+        AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
+                + "|||true|||Student|||" + student.name + "|||" + student.googleId
+                + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
+                + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
+        AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
-    private void testActionTypicalSuccess(AccountAttributes student) {
+    private void testActionSuccess(AccountAttributes student, String caseDescription) {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
 
-        ______TS("Typical case");
+        ______TS(caseDescription);
 
         StudentProfileEditSaveAction action = getAction(submissionParams);
         RedirectResult result = getRedirectResult(action);
         expectedProfile.googleId = student.googleId;
 
         assertFalse(result.isError);
-        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId,
-                                    result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, false, student.googleId),
+                result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
 
         verifyLogMessage(student, action, expectedProfile, false);
@@ -104,8 +159,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         assertFalse(result.isError);
         assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
-        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId,
-                                    result.getDestinationWithParams());
+        AssertHelper.assertContains(
+                getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, false, student.googleId),
+                result.getDestinationWithParams());
         verifyLogMessage(student, action, expectedProfile, true);
     }
 
@@ -120,14 +176,15 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||Student Profile for <span class=\"bold\">(" + student.googleId
-                                  + ")</span> edited.<br>" + expectedProfile.toString()
+                                  + ")</span> edited.<br>"
+                                  + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
                                   + "|||/page/studentProfileEditSave";
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
@@ -143,6 +200,24 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     @Override
     protected StudentProfileEditSaveAction getAction(String... params) {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    private String[] createInvalidParamsForProfileWithScriptInjection() {
+        return new String[]{
+                Const.ParamsNames.STUDENT_SHORT_NAME, "short%<script>alert(\"was here\");</script>",
+                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
+                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
+                Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
+                Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
+        };
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = createValidParamsForProfile();
+        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
 
 }

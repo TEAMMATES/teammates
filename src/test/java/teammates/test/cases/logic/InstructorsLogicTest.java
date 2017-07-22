@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testVerifyIsEmailOfInstructorOfCourse();
         testIsNewInstructor();
         testAddInstructor();
+        testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleId();
         testUpdateInstructorByEmail();
         testDeleteInstructor();
@@ -65,8 +67,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instr =
-                new InstructorAttributes(null, courseId, name, email, role, displayedName, privileges);
+        InstructorAttributes instr = InstructorAttributes.builder(null, courseId, name, email)
+                .withRole(role)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
 
         instructorsLogic.createInstructor(instr);
 
@@ -219,7 +224,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(5, instructors.size());
 
-        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> idMap = new HashMap<>();
         idMap.put("idOfInstructor1OfCourse1", false);
         idMap.put("idOfInstructor2OfCourse1", false);
         idMap.put("idOfInstructor3", false);
@@ -638,7 +643,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
         verifyAbsentInDatastore(instructorDeleted);
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("typical case: delete a non-existent instructor");
 
@@ -675,8 +679,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
         assertTrue(instructorList.isEmpty());
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
 
         ______TS("typical case: delete an non-existent googleId");
 
@@ -729,6 +731,35 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertEquals(instructor1.courseId, instructor2.courseId);
         assertEquals(instructor1.name, instructor2.name);
         assertEquals(instructor1.email, instructor2.email);
+    }
+
+    private void testGetCoOwnersForCourse() {
+        ______TS("Verify co-owner status of generated co-owners list");
+        String courseId = "idOfTypicalCourse1";
+        List<InstructorAttributes> generatedCoOwners = instructorsLogic.getCoOwnersForCourse(courseId);
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            assertTrue(generatedCoOwner.hasCoownerPrivileges());
+        }
+
+        ______TS("Verify all co-owners present in generated co-owners list");
+
+        // Generate ArrayList<String> of emails of all coOwners in course from data bundle
+        List<String> coOwnersEmailsFromDataBundle = new ArrayList<>();
+        for (InstructorAttributes instructor : new ArrayList<>(dataBundle.instructors.values())) {
+            if (!(instructor.getCourseId().equals(courseId) && instructor.hasCoownerPrivileges())) {
+                continue;
+            }
+            coOwnersEmailsFromDataBundle.add(instructor.email);
+        }
+
+        // Generate ArrayList<String> of emails of all coOwners from instructorsLogic.getCoOwnersForCourse
+        List<String> generatedCoOwnersEmails = new ArrayList<>();
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            generatedCoOwnersEmails.add(generatedCoOwner.email);
+        }
+
+        assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)
+                && generatedCoOwnersEmails.containsAll(coOwnersEmailsFromDataBundle));
     }
 
 }

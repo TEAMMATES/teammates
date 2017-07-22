@@ -25,7 +25,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
 
     private AccountAttributes acct;
     private String searchKey;
-    private boolean displayArchive;
+    private boolean shouldDisplayArchive;
     private List<InstructorStudentListPageCourseData> coursesToDisplay;
 
     private CourseAttributes sampleCourse;
@@ -49,7 +49,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         acct.googleId = "valid.id"; // only googleId is used
 
         searchKey = "<script>alert(\"A search key\");</script>";
-        displayArchive = false;
+        shouldDisplayArchive = false;
 
         // only course ID and name are used
         sampleCourse = new CourseAttributes("validCourseId", "Sample course name", "UTC");
@@ -57,15 +57,17 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
         isCourseArchived = false;
         isInstructorAllowedToModify = true;
 
-        coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
+        coursesToDisplay = new ArrayList<>();
         coursesToDisplay.add(new InstructorStudentListPageCourseData(sampleCourse, isCourseArchived,
                                                                      isInstructorAllowedToModify));
-        return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
+
+        return new InstructorStudentListPageData(acct, dummySessionToken, searchKey, shouldDisplayArchive, coursesToDisplay);
     }
 
     private InstructorStudentListPageData initializeDataWithNoSearchKey() {
         searchKey = null;
-        return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
+
+        return new InstructorStudentListPageData(acct, dummySessionToken, searchKey, shouldDisplayArchive, coursesToDisplay);
     }
 
     private void testSearchBox(InstructorStudentListSearchBox searchBox) {
@@ -75,7 +77,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
     }
 
     private void testFilterBox(InstructorStudentListFilterBox filterBox) {
-        assertEquals(displayArchive, filterBox.isDisplayArchive());
+        assertEquals(shouldDisplayArchive, filterBox.isDisplayArchive());
 
         // sample data has only one course
         InstructorStudentListFilterCourse course = filterBox.getCourses().get(0);

@@ -42,7 +42,6 @@
     <module name="AvoidStarImport"/>
     <module name="EmptyLineSeparator">
       <property name="allowNoEmptyLineBetweenFields" value="true"/>
-      <property name="allowMultipleEmptyLines" value="false"/>
     </module>
     <module name="ArrayTypeStyle"/>
     <module name="Indentation">
@@ -114,11 +113,7 @@
       <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
     </module>
     <module name="ConstantName">
-      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation)$"/>
-    </module>
-    <module name="RegexpSinglelineJava">
-      <property name="format" value="\s+$"/>
-      <property name="message" value="Line has trailing spaces."/>
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation|dummySessionToken)$"/>
     </module>
     <module name="LineLength">
       <property name="ignorePattern" value="https?://"/>
@@ -171,14 +166,10 @@
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>
   </module>
-  <module name="FileTabCharacter"/>
   <module name="SuppressionCommentFilter">
     <property name="offCommentFormat" value="CHECKSTYLE\.OFF:([A-Za-z\|]+)"/>
     <property name="onCommentFormat" value="CHECKSTYLE\.ON:([A-Za-z\|]+)"/>
     <property name="checkFormat" value="$1"/>
-  </module>
-  <module name="NewlineAtEndOfFile">
-    <property name="lineSeparator" value="lf_cr_crlf"/>
   </module>
   <module name="JavadocPackage"/>
 </module>

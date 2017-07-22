@@ -26,8 +26,8 @@ public class StudentFeedbackResultsPageData extends PageData {
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
 
-    public StudentFeedbackResultsPageData(AccountAttributes account, StudentAttributes student) {
-        super(account, student);
+    public StudentFeedbackResultsPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
+        super(account, student, sessionToken);
     }
 
     public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
@@ -62,7 +62,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     private void createFeedbackResultsQuestionsWithResponses(
                               Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
 
-        feedbackResultsQuestionsWithResponses = new ArrayList<StudentFeedbackResultsQuestionWithResponses>();
+        feedbackResultsQuestionsWithResponses = new ArrayList<>();
         int questionIndex = 1;
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
@@ -120,8 +120,8 @@ public class StudentFeedbackResultsPageData extends PageData {
     private List<FeedbackResultsResponseTable> createResponseTables(
                                     FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responsesBundle) {
 
-        List<FeedbackResultsResponseTable> responseTables = new ArrayList<FeedbackResultsResponseTable>();
-        List<String> recipients = new ArrayList<String>();
+        List<FeedbackResultsResponseTable> responseTables = new ArrayList<>();
+        List<String> recipients = new ArrayList<>();
 
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
             if (!recipients.contains(singleResponse.recipient)) {
@@ -162,7 +162,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                                     List<FeedbackResponseAttributes> responsesBundleForRecipient,
                                     String recipientNameParam) {
 
-        List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
+        List<FeedbackResultsResponse> responses = new ArrayList<>();
 
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         String recipientName = recipientNameParam;
@@ -193,7 +193,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                 recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
 
-            String answer = response.getResponseDetails().getAnswerHtml(questionDetails);
+            String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
             List<FeedbackResponseCommentRow> comments = createStudentFeedbackResultsResponseComments(
                                                                                           response.getId());
 
@@ -210,12 +210,13 @@ public class StudentFeedbackResultsPageData extends PageData {
     private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
                                                                                String feedbackResponseId) {
 
-        List<FeedbackResponseCommentRow> comments = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
 
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
+                        bundle.getTimeZone()));
             }
         }
         return comments;
@@ -230,7 +231,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     private List<FeedbackResponseAttributes> filterResponsesByRecipientEmail(
                                     String recipientEmail, List<FeedbackResponseAttributes> responsesBundle) {
 
-        List<FeedbackResponseAttributes> responsesForRecipient = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesForRecipient = new ArrayList<>();
 
         for (FeedbackResponseAttributes singleResponse : responsesBundle) {
             if (singleResponse.recipient.equals(recipientEmail)) {

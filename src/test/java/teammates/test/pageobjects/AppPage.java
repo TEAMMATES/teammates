@@ -27,8 +27,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.HtmlHelper;
@@ -51,6 +55,12 @@ public abstract class AppPage {
     /** Browser instance the page is loaded into. */
     protected Browser browser;
 
+    /** Use for retrying due to persistence delays. */
+    protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
+
+    /** Use for retrying due to transient UI issues. */
+    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
+
     // These are elements common to most pages in our app
 
     @FindBy(id = "statusMessagesToUser")
@@ -65,10 +75,7 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     private WebElement instructorStudentsTab;
 
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
-    private WebElement instructorCommentsTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
     private WebElement instructorHelpTab;
 
     @FindBy(id = "studentHomeNavLink")
@@ -76,9 +83,6 @@ public abstract class AppPage {
 
     @FindBy(id = "studentProfileNavLink")
     private WebElement studentProfileTab;
-
-    @FindBy(id = "studentCommentsNavLink")
-    private WebElement studentCommentsTab;
 
     @FindBy(id = "studentHelpLink")
     private WebElement studentHelpTab;
@@ -170,6 +174,19 @@ public abstract class AppPage {
     public static LoginPage createCorrectLoginPageType(Browser browser) {
         return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
                                                                         : GoogleLoginPage.class);
+    }
+
+    /**
+     * Checks whether the URL currently loaded in the browser corresponds to the given page {@code uri}.
+     */
+    public boolean isPageUri(String uri) {
+        Url currentPageUrl;
+        try {
+            currentPageUrl = new Url(browser.driver.getCurrentUrl());
+        } catch (AssertionError e) { // due to MalformedURLException
+            return false;
+        }
+        return currentPageUrl.getRelativeUrl().equals(uri);
     }
 
     /**
@@ -298,9 +315,14 @@ public abstract class AppPage {
         waitForElementToBeClickable(closeButton);
     }
 
-    private void waitForModalToDisappear() {
+    public void waitForModalToDisappear() {
         By modalBackdrop = By.className("modal-backdrop");
         waitForElementToDisappear(modalBackdrop);
+    }
+
+    public void waitForRemindModalPresence() {
+        By modalBackdrop = By.className("modal-backdrop");
+        waitForElementPresence(modalBackdrop);
     }
 
     /**
@@ -400,16 +422,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public InstructorCommentsPage loadInstructorCommentsTab() {
-        click(instructorCommentsTab);
-        waitForPageToLoad();
-        return changePageType(InstructorCommentsPage.class);
-    }
-
-    /**
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
      */
@@ -427,16 +439,6 @@ public abstract class AppPage {
         click(studentHomeTab);
         waitForPageToLoad();
         return changePageType(StudentHomePage.class);
-    }
-
-    /**
-     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
-     * @return the loaded page
-     */
-    public StudentCommentsPage loadStudentCommentsTab() {
-        click(studentCommentsTab);
-        waitForPageToLoad();
-        return changePageType(StudentCommentsPage.class);
     }
 
     /**
@@ -874,8 +876,7 @@ public abstract class AppPage {
     }
 
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
-        return Boolean.parseBoolean(System.getProperty("godmode"))
-                && regenerateHtmlFile(filePath, content, isPart);
+        return TestProperties.IS_GODMODE_ENABLED && regenerateHtmlFile(filePath, content, isPart);
     }
 
     private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
@@ -901,6 +902,22 @@ public abstract class AppPage {
      */
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
+    }
+
+    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath)
+            throws IOException, MaximumRetriesExceededException {
+        return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
+                "HTML verification") {
+            @Override
+            public AppPage run() throws IOException {
+                return verifyHtmlPart(MAIN_CONTENT, filePath);
+            }
+
+            @Override
+            public void beforeRetry() {
+                reloadPage();
+            }
+        }, AssertionError.class);
     }
 
     /**
@@ -995,6 +1012,22 @@ public abstract class AppPage {
         }
     }
 
+    public void verifyImageUrl(String urlRegex, String imgSrc) {
+        if (Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH.equals(urlRegex)) {
+            verifyDefaultImageUrl(imgSrc);
+        } else {
+            AssertHelper.assertContainsRegex(urlRegex, imgSrc);
+        }
+    }
+
+    public void verifyDefaultImageUrl(String imgSrc) {
+        openNewWindow(imgSrc);
+        switchToNewWindow();
+        assertEquals(TestProperties.TEAMMATES_URL + Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH,
+                browser.driver.getCurrentUrl());
+        browser.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
     public void changeToMobileView() {
         browser.driver.manage().window().setSize(new Dimension(360, 640));
     }
@@ -1009,5 +1042,9 @@ public abstract class AppPage {
     public boolean isElementInViewport(String id) {
         String script = "return isWithinView(document.getElementById('" + id + "'));";
         return (boolean) executeScript(script);
+    }
+
+    private void openNewWindow(String url) {
+        executeScript("$(window.open('" + url + "'))");
     }
 }

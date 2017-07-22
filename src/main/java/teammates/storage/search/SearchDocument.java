@@ -11,7 +11,6 @@ import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -25,7 +24,6 @@ import teammates.storage.api.StudentsDb;
  */
 public abstract class SearchDocument {
 
-    protected static final CommentsDb commentsDb = new CommentsDb();
     protected static final CoursesDb coursesDb = new CoursesDb();
     protected static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     protected static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -58,12 +56,12 @@ public abstract class SearchDocument {
      */
     protected static List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
                                                             List<InstructorAttributes> instructors) {
-        Set<String> courseIdSet = new HashSet<String>();
+        Set<String> courseIdSet = new HashSet<>();
         for (InstructorAttributes ins : instructors) {
             courseIdSet.add(ins.courseId);
         }
 
-        List<ScoredDocument> filteredResults = new ArrayList<ScoredDocument>();
+        List<ScoredDocument> filteredResults = new ArrayList<>();
         for (ScoredDocument document : results) {
             String resultCourseId = document.getOnlyField(Const.SearchDocumentField.COURSE_ID).getText();
             if (courseIdSet.contains(resultCourseId)) {

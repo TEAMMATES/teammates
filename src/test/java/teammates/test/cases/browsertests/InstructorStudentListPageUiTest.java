@@ -137,6 +137,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
+
+        ______TS("content: data required sanitization");
+
+        instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
+
+        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+
+        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageTestingSanitization.html");
     }
 
     private void testShowPhoto() throws Exception {
@@ -165,8 +174,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
 
         viewPage.clickShowPhoto(student.course, student.name);
-        viewPage.verifyProfilePhoto(student.course, student.name,
-                                    createUrl(Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH).toAbsoluteString());
+        viewPage.verifyProfilePhoto(student.course, student.name, Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("student has uploaded an image");
 

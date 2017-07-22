@@ -46,23 +46,15 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
 
-        String[] paramsWithFilterText = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "My comments"
-        };
-
         String[] paramsWithMissingResponsesShown = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true"
         };
 
         String[] paramsWithMissingResponsesHidden = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT, "selling point of your product",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false"
         };
 
@@ -71,7 +63,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
         FileDownloadResult result = getFileDownloadResult(action);
 
-        String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        String expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -90,7 +82,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsNormal);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -106,7 +98,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsNormalWithinSection);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -137,22 +129,10 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
 
-        ______TS("Typical case: results with a filter text");
-
-        action = getAction(paramsWithFilterText);
-        result = getFileDownloadResult(action);
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
-        assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertFalse(result.isError);
-
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName();
-        assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForDownloadWithFilterText(result.getFileContent(), session);
-
         ______TS("Typical case: results with missing responses shown");
         action = getAction(paramsWithMissingResponsesShown);
         result = getFileDownloadResult(action);
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -163,7 +143,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical case: results with missing responses hidden");
         action = getAction(paramsWithMissingResponsesHidden);
         result = getFileDownloadResult(action);
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
@@ -186,7 +166,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsQuestion2);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -212,37 +192,13 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsQuestion1WithinSection);
         result = getFileDownloadResult(action);
 
-        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1" + "_question1";
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForQuestion1Session1InCourse1WithinSection1(result.getFileContent(), session);
-    }
-
-    private void verifyFileContentForDownloadWithFilterText(String fileContent,
-            FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
-
-        String[] expected = {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 3,\"My comments on the class\"",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
-
     }
 
     private void verifyFileContentForDownloadWithMissingResponsesShown(String fileContent,
@@ -260,8 +216,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
@@ -288,12 +244,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
-
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
 
     }
@@ -313,9 +268,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -329,7 +284,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
@@ -338,9 +292,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -366,7 +320,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
 
@@ -398,7 +352,6 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
-
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
     }
 
@@ -434,6 +387,19 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     @Override
     protected InstructorFeedbackResultsDownloadAction getAction(String... params) {
         return (InstructorFeedbackResultsDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

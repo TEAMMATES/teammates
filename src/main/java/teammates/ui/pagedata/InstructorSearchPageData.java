@@ -5,22 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
-import teammates.ui.template.CommentRow;
-import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
@@ -36,51 +31,39 @@ public class InstructorSearchPageData extends PageData {
     private String searchKey = "";
 
     /* Whether checkbox is checked for search input */
-    private boolean isSearchCommentForStudents;
     private boolean isSearchCommentForResponses;
     private boolean isSearchForStudents;
 
     /* Whether search results are empty */
-    private boolean isCommentsForStudentsEmpty;
     private boolean isCommentsForResponsesEmpty;
     private boolean isStudentsEmpty;
 
     /* Tables containing search results */
-    private List<CommentsForStudentsTable> searchCommentsForStudentsTables;
     private List<SearchCommentsForResponsesTable> searchCommentsForResponsesTables;
     private List<SearchStudentsTable> searchStudentsTables;
 
-    public InstructorSearchPageData(AccountAttributes account) {
-        super(account);
+    public InstructorSearchPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
-    public void init(CommentSearchResultBundle commentSearchResultBundle,
-                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle,
+    public void init(FeedbackResponseCommentSearchResultBundle frcSearchResultBundle,
                      StudentSearchResultBundle studentSearchResultBundle,
-                     String searchKey, boolean isSearchCommentForStudents,
-                     boolean isSearchCommentForResponses, boolean isSearchForStudents) {
+                     String searchKey, boolean isSearchCommentForResponses, boolean isSearchForStudents) {
 
         this.searchKey = searchKey;
 
-        this.isSearchCommentForStudents = isSearchCommentForStudents;
         this.isSearchCommentForResponses = isSearchCommentForResponses;
         this.isSearchForStudents = isSearchForStudents;
 
-        this.isCommentsForStudentsEmpty = commentSearchResultBundle.numberOfResults == 0;
         this.isCommentsForResponsesEmpty = frcSearchResultBundle.numberOfResults == 0;
         this.isStudentsEmpty = studentSearchResultBundle.numberOfResults == 0;
 
-        setSearchCommentsForStudentsTables(commentSearchResultBundle);
         setSearchCommentsForResponsesTables(frcSearchResultBundle);
         setSearchStudentsTables(studentSearchResultBundle);
     }
 
     public String getSearchKey() {
         return sanitizeForHtml(searchKey);
-    }
-
-    public boolean isCommentsForStudentsEmpty() {
-        return isCommentsForStudentsEmpty;
     }
 
     public boolean isCommentsForResponsesEmpty() {
@@ -91,20 +74,12 @@ public class InstructorSearchPageData extends PageData {
         return isStudentsEmpty;
     }
 
-    public boolean isSearchCommentForStudents() {
-        return isSearchCommentForStudents;
-    }
-
     public boolean isSearchCommentForResponses() {
         return isSearchCommentForResponses;
     }
 
     public boolean isSearchForStudents() {
         return isSearchForStudents;
-    }
-
-    public List<CommentsForStudentsTable> getSearchCommentsForStudentsTables() {
-        return searchCommentsForStudentsTables;
     }
 
     public List<SearchCommentsForResponsesTable> getSearchCommentsForResponsesTables() {
@@ -115,30 +90,17 @@ public class InstructorSearchPageData extends PageData {
         return searchStudentsTables;
     }
 
-    private void setSearchCommentsForStudentsTables(
-                                    CommentSearchResultBundle commentSearchResultBundle) {
-
-        searchCommentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
-
-        for (String giverEmailPlusCourseId : commentSearchResultBundle.giverCommentTable.keySet()) {
-            String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
-            searchCommentsForStudentsTables.add(new CommentsForStudentsTable(
-                                                  giverDetails, createCommentRows(giverEmailPlusCourseId,
-                                                                            commentSearchResultBundle)));
-        }
-    }
-
     private void setSearchCommentsForResponsesTables(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        searchCommentsForResponsesTables = new ArrayList<SearchCommentsForResponsesTable>();
+        searchCommentsForResponsesTables = new ArrayList<>();
         searchCommentsForResponsesTables.add(new SearchCommentsForResponsesTable(
                                                createFeedbackSessionRows(frcSearchResultBundle)));
     }
 
     private void setSearchStudentsTables(StudentSearchResultBundle studentSearchResultBundle) {
 
-        searchStudentsTables = new ArrayList<SearchStudentsTable>(); // 1 table for each course
+        searchStudentsTables = new ArrayList<>(); // 1 table for each course
         List<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(studentSearchResultBundle);
 
         for (String courseId : courseIdList) {
@@ -150,7 +112,7 @@ public class InstructorSearchPageData extends PageData {
     private List<FeedbackSessionRow> createFeedbackSessionRows(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
+        List<FeedbackSessionRow> rows = new ArrayList<>();
 
         for (String fsName : frcSearchResultBundle.questions.keySet()) {
             String courseId = frcSearchResultBundle.sessions.get(fsName).getCourseId();
@@ -165,7 +127,7 @@ public class InstructorSearchPageData extends PageData {
                                     String fsName,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<QuestionTable> questionTables = new ArrayList<QuestionTable>();
+        List<QuestionTable> questionTables = new ArrayList<>();
         List<FeedbackQuestionAttributes> questionList = frcSearchResultBundle.questions.get(fsName);
 
         for (FeedbackQuestionAttributes question : questionList) {
@@ -184,39 +146,16 @@ public class InstructorSearchPageData extends PageData {
                                     FeedbackQuestionAttributes question,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<ResponseRow> rows = new ArrayList<ResponseRow>();
+        List<ResponseRow> rows = new ArrayList<>();
         List<FeedbackResponseAttributes> responseList = frcSearchResultBundle.responses.get(question.getId());
 
         for (FeedbackResponseAttributes responseEntry : responseList) {
             String giverName = frcSearchResultBundle.responseGiverTable.get(responseEntry.getId());
             String recipientName = frcSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
-            String response = responseEntry.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
+            String response = responseEntry.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
 
             rows.add(new ResponseRow(giverName, recipientName, response,
                                        createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle)));
-        }
-        return rows;
-    }
-
-    private List<CommentRow> createCommentRows(
-                                    String giverEmailPlusCourseId,
-                                    CommentSearchResultBundle commentSearchResultBundle) {
-
-        List<CommentRow> rows = new ArrayList<CommentRow>();
-        String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
-        String unsanitizedGiverDetails = SanitizationHelper.desanitizeFromHtml(giverDetails);
-        String instructorCommentsLink = getInstructorCommentsLink();
-
-        for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {
-            String recipientDetails = commentSearchResultBundle.recipientTable
-                                                                   .get(comment.getCommentId().toString());
-            String unsanitizedRecipientDetails = SanitizationHelper.desanitizeFromHtml(recipientDetails);
-            String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID
-                                            + "=" + comment.courseId + "#" + comment.getCommentId();
-            CommentRow commentRow = new CommentRow(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
-            commentRow.withLinkToCommentsPage(link);
-
-            rows.add(commentRow);
         }
         return rows;
     }
@@ -225,7 +164,7 @@ public class InstructorSearchPageData extends PageData {
                                     FeedbackResponseAttributes responseEntry,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        List<FeedbackResponseCommentRow> rows = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseCommentRow> rows = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
                                                               .comments.get(responseEntry.getId());
 
@@ -235,11 +174,10 @@ public class InstructorSearchPageData extends PageData {
             if (!"Anonymous".equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
-            String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "="
-                              + frc.courseId + "#" + frc.getId();
 
-            FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver);
-            frcDiv.setLinkToCommentsPage(link);
+            double sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
+            FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
+                    frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
 
             rows.add(frcDiv);
         }
@@ -248,12 +186,12 @@ public class InstructorSearchPageData extends PageData {
 
     private List<StudentListSectionData> createStudentRows(String courseId,
                                                            StudentSearchResultBundle studentSearchResultBundle) {
-        List<StudentListSectionData> rows = new ArrayList<StudentListSectionData>();
+        List<StudentListSectionData> rows = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = filterStudentsByCourse(
                                                        courseId, studentSearchResultBundle);
-        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<String, List<String>>();
-        Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<String, List<StudentAttributes>>();
-        Map<String, String> emailToPhotoUrlMap = new HashMap<String, String>();
+        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<>();
+        Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<>();
+        Map<String, String> emailToPhotoUrlMap = new HashMap<>();
         for (StudentAttributes student : studentsInCourse) {
             String teamName = student.team;
             String sectionName = student.section;
@@ -270,11 +208,11 @@ public class InstructorSearchPageData extends PageData {
                 sectionNameToTeamNameMap.get(sectionName).add(teamName);
             }
         }
-        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        List<SectionDetailsBundle> sections = new ArrayList<>();
         for (Map.Entry<String, List<String>> entry : sectionNameToTeamNameMap.entrySet()) {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
             sdb.name = entry.getKey();
-            ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+            ArrayList<TeamDetailsBundle> teams = new ArrayList<>();
             for (String teamName : entry.getValue()) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();
                 tdb.name = teamName;
@@ -292,19 +230,16 @@ public class InstructorSearchPageData extends PageData {
             boolean isAllowedToModifyStudent =
                     instructor.isAllowedForPrivilege(
                             section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isAllowedToGiveCommentInSection =
-                    instructor.isAllowedForPrivilege(
-                            section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
-                                                emailToPhotoUrlMap, account.googleId));
+                                                isAllowedToModifyStudent,
+                                                emailToPhotoUrlMap, account.googleId, getSessionToken()));
         }
         return rows;
     }
 
     private List<String> getCourseIdsFromStudentSearchResultBundle(
                                     StudentSearchResultBundle studentSearchResultBundle) {
-        List<String> courses = new ArrayList<String>();
+        List<String> courses = new ArrayList<>();
 
         for (StudentAttributes student : studentSearchResultBundle.studentList) {
             String course = student.course;
@@ -323,7 +258,7 @@ public class InstructorSearchPageData extends PageData {
                                     String courseId,
                                     StudentSearchResultBundle studentSearchResultBundle) {
 
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> students = new ArrayList<>();
 
         for (StudentAttributes student : studentSearchResultBundle.studentList) {
             if (courseId.equals(student.course)) {

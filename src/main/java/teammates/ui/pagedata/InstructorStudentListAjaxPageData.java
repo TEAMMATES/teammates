@@ -16,26 +16,24 @@ public class InstructorStudentListAjaxPageData extends PageData {
     private boolean hasSection;
     private List<StudentListSectionData> sections;
 
-    public InstructorStudentListAjaxPageData(AccountAttributes account, String courseId, int courseIndex,
+    public InstructorStudentListAjaxPageData(AccountAttributes account, String sessionToken,
+                                             String courseId, int courseIndex,
                                              boolean hasSection, List<SectionDetailsBundle> sections,
                                              Map<String, Map<String, Boolean>> sectionPrivileges,
                                              Map<String, String> emailPhotoUrlMapping) {
-        super(account);
+        super(account, sessionToken);
         this.courseId = courseId;
         this.courseIndex = courseIndex;
         this.hasSection = hasSection;
-        List<StudentListSectionData> sectionsDetails =
-                                        new ArrayList<StudentListSectionData>();
+        List<StudentListSectionData> sectionsDetails = new ArrayList<>();
         for (SectionDetailsBundle section : sections) {
             boolean isAllowedToViewStudentInSection = sectionPrivileges.get(section.name)
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             boolean isAllowedToModifyStudent = sectionPrivileges.get(section.name)
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isAllowedToGiveCommentInSection = sectionPrivileges.get(section.name)
-                                            .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             sectionsDetails.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                           isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
-                                                           emailPhotoUrlMapping, account.googleId));
+                                                           isAllowedToModifyStudent,
+                                                           emailPhotoUrlMapping, account.googleId, getSessionToken()));
         }
         this.sections = sectionsDetails;
     }

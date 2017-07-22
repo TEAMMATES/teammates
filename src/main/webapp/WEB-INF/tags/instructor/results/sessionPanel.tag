@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="f" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ attribute name="sessionPanel" type="teammates.ui.template.InstructorFeedbackResultsSessionPanel" required="true" %>
 <div class="well well-plain padding-0">
@@ -18,7 +19,7 @@
                   <div class="form-group">
                       <label class="col-lg-4 control-label">Session:</label>
                       <div class="col-lg-8">
-                        <p class="form-control-static">${sessionPanel.feedbackSessionName} 
+                        <p class="form-control-static">${sessionPanel.feedbackSessionName}
                             <c:if test="${not empty sessionPanel.editLink}">
                                 <a href="${sessionPanel.editLink}">[Edit]</a>
                             </c:if>
@@ -54,15 +55,15 @@
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
-                            <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${sessionPanel.selectedSection}">
-                            <input type="hidden" id="filterTextForDownload" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT %>">
+                            <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${fn:escapeXml(sessionPanel.selectedSection)}">
                             <input type="hidden" id="statsShownCheckBox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS %>" value="${sessionPanel.isStatsShown}">
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES %>" value="${sessionPanel.isMissingResponsesShown}">
                         </form>
                         <br>
                         <div>
-                            <f:feedbackSessionPublishButton buttonType="${sessionPanel.feedbackSessionPublishButton.buttonType}"
-                                                            publishButton="${sessionPanel.feedbackSessionPublishButton}" />
+                            <f:feedbackSessionPublishButton buttonType="btn ${sessionPanel.feedbackSessionPublishButton.buttonType}"
+                                                            publishButton="${sessionPanel.feedbackSessionPublishButton}"
+                                                            showTooltip="true" />
                         </div>
                         <br>
                         <div>
@@ -80,7 +81,7 @@
                     <span class="btn-link"
                           data-toggle="modal"
                           data-target="#fsResultsTableWindow"
-                          onclick="submitFormAjax()">click here</span>
+                          id="btn-display-table">Click here.</span>
                 </span>
             </div>
         </div>

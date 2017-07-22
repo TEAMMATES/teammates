@@ -20,7 +20,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
   **REASON**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK).
 
   Go to `Window → Preferences → Java → Installed JREs`. You will note that a JRE path is the one selected, not a JDK path.
-  
+
   **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.7/jre`. Now you should see all of the JARs added to the library section.
 
 * **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
@@ -106,7 +106,7 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 * **ERROR**: After deploying on the staging server, you get an error related to "Unsupported major.minor version ..." when trying to access pages of the staged app.
 
   **REASON**: This can happen if you have Java 8 installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
-   
+
   **SOLUTION**: Refer to [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed) to learn how to modify `eclipse.ini` to use Java 7 by default.
 
 * **ERROR**: A handful of failed test cases (< 10).
@@ -119,7 +119,7 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
 * **ERROR**: Tests fail due to accented characters.
 
-  **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](settingUp.md).
+  **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](setting-up.md).
 
 * **ERROR**: Error message in the console about "incorrect date format".
 
@@ -139,10 +139,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
    **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
 
-* **ERROR (on IntelliJ)**: Error message in console when running dev server : `Cannot start process, the working directory '{project home directory}/build/libs/exploded/teammates.war' does not exist` or `Could not locate /.../appengine-web.xml`.
-   
-  **SOLUTION**: The path to the exploded application may be configured wrongly. Go to `File → Project Structure...`. Under `Under Artifacts → Gradle : <your-project-name>.war (exploded)`, change `Output directory` to `{path to repo}/build/exploded-app`, which contains `appengine-web.xml`.
-   
 ## Submitting help request
 
 If none of the items in this guide helps with the problem you face, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to request for help.

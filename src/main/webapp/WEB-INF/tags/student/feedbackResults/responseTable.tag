@@ -5,21 +5,23 @@
 <%@ attribute name="responseTable" type="teammates.ui.template.FeedbackResultsResponseTable" required="true" %>
 
 <c:choose>
-    <c:when test="${responseTable.giverNameYou}">
-        <c:set value="panel-info" var="panelHeaderClass"/>
-    </c:when>
-    <c:otherwise>
-        <c:set value="panel-primary" var="panelHeaderClass"/>
-    </c:otherwise>
+  <c:when test="${responseTable.giverNameYou}">
+    <c:set value="panel-info" var="panelHeaderClass"/>
+  </c:when>
+  <c:otherwise>
+    <c:set value="panel-primary" var="panelHeaderClass"/>
+  </c:otherwise>
 </c:choose>
 
 <div class="panel ${panelHeaderClass}">
-    <div class="panel-heading"><b>To:</b> ${fn:escapeXml(responseTable.recipientName)}</div>
-    <table class="table">
-        <tbody>
-            <c:forEach items="${responseTable.responses}" var="response">
-                <feedbackResults:response response="${response}"/>
-            </c:forEach>                                                        
-        </tbody>
-    </table>
+  <div class="panel-heading">
+    <b>To:</b> ${fn:escapeXml(responseTable.recipientName)}
+  </div>
+  <table class="table">
+    <tbody>
+      <c:forEach items="${responseTable.responses}" var="response">
+        <feedbackResults:response response="${response}"/>
+      </c:forEach>
+    </tbody>
+  </table>
 </div>

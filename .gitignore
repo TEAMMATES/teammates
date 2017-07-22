@@ -20,6 +20,7 @@ chromedriver*
 *.md.html
 libs/
 *.js
+!webpack-*.config.js
 node_modules/
 npm-debug.log
 
@@ -48,6 +49,20 @@ gradle-app.setting
 .checkstyle
 .pmd
 .ruleset
-.idea/
-*.iml
-out/
+
+### IntelliJ ###
+# Ignore the folder where project settings are stored as IDE is not assumed
+/.idea/
+# IntelliJ sometimes places module iml on project root so they  also need to be ignored
+# Only ignore the root imls so the template imls can be checked in
+/*.iml
+# if the user uses the default compile output path 
+/out/
+# if the user uses the automated setup compiled output path
+/buildIdea/
+
+### Stylelint ###
+/.stylelintrc.yml
+
+### Gmail API Credentials ###
+/src/test/resources/gmail-api/

@@ -68,13 +68,12 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
-                  <input id="filterTextForDownload" name="filtertext" type="hidden">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.helper1" title="">
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFResultsUiT.helper1&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -91,8 +90,8 @@
         <div class="row">
           <span class="help-block align-center">
             Non-English characters not displayed properly in the downloaded file?
-            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-              click here
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
             </span>
           </span>
         </div>
@@ -125,7 +124,7 @@
           <button class="btn btn-default" data-dismiss="modal" type="button">
             Close
           </button>
-          <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
             Select Table
           </button>
         </div>
@@ -176,7 +175,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -212,7 +210,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -223,7 +221,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -259,7 +256,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -270,7 +267,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -306,7 +302,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -317,7 +313,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -353,7 +348,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -364,7 +359,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -400,7 +394,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -411,7 +405,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -447,7 +440,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -458,7 +451,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -517,7 +509,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -528,7 +520,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -587,7 +578,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -598,7 +589,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -645,7 +635,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -656,7 +646,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -703,7 +692,7 @@
         <input name="frgroupbysection" type="hidden" value="All">
       </form>
       <div class="display-icon pull-right">
-        <span class="glyphicon glyphicon-chevron-up pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
         </span>
       </div>
       <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
@@ -714,7 +703,6 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
-        <input id="filterTextForDownload" name="filtertext" type="hidden">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -733,6 +721,36 @@
             There are no responses for this question or you may not have the permission to see the response
           </i>
         </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.helper1%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.helper1">
+          </div>
+        </form>
       </div>
     </div>
   </div>

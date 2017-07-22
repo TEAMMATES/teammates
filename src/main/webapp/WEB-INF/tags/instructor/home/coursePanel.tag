@@ -5,12 +5,12 @@
 <%@ attribute name="courseTable" type="teammates.ui.template.CourseTable" required="true" %>
 <%@ attribute name="index" required="true" %>
 <c:set var="isNotLoaded" value="${empty courseTable.buttons}" />
-<div class="panel panel-primary" id="course-${index}"<c:if test="${isNotLoaded}"> style="cursor: pointer;"</c:if>>
-    <div class="panel-heading">
+<div class="panel panel-primary" id="course-${index}">
+    <div class="panel-heading ajax_auto" <c:if test="${isNotLoaded}"> style="cursor: pointer;"</c:if>>
         <div class="row">
             <div class="col-sm-6">
                 <strong>
-                    [${courseTable.courseId}] : ${courseTable.courseName}
+                    [${courseTable.courseId}] : ${fn:escapeXml(courseTable.courseName)}
                 </strong>
             </div>
             <div class="mobile-margin-top-10px col-sm-6">
@@ -56,4 +56,8 @@
         </form>
     </c:if>
     <jsp:doBody />
+    <div class="panel-collapse collapse">
+        <div class="panel-body padding-0">
+        </div>
+    </div>
 </div>

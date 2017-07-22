@@ -155,14 +155,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -181,14 +178,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -208,14 +202,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -234,14 +225,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -260,14 +248,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -286,14 +271,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -312,14 +294,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -338,14 +317,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -365,14 +341,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -391,14 +364,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -417,14 +387,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -444,14 +411,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -470,14 +434,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -1402,128 +1363,6 @@
       "createdAt": "2016-01-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
-      }
-    }
-  },
-  "comments": {
-    "comment1FromI1C1toS1C1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "PERSON"
-      ],
-      "showGiverNameTo": [
-        "PERSON"
-      ],
-      "showRecipientNameTo": [
-        "PERSON"
-      ],
-      "createdAt": "2012-04-01 11:59 PM UTC",
-      "commentText": {
-        "value": "Comment 1 from Instructor 1 to Student 1 in course 1"
-      }
-    },
-    "comment2FromI1C1toS1C1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor1@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "student1InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [
-        "PERSON"
-      ],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-01 8:51 AM UTC",
-      "commentText": {
-        "value": "Comment 2 from Instructor 1 to Student 1 in course 1"
-      }
-    },
-    "comment1FromI3C1toS2C1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor3@course1.tmt",
-      "recipientType": "PERSON",
-      "recipients": [
-        "student2InCourse1@gmail.tmt"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-06-01 7:20 PM UTC",
-      "commentText": {
-        "value": "Comment from Instructor 3 to Student 2 in course 1"
-      }
-    },
-    "comment1FromI1C1toT1.1C1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor1@course1.tmt",
-      "recipientType": "TEAM",
-      "recipients": [
-        "Team 1.1</td></div>'\""
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-05-09 7:00 PM UTC",
-      "commentText": {
-        "value": "Comment from Instructor 1 to Team 1.1 of Course 1"
-      }
-    },
-    "comment1FromI1C1toSE1C1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor1@course1.tmt",
-      "recipientType": "SECTION",
-      "recipients": [
-        "Section 1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-10-10 7:00 PM UTC",
-      "commentText": {
-        "value": "Comment from Instructor 1 to Section 1 of Course 1"
-      }
-    },
-    "comment1FromI1C1toC1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor1@course1.tmt",
-      "recipientType": "COURSE",
-      "recipients": [
-        "idOfTypicalCourse1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-12-12 9:00 PM UTC",
-      "commentText": {
-        "value": "Comment from Instructor 1 to course 1"
-      }
-    },
-    "comment1FromI3C1toC1": {
-      "courseId": "idOfTypicalCourse1",
-      "giverEmail": "instructor3@course1.tmt",
-      "recipientType": "COURSE",
-      "recipients": [
-        "idOfTypicalCourse1"
-      ],
-      "status": "FINAL",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": [],
-      "createdAt": "2012-08-01 9:30 PM UTC",
-      "commentText": {
-        "value": "Comment from Instructor 3 to course 1"
       }
     }
   },

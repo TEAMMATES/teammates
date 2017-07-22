@@ -174,12 +174,20 @@ public class BackDoorServlet extends HttpServlet {
             courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
             studentEmail = req.getParameter(BackDoorOperation.PARAMETER_STUDENT_EMAIL);
             return backDoorLogic.getStudentAsJson(courseId, studentEmail);
+        case OPERATION_GET_STUDENTS_AS_JSON:
+            courseId = req.getParameter(BackDoorOperation.PARAMETER_COURSE_ID);
+            return backDoorLogic.getAllStudentsAsJson(courseId);
         case OPERATION_GET_STUDENTPROFILE_AS_JSON:
             googleId = req.getParameter(BackDoorOperation.PARAMETER_GOOGLE_ID);
             return backDoorLogic.getStudentProfileAsJson(googleId);
         case OPERATION_IS_PICTURE_PRESENT_IN_GCS:
             String pictureKey = req.getParameter(BackDoorOperation.PARAMETER_PICTURE_KEY);
             return String.valueOf(backDoorLogic.isPicturePresentInGcs(pictureKey));
+        case OPERATION_CREATE_FEEDBACK_RESPONSE:
+            String feedbackResponseJsonString = req.getParameter(BackDoorOperation.PARAMETER_FEEDBACK_RESPONSE_JSON);
+            FeedbackResponseAttributes feedbackResponse =
+                    JsonUtils.fromJson(feedbackResponseJsonString, FeedbackResponseAttributes.class);
+            return backDoorLogic.createFeedbackResponseAndUpdateSessionRespondents(feedbackResponse);
         case OPERATION_PERSIST_DATABUNDLE:
             String dataBundleJsonString = req.getParameter(BackDoorOperation.PARAMETER_DATABUNDLE_JSON);
             DataBundle dataBundle = JsonUtils.fromJson(dataBundleJsonString, DataBundle.class);
@@ -201,6 +209,14 @@ public class BackDoorServlet extends HttpServlet {
             dataBundle = JsonUtils.fromJson(dataBundleJsonString, DataBundle.class);
             backDoorLogic.removeDataBundle(dataBundle);
             break;
+        case OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS:
+            String groupListKey = req.getParameter(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY);
+            return String.valueOf(backDoorLogic.isGroupListFilePresentInGcs(groupListKey));
+        case OPERATION_DELETE_GROUP_LIST_FILE:
+            String groupListFileKey = req.getParameter(BackDoorOperation.PARAMETER_GROUP_LIST_FILE_KEY);
+            backDoorLogic.deleteGroupListFile(groupListFileKey);
+            break;
+
         }
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }

@@ -37,7 +37,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
         int courseIndex = Integer.parseInt(courseIndexString);
         boolean hasSection = logic.hasIndicatedSections(courseId);
 
-        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, String> emailPhotoUrlMapping = new HashMap<>();
         Map<String, Map<String, Boolean>> sectionPrivileges = new HashMap<>();
         for (SectionDetailsBundle sectionDetails : courseSectionDetails) {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
@@ -48,7 +48,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
                     emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
                 }
             }
-            Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();
+            Map<String, Boolean> sectionPrivilege = new HashMap<>();
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
                                  instructor.isAllowedForPrivilege(
                                          sectionDetails.name,
@@ -56,17 +56,11 @@ public class InstructorStudentListAjaxPageAction extends Action {
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
                                  instructor.isAllowedForPrivilege(sectionDetails.name,
                                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-            sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
-                                 instructor.isAllowedForPrivilege(
-                                         sectionDetails.name,
-                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
             sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
 
-        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
-                                                                                       hasSection, courseSectionDetails,
-                                                                                       sectionPrivileges,
-                                                                                       emailPhotoUrlMapping);
+        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, sessionToken, courseId,
+                courseIndex, hasSection, courseSectionDetails, sectionPrivileges, emailPhotoUrlMapping);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST_AJAX, data);
     }

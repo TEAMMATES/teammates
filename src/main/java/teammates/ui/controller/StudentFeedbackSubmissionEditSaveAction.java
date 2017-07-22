@@ -14,7 +14,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected void verifyAccesibleForSpecificUser() {
+    protected void verifyAccessibleForSpecificUser() {
         gateKeeper.verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 

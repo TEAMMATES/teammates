@@ -122,7 +122,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
                         "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
+                        StudentProfileAttributes.builder().withGoogleId(instructorId).withShortName("ICET").build()));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
@@ -184,7 +184,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("success: edited profile");
 
-        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder().build();
 
         expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
@@ -209,7 +209,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Typical case");
 
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentList = new ArrayList<>();
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
         studentList.add(
                 new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
@@ -219,7 +219,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid section");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             StudentAttributes addedStudent =
                     new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
@@ -233,7 +233,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid team");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);
@@ -319,7 +319,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
         StudentEnrollDetails studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
                                          course1Id, student1InCourse1.email, student1InCourse1.team,
@@ -349,7 +349,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: unmodified status");
 
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
                                          student1InCourse1.email, student1InCourse1.team,
@@ -378,7 +378,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student2InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         enrollmentList.add(studentDetails1);
 
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
@@ -401,7 +401,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
         String invalidInfoString = null;
         String expectedInvalidInfoString;
-        List<String> expectedInvalidInfoList = new ArrayList<String>();
+        List<String> expectedInvalidInfoList = new ArrayList<>();
 
         ______TS("enrollLines with invalid parameters");
         String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
@@ -486,7 +486,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
-
 
         ______TS("enrollLines with some empty fields");
 
@@ -600,9 +599,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+                .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
+                .build();
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
+                profileAttributes);
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
@@ -689,9 +691,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
+        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
+                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
+                .build();
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
+                studentAttributes);
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 
@@ -1066,9 +1071,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyPresentInDatastore(student1InCourse1);
-
-        // verify comments made to this student are gone
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 

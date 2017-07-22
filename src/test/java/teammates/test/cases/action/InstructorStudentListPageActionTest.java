@@ -14,7 +14,7 @@ import teammates.ui.pagedata.InstructorStudentListPageData;
  * SUT: {@link InstructorStudentListPageAction}.
  */
 // Priority added due to conflict between InstructorStudentListPageActionTest,
-// StudentHomePageActionTest, and StudentCommentsPageActionTest.
+// and StudentHomePageActionTest.
 @Priority(-3)
 public class InstructorStudentListPageActionTest extends BaseActionTest {
 
@@ -40,8 +40,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         InstructorStudentListPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=" + instructorId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, instructorId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -62,8 +63,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=instructorWithoutCourses",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "instructorWithoutCourses"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());
 
@@ -85,8 +87,10 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "idOfInstructorOfArchivedCourse"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -111,8 +115,10 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, false, "idOfInstructorOfArchivedCourse"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -131,6 +137,13 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
     @Override
     protected InstructorStudentListPageAction getAction(String... params) {
         return (InstructorStudentListPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[]{};
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
 }

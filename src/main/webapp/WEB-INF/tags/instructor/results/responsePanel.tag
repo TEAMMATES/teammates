@@ -17,34 +17,37 @@
         <div style="clear:both; overflow: hidden">
             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
             <div class="pull-left text-preserve-space">${responsePanel.displayableResponse}</div>
-            
-            <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
-                onclick="showResponseCommentAddForm(${responsePanel.recipientIndex},${responsePanel.giverIndex},${responsePanel.qnIndex}, { sectionIndex: ${responsePanel.sectionId} })"
-                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
-                <c:if test="${!responsePanel.allowedToAddComment}">
-                        disabled
-                </c:if>
-                >
-                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-            </button>
+            <c:if test="${responsePanel.commentsOnResponsesAllowed}">
+                <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" id="button_add_comment"
+                    data-recipientindex="${responsePanel.recipientIndex}" data-giverindex="${responsePanel.giverIndex}"
+                    data-qnindex="${responsePanel.qnIndex}" data-sectionindex="${responsePanel.sectionId}"
+                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
+                    <c:if test="${!responsePanel.allowedToAddComment}">
+                            disabled
+                    </c:if>
+                    >
+                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                </button>
+            </c:if>
         </div>
 
         <c:set var="firstIndex"  value="${responsePanel.recipientIndex}"/>
         <c:set var="secondIndex" value="${responsePanel.giverIndex}"/>
         <c:set var="thirdIndex"  value="${responsePanel.qnIndex}"/>
         <c:set var="fourthIndex" value="${responsePanel.sectionId}"/>
+        <c:if test="${responsePanel.commentsOnResponsesAllowed}">
+            <ul class="list-group" id="responseCommentTable-${responsePanel.sectionId}-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
+                style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
+                <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
+                    <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
+                                                    secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
+                                                    fourthIndex="${fourthIndex}" frcIndex="${status.count}"/>
+                </c:forEach>
+                <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}"
+                                                    secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" />
+            </ul>
+        </c:if>
 
-        <ul class="list-group" id="responseCommentTable-${responsePanel.sectionId}-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
-            style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
-            <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
-                <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}" 
-                                                   secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" 
-                                                   fourthIndex="${fourthIndex}" frcIndex="${status.count}"/>
-            </c:forEach>
-            <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}" 
-                                               secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" />
-        </ul>
-        
     </div>
 
 </div>

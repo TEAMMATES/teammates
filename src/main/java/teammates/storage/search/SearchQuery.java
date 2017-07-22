@@ -8,9 +8,7 @@ import com.google.appengine.api.search.QueryOptions;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 
 /**
  * Defines how we query {@link com.google.appengine.api.search.Document}.
@@ -26,7 +24,7 @@ public abstract class SearchQuery {
     private String visibilityQueryString;
 
     private QueryOptions options;
-    private List<String> textQueryStrings = new ArrayList<String>();
+    private List<String> textQueryStrings = new ArrayList<>();
 
     protected SearchQuery(List<InstructorAttributes> instructors, String queryString) {
         options = QueryOptions.newBuilder()
@@ -51,25 +49,20 @@ public abstract class SearchQuery {
 
     private void setTextFilter(String textField, String queryString) {
 
-        // The sanitize process considers the '.' (dot) as a space and this
-        // returns unnecessary search results in the case if someone searches
-        // using an email. To avoid this, we check whether the input text is an
-        // email, and if yes, we skip the sanitize process.
-        String sanitizedQueryString =
-                FieldValidator.isValidEmailAddress(queryString)
-                ? queryString.toLowerCase().trim()
-                : SanitizationHelper.sanitizeForSearch(queryString).toLowerCase().trim();
+        String trimmedQueryString = queryString.toLowerCase().trim();
 
-        if (!sanitizedQueryString.isEmpty()) {
-            String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
-            textQueryStrings.add(textField + ":" + preparedOrQueryString);
+        if (trimmedQueryString.isEmpty()) {
+            return;
         }
+
+        String preparedOrQueryString = prepareOrQueryString(trimmedQueryString);
+        textQueryStrings.add(textField + ":" + preparedOrQueryString);
     }
 
     private String prepareOrQueryString(String queryString) {
         String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
-        List<String> keywords = new ArrayList<String>();
+        List<String> keywords = new ArrayList<>();
         StringBuilder key = new StringBuilder();
         boolean isStartQuote = false;
         for (String splitString : splitStrings) {

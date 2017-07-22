@@ -3,19 +3,21 @@ package teammates.logic.backdoor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -30,11 +32,12 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.AdminEmailsDb;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -48,7 +51,6 @@ import teammates.storage.api.StudentsDb;
 public class BackDoorLogic extends Logic {
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
@@ -58,163 +60,83 @@ public class BackDoorLogic extends Logic {
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 
     /**
-     * Persists given data in the datastore Works ONLY if the data is correct.
-     *  //Any existing copies of the data in the datastore will be overwritten.
-     *      - edit: use removeDataBundle to remove.
-     *              made this change for speed when deletion is not necessary.
-     * @return status of the request in the form 'status meassage'+'additional
-     *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
-     *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
+     * Persists data in the given {@link DataBundle} to the Datastore, including
+     * accounts, courses, instructors, students, sessions, questions, responses, comments and admin emails.
+     *
+     * <p>Accounts are generated for students and instructors with Google IDs
+     * if the corresponding accounts are not found in the data bundle.
+     * For question ID injection in responses and comments to work properly, all questions
+     * referenced by responses and comments must be included in the data bundle.
+     * For session respondent lists to be properly populated, all instructors, questions and responses
+     * relevant to each session must be included in the data bundle.</p>
+     *
+     * @return {@link Const.StatusCodes#BACKDOOR_STATUS_SUCCESS} if successful.
+     * @throws InvalidParametersException if invalid data is encountered.
      */
-    public String persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
+    public String persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
-            throw new InvalidParametersException(
-                    Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
+            throw new InvalidParametersException(Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
 
-        Map<String, AccountAttributes> accounts = dataBundle.accounts;
-        for (AccountAttributes account : accounts.values()) {
-            if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
-                account.studentProfile.googleId = account.googleId;
-            }
-        }
-        accountsDb.createAccounts(accounts.values(), true);
+        Collection<AccountAttributes> accounts = dataBundle.accounts.values();
+        Collection<CourseAttributes> courses = dataBundle.courses.values();
+        Collection<InstructorAttributes> instructors = dataBundle.instructors.values();
+        Collection<StudentAttributes> students = dataBundle.students.values();
+        Collection<FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
+        Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
+        Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<AdminEmailAttributes> adminEmails = dataBundle.adminEmails.values();
 
-        Map<String, CourseAttributes> courses = dataBundle.courses;
-        coursesDb.createCourses(courses.values());
+        // For ensuring only one account per Google ID is created
+        Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
 
-        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
-        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
-        for (InstructorAttributes instructor : instructors.values()) {
+        // For updating the student and instructor respondent lists in sessions before they are persisted
+        SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
+        SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
+        SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
 
-            validateInstructorPrivileges(instructor);
+        processAccountsAndPopulateAccountsMap(accounts, googleIdAccountMap);
+        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, googleIdAccountMap);
+        processStudentsAndPopulateAccounts(students, googleIdAccountMap);
+        processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
+        processResponsesAndPopulateMap(responses, sessionResponsesMap);
+        processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
-            if (instructor.googleId != null && !instructor.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true,
-                                                                  instructor.email, "TEAMMATES Test Institute 1");
-                if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                instructorAccounts.add(account);
-            }
-        }
-        accountsDb.createAccounts(instructorAccounts, false);
-        instructorsDb.createInstructorsWithoutSearchability(instructors.values());
+        accountsDb.createEntitiesDeferred(googleIdAccountMap.values());
+        coursesDb.createEntitiesDeferred(courses);
+        instructorsDb.createEntitiesDeferred(instructors);
+        studentsDb.createEntitiesDeferred(students);
+        fbDb.createEntitiesDeferred(sessions);
 
-        Map<String, StudentAttributes> students = dataBundle.students;
-        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
-        for (StudentAttributes student : students.values()) {
-            student.section = student.section == null ? "None" : student.section;
-            if (student.googleId != null && !student.googleId.isEmpty()) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false,
-                                                                  student.email, "TEAMMATES Test Institute 1");
-                if (account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                studentAccounts.add(account);
-            }
-        }
-        accountsDb.createAccounts(studentAccounts, false);
-        studentsDb.createStudentsWithoutSearchability(students.values());
+        // This also flushes all previously deferred operations
+        List<FeedbackQuestionAttributes> createdQuestions = fqDb.createFeedbackQuestionsWithoutExistenceCheck(questions);
 
-        Map<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()) {
-            cleanSessionData(session);
-        }
-        fbDb.createFeedbackSessions(sessions.values());
+        injectRealIds(responses, responseComments, createdQuestions);
 
-        Map<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
-        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        frDb.createEntitiesDeferred(responses);
+        fcDb.createEntitiesDeferred(responseComments);
 
-        for (FeedbackQuestionAttributes question : questionList) {
-            question.removeIrrelevantVisibilityOptions();
-        }
-        fqDb.createFeedbackQuestions(questionList);
+        adminEmailsDb.createEntitiesDeferred(adminEmails);
 
-        Map<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
-        for (FeedbackResponseAttributes response : responses.values()) {
-            response = injectRealIds(response);
-        }
-        frDb.createFeedbackResponses(responses.values());
-
-        Set<String> sessionIds = new HashSet<String>();
-
-        for (FeedbackResponseAttributes response : responses.values()) {
-
-            String sessionId = response.feedbackSessionName + "%" + response.courseId;
-
-            if (!sessionIds.contains(sessionId)) {
-                updateRespondents(response.feedbackSessionName, response.courseId);
-                sessionIds.add(sessionId);
-            }
-        }
-
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            injectRealIds(responseComment);
-        }
-        fcDb.createFeedbackResponseComments(responseComments.values());
-
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        commentsDb.createComments(comments.values());
-
-        Map<String, AdminEmailAttributes> adminEmails = dataBundle.adminEmails;
-        for (AdminEmailAttributes email : adminEmails.values()) {
-            adminEmailsDb.createAdminEmail(email);
-        }
-
-        // any Db can be used to commit the changes.
-        // accountsDb is used as it is already used in the file
-        accountsDb.commitOutstandingChanges();
+        EntitiesDb.flush();
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
-    /**
-     * Checks if the role of {@code instructor} matches its privileges.
-     *
-     * @param instructor
-     *            the {@link InstructorAttributes} of an instructor, cannot be
-     *            {@code null}
-     */
-    private void validateInstructorPrivileges(InstructorAttributes instructor) {
-
-        if (instructor.getRole() == null) {
-            return;
+    public String createFeedbackResponseAndUpdateSessionRespondents(FeedbackResponseAttributes response)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        try {
+            int questionNumber = Integer.parseInt(response.feedbackQuestionId);
+            response.feedbackQuestionId = feedbackQuestionsLogic
+                    .getFeedbackQuestion(response.feedbackSessionName, response.courseId, questionNumber)
+                    .getId(); // inject real question ID
+        } catch (NumberFormatException e) {
+            // question ID already injected
         }
-
-        InstructorPrivileges privileges = instructor.privileges;
-
-        switch (instructor.getRole()) {
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            Assumption.assertTrue(privileges.hasCoownerPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            Assumption.assertTrue(privileges.hasManagerPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            Assumption.assertTrue(privileges.hasObserverPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            Assumption.assertTrue(privileges.hasTutorPrivileges());
-            break;
-
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            break;
-
-        default:
-            Assumption.fail("Invalid instructor permission role name");
-            break;
-        }
+        frDb.createEntityWithoutExistenceCheck(response);
+        updateRespondents(response.feedbackSessionName, response.courseId);
+        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
     /**
@@ -244,12 +166,6 @@ public class BackDoorLogic extends Logic {
             FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
                     responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
             fcDb.putDocument(fcInDb);
-        }
-
-        Map<String, CommentAttributes> comments = dataBundle.comments;
-        for (CommentAttributes comment : comments.values()) {
-            CommentAttributes commentInDb = commentsDb.getComment(comment);
-            commentsDb.putDocument(commentInDb);
         }
 
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
@@ -333,7 +249,7 @@ public class BackDoorLogic extends Logic {
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
-        student.section = student.section == null ? "None" : student.section;
+        populateNullSection(student);
         updateStudentWithoutDocument(originalEmail, student);
     }
 
@@ -351,18 +267,131 @@ public class BackDoorLogic extends Logic {
         updateFeedbackQuestion(feedbackQuestion);
     }
 
-    /**
-     * This method ensures consistency for private feedback sessions
-     * between the type and visibility times. This allows easier creation
-     * of private sessions by setting the feedbackSessionType field as PRIVATE
-     * in the json file.
-     */
-    private FeedbackSessionAttributes cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
-            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+    private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
+            Map<String, AccountAttributes> googleIdAccountMap) {
+        populateNullStudentProfiles(accounts);
+        for (AccountAttributes account : accounts) {
+            googleIdAccountMap.put(account.googleId, account);
         }
-        return session;
+    }
+
+    private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
+            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+            Map<String, AccountAttributes> googleIdAccountMap) {
+        for (InstructorAttributes instructor : instructors) {
+            validateInstructorPrivileges(instructor);
+
+            courseInstructorsMap.put(instructor.courseId, instructor);
+
+            if (StringHelper.isEmpty(instructor.googleId) || googleIdAccountMap.containsKey(instructor.googleId)) {
+                // No account, or account already exists in the data bundle
+                continue;
+            }
+            googleIdAccountMap.put(instructor.googleId, makeAccount(instructor));
+        }
+    }
+
+    private void processStudentsAndPopulateAccounts(Collection<StudentAttributes> students,
+            Map<String, AccountAttributes> googleIdAccountMap) {
+        for (StudentAttributes student : students) {
+            populateNullSection(student);
+
+            if (StringHelper.isEmpty(student.googleId) || googleIdAccountMap.containsKey(student.googleId)) {
+                // No account, account already exists in the data bundle,
+                // or instructor account already exists (i.e. instructor is also a student)
+                continue;
+            }
+            googleIdAccountMap.put(student.googleId, makeAccount(student));
+        }
+    }
+
+    private void processQuestionsAndPopulateMap(Collection<FeedbackQuestionAttributes> questions,
+            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap) {
+        for (FeedbackQuestionAttributes question : questions) {
+            question.removeIrrelevantVisibilityOptions();
+
+            String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
+            sessionQuestionsMap.put(sessionKey, question);
+        }
+    }
+
+    private void processResponsesAndPopulateMap(Collection<FeedbackResponseAttributes> responses,
+            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
+        for (FeedbackResponseAttributes response : responses) {
+            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            sessionResponsesMap.put(sessionKey, response);
+        }
+    }
+
+    private void processSessionsAndUpdateRespondents(Collection<FeedbackSessionAttributes> sessions,
+            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
+            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
+        for (FeedbackSessionAttributes session : sessions) {
+            cleanSessionData(session);
+            String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+
+            Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
+            Set<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
+            Set<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
+
+            updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
+        }
+    }
+
+    private void updateRespondents(FeedbackSessionAttributes session,
+            Set<InstructorAttributes> courseInstructors,
+            Set<FeedbackQuestionAttributes> sessionQuestions,
+            Set<FeedbackResponseAttributes> sessionResponses) {
+        String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
+
+        SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
+        for (InstructorAttributes instructor : courseInstructors) {
+            List<FeedbackQuestionAttributes> questionsForInstructor =
+                    feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(
+                            new ArrayList<>(sessionQuestions), session.isCreator(instructor.email));
+
+            List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
+            instructorQuestionKeysMap.putAll(instructor.email, questionKeys);
+        }
+
+        Set<String> respondingInstructors = new HashSet<>();
+        Set<String> respondingStudents = new HashSet<>();
+
+        for (FeedbackResponseAttributes response : sessionResponses) {
+            String respondent = response.giver;
+            String responseQuestionNumber = response.feedbackQuestionId; // contains question number before injection
+            String responseQuestionKey = makeQuestionKey(sessionKey, responseQuestionNumber);
+
+            Set<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
+            if (instructorQuestionKeys.contains(responseQuestionKey)) {
+                respondingInstructors.add(respondent);
+            } else {
+                respondingStudents.add(respondent);
+            }
+        }
+
+        session.setRespondingInstructorList(respondingInstructors);
+        session.setRespondingStudentList(respondingStudents);
+    }
+
+    private void injectRealIds(
+            Collection<FeedbackResponseAttributes> responses, Collection<FeedbackResponseCommentAttributes> responseComments,
+            List<FeedbackQuestionAttributes> createdQuestions) {
+        Map<String, String> questionIdMap = makeQuestionIdMap(createdQuestions);
+
+        injectRealIdsIntoResponses(responses, questionIdMap);
+        injectRealIdsIntoResponseComments(responseComments, questionIdMap);
+    }
+
+    private Map<String, String> makeQuestionIdMap(List<FeedbackQuestionAttributes> createdQuestions) {
+        Map<String, String> questionIdMap = new HashMap<>();
+        for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
+            String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
+            String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
+            questionIdMap.put(questionKey, createdQuestion.getId());
+        }
+        return questionIdMap;
     }
 
     /**
@@ -373,25 +402,21 @@ public class BackDoorLogic extends Logic {
     * Therefore the question number corresponding to the created response
     * should be inserted in the json file in place of the actual response ID.<br>
     * This method will then generate the correct ID and replace the field.
-     * @throws EntityDoesNotExistException
     **/
-    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response)
-            throws EntityDoesNotExistException {
-        try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-
-            FeedbackQuestionAttributes question = feedbackQuestionsLogic.getFeedbackQuestion(
-                    response.feedbackSessionName, response.courseId, qnNumber);
-            if (question == null) {
-                throw new EntityDoesNotExistException("question has not persisted yet");
+    private void injectRealIdsIntoResponses(Collection<FeedbackResponseAttributes> responses,
+            Map<String, String> questionIdMap) {
+        for (FeedbackResponseAttributes response : responses) {
+            int questionNumber;
+            try {
+                questionNumber = Integer.parseInt(response.feedbackQuestionId);
+            } catch (NumberFormatException e) {
+                // question ID already injected
+                continue;
             }
-            response.feedbackQuestionId = question.getId();
-
-        } catch (NumberFormatException e) {
-            // Correct question ID was already attached to response.
+            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            String questionKey = makeQuestionKey(sessionKey, questionNumber);
+            response.feedbackQuestionId = questionIdMap.get(questionKey);
         }
-
-        return response;
     }
 
     /**
@@ -403,26 +428,122 @@ public class BackDoorLogic extends Logic {
     * corresponding to the created comment should be inserted in the json
     * file in place of the actual ID.<br>
     * This method will then generate the correct ID and replace the field.
-     * @throws EntityDoesNotExistException
     **/
-    private void injectRealIds(FeedbackResponseCommentAttributes responseComment) {
-        try {
-            int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
+    private void injectRealIdsIntoResponseComments(Collection<FeedbackResponseCommentAttributes> responseComments,
+            Map<String, String> questionIdMap) {
+        for (FeedbackResponseCommentAttributes comment : responseComments) {
+            int questionNumber;
+            try {
+                questionNumber = Integer.parseInt(comment.feedbackQuestionId);
+            } catch (NumberFormatException e) {
+                // question ID already injected
+                continue;
+            }
+            String sessionKey = makeSessionKey(comment.feedbackSessionName, comment.courseId);
+            String questionKey = makeQuestionKey(sessionKey, questionNumber);
+            comment.feedbackQuestionId = questionIdMap.get(questionKey);
 
-            responseComment.feedbackQuestionId =
-                    feedbackQuestionsLogic.getFeedbackQuestion(
-                            responseComment.feedbackSessionName,
-                            responseComment.courseId,
-                            qnNumber).getId();
-        } catch (NumberFormatException e) {
-            // Correct question ID was already attached to response.
+            String[] responseIdParam = comment.feedbackResponseId.split("%");
+            comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+        }
+    }
+
+    /**
+     * Checks if the role of {@code instructor} matches its privileges.
+     *
+     * @param instructor
+     *            the {@link InstructorAttributes} of an instructor, cannot be
+     *            {@code null}
+     */
+    private void validateInstructorPrivileges(InstructorAttributes instructor) {
+
+        if (instructor.getRole() == null) {
+            return;
         }
 
-        String[] responseIdParam = responseComment.feedbackResponseId.split("%");
+        InstructorPrivileges privileges = instructor.privileges;
 
-        responseComment.feedbackResponseId =
-                responseComment.feedbackQuestionId
-                + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+        switch (instructor.getRole()) {
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+            Assumption.assertTrue(privileges.hasCoownerPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            Assumption.assertTrue(privileges.hasManagerPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            Assumption.assertTrue(privileges.hasObserverPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            Assumption.assertTrue(privileges.hasTutorPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+            break;
+
+        default:
+            Assumption.fail("Invalid instructor permission role name");
+            break;
+        }
+    }
+
+    /**
+     * This method ensures consistency for private feedback sessions
+     * between the type and visibility times. This allows easier creation
+     * of private sessions by setting the feedbackSessionType field as PRIVATE
+     * in the json file.
+     */
+    private void cleanSessionData(FeedbackSessionAttributes session) {
+        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
+            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        }
+    }
+
+    private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
+        for (AccountAttributes account : accounts) {
+            if (account.studentProfile == null) {
+                account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
+            }
+        }
+    }
+
+    private void populateNullSection(StudentAttributes student) {
+        student.section = student.section == null ? "None" : student.section;
+    }
+
+    private AccountAttributes makeAccount(InstructorAttributes instructor) {
+        return new AccountAttributes(
+                instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+    }
+
+    private AccountAttributes makeAccount(StudentAttributes student) {
+        return new AccountAttributes(
+                student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
+    }
+
+    private String makeSessionKey(String feedbackSessionName, String courseId) {
+        return feedbackSessionName + "%" + courseId;
+    }
+
+    private List<String> makeQuestionKeys(List<FeedbackQuestionAttributes> questions, String sessionKey) {
+        List<String> questionKeys = new ArrayList<>();
+        for (FeedbackQuestionAttributes question : questions) {
+            String questionKey = makeQuestionKey(sessionKey, question.questionNumber);
+            questionKeys.add(questionKey);
+        }
+        return questionKeys;
+    }
+
+    private String makeQuestionKey(String sessionKey, int questionNumber) {
+        return makeQuestionKey(sessionKey, String.valueOf(questionNumber));
+    }
+
+    private String makeQuestionKey(String sessionKey, String questionNumber) {
+        return sessionKey + "%" + questionNumber;
     }
 
     public void removeDataBundle(DataBundle dataBundle) {
@@ -431,12 +552,7 @@ public class BackDoorLogic extends Logic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        for (AccountAttributes account : dataBundle.accounts.values()) {
-            if (account.studentProfile == null) {
-                account.studentProfile = new StudentProfileAttributes();
-                account.studentProfile.googleId = account.googleId;
-            }
-        }
+        populateNullStudentProfiles(dataBundle.accounts.values());
         accountsDb.deleteAccounts(dataBundle.accounts.values());
 
         for (AdminEmailAttributes email : dataBundle.adminEmails.values()) {
@@ -451,7 +567,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
-        List<String> courseIds = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
         }
@@ -459,7 +575,6 @@ public class BackDoorLogic extends Logic {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
-            commentsDb.deleteCommentsForCourses(courseIds);
             fbDb.deleteFeedbackSessionsForCourses(courseIds);
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
@@ -475,5 +590,13 @@ public class BackDoorLogic extends Logic {
             byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
+    }
+
+    public boolean isGroupListFilePresentInGcs(String groupListKey) {
+        return GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(groupListKey));
+    }
+
+    public void deleteGroupListFile(String groupListFileKey) {
+        GoogleCloudStorageHelper.deleteFile(new BlobKey(groupListFileKey));
     }
 }

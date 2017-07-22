@@ -21,6 +21,13 @@
       "email": "tmms.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CFeedbackEditUiT.instructor1OfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
     "alice.tmms": {
       "googleId": "CFeedbackEditUiT.alice.tmms",
       "name": "Alice Betsy",
@@ -39,6 +46,12 @@
       "id": "CFeedbackEditUiT.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CFeedbackEditUiT.idOfTSCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
     }
   },
   "instructors": {
@@ -53,14 +66,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -79,14 +89,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -105,14 +112,35 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CFeedbackEditUiT.instructor1OfTSCourse",
+      "courseId": "CFeedbackEditUiT.idOfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -224,11 +252,56 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
+    },
+    "session1InTestingSanitizationCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "CFeedbackEditUiT.idOfTSCourse",
+      "creatorEmail": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "instructions": {
+        "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
     }
   },
-  "feedbackQuestions": {},
+  "feedbackQuestions": {
+    "qn1InSession1InTestingSanitizationCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "CFeedbackEditUiT.idOfTSCourse",
+      "creatorEmail": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "questionMetaData": {
+        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

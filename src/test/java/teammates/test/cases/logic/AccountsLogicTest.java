@@ -55,7 +55,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
@@ -109,11 +109,11 @@ public class AccountsLogicTest extends BaseLogicTest {
             ______TS(aa.toString());
         }
 
-        assertEquals(11, accountsLogic.getInstructorAccounts().size());
+        assertEquals(12, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test updateAccount");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "idOfInstructor1OfCourse1";
         spa.institute = "dev";
         spa.shortName = "nam";
@@ -221,8 +221,9 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
+        StudentProfileAttributes spa = StudentProfileAttributes.builder()
+                .withGoogleId(correctStudentId).withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);
@@ -360,8 +361,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but account already exists");
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns =
-                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns = InstructorAttributes
+                .builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -377,8 +379,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
-                                          "anInstructorWithoutGoogleId@gmail.com");
+        newIns = InstructorAttributes
+                .builder(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
+                .build();
 
         instructorsLogic.createInstructor(newIns);
 
@@ -386,7 +389,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = InstructorAttributes.builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);

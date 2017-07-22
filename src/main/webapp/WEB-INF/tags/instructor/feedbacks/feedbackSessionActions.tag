@@ -3,95 +3,112 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
-<a class="btn btn-default btn-xs btn-tm-actions session-view-for-test margin-bottom-7px"
-   href="${actions.resultsLink}"
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
-   data-toggle="tooltip"
-   data-placement="top">
-    View Results
-</a>
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px"
-   href="${actions.editLink}" 
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
-   data-toggle="tooltip"
-   data-placement="top"
-   <c:if test="${not actions.allowedToEdit}">disabled</c:if>>
-    Edit
+    href="${actions.editLink}"
+    title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
+    data-toggle="tooltip"
+    data-placement="top"
+    <c:if test="${not actions.allowedToEdit}">disabled</c:if>>
+  Edit
 </a>
 <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px"
-   href="${actions.deleteLink}"
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
-   data-toggle="tooltip"
-   data-placement="top"
-   data-courseid="${actions.courseId}"
-   data-fsname="${actions.fsName}"
-   <c:if test="${not actions.allowedToDelete}">disabled</c:if>>
-    Delete
+    href="${actions.deleteLink}"
+    title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
+    data-toggle="tooltip"
+    data-placement="top"
+    data-courseid="${actions.courseId}"
+    data-fsname="${actions.fsName}"
+    <c:if test="${not actions.allowedToDelete}">disabled</c:if>>
+  Delete
 </a>
-<a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
-   href="#" 
-   title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>"
-   data-actionlink="${actions.editCopyLink}"
-   data-courseid="${actions.courseId}"
-   data-fsname="${actions.fsName}"
-   data-toggle="modal"
-   data-target="#fsCopyModal"
-   data-placement="top"
-   id="button_fscopy-${actions.courseId}-${actions.fsName}">
+<div title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>"
+    data-toggle="tooltip"
+    data-placement="top"
+    style="display: inline-block; padding-right: 5px;">
+  <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
+      href="javascript:;"
+      data-actionlink="${actions.editCopyLink}"
+      data-courseid="${actions.courseId}"
+      data-fsname="${actions.fsName}"
+      data-toggle="modal"
+      data-target="#fsCopyModal"
+      id="button_fscopy-${actions.courseId}-${actions.fsName}">
     Copy
-</a>
+  </a>
+</div>
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_SUBMIT %>"
-     data-toggle="tooltip"
-     data-placement="top"
-     style="display: inline-block; padding-right: 5px;">
-    <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px"
-       href="${actions.submitLink}"
-       <c:if test="${not actions.allowedToSubmit}">disabled</c:if>>
-        Submit
+    data-toggle="tooltip"
+    data-placement="top"
+    style="display: inline-block; padding-right: 5px;">
+  <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px"
+      href="${actions.submitLink}"
+      <c:if test="${not actions.allowedToSubmit}">disabled</c:if>>
+    Submit
+  </a>
+</div>
+<div title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
+    data-toggle="tooltip"
+    data-placement="top"
+    style="display: inline-block; padding-right: 5px;">
+  <div class="btn-group margin-bottom-7px">
+    <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"
+        href="${actions.resultsLink}">
+      Results
     </a>
-</div> 
-<c:if test="${not actions.privateSession}">
-    <div title="<%= Const.Tooltips.FEEDBACK_SESSION_REMIND %>"
-         data-toggle="tooltip"
-         data-placement="top"
-         style="display: inline-block; padding-right: 5px;">
-        <div class="btn-group margin-bottom-7px">
-            <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"
-               href="${actions.remindLink}"
-               data-fsname="${actions.fsName}"
-               <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
-                Remind
-            </a>
-            <button type="button"
-                    class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
-                    data-toggle="dropdown"
-                    aria-expanded="false"
-                    <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="${actions.remindLink}"
-                       class="session-remind-inner-for-test"
-                       data-fsname="${actions.fsName}"
-                       <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
-                        Remind all students
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                       data-actionlink="${actions.remindParticularStudentsPageLink}"
-                       class="session-remind-particular-for-test"
-                       data-courseid="${actions.courseId}"
-                       data-fsname="${actions.fsName}"
-                       data-toggle="modal"
-                       data-target="#remindModal"
-                       <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
-                        Remind particular students
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs margin-bottom-7px" />
-</c:if>
+    <button type="button"
+        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options"
+        data-toggle="dropdown"
+        aria-expanded="false"
+        <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a class="session-view-for-test" href="${actions.resultsLink}">View Results</a>
+      </li>
+      <li>
+        <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
+      </li>
+    </ul>
+  </div>
+</div>
+<div title="<%= Const.Tooltips.FEEDBACK_SESSION_REMIND %>"
+    data-toggle="tooltip"
+    data-placement="top"
+    style="display: inline-block; padding-right: 5px;">
+  <div class="btn-group margin-bottom-7px">
+    <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"
+        href="${actions.remindLink}"
+        data-fsname="${actions.fsName}"
+        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+      Remind
+    </a>
+    <button type="button"
+        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
+        data-toggle="dropdown"
+        aria-expanded="false"
+        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="${actions.remindLink}"
+            class="session-remind-inner-for-test"
+            data-fsname="${actions.fsName}">
+          Remind all students
+        </a>
+      </li>
+      <li>
+        <a href="javascript:;"
+            data-actionlink="${actions.remindParticularStudentsPageLink}"
+            class="session-remind-particular-for-test"
+            data-courseid="${actions.courseId}"
+            data-fsname="${actions.fsName}"
+            data-toggle="modal"
+            data-target="#remindModal">
+          Remind particular students
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.testng.annotations.Test;
 
@@ -38,6 +39,8 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         testContent();
         testSearch();
 
+        testSanitization();
+
     }
 
     private void testContent() throws Exception {
@@ -63,33 +66,18 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchNone.html");
 
-        ______TS("search for student comments");
-
-        searchContent = "student comment";
-        searchPage.clickStudentCommentCheckBox();
-        searchPage.clickStudentCheckBox();
-        searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentComments.html");
-
         ______TS("search for feedback response comments");
 
         searchContent = "response comment";
-        searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
+        searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchFeedbackResponseComments.html");
 
-        ______TS("search for all comments");
-
-        searchPage.clickStudentCommentCheckBox();
-        searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchComments.html");
-
-        ______TS("search for all comments as helper");
+        ______TS("search for feedback response comments as helper");
 
         String instructorHelperId = testData.accounts.get("helperOfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorHelperId);
-        searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
         searchPage.clickStudentCheckBox();
         searchPage.inputSearchContent(searchContent);
@@ -121,11 +109,22 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
     }
 
+    private void testSanitization() throws IOException {
+        String instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
+        searchPage = getInstructorSearchPage(instructorId);
+
+        String searchContent = "Normal feedback session name";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickFeedbackResponseCommentCheckBox();
+        searchPage.clickSearchButton();
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchTestingSanitization.html");
+    }
+
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
-        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
+        AppUrl searchPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
-        return loginAdminToPage(commentsPageUrl, InstructorSearchPage.class);
+        return loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
     }
 
 }

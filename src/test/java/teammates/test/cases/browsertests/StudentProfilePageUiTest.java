@@ -92,6 +92,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.verifyHtmlPart(By.id("editProfileDiv"), "/studentProfileEditDivExistingValues.html");
 
+        ______TS("Typical case: existing profile with attempted script injection");
+        profilePage = getProfilePageForStudent("student1InTestingSanitizationCourse");
+        profilePage.verifyHtmlPart(
+                By.id("editProfileDiv"), "/studentProfilePageWithAttemptedScriptInjection.html");
+
         ______TS("Typical case: edit profile picture modal (without existing picture)");
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.showPictureEditor();
@@ -122,6 +127,24 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                           "male", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
+        ______TS("Typical case: attempted script injection");
+
+        StudentProfileAttributes spa = StudentProfileAttributes.builder()
+                .withGoogleId("valid.id")
+                .withShortName("name<script>alert(\"Hello world!\");</script>")
+                .withEmail("e@email.tmt")
+                .withGender("male")
+                .withMoreInfo("this is enough!$%&*</><script>alert(\"Hello world!\");</script>")
+                .withInstitute("inst<script>alert(\"Hello world!\");</script>")
+                .withNationality("American")
+                .build();
+        profilePage.editProfileThroughUi(
+                spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
+        profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
+                "e@email.tmt", "inst<script>alert(\"Hello world!\");</script>", "American",
+                "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+
         ______TS("Typical case: changing genders for complete coverage");
 
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "other",
@@ -133,12 +156,13 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                          "female", "this is enough!$%&*</>");
 
-        ______TS("Failure case: script injection");
+        ______TS("Failure case: invalid institute with attempted script injection");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id",
-                                                                    "<script>alert(\"Hello world!\");</script>",
-                                                                    "e@email.tmt", " inst", "American",
-                                                                    "male", "this is enough!$%&*</>", "");
+        spa = StudentProfileAttributes.builder()
+                .withGoogleId("valid.id").withShortName("short.name").withEmail("e@email.tmt")
+                .withGender("male").withMoreInfo("this is enough!$%&*</>")
+                .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
+                .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
@@ -150,8 +174,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: invalid data");
 
-        spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ", "American",
-                                           "male", "this is enough!$%&*</>", "");
+        spa = StudentProfileAttributes.builder()
+                .withGoogleId("valid.id").withShortName("$$short.name").withEmail("e@email.tmt")
+                .withGender("male").withMoreInfo("this is enough!$%&*</>")
+                .withInstitute(" inst  ").withNationality("American")
+                .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",

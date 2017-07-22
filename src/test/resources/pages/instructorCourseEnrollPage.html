@@ -43,18 +43,13 @@
           </a>
         </li>
         <li>
-          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbacksPage?user=CCEnrollUiT.teammates.test">
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=CCEnrollUiT.teammates.test">
             Sessions
           </a>
         </li>
         <li>
           <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CCEnrollUiT.teammates.test">
             Students
-          </a>
-        </li>
-        <li>
-          <a class="nav comments" data-link="instructorComments" href="/page/instructorCommentsPage?user=CCEnrollUiT.teammates.test">
-            Comments
           </a>
         </li>
         <li>
@@ -110,6 +105,7 @@
       </div>
       <br>
       <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" method="post" role="form">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div class="col-md-12">
           <div class="form-group">
             <label class="col-sm-1 control-label" for="instructions">
@@ -282,7 +278,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -318,12 +314,6 @@
 <script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
 </script>
 <script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
-</script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
 </script>
 <script src="/js/instructorCourseEnrollPage.js" type="text/javascript">
 </script>

@@ -9,6 +9,7 @@
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseAdd" class="form form-horizontal" method="get" name="form_addcourse">
         <input id="instructorid" name="instructorid" type="hidden" value="CCAddUiTest.instructor">
+        <input name="token" type="hidden" value="${sessionToken}">
         <input name="user" type="hidden" value="CCAddUiTest.instructor">
         <div class="form-group">
           <label class="col-sm-3 control-label">
@@ -62,12 +63,12 @@
     <table class="table table-bordered table-striped" id="tableActiveCourses">
       <thead class="fill-primary">
         <tr>
-          <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this);">
+          <th class="button-sort-none toggle-sort button-sort-ascending" id="button_sortcourseid">
             Course ID
             <span class="icon-sort sorted-ascending">
             </span>
           </th>
-          <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this);">
+          <th class="button-sort-none toggle-sort" id="button_sortcoursename">
             Course Name
             <span class="icon-sort unsorted">
             </span>
@@ -127,10 +128,10 @@
             <a class="btn btn-default btn-xs t_course_edit0" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs t_course_archive0" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor" title="">
+            <a class="btn btn-default btn-xs t_course_archive0" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Archive
             </a>
-            <a class="btn btn-default btn-xs course-delete-link t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor" title="">
+            <a class="btn btn-default btn-xs course-delete-link t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Delete
             </a>
           </td>
@@ -172,10 +173,10 @@
             <a class="btn btn-default btn-xs t_course_edit1" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs t_course_archive1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor" title="">
+            <a class="btn btn-default btn-xs t_course_archive1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Archive
             </a>
-            <a class="btn btn-default btn-xs course-delete-link t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor" title="">
+            <a class="btn btn-default btn-xs course-delete-link t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Delete
             </a>
           </td>

@@ -23,15 +23,15 @@ public class InstructorCourseEnrollResultPageData extends PageData {
     private String enrollStudents;
     private List<EnrollResultPanel> enrollResultPanelList;
 
-    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId,
+    public InstructorCourseEnrollResultPageData(AccountAttributes account, String sessionToken, String courseId,
                                                 List<StudentAttributes>[] students, boolean hasSection,
                                                 String enrollStudents) {
-        super(account);
+        super(account, sessionToken);
         this.courseId = courseId;
         this.students = students;
         this.hasSection = hasSection;
         this.enrollStudents = enrollStudents;
-        enrollResultPanelList = new ArrayList<EnrollResultPanel>();
+        enrollResultPanelList = new ArrayList<>();
 
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             String panelClass = "";

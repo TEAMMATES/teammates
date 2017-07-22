@@ -27,7 +27,7 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         @SuppressWarnings("unchecked")
         List<StudentAttributes>[] students = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            students[i] = new ArrayList<StudentAttributes>();
+            students[i] = new ArrayList<>();
         }
         students[StudentUpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student1InCourse1"));
         students[StudentUpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student2InCourse1"));
@@ -38,7 +38,7 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         boolean hasSection = true;
         String enrollStudents = "enrollString";
 
-        InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
+        InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, dummySessionToken,
                                                                 courseId, students, hasSection, enrollStudents);
 
         assertNotNull(pageData.getCourseId());

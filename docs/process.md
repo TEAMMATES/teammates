@@ -13,7 +13,7 @@ This is the project-wide development workflow for TEAMMATES.
 
 * This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/).
 * If you need any help regarding the workflow, please [post a new issue in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
-* It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).<br>
+* It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).<br>
   You are also encouraged to be reasonably familiar with how to [work with your own local copy of TEAMMATES](development.md).
 
 The following are the roles involved:
@@ -179,8 +179,8 @@ Your code will be reviewed, in this sequence, by:
 
 #### Updating the PR
 
-If you are tasked to update your PR either by Travis CI or by your reviewer, there is no need to close the PR and open a new one.
-You will simply make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
+If you are tasked to update your PR either by Travis CI or by your reviewer, **do not** close the PR and open a new one.
+You should make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
 
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
 If you have permission to change labels, you may additionally change the `s.*` PR label as appropriate.

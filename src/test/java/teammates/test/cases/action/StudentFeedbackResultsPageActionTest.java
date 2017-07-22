@@ -3,6 +3,8 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackSessionType;
@@ -12,6 +14,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackResultsPageAction;
@@ -21,6 +24,16 @@ import teammates.ui.pagedata.StudentFeedbackResultsPageData;
  * SUT: {@link StudentFeedbackResultsPageAction}.
  */
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
+
+    @BeforeClass
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
 
     @Override
     protected String getActionUri() {
@@ -199,8 +212,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
                     pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
         }
 
-        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<>();
+        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<>();
         expectedInfoList.add(dataBundle.feedbackSessions.get("session1InCourse1"));
         actualInfoList.add(pageData.getBundle().feedbackSession);
 
@@ -212,5 +225,24 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     protected StudentFeedbackResultsPageAction getAction(String... params) {
         return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.getFeedbackSessionName()
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+
+        // TODO: test no questions -> redirect after moving detection logic to
+        // proper access control level.
     }
 }

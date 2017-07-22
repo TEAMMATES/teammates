@@ -14,8 +14,8 @@ public class InstructorHomePageData extends PageData {
     private List<CourseTable> courseTables;
     private String sortCriteria;
 
-    public InstructorHomePageData(AccountAttributes account) {
-        super(account);
+    public InstructorHomePageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
@@ -55,7 +55,7 @@ public class InstructorHomePageData extends PageData {
     }
 
     private void setCourseTables(List<CourseSummaryBundle> courses) {
-        courseTables = new ArrayList<CourseTable>();
+        courseTables = new ArrayList<>();
         for (CourseSummaryBundle courseDetails : courses) {
             courseTables.add(new CourseTable(courseDetails.course, null, null));
         }

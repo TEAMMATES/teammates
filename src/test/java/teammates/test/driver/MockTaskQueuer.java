@@ -16,11 +16,11 @@ import teammates.logic.api.TaskQueuer;
  */
 public class MockTaskQueuer extends TaskQueuer {
 
-    private List<TaskWrapper> tasksAdded = new ArrayList<TaskWrapper>();
+    private List<TaskWrapper> tasksAdded = new ArrayList<>();
 
     @Override
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
+        Map<String, String[]> multisetParamMap = new HashMap<>();
         for (Map.Entry<String, String> entrySet : paramMap.entrySet()) {
             multisetParamMap.put(entrySet.getKey(), new String[] { entrySet.getValue() });
         }
@@ -48,7 +48,7 @@ public class MockTaskQueuer extends TaskQueuer {
 
     @Override
     public Map<String, Integer> getNumberOfTasksAdded() {
-        Map<String, Integer> numberOfTasksAdded = new HashMap<String, Integer>();
+        Map<String, Integer> numberOfTasksAdded = new HashMap<>();
         for (TaskWrapper task : tasksAdded) {
             String queueName = task.getQueueName();
             if (!numberOfTasksAdded.containsKey(queueName)) {

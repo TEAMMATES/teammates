@@ -11,15 +11,18 @@
             <table class="table table-bordered table-responsive margin-0">
                 <thead>
                     <tr>
-                        <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this);" style="width: 35%;">
+                        <td class="button-sort-ascending toggle-sort" id="button_sortteamname" style="width: 35%;">
                             ${optionRecipientDisplayName}
                             <span class="icon-sort unsorted"></span>
                         </td>
-                        <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this);">
+                        <td>
                             Points Received
+                        </td>
+                        <td class="button-sort-none toggle-sort" id="button_sorttotal">
+                            Total Points
                             <span class="icon-sort unsorted"></span>
                         </td>
-                        <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this);" style="width:25%;">
+                        <td class="button-sort-none toggle-sort" id="button_sortclaimed" style="width:25%;">
                             Average Points
                             <span class="icon-sort unsorted"></span>
                         </td>

@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbackResultsTop - Copy & Paste Feedback Session Table Modal" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ attribute name="courseId" required="true" %>
@@ -9,7 +10,7 @@
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${feedbackSession}">
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${selectedSection}">
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${fn:escapeXml(selectedSection)}">
     <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value="true">
 </form>
 <div class="modal fade align-center" id="fsResultsTableWindow">
@@ -23,15 +24,14 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-default"
                     data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"
-                    onclick="selectElementContents(document.getElementById('fsModalTable'));">
+                <button type="button" class="btn btn-primary" id="btn-select-element-contents">
                     Select Table</button>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
                     <div id="fsModalTable"></div>
                     <br>
-                    <div id="ajaxStatus"></div>      
+                    <div id="ajaxStatus"></div>
                 </div>
             </div>
             <div class="modal-footer"></div>

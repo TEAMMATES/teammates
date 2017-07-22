@@ -5,20 +5,18 @@
 <%@ attribute name="instructorPanelList" type="java.util.Collection" required="true" %>
 
 <c:forEach items="${instructorPanelList}" var="instructorPanel">
-    <div class="panel panel-primary">
-        <course:courseEditInstructorListPanelHeading 
-                index="${instructorPanel.index}" 
-                resendInviteButton="${instructorPanel.resendInviteButton}"
-                editButton="${instructorPanel.editButton}"
-                cancelButton="${instructorPanel.cancelButton}"
-                deleteButton="${instructorPanel.deleteButton}" 
-                instructor="${instructorPanel.instructor}" 
-        />
-        
-        <course:courseEditInstructorListPanelBody 
-                instructorPanel="${instructorPanel}" 
-        />
-    </div>
-    <br>
-    <br>
+  <div class="panel panel-primary">
+    <course:courseEditInstructorListPanelHeading
+        index="${instructorPanel.index}"
+        resendInviteButton="${instructorPanel.resendInviteButton}"
+        editButton="${instructorPanel.editButton}"
+        cancelButton="${instructorPanel.cancelButton}"
+        deleteButton="${instructorPanel.deleteButton}"
+        instructor="${instructorPanel.instructor}"/>
+
+    <course:courseEditInstructorListPanelBody
+        instructorPanel="${instructorPanel}"/>
+  </div>
+  <br>
+  <br>
 </c:forEach>

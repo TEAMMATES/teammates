@@ -5,28 +5,27 @@
 <%@ taglib tagdir="/WEB-INF/tags/student/feedbackResults" prefix="feedbackResults" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/student.js"></script>
-    <script type="text/javascript" src="/js/studentFeedbackResults.js"></script>
+  <script type="text/javascript" src="/js/studentFeedbackResults.js"></script>
 </c:set>
 
 <ts:studentPage bodyTitle="Feedback Results - Student" pageTitle="TEAMMATES - Feedback Results" jsIncludes="${jsIncludes}">
-    <c:if test="${empty data.account.googleId}">
-        <div id="registerMessage" class="alert alert-info">
-            ${data.registerMessage}
-        </div>
-    </c:if>
-    
-    <feedbackResults:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
-    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <br>
-    
-    <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">
-        <feedbackResults:questionWithResponses questionWithResponses="${questionWithResponses}"/>
-    </c:forEach>
-    
-    <c:if test="${empty data.feedbackResultsQuestionsWithResponses}">
-        <div class="col-sm-12" style="color: red">
-            There are currently no responses for you for this feedback session.
-        </div>
-    </c:if>
+  <c:if test="${empty data.account.googleId}">
+    <div id="registerMessage" class="alert alert-info">
+      ${data.registerMessage}
+    </div>
+  </c:if>
+
+  <feedbackResults:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
+  <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+  <br>
+
+  <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">
+    <feedbackResults:questionWithResponses questionWithResponses="${questionWithResponses}"/>
+  </c:forEach>
+
+  <c:if test="${empty data.feedbackResultsQuestionsWithResponses}">
+    <div class="col-sm-12" style="color: red">
+      There are currently no responses for you for this feedback session.
+    </div>
+  </c:if>
 </ts:studentPage>

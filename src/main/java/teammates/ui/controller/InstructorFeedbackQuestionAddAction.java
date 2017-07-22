@@ -13,6 +13,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
@@ -32,14 +33,14 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
 
-        List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+        List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<>();
 
         for (String error : questionDetailsErrors) {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
 
-        RedirectResult redirectResult =
-                createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        RedirectResult redirectResult = createRedirectResult(new PageData(account, sessionToken)
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
 
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
@@ -63,7 +64,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                           + feedbackQuestion.courseId + "]</span> created.<br>"
                           + "<span class=\"bold\">"
                           + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                          + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
+                          + ":</span> "
+                          + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
         } catch (InvalidParametersException e) {
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
             statusToAdmin = e.getMessage();

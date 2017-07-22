@@ -1,7 +1,5 @@
 package teammates.test.cases.pagedata;
 
-import java.util.Arrays;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -17,59 +15,35 @@ import teammates.ui.template.StudentProfile;
  * SUT: {@link InstructorCourseStudentDetailsPageData}.
  */
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
-    private static final String[] USERS_COMMENT_BOX_SHOWN_TO = {"student", "team", "section"};
 
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
-    private boolean isAbleToAddComment;
     private boolean hasSection;
-    private String commentRecipient;
 
     @Test
     public void allTests() {
-        ______TS("With picture key, no comment recipient");
+        ______TS("With picture key");
         String pictureKey = "examplePictureKey";
         createStudentData(pictureKey);
         InstructorCourseStudentDetailsPageData data = createData();
         testData(data);
 
-        ______TS("With empty picture key, no comment recipient");
+        ______TS("With empty picture key");
         pictureKey = "";
         createStudentData(pictureKey);
         data = createData();
         testData(data);
 
-        ______TS("With null picture key, no comment recipient");
+        ______TS("With null picture key");
         createStudentData(null);
         data = createData();
         testData(data);
-
-        ______TS("With comment recipient unauthorised to see comment box");
-        data = createData("someOtherCommentRecipient");
-        testData(data);
-
-        ______TS("With comment recipient authorised to see comment box");
-        for (String user : USERS_COMMENT_BOX_SHOWN_TO) {
-            data = createData(user);
-            testData(data);
-        }
     }
 
     private void testData(InstructorCourseStudentDetailsPageData data) {
         testStudentProfile(data.getStudentProfile());
         testStudentInfoTable(data.getStudentInfoTable());
-        testCommentRecipient(data.getCommentRecipient(), data.isCommentBoxShown());
-    }
-
-    private void testCommentRecipient(String commentRecipient, boolean isCommentBoxShown) {
-        assertEquals(this.commentRecipient, commentRecipient);
-
-        if (Arrays.asList(USERS_COMMENT_BOX_SHOWN_TO).contains(commentRecipient)) {
-            assertTrue(isCommentBoxShown);
-        } else {
-            assertFalse(isCommentBoxShown);
-        }
     }
 
     private void testStudentProfile(StudentProfile studentProfile) {
@@ -95,7 +69,6 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(inputStudent.team, studentInfoTable.getTeam());
         assertEquals(inputStudent.comments, studentInfoTable.getComments());
         assertEquals(inputStudent.course, studentInfoTable.getCourse());
-        assertEquals(isAbleToAddComment, studentInfoTable.isAbleToAddComment());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
@@ -131,28 +104,25 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                             + Const.ParamsNames.USER_ID + "=null";
         }
 
-        inputStudentProfile = new StudentProfileAttributes(
-                null, shortName, email, institute, nationality, gender, moreInfo, pictureKey);
+        inputStudentProfile = StudentProfileAttributes.builder()
+                .withShortName(shortName)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
     }
 
     private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
-        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), inputStudent, inputStudentProfile,
-                                                          isAbleToAddComment, hasSection, commentRecipient);
-    }
-
-    private InstructorCourseStudentDetailsPageData createData(String commentRecipient) {
-        createCommonData();
-        this.commentRecipient = commentRecipient;
-
-        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), inputStudent, inputStudentProfile,
-                                                          isAbleToAddComment, hasSection, commentRecipient);
+        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), dummySessionToken, inputStudent,
+                inputStudentProfile, hasSection);
     }
 
     private void createCommonData() {
-        isAbleToAddComment = true;
         hasSection = true;
-        commentRecipient = null;
     }
 }

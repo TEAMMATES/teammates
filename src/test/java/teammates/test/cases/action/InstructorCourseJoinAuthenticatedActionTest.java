@@ -43,9 +43,12 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         InstructorCourseJoinAuthenticatedAction joinAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?error=true&user=idOfInstructor1OfCourse1"
-                + "&key=" + invalidEncryptedKey,
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        true,
+                        "idOfInstructor1OfCourse1",
+                        invalidEncryptedKey),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link: "
@@ -67,10 +70,13 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?persistencecourse=" + instructor.courseId
-                + "&error=true&user=idOfInstructor1OfCourse1"
-                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(instructor.key),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        instructor.courseId,
+                        true,
+                        "idOfInstructor1OfCourse1",
+                        StringHelper.encrypt(instructor.key)),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(instructor.googleId + " has already joined this course", redirectResult.getStatusMessage());
@@ -92,10 +98,13 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?persistencecourse=" + instructor2.courseId
-                + "&error=true&user=idOfInstructor1OfCourse1"
-                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(instructor2.key),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        instructor2.courseId,
+                        true,
+                        "idOfInstructor1OfCourse1",
+                        StringHelper.encrypt(instructor2.key)),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         AssertHelper.assertContains("The join link used belongs to a different user", redirectResult.getStatusMessage());
@@ -105,7 +114,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         ______TS("Typical case: authenticate for new instructor with corresponding key");
 
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT.instr";
 
@@ -125,10 +136,13 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=false&user=ICJAAT.instr"
-                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(newInstructor.key),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        "idOfTypicalCourse1",
+                        false,
+                        "ICJAAT.instr",
+                        StringHelper.encrypt(newInstructor.key)),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
@@ -143,7 +157,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         ______TS("Failure case: the current unused key is not for this account ");
 
         String currentLoginId = instructor.googleId;
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT2.instr";
 
@@ -161,10 +177,13 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=true&user=ICJAAT.instr"
-                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(newInstructor.key),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        "idOfTypicalCourse1",
+                        true,
+                        "ICJAAT.instr",
+                        StringHelper.encrypt(newInstructor.key)),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId),
@@ -181,5 +200,34 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     @Override
     protected InstructorCourseJoinAuthenticatedAction getAction(String... params) {
         return (InstructorCourseJoinAuthenticatedAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId, String key) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, String persistenceCourse, boolean isError, String userId, String key) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.CHECK_PERSISTENCE_COURSE, persistenceCourse);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, invalidEncryptedKey
+        };
+
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 }

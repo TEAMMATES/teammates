@@ -24,13 +24,13 @@ public class InstructorCourseDetailsPageData extends PageData {
     private CourseDetailsBundle courseDetails;
     private List<InstructorAttributes> instructors;
     private String studentListHtmlTableAsString;
-    private ElementTag giveCommentButton;
     private ElementTag courseRemindButton;
+    private ElementTag courseDeleteAllButton;
     private List<StudentListSectionData> sections;
     private boolean hasSection;
 
-    public InstructorCourseDetailsPageData(AccountAttributes account) {
-        super(account);
+    public InstructorCourseDetailsPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails,
@@ -39,22 +39,20 @@ public class InstructorCourseDetailsPageData extends PageData {
         this.courseDetails = courseDetails;
         this.instructors = instructors;
 
-        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
-                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-
-        String content = "<span class=\"glyphicon glyphicon-comment glyphicon-primary\"></span>";
-        giveCommentButton = createButton(content, "btn btn-default btn-xs icon-button pull-right",
-                                         "button_add_comment", null, "", "tooltip", null, isDisabled);
-
-        isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        boolean isDisabled =
+                !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String courseId = sanitizeForJs(courseDetails.course.getId());
         String href = sanitizeForJs(getInstructorCourseRemindLink(courseDetails.course.getId()));
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", href,
                                           Const.Tooltips.COURSE_REMIND, "tooltip", courseId, isDisabled);
 
-        this.sections = new ArrayList<StudentListSectionData>();
+        String hrefDeleteStudents = sanitizeForJs(getInstructorCourseStudentDeleteAllLink(courseId));
+        courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button-delete-all",
+                hrefDeleteStudents, null, null, courseId, isDisabled);
+
+        this.sections = new ArrayList<>();
         for (SectionDetailsBundle section : courseDetails.sections) {
-            Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+            Map<String, String> emailPhotoUrlMapping = new HashMap<>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
                     String studentPhotoUrl = student.getPublicProfilePictureUrl();
@@ -67,11 +65,9 @@ public class InstructorCourseDetailsPageData extends PageData {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             boolean isAllowedToModifyStudent = currentInstructor.isAllowedForPrivilege(section.name,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isAllowedToGiveCommentInSection = currentInstructor.isAllowedForPrivilege(section.name,
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             this.sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                         isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
-                                                         emailPhotoUrlMapping, account.googleId));
+                                                         isAllowedToModifyStudent,
+                                                         emailPhotoUrlMapping, account.googleId, getSessionToken()));
         }
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);
@@ -93,12 +89,12 @@ public class InstructorCourseDetailsPageData extends PageData {
         return instructors;
     }
 
-    public ElementTag getGiveCommentButton() {
-        return giveCommentButton;
-    }
-
     public ElementTag getCourseRemindButton() {
         return courseRemindButton;
+    }
+
+    public ElementTag getCourseDeleteAllButton() {
+        return courseDeleteAllButton;
     }
 
     public void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {

@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -50,8 +51,9 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS + "?error=false&user=student1InCourse1",
-                     pageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_COURSE_DETAILS, false, "student1InCourse1"),
+                pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
@@ -94,8 +96,9 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         StudentCourseDetailsPageAction redirectAction = getAction(submissionParams);
         RedirectResult redirectResult = this.getRedirectResult(redirectAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE + "?error=true&user=student1InCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, true, "student1InCourse1"),
+                redirectResult.getDestinationWithParams());
 
         assertTrue(redirectResult.isError);
         assertEquals("You are not registered in the course idOfTypicalCourse2", redirectResult.getStatusMessage());
@@ -105,6 +108,32 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                              + "student1InCourse1@gmail.tmt|||studentCourseDetails Page Load<br>"
                              + "Viewing team details for <span class=\"bold\">[idOfTypicalCourse1] "
                              + "Typical Course 1 with 2 Evals</span>|||/page/studentCourseDetailsPage";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
+
+        ______TS("Typical case, student contains data requiring sanitization");
+        StudentAttributes studentTestingSanitization = dataBundle.students.get("student1InTestingSanitizationCourse");
+        gaeSimulation.loginAsStudent(studentTestingSanitization.googleId);
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, studentTestingSanitization.course
+        };
+
+        pageAction = getAction(submissionParams);
+        pageResult = getShowPageResult(pageAction);
+
+        assertEquals(Const.ViewURIs.STUDENT_COURSE_DETAILS
+                        + "?error=false&user=" + studentTestingSanitization.googleId,
+                     pageResult.getDestinationWithParams());
+        assertFalse(pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true|||"
+                + "Student|||" + SanitizationHelper.sanitizeForHtml("Stud1<script> alert('hi!'); </script>")
+                + "|||student1InTestingSanitizationCourse|||"
+                + "normal@sanitization.tmt|||studentCourseDetails Page Load<br>"
+                + "Viewing team details for <span class=\"bold\">[idOfTestingSanitizationCourse] "
+                + SanitizationHelper.sanitizeForHtml("Testing<script> alert('hi!'); </script>")
+                + "</span>|||/page/studentCourseDetailsPage";
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
@@ -150,7 +179,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
@@ -171,6 +200,29 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     private StudentProfileEditSaveAction getStudentProfileEditSaveAction(String[] submissionParams) {
         return (StudentProfileEditSaveAction) gaeSimulation.getActionObject(Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
                 submissionParams);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String idOfCourseOfStudent = dataBundle.students
+                .get("student1InCourse1").course;
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
+        };
+
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+
+        idOfCourseOfStudent = dataBundle.students.get("student2InCourse1").course;
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
+        };
+
+        verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
     }
 
 }

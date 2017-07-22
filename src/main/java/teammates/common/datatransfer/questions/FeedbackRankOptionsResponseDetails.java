@@ -23,7 +23,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails,
                                        String[] answer) {
-        List<Integer> rankAnswer = new ArrayList<Integer>();
+        List<Integer> rankAnswer = new ArrayList<>();
         for (String answerPart : answer) {
             try {
                 rankAnswer.add(Integer.parseInt(answerPart));
@@ -62,7 +62,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
 
         SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);

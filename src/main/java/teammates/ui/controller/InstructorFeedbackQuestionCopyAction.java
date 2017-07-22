@@ -4,6 +4,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
@@ -36,11 +37,12 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
                 feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
 
                 statusToAdmin += "Created Feedback Question for Feedback Session:<span class=\"bold\">("
-                                 + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                                 + feedbackQuestion.courseId + "]</span> created.<br>"
-                                 + "<span class=\"bold\">"
-                                 + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                                 + ":</span> " + feedbackQuestion.getQuestionDetails().getQuestionText();
+                        + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                        + feedbackQuestion.courseId + "]</span> created.<br>"
+                        + "<span class=\"bold\">"
+                        + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
+                        + ":</span> "
+                        + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
             }
 
             if (index > 0) {
@@ -58,7 +60,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             isError = true;
         }
 
-        return createRedirectResult(new PageData(account)
-                                            .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        return createRedirectResult(new PageData(account, sessionToken)
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 }

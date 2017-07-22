@@ -94,6 +94,15 @@ public class FieldValidator {
             Collections.unmodifiableList(
                     Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
 
+    public static final String ROLE_FIELD_NAME = "access-level";
+    public static final List<String> ROLE_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
@@ -136,7 +145,7 @@ public class FieldValidator {
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
             SanitizationHelper.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES "
                                                 + "as it cannot contain the following special html characters"
-                                                + " in brackets: (< > \\ / ' &)");
+                                                + " in brackets: (< > \" / ' &)");
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
@@ -174,6 +183,9 @@ public class FieldValidator {
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
             + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
             + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+
+    public static final String ROLE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -444,7 +456,7 @@ public class FieldValidator {
     public String getInvalidityInfoForNationality(String nationality) {
         Assumption.assertNotNull("Non-null value expected", nationality);
         if (!NationalityHelper.getNationalities().contains(nationality)) {
-            return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
+            return String.format(NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(nationality));
         }
         return "";
     }
@@ -486,6 +498,22 @@ public class FieldValidator {
     }
 
     /**
+     * Checks if {@code role} is one of the recognized roles {@link #ROLE_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code role} is not acceptable.
+     *         Returns an empty string if the {@code role} is acceptable.
+     */
+    public String getInvalidityInfoForRole(String role) {
+        Assumption.assertTrue("Non-null value expected", role != null);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
+
+        if (!ROLE_ACCEPTED_VALUES.contains(role)) {
+            return String.format(ROLE_ERROR_MESSAGE, sanitizedValue);
+        }
+        return "";
+    }
+
+    /**
      * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength},
      * and also does not contain any invalid characters (| or %).
@@ -516,8 +544,8 @@ public class FieldValidator {
                                             fieldName, REASON_TOO_LONG, maxLength);
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
-            boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
-            if (!startsWithBraces) {
+            boolean hasStartingBrace = value.charAt(0) == '{' && value.contains("}");
+            if (!hasStartingBrace) {
                 return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue,
                                                 fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
@@ -612,7 +640,7 @@ public class FieldValidator {
         Assumption.assertNotNull("Non-null value expected", giverType);
         Assumption.assertNotNull("Non-null value expected", recipientType);
 
-        List<String> errors = new LinkedList<String>();
+        List<String> errors = new LinkedList<>();
         if (!giverType.isValidGiver()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
         }
@@ -642,7 +670,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
         Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
 
-        List<String> errors = new LinkedList<String>();
+        List<String> errors = new LinkedList<>();
 
         for (FeedbackParticipantType type : showGiverNameTo) {
             if (!type.isValidViewer()) {
@@ -679,15 +707,7 @@ public class FieldValidator {
     }
 
     public String getValidityInfoForNonHtmlField(String fieldName, String value) {
-        String sanitizedValue = value;
-        sanitizedValue = sanitizedValue.replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("\"", "&quot;")
-            .replace("/", "&#x2f;")
-            .replace("'", "&#39;")
-            //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
-            //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
-            .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }
@@ -715,7 +735,7 @@ public class FieldValidator {
      * @return true if all elements are unique, else false.
      */
     public static <T> boolean areElementsUnique(Collection<T> elements) {
-        Set<T> uniqueElements = new HashSet<T>(elements);
+        Set<T> uniqueElements = new HashSet<>(elements);
         return uniqueElements.size() == elements.size();
     }
 

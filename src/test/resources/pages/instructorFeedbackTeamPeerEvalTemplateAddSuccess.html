@@ -10,17 +10,25 @@
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
-            <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" title="">
+              <span class="glyphicon glyphicon-pencil">
+              </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
-              Save Changes
+            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" style="display:none;" type="submit">
+              <span class="glyphicon glyphicon-ok">
+              </span>
+              Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackUiT.CS1101" data-feedback-session-name="Team Peer Evaluation Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Team+Peer+Evaluation+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackUiT.instructor" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackUiT.CS1101" data-feedback-session-name="Team Peer Evaluation Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Team+Peer+Evaluation+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
+              <span class="glyphicon glyphicon-trash">
+              </span>
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Team Peer Evaluation Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Team Peer Evaluation Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy">
+                <span class="glyphicon glyphicon-file">
+                </span>
                 Copy
               </a>
             </span>
@@ -203,8 +211,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
                     <p>
                       Please fill in the new feedback session.
@@ -719,7 +725,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -727,7 +733,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -744,6 +750,7 @@
       <input disabled="" name="fsname" type="hidden" value="Team Peer Evaluation Session">
       <input disabled="" name="courseid" type="hidden" value="CFeedbackUiT.CS1101">
       <input disabled="" name="user" type="hidden" value="CFeedbackUiT.instructor">
+      <input disabled="" name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <br>
@@ -757,7 +764,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -786,7 +793,8 @@
     </div>
   </div>
   <br>
-  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
+  <input id="num-questions" type="hidden" value="5">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
         <div class="row">
@@ -817,16 +825,24 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,5)" title="">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questionedittext-1" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-1" onclick="discardChanges(1)" style="display:none" title="">
-                Discard Changes
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="1" data-toggle="tooltip" id="questiondiscardchanges-1" style="display:none" title="">
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(1)" title="">
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="1" data-toggle="tooltip" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -856,8 +872,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-1">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-1" spellcheck="false" tabindex="9" title="">
                 <p>
                   <br data-mce-bogus="1">
@@ -880,13 +894,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -901,7 +915,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -919,7 +933,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -943,7 +957,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -972,7 +986,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -993,7 +1007,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1045,13 +1059,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Shown anonymously to recipient and team members, visible to instructors
             </button>
@@ -1093,7 +1107,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-1" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-1" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -1193,7 +1207,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-1">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage-1">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
               <li>
@@ -1228,10 +1242,11 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-2" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(2)" role="form">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="2" id="form_editquestion-2" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-2">
       <div class="panel-heading">
         <div class="row">
@@ -1262,16 +1277,24 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-2" onclick="enableEdit(2,5)" title="">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="2" data-toggle="tooltip" id="questionedittext-2" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-2" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-2" onclick="discardChanges(2)" style="display:none" title="">
-                Discard Changes
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="2" data-toggle="tooltip" id="questiondiscardchanges-2" style="display:none" title="">
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(2)" title="">
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="2" data-toggle="tooltip" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -1301,8 +1324,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-2">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-2" spellcheck="false" tabindex="9" title="">
                 <p>
                   <br data-mce-bogus="1">
@@ -1328,13 +1349,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -1349,7 +1370,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1367,7 +1388,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1391,7 +1412,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1420,7 +1441,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1441,7 +1462,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype">
                   <option selected="" value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1493,13 +1514,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Custom visibility option:
             </button>
@@ -1541,7 +1562,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-2" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -1641,7 +1662,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage-2">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
               <li>
@@ -1676,10 +1697,11 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-3" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(3)" role="form">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="3" id="form_editquestion-3" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-3">
       <div class="panel-heading">
         <div class="row">
@@ -1710,16 +1732,24 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-3" onclick="enableEdit(3,5)" title="">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="3" data-toggle="tooltip" id="questionedittext-3" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-3" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-3" onclick="discardChanges(3)" style="display:none" title="">
-                Discard Changes
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="3" data-toggle="tooltip" id="questiondiscardchanges-3" style="display:none" title="">
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(3)" title="">
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="3" data-toggle="tooltip" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -1749,8 +1779,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-3">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-3" spellcheck="false" tabindex="9" title="">
                 <p>
                   <br data-mce-bogus="1">
@@ -1776,13 +1804,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -1797,7 +1825,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1815,7 +1843,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1839,7 +1867,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1868,7 +1896,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-3" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="givertype-3" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1889,7 +1917,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-3" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-3" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1941,13 +1969,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Visible to instructors only
             </button>
@@ -1989,7 +2017,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-3" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-3" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -2089,7 +2117,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-3">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage-3">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
               <li>
@@ -2115,10 +2143,11 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-4" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(4)" role="form">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="4" id="form_editquestion-4" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-4">
       <div class="panel-heading">
         <div class="row">
@@ -2149,16 +2178,24 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-4" onclick="enableEdit(4,5)" title="">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="4" data-toggle="tooltip" id="questionedittext-4" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-4" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-4" onclick="discardChanges(4)" style="display:none" title="">
-                Discard Changes
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="4" data-toggle="tooltip" id="questiondiscardchanges-4" style="display:none" title="">
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(4)" title="">
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="4" data-toggle="tooltip" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -2188,8 +2225,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-4">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-4" spellcheck="false" tabindex="9" title="">
                 <p>
                   <br data-mce-bogus="1">
@@ -2215,13 +2250,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Predefined combinations:
             </button>
@@ -2233,7 +2268,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2251,7 +2286,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2275,7 +2310,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2304,7 +2339,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-4" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="givertype-4" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -2325,7 +2360,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-4" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-4" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -2377,13 +2412,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Visible to instructors only
             </button>
@@ -2425,7 +2460,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-4" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-4" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -2525,7 +2560,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-4">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage-4">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
               <li>
@@ -2551,10 +2586,11 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-5" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(5)" role="form">
+  <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="5" id="form_editquestion-5" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-5">
       <div class="panel-heading">
         <div class="row">
@@ -2585,16 +2621,24 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-toggle="tooltip" id="questionedittext-5" onclick="enableEdit(5,5)" title="">
+              <a class="btn btn-primary btn-xs btn-edit-qn" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question." data-placement="top" data-qnnumber="5" data-toggle="tooltip" id="questionedittext-5" title="">
+                <span class="glyphicon glyphicon-pencil">
+                </span>
                 Edit
               </a>
               <a class="btn btn-primary btn-xs" id="questionsavechangestext-5" style="display:none">
-                Save Changes
+                <span class="glyphicon glyphicon-ok">
+                </span>
+                Save
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-toggle="tooltip" id="questiondiscardchanges-5" onclick="discardChanges(5)" style="display:none" title="">
-                Discard Changes
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Discard any unsaved edits and revert back to original question." data-placement="top" data-qnnumber="5" data-toggle="tooltip" id="questiondiscardchanges-5" style="display:none" title="">
+                <span class="glyphicon glyphicon-ban-circle">
+                </span>
+                Discard
               </a>
-              <a class="btn btn-primary btn-xs" data-original-title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(5)" title="">
+              <a class="btn btn-primary btn-xs btn-delete-qn" data-original-title="" data-placement="top" data-qnnumber="5" data-toggle="tooltip" title="">
+                <span class=" glyphicon glyphicon-trash">
+                </span>
                 Delete
               </a>
             </span>
@@ -2624,8 +2668,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container-5">
-              </div>
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-5" spellcheck="false" tabindex="9" title="">
                 <p>
                   <br data-mce-bogus="1">
@@ -2651,13 +2693,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Students in this course will give feedback on
               <span class="glyphicon glyphicon-arrow-right">
@@ -2672,7 +2714,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2690,7 +2732,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2714,7 +2756,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -2743,7 +2785,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="givertype-5" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="givertype-5" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -2764,7 +2806,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" disabled="" id="recipienttype-5" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" disabled="" id="recipienttype-5" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -2816,13 +2858,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" disabled="" type="button">
               Shown anonymously to recipient, visible to instructors
             </button>
@@ -2864,7 +2906,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-5" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions-5" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -2964,7 +3006,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-5">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage-5">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
               <li>
@@ -2993,14 +3035,15 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackUiT.instructor">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
     <div class="well well-plain inputTable" id="addNewQuestionTable">
       <div class="row">
-        <div class="col-sm-12 row">
-          <div class="col-sm-offset-3 col-sm-9">
+        <div class="col-sm-offset-3 col-sm-9">
+          <div class="btn-group">
             <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
               Add New Question
               <span class="caret">
@@ -3058,17 +3101,17 @@
                 </a>
               </li>
             </ul>
-            <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
-              <i class="glyphicon glyphicon-info-sign">
-              </i>
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Team Peer Evaluation Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
-              Copy Question
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=CFeedbackUiT.instructor&courseid=CFeedbackUiT.CS1101&fsname=Team+Peer+Evaluation+Session" id="button_done_editing">
-              Done Editing
-            </a>
           </div>
+          <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
+            <i class="glyphicon glyphicon-info-sign">
+            </i>
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Team Peer Evaluation Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
+            Copy Question
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=CFeedbackUiT.instructor&courseid=CFeedbackUiT.CS1101&fsname=Team+Peer+Evaluation+Session" id="button_done_editing">
+            Done Editing
+          </a>
         </div>
       </div>
     </div>
@@ -3107,7 +3150,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
                 Cancel
               </a>
             </span>
@@ -3136,8 +3179,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container">
-              </div>
               <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
               <input name="questiondescription" type="hidden">
@@ -3215,7 +3256,7 @@
                   <div class="checkbox padding-top-0">
                     <label class="bold-label">
                       <span class="inline-block">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMcqOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </span>
                     </label>
@@ -3291,7 +3332,7 @@
                   <div class="col-md-8 margin-bottom-7px">
                     <div class="checkbox">
                       <label class="bold-label">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMsqOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </label>
                     </div>
@@ -3552,7 +3593,7 @@
                               <span class="glyphicon glyphicon-remove">
                               </span>
                             </span>
-                            <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" rows="3">
+                            <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" required="" rows="3">
                               This student participates well in online discussions.
                             </textarea>
                           </div>
@@ -3585,7 +3626,7 @@
                               <span class="glyphicon glyphicon-remove">
                               </span>
                             </span>
-                            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" rows="3">
+                            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" required="" rows="3">
                               This student completes assigned tasks on time.
                             </textarea>
                           </div>
@@ -3699,13 +3740,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a feedback path
               <span class="caret">
@@ -3719,7 +3760,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -3737,7 +3778,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -3761,7 +3802,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -3790,7 +3831,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -3811,7 +3852,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -3863,13 +3904,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a visibility option
               <span class="caret">
@@ -3913,7 +3954,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions--1" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -4013,7 +4054,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage--1">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
             </ul>
@@ -4037,6 +4078,7 @@
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackUiT.instructor">
     <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -4059,6 +4101,7 @@
             <input name="fsname" type="hidden" value="Team Peer Evaluation Session">
             <input name="user" type="hidden" value="CFeedbackUiT.instructor">
             <input name="courseid" type="hidden" value="CFeedbackUiT.CS1101">
+            <input name="token" type="hidden" value="${sessionToken}">
           </form>
           <div id="question-copy-modal-status">
           </div>
@@ -4103,7 +4146,7 @@
           <input name="user" type="hidden" value="CFeedbackUiT.instructor">
         </form>
       </div>
-      <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback." data-placement="top" data-toggle="tooltip" title="">
+      <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback.<br>Only instructors with submit privileges are included in the list." data-placement="top" data-toggle="tooltip" title="">
         <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">

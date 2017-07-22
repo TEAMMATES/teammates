@@ -80,11 +80,17 @@ public enum BackDoorOperation {
     /** Operation type: getting a student data from the datastore as JSON. */
     OPERATION_GET_STUDENT_AS_JSON,
 
+    /** Operation type: getting list of student data from the datastore as JSON. */
+    OPERATION_GET_STUDENTS_AS_JSON,
+
     /** Operation type: getting a student profile data from the datastore as JSON. */
     OPERATION_GET_STUDENTPROFILE_AS_JSON,
 
     /** Operation type: checking if profile picture is present in GCS. */
     OPERATION_IS_PICTURE_PRESENT_IN_GCS,
+
+    /** Operation type: creating a feedback response in the datastore. */
+    OPERATION_CREATE_FEEDBACK_RESPONSE,
 
     /** Operation type: persisting data bundle into the datastore. */
     OPERATION_PERSIST_DATABUNDLE,
@@ -96,7 +102,13 @@ public enum BackDoorOperation {
     OPERATION_REMOVE_AND_RESTORE_DATABUNDLE,
 
     /** Operation type: removing data bundle from the datastore. */
-    OPERATION_REMOVE_DATABUNDLE;
+    OPERATION_REMOVE_DATABUNDLE,
+
+    /** Operation type: verifying uploaded group list key. */
+    OPERATION_IS_GROUP_LIST_FILE_PRESENT_IN_GCS,
+
+    /** Operation type: removing group list file. */
+    OPERATION_DELETE_GROUP_LIST_FILE;
 
     // CHECKSTYLE.OFF:JavadocVariable self-explanatory variables
     public static final String PARAMETER_BACKDOOR_KEY = "PARAMETER_BACKDOOR_KEY";
@@ -105,6 +117,7 @@ public enum BackDoorOperation {
     public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
     public static final String PARAMETER_FEEDBACK_QUESTION_ID = "PARAMETER_FEEDBACK_QUESTION_ID";
     public static final String PARAMETER_FEEDBACK_QUESTION_NUMBER = "PARAMETER_FEEDBACK_QUESTION_NUMBER";
+    public static final String PARAMETER_FEEDBACK_RESPONSE_JSON = "PARAMETER_FEEDBACK_RESPONSE_JSON";
     public static final String PARAMETER_FEEDBACK_SESSION_NAME = "PARAMETER_FEEDBACK_SESSION_NAME";
     public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
     public static final String PARAMETER_GOOGLE_ID = "PARAMETER_GOOGLE_ID";
@@ -114,6 +127,7 @@ public enum BackDoorOperation {
     public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
     public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
     public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
+    public static final String PARAMETER_GROUP_LIST_FILE_KEY = "PARAMETER_GROUP_LIST_FILE_KEY";
     // CHECKSTYLE.ON:JavadocVariable
 
 }

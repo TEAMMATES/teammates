@@ -2,8 +2,9 @@ package teammates.test.cases.logic;
 
 import static teammates.common.util.Const.EOL;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
@@ -226,7 +227,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
@@ -282,7 +283,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -342,7 +343,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -394,7 +395,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -438,12 +439,19 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(2, courseList.size());
 
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertEquals(course1.getId(), courseList.get(0).getId());
-        assertEquals(course1.getName(), courseList.get(0).getName());
 
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
-        assertEquals(course2.getId(), courseList.get(1).getId());
-        assertEquals(course2.getName(), courseList.get(1).getName());
+
+        List<CourseAttributes> courses = new ArrayList<>();
+        courses.add(course1);
+        courses.add(course2);
+        CourseAttributes.sortById(courses);
+
+        assertEquals(courses.get(0).getId(), courseList.get(0).getId());
+        assertEquals(courses.get(0).getName(), courseList.get(0).getName());
+
+        assertEquals(courses.get(1).getId(), courseList.get(1).getId());
+        assertEquals(courses.get(1).getName(), courseList.get(1).getName());
 
         ______TS("student having one course");
 
@@ -524,7 +532,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("Instructor with 2 courses");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        HashMap<String, CourseDetailsBundle> courseList =
+        Map<String, CourseDetailsBundle> courseList =
                 coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
         assertEquals(2, courseList.size());
         for (CourseDetailsBundle cdd : courseList.values()) {
@@ -568,7 +576,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Typical case");
 
-        HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
+        Map<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
                 .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3", false);
         assertEquals(2, courseListForInstructor.size());
 
@@ -770,8 +778,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles");
 
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.getId(),
-                                                          "Instructor for tccai", "ins.for.iccai@gmail.tmt");
+        InstructorAttributes i = InstructorAttributes
+                .builder("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
+                .build();
 
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());
@@ -790,7 +799,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         a.email = i.email;
         a.institute = "TEAMMATES Test Institute 5";
         a.isInstructor = false;
-        a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
@@ -916,9 +925,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("non-existent");
 

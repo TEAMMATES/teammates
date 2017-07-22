@@ -22,6 +22,14 @@ import teammates.test.driver.StringHelperExtension;
 public class StringHelperTest extends BaseTestCase {
 
     @Test
+    public void testIsEmpty() {
+        assertTrue(StringHelper.isEmpty(null));
+        assertTrue(StringHelper.isEmpty(""));
+        assertFalse(StringHelper.isEmpty("test"));
+        assertFalse(StringHelper.isEmpty("     "));
+    }
+
+    @Test
     public void testGenerateStringOfLength() {
 
         assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());
@@ -103,7 +111,7 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        ArrayList<String> strings = new ArrayList<String>();
+        ArrayList<String> strings = new ArrayList<>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
 
@@ -117,7 +125,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
         assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
 
-        ArrayList<Integer> ints = new ArrayList<Integer>();
+        ArrayList<Integer> ints = new ArrayList<>();
         ints.add(1);
         ints.add(44);
         assertEquals("1\n44", StringHelper.toString(ints, "\n"));
@@ -411,6 +419,28 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("test||data", StringHelper.join("||", new String[] {"test", "data"}));
         assertEquals("test|||data|||testdata",
                 StringHelper.join("|||", new String[] {"test", "data", "testdata"}));
+    }
+
+    @Test
+    public void testIsTextContainingAny() {
+        assertFalse("null text should return false", StringHelper.isTextContainingAny(null));
+        assertFalse("null text should return false", StringHelper.isTextContainingAny(null, ""));
+        assertFalse("null text should return false",
+                StringHelper.isTextContainingAny(null, "a string", "another string"));
+
+        assertTrue("any string should contain empty string", StringHelper.isTextContainingAny("String", ""));
+
+        String text = "The quick brown fox jumps over the lazy dog.";
+
+        assertTrue("should return true if there exists a string which is contained in text",
+                StringHelper.isTextContainingAny(text, "not contained", "isNotInText", "brown"));
+        assertFalse("should return false if no strings are contained in text",
+                StringHelper.isTextContainingAny(text, "not contained", "notInside", "NotInText"));
+
+        assertTrue("should return true if no strings are given",
+                StringHelper.isTextContainingAny(""));
+        assertTrue("should return true if no strings are given",
+                StringHelper.isTextContainingAny(text));
     }
 
 }

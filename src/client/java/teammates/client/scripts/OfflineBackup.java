@@ -19,7 +19,6 @@ import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -29,7 +28,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.Logic;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -39,7 +37,7 @@ public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     private String currentFileName = "";
     private boolean hasPreviousEntity;
-    private Set<String> accountsSaved = new HashSet<String>();
+    private Set<String> accountsSaved = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         OfflineBackup offlineBackup = new OfflineBackup();
@@ -59,7 +57,7 @@ public class OfflineBackup extends RemoteApiClient {
      * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities.
      */
     private List<String> getModifiedLogs() {
-        List<String> modifiedLogs = new ArrayList<String>();
+        List<String> modifiedLogs = new ArrayList<>();
         try {
             //Opens a URL connection to obtain the entity modified logs
             URL url = new URL(TestProperties.TEAMMATES_URL + "/entityModifiedLogs");
@@ -85,7 +83,7 @@ public class OfflineBackup extends RemoteApiClient {
     private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
 
         //Extracts the course Ids to be backup from the logs
-        Set<String> courses = new HashSet<String>();
+        Set<String> courses = new HashSet<>();
         for (String course : modifiedLogs) {
             course = course.trim();
             if (!course.isEmpty()) {
@@ -132,7 +130,6 @@ public class OfflineBackup extends RemoteApiClient {
             appendToFile(currentFileName, "{\n");
 
             retrieveAndSaveAccountsByCourse(courseId);
-            retrieveAndSaveCommentsByCourse(courseId);
             retrieveAndSaveCourse(courseId);
             retrieveAndSaveFeedbackQuestionsByCourse(courseId);
             retrieveAndSaveFeedbackResponsesByCourse(courseId);
@@ -167,22 +164,6 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\n\t},\n");
         hasPreviousEntity = false;
-    }
-
-    /**
-     * Retrieves all the comments from a course and saves them.
-     */
-    private void retrieveAndSaveCommentsByCourse(String courseId) {
-        CommentsDb commentsDb = new CommentsDb();
-        List<CommentAttributes> comments = commentsDb.getCommentsForCourse(courseId);
-
-        appendToFile(currentFileName, "\t\"comments\":{\n");
-
-        for (CommentAttributes comment : comments) {
-            saveComment(comment);
-        }
-        hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
     }
 
     /**
@@ -379,10 +360,6 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, formatJsonString(account.getJsonString(), account.email));
         accountsSaved.add(account.email);
-    }
-
-    private void saveComment(CommentAttributes comment) {
-        appendToFile(currentFileName, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
     }
 
     private void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {

@@ -190,8 +190,8 @@ public final class AssertHelper {
         String expectedListAsString = Joiner.on("\t").join(a);
         String actualListAsString = Joiner.on("\t").join(b);
 
-        List<String> expectedStringTypeList = new ArrayList<String>(Arrays.asList(expectedListAsString.split("\t")));
-        List<String> actualStringTypeList = new ArrayList<String>(Arrays.asList(actualListAsString.split("\t")));
+        List<String> expectedStringTypeList = new ArrayList<>(Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<>(Arrays.asList(actualListAsString.split("\t")));
 
         Collections.sort(expectedStringTypeList);
         Collections.sort(actualStringTypeList);

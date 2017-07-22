@@ -68,7 +68,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      * Initializes the answer list to have empty responses.
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
-        answer = new ArrayList<Integer>();
+        answer = new ArrayList<>();
         for (int i = 0; i < numSubQuestions; i++) {
             // -1 indicates no choice chosen
             answer.add(-1);
@@ -81,7 +81,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
         StringBuilder html = new StringBuilder(100);
         for (int i = 0; i < answer.size(); i++) {
@@ -100,6 +100,63 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             }
 
         }
+
+        return html.toString();
+    }
+
+    @Override
+    public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
+        StringBuilder html = new StringBuilder(100);
+
+        html.append("<table class=\"table table-bordered\">");
+
+        StringBuilder tableHeaderHtml = new StringBuilder(100);
+
+        tableHeaderHtml.append(
+                "<thead>"
+                   + "<tr>"
+                        + "<th>Criteria</th>");
+
+        List<String> subQuestions = fqd.getRubricSubQuestions();
+        List<String> rubricChoices = fqd.getRubricChoices();
+
+        for (int i = 0; i < rubricChoices.size(); i++) {
+            tableHeaderHtml.append("<th class=\"text-center\">");
+            tableHeaderHtml.append(rubricChoices.get(i));
+            tableHeaderHtml.append("</th>");
+        }
+
+        tableHeaderHtml.append(
+                      "</tr>"
+                + "</thead>");
+
+        StringBuilder tableBodyHtml = new StringBuilder(200);
+
+        tableBodyHtml.append("<tbody>");
+
+        for (int i = 0; i < answer.size(); i++) {
+            int chosenIndex = answer.get(i);
+
+            tableBodyHtml.append(
+                    "<tr>"
+                        + "<td>");
+            tableBodyHtml.append(subQuestions.get(i));
+            tableBodyHtml.append("</td>");
+
+            for (int j = 0; j < rubricChoices.size(); j++) {
+                tableBodyHtml.append("<td class=\"text-center\">");
+
+                if (j == chosenIndex) {
+                    tableBodyHtml.append("<span class=\"glyphicon glyphicon-ok text-success\"></span>");
+                }
+
+                tableBodyHtml.append("</td>");
+            }
+        }
+
+        tableBodyHtml.append("</tbody>");
+        html.append(tableHeaderHtml).append(tableBodyHtml).append("</table>");
 
         return html.toString();
     }

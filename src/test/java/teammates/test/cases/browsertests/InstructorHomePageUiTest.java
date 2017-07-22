@@ -1,7 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import java.net.MalformedURLException;
-
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
@@ -12,11 +10,10 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.UrlExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
-import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
@@ -130,9 +127,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         CourseAttributes newCourse = new CourseAttributes("newIns.wit-demo", "Sample Course 101", "UTC");
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
-        InstructorAttributes instr =
-                new InstructorAttributes("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
-                                         "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt");
+        InstructorAttributes instr = InstructorAttributes
+                .builder("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
+                        "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .build();
         BackDoor.createInstructor(instr);
 
         homePage.loadInstructorHomeTab();
@@ -147,6 +145,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         updateInstructorToCoownerPrivileges();
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeHTML.html");
+
+        ______TS("content: require sanitization");
+
+        loginAsInstructor("CHomeUiT.idOfInstructor1OfTestingSanitizationCourse");
+        homePage.loadInstructorHomeTab();
+        homePage.verifyHtmlMainContent("/instructorHomeTestingSanitization.html");
+
     }
 
     private void updateInstructorToCoownerPrivileges() {
@@ -171,7 +176,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("account").googleId;
 
         ______TS("link: course enroll");
-        InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
+        InstructorCourseEnrollPage enrollPage = homePage.clickCourseEnrollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
         String expectedEnrollLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                                         .withCourseId(courseId)
@@ -201,9 +206,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("link: course add session");
-        InstructorFeedbacksPage feedbacksPage = homePage.clickCourseAddEvaluationLink(courseId);
+        InstructorFeedbackSessionsPage feedbacksPage = homePage.clickCourseAddEvaluationLink(courseId);
         feedbacksPage.verifyContains("Add New Feedback Session");
-        String expectedAddSessionLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String expectedAddSessionLinkText = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .toAbsoluteString();
@@ -274,8 +279,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
 
-
-
         ______TS("remind action: CLOSED feedback session - inner button");
 
         homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
@@ -323,7 +326,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private void testPublishUnpublishActions() {
         ______TS("publish action: AWAITING feedback session");
 
-        homePage.verifyUnclickable(homePage.getPublishLink(feedbackSessionAwaiting.getCourseId(),
+        homePage.verifyUnclickable(homePage.getSessionResultsOptionsCaretElement(feedbackSessionAwaiting.getCourseId(),
                                                            feedbackSessionAwaiting.getFeedbackSessionName()));
 
         ______TS("publish action: OPEN feedback session");
@@ -383,17 +386,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").getId();
 
         //delete the course, then submit archive request to it
-        String archiveLinkString = homePage.getArchiveCourseLink(courseIdForCS2104);
-        AppUrl urlToArchive;
-        try {
-            // the link returned here might be absolute; make it relative first
-            urlToArchive = createUrl(UrlExtension.getRelativePath(archiveLinkString));
-        } catch (MalformedURLException e) {
-            // the link is already relative
-            urlToArchive = createUrl(archiveLinkString);
-        }
-        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
-        browser.driver.get(urlToArchive.toAbsoluteString());
+        BackDoor.deleteCourse(courseIdForCS2104);
+        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS2104);
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
 
         // recover the deleted course and its related entities

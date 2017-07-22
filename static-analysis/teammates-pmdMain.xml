@@ -6,14 +6,12 @@
     <description>
         This is the PMD additional ruleset for TEAMMATES production code.
     </description>
-
-    <rule ref="rulesets/java/logging-java.xml">
-        <!-- Not worth the added safety -->
-        <exclude name="GuardLogStatementJavaUtil"/>        
-    </rule>
-
-    <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
-
     <exclude-pattern>.*/test/java/.*</exclude-pattern>
     <exclude-pattern>.*/client/java/.*</exclude-pattern>
+    <rule ref="rulesets/java/logging-java.xml">
+        <!-- Not worth the added safety -->
+        <exclude name="GuardLogStatementJavaUtil"/>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
+    <rule ref="rulesets/java/typeresolution.xml/LooseCoupling"/>
 </ruleset>

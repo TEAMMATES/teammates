@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.client.scripts.util.DataMigrationForSanitizedDataHelper;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -40,7 +39,7 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         println("Preview: " + isPreview);
         for (AdminEmailAttributes email : allEmails) {
             loopHelper.recordLoop();
-            boolean isEmailSanitized = DataMigrationForSanitizedDataHelper.isSanitizedHtml(email.getContentValue());
+            boolean isEmailSanitized = SanitizationHelper.isSanitizedHtml(email.getContentValue());
             if (!isEmailSanitized) {
                 // skip the update if email is not sanitized
                 continue;
@@ -69,12 +68,5 @@ public class DataMigrationForSanitizedDataInAdminEmailAttributes extends RemoteA
         if (!isPreview) {
             adminEmailsDb.updateAdminEmail(email);
         }
-    }
-
-    /**
-     * Prints the {@code string} on system output, followed by a newline.
-     */
-    private void println(String string) {
-        System.out.println(string);
     }
 }

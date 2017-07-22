@@ -25,6 +25,14 @@ public final class StringHelper {
         // utility class
     }
 
+    /**
+     * Checks whether the input string is empty or equals {@code null}.
+     * @param s The string to be checked
+     */
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
+
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
@@ -204,29 +212,6 @@ public final class StringHelper {
                                     (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
 
-    //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
-    public static int countWords(String s) {
-        int wordCount = 0;
-        boolean word = false;
-        int endOfLine = s.length() - 1;
-        for (int i = 0; i < s.length(); i++) {
-            // if the char is a letter, word = true.
-            if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
-                word = true;
-                // if char isn't a letter and there have been letters before,
-                // counter goes up.
-            } else if (!Character.isLetter(s.charAt(i)) && word) {
-                wordCount++;
-                word = false;
-                // last word of String; if it doesn't end with a non letter, it
-                // wouldn't count without this.
-            } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
-                wordCount++;
-            }
-        }
-        return wordCount;
-    }
-
     /**
      * split a full name string into first and last names
      * <br>
@@ -304,7 +289,7 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<String>();
+        Set<String> result = new TreeSet<>();
         for (String s : strSet) {
             result.add(removeExtraSpace(s));
         }
@@ -391,14 +376,14 @@ public final class StringHelper {
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        boolean inquote = false;
+        boolean isInQuote = false;
 
         for (char c : chars) {
             if (c == '"') {
-                inquote = !inquote;
+                isInQuote = !isInQuote;
             }
 
-            if (c == '\n' && inquote) {
+            if (c == '\n' && isInQuote) {
                 buffer.append("<br>");
             } else {
                 buffer.append(c);
@@ -409,7 +394,7 @@ public final class StringHelper {
     }
 
     private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<String>();
+        List<String> data = new ArrayList<>();
 
         boolean inquote = false;
         StringBuilder buffer = new StringBuilder();
@@ -498,7 +483,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (s == null || s.isEmpty()) {
+            if (isEmpty(s)) {
                 numOfEmptyStrings += 1;
             }
         }
@@ -555,7 +540,6 @@ public final class StringHelper {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 
-
     /**
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
@@ -571,4 +555,24 @@ public final class StringHelper {
         return result.toString();
     }
 
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    public static boolean isTextContainingAny(String text, String... strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.length == 0) {
+            return true;
+        }
+
+        for (String string : strings) {
+            if (text.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -20,10 +20,10 @@ public class StudentHomePageData extends PageData {
 
     private List<CourseTable> courseTables;
 
-    public StudentHomePageData(AccountAttributes account,
+    public StudentHomePageData(AccountAttributes account, String sessionToken,
                                List<CourseDetailsBundle> courses,
                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        super(account);
+        super(account, sessionToken);
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
 
@@ -33,7 +33,7 @@ public class StudentHomePageData extends PageData {
 
     private void setCourseTables(List<CourseDetailsBundle> courses,
                                  Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        courseTables = new ArrayList<CourseTable>();
+        courseTables = new ArrayList<>();
         int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {
             CourseTable courseTable = new CourseTable(courseDetails.course,
@@ -47,7 +47,7 @@ public class StudentHomePageData extends PageData {
     }
 
     private List<ElementTag> createCourseTableLinks(String courseId) {
-        List<ElementTag> links = new ArrayList<ElementTag>();
+        List<ElementTag> links = new ArrayList<>();
         links.add(new ElementTag("View Team",
                                  "href", getStudentCourseDetailsLink(courseId),
                                  "title", Const.Tooltips.STUDENT_COURSE_DETAILS));

@@ -84,7 +84,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private void testGetFeedbackSessionsListForInstructor() {
-        List<FeedbackSessionAttributes> finalFsa = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> finalFsa = new ArrayList<>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
 
         String courseId = dataBundle.courses.get("typicalCourse1").getId();
@@ -263,7 +263,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         } catch (Exception e) {
             assertEquals("The provided feedback session name is not acceptable to TEAMMATES "
                              + "as it cannot contain the following special html characters in brackets: "
-                             + "(&lt; &gt; \\ &#x2f; &#39; &amp;)",
+                             + "(&lt; &gt; &quot; &#x2f; &#39; &amp;)",
                          e.getMessage());
         }
 
@@ -292,9 +292,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fq.recipientType = FeedbackParticipantType.TEAMS;
         fq.questionMetaData = new Text("question to be deleted through cascade");
         fq.questionType = FeedbackQuestionType.TEXT;
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showResponsesTo = new ArrayList<>();
+        fq.showRecipientNameTo = new ArrayList<>();
+        fq.showGiverNameTo = new ArrayList<>();
 
         fqLogic.createFeedbackQuestion(fq);
 
@@ -362,13 +362,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
         removeAndRestoreDataBundle(newDataBundle);
 
-        Map<String, FeedbackSessionDetailsBundle> detailsMap =
-                new HashMap<String, FeedbackSessionDetailsBundle>();
+        Map<String, FeedbackSessionDetailsBundle> detailsMap = new HashMap<>();
 
         String instrGoogleId = newDataBundle.instructors.get("instructor1OfCourse1").googleId;
         List<FeedbackSessionDetailsBundle> detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(instrGoogleId);
 
-        List<String> expectedSessions = new ArrayList<String>();
+        List<String> expectedSessions = new ArrayList<>();
         expectedSessions.add(newDataBundle.feedbackSessions.get("standard.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.responses.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
@@ -614,7 +613,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S1C1", dataBundle).toString();
-        List<String> actualResponses = new ArrayList<String>();
+        List<String> actualResponses = new ArrayList<>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -717,7 +716,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
-        List<String> actualResponses = new ArrayList<String>();
+        List<String> actualResponses = new ArrayList<>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
@@ -785,7 +784,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Test the user email-name maps used for display purposes
         String mapString = results.emailNameTable.toString();
-        List<String> expectedStrings = new ArrayList<String>();
+        List<String> expectedStrings = new ArrayList<>();
 
         String student2AnonEmail = getStudentAnonEmail(responseBundle, "student2InCourse1");
         String student2AnonName = getStudentAnonName(responseBundle, "student2InCourse1");
@@ -830,7 +829,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
-        List<String> actualStrings = new ArrayList<String>();
+        List<String> actualStrings = new ArrayList<>();
         for (FeedbackResponseAttributes response : results.responses) {
             String giverName = results.getNameForEmail(response.giver);
             String giverTeamName = results.getTeamNameForEmail(response.giver);
@@ -1131,7 +1130,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 
         String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1141,8 +1140,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback\"",
                 // checking single quotes inside cell
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
@@ -1152,9 +1151,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Question 2,\"Rate 1 other student's product\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback Question 2\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
                 "",
                 "",
@@ -1217,7 +1216,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 session.getCourseId(), questionNum).getId();
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, questionId, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, questionId, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1236,6 +1235,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
+
         assertEquals(StringUtils.join(expected, Const.EOL), export);
 
         ______TS("MCQ results");
@@ -1246,7 +1246,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1310,7 +1310,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1378,7 +1378,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1426,7 +1426,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1437,9 +1437,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
                 "",
                 "Summary Statistics,",
-                "Option, Average Points",
-                "\"Fun\",50.5",
-                "\"Grades\",49.5",
+                "Option, Average Points, Total Points, Received Points",
+                "\"Fun\",50.5,101,81,20",
+                "\"Grades\",49.5,99,19,80",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
@@ -1453,9 +1453,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 2,\"Split points among the teams\"",
                 "",
                 "Summary Statistics,",
-                "Team, Recipient, Average Points",
-                "\"\",\"Team 1.1</td></div>'\"\"\",80",
-                "\"\",\"Team 1.2\",20",
+                "Team, Recipient, Average Points, Total Points, Received Points",
+                "\"\",\"Team 1.1</td></div>'\"\"\",80,80,80",
+                "\"\",\"Team 1.2\",20,20,20",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1466,12 +1466,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 3,\"How much has each student worked?\"",
                 "",
                 "Summary Statistics,",
-                "Team, Recipient, Average Points",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",30",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10",
-                "\"Team 1.2\",\"student5 In Course1\",10",
+                "Team, Recipient, Average Points, Total Points, Received Points",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",30,30,30",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",20,20,20",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",30,30,30",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",10,10,10",
+                "\"Team 1.2\",\"student5 In Course1\",10,10,10",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1493,7 +1493,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor2OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1533,7 +1533,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1594,7 +1594,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String student5AnonName = getStudentAnonName(newDataBundle, "student5InCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1635,7 +1635,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourseWithSections");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1675,7 +1675,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1756,7 +1756,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, true);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, true);
 
         expected = new String[] {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
@@ -1767,11 +1767,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"Rank the other students.\"",
                 "",
                 "Summary Statistics,",
-                "Team, Recipient, Average Rank",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",3",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",2",
+                "Team, Recipient, Self Rank, Average Rank, Average Rank Excluding Self",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1,1.33,1",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",1,2,3",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4,4,-",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",1,1.5,2",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1779,6 +1779,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",3",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",2",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",1",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",3",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",4",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",3",
                 "",
                 "",
                 "Question 2,\"Rank the areas of improvement you think your team should make progress in.\"",
@@ -1811,7 +1815,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, null, true, false);
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, true, false);
 
         assertFalse(export.contains("Summary Statistics"));
 
@@ -1819,7 +1823,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         try {
             fsLogic.getFeedbackSessionResultsSummaryAsCsv("non.existent", "no course",
-                    instructor.email, null, null, true, true);
+                    instructor.email, null, true, true);
             signalFailureToDetectException("Failed to detect non-existent feedback session.");
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to view a non-existent feedback session: "

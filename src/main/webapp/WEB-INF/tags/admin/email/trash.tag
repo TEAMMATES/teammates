@@ -24,9 +24,9 @@
                 <a <c:forEach items="${trashEmailTable.emptyTrashButton.attributes}" var="attribute">
                        ${attribute.key}="${attribute.value}"
                    </c:forEach>>
-                   
+
                     <strong>
-                        <span class="glyphicon glyphicon-floppy-remove">                                           
+                        <span class="glyphicon glyphicon-floppy-remove">
                         </span>&nbsp;Empty Trash
                     </strong>
                 </a>
@@ -35,13 +35,12 @@
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
-                    <tr>      
-                        <th>Action</th>          
+                    <tr>
+                        <th>Action</th>
                         <th>Address Receiver</th>
                         <th>Group Receiver</th>
                         <th>Subject</th>
-                        <th onclick="toggleSort(this);"
-                            class="button-sort-ascending">
+                        <th class="button-sort-ascending toggle-sort">
                             Date <span class="icon-sort unsorted"
                                        id="button_sort_date"></span>
                         </th>

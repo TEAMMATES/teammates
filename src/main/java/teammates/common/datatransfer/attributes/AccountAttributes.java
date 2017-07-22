@@ -10,12 +10,11 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.StudentProfile;
 
 /**
  * A data transfer object for Account entities.
  */
-public class AccountAttributes extends EntityAttributes {
+public class AccountAttributes extends EntityAttributes<Account> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
 
@@ -35,7 +34,7 @@ public class AccountAttributes extends EntityAttributes {
         institute = a.getInstitute();
         createdAt = a.getCreatedAt();
         studentProfile =
-                a.getStudentProfile() == null ? null : new StudentProfileAttributes(a.getStudentProfile());
+                a.getStudentProfile() == null ? null : StudentProfileAttributes.valueOf(a.getStudentProfile());
     }
 
     public AccountAttributes() {
@@ -61,7 +60,7 @@ public class AccountAttributes extends EntityAttributes {
         this.isInstructor = isInstructor;
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = new StudentProfileAttributes();
+        this.studentProfile = StudentProfileAttributes.builder().build();
         this.studentProfile.googleId = this.googleId;
     }
 
@@ -69,16 +68,8 @@ public class AccountAttributes extends EntityAttributes {
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        // toEntity() requires a non-null student profile
-        boolean isStudentProfileNull = this.studentProfile == null;
-        if (isStudentProfileNull) {
-            this.studentProfile = new StudentProfileAttributes();
-        }
-        AccountAttributes copy = new AccountAttributes(this.toEntity());
-        if (isStudentProfileNull) {
-            copy.studentProfile = null;
-            this.studentProfile = null;
-        }
+        AccountAttributes copy = new AccountAttributes(googleId, name, isInstructor, email, institute);
+        copy.studentProfile = this.studentProfile == null ? null : this.studentProfile.getCopy();
         return copy;
     }
 
@@ -109,7 +100,7 @@ public class AccountAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
 
@@ -132,7 +123,7 @@ public class AccountAttributes extends EntityAttributes {
     @Override
     public Account toEntity() {
         Assumption.assertNotNull(this.studentProfile);
-        return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
+        return new Account(googleId, name, isInstructor, email, institute, studentProfile.toEntity());
     }
 
     @Override
@@ -166,6 +157,9 @@ public class AccountAttributes extends EntityAttributes {
         this.name = SanitizationHelper.sanitizeForHtml(name);
         this.email = SanitizationHelper.sanitizeForHtml(email);
         this.institute = SanitizationHelper.sanitizeForHtml(institute);
+        if (studentProfile == null) {
+            return;
+        }
         this.studentProfile.sanitizeForSaving();
     }
 

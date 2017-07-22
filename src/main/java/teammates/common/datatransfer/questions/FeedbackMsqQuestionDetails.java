@@ -41,7 +41,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.MSQ);
 
         this.numOfMsqChoices = 0;
-        this.msqChoices = new ArrayList<String>();
+        this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
@@ -51,7 +51,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         int numOfMsqChoices = 0;
-        List<String> msqChoices = new LinkedList<String>();
+        List<String> msqChoices = new LinkedList<>();
         boolean msqOtherEnabled = false;
 
         String otherOptionFlag =
@@ -102,7 +102,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
 
         this.numOfMsqChoices = 0;
-        this.msqChoices = new ArrayList<String>();
+        this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
@@ -252,7 +252,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();
+        List<String> optionList = new ArrayList<>();
 
         switch (generateOptionsFor) {
         case NONE:
@@ -403,63 +403,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
-
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-
-        for (String option : msqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        int numChoicesSelected = 0;
-        for (FeedbackResponseAttributes response : responses) {
-            List<String> answerStrings =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-            String otherAnswer = "";
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-
-                numChoicesSelected++;
-                // remove other answer temporarily to calculate stats for other options
-                otherAnswer = answerStrings.get(answerStrings.size() - 1);
-                answerStrings.remove(otherAnswer);
-            }
-
-            for (String answerString : answerStrings) {
-                if (answerString.isEmpty()) {
-                    continue;
-                }
-
-                isContainsNonEmptyResponse = true;
-                numChoicesSelected++;
-
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-            }
-
-            // restore other answer if any
-            if (isOtherOptionAnswer) {
-                answerStrings.add(otherAnswer);
-            }
-        }
-
-        if (!isContainsNonEmptyResponse) {
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+        int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
+        if (numChoicesSelected == -1) {
             return "";
         }
-
         DecimalFormat df = new DecimalFormat("#.##");
 
         StringBuilder fragments = new StringBuilder();
@@ -467,7 +415,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 Slots.MCQ_CHOICE_VALUE, entry.getKey(),
                                 Slots.COUNT, entry.getValue().toString(),
-                                Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / numChoicesSelected)));
+                                Slots.PERCENTAGE,
+                                df.format(100 * divideOrReturnZero(entry.getValue(), numChoicesSelected))));
 
         }
         //Use same template as MCQ for now, until they need to be different.
@@ -483,58 +432,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        Map<String, Integer> answerFrequency = new LinkedHashMap<String, Integer>();
-        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
-
-        for (String option : msqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        int numChoicesSelected = 0;
-
-        for (FeedbackResponseAttributes response : responses) {
-            List<String> answerStrings =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-            String otherAnswer = "";
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-
-                numChoicesSelected++;
-                // remove other answer temporarily to calculate stats for other options
-                otherAnswer = answerStrings.get(answerStrings.size() - 1);
-                answerStrings.remove(otherAnswer);
-            }
-
-            for (String answerString : answerStrings) {
-                if (answerString.isEmpty()) {
-                    continue;
-                }
-                isContainsNonEmptyResponse = true;
-                numChoicesSelected++;
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-
-            }
-
-            // restore other answer if any
-            if (isOtherOptionAnswer) {
-                answerStrings.add(otherAnswer);
-            }
-        }
-
-        if (!isContainsNonEmptyResponse) {
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+        int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
+        if (numChoicesSelected == -1) {
             return "";
         }
 
@@ -543,7 +443,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
                              + entry.getValue().toString() + ','
-                             + df.format(100 * (double) entry.getValue() / numChoicesSelected) + Const.EOL);
+                             + df.format(100 * divideOrReturnZero(entry.getValue(), numChoicesSelected))
+                             + Const.EOL);
         }
 
         return "Choice, Response Count, Percentage" + Const.EOL
@@ -564,7 +465,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
@@ -579,7 +480,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
             if (!otherEnabled) {
@@ -618,6 +519,83 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     public List<String> getMsqChoices() {
         return msqChoices;
+    }
+
+    /**
+     * Getting number of responses.
+     * @return -1 if there is no empty response else number of response.
+     */
+    private int getNumberOfResponses(
+            List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
+
+        for (String option : msqChoices) {
+            answerFrequency.put(option, 0);
+        }
+
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+
+        int numChoicesSelected = 0;
+        for (FeedbackResponseAttributes response : responses) {
+            List<String> answerStrings =
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+            String otherAnswer = "";
+
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 0);
+                }
+
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+
+                numChoicesSelected++;
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+
+            int numNonEmptyChoicesSelected = getNumberOfNonEmptyResponsesOfQuestion(answerStrings, answerFrequency);
+            if (numNonEmptyChoicesSelected > 0) {
+                isContainsNonEmptyResponse = true;
+                numChoicesSelected += numNonEmptyChoicesSelected;
+            }
+
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
+            }
+        }
+
+        if (!isContainsNonEmptyResponse) {
+            return -1;
+        }
+
+        return numChoicesSelected;
+    }
+
+    private int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String, Integer> answerFrequency) {
+        int numChoices = 0;
+        for (String answerString : answerStrings) {
+            if (answerString.isEmpty()) {
+                continue;
+            }
+
+            numChoices++;
+
+            if (!answerFrequency.containsKey(answerString)) {
+                answerFrequency.put(answerString, 0);
+            }
+            answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+        }
+        return numChoices;
+    }
+
+    private double divideOrReturnZero(double numerator, int denominator) {
+        return (denominator == 0) ? 0 : numerator / denominator;
     }
 
 }

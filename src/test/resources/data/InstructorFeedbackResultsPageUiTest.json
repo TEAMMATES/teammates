@@ -93,14 +93,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -119,26 +116,20 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
         "sectionLevel": {
           "Section B": {
             "canviewstudentinsection": false,
-            "cangivecommentinsection": false,
             "cansubmitsessioninsection": true,
             "canmodifysessioncommentinsection": true,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": true,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": true
           }
         },
         "sessionLevel": {}
@@ -155,26 +146,20 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
         "sectionLevel": {
           "Section A": {
             "canviewstudentinsection": false,
-            "cangivecommentinsection": false,
             "cansubmitsessioninsection": true,
             "canmodifysessioncommentinsection": true,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": true,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": true
           }
         },
         "sessionLevel": {}
@@ -183,22 +168,19 @@
     "CFResultsUiT.SanitizedTeam.instr": {
       "googleId": "CFResultsUiT.instr",
       "courseId": "CFResultsUiT.SanitizedTeam",
-      "name": "Teammates Test",
+      "name": "Instructor<script> alert('hi!'); </script>",
       "email": "CFResultsUiT.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
-      "displayedName": "Instructor",
+      "displayedName": "inst'\"/><script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -217,14 +199,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -313,7 +292,7 @@
       "name": "Alic'e Bets'y</td></div>'\"",
       "comments": "This student's name is Alic'e Bets'y</td></div>'\"",
       "team": "Team '1</td></div>'\"",
-      "section": "Section A"
+      "section": "Section A</td></div>'\""
     },
     "Sanitized.Benny": {
       "googleId": "CFResultsUiT.benny.c",
@@ -322,7 +301,7 @@
       "name": "Benn'y Charle's",
       "comments": "This student's name is Benn'y Charle's</td></div>'\"",
       "team": "Team '1</td></div>'\"",
-      "section": "Section A"
+      "section": "Section A</td></div>'\""
     },
     "NoSections.Benny": {
       "googleId": "CFResultsUiT.benny.no",
@@ -1091,10 +1070,13 @@
       "courseId": "CFResultsUiT.SanitizedTeam",
       "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"questionText\":\"Rate the contribution of ideas from yourself and your team members in the last meeting.\",\"questionType\":\"CONTRIB\"}"
+        "value": "Some question text. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "questionDescription": {
+        "value": "<p> Some  question description. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
+      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1705,14 +1687,14 @@
       "feedbackSessionName": "Sanitized Session",
       "courseId": "CFResultsUiT.SanitizedTeam",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "CONTRIB",
+      "feedbackQuestionType": "TEXT",
       "giver": "CFResultsUiT.alice.b@gmail.tmt",
       "recipient": "CFResultsUiT.benny.c@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"answer\":120,\"questionType\":\"CONTRIB\"}"
+        "value": "<p> Some response to text question. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
       },
-      "giverSection": "Section A",
-      "recipientSection": "Section A"
+      "giverSection": "Section A</td></div>'\"",
+      "recipientSection": "Section A</td></div>'\""
     },
     "InstructorsAsGiversResponse1": {
       "feedbackSessionName": "Instructors as Givers",
@@ -1762,7 +1744,25 @@
       }
     }
   },
-  "feedbackResponseComments": {},
-  "comments": {},
+  "feedbackResponseComments": {
+    "comment1ForSanitizedTeam": {
+      "courseId": "CFResultsUiT.SanitizedTeam",
+      "feedbackSessionName": "Sanitized Session",
+      "feedbackQuestionId": "1",
+      "giverEmail": "CFResultsUiT.instr@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "Section A</td></div>'\"",
+      "feedbackResponseId": "1%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2026-03-01 11:59 PM UTC",
+      "commentText": {
+        "value": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
+      },
+      "lastEditorEmail": "CFResultsUiT.instr@gmail.tmt",
+      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+    }
+  },
   "profiles": {}
 }
