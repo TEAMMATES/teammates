@@ -53,7 +53,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected Map<String, String> responseGiverMapForComments = new HashMap<String, String>();
     protected Map<String, String> responseRecipientMapForComments = new HashMap<String, String>();
     protected Map<String, String> questionIdsForComments = new HashMap<String, String>();
-
+    protected Map<String, String> commentToUpdate = new HashMap<String, String>();
+    protected Map<String, String> commentToUpdateText = new HashMap<String, String>();
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -124,7 +125,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response =
                         extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
-
                 if (response.feedbackQuestionType != questionAttributes.questionType) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, questionIndx));
                 }
@@ -151,18 +151,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
-                    if (questionDetails.isStudentsCommentsOnResponsesAllowed()) {
-                        String commentText =
-                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                        + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
-                        if (commentText != null && !commentText.toString().isEmpty()) {
-                            String commentId = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
-                            questionIdsForComments.put(commentId, questionAttributes.getId());
-                            responseGiverMapForComments.put(commentId, response.giver);
-                            responseRecipientMapForComments.put(commentId, response.recipient);
-                            commentsToAddIds.add(commentId);
-                        }
-                    }
+                    log.info("hello");
+                    extractFeedbackResponseCommentsDataForResponse(requestParameters, questionIndx, responseIndx, questionAttributes, response);
                 }
             }
 
@@ -197,7 +187,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         saveResponsesComments(commentsToAddIds, responseGiverMapForComments, responseRecipientMapForComments,
                 questionIdsForComments);
-
+        updateResponsesComments(commentToUpdate, commentToUpdateText, responseGiverMapForComments, responseRecipientMapForComments, questionIdsForComments);
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
         }
@@ -246,6 +236,52 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return createSpecificRedirectResult();
     }
 
+    private void extractFeedbackResponseCommentsDataForResponse(
+            Map<String, String[]> requestParameters, int questionIndx,
+            int responseIndx, FeedbackQuestionAttributes questionAttributes,
+            FeedbackResponseAttributes response) {
+        if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
+            String commentText =
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                            + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
+            log.info(commentText);
+            if (commentText != null && !commentText.toString().isEmpty()) {
+                String commentIndex = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
+                questionIdsForComments.put(commentIndex, questionAttributes.getId());
+                responseGiverMapForComments.put(commentIndex, response.giver);
+                responseRecipientMapForComments.put(commentIndex, response.recipient);
+                commentsToAddIds.add(commentIndex);
+            }
+            if (response.getId() != null) {
+                log.info("in");
+                List<FeedbackResponseCommentAttributes> previousComments =
+                        logic.getFeedbackResponseCommentsForResponse(response.getId());
+                for (int i = 1; i <= previousComments.size(); i++) {
+                    String editedCommentText =
+                            getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                    + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
+                    String commentId =
+                            getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
+                                    + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
+                    log.info(commentId);
+                    FeedbackResponseCommentAttributes commentCheck = logic.getFeedbackResponseComment(Long.parseLong(commentId));
+                    log.info(editedCommentText);
+                    log.info(commentCheck.commentText.toString());
+                    if (editedCommentText != null && !editedCommentText.isEmpty() && !commentCheck.commentText.equals(editedCommentText)) {
+                        String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
+                        log.info(commentIndx);
+                        questionIdsForComments.put(commentIndx, questionAttributes.getId());
+                        log.info(commentId + " " + questionAttributes.getId());
+                        commentToUpdate.put(commentIndx, commentId);
+                        commentToUpdateText.put(commentIndx, editedCommentText);
+                        responseGiverMapForComments.put(commentIndx, response.giver);
+                        responseRecipientMapForComments.put(commentIndx, response.recipient);
+                    }
+                }
+            }
+        }
+    }
+
     private void saveResponsesComments(List<String> commentsToAdd, Map<String, String> responseGiverMapForComments,
             Map<String, String> responseRecipientMapForComments,
             Map<String, String> questionIdsForComments) throws EntityDoesNotExistException {
@@ -261,6 +297,66 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             createCommentsForResponses(courseId, feedbackSessionName, getUserEmailForCourse(), questionId,
                     responseToAddComment, commentText, showCommentTo, showGiverNameTo);
         }   
+    }
+
+    private void updateResponsesComments(Map<String, String> commentToUpdate, Map<String, String> commentToUpdateText,
+            Map<String, String> responseGiverMapForComments, Map<String, String> responseRecipientMapForComments,
+            Map<String, String> questionIdsForComment) throws EntityDoesNotExistException {
+        for (String commentIndx : commentToUpdate.keySet()) {
+            log.info(commentIndx);
+            log.info(questionIdsForComment.get(commentIndx));
+            String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
+            String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
+            log.info(showCommentTo);
+            log.info(showGiverNameTo);
+            FeedbackResponseAttributes responseToEditComment = logic.getFeedbackResponse(questionIdsForComment.get(commentIndx), responseGiverMapForComments.get(commentIndx), responseRecipientMapForComments.get(commentIndx));
+            updateResponseComment(showCommentTo, showGiverNameTo, commentToUpdate.get(commentIndx),responseToEditComment, commentToUpdateText.get(commentIndx));
+        }
+    }
+
+    private void updateResponseComment(String showCommentTo,
+            String showGiverNameTo, String feedbackResponseCommentId, FeedbackResponseAttributes response, String commentText) throws EntityDoesNotExistException {
+        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
+                courseId, feedbackSessionName, null, response.giver, null, new Date(),
+                new Text(commentText), response.giverSection, response.recipientSection);
+        feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
+
+        //Edit visibility settings
+        feedbackResponseComment.showCommentTo = new ArrayList<>();
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
+            String[] showCommentToArray = showCommentTo.split(",");
+            for (String viewer : showCommentToArray) {
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for (String viewer : showGiverNameToArray) {
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+
+        try {
+            FeedbackResponseCommentAttributes updatedComment =
+                    logic.updateFeedbackResponseComment(feedbackResponseComment);
+            //TODO: move putDocument to task queue
+            logic.putDocument(updatedComment);
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.WARNING));
+            isError = true;
+        }
+
+        if (!isError) {
+            statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
+                           + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                           + feedbackResponseComment.feedbackSessionName + "<br>"
+                           + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+        }
+        
     }
 
     /**
@@ -325,7 +421,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         for (FeedbackResponseAttributes response : responsesToUpdate) {
             try {
                 logic.updateFeedbackResponse(response);
-                hasValidResponse = true;
+                 hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }

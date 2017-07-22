@@ -63,6 +63,7 @@
                     <th class="text-center">Can see this comment</th>
                     <th class="text-center">Can see comment giver's name</th>
                 </tr>
+                <c:if test="${frc.responseVisibleToRecipient && isInstructor}">
                 <tr id="response-giver-${divId}">
                     <td class="text-left">
                         <div data-toggle="tooltip"
@@ -85,6 +86,7 @@
                                <c:if test="${frc.showGiverNameToResponseGiver}">checked</c:if>>
                     </td>
                 </tr>
+                </c:if>
                 <c:if test="${frc.responseVisibleToRecipient && isInstructor}">
                     <tr id="response-recipient-${divId}">
                         <td class="text-left">
@@ -228,7 +230,7 @@
                <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
     </div>
-    <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
+    <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}"></c:if>
     <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${fn:escapeXml(frc.feedbackResponseId)}">

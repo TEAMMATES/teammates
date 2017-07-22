@@ -39,7 +39,7 @@ import {
 
 import {
     enableHoverToDisplayEditOptions,
-    registerResponseCommentCheckboxEvent,
+    registerResponseCommentCheckboxEventForFeedbackPage,
     registerResponseCommentsEvent,
 } from '../common/feedbackResponseComments.es6';
 
@@ -963,7 +963,7 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
-function getResponseCommentsText() {
+function getNewResponseCommentsText() {
     const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
     $.each($responseCommentTables, (i, responseCommentTable) => {
         const responseCommentTableId = $(responseCommentTable).attr('id');
@@ -973,6 +973,25 @@ function getResponseCommentsText() {
             const responseCommentTextId = `responsecommenttext-${responseCommentId}`;
             $(`input[name=${responseCommentTextId}]`).val(editor.getContent());
         }
+    });
+}
+
+function updateResponseCommentsText() {
+    window.alert("hello");
+    const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
+    $.each($responseCommentTables, (i, responseCommentTable) => {
+        const responseCommentTableId = $(responseCommentTable).attr('id');
+        const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
+        const $responseCommentRows = $(`li[id^=responseCommentRow-${responseCommentId}]`);
+        $.each($responseCommentRows, (j, responseCommentRow) => {
+        	const responseCommentRowId = $(responseCommentRow).attr('id');
+        	const responseCommentRowIdIndx = responseCommentRowId.substring('responseCommentRow-'.length);
+        	const editor = tinymce.get(`responsecommenttext-${responseCommentRowIdIndx}`);
+        	if (editor !== null) {
+                const responseCommentTextId = `responsecommenttext-${responseCommentRowIdIndx}`;
+                $(`input[name=${responseCommentTextId}]`).val(editor.getContent());
+            }
+        });
     });
 }
 
@@ -1014,7 +1033,8 @@ $(document).ready(() => {
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
-        getResponseCommentsText();
+        getNewResponseCommentsText();
+        updateResponseCommentsText();
 
         if (!validationStatus) {
             e.preventDefault();
@@ -1083,7 +1103,7 @@ $(document).ready(() => {
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
     registerResponseCommentsEvent();
-    registerResponseCommentCheckboxEvent();
+    registerResponseCommentCheckboxEventForFeedbackPage();
     enableHoverToDisplayEditOptions();
 });
 

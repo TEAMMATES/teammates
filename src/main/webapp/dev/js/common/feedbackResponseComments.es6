@@ -455,8 +455,40 @@ function registerResponseCommentCheckboxEvent() {
     });
 }
 
+function registerResponseCommentCheckboxEventForFeedbackPage() {
+    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', (e) => {
+        const table = $(e.currentTarget).closest('table');
+        const parentDiv = table.parent().attr('id');
+        const responseCommentId = parentDiv.substring('visibility-options-'.length);
+        let visibilityOptions = [];
+        const target = $(e.target);
+        const visibilityOptionsRow = target.closest('tr');
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
+        }
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+                && target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+        }
+
+        table.find('.answerCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        $(`input[name=showresponsecommentsto-${responseCommentId}]`).val(visibilityOptions.join(', '));
+
+        visibilityOptions = [];
+        table.find('.giverCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        $(`input[name=showresponsegiverto-${responseCommentId}]`).val(visibilityOptions.join(', '));
+    });
+}
+
+
 export {
     enableHoverToDisplayEditOptions,
     registerResponseCommentCheckboxEvent,
     registerResponseCommentsEvent,
+    registerResponseCommentCheckboxEventForFeedbackPage
 };

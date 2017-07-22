@@ -888,8 +888,8 @@ public class PageData {
             }   
         }
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                                              getResponseCommentVisibilityString(question),
-                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
+                                              getResponseCommentVisibilityString(frca,question),
+                                              getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap);
     }
 
     public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question,
