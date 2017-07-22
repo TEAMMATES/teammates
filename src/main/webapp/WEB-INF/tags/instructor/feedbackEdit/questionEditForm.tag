@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbacks - form for editing feedback question" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
@@ -77,7 +78,7 @@
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
                             placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION %>"
                             tabindex="9"
-                            disabled>${fqForm.questionText}</textarea>
+                            disabled>${fn:escapeXml(fqForm.questionText)}</textarea>
                     </div>
                 </div>
                 <div class="form-group" style="padding: 0 15px;">
