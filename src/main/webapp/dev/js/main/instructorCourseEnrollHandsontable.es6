@@ -9,6 +9,29 @@ $('#toggle-interface').click((e) => {
     $('.student-data-textarea, #student-data-spreadsheet').toggle();
 });
 
+function getStudentList() {
+    const COURSE_ID = "test.exa-demo";
+    const USER = "test@example.com";
+
+    console.log("Executed");
+
+    $.ajax({
+        type: 'POST',
+        url: '/page/instructorCourseStudentList',
+        data: {
+            courseid: COURSE_ID,
+            user: USER,
+        },
+        success(data) {
+            if (data.statusCode === '200') {
+                console.log(data);
+            } else {
+                console.log(data);
+            }
+        },
+    });
+}
+
 const handsontable = new Handsontable(container, {
     rowHeaders: true,
     colHeaders: columns,
@@ -88,6 +111,10 @@ function updateDataDump() {
             colHeaders: columns,
         });
     }
+
+    console.log("Hitting");
+    getStudentList();
+
 })();
 
 const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
@@ -95,3 +122,4 @@ const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
 for (let itr = 0; itr < hooks.length; itr += 1) {
     handsontable.addHook(hooks[itr], updateDataDump);
 }
+

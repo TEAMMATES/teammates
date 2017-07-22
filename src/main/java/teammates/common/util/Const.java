@@ -902,6 +902,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
         public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
         public static final String INSTRUCTOR_COURSE_JOIN_AUTHENTICATED = "/page/instructorCourseJoinAuthenticated";
+        public static final String INSTRUCTOR_COURSE_STUDENT_LIST = "/page/instructorCourseStudentList";
         public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage";
