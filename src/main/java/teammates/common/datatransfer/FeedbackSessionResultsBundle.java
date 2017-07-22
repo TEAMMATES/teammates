@@ -1071,7 +1071,7 @@ public class FeedbackSessionResultsBundle {
             StudentAttributes student = roster.getStudentForEmail(recipientParticipantIdentifier);
             return getPossibleGivers(fqa, student);
         } else if (isParticipantIdentifierInstructor(recipientParticipantIdentifier)) {
-            return getPossibleGiversForInstructor(fqa);
+            return getPossibleGivers(fqa);
         } else if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
             switch (fqa.giverType) {
             case STUDENTS:
@@ -1184,33 +1184,25 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Get the possible givers for a INSTRUCTOR recipient for the question specified.
-     * @return a list of possible givers that can give a response to the instructor
-     *         specified as the recipient
+     * Get the possible givers for the question specified within specified section.
+     * @return a list of possible givers within given section
      */
-    private List<String> getPossibleGiversForInstructor(FeedbackQuestionAttributes fqa) {
-        FeedbackParticipantType giverType = fqa.giverType;
-        List<String> possibleGivers = new ArrayList<>();
+    public List<String> getPossibleGiversInSection(FeedbackQuestionAttributes fqa, String section) {
+        List<String> allPossibleGivers = getPossibleGivers(fqa);
 
-        switch (giverType) {
-        case STUDENTS:
-            possibleGivers = getSortedListOfStudentEmails();
-            break;
-        case INSTRUCTORS:
-            possibleGivers = getSortedListOfInstructorEmails();
-            break;
-        case TEAMS:
-            possibleGivers = getSortedListOfTeams();
-            break;
-        case SELF:
-            possibleGivers.add(fqa.creatorEmail);
-            break;
-        default:
-            log.severe("Invalid giver type specified");
-            break;
+        if (section == null || "All".equals(section)) {
+            return allPossibleGivers;
         }
 
-        return possibleGivers;
+        List<String> giversInSection = new ArrayList<>();
+
+        for (String giverIdentifier : allPossibleGivers) {
+            if (getSectionFromRoster(giverIdentifier).equals(section)) {
+                giversInSection.add(giverIdentifier);
+            }
+        }
+
+        return giversInSection;
     }
 
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
