@@ -78,9 +78,7 @@
                 title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
                 placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION %>"
                 tabindex="9"
-                disabled>
-              ${fn:escapeXml(fqForm.questionText)}
-            </textarea>
+                disabled>${fn:escapeXml(fqForm.questionText)}</textarea>
           </div>
         </div>
         <div class="form-group" style="padding: 0 15px;">
