@@ -20,7 +20,6 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
-    private static final String DEFAULT_DELIMITER = ",";
 
     private StringHelper() {
         // utility class
@@ -546,18 +545,16 @@ public final class StringHelper {
      * with a copy of the specified delimiter.
      */
     public static String join(String delimiter, String... elements) {
-        if (elements == null || elements.length == 0) {
-            return "";
+        if (delimiter == null || elements == null) {
+            throw new IllegalArgumentException("Provided arguments cannot be null");
         }
-
-        String delim = delimiter == null ? DEFAULT_DELIMITER : delimiter;
 
         StringBuilder result = new StringBuilder();
         for (String element : elements) {
-            result.append(element).append(delim);
+            result.append(element).append(delimiter);
         }
-        if (result.length() > 0 && delim.length() > 0) {
-            result.delete(result.length() - delim.length(), result.length());
+        if (result.length() > 0 && delimiter.length() > 0) {
+            result.delete(result.length() - delimiter.length(), result.length());
         }
         return result.toString();
     }
@@ -574,8 +571,8 @@ public final class StringHelper {
      * Converts list of integer to array of strings.
      */
     private static String[] toStringArray(List<Integer> elements) {
-        if (elements == null || elements.isEmpty()) {
-            return new String[] {};
+        if (elements == null) {
+            throw new IllegalArgumentException("Provided arguments cannot be null");
         }
 
         String[] elementsArr = new String[elements.size()];
