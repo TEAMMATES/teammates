@@ -2222,6 +2222,10 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
+    public double getTimeZone() {
+        return feedbackSession.getTimeZone();
+    }
+
     public StringBuilder getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);

@@ -854,10 +854,10 @@ public class PageData {
 
     public FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
             String responseId, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
-            String giverName, String recipientName, boolean isInstructor) {
+            String giverName, String recipientName, boolean isInstructor, double timeZone) {
         FeedbackResponseCommentAttributes frca =
                 new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
-                                                      question.getFeedbackQuestionId(), responseId);
+                                                      question.getFeedbackQuestionId(), responseId); 
         frca.showCommentTo = new ArrayList<>();
         frca.showGiverNameTo = new ArrayList<>();    
         if (isInstructor) {
@@ -889,7 +889,7 @@ public class PageData {
         }
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                                               getResponseCommentVisibilityString(frca,question),
-                                              getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap);
+                                              getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap, timeZone);
     }
 
     public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question,

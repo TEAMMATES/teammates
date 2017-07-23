@@ -522,7 +522,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (isCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response.getId(), responseVisibilityMap,
-                        giverName, recipientName, true);
+                        giverName, recipientName, true, bundle.getTimeZone());
 
                 responsePanel.setFrcForAdding(frcForAdding);
 
@@ -1433,16 +1433,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
         boolean isStudentGiver = bundle.roster.isStudentInCourse(frcAttributes.giverEmail);
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
+        String whoCanSeeComment = null;
+        boolean isVisibilityIconShown = false;
+        if (bundle.feedbackSession.isPublished()) {
+            boolean isResponseCommentPublicToRecipient = !frcAttributes.showCommentTo.isEmpty();
+            isVisibilityIconShown = isResponseCommentPublicToRecipient;
 
+            if (isVisibilityIconShown) {
+                whoCanSeeComment = getTypeOfPeopleCanViewComment(frcAttributes, question);
+            }
+        }
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap, bundle.commentGiverEmailNameTable);
+                                           responseVisibilityMap, bundle.commentGiverEmailNameTable, bundle.getTimeZone());
 
         if (!isStudentGiver && isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEditDelete();
         }
+        frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
 
         return frc;
     }

@@ -14,12 +14,12 @@
 <%@ attribute name="isPreview" %>
 <%@ attribute name="submitTable" %>
 <c:choose>
-    <c:when test="${not empty fourthIndex}">
-        <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}" />
-    </c:when>
-    <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex}">
-        <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}" />
-    </c:when>
+  <c:when test="${not empty fourthIndex}">
+    <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}" />
+  </c:when>
+  <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex}">
+    <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}" />
+  </c:when>
 </c:choose>
 <c:choose>
     <c:when test="${isInstructor}">

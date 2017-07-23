@@ -43,7 +43,7 @@
         <c:if test="${frc.editDeleteEnabled}">
             <c:choose>
             <c:when test="${isOnFeedbackSubmissionEditPage}">
-                <div class="responseCommentDeleteForm pull-right">
+                <div class="responseCommentDeleteForm pull-right float-right clearfix">
             </c:when>
             <c:otherwise>
                 <form class="responseCommentDeleteForm pull-right">

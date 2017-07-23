@@ -55,6 +55,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected Map<String, String> questionIdsForComments = new HashMap<String, String>();
     protected Map<String, String> commentToUpdate = new HashMap<String, String>();
     protected Map<String, String> commentToUpdateText = new HashMap<String, String>();
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -421,7 +422,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         for (FeedbackResponseAttributes response : responsesToUpdate) {
             try {
                 logic.updateFeedbackResponse(response);
-                 hasValidResponse = true;
+                hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }

@@ -27,6 +27,7 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public boolean commentGiverInstructor;
     public String moderatedPersonEmail;
     public boolean moderation;
+    public double sessionTimeZone;
 
     public FeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -36,7 +37,7 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities(), commentGiverNameEmailTable);
+                                               getResponseVisibilities(), commentGiverNameEmailTable, sessionTimeZone);
         frc.enableEditDelete();
 
         return frc;

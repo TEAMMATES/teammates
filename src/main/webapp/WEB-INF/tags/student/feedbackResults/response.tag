@@ -5,14 +5,14 @@
 <%@ attribute name="response" type="teammates.ui.template.FeedbackResultsResponse" required="true" %>
 
 <tr class="resultSubheader">
-    <td>
-        <span class="bold"><b>From:</b></span> ${fn:escapeXml(response.giverName)}
-    </td>
+  <td>
+    <span class="bold"><b>From:</b></span> ${fn:escapeXml(response.giverName)}
+  </td>
 </tr>
 
 <tr>
-    <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-    <td class="text-preserve-space">${response.answer}</td>
+  <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
+  <td class="text-preserve-space">${response.answer}</td>
 </tr>
 
 <c:if test="${not empty response.comments}">

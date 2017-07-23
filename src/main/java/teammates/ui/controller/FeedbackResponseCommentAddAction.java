@@ -14,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 

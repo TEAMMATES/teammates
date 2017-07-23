@@ -16,14 +16,14 @@
 <c:set var="isRecipientTeam" value="${questionWithResponses.question.recipientTeam}"/>
 
 <c:choose>
-    <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
-    <c:when test="${isNumResponsesMax}"><c:set var="divClassType" value="col-sm-10"/></c:when>
-    <c:otherwise><c:set var="divClassType" value="col-sm-8"/></c:otherwise>
+  <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
+  <c:when test="${isNumResponsesMax}"><c:set var="divClassType" value="col-sm-10"/></c:when>
+  <c:otherwise><c:set var="divClassType" value="col-sm-8"/></c:otherwise>
 </c:choose>
 
 <c:set var="autoWidth" value="" />
 <c:if test="${questionWithResponses.question.questionTypeConstsum}">
-    <c:set var="autoWidth" value="width-auto" />
+  <c:set var="autoWidth" value="width-auto" />
 </c:if>
 
 <br>
