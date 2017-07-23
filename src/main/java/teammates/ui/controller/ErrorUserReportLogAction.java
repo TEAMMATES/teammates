@@ -14,14 +14,21 @@ public class ErrorUserReportLogAction extends Action {
     protected ActionResult execute() {
         String emailContent = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT);
         String emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
-        log.severe("====== USER FEEDBACK ABOUT ERROR ====== \n"
-                + "ACCOUNT DETAILS: " + account.toString() + "\n"
-                + "SUBJECT: " + emailSubject + "\n"
-                + "FEEDBACK: " + emailContent);
+        log.severe(getUserErrorReportLogMessage(emailSubject, emailContent));
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS,
                 StatusMessageColor.SUCCESS));
         return createAjaxResult(data);
+    }
+
+    /**
+     * Returns the formatted log message with {@code emailSubject} & {@code emailContent}.
+     */
+    public String getUserErrorReportLogMessage(String emailSubject, String emailContent) {
+        return "====== USER FEEDBACK ABOUT ERROR ====== \n"
+                + "ACCOUNT DETAILS: " + account.toString() + "\n"
+                + "SUBJECT: " + emailSubject + "\n"
+                + "FEEDBACK: " + emailContent;
     }
 
 }
