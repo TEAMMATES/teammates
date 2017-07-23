@@ -926,7 +926,7 @@ public final class FeedbackSessionsLogic {
             boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
 
             exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
-                    hasCommentsForResponses));
+                    hasCommentsForResponses, isMissingResponsesShown));
         }
 
         // add the rows for the possible givers and recipients who have missing responses

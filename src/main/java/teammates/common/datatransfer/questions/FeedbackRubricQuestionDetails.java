@@ -749,7 +749,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
+            FeedbackQuestionAttributes question, boolean hasCommentsForResponses, boolean isMissingResponsesShown) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
@@ -767,9 +767,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
+
+            int chosenIndex = frd.answer.get(i);
+            if (chosenIndex == -1 && !isMissingResponsesShown) {
+                continue;
+            }
+
             //To show comment only once for each response.
             shouldShowComments = i < 1 && shouldShowComments;
-            int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
             String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
