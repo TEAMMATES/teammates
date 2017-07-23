@@ -212,6 +212,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
+                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
