@@ -431,12 +431,12 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testJoinWithNullDelimiter() {
-        assertEquals("5,14", StringHelper.join(null, "test", "data"));
+        StringHelper.join(null, "test", "data");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testJoinWithNullElements() {
-        assertEquals("", StringHelper.join(",", (List<Integer>) null));
+        StringHelper.join(",", (List<Integer>) null);
     }
 
     @Test
