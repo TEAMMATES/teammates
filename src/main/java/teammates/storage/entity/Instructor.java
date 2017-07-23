@@ -1,7 +1,6 @@
 package teammates.storage.entity;
 
 import java.security.SecureRandom;
-import java.util.Comparator;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -17,15 +16,6 @@ import com.googlecode.objectify.annotation.Unindex;
 @Entity
 @Index
 public class Instructor extends BaseEntity {
-
-    /**
-    * Sort the Instructors list alphabetically by name.
-    */
-    public static Comparator<Instructor> compareByName = new Comparator<Instructor>() {
-        public int compare(Instructor one, Instructor other) {
-            return one.name.toLowerCase().compareTo(other.name.toLowerCase());
-        }
-    };
 
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
