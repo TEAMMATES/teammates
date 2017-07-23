@@ -48,13 +48,13 @@
                 </form>
                 <div class="inline panel-heading-text">
                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                    <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>
+                    <span class="text-preserve-space">${fn:escapeXml(questionPanel.questionText)}${questionPanel.additionalInfoText}</span>
                 </div>
             </c:when>
             <c:otherwise>
                 Question ${questionPanel.question.questionNumber}:
                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>
+                <span class="text-preserve-space">${fn:escapeXml(questionPanel.questionText)}${questionPanel.additionalInfoText}</span>
             </c:otherwise>
         </c:choose>
     </div>
