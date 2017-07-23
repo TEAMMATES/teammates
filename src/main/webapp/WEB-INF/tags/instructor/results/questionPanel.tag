@@ -63,7 +63,7 @@
 
             <c:if test="${!questionPanel.hasResponses}">
                 <div class="col-sm-12 no-response">
-                    <i class="text-muted">There are no responses for this question or you may not have the permission to see the response</i>
+                    <i class="text-muted"><%=Const.FeedbackSessionResults.QUESTION_NO_RESPONSES_MSG%></i>
                 </div>
             </c:if>
 

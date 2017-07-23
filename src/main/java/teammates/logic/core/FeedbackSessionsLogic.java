@@ -891,8 +891,13 @@ public final class FeedbackSessionsLogic {
         List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
 
-        int maxNumOfResponseComments = getMaxNumberOfResponseComments(allResponses, fsrBundle.getResponseComments());
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfResponseComments));
+        if (!allResponses.isEmpty()) {
+            int maxNumOfResponseComments = getMaxNumberOfResponseComments(allResponses,
+                    fsrBundle.getResponseComments());
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfResponseComments));
+        } else {
+            exportBuilder.append(Const.FeedbackSessionResults.QUESTION_NO_RESPONSES_MSG).append(Const.EOL);
+        }
 
         for (FeedbackResponseAttributes response : allResponses) {
 
