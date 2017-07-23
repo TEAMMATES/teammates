@@ -381,7 +381,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         .withUserId(instructorId)
                         .withCourseId(instructorCourseId)
                         .withSessionName(instructorEditFsName)
-                        .withEnableSessionEditDetails("true");
+                        .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

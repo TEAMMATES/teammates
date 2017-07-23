@@ -1079,7 +1079,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName)
-                                    .withEnableSessionEditDetails("true");
+                                    .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1092,7 +1092,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions)
-                                    .withEnableSessionEditDetails("true");
+                                    .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

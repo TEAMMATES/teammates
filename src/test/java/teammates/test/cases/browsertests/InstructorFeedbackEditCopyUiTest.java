@@ -101,7 +101,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
                                              .withUserId(instructorId)
                                              .withCourseId(courseId)
                                              .withSessionName(feedbackSessionName)
-                                             .withEnableSessionEditDetails("true");
+                                             .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

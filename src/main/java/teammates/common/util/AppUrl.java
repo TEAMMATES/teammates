@@ -42,8 +42,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, questionNumber);
     }
 
-    public AppUrl withEnableSessionEditDetails(String isLoadedInEditMode) {
-        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, isLoadedInEditMode);
+    public AppUrl withEnableSessionEditDetails(boolean isLoadedInEditMode) {
+        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, Boolean.toString(isLoadedInEditMode));
     }
 
 }
