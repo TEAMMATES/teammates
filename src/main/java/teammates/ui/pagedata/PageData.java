@@ -13,7 +13,6 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -857,9 +856,9 @@ public class PageData {
             String giverName, String recipientName, boolean isInstructor, double timeZone) {
         FeedbackResponseCommentAttributes frca =
                 new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
-                                                      question.getFeedbackQuestionId(), responseId); 
+                                                      question.getFeedbackQuestionId(), responseId);
         frca.showCommentTo = new ArrayList<>();
-        frca.showGiverNameTo = new ArrayList<>();    
+        frca.showGiverNameTo = new ArrayList<>();
         if (isInstructor) {
             FeedbackParticipantType[] relevantTypes = {
                     FeedbackParticipantType.GIVER,
@@ -885,11 +884,12 @@ public class PageData {
             for (FeedbackParticipantType type : types) {
                 frca.showCommentTo.add(type);
                 frca.showGiverNameTo.add(type);
-            }   
+            }
         }
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                                              getResponseCommentVisibilityString(frca,question),
-                                              getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap, timeZone);
+                                              getResponseCommentVisibilityString(frca, question),
+                                              getResponseCommentGiverNameVisibilityString(frca, question),
+                                              responseVisibilityMap, timeZone);
     }
 
     public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question,

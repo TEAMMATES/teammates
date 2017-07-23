@@ -88,7 +88,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type,
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
-    
     // for comments form
     private boolean moderation;
 
@@ -521,7 +520,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response.getId(), responseVisibilityMap,
+                FeedbackResponseCommentRow frcForAdding =
+                        buildFeedbackResponseCommentAddForm(question, response.getId(), responseVisibilityMap,
                         giverName, recipientName, true, bundle.getTimeZone());
 
                 responsePanel.setFrcForAdding(frcForAdding);

@@ -55,13 +55,13 @@
       <c:if test="${questionWithResponses.numOfResponseBoxes eq 0}">
         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
-            <c:forEach items="${questionWithResponses.responses}" var="response">
-                <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-                                                 questionWithResponses="${questionWithResponses}" firstIndex="${response.responseIndx}"
-                                                    secondIndex="1" thirdIndex="${questionWithResponses.question.qnIndx}" isInstructor="${isInstructor}"
-                                                    moderatedPersonEmail="${moderatedPersonEmail}"/>
-            </c:forEach>
-            </div>
-    </div>  
+      <c:forEach items="${questionWithResponses.responses}" var="response">
+        <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
+                                               questionWithResponses="${questionWithResponses}" firstIndex="${response.responseIndx}"
+                                               secondIndex="1" thirdIndex="${questionWithResponses.question.qnIndx}" isInstructor="${isInstructor}"
+                                               moderatedPersonEmail="${moderatedPersonEmail}"/>
+      </c:forEach>
+    </div>
+  </div>
 </div>
 <br><br>

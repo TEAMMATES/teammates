@@ -2200,6 +2200,4 @@ public class Logic {
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
     }
-
-
 }

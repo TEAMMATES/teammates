@@ -76,14 +76,12 @@ public class FeedbackResponseRow {
                 } else {
                     InstructorAttributes instructor = results.roster.getInstructorForEmail(giverEmail);
                     boolean isInstructorGiver = giverEmail.equals(instructor.email);
-                    boolean isAllowedToSubmitSessionsInBothSection =
-                            instructor.isAllowedForPrivilege(response.giverSection,
-                                                             response.feedbackSessionName,
-                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                            && instructor.isAllowedForPrivilege(response.recipientSection,
-                                                                response.feedbackSessionName,
-                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-                    if(isInstructorGiver || isAllowedToSubmitSessionsInBothSection) {
+                    boolean isAllowedToSubmitSessionsInBothSection = instructor.isAllowedForPrivilege(response.giverSection,
+                            response.feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                            && instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                    if (isInstructorGiver || isAllowedToSubmitSessionsInBothSection) {
                         responseRow.enableEditDelete();
                     }
                     this.responseComments.add(responseRow);

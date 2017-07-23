@@ -461,9 +461,7 @@ const deleteCommentHandlerForFeedbackPage = (e) => {
 
     showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
         const divObject = submitButton.parent();
-        window.alert(`${divObject}`);
         const formData = divObject.find('input').serialize();
-		window.alert(`${formData}`);
         $.ajax({
             type: 'POST',
             url: `${submitButton.attr('href')}?${formData}`,
@@ -515,8 +513,8 @@ function registerResponseCommentCheckboxEventForFeedbackPage() {
 }
 
 function registerResponseCommentsEventForFeedbackPage() {
-    $('body').on('click', 'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
-	window.alert("hello");
+    $('body').on('click',
+            'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
     const clickHandlerMap = new Map();
     clickHandlerMap.set(
             '.show-frc-add-form', [showResponseCommentAddForm,
@@ -554,5 +552,5 @@ export {
     registerResponseCommentCheckboxEvent,
     registerResponseCommentsEvent,
     registerResponseCommentCheckboxEventForFeedbackPage,
-    registerResponseCommentsEventForFeedbackPage
+    registerResponseCommentsEventForFeedbackPage,
 };

@@ -285,7 +285,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
                         submissionFormHtml, existingResponse.getId()));
             }
-            
             responseIndx++;
         }
 
@@ -303,10 +302,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 String giverName = account.name;
                 double sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow responseExplainationComment = buildFeedbackResponseCommentAddForm(
-                        questionAttributes, "", getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
+                        questionAttributes, "",
+                        getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 if (isPreview()) {
-                    if(previewInstructor != null) {
+                    if (previewInstructor != null) {
                         giverName = getPreviewInstructor().name;
                         responseExplainationComment = buildFeedbackResponseCommentAddForm(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
@@ -350,7 +350,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseCommentAttributes> filteredFrcs =
                 filterFeedbackResponseCommentAttributes(bundle.roster, frcList);
         for (FeedbackResponseCommentAttributes frcAttributes : filteredFrcs) {
-            
             FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                                                frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                                getResponseCommentVisibilityString(frcAttributes, question),
@@ -364,7 +363,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     private List<FeedbackResponseCommentAttributes> filterFeedbackResponseCommentAttributes(CourseRoster roster,
             List<FeedbackResponseCommentAttributes> frcList) {
-        List<FeedbackResponseCommentAttributes> filteredComments = new ArrayList<FeedbackResponseCommentAttributes>(); 
+        List<FeedbackResponseCommentAttributes> filteredComments = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseCommentAttributes comment : frcList) {
             if (roster.isInstructorOfCourse(comment.giverEmail) || comment.giverEmail.equals(student.email)) {
                 filteredComments.add(comment);

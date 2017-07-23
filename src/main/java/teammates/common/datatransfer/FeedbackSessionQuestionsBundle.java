@@ -58,8 +58,6 @@ public class FeedbackSessionQuestionsBundle {
         this.commentGiverEmailNameTable = getCommentGiverEmailNameTableFromRoster(roster);
     }
 
-
-
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
         return questionResponseBundle;
     }

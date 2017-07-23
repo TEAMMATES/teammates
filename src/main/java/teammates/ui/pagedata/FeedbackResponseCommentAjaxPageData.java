@@ -114,7 +114,4 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public void setModeration(boolean moderation) {
         this.moderation = moderation;
     }
-
-
-
 }

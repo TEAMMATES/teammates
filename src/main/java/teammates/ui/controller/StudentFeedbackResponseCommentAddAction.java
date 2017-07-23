@@ -31,7 +31,6 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
             StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
             gateKeeper.verifyAccessible(student, logic.getFeedbackSession(feedbackSessionName, courseId));
         }
-        
     }
 
     @Override
@@ -64,7 +63,6 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
                     + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
-        
     }
 
     @Override

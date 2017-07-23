@@ -40,7 +40,7 @@ import {
 import {
     enableHoverToDisplayEditOptions,
     registerResponseCommentCheckboxEventForFeedbackPage,
-    registerResponseCommentsEventForFeedbackPage
+    registerResponseCommentsEventForFeedbackPage,
 } from '../common/feedbackResponseComments.es6';
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
@@ -977,17 +977,16 @@ function getNewResponseCommentsText() {
 }
 
 function updateResponseCommentsText() {
-    window.alert("hello");
     const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
     $.each($responseCommentTables, (i, responseCommentTable) => {
         const responseCommentTableId = $(responseCommentTable).attr('id');
         const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
         const $responseCommentRows = $(`li[id^=responseCommentRow-${responseCommentId}]`);
         $.each($responseCommentRows, (j, responseCommentRow) => {
-        	const responseCommentRowId = $(responseCommentRow).attr('id');
-        	const responseCommentRowIdIndx = responseCommentRowId.substring('responseCommentRow-'.length);
-        	const editor = tinymce.get(`responsecommenttext-${responseCommentRowIdIndx}`);
-        	if (editor !== null) {
+            const responseCommentRowId = $(responseCommentRow).attr('id');
+            const responseCommentRowIdIndx = responseCommentRowId.substring('responseCommentRow-'.length);
+            const editor = tinymce.get(`responsecommenttext-${responseCommentRowIdIndx}`);
+            if (editor !== null) {
                 const responseCommentTextId = `responsecommenttext-${responseCommentRowIdIndx}`;
                 $(`input[name=${responseCommentTextId}]`).val(editor.getContent());
             }

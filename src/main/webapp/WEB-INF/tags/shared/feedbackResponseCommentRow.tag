@@ -108,7 +108,6 @@
         </c:otherwise>
         </c:choose>
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
-        
         <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
                                             secondIndex="${secondIndex}"
                                             thirdIndex="${thirdIndex}"

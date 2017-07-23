@@ -49,7 +49,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-        
+
         verifyAccessibleForSpecificUser(session, response);
 
         FeedbackResponseCommentAjaxPageData data =
@@ -131,7 +131,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
 
     protected abstract void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa,
             FeedbackResponseAttributes response);
-    
+
     protected abstract String getUserEmailForCourse();
 
     protected abstract FeedbackSessionResultsBundle getDataBundle(String userEmailForCourse)

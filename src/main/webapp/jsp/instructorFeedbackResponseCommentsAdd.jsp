@@ -10,7 +10,7 @@
         secondIndex="${data.commentIds[1]}"
         thirdIndex="${data.commentIds[2]}"
         fourthIndex="${data.commentIds[0]}"
-        frcIndex="${data.commentIds[4]}" 
+        frcIndex="${data.commentIds[4]}"
         isInstructor="${data.commentGiverInstructor}"
         moderatedPersonEmail="${data.moderatedPersonEmail}" />
   </c:when>
@@ -19,7 +19,7 @@
         firstIndex="${data.commentIds[0]}"
         secondIndex="${data.commentIds[1]}"
         thirdIndex="${data.commentIds[2]}"
-        frcIndex="${data.commentIds[3]}" 
+        frcIndex="${data.commentIds[3]}"
         isInstructor="${data.commentGiverInstructor}"
         moderatedPersonEmail="${data.moderatedPersonEmail}" />
   </c:otherwise>
