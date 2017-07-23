@@ -650,7 +650,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         if (hasAssignedWeights) {
             List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
-                    getPerRecipientStatistics(responses, bundle);
+                    getPerRecipientStatisticsSorted(responses, bundle);
             StringBuilder bodyBuilder = new StringBuilder(100);
 
             for (Map.Entry<String, RubricRecipientStatistics> entry : recipientStatsList) {
@@ -777,7 +777,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return csv.toString();
     }
 
-    public List<Map.Entry<String, RubricRecipientStatistics>> getPerRecipientStatistics(
+    public List<Map.Entry<String, RubricRecipientStatistics>> getPerRecipientStatisticsSorted(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
         Map<String, RubricRecipientStatistics> recipientToRecipientStats = new HashMap<>();
@@ -819,7 +819,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle) {
         StringBuilder csv = new StringBuilder(100);
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
-                getPerRecipientStatistics(responses, bundle);
+                getPerRecipientStatisticsSorted(responses, bundle);
 
         for (Map.Entry<String, RubricRecipientStatistics> entry : recipientStatsList) {
             csv.append(entry.getValue().getCsvForAllSubQuestions());
@@ -1039,14 +1039,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * Class to store any stats related to a recipient.
      */
     private class RubricRecipientStatistics {
-        String recipient;
+        String recipientEmail;
         String recipientName;
         String recipientTeam;
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
 
         RubricRecipientStatistics(String recipient, String recipientName, String recipientTeam) {
-            this.recipient = recipient;
+            this.recipientEmail = recipient;
             this.recipientName = recipientName;
             this.recipientTeam = recipientTeam;
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
@@ -1054,7 +1054,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
-            if (!response.recipient.equalsIgnoreCase(recipient)) {
+            if (!response.recipient.equalsIgnoreCase(recipientEmail)) {
                 return;
             }
 
@@ -1080,17 +1080,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             List<String> cols = new ArrayList<>();
 
+            // <td> entries which display recipient identification details and rubric subQuestion
             cols.add(recipientTeam);
             cols.add(recipientName);
             cols.add(subQuestionString);
 
+            // <td> entries which display number of responses per subQuestion per rubric choice
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
                 cols.add(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]));
             }
 
+            // <td> entries which display aggregate statistics
             cols.add(df.format(totalPerSubQuestion[subQuestion]));
             cols.add(dfAverage.format(totalPerSubQuestion[subQuestion] / getNumOfRubricSubQuestions()));
 
+            // Generate HTML for all <td> entries using template
             for (String col : cols) {
                 html.append(
                         Templates.populateTemplate(FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
@@ -1121,13 +1125,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             DecimalFormat df = new DecimalFormat("#");
             DecimalFormat dfAverage = new DecimalFormat("0.00");
 
-            csv.append(recipientTeam).append(',').append(recipientName).append(',').append(recipient)
+            // Append recipient identification details and rubric subQuestion
+            csv.append(recipientTeam).append(',').append(recipientName).append(',').append(recipientEmail)
                     .append(',').append(subQuestionString);
 
+            // Append number of responses per subQuestion per rubric choice
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
                 csv.append(',').append(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]));
             }
 
+            // Append aggregate statistics
             csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
                     .append(dfAverage.format(totalPerSubQuestion[subQuestion] / getNumOfRubricSubQuestions()))
                     .append(Const.EOL);
