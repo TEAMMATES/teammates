@@ -176,7 +176,7 @@ public class InstructorSearchPageData extends PageData {
             }
 
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
-                    frcSearchResultBundle.instructorEmailNameTable);
+                    frcSearchResultBundle.commentGiverEmailNameTable);
 
             rows.add(frcDiv);
         }

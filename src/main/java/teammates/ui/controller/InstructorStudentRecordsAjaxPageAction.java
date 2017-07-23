@@ -70,7 +70,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         InstructorStudentRecordsAjaxPageData data =
                                         new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results);
-
+        data.setModeration(false);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }
 

@@ -1431,7 +1431,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                            response.recipientSection, response.feedbackSessionName,
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
-
+        boolean isStudentGiver = bundle.roster.isStudentInCourse(frcAttributes.giverEmail);
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
 
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
@@ -1440,7 +1440,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                            responseVisibilityMap, bundle.commentGiverEmailNameTable);
 
-        if (isInstructorAllowedToEditAndDeleteComment) {
+        if (!isStudentGiver && isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEditDelete();
         }
 

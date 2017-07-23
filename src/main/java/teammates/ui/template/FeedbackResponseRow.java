@@ -10,7 +10,9 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -56,8 +58,24 @@ public class FeedbackResponseRow {
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
                         commentGiverEmailNameTable);
-                responseRow.enableEditDelete();
-                this.responseComments.add(responseRow);
+                boolean isStudentGiver = results.roster.isStudentInCourse(giverEmail);
+                if (isStudentGiver) {
+                    this.responseComments.add(responseRow);
+                } else {
+                    InstructorAttributes instructor = results.roster.getInstructorForEmail(giverEmail);
+                    boolean isInstructorGiver = giverEmail.equals(instructor.email);
+                    boolean isAllowedToSubmitSessionsInBothSection =
+                            instructor.isAllowedForPrivilege(response.giverSection,
+                                                             response.feedbackSessionName,
+                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                            && instructor.isAllowedForPrivilege(response.recipientSection,
+                                                                response.feedbackSessionName,
+                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                    if(isInstructorGiver || isAllowedToSubmitSessionsInBothSection) {
+                        responseRow.enableEditDelete();
+                    }
+                    this.responseComments.add(responseRow);
+                }
             }
         }
     }

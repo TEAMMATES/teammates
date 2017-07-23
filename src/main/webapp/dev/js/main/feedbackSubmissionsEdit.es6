@@ -40,7 +40,7 @@ import {
 import {
     enableHoverToDisplayEditOptions,
     registerResponseCommentCheckboxEventForFeedbackPage,
-    registerResponseCommentsEvent,
+    registerResponseCommentsEventForFeedbackPage
 } from '../common/feedbackResponseComments.es6';
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
@@ -1102,7 +1102,7 @@ $(document).ready(() => {
     showModalWarningIfSessionClosed();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
-    registerResponseCommentsEvent();
+    registerResponseCommentsEventForFeedbackPage();
     registerResponseCommentCheckboxEventForFeedbackPage();
     enableHoverToDisplayEditOptions();
 });
