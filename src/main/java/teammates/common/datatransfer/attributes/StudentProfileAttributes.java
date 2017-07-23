@@ -25,7 +25,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public String gender; // only accepts "male", "female" or "other"
+    public enum gender{
+        male, female, other
+    }; // only accepts "male", "female" or "other"
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
@@ -37,7 +39,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = "other";
+        this.gender = "";
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = new Date();

@@ -407,7 +407,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code gender} is not acceptable.
      *         Returns an empty string if the {@code gender} is acceptable.
      */
-    public String getInvalidityInfoForGender(String gender) {
+    public String getInvalidityInfoForGender(enum gender) {
         Assumption.assertTrue("Non-null value expected", gender != null);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
 
