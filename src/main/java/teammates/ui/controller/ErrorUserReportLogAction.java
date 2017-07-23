@@ -9,12 +9,14 @@ import teammates.ui.pagedata.PageData;
 public class ErrorUserReportLogAction extends Action {
 
     private static final Logger log = Logger.getLogger();
+    private String emailSubject;
+    private String emailContent;
 
     @Override
     protected ActionResult execute() {
-        String emailContent = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT);
-        String emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
-        log.severe(getUserErrorReportLogMessage(emailSubject, emailContent));
+        emailContent = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT);
+        emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
+        log.severe(getUserErrorReportLogMessage());
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS,
                 StatusMessageColor.SUCCESS));
@@ -24,7 +26,7 @@ public class ErrorUserReportLogAction extends Action {
     /**
      * Returns the formatted log message with {@code emailSubject} & {@code emailContent}.
      */
-    public String getUserErrorReportLogMessage(String emailSubject, String emailContent) {
+    public String getUserErrorReportLogMessage() {
         return "====== USER FEEDBACK ABOUT ERROR ====== \n"
                 + "ACCOUNT DETAILS: " + account.toString() + "\n"
                 + "SUBJECT: " + emailSubject + "\n"
