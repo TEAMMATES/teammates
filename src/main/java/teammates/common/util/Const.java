@@ -582,6 +582,9 @@ public final class Const {
         public static final String RGQ_SORT_TYPE = "recipient-giver-question";
         public static final String GQR_SORT_TYPE = "giver-question-recipient";
         public static final String RQG_SORT_TYPE = "recipient-question-giver";
+
+        public static final String QUESTION_NO_RESPONSES_MSG = "There are no responses for this question " +
+                "or you may not have the permission to see the response";
     }
 
     public static class InstructorPermissionRoleNames {
