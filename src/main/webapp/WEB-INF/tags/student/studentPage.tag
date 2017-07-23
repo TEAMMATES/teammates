@@ -8,23 +8,27 @@
 <%@ attribute name="bodyTitle" required="true" %>
 <%@ attribute name="altNavBar" %>
 <%@ attribute name="altFooter" %>
-<c:set var="defaultNavBar"><ts:navBar /></c:set>
-<c:set var="defaultFooter"><t:bodyFooter /></c:set>
+<c:set var="defaultNavBar">
+  <ts:navBar />
+</c:set>
+<c:set var="defaultFooter">
+  <t:bodyFooter />
+</c:set>
 
 <t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
-    <jsp:attribute name="cssIncludes">
-        ${cssIncludes}
-    </jsp:attribute>
-    <jsp:attribute name="jsIncludes">
-        ${jsIncludes}
-    </jsp:attribute>
-    <jsp:attribute name="navBar">
-        ${empty altNavBar ? defaultNavBar : altNavBar}
-    </jsp:attribute>
-    <jsp:attribute name="bodyFooter">
-        ${empty altFooter ? defaultFooter : altFooter}
-    </jsp:attribute>
-    <jsp:body>
-        <jsp:doBody />
-    </jsp:body>
+  <jsp:attribute name="cssIncludes">
+    ${cssIncludes}
+  </jsp:attribute>
+  <jsp:attribute name="jsIncludes">
+    ${jsIncludes}
+  </jsp:attribute>
+  <jsp:attribute name="navBar">
+    ${empty altNavBar ? defaultNavBar : altNavBar}
+  </jsp:attribute>
+  <jsp:attribute name="bodyFooter">
+    ${empty altFooter ? defaultFooter : altFooter}
+  </jsp:attribute>
+  <jsp:body>
+    <jsp:doBody />
+  </jsp:body>
 </t:page>
