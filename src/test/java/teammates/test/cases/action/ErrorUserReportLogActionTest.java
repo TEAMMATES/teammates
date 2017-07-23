@@ -56,8 +56,8 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
                 + "ACCOUNT DETAILS: " + instructor1ofCourse1AccountAttributes.toString() + "\n"
                 + "SUBJECT: " + testErrorReportSubject + "\n"
                 + "FEEDBACK: " + testErrorReportContent;
-        
-        assertEquals(expectedLogMessage, 
+
+        assertEquals(expectedLogMessage,
                 action.getUserErrorReportLogMessage());
     }
 
