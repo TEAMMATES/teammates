@@ -2,6 +2,7 @@ package teammates.test.cases.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.Cipher;
@@ -425,6 +426,7 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testJoinWithListOfIntegers() {
         assertEquals("", StringHelper.join(",", new ArrayList<Integer>()));
+        assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
     }
