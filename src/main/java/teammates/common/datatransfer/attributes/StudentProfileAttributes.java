@@ -25,9 +25,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public enum gender{
-        male, female, other
-    }; // only accepts "male", "female" or "other"
+    public enum Gender{
+        MALE, FEMALE, OTHER
+    };
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
@@ -39,7 +39,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = "other";
+        this.Gender = "other";
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = new Date();
@@ -73,7 +73,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
-                .withGender(gender)
+                .withGender(Gender)
                 .withNationality(nationality)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
@@ -216,10 +216,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withGender(gender gen) {
-            profileAttributes.gen = isGenderValid(gen) ? gen : "other";
-            return this;
-        }
 
         public Builder withMoreInfo(String moreInfo) {
             if (moreInfo != null) {
