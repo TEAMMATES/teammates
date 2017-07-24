@@ -11,7 +11,7 @@
   <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_GUILLOTINE %>"></script>
   <script type="text/javascript" src="/js/studentProfile.js"></script>
 </c:set>
-<ts:studentPage pageTitle="Student Profile [Student]" bodyTitle="Student Profile" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ts:studentPage pageTitle="Student Profile" bodyTitle="Student Profile" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <br>
   <tsp:uploadPhotoModal modal="${data.uploadPhotoModal}" sessionToken="${data.sessionToken}" />

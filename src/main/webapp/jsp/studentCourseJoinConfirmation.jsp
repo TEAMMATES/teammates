@@ -6,7 +6,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/studentCourseJoinConfirmation.js"></script>
 </c:set>
-<ts:studentPage pageTitle="Course Confirmation [Student]" bodyTitle="" jsIncludes="${jsIncludes}">
+<ts:studentPage pageTitle="Course Confirmation" bodyTitle="" jsIncludes="${jsIncludes}">
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <br>
   <div class="panel panel-primary panel-narrow">

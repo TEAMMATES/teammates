@@ -5,7 +5,7 @@
 <%@ attribute name="cssIncludes" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="bodyTitle" required="true" %>
-<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+<t:page pageTitle="${pageTitle} [Administrator]" bodyTitle="${bodyTitle}">
     <jsp:attribute name="cssIncludes">
         ${cssIncludes}
     </jsp:attribute>

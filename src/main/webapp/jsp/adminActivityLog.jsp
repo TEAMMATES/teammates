@@ -10,7 +10,7 @@
   <script type="text/javascript" src="/js/adminActivityLog.js"></script>
 </c:set>
 
-<ta:adminPage bodyTitle="Admin Activity Log" pageTitle="Admin Activity Log [Administrator]" jsIncludes="${jsIncludes}">
+<ta:adminPage bodyTitle="Admin Activity Log" pageTitle="Admin Activity Log" jsIncludes="${jsIncludes}">
   <activity:filterPanel excludedLogRequestURIs="${data.excludedLogRequestUris}" actionListAsHtml="${data.actionListAsHtml}"
       shouldShowAllLogs="${data.shouldShowAllLogs}" shouldShowTestData="${data.shouldShowTestData}" filterQuery="${data.filterQuery}"
       queryKeywordsForInfo="${data.queryKeywordsForInfo}"/>

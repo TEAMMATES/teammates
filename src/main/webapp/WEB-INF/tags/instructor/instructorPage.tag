@@ -11,7 +11,7 @@
 <c:set var="defaultNavBar"><ti:navBar /></c:set>
 <c:set var="defaultFooter"><t:bodyFooter /></c:set>
 
-<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+<t:page pageTitle="${pageTitle} [Instructor]" bodyTitle="${bodyTitle}">
     <jsp:attribute name="cssIncludes">
         ${cssIncludes}
     </jsp:attribute>

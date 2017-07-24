@@ -15,7 +15,7 @@
   <t:bodyFooter />
 </c:set>
 
-<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+<t:page pageTitle="${pageTitle} [Student]" bodyTitle="${bodyTitle}">
   <jsp:attribute name="cssIncludes">
     ${cssIncludes}
   </jsp:attribute>

@@ -9,7 +9,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/adminSessions.js"></script>
 </c:set>
-<ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="Ongoing Sessions [Administrator] Sessions" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="Ongoing Sessions" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
   <h1>
     <small>
       Total: ${data.totalOngoingSessions} &nbsp; &nbsp;

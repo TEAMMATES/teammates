@@ -6,6 +6,6 @@
   <script type="text/javascript" src="/js/instructorFeedbackResultsRQG.js"></script>
 </c:set>
 
-<results:resultsPage pageTitle="Feedback Session Results [Instructor]" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
+<results:resultsPage pageTitle="Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
   <results:bySectionPanels isGroupedByQuestion="${true}" isShowingAll="${data.bundle.complete}" isGroupedByTeam="${data.groupedByTeam}" />
 </results:resultsPage>

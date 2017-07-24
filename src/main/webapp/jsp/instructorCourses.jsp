@@ -10,7 +10,7 @@
   <script type="text/javascript" src="/js/instructorCourses.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="Add New Course [Instructor]" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="Add New Course" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
   <c:if test="${!data.usingAjax}">
     <course:addCoursePanel courseIdToShow="${data.courseIdToShow}"
         courseNameToShow="${data.courseNameToShow}"

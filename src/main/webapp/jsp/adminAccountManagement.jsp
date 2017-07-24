@@ -9,7 +9,7 @@
   <script type="text/javascript" src="/js/adminAccountManagement.js"></script>
 </c:set>
 
-<ta:adminPage bodyTitle="Instructor Account Management" pageTitle="Instructor Account Management [Administrator]" jsIncludes="${jsIncludes}">
+<ta:adminPage bodyTitle="Instructor Account Management" pageTitle="Instructor Account Management" jsIncludes="${jsIncludes}">
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <div id="pagination_top">
     <accounts:adminAccountManagementPagination />
