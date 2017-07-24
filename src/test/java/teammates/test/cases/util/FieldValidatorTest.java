@@ -65,7 +65,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String emptyValue = "";
         assertEquals("invalid: empty",
-                     "The field my field is empty. The value of a/an my field should be no longer "
+                     "The field 'my field' is empty. The value of a/an my field should be no longer "
                          + "than 50 characters. It should not be empty.",
                      FieldValidatorExtension.getValidityInfoForSizeCappedNonEmptyString(typicalFieldName,
                              maxLength, emptyValue));
@@ -260,7 +260,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String emptyValue = "";
         assertEquals("invalid: empty",
-                     "The field name field is empty. The value of a/an name field should be no longer "
+                     "The field 'name field' is empty. The value of a/an name field should be no longer "
                          + "than 50 characters. It should not be empty.",
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
 
@@ -278,7 +278,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidPersonName = "";
         String actual = validator.getInvalidityInfoForPersonName(invalidPersonName);
         assertEquals("Invalid person name (empty) should return error message that is specific to person name",
-                     "The field person name is empty. The value of a/an person name should be no longer "
+                     "The field 'person name' is empty. The value of a/an person name should be no longer "
                          + "than 100 characters. It should not be empty.",
                      actual);
     }
@@ -319,7 +319,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidTeamName = "";
         String actual = validator.getInvalidityInfoForTeamName(invalidTeamName);
         assertEquals("Invalid team name (empty) should return error message that is specific to team name",
-                     "The field team name is empty. The value of a/an team name should be no longer "
+                     "The field 'team name' is empty. The value of a/an team name should be no longer "
                          + "than 60 characters. It should not be empty.",
                      actual);
     }
@@ -363,7 +363,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidEmailSubject = "";
         String actual = validator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
         assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     "The field email subject is empty. The value of a/an email subject should be no longer than "
+                     "The field 'email subject' is empty. The value of a/an email subject should be no longer than "
                          + "200 characters. It should not be empty.",
                      actual);
     }
@@ -473,7 +473,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
         String emptyId = "";
         assertEquals("Invalid Google ID (empty) should return appropriate error message",
-                     "The field Google ID is empty. A Google ID must be a valid id "
+                     "The field 'Google ID' is empty. A Google ID must be a valid id "
                          + "already registered with Google. It cannot be longer than "
                          + "254 characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForGoogleId(emptyId));
@@ -545,7 +545,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
-                     "The field email is empty. An email address contains some text followed by one "
+                     "The field 'email' is empty. An email address contains some text followed by one "
                          + "'@' sign followed by some more text. It cannot be longer than 254 "
                          + "characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForEmail(emptyEmail));
@@ -652,7 +652,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
         String emptyCourseId = "";
         assertEquals("Invalid Course ID (empty) should return appropriate error string",
-                     "The field course ID is empty. A course ID can contain letters, numbers, "
+                     "The field 'course ID' is empty. A course ID can contain letters, numbers, "
                          + "fullstops, hyphens, underscores, and dollar signs. It cannot be "
                          + "longer than 40 characters, cannot be empty and cannot contain spaces.",
                      validator.getInvalidityInfoForCourseId(emptyCourseId));

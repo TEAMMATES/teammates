@@ -151,7 +151,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         expectedString =
                 teammatesLogMessage + "Servlet Action Failure : "
-                + "The field feedback session name is empty. "
+                + "The field 'feedback session name' is empty. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());

@@ -134,9 +134,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(invalidCourse);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("The field course ID is empty",
+            AssertHelper.assertContains("The field 'course ID' is empty",
                                         e.getMessage());
-            AssertHelper.assertContains("The field course name is empty",
+            AssertHelper.assertContains("The field 'course name' is empty",
                                         e.getMessage());
             AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course time zone",
                                         e.getMessage());
