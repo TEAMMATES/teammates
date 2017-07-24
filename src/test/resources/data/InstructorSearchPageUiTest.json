@@ -659,7 +659,9 @@
       "createdAt": "2026-03-01 11:59 PM UTC",
       "commentText": {
         "value": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
-      }
+      },
+      "lastEditorEmail": "searchUI.instructor1@sanitization.tmt",
+      "lastEditedAt": "2030-02-05 11:59 PM UTC"
     }
   },
   "profiles": {}
