@@ -11,7 +11,8 @@
 <div class="well well-plain">
   <form class="form-group" method="post"
       action="${fsForm.formSubmitAction}"
-      id="form_feedbacksession">
+      id="form_feedbacksession"
+      data-<%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %> = "${fsEnableEdit}">
 
     <feedbacks:feedbackSessionsFormHeader fsForm="${fsForm}" />
 
@@ -273,5 +274,4 @@
     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
   </form>
-  <div name="<%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %>" data-value="${fsEnableEdit}"></div>
 </div>
