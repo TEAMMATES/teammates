@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import teammates.common.util.Url;
 import teammates.ui.pagedata.AdminSearchPageData;
 
 public class AdminSearchPageAction extends Action {
+
+    private static final String OPEN_CLOSE_DATES_SESSION_TEMPLATE = "[%s - %s]";
 
     private Map<String, String> tempCourseIdToInstituteMap = new HashMap<>();
     private Map<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<>();
@@ -322,7 +325,8 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName());
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName()
+                    + generateOpenCloseDateInfo(fsa.getSessionStartTime(), fsa.getSessionEndTime()));
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -333,7 +337,8 @@ public class AdminSearchPageAction extends Action {
                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)");
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)"
+                    + generateOpenCloseDateInfo(fsa.getSessionStartTime(), fsa.getSessionEndTime()));
         }
 
         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
@@ -352,9 +357,14 @@ public class AdminSearchPageAction extends Action {
                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
             }
 
-            data.feedbackSessionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published)");
+            data.feedbackSessionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published) "
+                    + generateOpenCloseDateInfo(fsa.getSessionStartTime(), fsa.getSessionEndTime()));
         }
         return data;
+    }
+
+    private String generateOpenCloseDateInfo(Date startTime, Date endTime) {
+        return String.format(OPEN_CLOSE_DATES_SESSION_TEMPLATE, startTime, endTime);
     }
 
 }
