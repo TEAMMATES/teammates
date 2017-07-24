@@ -20,12 +20,10 @@ function populateStatusMessageDiv(message, status) {
     const $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
     const $statusMessageDivContent = $('<div></div>');
 
-    $statusMessageDivContent.addClass('overflow-auto');
-    $statusMessageDivContent.addClass('alert');
     // Default the status type to info if any invalid status is passed in
-    $statusMessageDivContent.addClass(`alert-${StatusType.isValidType(status) ? status : StatusType.INFO}`);
-    $statusMessageDivContent.addClass(`icon-${StatusType.isValidType(status) ? status : StatusType.INFO}`);
-    $statusMessageDivContent.addClass('statusMessage');
+    const statusType = StatusType.isValidType(status) ? status : StatusType.INFO;
+
+    $statusMessageDivContent.addClass(`overflow-auto alert alert-${statusType} icon-${statusType} statusMessage`);
     $statusMessageDivContent.html(message);
 
     $statusMessageDivToUser.empty();
