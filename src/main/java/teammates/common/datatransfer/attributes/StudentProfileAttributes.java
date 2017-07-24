@@ -25,7 +25,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public String gender; // only accepts "male", "female" or "other"
+    public enum gender{
+        male, female, other
+    }; // only accepts "male", "female" or "other"
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
@@ -214,8 +216,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withGender(String gender) {
-            profileAttributes.gender = isGenderValid(gender) ? gender : "other";
+        public Builder withGender(gender gen) {
+            profileAttributes.gen = isGenderValid(gen) ? gen : "other";
             return this;
         }
 
@@ -242,8 +244,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return profileAttributes;
         }
 
-        private boolean isGenderValid(String gender) {
-            return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
+        private boolean isGenderValid(gender gen) {
+            return "male".equals(gen) || "female".equals(gen) || "other".equals(gen);
         }
     }
 }
