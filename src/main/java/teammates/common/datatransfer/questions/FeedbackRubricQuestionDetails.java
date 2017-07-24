@@ -1016,9 +1016,4 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
     }
-
-    @Override
-    public boolean isStudentsCommentsOnResponsesAllowed() {
-        return true;
-    }
 }
