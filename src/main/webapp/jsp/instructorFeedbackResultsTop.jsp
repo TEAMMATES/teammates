@@ -13,9 +13,7 @@
   <r:filterPanel filterPanel="${data.filterPanel}"/>
 </c:if>
 <br>
-<div style="margin-top:10px">
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-</div>
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
   <r:expandCollapseButton sortType="${data.filterPanel.sortType}"
       showAll="${showAll}" />
