@@ -1431,7 +1431,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                            response.recipientSection, response.feedbackSessionName,
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
-        boolean isStudentGiver = bundle.roster.isStudentInCourse(frcAttributes.giverEmail);
+        String giverRole = frcAttributes.giverRole;
+        boolean isStudentGiver = false;
+        if ("Student".equals(giverRole)) {
+            isStudentGiver = true;
+        }
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
         String whoCanSeeComment = null;
         boolean isVisibilityIconShown = false;
