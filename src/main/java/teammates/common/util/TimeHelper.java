@@ -274,6 +274,7 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(dateInUtc);
     }
 
