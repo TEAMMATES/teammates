@@ -256,6 +256,7 @@ public final class Templates {
             public static final String MOBILE_HTML = "${mobileHtml}";
             public static final String PANEL_BODY = "${panelBody}";
             public static final String ITERATOR = "${i}";
+            public static final String IS_SESSION_OPEN = "${isSessionOpen}";
 
             // TEXT
             public static final String TEXT_EXISTING_RESPONSE = "${existingResponse}";

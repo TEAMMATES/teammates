@@ -963,10 +963,12 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
+            const isSubmissionNotAllowed = textField.dataset.isSessionOpen === 'false';
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
+                readonly: isSubmissionNotAllowed,
                 setup(ed) {
                     ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
