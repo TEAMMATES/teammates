@@ -149,7 +149,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     public String getStartTimeString() {
         if (startTime == null) {
-            return "";
+            return "-";
         }
         Date startTimeInUtc = TimeHelper.convertLocalDateToUtc(startTime, timeZone);
         return TimeHelper.formatDateTimeForSessions(startTimeInUtc, timeZone);
@@ -157,7 +157,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     public String getEndTimeString() {
         if (endTime == null) {
-            return "";
+            return "-";
         }
         Date endTimeInUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZone);
         return TimeHelper.formatDateTimeForSessions(endTimeInUtc, timeZone);
