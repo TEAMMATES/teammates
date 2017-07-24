@@ -43,7 +43,7 @@ public class FeedbackResponseCommentRow {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
-        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt, this.sessionTimeZone);
+        this.createdAt = TimeHelper.formatDateTimeForSessions(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
         this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
@@ -259,6 +259,6 @@ public class FeedbackResponseCommentRow {
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
-                + "at " + TimeHelper.formatDateTimeForComments(lastEditedAt, sessionTimeZone) + ")";
+                + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
     }
 }

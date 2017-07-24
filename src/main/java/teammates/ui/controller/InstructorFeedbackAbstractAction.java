@@ -39,7 +39,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             title = SanitizationHelper.sanitizeTitle(title);
         }
         FeedbackSessionAttributes attributes = FeedbackSessionAttributes
-                .builder(title, Const.ParamsNames.COURSE_ID, Const.ParamsNames.FEEDBACK_SESSION_CREATOR)
+                .builder(title, getRequestParamValue(Const.ParamsNames.COURSE_ID),
+                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR))
                 .build();
 
         attributes.setStartTime(TimeHelper.combineDateTime(
