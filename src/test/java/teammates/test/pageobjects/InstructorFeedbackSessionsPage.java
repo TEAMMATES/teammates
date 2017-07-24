@@ -206,7 +206,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(sendPublishedEmailCheckbox);
     }
 
-    public void addFeedbackSessionWithTimeZone(
+    public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
             Date startTime,
@@ -214,20 +214,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             Date visibleTime,
             Date publishTime,
             Text instructions,
-            int gracePeriod,
-            double timeZone) {
+            int gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
-
-        String timeZoneString = Double.toString(timeZone);
-
-        double fractionalPart = timeZone % 1;
-
-        if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) timeZone);
-        }
-
-        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
 
         waitForElementVisibility(courseIdDropdown);
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
@@ -249,6 +238,34 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
 
         clickSubmitButton();
+    }
+
+    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId, Date startTime,
+            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod, double timeZone) {
+
+        selectTimeZone(timeZone);
+
+        addFeedbackSession(
+                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
+    }
+
+    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
+            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
+
+        addFeedbackSessionWithTimeZone(
+                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod, 8.0);
+    }
+
+    private void selectTimeZone(double timeZone) {
+        String timeZoneString = Double.toString(timeZone);
+
+        double fractionalPart = timeZone % 1;
+
+        if (fractionalPart == 0.0) {
+            timeZoneString = Integer.toString((int) timeZone);
+        }
+
+        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
     }
 
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
@@ -389,13 +406,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public String getClientTimeZone() {
         return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
-    }
-
-    public void addFeedbackSession(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
-
-        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime,
-                visibleTime, publishTime, instructions, gracePeriod, 8.0);
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {
