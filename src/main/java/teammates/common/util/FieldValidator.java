@@ -407,11 +407,11 @@ public class FieldValidator {
      * @return An explanation of why the {@code gender} is not acceptable.
      *         Returns an empty string if the {@code gender} is acceptable.
      */
-    public String getInvalidityInfoForGender(String gender) {
-        Assumption.assertTrue("Non-null value expected", gender != null);
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
+    public String getInvalidityInfoForGender(gender gen) {
+        Assumption.assertTrue("Non-null value expected", gen != null);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gen);
 
-        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
+        if (!GENDER_ACCEPTED_VALUES.contains(gen)) {
             return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
