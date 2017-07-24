@@ -173,6 +173,9 @@ public final class TimeHelper {
      */
     @Deprecated
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
+        if (localDate == null) {
+            return null;
+        }
         Calendar localCal = dateToCalendar(localDate);
         localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
         return localCal.getTime();
