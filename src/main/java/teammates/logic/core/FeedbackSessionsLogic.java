@@ -308,6 +308,7 @@ public final class FeedbackSessionsLogic {
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
+
         Map<String, String> emailNameTable = new HashMap<>();
         Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
@@ -349,7 +350,6 @@ public final class FeedbackSessionsLogic {
 
         Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
                 question, instructorGiver, null, commentsForResponses);
@@ -358,13 +358,9 @@ public final class FeedbackSessionsLogic {
     }
 
     private void updateBundleAndRecipientListWithResponsesForInstructor(
-            String courseId,
-            String userEmail,
-            FeedbackSessionAttributes fsa,
-            InstructorAttributes instructor,
+            String courseId, String userEmail, FeedbackSessionAttributes fsa, InstructorAttributes instructor,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
-            Map<String, Map<String, String>> recipientList,
-            FeedbackQuestionAttributes question,
+            Map<String, Map<String, String>> recipientList, FeedbackQuestionAttributes question,
             InstructorAttributes instructorGiver, StudentAttributes studentGiver,
             Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses)
             throws EntityDoesNotExistException {
@@ -446,6 +442,7 @@ public final class FeedbackSessionsLogic {
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
+
         Map<String, String> emailNameTable = new HashMap<>();
         Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
@@ -495,6 +492,7 @@ public final class FeedbackSessionsLogic {
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
+
         Map<String, String> emailNameTable = new HashMap<>();
         Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
@@ -510,11 +508,9 @@ public final class FeedbackSessionsLogic {
     }
 
     private void updateBundleAndRecipientListWithResponsesForStudent(
-            String userEmail,
-            StudentAttributes student,
+            String userEmail, StudentAttributes student,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
-            Map<String, Map<String, String>> recipientList,
-            FeedbackQuestionAttributes question,
+            Map<String, Map<String, String>> recipientList, FeedbackQuestionAttributes question,
             Set<String> hiddenInstructorEmails,
             Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses)
             throws EntityDoesNotExistException {

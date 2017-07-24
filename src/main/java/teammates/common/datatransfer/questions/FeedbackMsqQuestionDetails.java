@@ -597,4 +597,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private double divideOrReturnZero(double numerator, int denominator) {
         return (denominator == 0) ? 0 : numerator / denominator;
     }
+
 }
+

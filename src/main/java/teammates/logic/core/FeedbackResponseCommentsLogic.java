@@ -36,6 +36,7 @@ public final class FeedbackResponseCommentsLogic {
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private FeedbackResponseCommentsLogic() {
         // prevent initialization
@@ -48,6 +49,7 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
+        verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.giverRole);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
@@ -349,20 +351,28 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
-        if (instructor == null) {
-            throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
-                                                + courseId + ".");
-        }
-    }
-
     private void verifyIsFeedbackSessionOfCourse(String courseId, String feedbackSessionName)
             throws EntityDoesNotExistException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                 + " is not a session for course " + courseId + ".");
+        }
+    }
+
+    private void verifyIsUserOfCourse(String courseId, String email, String giverRole) throws EntityDoesNotExistException {
+        if ("student".equals(giverRole)) {
+            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, email);
+            if (student == null) {
+                throw new EntityDoesNotExistException("User " + email + " is not a registered student for course "
+                        + courseId + ".");
+            }
+        } else {
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
+            if (instructor == null) {
+                throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
+                                                    + courseId + ".");
+            }
         }
     }
 

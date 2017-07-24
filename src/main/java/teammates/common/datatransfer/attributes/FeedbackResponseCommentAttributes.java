@@ -48,13 +48,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseId = null;
         this.createdAt = null;
         this.commentText = null;
+        this.giverRole = null;
         this.giverSection = "None";
         this.receiverSection = "None";
         this.showCommentTo = new ArrayList<>();
         this.showGiverNameTo = new ArrayList<>();
         this.lastEditorEmail = null;
         this.lastEditedAt = null;
-        this.giverRole = null;
     }
 
     public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName, String feedbackQuestionId,
@@ -74,13 +74,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
+        this.giverRole = giverRole;
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<>();
         this.showGiverNameTo = new ArrayList<>();
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
-        this.giverRole = giverRole;
     }
 
     public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName,
@@ -100,12 +100,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseId = comment.getFeedbackResponseId();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
+        this.giverRole = comment.getGiverRole();
         this.giverSection = comment.getGiverSection() == null ? "None" : comment.getGiverSection();
         this.receiverSection = comment.getReceiverSection() == null ? "None" : comment.getReceiverSection();
         this.lastEditorEmail = comment.getLastEditorEmail() == null ? comment.getGiverEmail()
                                                                     : comment.getLastEditorEmail();
         this.lastEditedAt = comment.getLastEditedAt() == null ? comment.getCreatedAt() : comment.getLastEditedAt();
-        this.giverRole = comment.getGiverRole();
         if (comment.getIsVisibilityFollowingFeedbackQuestion() == null
                                         || comment.getIsVisibilityFollowingFeedbackQuestion()) {
             setDefaultVisibilityOptions();
@@ -155,8 +155,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
-                showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt, giverRole);
+                feedbackResponseId, createdAt, commentText, giverRole, giverSection, receiverSection,
+                showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 
     @Override

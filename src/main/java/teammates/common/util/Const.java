@@ -31,6 +31,9 @@ public final class Const {
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
 
+    public static final String INSTRUCTOR = "Instructor";
+    public static final String STUDENT = "Student";
+
     public static final String NONE_OF_THE_ABOVE = "None of the above";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
@@ -766,6 +769,8 @@ public final class Const {
         public static final String STUDENT_ID = "googleid";
         public static final String INVITER_ID = "invitergoogleid";
 
+        public static final String IS_COMMENT_GIVER_INSTRUCTOR = "isInstructor";
+
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String NEW_STUDENT_EMAIL = "newstudentemail";
@@ -964,6 +969,9 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+
+        public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD ="/page/studentFeedbackResponseCommentAdd";
+
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";

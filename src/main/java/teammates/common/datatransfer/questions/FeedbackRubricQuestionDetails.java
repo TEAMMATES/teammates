@@ -1016,4 +1016,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
     }
+
 }
+

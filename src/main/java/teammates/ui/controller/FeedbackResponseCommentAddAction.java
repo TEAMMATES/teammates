@@ -39,9 +39,9 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
-        giverRole = Boolean.parseBoolean(getRequestParamValue("isInstructor"))
-                ? "Instructor" : "Student";
-        Assumption.assertPostParamNotNull("isInstructor", giverRole);
+        giverRole = Boolean.parseBoolean(getRequestParamValue(Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR))
+                ? Const.INSTRUCTOR : Const.STUDENT;
+        Assumption.assertPostParamNotNull(Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, giverRole);
         
         isModeration = false;
         String moderatedPersonEmail = "";

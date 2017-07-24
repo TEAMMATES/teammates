@@ -26,7 +26,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -321,8 +320,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
             String commentGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
-            Logger log = Logger.getLogger();
-            log.info(commentGiverName);
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
             bundle.commentGiverEmailNameTable.put(comment.giverEmail, commentGiverName);
