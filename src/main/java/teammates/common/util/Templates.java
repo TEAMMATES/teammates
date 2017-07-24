@@ -199,10 +199,10 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRankResultStatsTemplate.html");
             public static final String RANK_RESULT_STATS_OPTIONFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionRankResultStatsOptionFragment.html");
-            public static final String RANK_RESULT_RECIPIENT_STATS_EXCLUDING_SELF_RESPONSE =
-                    FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientTemplateSelfResponse.html");
-            public static final String RANK_RESULT_STATS_RECIPIENTFRAGMENT_EXCLUDING_SELF_RESPONSE =
-                    FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragmentSelfResponse.html");
+            public static final String RANK_RESULT_STATS_RECIPIENT_TEMPLATE =
+                    FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
+            public static final String RANK_RESULT_STATS_RECIPIENT_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragment.html");
         }
 
         public static class Slots {

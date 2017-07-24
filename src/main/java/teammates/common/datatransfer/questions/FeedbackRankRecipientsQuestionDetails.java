@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -181,8 +180,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
         Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
-        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT_EXCLUDING_SELF_RESPONSE;
-        String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS_EXCLUDING_SELF_RESPONSE;
+        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENT_FRAGMENT;
+        String templateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENT_TEMPLATE;
 
         DecimalFormat df = new DecimalFormat("#.##");
 
