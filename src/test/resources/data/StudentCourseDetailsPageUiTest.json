@@ -7,6 +7,13 @@
       "email": "tmms.test@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "SCDetailsUiT.instr2": {
+      "googleId": "SCDetailsUiT.instr2",
+      "name": "Second Instructor",
+      "isInstructor": true,
+      "email": "tmms.second@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "SCDetailsUiT.coord": {
       "googleId": "SCDetailsUiT.coord",
       "name": "Instructor",
@@ -79,6 +86,29 @@
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "SCDetailsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SCDetailsUiT.instr2": {
+      "googleId": "SCDetailsUiT.instr2",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Second Test Instructor",
+      "email": "SCDetailsUiT.second@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
