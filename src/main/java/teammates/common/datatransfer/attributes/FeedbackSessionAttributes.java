@@ -692,4 +692,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
     }
+
+    public String getEndTimeInIso8601Format() {
+        Date endTimeInUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZone);
+        return TimeHelper.formatDateToIso8601Utc(endTimeInUtc);
+    }
 }
