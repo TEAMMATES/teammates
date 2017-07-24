@@ -124,7 +124,6 @@ const addCommentHandler = (e) => {
 
     const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
     formObject.find('input[name=responsecommenttext]').val(editor.getContent());
-
     const formData = formObject.serialize();
 
     $.ajax({

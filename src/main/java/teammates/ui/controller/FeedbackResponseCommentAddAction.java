@@ -25,6 +25,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
     protected String feedbackResponseId;
     protected String commentId;
     protected boolean isModeration;
+    protected String giverRole;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -38,7 +39,10 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
-
+        giverRole = Boolean.parseBoolean(getRequestParamValue("isInstructor"))
+                ? "Instructor" : "Student";
+        Assumption.assertPostParamNotNull("isInstructor", giverRole);
+        
         isModeration = false;
         String moderatedPersonEmail = "";
         if (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON) != null) {
@@ -80,7 +84,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
                 feedbackSessionName, feedbackQuestionId, userEmailForCourse, feedbackResponseId, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+                new Text(commentText), giverRole, response.giverSection, response.recipientSection);
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
@@ -99,7 +103,6 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-
         FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
@@ -123,6 +126,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         data.commentGiverInstructor = isInstructor();
         data.moderation = isModeration;
         data.moderatedPersonEmail = moderatedPersonEmail;
+        data.sessionTimeZone = session.getTimeZone();
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }

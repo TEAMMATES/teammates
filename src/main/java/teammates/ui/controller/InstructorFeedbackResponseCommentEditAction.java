@@ -56,7 +56,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
 
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
                 courseId, feedbackSessionName, null, instructor.email, null, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+                new Text(commentText), response.giverSection, response.recipientSection, "test");
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings

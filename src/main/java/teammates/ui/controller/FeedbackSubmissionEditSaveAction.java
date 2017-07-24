@@ -246,7 +246,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String commentText =
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                             + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
-            log.info(commentText);
             if (commentText != null && !commentText.toString().isEmpty()) {
                 String commentIndex = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
                 questionIdsForComments.put(commentIndex, questionAttributes.getId());
@@ -255,7 +254,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 commentsToAddIds.add(commentIndex);
             }
             if (response.getId() != null) {
-                log.info("in");
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
                 for (int i = 1; i <= previousComments.size(); i++) {
@@ -270,9 +268,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     if (editedCommentText != null && !editedCommentText.isEmpty()
                             && !commentCheck.commentText.equals(editedCommentText)) {
                         String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
-                        log.info(commentIndx);
                         questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                        log.info(commentId + " " + questionAttributes.getId());
                         commentToUpdate.put(commentIndx, commentId);
                         commentToUpdateText.put(commentIndx, editedCommentText);
                         responseGiverMapForComments.put(commentIndx, response.giver);
@@ -295,8 +291,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentId);
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentId);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentId);
+            boolean isInstructor = Boolean.parseBoolean(getRequestParamValue("isInstructor" + commentId));
+            String giverRole = isInstructor ? "Instructor" : "Student";
             createCommentsForResponses(courseId, feedbackSessionName, getUserEmailForCourse(), questionId,
-                    responseToAddComment, commentText, showCommentTo, showGiverNameTo);
+                    responseToAddComment, commentText, giverRole, showCommentTo, showGiverNameTo);
         }
     }
 
@@ -323,7 +321,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackResponseAttributes response, String commentText) throws EntityDoesNotExistException {
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
                 courseId, feedbackSessionName, null, response.giver, null, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+                new Text(commentText), response.giverSection, response.recipientSection, "test");
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings
@@ -529,11 +527,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void createCommentsForResponses(String courseId, String feedbackSessionName, String userEmailForCourse,
             String questionId, FeedbackResponseAttributes response,
-            String commentText, String showCommentTo, String showGiverNameTo) throws EntityDoesNotExistException {
+            String commentText, String giverRole, String showCommentTo,
+            String showGiverNameTo) throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
                 feedbackSessionName, questionId, userEmailForCourse, response.getId(), new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+                new Text(commentText), giverRole, response.giverSection, response.recipientSection);
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {

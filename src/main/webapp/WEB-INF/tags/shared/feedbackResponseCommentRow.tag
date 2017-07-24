@@ -121,7 +121,7 @@
                                             submitLink="${submitLink}"
                                             buttonText="Save"
                                             isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
-                                            isInstructor="${iInstructor}"
+                                            isInstructor="${isInstructor}"
                                             moderatedPersonEmail="${moderatedPersonEmail}"/>
     </c:if>
 </li>
