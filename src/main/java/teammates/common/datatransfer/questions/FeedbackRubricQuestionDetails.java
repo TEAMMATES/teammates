@@ -1045,8 +1045,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
 
-        RubricRecipientStatistics(String recipient, String recipientName, String recipientTeam) {
-            this.recipientEmail = recipient;
+        RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
+            this.recipientEmail = recipientEmail;
             this.recipientName = recipientName;
             this.recipientTeam = recipientTeam;
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
@@ -1070,6 +1070,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
+        /**
+         * Returns a HTML string which contains a sequence of "td" tags.
+         * The "td" tags have data related to a sub question.
+         * The sequence of "td" tags are not enclosed in a "tr" tag.
+         */
         public String getHtmlForSubQuestion(int subQuestion) {
             StringBuilder html = new StringBuilder(100);
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
@@ -1104,6 +1109,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             return html.toString();
         }
 
+        /**
+         * Returns a HTML string which contains a sequence of "tr" tags.
+         * The "tr" tags enclose a sequence of "td" tags which have data related to a sub question.
+         * The sequence of "tr" tags are not enclosed in a "tbody" tag.
+         */
         public String getHtmlForAllSubQuestions() {
             StringBuilder html = new StringBuilder(100);
 
