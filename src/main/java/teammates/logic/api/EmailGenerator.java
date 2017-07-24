@@ -35,12 +35,17 @@ import teammates.logic.core.StudentsLogic;
  * @see EmailWrapper
  */
 public class EmailGenerator {
-    private static final String FEEDBACK_SESSION_OPEN_STATUS = "is still open for submissions";
-    private static final String FEEDBACK_ACTION_SUBMIT = "submit";
-    private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String FEEDBACK_SESSION_CLOSED_MESSAGE =
+    // status-related strings
+    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions";
+    private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
+    private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
+    private static final String FEEDBACK_STATUS_SESSION_CLOSED =
             "is now closed. You can still view your submission by going to the link sent earlier, "
                     + "but you will not be able to edit existing responses or submit new responses";
+
+    // feedback action strings
+    private static final String FEEDBACK_ACTION_SUBMIT = "submit";
+    private static final String FEEDBACK_ACTION_VIEW = "view";
 
     private static final Logger log = Logger.getLogger();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -67,7 +72,7 @@ public class EmailGenerator {
         List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                                                                       EmailType.FEEDBACK_OPENING.getSubject());
         for (EmailWrapper email : emails) {
-            email.setContent(email.getContent().replace("${status}", "is now open"));
+            email.setContent(email.getContent().replace("${status}", FEEDBACK_STATUS_SESSION_OPENING));
         }
         return emails;
     }
@@ -81,7 +86,7 @@ public class EmailGenerator {
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_SESSION_OPEN_STATUS);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
@@ -301,7 +306,7 @@ public class EmailGenerator {
         }
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING
-                .replace("${status}", "is closing soon");
+                .replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
@@ -335,7 +340,7 @@ public class EmailGenerator {
                                            : new ArrayList<StudentAttributes>();
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION
-                .replace("${status}", FEEDBACK_SESSION_CLOSED_MESSAGE);
+                .replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_CLOSED.getSubject(), EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
