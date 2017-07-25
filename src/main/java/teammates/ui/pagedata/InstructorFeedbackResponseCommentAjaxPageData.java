@@ -21,6 +21,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showCommentToString;
     public String showGiverNameToString;
     public String errorMessage;
+    public String editedCommentDetails;
     public Map<String, String> instructorEmailNameTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
@@ -86,5 +87,12 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
             Assumption.fail("Invalid participant type");
             return false;
         }
+    }
+
+    public String createEditedCommentDetails() {
+        FeedbackResponseCommentRow frcRow = getComment();
+        String editedCommentHeader = "From: " + frcRow.getCommentGiverName() + " [" + frcRow.getCreatedAt()
+                + "] " + frcRow.getEditedAt();
+        return editedCommentHeader;
     }
 }

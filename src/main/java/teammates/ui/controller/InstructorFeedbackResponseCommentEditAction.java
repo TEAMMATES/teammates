@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -14,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 /**
@@ -44,6 +46,8 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
+        FeedbackSessionResultsBundle bundle =
+                logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
 
         //Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
@@ -76,10 +80,9 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-
+        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes();
         try {
-            FeedbackResponseCommentAttributes updatedComment =
-                    logic.updateFeedbackResponseComment(feedbackResponseComment);
+            updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
             //TODO: move putDocument to task queue
             logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
@@ -97,8 +100,13 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
 
-        data.comment = feedbackResponseComment;
-
+        data.comment = updatedComment;
+        data.question = logic.getFeedbackQuestion(response.feedbackQuestionId);
+        data.showCommentToString = StringHelper.toString(updatedComment.showCommentTo, ",");
+        data.showGiverNameToString = StringHelper.toString(updatedComment.showGiverNameTo, ",");
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.sessionTimeZone = session.getTimeZone();
+        data.editedCommentDetails = data.createEditedCommentDetails();
         return createAjaxResult(data);
     }
 }
