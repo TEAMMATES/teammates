@@ -6,16 +6,16 @@
 <%@ page import="teammates.common.util.TimeHelper"%>
 <c:set var="showAll" value="${!data.largeNumberOfResponses}" />
 <c:set var="noResponses" value="${empty data.bundle.responses}" />
-<c:set var="testForNoResponse" value="${not (noResponses and data.allSectionsSelected and showAll)}" />
+<c:set var="shouldShowFilterPanelAndExpandCollapseButton" value="${not (noResponses and data.allSectionsSelected and showAll)}" />
 
 <r:sessionPanel sessionPanel="${data.sessionPanel}" />
 
-<c:if test="${testForNoResponse}">
+<c:if test="${shouldShowFilterPanelAndExpandCollapseButton}">
   <r:filterPanel filterPanel="${data.filterPanel}"/>
 </c:if>
 <br>
 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-<c:if test="${testForNoResponse}">
+<c:if test="${shouldShowFilterPanelAndExpandCollapseButton}">
   <r:expandCollapseButton sortType="${data.filterPanel.sortType}" showAll="${showAll}" />
 </c:if>
 <c:if test="${noResponses and showAll}">

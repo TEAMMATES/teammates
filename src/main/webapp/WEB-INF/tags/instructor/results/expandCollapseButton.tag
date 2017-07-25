@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="sortType" required="true" %>
 <%@ attribute name="showAll" required="true" %>
-<div style="margin-top:7px">
+<div>
     <c:choose>
         <c:when test="${not showAll}">
             <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
