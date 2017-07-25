@@ -12,7 +12,7 @@
   <form class="form-group" method="post"
       action="${fsForm.formSubmitAction}"
       id="form_feedbacksession"
-      data-<%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %> = "${fsEnableEdit}">
+      data-<%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %>="${fsEnableEdit}">
 
     <feedbacks:feedbackSessionsFormHeader fsForm="${fsForm}" />
 
