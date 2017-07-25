@@ -33,28 +33,21 @@ function clearBootboxModalStub() {
     $('#test-bootbox-modal-stub').html('');
 }
 
+const bootboxStub = {
+    find() {
+        return this;
+    },
+    addClass() {
+        return this;
+    },
+}
+
 bootbox.dialog = function (params) {
     $('#test-bootbox-modal-stub').html(
         `<div id="test-bootbox-modal-stub-title">${params.title}</div>`
         + `<div id="test-bootbox-modal-stub-message">${params.message}</div>`,
     );
-    return {
-        find() {
-            return {
-                addClass() {
-                    return {
-                        find() {
-                            return {
-                                addClass() {
-                                    // stub the subsequent method calls
-                                },
-                            };
-                        },
-                    };
-                },
-            };
-        },
-    };
+    return bootboxStub;
 };
 
 $.fn.ready = function () {
