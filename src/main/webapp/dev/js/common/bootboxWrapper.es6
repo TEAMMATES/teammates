@@ -17,9 +17,9 @@ const DEFAULT_NO_TEXT = 'No';
 
 function applyStyleForModal(modal, statusType) {
     modal.find('.modal-header')
-        .addClass(`alert-${statusType || StatusType.DEFAULT}`)
+        .addClass(`alert-${statusType}`)
     .find('.modal-title')
-        .addClass(`icon-${statusType || StatusType.DEFAULT}`);
+        .addClass(`icon-${statusType}`);
 }
 
 /**
@@ -28,14 +28,14 @@ function applyStyleForModal(modal, statusType) {
  * Optional params: okButtonText (defaults to "OK")
  *                  statusType (defaults to StatusType.DEFAULT)
  */
-function showModalAlert(titleText, messageText, okButtonText, statusType) {
+function showModalAlert(titleText, messageText, okButtonText = DEFAULT_OK_TEXT, statusType = StatusType.DEFAULT) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
         buttons: {
             okay: {
-                label: okButtonText || DEFAULT_OK_TEXT,
-                className: `modal-btn-ok btn-${statusType || StatusType.DEFAULT}`,
+                label: okButtonText,
+                className: `modal-btn-ok btn-${statusType}`,
             },
         },
     });
@@ -48,22 +48,23 @@ function showModalAlert(titleText, messageText, okButtonText, statusType) {
  * Optional params: cancelCallBack (defaults to null)
  *                  okButtonText (defaults to "OK")
  *                  cancelButtonText (defaults to "Cancel")
- *                  statusType (defaults to StatusType.INFO)
+ *                  statusType (defaults to StatusType.DEFAULT)
  */
-function showModalConfirmation(titleText, messageText, okCallback, cancelCallback,
-                                okButtonText, cancelButtonText, statusType) {
+function showModalConfirmation(titleText, messageText, okCallback, cancelCallback = null,
+                                okButtonText = DEFAULT_OK_TEXT, cancelButtonText = DEFAULT_CANCEL_TEXT,
+                                statusType = StatusType.DEFAULT) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
         buttons: {
             cancel: {
-                label: cancelButtonText || DEFAULT_CANCEL_TEXT,
+                label: cancelButtonText,
                 className: 'modal-btn-cancel btn-default',
-                callback: cancelCallback || null,
+                callback: cancelCallback,
             },
             ok: {
-                label: okButtonText || DEFAULT_OK_TEXT,
-                className: `modal-btn-ok btn-${statusType || StatusType.DEFAULT}`,
+                label: okButtonText,
+                className: `modal-btn-ok btn-${statusType}`,
                 callback: okCallback,
             },
         },
@@ -78,28 +79,30 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
  *                  yesButtonText (defaults to "Yes")
  *                  noButtonText (defaults to "No")
  *                  canelButtonText (defaults to "Cancel")
- *                  statusType (defaults to StatusType.INFO)
+ *                  statusType (defaults to StatusType.DEFAULT)
  */
 function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallback, noButtonCallback,
-                                    cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, statusType) {
+                                    cancelButtonCallback = null, yesButtonText = DEFAULT_YES_TEXT,
+                                    noButtonText = DEFAULT_NO_TEXT, cancelButtonText = DEFAULT_CANCEL_TEXT,
+                                    statusType = StatusType.DEFAULT) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
         buttons: {
             yes: {
-                label: yesButtonText || DEFAULT_YES_TEXT,
-                className: `modal-btn-ok btn-${statusType || StatusType.DEFAULT}`,
+                label: yesButtonText,
+                className: `modal-btn-ok btn-${statusType}`,
                 callback: yesButtonCallback,
             },
             no: {
-                label: noButtonText || DEFAULT_NO_TEXT,
-                className: `modal-btn-ok btn-${statusType || StatusType.DEFAULT}`,
+                label: noButtonText,
+                className: `modal-btn-ok btn-${statusType}`,
                 callback: noButtonCallback,
             },
             cancel: {
-                label: cancelButtonText || DEFAULT_CANCEL_TEXT,
+                label: cancelButtonText,
                 className: 'modal-btn-cancel btn-default',
-                callback: cancelButtonCallback || null,
+                callback: cancelButtonCallback,
             },
         },
     });
