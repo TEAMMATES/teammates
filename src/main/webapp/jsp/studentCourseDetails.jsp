@@ -35,7 +35,9 @@
       <courseDetails:displayDetails id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>">
         <jsp:attribute name="heading">Instructors:</jsp:attribute>
         <jsp:body>
-          <courseDetails:displayInstructors/>
+          <c:forEach items="${data.studentCourseDetailsPanel.instructors}" var="instructor">
+            <courseDetails:displayInstructors instructor="${instructor}"/>
+          </c:forEach>
         </jsp:body>
       </courseDetails:displayDetails>
 

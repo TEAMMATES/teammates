@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 
 public class CourseEditInstructorPanel {
     private int index;
@@ -33,6 +34,12 @@ public class CourseEditInstructorPanel {
             isAccessControlDisplayed = true;
         }
         this.instructor = instructor;
+
+        // TODO: [InstructorAttributes] remove desanitization after data migration
+        if (this.instructor != null) {
+            this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
+            this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
+        }
 
         sectionRows = createSectionRows(instructorIndex, sectionNames, feedbackNames);
         permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel();

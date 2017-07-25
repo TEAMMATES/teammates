@@ -14,6 +14,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 /**
@@ -103,8 +104,10 @@ public class InstructorSearchDocument extends SearchDocument {
                 if (compareResult != 0) {
                     return compareResult;
                 }
-
-                compareResult = ins1.role.compareTo(ins2.role);
+                // TODO: [InstructorAttributes] remove desanitization after data migration
+                compareResult =
+                        SanitizationHelper.desanitizeIfHtmlSanitized(ins1.role).compareTo(
+                                SanitizationHelper.desanitizeIfHtmlSanitized(ins2.role));
                 if (compareResult != 0) {
                     return compareResult;
                 }

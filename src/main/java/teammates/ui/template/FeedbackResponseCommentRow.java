@@ -7,6 +7,7 @@ import java.util.Map;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
@@ -45,7 +46,8 @@ public class FeedbackResponseCommentRow {
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForSessions(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
-        this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
+        // TODO: [InstructorAttributes] remove desanitization after data migration
+        this.commentGiverName = SanitizationHelper.desanitizeFromHtml(getCommentGiverNameFromEmail(giverDisplay));
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
@@ -258,7 +260,9 @@ public class FeedbackResponseCommentRow {
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
-                + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
+                + (isGiverAnonymous
+                    ? ""
+                    : "by " + SanitizationHelper.sanitizeForHtml(instructorEmailNameTable.get(lastEditorEmail)) + " ")
                 + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
     }
 }
