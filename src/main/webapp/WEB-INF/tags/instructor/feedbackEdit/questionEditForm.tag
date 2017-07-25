@@ -84,7 +84,7 @@
         <div class="form-group" style="padding: 0 15px;">
           <h5 class="col-sm-2">
             <label class="align-left"
-              for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}">
+                for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${fqForm.questionIndex}">
               [Optional]<br>Description
             </label>
           </h5>

@@ -11,8 +11,8 @@
 <c:set var="NEW_QUESTION" value="-1" />
 
 <form id="form_editquestion-${NEW_QUESTION}" class="form-horizontal form_question tally-checkboxes" role="form" method="post"
-  action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
-  name="form_addquestions" data-qnnumber="${NEW_QUESTION}">
+    action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
+    name="form_addquestions" data-qnnumber="${NEW_QUESTION}">
   <div class="well well-plain inputTable" id="addNewQuestionTable">
 
     <div class="row">
@@ -30,7 +30,7 @@
         </div>
 
         <a href="/instructorHelp.jsp#fbQuestionTypes"
-          target="_blank" rel="noopener noreferrer">
+            target="_blank" rel="noopener noreferrer">
           <i class="glyphicon glyphicon-info-sign"></i>
         </a>
         <a id="button_copy" class="btn btn-primary margin-bottom-7px"
@@ -54,8 +54,8 @@
           <span>
             <strong>Question</strong>
             <select class="questionNumber nonDestructive text-primary"
-              name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
-              id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>">
+                name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>">
               <c:forEach items="${fqForm.questionNumberOptions}" var="option">
                 <option ${option.attributesToString}>
                   ${option.content}
@@ -69,8 +69,8 @@
         <div class="col-sm-5 mobile-margin-top-10px">
           <span class="mobile-no-pull pull-right">
             <a class="btn btn-primary btn-xs btn-discard-changes"
-              data-qnnumber="${NEW_QUESTION}" data-toggle="tooltip" data-placement="top"
-              title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
+                data-qnnumber="${NEW_QUESTION}" data-toggle="tooltip" data-placement="top"
+                title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
               Cancel
             </a>
           </span>
@@ -88,29 +88,29 @@
           <div class="col-sm-10">
             <%-- Do not add whitespace between the opening and closing tags --%>
             <textarea class="form-control textvalue nonDestructive" rows="2"
-              name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
-              id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${NEW_QUESTION}"
-              data-toggle="tooltip" data-placement="top"
-              title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
-              placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION %>"
-              tabindex="9"
-              disabled></textarea>
+                name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${NEW_QUESTION}"
+                data-toggle="tooltip" data-placement="top"
+                title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
+                placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION %>"
+                tabindex="9"
+                disabled></textarea>
           </div>
         </div>
         <div class="form-group" style="padding: 0 15px;">
           <h5 class="col-sm-2">
             <label class="align-left"
-              for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}">
+                for="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}">
               [Optional]<br>Description
             </label>
           </h5>
           <div class="col-sm-10">
             <div class="panel panel-default panel-body question-description"
-              id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
-              data-toggle="tooltip" data-placement="top"
-              title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"
-              data-placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION_DESCRIPTION %>"
-              tabindex="9">
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>-${NEW_QUESTION}"
+                data-toggle="tooltip" data-placement="top"
+                title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_DESCRIPTION %>"
+                data-placeholder="<%= Const.PlaceholderText.FEEDBACK_QUESTION_DESCRIPTION %>"
+                tabindex="9">
             </div>
             <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION %>">
           </div>
@@ -138,7 +138,7 @@
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO %>" >
   <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>"
-    value="<%= FeedbackParticipantType.NONE.toString() %>"
-    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
+      value="<%= FeedbackParticipantType.NONE.toString() %>"
+      id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>

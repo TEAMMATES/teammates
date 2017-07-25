@@ -84,8 +84,8 @@
             </option>
           </c:forEach>
         </select>
+      </div>
     </div>
-  </div>
   <div class="col-sm-12 row numberOfEntitiesElements">
     <label class="control-label col-sm-4 small">
       The maximum number of <span class='number-of-entities-inner-text'></span> each respondent should give feedback to:
