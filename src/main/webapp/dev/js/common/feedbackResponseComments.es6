@@ -15,17 +15,13 @@ import {
 
 const initialVisibilityOptions = new Map();
 
-function isInCommentsPage() {
-    return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
-}
-
 function setInitialVisibilityOfCheckboxes(id, element) {
     const tableInForm = element.find('table').first();
     const checkboxesInForm = tableInForm.find('tr').find('input.visibilityCheckbox');
     const valuesOfCheckbox = new Map();
     $.each(checkboxesInForm, (i, checkboxInForm) => {
-        let checkbox = checkboxInForm.className + "-" + checkboxInForm.value;
-        valuesOfCheckbox.set(checkbox ,$(checkboxInForm).prop('checked'));
+        const checkbox = `${$(checkboxInForm).attr('class')} - ${$(checkboxInForm).val()}`;
+        valuesOfCheckbox.set(checkbox, $(checkboxInForm).prop('checked'));
     });
     initialVisibilityOptions.set(id, valuesOfCheckbox);
 }
@@ -327,7 +323,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     const checkboxesInAddFormTable = getCheckBoxesInFormTable($(`#showResponseCommentAddForm${id} > form`));
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id}`));
     $.each(checkboxesInAddFormTable, (i, checkboxInAddFormTable) => {
-        let checkbox = checkboxInAddFormTable.className + "-" + checkboxInAddFormTable.value;
+        const checkbox = `${$(checkboxInAddFormTable).attr('class')} - ${$(checkboxInAddFormTable).val()}`;
         $(checkboxesInAddFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
     });
     $(`#showResponseCommentAddForm${id}`).hide();
@@ -419,7 +415,7 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     const checkboxesInEditFormTable = getCheckBoxesInFormTable($(`#responseCommentEditForm${id}`));
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`));
     $.each(checkboxesInEditFormTable, (i, checkboxInEditFormTable) => {
-        let checkbox = checkboxInEditFormTable.className + "-" + checkboxInEditFormTable.value;
+        const checkbox = `${$(checkboxInEditFormTable).attr('class')} - ${$(checkboxInEditFormTable).val()}`;
         $(checkboxesInEditFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
     });
     $(`#responseCommentEditForm${id}`).hide();
