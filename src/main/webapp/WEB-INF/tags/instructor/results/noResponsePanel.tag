@@ -27,7 +27,7 @@
             <tr>
               <c:choose>
                 <c:when test="${not empty noResponsePanel.instructorStatus[email] && noResponsePanel.instructorStatus[email] == 'true'}">
-                     <td><i>${fn:escapeXml(noResponsePanel.teams[email])}</i></td>
+                  <td><i>${fn:escapeXml(noResponsePanel.teams[email])}</i></td>
                 </c:when>
                 <c:otherwise>
                   <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>

@@ -67,7 +67,7 @@
             </div>
             <hr class="margin-top-0">
           </c:if>
-       </div>
+      </div>
       </c:if>
 
       <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
