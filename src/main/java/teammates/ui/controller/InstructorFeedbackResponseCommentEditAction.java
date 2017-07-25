@@ -46,8 +46,6 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
-        FeedbackSessionResultsBundle bundle =
-                logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
 
         //Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
@@ -62,6 +60,8 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 courseId, feedbackSessionName, null, instructor.email, null, new Date(),
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
+        FeedbackSessionResultsBundle bundle =
+                logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
 
         //Edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);

@@ -91,8 +91,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
     public String createEditedCommentDetails() {
         FeedbackResponseCommentRow frcRow = getComment();
-        String editedCommentHeader = "From: " + frcRow.getCommentGiverName() + " [" + frcRow.getCreatedAt()
+        return "From: " + frcRow.getCommentGiverName() + " [" + frcRow.getCreatedAt()
                 + "] " + frcRow.getEditedAt();
-        return editedCommentHeader;
     }
 }
