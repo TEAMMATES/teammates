@@ -6,7 +6,7 @@
   </h1>
   <br>
   <div class="well well-plain">
-    <form action="/page/instructorFeedbackEditSave" class="form-group" data-editsessiondetails="false" id="form_feedbacksession" method="post">
+    <form action="/page/instructorFeedbackEditSave" class="form-group" id="form_feedbacksession" method="post">
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
@@ -752,6 +752,8 @@
       <input disabled="" name="user" type="hidden" value="FMsqQnUiT.instructor">
       <input disabled="" name="token" type="hidden" value="${sessionToken}">
     </form>
+    <div data-value="false" name="editsessiondetails">
+    </div>
   </div>
   <br>
   <div id="statusMessagesToUser">

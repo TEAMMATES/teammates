@@ -87,7 +87,7 @@
   </h1>
   <br>
   <div class="well well-plain">
-    <form action="/page/instructorFeedbackAdd" class="form-group" data-editsessiondetails="" id="form_feedbacksession" method="post">
+    <form action="/page/instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
       <div class="row">
         <h4 class="label-control col-md-2 text-md">
           Create new
@@ -843,6 +843,8 @@
       <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
       <input name="token" type="hidden" value="${sessionToken}">
     </form>
+    <div data-value="" name="editsessiondetails">
+    </div>
   </div>
   <form action="/page/instructorFeedbackSessionsPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
     <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
