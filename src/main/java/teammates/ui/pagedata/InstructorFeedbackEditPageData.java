@@ -60,8 +60,6 @@ public class InstructorFeedbackEditPageData extends PageData {
 
         buildPreviewForm(feedbackSession, studentList, instructorList);
 
-        this.shouldLoadInEditMode = shouldLoadInEditMode;
-
     }
 
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
