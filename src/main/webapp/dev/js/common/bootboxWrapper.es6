@@ -26,7 +26,7 @@ function applyStyleForModal(modal, statusType) {
  * Custom alert dialog to replace default alert() function
  * Required params: titleText and messageText
  * Optional params: okButtonText (defaults to "OK")
- *                  color (defaults to StatusType.DEFAULT)
+ *                  statusType (defaults to StatusType.DEFAULT)
  */
 function showModalAlert(titleText, messageText, okButtonText, statusType) {
     const modal = bootbox.dialog({
@@ -48,7 +48,7 @@ function showModalAlert(titleText, messageText, okButtonText, statusType) {
  * Optional params: cancelCallBack (defaults to null)
  *                  okButtonText (defaults to "OK")
  *                  cancelButtonText (defaults to "Cancel")
- *                  color (defaults to StatusType.INFO)
+ *                  statusType (defaults to StatusType.INFO)
  */
 function showModalConfirmation(titleText, messageText, okCallback, cancelCallback,
                                 okButtonText, cancelButtonText, statusType) {
@@ -78,7 +78,7 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
  *                  yesButtonText (defaults to "Yes")
  *                  noButtonText (defaults to "No")
  *                  canelButtonText (defaults to "Cancel")
- *                  color (defaults to StatusType.INFO)
+ *                  statusType (defaults to StatusType.INFO)
  */
 function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallback, noButtonCallback,
                                     cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, statusType) {
