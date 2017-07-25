@@ -2,9 +2,8 @@ class AssertionFailedError extends Error {
 }
 
 function assert(condition, message) {
-    const msg = message === undefined || message === null ? 'Assertion Failed' : message;
     if (!condition) {
-        throw new AssertionFailedError(msg);
+        throw new AssertionFailedError(message || 'Assertion Failed');
     }
 }
 
