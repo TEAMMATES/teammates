@@ -67,6 +67,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForAndDismissAlertModal();
 
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
 
@@ -75,7 +76,6 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt");
 
         assertEquals("<p>Good design</p>", fr.getResponseDetails().getAnswerString());
-        submitPage.waitForAndDismissAlertModal();
     }
 
     private void testAddResponse() throws Exception {
@@ -106,6 +106,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForAndDismissAlertModal();
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
@@ -117,7 +118,6 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt",
                                           "student1InIESFPTCourse@gmail.tmt");
         assertNull(fr);
-        submitPage.waitForAndDismissAlertModal();
     }
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(
