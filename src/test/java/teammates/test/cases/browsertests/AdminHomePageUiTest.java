@@ -82,8 +82,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
         InstructorAttributes instructorInBackend = getInstructorWithRetry(demoCourseId, instructor.email);
-        assertEquals(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID,
-                homePage.getMessageFromResultTable(1));
+        assertEquals("Instructor Details must have 3 columns", homePage.getMessageFromResultTable(1));
 
         String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties

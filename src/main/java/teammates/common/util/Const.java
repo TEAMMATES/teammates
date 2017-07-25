@@ -1158,8 +1158,6 @@ public final class Const {
                 "The file that you have uploaded is not a receiver list file. ";
         public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
 
-        public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have 3 columns";
-
         public static final String STUDENT_FIRST_TIME =
                 "<div class=\"align-left\">"
                     + "<div class=\"align-center text-color-red text-bold\">"
