@@ -1193,5 +1193,5 @@ Glyphicon for success status messages
     display: inline-block;
     padding-right: .5em;
     content: '\e084';
-    vertical-align: middle;
+    vertical-align: top;
 }
