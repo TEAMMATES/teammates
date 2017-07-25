@@ -33,7 +33,7 @@ function clearBootboxModalStub() {
     $('#test-bootbox-modal-stub').html('');
 }
 
-const bootboxStub = {
+const jQueryObjectStubForBootbox = {
     find() {
         return this;
     },
@@ -47,7 +47,7 @@ bootbox.dialog = function (params) {
         `<div id="test-bootbox-modal-stub-title">${params.title}</div>`
         + `<div id="test-bootbox-modal-stub-message">${params.message}</div>`,
     );
-    return bootboxStub;
+    return jQueryObjectStubForBootbox;
 };
 
 $.fn.ready = function () {
