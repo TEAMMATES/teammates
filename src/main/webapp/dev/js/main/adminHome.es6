@@ -32,11 +32,9 @@ class InstructorAjaxResult {
         this.instructor = instructor;
         this.responseData = responseData;
     }
-    /* eslint-disable class-methods-use-this */
     isError() {
         return this.instructor.isError();
     }
-    /* eslint-enable class-methods-use-this */
     isAddFailed() {
         return !this.isError() && !this.responseData.isInstructorAddingResultForAjax;
     }
@@ -205,45 +203,49 @@ function enableAddInstructorForm() {
 }
 
 /**
- * Is called as part of the callback to the AJAX call used to add instructors.
+ * Is called as part of the AJAX call used to add instructors.
  * Updates the table that displays whether adding the instructor was successful.
  * In the event of an error, preserves the text entered into the forms so that a
  * retry can be attempted.
+ * Takes in the total number of instructors and the number of instructors processed so far,
+ * and updates the view to show progress.
  */
-function updateInstructorAddStatus(ajaxResults) {
-    for (let i = 0; i < ajaxResults.length; i += 1) {
-        const ajaxResult = ajaxResults[i];
+function updateInstructorAddStatus(ajaxResult, numInstructors, numInstructorsProcessed) {
+    const shortName = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorShortName;
+    const name = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorName;
+    const email = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorEmail;
+    const institution = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorInstitution;
+    const isSuccess = !ajaxResult.isError() && !ajaxResult.isAddFailed();
+    const status = ajaxResult.getStatusMessage();
 
-        const shortName = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorShortName;
-        const name = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorName;
-        const email = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorEmail;
-        const institution = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorInstitution;
-        const isSuccess = !ajaxResult.isError() && !ajaxResult.isAddFailed();
-        const status = ajaxResult.getStatusMessage();
-
-        const rowText = createRowForResultTable(shortName, name, email, institution, isSuccess, status);
-        $('#addInstructorResultTable tbody').append(rowText);
-        const panelHeader = `<strong>Result (${i + 1}/${ajaxResults.length})</strong>`;
-        $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
-    }
+    const rowText = createRowForResultTable(shortName, name, email, institution, isSuccess, status);
+    $('#addInstructorResultTable tbody').append(rowText);
+    const panelHeader = `<strong>Result (${numInstructorsProcessed}/${numInstructors})</strong>`;
+    $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
 }
 
 /**
- * Takes in a list of instructor objects and a postprocessing function.
+ * Takes in a list of instructor objects and an error handling function.
  * Adds the instructors one by one recursively, in the following manner:
- *  Base Case -      If there are no instructors left to add, the postProcess function is called.
- *  Recursive Case - Add the first instructor, and make a recursive call to add the remaining
- *                   instructors in the AJAX callback function.
+ *  Base Case      - If there are no instructors left to add, the postProcess function (if defined)
+ *                   is called on the AJAX responses. Then re-enable the instructor add form.
+ *  Recursive Case - Add the first instructor, note if the addition failed and make a recursive call to
+ *                   add the remaining instructors in the AJAX callback function.
  * This is done as it is the simplest solution that sidesteps race conditions and
  * does not involve busy waiting in the main thread.
  */
 function addInstructors(instructors, postProcess) {
     const ajaxResults = [];
 
+    const numInstructors = instructors.length;
+    let numInstructorsProcessed = 0;
+
     /* eslint-disable no-shadow */
     const addInstructorsHelper = (instructors) => {
         if (instructors.length === 0) {
-            postProcess(ajaxResults);
+            if (postProcess) {
+                postProcess(ajaxResults);
+            }
             enableAddInstructorForm();
             return;
         }
@@ -251,8 +253,12 @@ function addInstructors(instructors, postProcess) {
         const firstInstructor = instructors[0];
         const remainingInstructors = instructors.slice(1);
 
+        numInstructorsProcessed += 1;
+
         if (firstInstructor.isError()) {
-            ajaxResults.push(new InstructorAjaxResult(firstInstructor, null));
+            const parseErrorResult = new InstructorAjaxResult(firstInstructor, null);
+            ajaxResults.push(parseErrorResult);
+            updateInstructorAddStatus(parseErrorResult, numInstructors, numInstructorsProcessed);
             addInstructorsHelper(remainingInstructors);
             return;
         }
@@ -262,19 +268,23 @@ function addInstructors(instructors, postProcess) {
             url: `/admin/adminInstructorAccountAdd?${makeCsrfTokenParam()}&${firstInstructor.getParamString()}`,
             beforeSend: disableAddInstructorForm,
             error() {
-                const ajaxError = new InstructorError('Cannot send Ajax Request!');
-                ajaxResults.push(new InstructorAjaxResult(ajaxError, null));
+                const ajaxErrorMsg = 'Cannot send Ajax Request!';
+                const ajaxErrorResult = new InstructorAjaxResult(new InstructorError(ajaxErrorMsg), null);
+                ajaxResults.push(ajaxErrorResult);
+                updateInstructorAddStatus(ajaxErrorResult, numInstructors, numInstructorsProcessed);
                 addInstructorsHelper(remainingInstructors);
             },
             success(data) {
-                ajaxResults.push(new InstructorAjaxResult(firstInstructor, data));
+                const ajaxResult = new InstructorAjaxResult(firstInstructor, data);
+                ajaxResults.push(ajaxResult);
+                updateInstructorAddStatus(ajaxResult, numInstructors, numInstructorsProcessed);
                 addInstructorsHelper(remainingInstructors);
             },
         });
     };
     /* eslint-enable no-shadow */
 
-    addInstructorsHelper(instructors, postProcess);
+    addInstructorsHelper(instructors);
 }
 
 function addInstructorFromFirstFormByAjax() {
@@ -285,9 +295,7 @@ function addInstructorFromFirstFormByAjax() {
         const failedInstructors = ajaxResults
             .filter(ajaxResult => ajaxResult.isError() || ajaxResult.isAddFailed())
             .map(ajaxResult => ajaxResult.instructor);
-        const failedInstructorsString = Instructor.allToString(failedInstructors);
-        $instructorsAddTextArea.val(failedInstructorsString);
-        updateInstructorAddStatus(ajaxResults);
+        $instructorsAddTextArea.val(Instructor.allToString(failedInstructors));
     };
 
     $('#addInstructorResultPanel').show(); // show the hidden panel
@@ -308,9 +316,8 @@ function addInstructorFromSecondFormByAjax() {
             $('#instructorName').val(),
             $('#instructorEmail').val(),
             $('#instructorInstitution').val());
-    const postProcess = ajaxResults => updateInstructorAddStatus(ajaxResults);
 
-    addInstructors([instructorToAdd], postProcess);
+    addInstructors([instructorToAdd]);
 }
 
 $(document).ready(() => {
