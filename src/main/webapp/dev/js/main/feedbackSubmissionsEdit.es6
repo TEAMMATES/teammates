@@ -135,22 +135,24 @@ function updateMsqOtherOptionField() {
 // Binds change event on Msq checkboxes which
 // imposes and upper limit on selectable choices
 function bindMaxSelectableChoicesForMsq(qNum) {
-    const $hiddenInput = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
+    const $maxSelectableChoices = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
 
-    if (!$hiddenInput.prop('disabled')) {
-        $hiddenInput.each((e) => {
-            const maxSelectableChoices = $(e.target).val();
-            const $responseTable = $(e.target).siblings('table');
-
-            $responseTable.find(`input[name^="responsetext-${qNum}-"]`).change(function () {
-                const selectedChoices = $responseTable.find(`input[name^="responsetext-${qNum}-"]:checked`).length;
-
-                if (selectedChoices > maxSelectableChoices) {
-                    $(this).prop('checked', false);
-                }
-            });
-        });
+    if ($maxSelectableChoices.prop('disabled')) {
+        return;
     }
+
+    $maxSelectableChoices.each((e) => {
+        const maxSelectableChoices = $(e.target).val();
+        const $responseTable = $(e.target).siblings('table');
+
+        $responseTable.find(`input[name^="responsetext-${qNum}-"]`).change(function () {
+            const selectedChoices = $responseTable.find(`input[name^="responsetext-${qNum}-"]:checked`).length;
+
+            if (selectedChoices > $maxSelectableChoices.val()) {
+                $(this).prop('checked', false);
+            }
+        });
+    });
 }
 
 // Looks for the question to be moderated (if it exists)
@@ -616,6 +618,19 @@ function updateConstSumMessages() {
     for (let i = 0; i < constSumQuestionNums.length; i += 1) {
         const qnNum = constSumQuestionNums[i];
         updateConstSumMessageQn(qnNum);
+    }
+}
+
+function validateMsqQuestions() {
+    const msqQuestionNums = getQuestionTypeNumbers('MSQ');
+
+    for (let i = 0; i < msqQuestionNums.length; i += 1) {
+        const qnNum = msqQuestionNums[i];
+        let count = 0;
+
+        while ($(`input[name="responsetext-${i}-0"]`).length != 0) {
+            // validate
+        }
     }
 }
 
