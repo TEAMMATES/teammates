@@ -1195,3 +1195,27 @@ Glyphicon for success status messages
     content: '\e084';
     vertical-align: top;
 }
+
+.icon-warning:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: .5em;
+    content: '\e101';
+    vertical-align: top;
+}
+
+.icon-danger:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: .5em;
+    content: '\e083';
+    vertical-align: top;
+}
+
+.icon-info:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: .5em;
+    content: '\e086';
+    vertical-align: top;
+}
