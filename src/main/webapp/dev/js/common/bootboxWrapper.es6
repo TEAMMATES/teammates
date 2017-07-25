@@ -15,7 +15,7 @@ const DEFAULT_CANCEL_TEXT = 'Cancel';
 const DEFAULT_YES_TEXT = 'Yes';
 const DEFAULT_NO_TEXT = 'No';
 
-function applyStyleForModal(modal, statusType) {
+function applyStyleToModal(modal, statusType) {
     modal.find('.modal-header').addClass(`alert-${statusType || StatusType.DEFAULT}`)
          .find('.modal-title').addClass(`icon-${statusType || StatusType.DEFAULT}`);
 }
@@ -37,7 +37,7 @@ function showModalAlert(titleText, messageText, okButtonText, statusType) {
             },
         },
     });
-    applyStyleForModal(modal, statusType);
+    applyStyleToModal(modal, statusType);
 }
 
 /**
@@ -66,7 +66,7 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
             },
         },
     });
-    applyStyleForModal(modal, statusType);
+    applyStyleToModal(modal, statusType);
 }
 
 /**
@@ -101,7 +101,7 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
             },
         },
     });
-    applyStyleForModal(modal, statusType);
+    applyStyleToModal(modal, statusType);
 }
 
 export {
