@@ -75,7 +75,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
-                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -110,7 +109,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
-                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -144,7 +142,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
-                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -178,7 +175,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
-                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -212,7 +208,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
-                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -336,7 +331,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "idOfTypicalCourse1",
                         "First+feedback+session",
-                        false,
                         "idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -448,7 +442,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MCQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -497,7 +490,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MCQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -541,7 +533,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MCQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -580,7 +571,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MCQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -638,7 +628,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MSQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -687,7 +676,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MSQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -731,7 +719,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MSQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -771,7 +758,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "MSQ+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -830,7 +816,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "NUMSCALE+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -870,7 +855,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "NUMSCALE+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -934,7 +918,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "CONSTSUM+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -979,7 +962,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "CONSTSUM+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1044,7 +1026,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "CONSTSUM+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1090,7 +1071,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "CONSTSUM+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1150,7 +1130,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "CONTRIB+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1191,7 +1170,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "CONTRIB+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         true),
                 r.getDestinationWithParams());
@@ -1261,7 +1239,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "RUBRIC+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1314,7 +1291,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "RUBRIC+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1367,7 +1343,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "RUBRIC+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1420,7 +1395,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "RUBRIC+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1482,7 +1456,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                         "FSQTT.idOfTypicalCourse1",
                         "RUBRIC+Session",
-                        false,
                         "FSQTT.idOfInstructor1OfCourse1",
                         false),
                 r.getDestinationWithParams());
@@ -1614,13 +1587,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    protected String getPageResultDestination(String parentUri, String courseId, String fsname,
-            boolean isToBeLoadedInEditMode, String userId, boolean isError) {
+    protected String getPageResultDestination(
+            String parentUri, String courseId, String fsname, String userId, boolean isError) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT,
-                Boolean.toString(isToBeLoadedInEditMode));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         return pageDestination;
