@@ -11,7 +11,7 @@
   <script type="text/javascript" src="/js/adminEmailLog.js"></script>
 </c:set>
 
-<ta:adminPage bodyTitle="Admin Email Log" pageTitle="Admin Email Log" jsIncludes="${jsIncludes}">
+<ta:adminPage title="Admin Email Log" jsIncludes="${jsIncludes}">
   <adminEmailLog:filterPanel filterQuery="${data.filterQuery}" queryKeywordsForReceiver="${data.queryKeywordsForReceiver}"
       queryKeywordsForSubject="${data.queryKeywordsForSubject}" queryKeywordsForContent="${data.queryKeywordsForContent}"/>
 

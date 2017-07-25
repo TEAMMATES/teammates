@@ -6,7 +6,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/instructorHome.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="Home" bodyTitle="Instructor Home" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Home" jsIncludes="${jsIncludes}">
   <home:search />
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

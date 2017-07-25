@@ -17,7 +17,7 @@
   <%=Const.ParamsNames.STUDENTS_ENROLLMENT_INFO%>
 </c:set>
 
-<ti:instructorPage pageTitle="Enrollment Results" bodyTitle="Enrollment Results for ${data.courseId}" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Enrollment Results for ${data.courseId}" jsIncludes="${jsIncludes}">
   <form name='goBack' action="${data.instructorCourseEnrollLink}" method="post" role="form">
     <div class = "alert alert-success">
       Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:;">here</a> to do further changes to the student list.

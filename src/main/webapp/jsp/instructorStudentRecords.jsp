@@ -9,8 +9,8 @@
   <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
   <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
 </c:set>
-<c:set var="bodyTitle">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
-<ti:instructorPage pageTitle="Student Records" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
+<c:set var="title">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
+<ti:instructorPage jsIncludes="${jsIncludes}" title="${title}">
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <div class="container-fluid">
     <c:if test="${not empty data.studentProfile}">

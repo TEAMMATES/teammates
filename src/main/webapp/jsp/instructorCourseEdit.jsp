@@ -11,7 +11,7 @@
   <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="Edit Course Details" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Edit Course Details" jsIncludes="${jsIncludes}">
   <input type="hidden" id="course-time-zone" value="${data.course.timeZone}">
   <course:courseEditCourseInfo
       editCourseButton="${data.editCourseButton}"

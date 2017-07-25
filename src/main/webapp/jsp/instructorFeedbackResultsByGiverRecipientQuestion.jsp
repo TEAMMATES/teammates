@@ -7,6 +7,6 @@
   <script type="text/javascript" src="/js/instructorFeedbackResultsGRQ.js"></script>
 </c:set>
 
-<results:resultsPage pageTitle="Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
+<results:resultsPage title="Session Results" jsIncludes="${jsIncludes}">
   <results:bySectionPanels isGroupedByQuestion="${false}" isShowingAll="${data.bundle.complete}" isGroupedByTeam="${data.groupedByTeam}" />
 </results:resultsPage>

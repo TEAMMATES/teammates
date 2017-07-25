@@ -10,7 +10,7 @@
   <script type="text/javascript" src="/js/adminSearch.js"></script>
 </c:set>
 
-<ta:adminPage bodyTitle="Admin Search" pageTitle="Admin Search" jsIncludes="${jsIncludes}">
+<ta:adminPage title="Admin Search" jsIncludes="${jsIncludes}">
   <adminSearch:searchPageInput searchKey="${data.searchKey}"/>
 
   <c:if test="${not empty data.instructorResultList}">

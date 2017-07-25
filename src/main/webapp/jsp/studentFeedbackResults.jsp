@@ -8,7 +8,7 @@
   <script type="text/javascript" src="/js/studentFeedbackResults.js"></script>
 </c:set>
 
-<ts:studentPage bodyTitle="Feedback Results - Student" pageTitle="Feedback Results" jsIncludes="${jsIncludes}">
+<ts:studentPage title="Feedback Results" jsIncludes="${jsIncludes}">
   <c:if test="${empty data.account.googleId}">
     <div id="registerMessage" class="alert alert-info">
       ${data.registerMessage}
