@@ -22,10 +22,11 @@ function isInCommentsPage() {
 function setInitialVisibilityOfCheckboxes(id, element) {
     const tableInForm = element.find('table').first();
     const checkboxesInForm = tableInForm.find('tr').find('input.visibilityCheckbox');
-    const valuesOfCheckbox = [];
-    for (let i = 0; i < checkboxesInForm.length; i += 1) {
-        valuesOfCheckbox.push($(checkboxesInForm[i]).prop('checked'));
-    }
+    const valuesOfCheckbox = new Map();
+    $.each(checkboxesInForm, (i, checkboxInForm) => {
+        let checkbox = checkboxInForm.className + "-" + checkboxInForm.value;
+        valuesOfCheckbox.set(checkbox ,$(checkboxInForm).prop('checked'));
+    });
     initialVisibilityOptions.set(id, valuesOfCheckbox);
 }
 
@@ -321,9 +322,10 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     const addFormTable = $(`#showResponseCommentAddForm${id} > form`).find('table').first();
     const checkboxesInAddFormTable = addFormTable.find('tr').find('input.visibilityCheckbox');
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id}`));
-    for (let i = 0; i < valueOfCheckboxes.length; i += 1) {
-        $(checkboxesInAddFormTable[i]).prop('checked', valueOfCheckboxes[i]);
-    }
+    $.each(checkboxesInAddFormTable, (i, checkboxInAddFormTable) => {
+        let checkbox = checkboxInAddFormTable.className + "-" + checkboxInAddFormTable.value;
+        $(checkboxesInAddFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
+    });
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
@@ -413,9 +415,10 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     const editFormTable = $(`#responseCommentEditForm${id}`).find('table').first();
     const checkboxesInEditFormTable = editFormTable.find('tr').find('input.visibilityCheckbox');
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`));
-    for (let i = 0; i < valueOfCheckboxes.length; i += 1) {
-        $(checkboxesInEditFormTable[i]).prop('checked', valueOfCheckboxes[i]);
-    }
+    $.each(checkboxesInEditFormTable, (i, checkboxInEditFormTable) => {
+        let checkbox = checkboxInEditFormTable.className + "-" + checkboxInEditFormTable.value;
+        $(checkboxesInEditFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
+    });
     $(`#responseCommentEditForm${id}`).hide();
     tinymce.get(`responsecommenttext${id}`).setContent($(`#plainCommentText${id}`).text());
     removeFormErrorMessage($(`#button_save_comment_for_edit${id}`));
