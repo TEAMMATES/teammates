@@ -34,6 +34,11 @@ function getInitialVisibilityOfCheckboxes(e) {
     return initialVisibilityOptions.get(e.attr('id'));
 }
 
+function getCheckBoxesInFormTable(form) {
+    const formTable = form.find('table').first();
+    return formTable.find('tr').find('input.visibilityCheckbox');
+}
+
 function removeFormErrorMessage(submitButton) {
     if (submitButton.next().next().attr('id') === 'errorMessage') {
         submitButton.next().next().remove();
@@ -319,8 +324,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         $(`#responseCommentTable${id}`).css('margin-top', '0');
         $(`#responseCommentTable${id}`).hide();
     }
-    const addFormTable = $(`#showResponseCommentAddForm${id} > form`).find('table').first();
-    const checkboxesInAddFormTable = addFormTable.find('tr').find('input.visibilityCheckbox');
+    const checkboxesInAddFormTable = getCheckBoxesInFormTable($(`#showResponseCommentAddForm${id} > form`));
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id}`));
     $.each(checkboxesInAddFormTable, (i, checkboxInAddFormTable) => {
         let checkbox = checkboxInAddFormTable.className + "-" + checkboxInAddFormTable.value;
@@ -412,8 +416,7 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.show();
     $(`#plainCommentText${id}`).show();
-    const editFormTable = $(`#responseCommentEditForm${id}`).find('table').first();
-    const checkboxesInEditFormTable = editFormTable.find('tr').find('input.visibilityCheckbox');
+    const checkboxesInEditFormTable = getCheckBoxesInFormTable($(`#responseCommentEditForm${id}`));
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`));
     $.each(checkboxesInEditFormTable, (i, checkboxInEditFormTable) => {
         let checkbox = checkboxInEditFormTable.className + "-" + checkboxInEditFormTable.value;
