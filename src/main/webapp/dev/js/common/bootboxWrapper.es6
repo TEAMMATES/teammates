@@ -16,10 +16,8 @@ const DEFAULT_YES_TEXT = 'Yes';
 const DEFAULT_NO_TEXT = 'No';
 
 function applyStyleForModal(modal, statusType) {
-    modal.find('.modal-header')
-        .addClass(`alert-${statusType || StatusType.DEFAULT}`)
-    .find('.modal-title')
-        .addClass(`icon-${statusType || StatusType.DEFAULT}`);
+    modal.find('.modal-header').addClass(`alert-${statusType || StatusType.DEFAULT}`)
+         .find('.modal-title').addClass(`icon-${statusType || StatusType.DEFAULT}`);
 }
 
 /**
