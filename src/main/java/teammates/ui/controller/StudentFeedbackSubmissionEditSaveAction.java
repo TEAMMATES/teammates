@@ -76,7 +76,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
             return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
         }
 
-        // Return to student home page if user is registered
+        // Remain at student feedback submission edit page if user is registered
         RedirectResult result = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
 
         // Provide course id and session name for the redirected page
