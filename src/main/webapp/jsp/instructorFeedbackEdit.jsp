@@ -24,7 +24,7 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
-  <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" fsEnableEdit="${data.isToBeLoadedInEditMode}"/>
+  <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" fsEnableEdit="${data.shouldLoadInEditMode}"/>
 
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

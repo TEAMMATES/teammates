@@ -366,7 +366,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         this.hasError = value;
     }
 
-    public boolean getIsToBeLoadedInEditMode() {
+    public boolean getShouldLoadInEditMode() {
         return shouldLoadInEditMode;
     }
 }
