@@ -1099,11 +1099,9 @@ $(document).ready(() => {
 
     showModalWarningIfSessionClosed();
 
-<<<<<<< HEAD
-    showModalSuccessIfResponsesSubmitted();
-=======
     showModalWarningIfSessionClosingSoon();
->>>>>>> TEAMMATES/master
+
+    showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
