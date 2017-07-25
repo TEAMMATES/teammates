@@ -59,6 +59,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildNewQuestionForm(feedbackSession, questions.size() + 1);
 
         buildPreviewForm(feedbackSession, studentList, instructorList);
+        this.shouldLoadInEditMode = shouldLoadInEditMode;
 
     }
 
