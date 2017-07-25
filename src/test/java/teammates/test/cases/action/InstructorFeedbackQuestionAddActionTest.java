@@ -900,6 +900,36 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "question|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
+        ______TS("Question text requires sanitization");
+
+        params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "attempted html injection '\"/>");
+
+        action = getAction(params);
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Essay question:</span> "
+                + "attempted html injection &#39;&quot;&#x2f;&gt;|||/page/instructorFeedbackQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
         ______TS("Failure: Empty or null participant lists");
 
         params = createParamsForTypicalFeedbackQuestion(fs.getCourseId(), fs.getFeedbackSessionName());
