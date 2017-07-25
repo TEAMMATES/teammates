@@ -40,7 +40,7 @@ const bootboxStub = {
     addClass() {
         return this;
     },
-}
+};
 
 bootbox.dialog = function (params) {
     $('#test-bootbox-modal-stub').html(
