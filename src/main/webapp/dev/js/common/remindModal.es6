@@ -1,4 +1,19 @@
-import { sendRemindersToStudents } from './instructor.es6';
+import {
+    sendRemindersToStudents,
+} from './instructor.es6';
+
+function populateCheckBoxes($button) {
+    // if clicked button is on no-response panel, then populate check boxes otherwise not
+    if ($button.hasClass('remind-btn-no-response')) {
+        const $studentList = $('#studentList');
+        const $studentsNotResponded = $studentList.find('.bg-danger');
+        for (let i = 0; i < $studentsNotResponded.length; i += 1) {
+            const $studentNotResponded = $($studentsNotResponded[i]);
+            const $checkbox = $studentNotResponded.find('input[type="checkbox"]');
+            $checkbox.prop('checked', 'true');
+        }
+    }
+}
 
 function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
@@ -19,6 +34,7 @@ function prepareRemindModal() {
             success(data) {
                 setTimeout(() => {
                     $('#studentList').html(data);
+                    populateCheckBoxes(button);
                     $('#remindModal .remind-particular-button').prop('disabled', false).prop('value', 'Remind');
                 }, 500);
             },

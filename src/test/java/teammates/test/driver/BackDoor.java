@@ -243,6 +243,16 @@ public final class BackDoor {
     }
 
     /**
+     * Gets list of students data from the datastore.
+     */
+    public static List<StudentAttributes> getStudents(String courseId) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTS_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        String studentsJson = makePostRequest(params);
+        return JsonUtils.fromJson(studentsJson, new TypeToken<List<StudentAttributes>>(){}.getType());
+    }
+
+    /**
      * Gets the encrypted registration key for a student in the datastore.
      */
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
@@ -347,9 +357,10 @@ public final class BackDoor {
      * Persists a feedback response into the datastore.
      */
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
-        return restoreDataBundle(dataBundle);
+        String feedbackResponseJson = JsonUtils.toJson(feedbackResponse);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_CREATE_FEEDBACK_RESPONSE);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_RESPONSE_JSON, feedbackResponseJson);
+        return makePostRequest(params);
     }
 
     /**
@@ -405,7 +416,7 @@ public final class BackDoor {
     }
 
     private static Map<String, String> createParamMap(BackDoorOperation operation) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());
 
         // For authentication

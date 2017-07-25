@@ -1,9 +1,21 @@
-import { addInstructorAjax, addInstructorFromFirstFormByAjax, addInstructorFromSecondFormByAjax, createRowForResultTable,
-        getInstructorDetailsList, getIsInputFromFirstPanel, getParamsCounter, getParamsList,
-        setInstructorDetailsList, setIsInputFromFirstPanel, setParamsCounter, setParamsList,
-        stubAddInstructorByAjaxRecursively, stubEnableAddInstructorForm,
-        unstubAddInstructorByAjaxRecursively, unstubEnableAddInstructorForm }
-        from '../main/adminHome.es6';
+import {
+    addInstructorAjax,
+    addInstructorFromFirstFormByAjax,
+    addInstructorFromSecondFormByAjax,
+    createRowForResultTable,
+    getInstructorDetailsList,
+    getIsInputFromFirstPanel,
+    getParamsCounter,
+    getParamsList,
+    setInstructorDetailsList,
+    setIsInputFromFirstPanel,
+    setParamsCounter,
+    setParamsList,
+    stubAddInstructorByAjaxRecursively,
+    stubEnableAddInstructorForm,
+    unstubAddInstructorByAjaxRecursively,
+    unstubEnableAddInstructorForm,
+} from '../main/adminHome.es6';
 
 QUnit.module('AdminHome.js');
 
@@ -87,7 +99,7 @@ QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
         instructorName: 'testInstructorName',
         instructorEmail: 'testInstructorEmail',
         instructorInstitution: 'testInstructorInstitution',
-        instructorAddingResultForAjax: false,
+        isInstructorAddingResultForAjax: false,
         statusForAjax: true,
     };
 
@@ -95,7 +107,7 @@ QUnit.test('test addInstructorDetailsSingleLine data addition', (assert) => {
     const expected = getInstructorDetailsList().join(delimiter) + delimiter;
     assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is appended');
 
-    data.instructorAddingResultForAjax = true;
+    data.isInstructorAddingResultForAjax = true;
     addInstructorAjax(false, data);
     assert.equal($('#addInstructorDetailsSingleLine').val(), expected, 'data is not appended');
 

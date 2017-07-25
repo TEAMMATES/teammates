@@ -17,12 +17,13 @@ public class AdminLogQueryTest extends BaseTestCase {
     @Test
     public void testAdminLogQuery() {
         ______TS("Test constructor with parameters");
-        List<String> versionList = new ArrayList<String>();
+        List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
         Calendar cal = new GregorianCalendar();
         cal.set(1994, Calendar.MAY, 7, 15, 30, 12);
         long startTime = cal.getTimeInMillis();
-        long endTime = startTime + 22 * 365 * 24 * 60 * 60 * 1000; // about 22 years later
+        cal.add(Calendar.YEAR, 22);
+        long endTime = cal.getTimeInMillis();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
         assertEquals(startTime, query.getStartTime());
         assertEquals(endTime, query.getEndTime());
@@ -41,12 +42,13 @@ public class AdminLogQueryTest extends BaseTestCase {
 
     @Test
     public void testSetQueryWindowBackward() {
-        List<String> versionList = new ArrayList<String>();
+        List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
         Calendar cal = new GregorianCalendar();
         cal.set(2016, 4, 7, 15, 30, 12);
-        Long startTime = cal.getTimeInMillis();
-        Long endTime = startTime + 3 * 24 * 60 * 60 * 1000; // 3 days later
+        long startTime = cal.getTimeInMillis();
+        cal.add(Calendar.DATE, 3);
+        long endTime = cal.getTimeInMillis();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
         Long fourHours = Long.valueOf(4 * 60 * 60 * 1000);
         query.moveTimePeriodBackward(fourHours); // 4 hours before endTime

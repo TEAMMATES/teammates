@@ -67,17 +67,19 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getCsvHeader();
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader() {
+    public String getCsvDetailedResponsesHeader(int noOfComments) {
         return "Team" + "," + "Giver's Full Name" + ","
                + "Giver's Last Name" + "," + "Giver's Email" + ","
                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-               + this.getCsvHeader() + Const.EOL;
+               + getCsvHeader()
+               + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
+               + Const.EOL;
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question) {
+                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
@@ -99,6 +101,8 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
+                + (hasCommentsForResponses
+                        ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                 + Const.EOL;
     }
 
@@ -237,4 +241,17 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
+    public boolean isCommentsOnResponsesAllowed() {
+        return true;
+    }
+
+    public String getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
+        StringBuilder commentsHeader = new StringBuilder(200);
+
+        for (int i = noOfComments; i > 0; i--) {
+            commentsHeader.append("," + "Comment From" + "," + "Comment");
+        }
+
+        return commentsHeader.toString();
+    }
 }

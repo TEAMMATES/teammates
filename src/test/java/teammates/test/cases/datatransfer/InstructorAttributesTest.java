@@ -10,12 +10,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
-import teammates.test.cases.BaseTestCase;
 
 /**
  * SUT: {@link InstructorAttributes}.
  */
-public class InstructorAttributesTest extends BaseTestCase {
+public class InstructorAttributesTest extends BaseAttributesTest {
 
     private static final String DEFAULT_ROLE_NAME = Const.InstructorPermissionRoleNames
             .INSTRUCTOR_PERMISSION_ROLE_COOWNER;
@@ -133,6 +132,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertFalse(instructor.isRegistered());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         String googleId = "valid.googleId";
@@ -168,6 +168,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         i.name = "";
         i.email = "invalid email";
         i.courseId = "";
+        i.role = "invalidRole";
 
         assertFalse("invalid value", i.isValid());
         String errorMessage =
@@ -186,7 +187,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH);
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
 
         i.googleId = null;
@@ -204,7 +206,8 @@ public class InstructorAttributesTest extends BaseTestCase {
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH);
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role);
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
 

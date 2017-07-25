@@ -5,7 +5,7 @@
 
 ## Eclipse IDE
 
-> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows.
+> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Luna, Mars, or Neon](http://www.eclipse.org/downloads/).
@@ -43,17 +43,13 @@ The following plugins are needed:
    * Set the `root directory` to the location where the repo is cloned.
    * Click `Finish`.
 
-1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`):
+1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
      ![setupguide-4.png](images/setupguide-4.png)
 
    * Google App Engine: set up the following by going to `Google → ...`:
-     * Datanucleus version: `App Engine → Datastore → Datanucleus JDO/JPA Version` → select `v1`.
-
-       ![setupguide-5.png](images/setupguide-5.png)
-
-     * ORM Enhancement: `App Engine → ORM` → clear all the entries, and add the following entry: `src/main/java/teammates/storage/entity/*.java`.
+     * Disable Datanucleus: `App Engine` → uncheck `Use Datanucleus JDO/JPA to access the datastore`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
@@ -68,6 +64,8 @@ The following plugins are needed:
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
+     
+     You can find the Web and XML options in `Eclipse → Preferences → ...`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
@@ -117,7 +115,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
     1. Go to `Build, Execution, Deployment → Application Servers`.
     1. Click `+ → Google App Engine Dev Server → ... `. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder)
-       you downloaded in Step 3 of the [Setting up a development environment](settingUp.md) guide.
+       you downloaded in Step 3 of the [Setting up a development environment](setting-up.md) guide.
     1. Ensure the `Name:` is of `AppEngine Dev <version>`.
 
 ### Automated Setup
@@ -129,12 +127,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    ./gradlew setupIntellijProject
    ```
 
-1. Open the project in IntelliJ IDEA. It will generate some user specific settings. Wait for it to finish indexing.
-
-1. Run this command to automatically configure your user specific settings:
-   ```sh
-   ./gradlew setupIntellijProjectSettings
-   ```
+1. You can now open the project in IntelliJ IDEA.
 
 1. To set up some static analysis tools, refer to [this document](staticAnalysis.md).
 
@@ -187,11 +180,6 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
    #### Javascript
    Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
-
-   #### Additional Build Tasks
-   1. Open `View → Tool Windows → Gradle`.
-   1. Under `Tasks → intellij idea setup`, look for the task `enhanceIntellijOutputClasses`.
-   1. Right click and select `Execute After Build`.
 
 1. Click `OK`.
 

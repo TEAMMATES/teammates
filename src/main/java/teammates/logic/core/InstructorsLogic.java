@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -118,8 +119,10 @@ public final class InstructorsLogic {
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
+        Collections.sort(instructorReturnList, InstructorAttributes.compareByName);
 
-        return instructorsDb.getInstructorsForCourse(courseId);
+        return instructorReturnList;
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
@@ -258,7 +261,7 @@ public final class InstructorsLogic {
                                                               String institute, String email) {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         String error;
 
         error = validator.getInvalidityInfoForPersonName(shortName);
@@ -304,6 +307,18 @@ public final class InstructorsLogic {
     public void deleteInstructorsForCourse(String courseId) {
 
         instructorsDb.deleteInstructorsForCourse(courseId);
+    }
+
+    public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            instructorsWithCoOwnerPrivileges.add(instructor);
+        }
+        return instructorsWithCoOwnerPrivileges;
     }
 
 }

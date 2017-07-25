@@ -1,15 +1,51 @@
-import { linkAjaxForResponseRate } from '../common/ajaxResponseRate.es6';
-import { ParamsNames, StatusType } from '../common/const.es6';
-import { prepareDatepickers } from '../common/datepicker.es6';
-import { bindDeleteButtons, bindPublishButtons, bindRemindButtons, bindUnpublishButtons,
-        prepareInstructorPages, setupFsCopyModal } from '../common/instructor.es6';
-import { bindUncommonSettingsEvents, collapseIfPrivateSession, formatResponsesVisibilityGroup,
-        formatSessionVisibilityGroup, showUncommonPanelsIfNotInDefaultValues, updateUncommonSettingsInfo }
-        from '../common/instructorFeedbacks.es6';
-import { prepareRemindModal } from '../common/remindModal.es6';
-import { richTextEditorBuilder } from '../common/richTextEditor.es6';
-import { appendStatusMessage, clearStatusMessages, setStatusMessage } from '../common/statusMessage.es6';
-import { addLoadingIndicator } from '../common/ui.es6';
+import {
+    linkAjaxForResponseRate,
+} from '../common/ajaxResponseRate.es6';
+
+import {
+    ParamsNames,
+    StatusType,
+} from '../common/const.es6';
+
+import {
+    prepareDatepickers,
+} from '../common/datepicker.es6';
+
+import {
+    bindDeleteButtons,
+    bindPublishButtons,
+    bindRemindButtons,
+    bindUnpublishButtons,
+    prepareInstructorPages,
+    setupFsCopyModal,
+} from '../common/instructor.es6';
+
+import {
+    bindUncommonSettingsEvents,
+    collapseIfPrivateSession,
+    formatResponsesVisibilityGroup,
+    formatSessionVisibilityGroup,
+    showUncommonPanelsIfNotInDefaultValues,
+    updateUncommonSettingsInfo,
+} from '../common/instructorFeedbacks.es6';
+
+import {
+    prepareRemindModal,
+} from '../common/remindModal.es6';
+
+import {
+    richTextEditorBuilder,
+} from '../common/richTextEditor.es6';
+
+import {
+    appendStatusMessage,
+    clearStatusMessages,
+    setStatusMessage,
+} from '../common/statusMessage.es6';
+
+import {
+    addLoadingIndicator,
+} from '../common/ui.es6';
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
@@ -199,7 +235,7 @@ const ajaxRequest = function (e) {
             $('#sessionList').html('');
             $('#loadSessionsFailErrorMsg').on('click', loadSessionsByAjax);
             const msg = 'Failed to load sessions. '
-                    + 'Please <a href="#" id="loadSessionsFailErrorMsg">click here</a> to retry.';
+                    + 'Please <a href="javascript:;" id="loadSessionsFailErrorMsg">click here</a> to retry.';
             setStatusMessage(msg, StatusType.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {

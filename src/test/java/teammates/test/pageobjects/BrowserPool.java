@@ -21,7 +21,7 @@ public final class BrowserPool {
     private List<Browser> pool;
 
     private BrowserPool() {
-        pool = new ArrayList<Browser>(CAPACITY);
+        pool = new ArrayList<>(CAPACITY);
     }
 
     private static synchronized BrowserPool getInstance() {

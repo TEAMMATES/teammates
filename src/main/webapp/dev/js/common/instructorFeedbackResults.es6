@@ -1,6 +1,22 @@
-import { bindPublishButtons, bindUnpublishButtons, selectElementContents } from './instructor.es6';
-import { setStatusMessage } from './statusMessage.es6';
-import { hideSingleCollapse, showSingleCollapse, toggleSingleCollapse } from './ui.es6';
+import {
+    bindPublishButtons,
+    bindUnpublishButtons,
+    selectElementContents,
+} from './instructor.es6';
+
+import {
+    prepareRemindModal,
+} from './remindModal.es6';
+
+import {
+    setStatusMessage,
+} from './statusMessage.es6';
+
+import {
+    hideSingleCollapse,
+    showSingleCollapse,
+    toggleSingleCollapse,
+} from './ui.es6';
 
 function submitFormAjax() {
     const formObject = $('#csvToHtmlForm');
@@ -138,8 +154,8 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     // need to define corresponding {@code targetPanels}.
     const targetPanels = panels || $('div.panel-collapse');
 
-    const isButtonInExapandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
-    if (isButtonInExapandMode) {
+    const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+    if (isButtonInExpandMode) {
         // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
         expandPanels(targetPanels, areAjaxLoadedPanels);
@@ -228,6 +244,24 @@ function getAppendedResponseRateData(data) {
     return appendedResponseStatus;
 }
 
+function toggleNoResponsePanel(e) {
+    const $targetElement = $(e.target);
+    if ($targetElement.is('a') || $targetElement.is('input')) {
+        return;
+    }
+    const $panel = $(this);
+    const $remindButton = $panel.find('.remind-no-response');
+    if ($panel.data('state') === 'up') {
+        $remindButton.show();
+        showSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'down');
+    } else {
+        $remindButton.hide();
+        hideSingleCollapse($(e.currentTarget).data('target'));
+        $panel.data('state', 'up');
+    }
+}
+
 function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
@@ -296,13 +330,18 @@ function prepareInstructorFeedbackResultsPage() {
                 displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success(data) {
+                const remindButtonContent = $(data).find('.remind-no-response')[0];
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
-                $(panelHeading).removeClass('ajax-response-submit');
-                $(panelHeading).removeClass('ajax-response-auto');
-                $(panelHeading).off('click');
-                displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
-                $(panelHeading).click(toggleSingleCollapse);
-                $(panelHeading).trigger('click');
+                const $panelHeading = $(panelHeading);
+                $panelHeading.removeClass('ajax-response-submit');
+                $panelHeading.removeClass('ajax-response-auto');
+                $panelHeading.off('click');
+                displayIcon.html(remindButtonContent);
+                displayIcon.append('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
+                $panelHeading.data('state', 'up');
+                $panelHeading.click(toggleNoResponsePanel);
+                $panelHeading.trigger('click');
+                prepareRemindModal();
             },
         });
     };

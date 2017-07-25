@@ -37,7 +37,7 @@ public class FeedbackResponseRow {
         } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
-        this.responseComments = new ArrayList<FeedbackResponseCommentRow>();
+        this.responseComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
@@ -52,10 +52,22 @@ public class FeedbackResponseRow {
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.giverEmail;
+                Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
-                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities);
-                responseRow.enableDelete();
-                responseRow.enableEdit();
+                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
+                        instructorEmailNameTable, results.getTimeZone());
+                String whoCanSeeComment = null;
+                boolean isVisibilityIconShown = false;
+                if (results.feedbackSession.isPublished()) {
+                    boolean isResponseCommentPublicToRecipient = !frc.showCommentTo.isEmpty();
+                    isVisibilityIconShown = isResponseCommentPublicToRecipient;
+
+                    if (isVisibilityIconShown) {
+                        whoCanSeeComment = getTypeOfPeopleCanViewComment(frc, question);
+                    }
+                }
+                responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
+                responseRow.enableEditDelete();
                 this.responseComments.add(responseRow);
             }
         }
@@ -81,4 +93,52 @@ public class FeedbackResponseRow {
         return responseComments;
     }
 
+    /**
+     * Returns the type of people that can view the response comment.
+     */
+    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
+                                                FeedbackQuestionAttributes relatedQuestion) {
+        StringBuilder peopleCanView = new StringBuilder(100);
+        List<FeedbackParticipantType> showCommentTo;
+        if (comment.isVisibilityFollowingFeedbackQuestion) {
+            showCommentTo = relatedQuestion.showResponsesTo;
+        } else {
+            showCommentTo = comment.showCommentTo;
+        }
+        for (int i = 0; i < showCommentTo.size(); i++) {
+            FeedbackParticipantType commentViewer = showCommentTo.get(i);
+            if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
+                peopleCanView.append("and ");
+            }
+
+            switch (commentViewer) {
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+
+    private String removeEndComma(String str) {
+        return str.substring(0, str.length() - 2);
+    }
 }

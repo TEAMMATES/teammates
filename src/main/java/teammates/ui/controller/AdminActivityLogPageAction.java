@@ -208,7 +208,7 @@ public class AdminActivityLogPageAction extends Action {
      * Retrieves enough logs within MAX_SEARCH_PERIOD hours.
      */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminLogQuery query, AdminActivityLogPageData data) {
-        List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
+        List<ActivityLogEntry> appLogs = new LinkedList<>();
 
         totalLogsSearched = 0;
         GaeLogApi logApi = new GaeLogApi();
@@ -248,7 +248,7 @@ public class AdminActivityLogPageAction extends Action {
      */
     private List<ActivityLogEntry> filterLogsForActivityLogPage(List<AppLogLine> appLogLines,
                                                                 AdminActivityLogPageData data) {
-        List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
+        List<ActivityLogEntry> appLogs = new LinkedList<>();
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
             boolean isNotTeammatesLog = !logMsg.contains("TEAMMATESLOG");
@@ -335,8 +335,8 @@ public class AdminActivityLogPageAction extends Action {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
         }
         if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
-            String coureseId = logRole.split(":")[1];
-            return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
+            String courseId = logRole.split(":")[1];
+            return getLocalTimeZoneForUnregisteredUserRequest(courseId);
         }
 
         return Const.DOUBLE_UNINITIALIZED;
