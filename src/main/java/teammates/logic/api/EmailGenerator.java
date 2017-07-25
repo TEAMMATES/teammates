@@ -41,7 +41,7 @@ public class EmailGenerator {
     private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
     private static final String FEEDBACK_STATUS_SESSION_CLOSED =
             "is now closed. You can still view your submission by going to the link sent earlier, "
-                    + "but you will not be able to edit existing responses or submit new responses";
+            + "but you will not be able to edit existing responses or submit new responses";
 
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT = "submit";
