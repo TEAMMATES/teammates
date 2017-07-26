@@ -1,5 +1,3 @@
-/* global Handsontable:false */
-
 import {
     showModalAlert,
 } from '../common/bootboxWrapper.es6';
