@@ -206,33 +206,37 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
     // isError = false: class = overflow-auto alert alert-warning
     // isError = true: class = overflow-auto alert alert-danger
 
+    function getExpectedClasses(statusType) {
+        return `overflow-auto alert alert-${statusType} icon-${statusType} statusMessage`;
+    }
+
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.DEFAULT),
         'Default message status without specifying status of message (info)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.INFO),
         'Info message status by specifying status of message (StatusType.INFO)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage',
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.SUCCESS),
         'Success message status by specifying status of message (StatusType.SUCCESS)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage',
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.WARNING),
         'Warning message status by specifying status of message (StatusType.WARNING)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage',
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.DANGER),
         'Danger message status by specifying status of message (StatusType.DANGER)');
     clearStatusMessages();
 
@@ -249,8 +253,8 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
 
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage',
-              'Message with random status (defaulted to info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.DEFAULT),
+        'Message with random status (defaulted to info)');
 });
 
 QUnit.test('clearStatusMessages()', (assert) => {
