@@ -17,6 +17,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -293,11 +294,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);
-            String fragment = option + "," + df.format(average) + Const.EOL;
+            String fragment = option + "," + df.format(average) + ","
+                    + StringHelper.join(",", ranksAssigned) + Const.EOL;
             fragments.append(fragment);
         }
 
-        return "Option, Average Rank" + Const.EOL + fragments.toString() + Const.EOL;
+        return "Option, Average Rank, Ranks Received" + Const.EOL + fragments.toString() + Const.EOL;
     }
 
     /**
