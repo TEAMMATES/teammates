@@ -21,11 +21,11 @@
             </div>
           </c:when>
           <c:otherwise>
-              <div class="align-center" data-link="">
-                <a class="student-profile-pic-view-link btn-link">
-                  No Photo
-                </a>
-              </div>
+            <div class="align-center" data-link="">
+              <a class="student-profile-pic-view-link btn-link">
+                No Photo
+              </a>
+            </div>
           </c:otherwise>
         </c:choose>
       </td>
