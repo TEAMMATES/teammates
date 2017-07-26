@@ -2,10 +2,9 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ attribute name="pageTitle" required="true" %>
-<%@ attribute name="bodyTitle" required="true" %>
+<%@ attribute name="title" required="true" %>
 <%@ attribute name="jsIncludes" %>
-<ti:instructorPage pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+<ti:instructorPage title="${title}">
   <jsp:attribute name="jsIncludes">
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_PRINTTHIS %>"></script>
     ${jsIncludes}

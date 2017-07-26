@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TEAMMATES - Timezone Compilation</title>
+    <title>Timezone Compilation - TEAMMATES</title>
   </head>
   <body>
     <table>
