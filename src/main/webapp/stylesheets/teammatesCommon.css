@@ -1192,6 +1192,7 @@ Prevent Long URL From Breaking Out of Container
 .icon-warning:before,
 .icon-danger:before,
 .icon-info:before {
+    /*noinspection CssNoGenericFontName*/
     font-family: 'Glyphicons Halflings';
     display: inline-block;
     padding-right: .5em;
