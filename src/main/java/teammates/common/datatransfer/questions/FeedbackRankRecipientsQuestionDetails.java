@@ -16,6 +16,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -181,9 +182,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses, question);
         String fragmentTemplateToUse = "";
         String templateToUse = "";
+        Map<String, Integer> recipientSelfRanks = new HashMap<>();
+
         if (shouldSelfBeExcludedFromRankings(question)) {
             fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT_EXCLUDING_SELF_RESPONSE;
             templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS_EXCLUDING_SELF_RESPONSE;
+            recipientSelfRanks = generateSelfRankForEachRecipient(responses);
         } else {
             fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
             templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
@@ -201,11 +205,14 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
+            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
             fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                     Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                     Slots.RANK_RECIEVED, ranksReceived,
+                    Slots.RANK_SELF, selfRank,
                     Slots.RANK_AVERAGE, df.format(average),
                     Slots.RANK_EXCLUDING_SELF_AVERAGE, userAverageExcludingSelfText));
 
@@ -232,6 +239,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses, question);
 
         DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> recipientSelfRanks = new HashMap<>();
+
+        if (shouldSelfBeExcludedFromRankings(question)) {
+            recipientSelfRanks = generateSelfRankForEachRecipient(responses);
+        }
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
 
@@ -245,17 +257,26 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                     getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
             List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
-            fragments.append(option).append(',').append(df.format(average));
+            String selfRank = recipientSelfRanks.containsKey(entry.getKey())
+                    ? Integer.toString(recipientSelfRanks.get(entry.getKey())) : "-";
+
+            fragments.append(option);
+            fragments.append(',').append(selfRank);
+            fragments.append(',').append(df.format(average));
+
             if (shouldSelfBeExcludedFromRankings(question)) {
                 fragments.append(',').append(userAverageExcludingSelfText);
             }
+            fragments.append(',');
+            fragments.append(StringHelper.join(",", ranks));
             fragments.append(Const.EOL);
         }
         String rankQuestionHeaderSelf = shouldSelfBeExcludedFromRankings(question)
                 ? ", Average Rank Excluding Self"
                 : "";
 
-        return "Team, Recipient, Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
+        return "Team, Recipient, Self Rank, Average Rank" + rankQuestionHeaderSelf + ", Ranks Received" + Const.EOL
+                + fragments + Const.EOL;
     }
 
     /**
@@ -275,6 +296,23 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         }
 
         return optionRanks;
+    }
+
+    /**
+     * Generates a key, value mapping. Each key corresponds to a recipient and its value is the normalised self rank.
+     * @param responses  a list of responses
+     */
+    private Map<String, Integer> generateSelfRankForEachRecipient(List<FeedbackResponseAttributes> responses) {
+        Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = getNormalisedRankForEachResponse(responses);
+        Map<String, Integer> recipientToSelfRank = new HashMap<>();
+
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.recipient.equalsIgnoreCase(response.giver)) {
+                recipientToSelfRank.put(response.recipient, normalisedRankOfResponse.get(response));
+            }
+        }
+
+        return recipientToSelfRank;
     }
 
     /**

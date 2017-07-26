@@ -49,6 +49,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testFilterAction();
         testPanelsCollapseExpand();
         testShowStats();
+        testRemindAllAction();
     }
 
     @Test
@@ -136,6 +137,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                            "Session with sanitized data");
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
+
+        ______TS("Results with sanitized data with comments : giver > recipient > question");
+
+        resultsPage.displayByGiverRecipientQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageGQRWithSanitizedData.html");
     }
 
     private void testModerateResponsesButton() {
@@ -542,6 +549,29 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"), "true");
         assertTrue(resultsPage.verifyAllStatsVisibility());
 
+    }
+
+    private void testRemindAllAction() {
+
+        ______TS("Typical case: remind all: click on cancel");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
+        resultsPage.cancelRemindAllForm();
+
+        ______TS("Typical case: remind all: click on remind with no students selected");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
+        resultsPage.deselectUsersInRemindAllForm();
+        resultsPage.clickRemindButtonInModal();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+
+        ______TS("Typical case: remind all: click on remind with students selected");
+
+        resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
+        resultsPage.clickRemindButtonInModal();
+        resultsPage.waitForAjaxLoaderGifToDisappear();
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
     }
 
     @Test

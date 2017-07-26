@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -357,12 +358,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
 
-    public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
+    public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
         String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
 
-        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
+        return browser.driver.findElement(By.id(elemId));
+    }
+
+    public boolean isRubricSubQuestionBoxFocused(int qnNumber, int subQnIndex) {
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
+
+        return subQnBox.equals(browser.driver.switchTo().activeElement());
+    }
+
+    public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
+
         fillTextBox(subQnBox, subQuestion);
     }
 
@@ -564,9 +576,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public WebElement getSelectQuestionNumberDropdown(int qnNumber) {
+        return browser.driver.findElement(By.id("questionnum-" + qnNumber));
+    }
+
     public void selectQuestionNumber(int qnNumber, int newQnNumber) {
-        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
         selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
+    }
+
+    public boolean isSelectQuestionNumberEnabled(int qnNumber) {
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
+        return qnNumSelect.isEnabled();
+    }
+
+    public int getSelectedQuestionNumber(int qnNumber) {
+        Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
+        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
     }
 
     /**

@@ -935,6 +935,28 @@ Default to alert color for visibility titles used within an alert context.
     content: attr(data-placeholder);
 }
 
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+/* features page */
+
+.img-responsive.features-page-img {
+    max-width: 75%;
+}
+
+@media screen and (min-width: 480px) {
+    .features-page-text {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.features-page-text-bottom {
+    margin-top: 15px;
+}
+
 /*////////////////////////////////////////////////////////////
 /////////////////////// Modal Dialogs ///////////////////////
 //////////////////////////////////////////////////////////*/
@@ -1165,9 +1187,11 @@ Prevent Long URL From Breaking Out of Container
 /*
 Glyphicon for success status messages
 */
-.alert-success:before {
+
+.icon-success:before {
     font-family: 'Glyphicons Halflings';
     display: inline-block;
-    padding-right: 2px;
+    padding-right: .5em;
     content: '\e084';
+    vertical-align: top;
 }

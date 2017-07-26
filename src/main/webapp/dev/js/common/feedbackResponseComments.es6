@@ -13,14 +13,6 @@ import {
     richTextEditorBuilder,
 } from './richTextEditor.es6';
 
-import {
-    toggleChevron,
-} from './ui.es6';
-
-function isInCommentsPage() {
-    return $(window.location).attr('href').indexOf('instructorCommentsPage') !== -1;
-}
-
 function removeFormErrorMessage(submitButton) {
     if (submitButton.next().next().attr('id') === 'errorMessage') {
         submitButton.next().next().remove();
@@ -33,78 +25,6 @@ function setFormErrorMessage(submitButton, msg) {
     } else {
         submitButton.next().after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
     }
-}
-
-/**
- * Clears the animation queue of the panel before collapsing/expanding the panel.
- */
-function toggleCollapsiblePanel(collapsiblePanel) {
-    // clearQueue to clear the animation queue to prevent animation build up
-    collapsiblePanel.clearQueue();
-    collapsiblePanel.collapse('toggle');
-}
-
-function updateBadgeForPendingComments(numberOfPendingComments) {
-    if (numberOfPendingComments === 0) {
-        $('.badge').closest('.btn-group').hide();
-    } else {
-        $('.badge').closest('.btn-group').show();
-    }
-    $('.badge').text(numberOfPendingComments);
-    $('.badge').parent().attr('data-original-title', `Send email notification to ${numberOfPendingComments
-                               } recipient(s) of comments pending notification`);
-}
-
-function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement, isClicked) {
-    $('.tooltip').hide();
-    const $clickedElement = $(clickedElement);
-    const $collapsiblePanel = $clickedElement.siblings('.collapse');
-    const panelBody = $clickedElement.parent().find('div[class^="panel-body"]');
-    const fsNameForUrl = encodeURIComponent(fsName);
-    const url = `/page/instructorFeedbackResponseCommentsLoad?user=${user
-               }&courseid=${courseId}&fsname=${fsNameForUrl}&fsindex=${fsIndx}`;
-
-    // If the content is already loaded, toggle the chevron and exit.
-    if ($clickedElement.hasClass('loaded') && isClicked) {
-        toggleCollapsiblePanel($collapsiblePanel);
-        toggleChevron(clickedElement);
-
-        return;
-    }
-
-    $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
-
-    panelBody.load(url, (response, status) => {
-        if (status === 'success') {
-            updateBadgeForPendingComments(parseInt(panelBody.children(':first').text(), 10));
-            panelBody.children(':first').remove();
-
-            $clickedElement.addClass('loaded');
-        } else {
-            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
-        }
-
-        if (isClicked) {
-            toggleCollapsiblePanel($collapsiblePanel);
-            toggleChevron(clickedElement);
-        }
-
-        $clickedElement.find('div[class^="placeholder-img-loading"]').html('');
-    });
-}
-
-/**
- * Reload feedback response comments.
- * @param formObject the form object where the action is triggered
- * @param panelHeading the heading of the feedback session panel
- */
-function reloadFeedbackResponseComments(formObject, panelHeading) {
-    const user = formObject.find("[name='user']").val();
-    const courseId = formObject.find("[name='courseid']").val();
-    const fsName = formObject.find("[name='fsname']").val();
-    const fsIndx = formObject.find("[name='fsindex']").val();
-
-    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
 }
 
 function removeUnwantedVisibilityOptions(commentId) {
@@ -194,7 +114,6 @@ const addCommentHandler = (e) => {
     const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
     const formObject = $(e.currentTarget).closest('form');
     const addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
-    const panelHeading = $(e.currentTarget).parents("[id^='panel_display-']").find('.panel-heading').first();
 
     const responseCommentTableId = addFormRow.parent().attr('id');
     const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
@@ -231,9 +150,6 @@ const addCommentHandler = (e) => {
                 submitButton.text('Add');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
-            } else if (isInCommentsPage()) {
-                destroyEditor(`responseCommentAddForm-${responseCommentId}`);
-                reloadFeedbackResponseComments(formObject, panelHeading);
             } else {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
@@ -261,7 +177,6 @@ const editCommentHandler = (e) => {
     const formObject = $(e.currentTarget).closest('form');
     const displayedText = formObject.siblings("div[id^='plainCommentText']").first();
     const commentBar = displayedText.parent().find('div[id^=commentBar]');
-    const panelHeading = $(e.currentTarget).parents("[id^='panel_display-']").find('.panel-heading').first();
 
     e.preventDefault();
 
@@ -293,9 +208,6 @@ const editCommentHandler = (e) => {
                 submitButton.text('Save');
                 submitButton.prop('disabled', false);
                 cancelButton.prop('disabled', false);
-            } else if (isInCommentsPage()) {
-                destroyEditor(commentTextId);
-                reloadFeedbackResponseComments(formObject, panelHeading);
             } else {
                 // Update editted comment
                 displayedText.html(data.comment.commentText.value);
@@ -324,7 +236,6 @@ const deleteCommentHandler = (e) => {
     showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
         const formObject = submitButton.parent();
         const formData = formObject.serialize();
-        const panelHeading = submitButton.parents("[id^='panel_display-']").find('.panel-heading').first();
 
         $.ajax({
             type: 'POST',
@@ -338,8 +249,6 @@ const deleteCommentHandler = (e) => {
             success(data) {
                 if (data.isError) {
                     showErrorMessage(data.errorMessage, submitButton);
-                } else if (isInCommentsPage()) {
-                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     deleteCommentRow(submitButton);
                 }

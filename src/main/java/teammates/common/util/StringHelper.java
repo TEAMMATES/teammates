@@ -25,6 +25,14 @@ public final class StringHelper {
         // utility class
     }
 
+    /**
+     * Checks whether the input string is empty or equals {@code null}.
+     * @param s The string to be checked
+     */
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
+    }
+
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         StringBuilder sb = new StringBuilder();
@@ -202,29 +210,6 @@ public final class StringHelper {
                                     " %+03d:%02d",
                                     (int) hourOffsetTimeZone,
                                     (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
-    }
-
-    //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
-    public static int countWords(String s) {
-        int wordCount = 0;
-        boolean isWord = false;
-        int endOfLine = s.length() - 1;
-        for (int i = 0; i < s.length(); i++) {
-            // if the char is a letter, word = true.
-            if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
-                isWord = true;
-                // if char isn't a letter and there have been letters before,
-                // counter goes up.
-            } else if (!Character.isLetter(s.charAt(i)) && isWord) {
-                wordCount++;
-                isWord = false;
-                // last word of String; if it doesn't end with a non letter, it
-                // wouldn't count without this.
-            } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
-                wordCount++;
-            }
-        }
-        return wordCount;
     }
 
     /**
@@ -498,7 +483,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (s == null || s.isEmpty()) {
+            if (isEmpty(s)) {
                 numOfEmptyStrings += 1;
             }
         }
@@ -560,7 +545,11 @@ public final class StringHelper {
      * with a copy of the specified delimiter.
      */
     public static String join(String delimiter, String... elements) {
-        StringBuffer result = new StringBuffer();
+        if (delimiter == null || elements == null) {
+            throw new IllegalArgumentException("Provided arguments cannot be null");
+        }
+
+        StringBuilder result = new StringBuilder();
         for (String element : elements) {
             result.append(element).append(delimiter);
         }
@@ -568,6 +557,31 @@ public final class StringHelper {
             result.delete(result.length() - delimiter.length(), result.length());
         }
         return result.toString();
+    }
+
+    /**
+     * Returns a new String composed of copies of the String elements joined together
+     * with a copy of the specified delimiter.
+     */
+    public static String join(String delimiter, List<Integer> elements) {
+        return join(delimiter, toStringArray(elements));
+    }
+
+    /**
+     * Converts list of integer to array of strings.
+     */
+    private static String[] toStringArray(List<Integer> elements) {
+        if (elements == null) {
+            throw new IllegalArgumentException("Provided arguments cannot be null");
+        }
+
+        String[] elementsArr = new String[elements.size()];
+
+        for (int i = 0; i < elements.size(); i++) {
+            elementsArr[i] = String.valueOf(elements.get(i));
+        }
+
+        return elementsArr;
     }
 
     /**

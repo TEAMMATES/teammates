@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
@@ -76,6 +78,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDoneEditingLink();
 
         testDeleteSessionAction();
+
+        testSanitization();
     }
 
     private void testGeneralQuestionOperations() throws Exception {
@@ -410,13 +414,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         int qnIndex = 1;
         String qnTextOriginal = "mcq qn";
 
-        // Add question 2 first
+        // Add 2 questions
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion(qnTextOriginal);
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillMcqOptionForNewQuestion(0, "Choice 1");
         feedbackEditPage.fillMcqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("TEXT");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Question text for question number 2");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
 
         // Enable edit mode before testing canceling
@@ -426,6 +435,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDiscardChangesLink(qnIndex);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertTrue(feedbackEditPage.isDiscardChangesButtonVisible(qnIndex));
+        assertTrue(feedbackEditPage.isQuestionEnabled(qnIndex));
 
         ______TS("Click cancel and click yes to confirmation prompt");
         feedbackEditPage.fillQuestionTextBox("new edits to question text", qnIndex);
@@ -436,21 +446,35 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDiscardChangesLink(qnIndex);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertFalse(feedbackEditPage.isDiscardChangesButtonVisible(qnIndex));
+        assertFalse(feedbackEditPage.isQuestionEnabled(qnIndex));
+        assertFalse(feedbackEditPage.isSelectQuestionNumberEnabled(qnIndex));
         String qnTextAfterCancelEdit = feedbackEditPage.getQuestionBoxText(qnIndex);
         assertEquals(qnTextOriginal, qnTextAfterCancelEdit);
 
+        ______TS("Try cancelling changes to question number");
+        qnIndex++;
+        feedbackEditPage.clickEditQuestionButton(qnIndex);
+        feedbackEditPage.selectQuestionNumber(qnIndex, 1);
+        feedbackEditPage.clickDiscardChangesLink(qnIndex);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        assertEquals(qnIndex, feedbackEditPage.getSelectedQuestionNumber(qnIndex));
+        qnIndex--;
+
         ______TS("Try re-editing a question after cancelling, making sure that form controls still work");
         feedbackEditPage.clickEditQuestionButton(qnIndex);
+        assertTrue(feedbackEditPage.isSelectQuestionNumberEnabled(qnIndex));
         feedbackEditPage.enableOtherFeedbackPathOptions(qnIndex);
         feedbackEditPage.selectRecipientsToBeStudents(qnIndex);
         assertTrue(feedbackEditPage.isOptionForSelectingNumberOfEntitiesVisible(qnIndex));
 
-        // Delete it to reset the status for the following tests
+        // Delete both questions to reset the status for the following tests
+        feedbackEditPage.clickDeleteQuestionLink(qnIndex);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.clickDeleteQuestionLink(qnIndex);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
-    private void testEditQuestionNumberAction() {
+    private void testEditQuestionNumberAction() throws MaximumRetriesExceededException {
         ______TS("edit question number success");
 
         feedbackEditPage.clickEditQuestionButton(2);
@@ -743,6 +767,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
+    private void testSanitization() throws IOException {
+        ______TS("Test sanitization for edit page");
+
+        instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
+        FeedbackSessionAttributes session = testData.feedbackSessions.get("session1InTestingSanitizationCourse");
+        courseId = session.getCourseId();
+        feedbackSessionName = session.getFeedbackSessionName();
+
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPageTestingSanitization.html");
+
+        ______TS("Test sanitization for copy question modal");
+
+        feedbackEditPage.clickCopyButton();
+        feedbackEditPage.waitForCopyTableToLoad();
+        feedbackEditPage.verifyHtmlPart(By.id("copyModal"), "/instructorFeedbackCopyQuestionModalTestingSanitization.html");
+    }
+
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
                                                             int questionNumber) {
         Set<String> expectedEnabledOptions = new HashSet<>();
@@ -821,7 +863,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
     }
 
-    private void testDeleteQuestionAction(int qnNumber) {
+    private void testDeleteQuestionAction(int qnNumber) throws MaximumRetriesExceededException {
 
         ______TS("qn " + qnNumber + " delete then cancel");
 
@@ -838,7 +880,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testEditNonExistentQuestion() {
+    private void testEditNonExistentQuestion() throws MaximumRetriesExceededException {
 
         ______TS("test editing a non-existent question");
 
@@ -1017,7 +1059,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
     }
 
-    private void testDeleteSessionAction() {
+    private void testDeleteSessionAction() throws MaximumRetriesExceededException {
 
         ______TS("session delete then cancel");
 

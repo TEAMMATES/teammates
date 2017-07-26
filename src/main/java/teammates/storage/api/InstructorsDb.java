@@ -125,20 +125,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         }
     }
 
-    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd)
-            throws InvalidParametersException {
-
-        List<InstructorAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
-
-        for (InstructorAttributes instructor : instructorsToUpdate) {
-            try {
-                updateInstructorByEmail(instructor);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
-
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Instructor instructor = createEntity(instructorToAdd);
@@ -291,6 +277,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
         instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
         instructorToUpdate.setRole(instructorAttributesToUpdate.role);
+        instructorToUpdate.setIsDisplayedToStudents(instructorAttributesToUpdate.isDisplayedToStudents);
         instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
 

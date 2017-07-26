@@ -24,6 +24,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public Map<String, String> instructorEmailNameTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
+    public double sessionTimeZone;
 
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -33,9 +34,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities(), instructorEmailNameTable);
-        frc.enableEdit();
-        frc.enableDelete();
+                                               getResponseVisibilities(), instructorEmailNameTable, sessionTimeZone);
+        frc.enableEditDelete();
 
         return frc;
     }

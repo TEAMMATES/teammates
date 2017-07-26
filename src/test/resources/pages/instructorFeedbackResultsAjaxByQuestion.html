@@ -240,7 +240,7 @@
   </form>
   <br>
   <div id="statusMessagesToUser">
-    <div class="overflow-auto alert alert-warning statusMessage">
+    <div class="overflow-auto alert alert-warning icon-warning statusMessage">
       This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
     </div>
   </div>
@@ -1144,6 +1144,36 @@
             There are no responses for this question or you may not have the permission to see the response
           </i>
         </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+          </div>
+        </form>
       </div>
     </div>
   </div>

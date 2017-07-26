@@ -66,9 +66,6 @@ public final class Const {
     public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt";
     public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
-    // used for instructor details single line form
-    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
-
     public static final String DEFAULT_SECTION = "None";
 
     public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
@@ -109,6 +106,8 @@ public final class Const {
         TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
+
+    public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /*
      * Other Constants
@@ -192,7 +191,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
@@ -234,8 +232,6 @@ public final class Const {
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
-        public static final String COURSE_EMAIL_PENDING_COMMENTS =
-                "Send email notification to recipients of %s pending comment%s";
         public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED =
                 "This is the average of what other team members think this student contributed";
@@ -386,7 +382,8 @@ public final class Const {
                 "View how this session would look like to a student who is submitting feedback.<br>"
                 + "Preview is unavailable if the course has yet to have any student enrolled.";
         public static final String FEEDBACK_PREVIEW_ASINSTRUCTOR =
-                "View how this session would look like to an instructor who is submitting feedback.";
+                "View how this session would look like to an instructor who is submitting feedback.<br>"
+                + "Only instructors with submit privileges are included in the list.";
 
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "
@@ -439,7 +436,6 @@ public final class Const {
 
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
-        public static final String COMMENT_EDIT_IN_COMMENTS_PAGE = "Edit comment in the Comments page";
         public static final String COMMENT_DELETE = "Delete this comment";
 
         public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
@@ -625,7 +621,6 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String INSTRUCTOR_NAME = "instructorname";
-        public static final String INSTRUCTOR_DETAILS_SINGLE_LINE = "instructordetailssingleline";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
@@ -911,7 +906,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
-        public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
 
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
@@ -948,8 +942,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
                 "/page/instructorFeedbackResponseCommentDelete";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD =
-                "/page/instructorFeedbackResponseCommentsLoad";
 
         public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
         public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
@@ -1080,11 +1072,8 @@ public final class Const {
 
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
         public static final String INSTRUCTOR_HOME_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
-        public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
                 "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD =
-                "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
         public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp";
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/jsp/instructorCourseDetails.jsp";
@@ -1123,7 +1112,6 @@ public final class Const {
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
-        public static final String STUDENT_COMMENTS = "/jsp/studentComments.jsp";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT =
                 "/jsp/studentFeedbackQuestionSubmissionEdit.jsp";
@@ -1169,8 +1157,6 @@ public final class Const {
         public static final String NOT_A_RECEIVER_LIST_FILE =
                 "The file that you have uploaded is not a receiver list file. ";
         public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
-
-        public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
 
         public static final String STUDENT_FIRST_TIME =
                 "<div class=\"align-left\">"
@@ -1412,15 +1398,13 @@ public final class Const {
                             + " to search for an exact phrase in an exact order.</li>"
                 + "</ul>";
 
-        public static final String COMMENT_ADDED = "Added new comment: %s";
-        public static final String COMMENT_EDITED = "Comment edited";
-        public static final String COMMENT_DELETED = "Comment deleted";
-        public static final String COMMENT_CLEARED = "Notification for all pending comments have been sent to recipients";
-        public static final String COMMENT_CLEARED_UNSUCCESSFULLY = "Notification for some pending comments fails to send";
-
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
                 + "<a href=\"/instructorHelp.jsp#gs\" target=\"_blank\">Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href=\"/\" target=\"_blank\">home page</a>.";
+
+        public static final String NEW_INSTRUCTOR_TEXT_MESSAGE = "New to TEAMMATES? You may wish to have a look at our "
+                + "Getting Started Guide.\n"
+                + "A video tour is also available in our home page.";
 
         public static final String HINT_FOR_NO_SESSIONS_STUDENT =
                 "Currently, there are no open feedback sessions in the course %s. "

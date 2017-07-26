@@ -40,10 +40,10 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
+        public static final String FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS =
+                FileHelper.readResourceFile("userEmailFragment-sessionClosedAdditionalInstructionsFragment.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSED =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosed.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
@@ -378,6 +378,7 @@ public final class Templates {
             public static final String RANK_NUM_OPTION_VALUE = "${rankNumOptionValue}";
             public static final String RANK_NUM_OPTIONS = "${numOfRankOptions}";
             public static final String RANK_RECIEVED = "${ranksReceived}";
+            public static final String RANK_SELF = "${selfRank}";
             public static final String RANK_AVERAGE = "${averageRank}";
             public static final String RANK_EXCLUDING_SELF_AVERAGE = "${averageRankExcludingSelf}";
             public static final String RANK_EDIT_FORM_OPTION_FRAGMENTS = "${rankEditFormOptionFragments}";

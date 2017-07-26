@@ -189,11 +189,11 @@ public class Instructor extends BaseEntity {
         if (this.isDisplayedToStudents == null) {
             return true;
         }
-        return isDisplayedToStudents.booleanValue();
+        return isDisplayedToStudents;
     }
 
     public void setIsDisplayedToStudents(boolean shouldDisplayToStudents) {
-        this.isDisplayedToStudents = Boolean.valueOf(shouldDisplayToStudents);
+        this.isDisplayedToStudents = shouldDisplayToStudents;
     }
 
     public String getDisplayedName() {
