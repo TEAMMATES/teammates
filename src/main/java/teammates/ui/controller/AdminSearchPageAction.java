@@ -316,6 +316,8 @@ public class AdminSearchPageAction extends Action {
                                .withStudentEmail(student.email)
                                .toAbsoluteString();
 
+        String openCloseDateFragment = generateOpenCloseDateInfo(fsa.getStartTimeString(), fsa.getEndTimeString());
+
         if (fsa.isOpened()) {
             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
                 List<String> submitUrlList = new ArrayList<>();
@@ -325,8 +327,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName()
-                    + generateOpenCloseDateInfo(fsa.getSessionStartTime(), fsa.getSessionEndTime()));
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + openCloseDateFragment);
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -338,7 +339,7 @@ public class AdminSearchPageAction extends Action {
             }
 
             data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)"
-                    + generateOpenCloseDateInfo(fsa.getSessionStartTime(), fsa.getSessionEndTime()));
+                    + openCloseDateFragment);
         }
 
         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
@@ -358,12 +359,12 @@ public class AdminSearchPageAction extends Action {
             }
 
             data.feedbackSessionLinkToNameMap.put(viewResultUrl, fsa.getFeedbackSessionName() + " (Published) "
-                    + generateOpenCloseDateInfo(fsa.getSessionStartTime(), fsa.getSessionEndTime()));
+                    + openCloseDateFragment);
         }
         return data;
     }
 
-    private String generateOpenCloseDateInfo(Date startTime, Date endTime) {
+    private String generateOpenCloseDateInfo(String startTime, String endTime) {
         return String.format(OPEN_CLOSE_DATES_SESSION_TEMPLATE, startTime, endTime);
     }
 
