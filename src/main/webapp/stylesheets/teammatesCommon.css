@@ -1197,6 +1197,7 @@ Glyphicons for all status types
     padding-right: .5em;
     vertical-align: top;
 }
+
 .icon-success:before {
     content: '\e084';
 }
