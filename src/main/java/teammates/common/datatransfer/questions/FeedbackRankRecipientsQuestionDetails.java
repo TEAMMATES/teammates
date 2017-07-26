@@ -16,6 +16,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -266,13 +267,16 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             if (shouldSelfBeExcludedFromRankings(question)) {
                 fragments.append(',').append(userAverageExcludingSelfText);
             }
+            fragments.append(',');
+            fragments.append(StringHelper.join(",", ranks));
             fragments.append(Const.EOL);
         }
         String rankQuestionHeaderSelf = shouldSelfBeExcludedFromRankings(question)
                 ? ", Average Rank Excluding Self"
                 : "";
 
-        return "Team, Recipient, Self Rank, Average Rank" + rankQuestionHeaderSelf + Const.EOL + fragments + Const.EOL;
+        return "Team, Recipient, Self Rank, Average Rank" + rankQuestionHeaderSelf + ", Ranks Received" + Const.EOL
+                + fragments + Const.EOL;
     }
 
     /**
