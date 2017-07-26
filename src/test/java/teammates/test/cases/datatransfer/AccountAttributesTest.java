@@ -40,10 +40,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         account = createInvalidAccountAttributesObject();
         String expectedError =
-                getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                getPopulatedEmptyStringErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
                       FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
                       FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
@@ -72,9 +71,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount =
-                new Account(account.googleId, account.name, account.isInstructor, account.email,
-                            account.institute, new StudentProfileAttributes().toEntity());
+        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
+                account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
+
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
@@ -82,8 +81,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-        String expectedProfile = new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString();
-        String actualProfile = new StudentProfileAttributes(actualAccount.getStudentProfile()).toString();
+        String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
+        String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
     }
 
@@ -141,7 +140,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         boolean isInstructor = false;
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
         return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }
@@ -175,8 +174,16 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
-                profileInstitute, nationality, gender, moreInfo, pictureKey);
+        account.studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(account.googleId)
+                .withShortName(shortName)
+                .withEmail(personalEmail)
+                .withInstitute(profileInstitute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
 
         return account;
 

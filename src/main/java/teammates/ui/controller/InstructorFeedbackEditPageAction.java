@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -24,6 +25,8 @@ public class InstructorFeedbackEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String shouldLoadInEditModeParam = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT);
+        boolean shouldLoadInEditMode = "true".equals(shouldLoadInEditModeParam);
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
@@ -53,6 +56,12 @@ public class InstructorFeedbackEditPageAction extends Action {
         });
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
+        for (InstructorAttributes instructor : instructorList) {
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                instructorsWhoCanSubmit.add(instructor);
+            }
+        }
         Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
             @Override
             public int compare(InstructorAttributes i1, InstructorAttributes i2) {
@@ -68,7 +77,8 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
-        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor);
+        data.init(feedbackSession, questions, questionHasResponses, studentList,
+                instructorsWhoCanSubmit, instructor, shouldLoadInEditMode);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
