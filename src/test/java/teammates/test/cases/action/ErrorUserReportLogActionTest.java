@@ -67,7 +67,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, "test subject",
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, "test content",
         };
-        
+
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
 
     }
