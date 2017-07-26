@@ -124,10 +124,10 @@ public class GateKeeper {
      */
 
     public void verifyAccessible(StudentAttributes student, CourseAttributes course) {
-        verifyNotNull(student, "student");
-        verifyNotNull(student.course, "student's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
+        checkNotNull(student, "student");
+        checkNotNull(student.course, "student's course ID");
+        checkNotNull(course, "course");
+        checkNotNull(course.getId(), "course ID");
 
         if (!student.course.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
@@ -136,10 +136,10 @@ public class GateKeeper {
     }
 
     public void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbacksession) {
-        verifyNotNull(student, "student");
-        verifyNotNull(student.course, "student's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        checkNotNull(student, "student");
+        checkNotNull(student.course, "student's course ID");
+        checkNotNull(feedbacksession, "feedback session");
+        checkNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
         if (!student.course.equals(feedbacksession.getCourseId()) || feedbacksession.isPrivateSession()) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
@@ -154,10 +154,10 @@ public class GateKeeper {
     }
 
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
+        checkNotNull(instructor, "instructor");
+        checkNotNull(instructor.courseId, "instructor's course ID");
+        checkNotNull(course, "course");
+        checkNotNull(course.getId(), "course ID");
 
         if (!instructor.courseId.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
@@ -171,10 +171,10 @@ public class GateKeeper {
      * privilegeName.
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
+        checkNotNull(instructor, "instructor");
+        checkNotNull(instructor.courseId, "instructor's course ID");
+        checkNotNull(course, "course");
+        checkNotNull(course.getId(), "course ID");
 
         if (!instructor.courseId.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
@@ -194,11 +194,11 @@ public class GateKeeper {
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName,
                                  String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(course, "course");
-        verifyNotNull(course.getId(), "course ID");
-        verifyNotNull(sectionName, "section name");
+        checkNotNull(instructor, "instructor");
+        checkNotNull(instructor.courseId, "instructor's course ID");
+        checkNotNull(course, "course");
+        checkNotNull(course.getId(), "course ID");
+        checkNotNull(sectionName, "section name");
 
         if (!instructor.courseId.equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
@@ -214,10 +214,10 @@ public class GateKeeper {
 
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
                                  boolean creatorOnly) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        checkNotNull(instructor, "instructor");
+        checkNotNull(instructor.courseId, "instructor's course ID");
+        checkNotNull(feedbacksession, "feedback session");
+        checkNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
         if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
@@ -238,10 +238,10 @@ public class GateKeeper {
      */
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
                                  boolean creatorOnly, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        checkNotNull(instructor, "instructor");
+        checkNotNull(instructor.courseId, "instructor's course ID");
+        checkNotNull(feedbacksession, "feedback session");
+        checkNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
         if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
@@ -263,10 +263,10 @@ public class GateKeeper {
 
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
                                  boolean creatorOnly, String sectionName, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        checkNotNull(instructor, "instructor");
+        checkNotNull(instructor.courseId, "instructor's course ID");
+        checkNotNull(feedbacksession, "feedback session");
+        checkNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
         if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
@@ -293,7 +293,7 @@ public class GateKeeper {
      */
 
     // TODO: to be implemented when we adopt more finer-grain access control.
-    private void verifyNotNull(Object object, String typeName) {
+    private void checkNotNull(Object object, String typeName) {
         if (object == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName
                                                   + " entity");
