@@ -358,6 +358,54 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
 
+    public boolean isRubricColLeftMovable(int qnNumber, int colNumber) {
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT + "-" + qnNumber + "-" + colNumber;
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    public boolean isRubricColRightMovable(int qnNumber, int colNumber) {
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT + "-" + qnNumber + "-" + colNumber;
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    /**
+     * Returns true if button is enabled and click was successful.
+     */
+    public boolean moveRubricColLeft(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, true);
+    }
+
+    /**
+     * Returns true if button is enabled and click was successful.
+     */
+    public boolean moveRubricColRight(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, false);
+    }
+
+    private boolean moveRubricCol(int qnNumber, int colNumber, boolean isMoveLeft) {
+        String elemId;
+
+        if (isMoveLeft) {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT + "-" + qnNumber + "-" + colNumber;
+        } else {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT + "-" + qnNumber + "-" + colNumber;
+        }
+
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        if (moveColButton.getAttribute("disabled") == null) {
+            moveColButton.click();
+
+            return true;
+        }
+
+        return false;
+    }
+
     public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
@@ -592,7 +640,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getSelectedQuestionNumber(int qnNumber) {
         Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
-        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText());
+        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
     }
 
     /**
