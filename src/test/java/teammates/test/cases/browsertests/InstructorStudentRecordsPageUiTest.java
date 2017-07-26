@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -118,7 +120,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         // TODO add link to a feedback session
     }
 
-    private void testFeedbackResponseCommentEditAndDeleteAction() {
+    private void testFeedbackResponseCommentEditAndDeleteAction() throws IOException {
         InstructorAttributes instructor;
         StudentAttributes student;
 
@@ -143,7 +145,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
                 "Instructor first edited comment to Alice about feedback to Benny");
         viewPage.verifyCommentRowContent("-RGQ-1-1-1-1", "Instructor first edited comment to Alice about feedback to Benny",
                 "Teammates Test");
-
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageEditedCommentPage.html");
         ______TS("Typical Case: Delete comment");
 
         viewPage.deleteFeedbackResponseComment("-RGQ-1-1-1-2");
