@@ -580,6 +580,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
     }
 
+    public boolean isSelectQuestionNumberEnabled(int qnNumber) {
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
+        return qnNumSelect.isEnabled();
+    }
+
     /**
      * Returns true if all elements expected to be enabled in the edit session frame are enabled
      * after edit link is clicked.
