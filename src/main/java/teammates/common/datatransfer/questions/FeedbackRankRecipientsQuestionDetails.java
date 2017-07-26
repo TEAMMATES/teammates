@@ -180,8 +180,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
         Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
-        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENT_FRAGMENT;
-        String templateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENT_TEMPLATE;
+        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
+        String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
 
         DecimalFormat df = new DecimalFormat("#.##");
 
