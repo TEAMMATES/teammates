@@ -210,13 +210,13 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Test
     public void testInstructorResultsPageForRankRecipientQuestion() throws Exception {
-        ______TS("Rank recipient self excluding instructor results : question");
+        ______TS("Rank recipient instructor results : question");
 
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "student", false, null);
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-3", "ajax_auto");
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-9", "ajax_auto");
-        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRecipientExcludingSelfView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRecipient.html");
     }
 
     @Test
