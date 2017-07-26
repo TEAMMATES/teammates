@@ -63,7 +63,12 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
 
     @Override
     protected void testAccessControl() throws Exception {
-        // TODO Auto-generated method stub
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, "test subject",
+                Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, "test content",
+        };
+        
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
 
     }
 
