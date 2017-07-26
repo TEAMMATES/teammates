@@ -3,9 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -331,21 +328,6 @@ public class InstructorCourseEditPage extends AppPage {
         return newInstructorNameTextBox.isEnabled()
                 && newInstructorEmailTextBox.isEnabled()
                 && addInstructorButton.isDisplayed();
-    }
-
-    public boolean isInstructorListSortedByName() {
-        boolean isSorted = true;
-        List<String> instructorNames = new ArrayList<String>();
-        List<WebElement> elements = browser.driver.findElements(By.xpath("//*[starts-with(@id, 'instructorname')]"));
-        for (int i = 1; i < elements.size(); i++) {
-            instructorNames.add(browser.driver.findElement(By.id("instructorname" + i)).getAttribute("value"));
-        }
-        for (int i = 1; i < instructorNames.size(); i++) {
-            if (instructorNames.get(i - 1).compareTo(instructorNames.get(i)) > 0) {
-                isSorted = false;
-            }
-        }
-        return isSorted;
     }
 
     public boolean clickOnNewInstructorAccessLevelViewDetails(String role) {

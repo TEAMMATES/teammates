@@ -940,23 +940,6 @@ Default to alert color for visibility titles used within an alert context.
     padding-right: 5px;
 }
 
-/* features page */
-
-.img-responsive.features-page-img {
-    max-width: 75%;
-}
-
-@media screen and (min-width: 480px) {
-    .features-page-text {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-}
-
-.features-page-text-bottom {
-    margin-top: 15px;
-}
-
 /*////////////////////////////////////////////////////////////
 /////////////////////// Modal Dialogs ///////////////////////
 //////////////////////////////////////////////////////////*/

@@ -174,7 +174,7 @@ public abstract class AppPage {
      */
     public static LoginPage createCorrectLoginPageType(Browser browser) {
         return getNewPageInstance(browser, TestProperties.isDevServer() ? DevServerLoginPage.class
-                                                                        : GoogleLoginPage.class);
+                : GoogleLoginPage.class);
     }
 
     /**
@@ -491,14 +491,14 @@ public abstract class AppPage {
     protected void fillRichTextEditor(String id, String content) {
         String preparedContent = content.replace("\n", "<br>");
         executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
-                      + "}");
+                + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
+                + "}");
     }
 
     protected String getRichTextEditorContent(String id) {
         return (String) executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                                      + "    return tinyMCE.get('" + id + "').getContent();"
-                                      + "}");
+                + "    return tinyMCE.get('" + id + "').getContent();"
+                + "}");
     }
 
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
@@ -872,7 +872,7 @@ public abstract class AppPage {
     private String getPageSource(By by) {
         waitForAjaxLoaderGifToDisappear();
         String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
-                                   : browser.driver.findElement(by).getAttribute("outerHTML");
+                : browser.driver.findElement(by).getAttribute("outerHTML");
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 

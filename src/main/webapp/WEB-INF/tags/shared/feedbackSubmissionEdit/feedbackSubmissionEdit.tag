@@ -59,7 +59,7 @@
       </c:if>
       <c:if test="${empty data.account.googleId}">
         <div id="registerMessage" class="alert alert-info">
-          ${data.registerMessage}
+            ${data.registerMessage}
         </div>
       </c:if>
       <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>

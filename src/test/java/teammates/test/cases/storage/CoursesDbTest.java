@@ -3,6 +3,7 @@ package teammates.test.cases.storage;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes.CourseAttributesBuilder;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -32,7 +33,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Success: typical case");
 
-        CourseAttributes c = new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing", "UTC");
+        CourseAttributes c = new CourseAttributesBuilder(
+                "CDbT.tCC.newCourse", "Basic Computing", "UTC")
+                .build();
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
 
@@ -48,7 +51,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: create a course with invalid parameter");
 
-        CourseAttributes invalidIdCourse = new CourseAttributes("Invalid id", "Basic Computing", "UTC");
+        CourseAttributes invalidIdCourse = new CourseAttributesBuilder(
+                "Invalid id", "Basic Computing", "UTC")
+                .build();
         try {
             coursesDb.createEntity(invalidIdCourse);
             signalFailureToDetectException();
@@ -59,7 +64,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
         }
 
         String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
-        CourseAttributes invalidNameCourse = new CourseAttributes("CDbT.tCC.newCourse", longCourseName, "UTC");
+        CourseAttributes invalidNameCourse = new CourseAttributesBuilder(
+                "CDbT.tCC.newCourse", longCourseName, "UTC")
+                .build();
         try {
             coursesDb.createEntity(invalidNameCourse);
             signalFailureToDetectException();
@@ -69,7 +76,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
         }
 
         CourseAttributes invalidTimeZoneCourse =
-                new CourseAttributes("CDbT.tCC.newCourse", "Basic Computing", "InvalidTimeZone");
+                new CourseAttributesBuilder(
+                        "CDbT.tCC.newCourse", "Basic Computing", "InvalidTimeZone")
+                .build();
 
         try {
             coursesDb.createEntity(invalidTimeZoneCourse);
@@ -128,7 +137,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: update course with invalid parameters");
 
-        CourseAttributes invalidCourse = new CourseAttributes("", "", "");
+        CourseAttributes invalidCourse = new CourseAttributesBuilder(
+                "", "", "")
+                .build();
 
         try {
             coursesDb.updateCourse(invalidCourse);
@@ -144,7 +155,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("fail: non-exisitng course");
 
-        CourseAttributes nonExistentCourse = new CourseAttributes("CDbT.non-exist-course", "Non existing course", "UTC");
+        CourseAttributes nonExistentCourse = new CourseAttributesBuilder(
+                "CDbT.non-exist-course", "Non existing course", "UTC")
+                .build();
 
         try {
             coursesDb.updateCourse(nonExistentCourse);
@@ -156,7 +169,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("success: typical case");
 
         CourseAttributes c = createNewCourse();
-        CourseAttributes updatedCourse = new CourseAttributes(c.getId(), c.getName() + " updated", "UTC");
+        CourseAttributes updatedCourse = new CourseAttributesBuilder(
+                c.getId(), c.getName() + " updated", "UTC")
+                .build();
 
         coursesDb.updateCourse(updatedCourse);
         CourseAttributes retrieved = coursesDb.getCourse(c.getId());
@@ -191,7 +206,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
     private CourseAttributes createNewCourse() throws InvalidParametersException {
 
-        CourseAttributes c = new CourseAttributes("Computing101", "Basic Computing", "UTC");
+        CourseAttributes c = new CourseAttributesBuilder(
+                "Computing101", "Basic Computing", "UTC")
+                .build();
 
         try {
             coursesDb.createEntity(c);

@@ -93,7 +93,7 @@ public final class HtmlHelper {
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
             assertEquals("<expected>" + Const.EOL + processedExpected + "</expected>",
-                         "<actual>" + Const.EOL + processedActual + "</actual>");
+                    "<actual>" + Const.EOL + processedActual + "</actual>");
         }
         return false;
     }
@@ -234,15 +234,15 @@ public final class HtmlHelper {
      */
     private static boolean shouldIncludeOpeningAndClosingTags(boolean isPart, String currentNodeName) {
         return !(isPart && ("html".equals(currentNodeName)
-                            || "head".equals(currentNodeName)
-                            || "body".equals(currentNodeName)));
+                || "head".equals(currentNodeName)
+                || "body".equals(currentNodeName)));
     }
 
     private static boolean shouldIndent(String currentNodeName) {
         // Indentation is not necessary for top level elements
         return !("html".equals(currentNodeName)
-                 || "head".equals(currentNodeName)
-                 || "body".equals(currentNodeName));
+                || "head".equals(currentNodeName)
+                || "body".equals(currentNodeName));
     }
 
     private static boolean isTinymceStyleAttribute(Node attribute) {
@@ -289,7 +289,7 @@ public final class HtmlHelper {
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
-                                            : attribute.getNodeValue().equals(attrValue);
+                    : attribute.getNodeValue().equals(attrValue);
         }
         return false;
     }
@@ -311,7 +311,7 @@ public final class HtmlHelper {
         for (int i = 0; i < attributes.getLength(); i++) {
             Node attribute = attributes.item(i);
             openingTag.append(" " + attribute.getNodeName().toLowerCase() + "="
-                                  + "\"" + attribute.getNodeValue().replace("\"", "&quot;") + "\"");
+                    + "\"" + attribute.getNodeValue().replace("\"", "&quot;") + "\"");
         }
 
         // close the tag
@@ -348,11 +348,11 @@ public final class HtmlHelper {
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
-                      .replace("${version}", TestProperties.TEAMMATES_VERSION)
-                      .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
-                      .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
-                      .replace("${test.student2}", TestProperties.TEST_STUDENT2_ACCOUNT)
-                      .replace("${test.instructor}", TestProperties.TEST_INSTRUCTOR_ACCOUNT);
+                .replace("${version}", TestProperties.TEAMMATES_VERSION)
+                .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
+                .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
+                .replace("${test.student2}", TestProperties.TEST_STUDENT2_ACCOUNT)
+                .replace("${test.instructor}", TestProperties.TEST_INSTRUCTOR_ACCOUNT);
     }
 
     /**
@@ -360,7 +360,7 @@ public final class HtmlHelper {
      */
     public static String processPageSourceForHtmlComparison(String content) {
         return replaceUnpredictableValuesWithPlaceholders(
-                      suppressVariationsInInjectedValues(content));
+                suppressVariationsInInjectedValues(content));
     }
 
     /**
@@ -374,14 +374,14 @@ public final class HtmlHelper {
 
     private static String suppressVariationsInInjectedValues(String content) {
         return content // replace truncated long accounts with their original counterparts
-                      .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT),
-                               TestProperties.TEST_STUDENT1_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT),
-                               TestProperties.TEST_STUDENT2_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT),
-                               TestProperties.TEST_INSTRUCTOR_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT),
-                               TestProperties.TEST_ADMIN_ACCOUNT);
+                .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT),
+                        TestProperties.TEST_STUDENT1_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT),
+                        TestProperties.TEST_STUDENT2_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT),
+                        TestProperties.TEST_INSTRUCTOR_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT),
+                        TestProperties.TEST_ADMIN_ACCOUNT);
     }
 
     /**
@@ -399,87 +399,87 @@ public final class HtmlHelper {
         String dateTimeNowInIso8601 = sdfForIso8601.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
-                      .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
-                      // logout URL generated by Google
-                      .replaceAll("_ah/logout\\?continue=" + REGEX_CONTINUE_URL + "\"",
-                                  "_ah/logout?continue=\\${continue\\.url}\"")
-                      // student profile picture link
-                      .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=" + REGEX_ENCRYPTED_STUDENT_EMAIL
-                                  + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=" + REGEX_ENCRYPTED_COURSE_ID,
-                                  Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}"
-                                  + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=\\${course\\.id\\.enc}")
-                      // blob-key in student profile page
-                      .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.BLOB_KEY + "=" + REGEX_BLOB_KEY,
-                                  Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                                  + "\\?" + Const.ParamsNames.BLOB_KEY + "=\\${blobkey}")
-                      .replaceAll("( type=\"hidden\"|"
-                                  + " name=\"" + Const.ParamsNames.BLOB_KEY + "\"|"
-                                  + " id=\"blobKey\"|"
-                                  + " value=\"" + REGEX_BLOB_KEY + "\"){4}",
-                                  " id=\"blobKey\" name=\"" + Const.ParamsNames.BLOB_KEY + "\""
-                                  + " type=\"hidden\" value=\"\\${blobkey}\"")
-                      // regkey in URLs
-                      .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_ENCRYPTED_REGKEY,
-                                  Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
-                      // regkey in unreg student page
-                      .replaceAll("( type=\"hidden\"|"
-                                  + " name=\"" + Const.ParamsNames.REGKEY + "\"|"
-                                  + " value=\"" + REGEX_ENCRYPTED_REGKEY + "\"){3}",
-                                  " name=\"" + Const.ParamsNames.REGKEY + "\""
-                                  + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
-                      // anonymous student identifier on results page
-                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
-                                  "Anonymous $1 \\${participant\\.hash}")
-                      // questionid as value
-                      .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
-                      // questionid as part of responseid
-                      .replaceAll("\"" + REGEX_QUESTION_ID + "%", "\"\\${question\\.id}%")
-                      // commentid in quotes, used as values
-                      .replaceAll("\"" + REGEX_COMMENT_ID + "\"", "\"\\${comment\\.id}\"")
-                      // commentid in URLs
-                      .replaceAll("#" + REGEX_COMMENT_ID, "#\\${comment\\.id}")
-                      // commentid as part of div ids
-                      .replaceAll("responseCommentRow-" + REGEX_COMMENT_ID, "responseCommentRow-\\${comment\\.id}")
-                      .replaceAll("commentBar-" + REGEX_COMMENT_ID, "commentBar-\\${comment\\.id}")
-                      .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
-                      // date of next hour (datepicker's date is generated based on next hour's date)
-                      .replace(dateOfNextHour, "${date.nexthour}")
-                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
-                      .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
-                      // admin footer, test institute section
-                      .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
-                                              + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
-                                  "\\${admin\\.institute}")
-                      // sessionToken in form inputs
-                      .replaceAll("( type=\"hidden\"|"
-                                   + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
-                                   + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
-                                   " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
-                                   + " type=\"hidden\" value=\"\\${sessionToken}\"")
-                      // sessionToken in URL parameters
-                      .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
-                                  "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
-                      // top HTML tag with xmlns defined
-                      // TODO check if this is necessary
-                      .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
-                      // noscript is to be cleared
-                      // TODO check if wildcarding this is better; better yet, check if not removing at all works
-                      .replaceFirst("(?s)<noscript>.*</noscript>", "");
+                .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
+                // logout URL generated by Google
+                .replaceAll("_ah/logout\\?continue=" + REGEX_CONTINUE_URL + "\"",
+                        "_ah/logout?continue=\\${continue\\.url}\"")
+                // student profile picture link
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
+                                + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=" + REGEX_ENCRYPTED_STUDENT_EMAIL
+                                + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=" + REGEX_ENCRYPTED_COURSE_ID,
+                        Const.ActionURIs.STUDENT_PROFILE_PICTURE
+                                + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}"
+                                + "\\&amp;" + Const.ParamsNames.COURSE_ID + "=\\${course\\.id\\.enc}")
+                // blob-key in student profile page
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE
+                                + "\\?" + Const.ParamsNames.BLOB_KEY + "=" + REGEX_BLOB_KEY,
+                        Const.ActionURIs.STUDENT_PROFILE_PICTURE
+                                + "\\?" + Const.ParamsNames.BLOB_KEY + "=\\${blobkey}")
+                .replaceAll("( type=\"hidden\"|"
+                                + " name=\"" + Const.ParamsNames.BLOB_KEY + "\"|"
+                                + " id=\"blobKey\"|"
+                                + " value=\"" + REGEX_BLOB_KEY + "\"){4}",
+                        " id=\"blobKey\" name=\"" + Const.ParamsNames.BLOB_KEY + "\""
+                                + " type=\"hidden\" value=\"\\${blobkey}\"")
+                // regkey in URLs
+                .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_ENCRYPTED_REGKEY,
+                        Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
+                // regkey in unreg student page
+                .replaceAll("( type=\"hidden\"|"
+                                + " name=\"" + Const.ParamsNames.REGKEY + "\"|"
+                                + " value=\"" + REGEX_ENCRYPTED_REGKEY + "\"){3}",
+                        " name=\"" + Const.ParamsNames.REGKEY + "\""
+                                + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
+                // anonymous student identifier on results page
+                .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
+                        "Anonymous $1 \\${participant\\.hash}")
+                // questionid as value
+                .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
+                // questionid as part of responseid
+                .replaceAll("\"" + REGEX_QUESTION_ID + "%", "\"\\${question\\.id}%")
+                // commentid in quotes, used as values
+                .replaceAll("\"" + REGEX_COMMENT_ID + "\"", "\"\\${comment\\.id}\"")
+                // commentid in URLs
+                .replaceAll("#" + REGEX_COMMENT_ID, "#\\${comment\\.id}")
+                // commentid as part of div ids
+                .replaceAll("responseCommentRow-" + REGEX_COMMENT_ID, "responseCommentRow-\\${comment\\.id}")
+                .replaceAll("commentBar-" + REGEX_COMMENT_ID, "commentBar-\\${comment\\.id}")
+                .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
+                // date of next hour (datepicker's date is generated based on next hour's date)
+                .replace(dateOfNextHour, "${date.nexthour}")
+                // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
+                .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
+                .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
+                // admin footer, test institute section
+                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
+                                + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
+                        "\\${admin\\.institute}")
+                // sessionToken in form inputs
+                .replaceAll("( type=\"hidden\"|"
+                                + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
+                                + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
+                        " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
+                                + " type=\"hidden\" value=\"\\${sessionToken}\"")
+                // sessionToken in URL parameters
+                .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
+                        "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
+                // top HTML tag with xmlns defined
+                // TODO check if this is necessary
+                .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
+                // noscript is to be cleared
+                // TODO check if wildcarding this is better; better yet, check if not removing at all works
+                .replaceFirst("(?s)<noscript>.*</noscript>", "");
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
         return content.replaceAll("( type=\"hidden\"| id=\"motd-url\"|"
-                                      + " value=\"" + Config.STUDENT_MOTD_URL + "\"){3}",
-                                  " id=\"motd-url\" type=\"hidden\" value=\"\\${studentmotd\\.url}\"")
-                      .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
-                      .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
-                      .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
-                      .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                        + " value=\"" + Config.STUDENT_MOTD_URL + "\"){3}",
+                " id=\"motd-url\" type=\"hidden\" value=\"\\${studentmotd\\.url}\"")
+                .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
+                .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
     }
 
     /**
@@ -488,24 +488,24 @@ public final class HtmlHelper {
     public static String injectContextDependentValuesForTest(String content) {
         Date now = new Date();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
-                      .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
-                      .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
-                      .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
-                      .replace("<!-- test.student1.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT))
-                      .replace("<!-- test.student2 -->", TestProperties.TEST_STUDENT2_ACCOUNT)
-                      .replace("<!-- test.student2.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT))
-                      .replace("<!-- test.instructor -->", TestProperties.TEST_INSTRUCTOR_ACCOUNT)
-                      .replace("<!-- test.instructor.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
-                      .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
-                      .replace("<!-- test.admin.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
-                      .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
-                      .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
-                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now));
+                .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
+                .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
+                .replace("<!-- test.student1.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT))
+                .replace("<!-- test.student2 -->", TestProperties.TEST_STUDENT2_ACCOUNT)
+                .replace("<!-- test.student2.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT))
+                .replace("<!-- test.instructor -->", TestProperties.TEST_INSTRUCTOR_ACCOUNT)
+                .replace("<!-- test.instructor.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
+                .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
+                .replace("<!-- test.admin.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
+                .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
+                .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
+                .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
+                .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now));
     }
 
     private static TimeZone getTimeZone(String content) {

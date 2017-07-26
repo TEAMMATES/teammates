@@ -92,19 +92,19 @@ public class TimeHelperTest extends BaseTestCase {
 
         timeCalendar.add(Calendar.MINUTE, -10);
         assertTrue(TimeHelper.isWithinPastHour(timeCalendar.getTime(),
-                   Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
+                Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
 
         ______TS("End time not within past hour");
 
         timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         timeCalendar.add(Calendar.MINUTE, -70);
         assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime(),
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
+                Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
 
         timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         timeCalendar.add(Calendar.MINUTE, 10);
         assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime(),
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
+                Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
 
         timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         timeCalendar.add(Calendar.MINUTE, 10);
@@ -115,7 +115,7 @@ public class TimeHelperTest extends BaseTestCase {
         timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         timeCalendar.add(Calendar.MINUTE, -10);
         assertFalse(TimeHelper.isWithinPastHour(new Date(timeCalendar.getTime().getTime() + gracePeriod * 60000L),
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
+                Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
     }
 
     @Test

@@ -161,16 +161,16 @@ public class InstructorSearchPageData extends PageData {
     }
 
     private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
-                                    FeedbackResponseAttributes responseEntry,
-                                    FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
+            FeedbackResponseAttributes responseEntry,
+            FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
         List<FeedbackResponseCommentRow> rows = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
-                                                              .comments.get(responseEntry.getId());
+                .comments.get(responseEntry.getId());
 
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frcSearchResultBundle
-                                            .commentGiverTable.get(frc.getId().toString());
+                    .commentGiverTable.get(frc.getId().toString());
             if (!"Anonymous".equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }

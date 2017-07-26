@@ -132,7 +132,7 @@ public class FieldValidator {
             "It cannot be longer than ${maxLength} characters, cannot be empty and cannot contain spaces.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
             "All ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
-            + "(|) or percent sign (%).";
+                    + "(|) or percent sign (%).";
 
     // generic (i.e., not specific to any field) error messages
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
@@ -145,18 +145,18 @@ public class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
-            + "or contains extra spaces at the beginning or at the end of the text.";
+                    + "or contains extra spaces at the beginning or at the end of the text.";
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
             SanitizationHelper.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES "
-                                                + "as it cannot contain the following special html characters"
-                                                + " in brackets: (< > \" / ' &)");
+                    + "as it cannot contain the following special html characters"
+                    + " in brackets: (< > \" / ' &)");
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
-            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
+                    + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
     public static final String EMAIL_ERROR_MESSAGE_EMPTY_STRING =
@@ -164,7 +164,7 @@ public class FieldValidator {
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
-            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
+                    + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
     public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
@@ -172,7 +172,7 @@ public class FieldValidator {
 
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
-            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
+                    + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
     public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
@@ -187,12 +187,12 @@ public class FieldValidator {
             "The value must be one of the values from the nationality dropdown selector.";
     public static final String NATIONALITY_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
-            + HINT_FOR_CORRECT_NATIONALITY;
+                    + HINT_FOR_CORRECT_NATIONALITY;
 
     public static final String GENDER_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
-            + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
-            + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+                    + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
+                    + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
@@ -200,12 +200,12 @@ public class FieldValidator {
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
     public static final String TIME_FRAME_ERROR_MESSAGE =
-                "The %s for this feedback session cannot be earlier than the %s.";
+            "The %s for this feedback session cannot be earlier than the %s.";
 
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
-            + "Did you mean to use \"Self\" instead?";
+                    + "Did you mean to use \"Self\" instead?";
 
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
@@ -235,7 +235,7 @@ public class FieldValidator {
      * <li>Only allow letters, digits, hyphen and dot; Must end with letters
      */
     public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
-                                            + "@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
+            + "@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
 
     /**
      * Allows English alphabet, numbers, underscore,  dot and hyphen.
@@ -252,14 +252,14 @@ public class FieldValidator {
     public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?",
-                                  "courses?\\s+teams?"}));
+                            "courses?\\s+teams?"}));
     public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
     public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                                  "e-mails?\\s+address(es)?", "contacts?"}));
+                            "e-mails?\\s+address(es)?", "contacts?"}));
     public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
@@ -305,15 +305,15 @@ public class FieldValidator {
 
         if (email.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
-                                            EMAIL_MAX_LENGTH);
+                    EMAIL_MAX_LENGTH);
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
         } else if (email.length() > EMAIL_MAX_LENGTH) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
-                                            REASON_TOO_LONG, EMAIL_MAX_LENGTH);
+                    REASON_TOO_LONG, EMAIL_MAX_LENGTH);
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
+                    REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
         }
         return "";
     }
@@ -337,15 +337,15 @@ public class FieldValidator {
 
         if (googleId.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                                            GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
+                    GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
             return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
-                                            REASON_TOO_LONG, GOOGLE_ID_MAX_LENGTH);
+                    REASON_TOO_LONG, GOOGLE_ID_MAX_LENGTH);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
             return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
+                    REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
         }
         return "";
     }
@@ -362,7 +362,7 @@ public class FieldValidator {
 
         if (courseId.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                                            COURSE_ID_FIELD_NAME, COURSE_ID_MAX_LENGTH);
+                    COURSE_ID_FIELD_NAME, COURSE_ID_MAX_LENGTH);
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
@@ -371,11 +371,11 @@ public class FieldValidator {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
             return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
-                                            REASON_TOO_LONG, COURSE_ID_MAX_LENGTH);
+                    REASON_TOO_LONG, COURSE_ID_MAX_LENGTH);
         }
         if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
             return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT, COURSE_ID_MAX_LENGTH);
+                    REASON_INCORRECT_FORMAT, COURSE_ID_MAX_LENGTH);
         }
         return "";
     }
@@ -408,8 +408,8 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForStudentRoleComments(String studentRoleComments) {
         return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
-                                                               STUDENT_ROLE_COMMENTS_MAX_LENGTH,
-                                                               studentRoleComments);
+                STUDENT_ROLE_COMMENTS_MAX_LENGTH,
+                studentRoleComments);
     }
 
     /**
@@ -479,7 +479,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForInstituteName(String instituteName) {
         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
-                                             instituteName);
+                instituteName);
     }
 
     /**
@@ -502,7 +502,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", timeZoneValue != null);
         if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
-                                            REASON_UNAVAILABLE_AS_CHOICE);
+                    REASON_UNAVAILABLE_AS_CHOICE);
         }
         return "";
     }
@@ -543,7 +543,7 @@ public class FieldValidator {
 
         if (value.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                                            fieldName, maxLength);
+                    fieldName, maxLength);
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -551,23 +551,23 @@ public class FieldValidator {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         if (value.length() > maxLength) {
             return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
-                                            fieldName, REASON_TOO_LONG, maxLength);
+                    fieldName, REASON_TOO_LONG, maxLength);
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean hasStartingBrace = value.charAt(0) == '{' && value.contains("}");
             if (!hasStartingBrace) {
                 return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue,
-                                                fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
+                        fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
                 return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                                REASON_CONTAINS_INVALID_CHAR);
+                        REASON_CONTAINS_INVALID_CHAR);
             }
             return "";
         }
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
             return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
-                                            REASON_CONTAINS_INVALID_CHAR);
+                    REASON_CONTAINS_INVALID_CHAR);
         }
         return "";
     }
@@ -594,7 +594,7 @@ public class FieldValidator {
         if (value.length() > maxLength) {
             String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
             return getPopulatedErrorMessage(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
-                                            fieldName, REASON_TOO_LONG, maxLength);
+                    fieldName, REASON_TOO_LONG, maxLength);
         }
         return "";
     }
@@ -659,7 +659,7 @@ public class FieldValidator {
         }
         if (giverType == FeedbackParticipantType.TEAMS
                 && (recipientType == FeedbackParticipantType.OWN_TEAM
-                        || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                     recipientType.toDisplayRecipientName(),
                     giverType.toDisplayGiverName()));
@@ -752,19 +752,19 @@ public class FieldValidator {
     public static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
-                   .replace("${maxLength}", String.valueOf(maxLength));
+                .replace("${maxLength}", String.valueOf(maxLength));
     }
 
     private static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason) {
         return messageTemplate.replace("${userInput}", userInput)
-                              .replace("${fieldName}", fieldName)
-                              .replace("${reason}", errorReason);
+                .replace("${fieldName}", fieldName)
+                .replace("${reason}", errorReason);
     }
 
     public static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
-            String fieldName, int maxLength) {
+                                                             String fieldName, int maxLength) {
         return messageTemplate.replace("${fieldName}", fieldName)
-                              .replace("${maxLength}", String.valueOf(maxLength));
+                .replace("${maxLength}", String.valueOf(maxLength));
     }
 }
