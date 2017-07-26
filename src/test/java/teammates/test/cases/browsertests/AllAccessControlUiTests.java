@@ -164,7 +164,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.navigateTo(url);
         UserErrorReportPage errorReportPage = currentPage.changePageType(UserErrorReportPage.class);
         errorReportPage.verifyErrorReportFormContents();
-        errorReportPage.fillFormAndClickSubmit();
+        errorReportPage.fillFormAndClickSubmit("This is an error report.");
         errorReportPage.verifyStatus(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
 
         ______TS("user error report form - submit failed");
@@ -172,7 +172,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         url = createUrl(Const.ViewURIs.ERROR_PAGE);
         errorReportPage.navigateTo(url);
         errorReportPage.verifyErrorReportFormContents();
-        errorReportPage.fillFormAndClickSubmit();
+        errorReportPage.fillFormAndClickSubmit("This is an error report.");
         final String failedStatusMessage = "Failed to record the error message. Please email our support team at "
                 + Config.SUPPORT_EMAIL + ".";
         errorReportPage.verifyStatus(failedStatusMessage);

@@ -39,8 +39,8 @@ public class UserErrorReportPage extends AppPage {
         assertTrue(errorFeedbackEmailSubjectField.isEnabled());
     }
 
-    public void fillFormAndClickSubmit() {
-        fillTextBox(errorFeedbackEmailContentField, "This is an error report.");
+    public void fillFormAndClickSubmit(String message) {
+        fillTextBox(errorFeedbackEmailContentField, message);
         click(sendFeedbackButton);
     }
 
