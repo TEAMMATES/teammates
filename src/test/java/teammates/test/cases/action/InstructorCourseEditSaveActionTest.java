@@ -87,9 +87,9 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                            courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
-                            FieldValidator.REASON_EMPTY, FieldValidator.COURSE_NAME_MAX_LENGTH);
+        statusMessage = getPopulatedEmptyStringErrorMessage(
+                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                            FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
