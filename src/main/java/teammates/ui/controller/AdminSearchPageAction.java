@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -327,7 +326,8 @@ public class AdminSearchPageAction extends Action {
                 data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + openCloseDateFragment);
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " "
+                    + openCloseDateFragment);
 
         } else {
             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null) {
@@ -338,7 +338,7 @@ public class AdminSearchPageAction extends Action {
                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
             }
 
-            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open)"
+            data.feedbackSessionLinkToNameMap.put(submitUrl, fsa.getFeedbackSessionName() + " (Currently Not Open) "
                     + openCloseDateFragment);
         }
 
