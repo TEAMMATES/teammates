@@ -7,15 +7,15 @@
 <%@ attribute name="questionTable" type="teammates.ui.template.QuestionTable" required="true"%>
 
 <div class="panel panel-info">
-    <div class="panel-heading">
-        <b>Question ${questionTable.questionNumber}</b>: ${fn:escapeXml(questionTable.questionText)} ${questionTable.additionalInfo}
-    </div>
-    <table class="table">
-        <tbody>
-            <c:forEach items="${questionTable.responseRows}" var="responseRow" varStatus="i">
-                <search:feedbackResponse qnIndx="${qnIndx}" responseRow="${responseRow}"
-                                         responseIndex="${i.count}" fsIndx="${fsIndx}" />
-            </c:forEach>
-        </tbody>
-    </table>
+  <div class="panel-heading">
+    <b>Question ${questionTable.questionNumber}</b>: ${fn:escapeXml(questionTable.questionText)} ${questionTable.additionalInfo}
+  </div>
+  <table class="table">
+    <tbody>
+      <c:forEach items="${questionTable.responseRows}" var="responseRow" varStatus="i">
+        <search:feedbackResponse qnIndx="${qnIndx}" responseRow="${responseRow}"
+            responseIndex="${i.count}" fsIndx="${fsIndx}" />
+      </c:forEach>
+    </tbody>
+  </table>
 </div>
