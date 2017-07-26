@@ -62,13 +62,14 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, "test subject",
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, "test content",
         };
 
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+        verifyAnyRegisteredUserCanAccess(submissionParams);
 
     }
 
