@@ -82,6 +82,8 @@ import {
     addRubricCol,
     addRubricRow,
     bindAssignWeightsCheckboxes,
+    bindMoveRubricColButtons,
+    disableCornerMoveRubricColumnButtons,
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
@@ -459,6 +461,7 @@ function enableQuestion(questionNum) {
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
+    disableCornerMoveRubricColumnButtons(questionNum);
 }
 
 /**
@@ -524,6 +527,7 @@ function enableNewQuestion() {
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
     $(`#button_question_submit-${NEW_QUESTION}`).show();
+    disableCornerMoveRubricColumnButtons(NEW_QUESTION);
 }
 
 /**
@@ -1102,6 +1106,7 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMoveRubricColButtons();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
