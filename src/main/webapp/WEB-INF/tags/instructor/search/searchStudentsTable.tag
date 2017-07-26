@@ -5,12 +5,12 @@
 <%@ attribute name="courseIdx" required="true" %>
 
 <div class="panel panel-info">
-    <div class="panel-heading">
-        <strong>[${studentTable.courseId}]</strong>
-    </div>
+  <div class="panel-heading">
+    <strong>[${studentTable.courseId}]</strong>
+  </div>
 
-    <div class="panel-body padding-0">
-        <ti:studentList courseId="${studentTable.courseId}" courseIndex="${courseIdx}" hasSection="${studentTable.hasSection}"
-                        sections="${studentTable.sections}" fromStudentListPage="${false}" />
-    </div>
+  <div class="panel-body padding-0">
+    <ti:studentList courseId="${studentTable.courseId}" courseIndex="${courseIdx}" hasSection="${studentTable.hasSection}"
+        sections="${studentTable.sections}" fromStudentListPage="${false}" />
+  </div>
 </div>
