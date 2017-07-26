@@ -53,7 +53,7 @@
             data-feedback-session-name="${fsForm.fsName}"
             title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
             data-toggle="tooltip" data-placement="top"
-            class="btn btn-primary btn-sm" id="fsDeleteLink">
+            class="btn btn-danger btn-sm" id="fsDeleteLink">
           <span class="glyphicon glyphicon-trash"></span> Delete
         </a>
         <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">

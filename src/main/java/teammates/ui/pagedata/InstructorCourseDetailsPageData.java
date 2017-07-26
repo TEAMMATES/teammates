@@ -47,7 +47,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                                           Const.Tooltips.COURSE_REMIND, "tooltip", courseId, isDisabled);
 
         String hrefDeleteStudents = sanitizeForJs(getInstructorCourseStudentDeleteAllLink(courseId));
-        courseDeleteAllButton = createButton(null, "btn btn-primary course-student-delete-all-link", "button-delete-all",
+        courseDeleteAllButton = createButton(null, "btn btn-danger course-student-delete-all-link", "button-delete-all",
                 hrefDeleteStudents, null, null, courseId, isDisabled);
 
         this.sections = new ArrayList<>();
