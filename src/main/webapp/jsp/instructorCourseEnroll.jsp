@@ -25,6 +25,7 @@
   <%=Const.ParamsNames.USER_ID%>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+
   <div class="panel panel-primary">
     <div class="panel-body fill-plain">
       <div class="text-muted padding-15px">

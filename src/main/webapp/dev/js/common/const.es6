@@ -72,6 +72,12 @@ const Const = {
 
     },
 
+    StatusMessages: {
+
+        INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
+
+    },
+
 };
 
 export {
