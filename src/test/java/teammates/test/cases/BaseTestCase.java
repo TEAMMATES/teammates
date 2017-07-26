@@ -113,6 +113,10 @@ public class BaseTestCase {
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
     }
 
+    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength) {
+        return FieldValidator.getPopulatedEmptyStringErrorMessage(messageTemplate, fieldName, maxLength);
+    }
+
     /*
      * Here are some of the most common assertion methods provided by JUnit.
      * They are copied here to prevent repetitive importing in test classes.
