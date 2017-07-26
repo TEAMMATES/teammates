@@ -208,14 +208,15 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @return Comments for the response
      */
     private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
-                                                                               String feedbackResponseId) {
+            String feedbackResponseId) {
 
         List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
 
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
+                        bundle.getTimeZone()));
             }
         }
         return comments;

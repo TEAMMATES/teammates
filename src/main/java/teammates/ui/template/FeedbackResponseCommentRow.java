@@ -50,9 +50,9 @@ public class FeedbackResponseCommentRow {
     }
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                  String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
-                  Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable,
-                  double sessionTimeZone) {
+              String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+              Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable,
+              double sessionTimeZone) {
         this(frc, giverDisplay, instructorEmailNameTable, sessionTimeZone);
         setDataForAddEditDelete(frc, giverName, recipientName,
                 showCommentToString, showGiverNameToString, responseVisibilities);

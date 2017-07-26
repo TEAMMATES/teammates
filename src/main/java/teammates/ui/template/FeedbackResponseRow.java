@@ -30,8 +30,8 @@ public class FeedbackResponseRow {
         this.questionNumber = question.questionNumber;
         this.questionText = results.getQuestionText(questionId);
         this.questionMoreInfo = questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
-                                                                              personType + "-" + personIndex
-                                                                                         + "-session-" + fbIndex);
+                personType + "-" + personIndex
+                        + "-session-" + fbIndex);
         if ("recipient".equals(personType)) {
             this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
@@ -55,7 +55,7 @@ public class FeedbackResponseRow {
                 Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        instructorEmailNameTable);
+                        instructorEmailNameTable, results.getTimeZone());
                 String whoCanSeeComment = null;
                 boolean isVisibilityIconShown = false;
                 if (results.feedbackSession.isPublished()) {

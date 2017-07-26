@@ -24,6 +24,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public Map<String, String> instructorEmailNameTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
+    public double sessionTimeZone;
 
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -32,8 +33,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentRow getComment() {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
-                                               showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities(), instructorEmailNameTable);
+                        showCommentToString, showGiverNameToString,
+                        getResponseVisibilities(), instructorEmailNameTable, sessionTimeZone);
         frc.enableEditDelete();
 
         return frc;
@@ -68,12 +69,12 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
             return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         case OWN_TEAM_MEMBERS:
             return question.giverType != FeedbackParticipantType.INSTRUCTORS
-                   && question.giverType != FeedbackParticipantType.SELF
-                   && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                    && question.giverType != FeedbackParticipantType.SELF
+                    && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         case RECEIVER:
             return question.recipientType != FeedbackParticipantType.SELF
-                   && question.recipientType != FeedbackParticipantType.NONE
-                   && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
         case RECEIVER_TEAM_MEMBERS:
             return question.recipientType != FeedbackParticipantType.INSTRUCTORS
                     && question.recipientType != FeedbackParticipantType.SELF

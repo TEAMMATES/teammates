@@ -1442,11 +1442,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
-                getResponseCommentVisibilityString(frcAttributes, question),
-                getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                responseVisibilityMap, bundle.instructorEmailNameTable,
-                bundle.getTimeZone());
+                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
+                                            getResponseCommentVisibilityString(frcAttributes, question),
+                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
+                                            responseVisibilityMap, bundle.instructorEmailNameTable,
+                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEditDelete();
