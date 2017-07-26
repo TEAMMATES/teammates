@@ -129,6 +129,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
+    public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
+        clickCollapseExpandButton();
+        waitForPanelsToCollapse();
+    }
+
     public void clickShowStats() {
         click(showStatsCheckbox);
     }
@@ -551,6 +556,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
             // Element changed (e.g. loading gif changed to actual image)
             return waitForElementPresence(by).getAttribute("src");
         }
+    }
+
+    public void clickAjaxLoadedPanelAndWaitForExpansion(String panelId, String ajaxClass) {
+        clickElementById(panelId);
+        waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
     }
 
 }
