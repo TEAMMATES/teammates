@@ -53,7 +53,9 @@ QUnit.test('test conversion from pipe-separated string to instructor list', (ass
     assert.expect(1);
     const instructorString = 'testName1 | testEmail1@email.com | testInstitution1\n'
         + 'testName2  |   testEmail2@email.com | testInstitution2\n'
-        + 'testName3| testEmail3@email.com   |  testInstitution3';
+        + '     \t       \n'
+        + 'testName3| testEmail3@email.com   |  testInstitution3\n'
+        + '      \t                      \n';
     const instructorListExpected = [
         Instructor.create('testName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),
         Instructor.create('testName2', 'testName2', 'testEmail2@email.com', 'testInstitution2'),
@@ -66,6 +68,8 @@ QUnit.test('test conversion from tab- and pipe-separated string to instructor li
     assert.expect(1);
     const instructorString = 'testName1 | testEmail1@email.com | testInstitution1\n'
         + 'testName2\ttestEmail2@email.com\ttestInstitution2\n'
+        + '\n'
+        + ' \t  \n'
         + 'testName3 | testEmail3@email.com | testInstitution3';
     const instructorListExpected = [
         Instructor.create('testName1', 'testName1', 'testEmail1@email.com', 'testInstitution1'),

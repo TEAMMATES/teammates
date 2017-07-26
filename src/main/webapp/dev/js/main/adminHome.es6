@@ -143,6 +143,8 @@ class Instructor {
     static allFromString(multipleInstructorsString) {
         return multipleInstructorsString
             .split('\n')
+            .map(str => str.trim()) // remove trailing spaces, reduces whitespace-only lines to empty string
+            .filter(str => str !== '') // get rid of any blank/whitespace-only lines
             .map(singleInstructorString => Instructor.createFromString(singleInstructorString));
     }
     static allToString(instructors) {
