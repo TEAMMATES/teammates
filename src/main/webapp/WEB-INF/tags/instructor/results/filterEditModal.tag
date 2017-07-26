@@ -1,7 +1,7 @@
-<%@ tag description="instructorFeedbackResultsTop - Filter Panel Edit Modal" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ tag description="instructorFeedbackResultsTop - Filter Panel Edit Modal" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
 <div id="editModal" class="modal fade" role="dialog">
@@ -9,7 +9,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit settings</h4>
+        <h4 class="modal-title">Edit View</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="${filterPanel.resultsLink}">
@@ -107,10 +107,10 @@
           <hr>
           <div class="row">
             <div class="col-md-2">
-              <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+              <button id="submitBtn" type="submit" class="btn btn-primary">Change View</button>
             </div>
             <div class="col-md-offset-8 col-md-2">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
           </div>
         </form>
