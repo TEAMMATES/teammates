@@ -12,7 +12,7 @@
   <script type="text/javascript" src="/js/adminAccountDetails.js"></script>
 </c:set>
 
-<ta:adminPage pageTitle="TEAMMATES - Administrator Account Details" bodyTitle="Instructor Account Details" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ta:adminPage title="Instructor Account Details" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
   <accounts:accountDetailsForInstructorPanel accountInformation="${data.accountInformation}"/>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 

@@ -640,7 +640,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getSelectedQuestionNumber(int qnNumber) {
         Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
-        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText());
+        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
     }
 
     /**
