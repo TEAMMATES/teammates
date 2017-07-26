@@ -2226,7 +2226,7 @@ public class FeedbackSessionResultsBundle {
         return feedbackSession.getTimeZone();
     }
 
-    public static Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
+    private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
         Map<String, String> instructorEmailNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = roster.getInstructors();
         for (InstructorAttributes instructor : instructorList) {
