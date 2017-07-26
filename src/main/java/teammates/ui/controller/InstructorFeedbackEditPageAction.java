@@ -25,6 +25,8 @@ public class InstructorFeedbackEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String shouldLoadInEditModeParam = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT);
+        boolean shouldLoadInEditMode = "true".equals(shouldLoadInEditModeParam);
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
@@ -75,7 +77,8 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
-        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorsWhoCanSubmit, instructor);
+        data.init(feedbackSession, questions, questionHasResponses, studentList,
+                instructorsWhoCanSubmit, instructor, shouldLoadInEditMode);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
