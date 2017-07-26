@@ -10,6 +10,7 @@ import {
 const SUPPORT_EMAIL = $('#error-feedback-email-composer-recipient-email').prop('value');
 const ERROR_STATUS_MESSAGE = 'Failed to record the error message. Please email our support team at '
         + `<a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>.`;
+const USER_REPORT_SUBMIT_ACTION_URI = '/page/errorFeedbackSubmit';
 
 function displayWarningStatus($form) {
     setStatusMessageToForm(ERROR_STATUS_MESSAGE,
@@ -27,7 +28,7 @@ $(document).ready(() => {
         const $form = $(event.target);
         // Use Ajax to submit form data
         $.ajax({
-            url: '/page/errorFeedbackSubmit',
+            url: USER_REPORT_SUBMIT_ACTION_URI,
             type: 'POST',
             data: $form.serialize(),
             beforeSend() {
