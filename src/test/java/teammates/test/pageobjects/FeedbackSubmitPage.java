@@ -212,7 +212,6 @@ public class FeedbackSubmitPage extends AppPage {
         // Verify modal header has success class
         WebElement modalHeader = closeButton.findElement(By.xpath(".."));
         assertTrue(modalHeader.getAttribute("class").contains("success"));
-        
 
         // Verify title content
         WebElement modalTitle = browser.driver.findElement(By.xpath("//h4[@class='modal-title icon-success']"));
