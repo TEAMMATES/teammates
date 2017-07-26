@@ -52,12 +52,12 @@ public class FeedbackSubmissionEditQuestion {
             messageToDisplayIfNoRecipientAvailable = "This question is for team members and you don't have any team members."
                                                      + " Therefore, you will not be able to answer this question.";
         } else if (questionAttributes.recipientType == FeedbackParticipantType.TEAMS) {
-            messageToDisplayIfNoRecipientAvailable = "This question is for other teams in this course and this course don't "
-                                                     + "have any other team. Therefore, you will not be able to answer this "
-                                                     + "question.";
+            messageToDisplayIfNoRecipientAvailable = "This question is for other teams in this course and this course "
+                                                     + "doesn't have any other team. Therefore, you will not be able to "
+                                                     + "answer this question.";
         } else if (questionAttributes.recipientType == FeedbackParticipantType.STUDENTS) {
             messageToDisplayIfNoRecipientAvailable = "This question is for other students in this course and this course "
-                                                     + "don't have any other student. Therefore, you will not be able to "
+                                                     + "doesn't have any other student. Therefore, you will not be able to "
                                                      + "answer this question.";
         }
     }

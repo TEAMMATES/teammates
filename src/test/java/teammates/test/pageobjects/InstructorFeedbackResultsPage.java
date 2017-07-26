@@ -236,10 +236,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         click(showResponseCommentAddFormButton);
-        WebElement editorElement = addResponseCommentForm.findElement(By.className("mce-content-body"));
+        WebElement editorElement = waitForElementPresence(By.cssSelector("#" + addResponseCommentId + " .mce-content-body"));
         waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         fillRichTextEditor(editorElement.getAttribute("id"), commentText);
-        click(addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
+        WebElement saveButton = addResponseCommentForm
+                .findElement(By.className("col-sm-offset-5"))
+                .findElement(By.tagName("a"));
+        if ("chrome".equals(TestProperties.BROWSER)) {
+            // Focus on save button to fire events triggered when the editor loses focus
+            focusViaClickAction(saveButton);
+        }
+        click(saveButton);
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
             waitForElementToBeClickable(editorElement);
@@ -576,6 +583,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private void moveToElement(By by) {
         WebElement element = browser.driver.findElement(by);
         new Actions(browser.driver).moveToElement(element).perform();
+    }
+
+    private void focusViaClickAction(WebElement element) {
+        new Actions(browser.driver).moveToElement(element).click().perform();
     }
 
     private String getElementSrcWithRetryAfterWaitForPresence(By by) {

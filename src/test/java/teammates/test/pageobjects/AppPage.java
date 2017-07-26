@@ -15,8 +15,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
@@ -32,6 +32,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTask;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
@@ -948,34 +949,21 @@ public abstract class AppPage {
 
     /**
      * Verifies the status message in the page is same as the one specified.
-     * @return The page (for chaining method calls).
+     * The check is done multiple times with waiting times in between to account for
+     * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public AppPage verifyStatus(String expectedStatus) {
-
-        // The check is done multiple times with waiting times in between to account for
-        // timing issues due to page load, inconsistencies in Selenium API, etc.
-        for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
-            if (i == VERIFICATION_RETRY_COUNT - 1) {
-                // Last retry count: do one last attempt and if it still fails,
-                // throw assertion error and show the difference
-                waitForElementVisibility(statusMessage);
-                assertEquals(expectedStatus, getStatus());
-                break;
-            }
-            try {
-                waitForElementVisibility(statusMessage);
-                if (expectedStatus.equals(getStatus())) {
-                    break;
+    public void verifyStatus(final String expectedStatus) {
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+                @Override
+                public void run() {
+                    waitForElementVisibility(statusMessage);
+                    assertEquals(expectedStatus, getStatus());
                 }
-            } catch (NoSuchElementException | StaleElementReferenceException e) {
-                // Might occur if the page reloads, which makes the previous WebElement
-                // stored in the variable statusMessage "stale"
-                ThreadHelper.waitFor(0);
-            }
-            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
+            }, WebDriverException.class, AssertionError.class);
+        } catch (MaximumRetriesExceededException e) {
+            assertEquals(expectedStatus, getStatus());
         }
-
-        return this;
     }
 
     /**
