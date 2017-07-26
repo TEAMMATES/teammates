@@ -119,6 +119,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickCollapseExpandButton() {
         click(collapseExpandButton);
+        waitForPanelsToExpand();
     }
 
     public void expandPanels() {
