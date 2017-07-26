@@ -1091,7 +1091,11 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.
-    disableEditFS();
+    if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
+        enableEditFS();
+    } else {
+        disableEditFS();
+    }
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
@@ -1122,15 +1126,6 @@ $(document).ready(() => {
     prepareInstructorPages();
 
     prepareDatepickers();
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: true,
-        });
-        /* eslint-enable camelcase */
-    }
 
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
