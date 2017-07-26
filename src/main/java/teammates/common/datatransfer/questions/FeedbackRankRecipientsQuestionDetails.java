@@ -228,9 +228,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
 
