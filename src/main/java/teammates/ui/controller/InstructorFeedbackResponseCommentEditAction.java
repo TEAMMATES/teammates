@@ -2,15 +2,18 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -60,8 +63,9 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 courseId, feedbackSessionName, null, instructor.email, null, new Date(),
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
-        FeedbackSessionResultsBundle bundle =
-                logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        CourseRoster roster = new CourseRoster(students, instructors);
 
         //Edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
@@ -104,7 +108,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         data.question = logic.getFeedbackQuestion(response.feedbackQuestionId);
         data.showCommentToString = StringHelper.toString(updatedComment.showCommentTo, ",");
         data.showGiverNameToString = StringHelper.toString(updatedComment.showGiverNameTo, ",");
-        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.instructorEmailNameTable = FeedbackSessionResultsBundle.getInstructorEmailNameTableFromRoster(roster);
         data.sessionTimeZone = session.getTimeZone();
         data.editedCommentDetails = data.createEditedCommentDetails();
         return createAjaxResult(data);
