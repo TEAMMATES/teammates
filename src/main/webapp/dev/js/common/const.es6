@@ -57,6 +57,7 @@ const ParamsNames = {
     FEEDBACK_QUESTION_DESCRIPTION: 'questiondescription',
     FEEDBACK_QUESTION_DISCARDCHANGES: 'questiondiscardchanges',
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
+    USER_ID: 'user',
 };
 
 const Const = {

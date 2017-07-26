@@ -31,7 +31,8 @@
         <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
       </div>
       <br>
-      <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
+      <form id="enrollSubmitForm" action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
+        <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
         <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
@@ -48,14 +49,24 @@
                 </div>
                 <div class="gap-10px"></div>
 
-                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
-                <br>
-
                 <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 
-                <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
-                Enroll students
-                </button>
+                <div class="row">
+                  <div class="col-md-6">
+                    <button type="button" title="Add" id="addEmptyRows" name="empty_rows" class="btn btn-primary btn-md">
+                    Add
+                    </button>
+                    <input type="number" name="number_of_rows" value="1" min="0">
+                    <label>Rows</label>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md pull-right">
+                    Enroll students
+                    </button>
+                  </div>
+                </div>
+                <br>
+                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
               </div>
             </div>
           </div>

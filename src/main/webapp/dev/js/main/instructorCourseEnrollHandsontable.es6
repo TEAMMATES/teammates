@@ -1,19 +1,40 @@
 /* global Handsontable:false */
 
-const container = document.getElementById('spreadsheet');
-let columns = ['Section', 'Team', 'Name', 'Email', 'Comment'];
+import {
+    ParamsNames,
+} from '../common/const.es6';
 
-$('#toggle-interface').click((e) => {
-    $(e.target).text($(e.target).text() === 'Textarea Interface'
-        ? 'Spreadsheet Interface' : 'Textarea Interface');
-    $('.student-data-textarea, #student-data-spreadsheet').toggle();
+const container = document.getElementById('spreadsheet');
+const columns = ['Section', 'Team', 'Name', 'Email', 'Comments'];
+const studentListData = [];
+
+const handsontable = new Handsontable(container, {
+    rowHeaders: true,
+    colHeaders: columns,
+    columnSorting: true,
+    className: 'htCenter',
+    manualColumnResize: true,
+    sortIndicator: true,
+    maxRows: 100,
+    maxCols: 5,
+    stretchH: 'all',
+    minSpareRows: 2,
+    manualColumnMove: true,
+    contextMenu: [
+        'row_above',
+        'row_below',
+        'remove_row',
+        'undo',
+        'redo',
+        'make_read_only',
+        'alignment',
+    ],
 });
 
-function getStudentList() {
-    const COURSE_ID = "test.exa-demo";
-    const USER = "test@example.com";
-
-    console.log("Executed");
+$(document).ready(() => {
+    const $form = $('#enrollSubmitForm');
+    const COURSE_ID = $form.children(`input[name="${ParamsNames.COURSE_ID}"]`).val();
+    const USER = $form.children(`input[name="${ParamsNames.USER_ID}"]`).val();
 
     $.ajax({
         type: 'POST',
@@ -23,38 +44,24 @@ function getStudentList() {
             user: USER,
         },
         success(data) {
-            if (data.statusCode === '200') {
-                console.log(data);
-            } else {
-                console.log(data);
-            }
+            const objects = data.students;
+            objects.forEach((object) => {
+                const studentData = [];
+                studentData.push(object.section);
+                studentData.push(object.team);
+                studentData.push(object.name);
+                studentData.push(object.email);
+                studentData.push(object.comments);
+                studentListData.push(studentData);
+            });
+            handsontable.loadData(studentListData);
         },
     });
-}
 
-const handsontable = new Handsontable(container, {
-    rowHeaders: true,
-    colHeaders: columns,
-    contextMenu: [
-        'row_above',
-        'row_below',
-        'remove_row',
-        '---------',
-        'undo',
-        'redo',
-        '---------',
-        'make_read_only',
-        'alignment',
-    ],
-    columnSorting: true,
-    className: 'htCenter',
-    manualColumnResize: true,
-    sortIndicator: true,
-    maxRows: 100,
-    maxCols: 100,
-    stretchH: 'all',
-    minSpareRows: 2,
-    manualColumnMove: true,
+    $('#addEmptyRows').click(() => {
+        const emptyRowsCount = $("input[name='number_of_rows']").val();
+        handsontable.alter('insert_row', null, emptyRowsCount);
+    });
 });
 
 function updateHeaderOrder() {
@@ -92,34 +99,27 @@ function updateDataDump() {
             dataPushToTextarea += '\n';
         }
     }
+
     $('#enrollstudents').text(dataPushToTextarea);
-}
 
-(() => {
-    if ($('#enrollstudents').val()) {
-        const data = [];
-        let splitData = $('#enrollstudents').val().split('\n');
-        columns = splitData[0].split('|');
-        splitData = splitData.slice(1, -1);
-        if (splitData.length > 0) {
-            for (let erow = 0; erow < splitData.length; erow += 1) {
-                data.push(splitData[erow].split('|'));
+    /* eslint-disable consistent-return */
+    handsontable.updateSettings({
+        modifyColWidth: (width) => {
+            if (width > 165) {
+                return 150;
             }
-            handsontable.loadData(data);
-        }
-        handsontable.updateSettings({
-            colHeaders: columns,
-        });
-    }
-
-    console.log("Hitting");
-    getStudentList();
-
-})();
+        },
+        modifyRowHeight: (height) => {
+            if (height > 20) {
+                return 10;
+            }
+        },
+    });
+    /* eslint-enable consistent-return */
+}
 
 const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
 
 for (let itr = 0; itr < hooks.length; itr += 1) {
     handsontable.addHook(hooks[itr], updateDataDump);
 }
-

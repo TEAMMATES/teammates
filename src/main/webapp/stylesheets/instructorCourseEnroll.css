@@ -58,3 +58,15 @@
     padding: 0;
     outline: 0;
 }
+
+input[name='number_of_rows'] {
+    width: 60px;
+    height: 32px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+}
+
+#addEmptyRows {
+    margin-top: -3px;
+}

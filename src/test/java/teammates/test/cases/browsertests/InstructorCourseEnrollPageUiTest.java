@@ -71,14 +71,18 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         String enrollString =
                 "Section | Team | Name | Email | Comments\n"
                 // Modify team for student within section
-                + "Section 1| Team 4 | Alice Betsy</textarea><textarea>'\" | alice.b.tmms@gmail.tmt"
+                + "Section 1 | Team 4 | Alice Betsy</textarea><textarea>'\" | alice.b.tmms@gmail.tmt"
                         + " | This comment has been changed\n"
                 // Modify section and team
-                + "Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.tmt |\n"
+                + "Section 2 | Team 2 | Benny Charles | benny.c.tmms@gmail.tmt | \n"
+                + "Section 2 | Team 2 | Charlie Davis | charlie.d.tmms@gmail.tmt"
+                        + " | This student's name is Charlie Davis\n"
+                + "Section 2 | Team 2 | Danny Engrid | danny.e.tmms@gmail.tmt"
+                        + " | This student's name is Danny Engrid\n"
                 // A student with no comment
-                + "Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.tmt |\n"
+                + "Section 3 | Team 3 | Frank Galoe | frank.g.tmms@gmail.tmt | \n"
                 // A new student with name containing accented characters
-                + "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt"
+                + "Section 1 | Team 1 | José Gómez | jose.gomez.tmns@gmail.tmt"
                         + " | This student name contains accented characters\n";
 
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
@@ -113,13 +117,14 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
         enrollString =
-                "| Name | Email | | Team | Comments\n"
-                + "|Alice Betsy</option></td></div>'\" | alice.b.tmms@gmail.tmt ||"
-                        + " Team 1</option></td></div>'\" | This comment has been changed\n"
+                "Section | Team | Name | Email | Comments\n"
+                + "None | Team 1</option></td></div>'\" | Alice Betsy</option></td></div>'\" |"
+                        + " alice.b.tmms@gmail.tmt | This comment has been changed\n"
                 // A student with no comment
-                + "|Frank Galoe | frank.g.tmms@gmail.tmt || Team 1</option></td></div>'\" |\n"
+                + "None | Team 1</option></td></div>'\" | Frank Galoe | frank.g.tmms@gmail.tmt | \n"
                 // A new student with name containing accented characters
-                + "|José Gómez | jose.gomez.tmns@gmail.tmt || Team 3 | This student name contains accented characters\n";
+                + "None | Team 3 | José Gómez | jose.gomez.tmns@gmail.tmt |"
+                        + " This student name contains accented characters\n";
 
         resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResultForEmptyCourse.html");
