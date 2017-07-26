@@ -429,7 +429,6 @@ function isDestructiveFieldsModifed(questionNum) {
         const currVal = $($curr.get(i)).val();
 
         if (prevVal !== currVal) {
-            console.log(`prevVal = ${prevVal}, currVal = ${currVal}`);
             return true;
         }
     }
@@ -440,7 +439,7 @@ function isDestructiveFieldsModifed(questionNum) {
 function correctEditStatusIfRequired($form) {
     const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
 
-    if ($(`#form_editquestion-${questionNum}`).attr('editstatus') != 'mustDeleteResponses') {
+    if ($(`#form_editquestion-${questionNum}`).attr('editstatus') !== 'mustDeleteResponses') {
         // if 'editstatus' attribute of form is not
         // 'mustDeleteResponses', then there is nothing to correct
         return;
@@ -690,7 +689,7 @@ function restoreOriginal(questionNum) {
         $(`#questionnum-${questionNum}`).val(questionNum);
         $(`#questionnum-${questionNum}`).prop('disabled', true);
 
-        const $form = $('#form_editquestion-${questionNum}');
+        const $form = $(`#form_editquestion-${questionNum}`);
 
         if ($form.attr('editstatus') === 'mustDeleteResponses') {
             $form.attr('editstatus', 'hasResponses');
@@ -1143,7 +1142,6 @@ function readyFeedbackEditPage() {
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
                     null, null, StatusType.DANGER);
         }
-        event.preventDefault();
     });
 
     $('form.form_question').submit(function () {
