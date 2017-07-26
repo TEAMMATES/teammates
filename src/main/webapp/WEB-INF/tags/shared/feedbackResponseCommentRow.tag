@@ -29,7 +29,7 @@
     </c:otherwise>
 </c:choose>
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
-    <div id="commentBar-${divId}">
+    <div id="commentBar-${divId}" class="row">
         <div class="col-xs-10">
         <span class="text-muted">
             From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}

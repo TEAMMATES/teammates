@@ -214,7 +214,13 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void setStatusToAdmin(
-            FeedbackResponseCommentAttributes feedbackResponseComment) {
+    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        statusToAdmin += "InstructorEditInstructorFeedbackSaveAction:<br>"
+                + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                + feedbackResponseComment.feedbackSessionName + "<br>"
+                + "by: " + feedbackResponseComment.giverEmail + " at "
+                + feedbackResponseComment.createdAt + "<br>"
+                + "comment text: " + feedbackResponseComment.commentText.getValue();
     }
 }

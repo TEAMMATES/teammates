@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -247,8 +246,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<String> responseSubmittedRecipient = new ArrayList<String>();
         int responseIndx = 0;
         int i = 0;
-        Logger log = Logger.getLogger();
-
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
                 // A response recipient can be invalid due to submission adjustment failure
@@ -256,7 +253,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
             }
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipient);
-            log.info(recipientOptionsForQuestion.toString());
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
@@ -290,7 +286,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
-            log.info(recipientOptionsForQuestion.toString());
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithoutExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,

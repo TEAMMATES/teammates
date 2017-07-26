@@ -49,12 +49,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
-    protected List<String> commentsToAddIds = new ArrayList<String>();
     protected Map<String, String> responseGiverMapForComments = new HashMap<String, String>();
     protected Map<String, String> responseRecipientMapForComments = new HashMap<String, String>();
     protected Map<String, String> questionIdsForComments = new HashMap<String, String>();
-    protected Map<String, String> commentToUpdate = new HashMap<String, String>();
-    protected Map<String, String> commentToUpdateText = new HashMap<String, String>();
+    protected Map<String, String> commentsToUpdateId = new HashMap<String, String>();
+    protected Map<String, String> commentsToAddText = new HashMap<String, String>();
+    protected Map<String, String> commentsToUpdateText = new HashMap<String, String>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -187,9 +187,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
 
-        saveResponsesComments(commentsToAddIds, responseGiverMapForComments, responseRecipientMapForComments,
+        saveResponsesComments(commentsToAddText, responseGiverMapForComments, responseRecipientMapForComments,
                 questionIdsForComments);
-        updateResponsesComments(commentToUpdate, commentToUpdateText, responseGiverMapForComments,
+        updateResponsesComments(commentsToUpdateId, commentsToUpdateText, responseGiverMapForComments,
                 responseRecipientMapForComments, questionIdsForComments);
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -248,11 +248,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                             + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
             if (commentText != null && !commentText.toString().isEmpty()) {
-                String commentIndex = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
-                questionIdsForComments.put(commentIndex, questionAttributes.getId());
-                responseGiverMapForComments.put(commentIndex, response.giver);
-                responseRecipientMapForComments.put(commentIndex, response.recipient);
-                commentsToAddIds.add(commentIndex);
+                String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
+                questionIdsForComments.put(commentIndx, questionAttributes.getId());
+                responseGiverMapForComments.put(commentIndx, response.giver);
+                responseRecipientMapForComments.put(commentIndx, response.recipient);
+                commentsToAddText.put(commentIndx, commentText);
             }
             if (response.getId() != null) {
                 List<FeedbackResponseCommentAttributes> previousComments =
@@ -270,8 +270,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             && !commentCheck.commentText.equals(editedCommentText)) {
                         String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
                         questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                        commentToUpdate.put(commentIndx, commentId);
-                        commentToUpdateText.put(commentIndx, editedCommentText);
+                        commentsToUpdateId.put(commentIndx, commentId);
+                        commentsToUpdateText.put(commentIndx, editedCommentText);
                         responseGiverMapForComments.put(commentIndx, response.giver);
                         responseRecipientMapForComments.put(commentIndx, response.recipient);
                     }
@@ -280,40 +280,38 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    private void saveResponsesComments(List<String> commentsToAdd, Map<String, String> responseGiverMapForComments,
+    private void saveResponsesComments(Map<String, String> commentsToAddText,
+            Map<String, String> responseGiverMapForComments,
             Map<String, String> responseRecipientMapForComments,
             Map<String, String> questionIdsForComments) throws EntityDoesNotExistException {
-        for (String commentId : commentsToAdd) {
+        for (String commentId : commentsToAddText.keySet()) {
             String questionId = questionIdsForComments.get(commentId);
             String giver = responseGiverMapForComments.get(commentId);
             String recipient = responseRecipientMapForComments.get(commentId);
             FeedbackResponseAttributes responseToAddComment = logic.getFeedbackResponse(questionId, giver, recipient);
-            String commentText =
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentId);
+            String commentText = commentsToAddText.get(commentId);
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentId);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentId);
-            boolean isInstructor = Boolean.parseBoolean(getRequestParamValue("isInstructor" + commentId));
-            String giverRole = isInstructor ? "Instructor" : "Student";
+            boolean isInstructor =
+                    Boolean.parseBoolean(getRequestParamValue(Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR + commentId));
+            String giverRole = isInstructor ? Const.INSTRUCTOR : Const.STUDENT;
             createCommentsForResponses(courseId, feedbackSessionName, getUserEmailForCourse(), questionId,
                     responseToAddComment, commentText, giverRole, showCommentTo, showGiverNameTo);
         }
     }
 
-    private void updateResponsesComments(Map<String, String> commentToUpdate, Map<String, String> commentToUpdateText,
+    private void updateResponsesComments(Map<String, String> commentToUpdateId, Map<String, String> commentToUpdateText,
             Map<String, String> responseGiverMapForComments, Map<String, String> responseRecipientMapForComments,
             Map<String, String> questionIdsForComment) throws EntityDoesNotExistException {
-        for (String commentIndx : commentToUpdate.keySet()) {
-            log.info(commentIndx);
-            log.info(questionIdsForComment.get(commentIndx));
+        for (String commentIndx : commentToUpdateId.keySet()) {
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
-            log.info(showCommentTo);
-            log.info(showGiverNameTo);
+            String commentId = commentToUpdateId.get(commentIndx);
+            String updatedCommentText = commentToUpdateText.get(commentIndx); 
             FeedbackResponseAttributes responseToEditComment =
                     logic.getFeedbackResponse(questionIdsForComment.get(commentIndx),
                             responseGiverMapForComments.get(commentIndx), responseRecipientMapForComments.get(commentIndx));
-            updateResponseComment(showCommentTo, showGiverNameTo, commentToUpdate.get(commentIndx), responseToEditComment,
-                    commentToUpdateText.get(commentIndx));
+            updateResponseComment(showCommentTo, showGiverNameTo, commentId, responseToEditComment, updatedCommentText);
         }
     }
 
@@ -353,7 +351,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         if (!isError) {
-            statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
+            statusToAdmin += "FeedbackSubmitEditSaveAction:<br>"
                            + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
