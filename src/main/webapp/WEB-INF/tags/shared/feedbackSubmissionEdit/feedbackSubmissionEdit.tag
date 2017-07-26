@@ -48,6 +48,7 @@
 </c:if>
 
 <c:choose>
+<<<<<<< HEAD
     <c:when test="${isInstructor}">
         <ti:instructorPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
             <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}" isInstructor="${isInstructor}"/>
@@ -66,4 +67,24 @@
             <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}" isInstructor="${isInstructor}"/>
         </ts:studentPage>
     </c:otherwise>
+=======
+  <c:when test="${isInstructor}">
+    <ti:instructorPage title="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+      <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
+    </ti:instructorPage>
+  </c:when>
+  <c:otherwise>
+    <ts:studentPage title="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+      <c:if test="${not data.headerHidden}">
+        <ts:studentMessageOfTheDay />
+      </c:if>
+      <c:if test="${empty data.account.googleId}">
+        <div id="registerMessage" class="alert alert-info">
+          ${data.registerMessage}
+        </div>
+      </c:if>
+      <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
+    </ts:studentPage>
+  </c:otherwise>
+>>>>>>> master
 </c:choose>

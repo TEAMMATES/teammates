@@ -53,7 +53,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h1>Instructor Home</h1>");
+        return pageSource.contains("<h1>Home</h1>");
     }
 
     public void clickSortByIdButton() {
