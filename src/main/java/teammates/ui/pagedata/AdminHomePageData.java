@@ -10,9 +10,6 @@ public class AdminHomePageData extends PageData {
     public String instructorInstitution;
     public boolean isInstructorAddingResultForAjax;
     public String statusForAjax;
-    // this field will contain the name, email address and institution of the instructor separated by \t or |
-    // e.g: "Instructor1 \t instructor1@test.com \t NUS"
-    public String instructorDetailsSingleLine;
 
     public AdminHomePageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -32,9 +29,5 @@ public class AdminHomePageData extends PageData {
 
     public String getInstructorInstitution() {
         return sanitizeForHtml(instructorInstitution);
-    }
-
-    public String getInstructorDetailsSingleLine() {
-        return instructorDetailsSingleLine;
     }
 }
