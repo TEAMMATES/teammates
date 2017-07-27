@@ -1497,7 +1497,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 pull-right">
+                            <div class="col-sm-3 pull-right">
                                 <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
                                     <div class="margin-0 checkbox padding-top-0 min-height-0">
                                         <label class="text-strike">
@@ -3292,14 +3292,14 @@
                                     <div class="resultStatistics">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-sm-4 text-color-gray">
+                                                <div class="col-md-7 text-color-gray">
                                                     <strong>
                                                         Response Summary
                                                     </strong>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-md-12 table-responsive">
                                                     <table class="table margin-0">
                                                         <thead>
                                                             <tr>
@@ -4467,14 +4467,14 @@
                                     <div class="resultStatistics">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-sm-4 text-color-gray">
+                                                <div class="col-md-4 text-color-gray">
                                                     <strong>
                                                         Response Summary
                                                     </strong>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-md-4">
                                                     <table class="table margin-0">
                                                         <thead>
                                                             <tr>
@@ -6121,11 +6121,11 @@
 
                                     <br>
                                     <div class="form-group margin-0">
-                                        <div class="col-sm-2 form-inline" style="text-align:right">
+                                        <div class="col-md-2 form-inline">
                                             <label for="input">To:</label>
                                             <span> Charlie Davis</span>
                                         </div>
-                                        <div class="col-sm-10">
+                                        <div class="col-md-10">
                                             <div class="row">
                                                 <div class="col-sm-12 table-responsive">
                                                     <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-0">
@@ -6203,11 +6203,11 @@
 
                                     <br>
                                     <div class="form-group margin-0">
-                                        <div class="col-sm-2 form-inline" style="text-align:right">
+                                        <div class="col-md-2 form-inline">
                                             <label for="input">To:</label>
                                             <span> Francis Gabriel</span>
                                         </div>
-                                        <div class="col-sm-10">
+                                        <div class="col-md-10">
                                             <div class="row">
                                                 <div class="col-sm-12 table-responsive">
                                                     <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-1">

@@ -12,24 +12,6 @@
       style="display: none;"
     </c:if> >
   <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${panelIndex}sessionsset" value="${sectionRow.sessionsInSectionSpecial}"/>
-
-<<<<<<< HEAD
-    <table class="table table-striped table-responsive">
-        <thead>
-            <tr>
-                <td>SessionName</td>
-                <td>Submit Responses and Add Comments</td>
-                <td>View Responses and Comments</td>
-                <td>Edit/Delete Responses/Comments by Others</td>
-            </tr>
-        </thead>
-        <tbody>
-            <c:if test="${empty sectionRow.feedbackSessions}">
-                <tr>
-                    <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
-                </tr>
-            </c:if>
-=======
   <table class="table table-striped">
     <thead>
       <tr>
@@ -45,8 +27,6 @@
           <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
         </tr>
       </c:if>
->>>>>>> 3031da95d6abdd7b757f94aadf611098623a5b47
-
       <c:forEach items="${sectionRow.feedbackSessions}" var="feedbackSession">
         <tr>
           <td>${feedbackSession.feedbackSessionName}</td>

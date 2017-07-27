@@ -129,7 +129,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Access-level:</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-9 margin-top-7px">
                                                 <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Co-owner" checked="">&nbsp;Co-owner: Can do everything
                                                 <a href="javascript:;">
                                                     View Details</a>
@@ -273,7 +273,7 @@
                                     <div id="accessControlEditDivForInstr1" style="">
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Access-level:</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-9 margin-top-7px">
                                                 <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Co-owner"> &nbsp;Co-owner: Can do everything &nbsp;
                                                 <a href="javascript:;">
                                                     View Details</a>

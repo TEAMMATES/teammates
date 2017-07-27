@@ -18,10 +18,10 @@
                 <br>A new page should open which displays the student's profile, similar to the sample profile below:
                 <br><br>
                 <div class="row">
-                    <div class="col-sm-2 col-xs-12 block-center">
+                    <div class="col-md-2 col-xs-12 block-center">
                         <img src="/images/profile_picture_default.png" class="profile-pic">
                     </div>
-                    <div class="col-sm-10 col-xs-12">
+                    <div class="col-md-10 col-xs-12">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -151,33 +151,33 @@
                     <div class="panel-body fill-plain">
                         <form class="form form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Student Name:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Student Name:</label>
+                                <div class="col-sm-10">
                                     <input class="form-control" value="Alice Betsy">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Section Name:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Section Name:</label>
+                                <div class="col-sm-10">
                                     <input class="form-control" value="Section A">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Team Name:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Team Name:</label>
+                                <div class="col-sm-10">
                                     <input class="form-control" value="Team A">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">E-mail Address:
+                                <label class="col-sm-2 control-label">E-mail Address:
                                 </label>
-                                <div class="col-sm-11">
+                                <div class="col-sm-10">
                                     <input class="form-control" value="alice@email.com">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Comments:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Comments:</label>
+                                <div class="col-sm-10">
                                     <textarea class="form-control" rows="6">Alice is a transfer student.</textarea>
                                 </div>
                             </div>
