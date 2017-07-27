@@ -39,6 +39,7 @@
             </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
+        <c:if test="${isInstructor}">
         <a id="frComment-visibility-options-trigger-${divId}"
            class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
            data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
@@ -48,7 +49,9 @@
             <span class="glyphicon glyphicon-eye-close"></span>
             Show Visibility Options
         </a>
+        </c:if>
     </div>
+    <c:if test="${isInstructor}">
     <div id="visibility-options-${divId}" class="panel panel-default" style="display: none;">
         <div class="panel-heading">
             Visibility Options
@@ -84,7 +87,7 @@
                     </td>
                 </tr>
                 </c:if>
-                <c:if test="${frc.responseVisibleToRecipient && isInstructor}">
+                <c:if test="${frc.responseVisibleToRecipient}">
                     <tr id="response-recipient-${divId}">
                         <td class="text-left">
                             <div data-toggle="tooltip"
@@ -108,7 +111,7 @@
                         </td>
                     </tr>
                 </c:if>
-                <c:if test="${frc.responseVisibleToGiverTeam && isInstructor}">
+                <c:if test="${frc.responseVisibleToGiverTeam}">
                     <tr id="response-giver-team-${divId}">
                         <td class="text-left">
                             <div data-toggle="tooltip"
@@ -131,7 +134,7 @@
                         </td>
                     </tr>
                 </c:if>
-                <c:if test="${frc.responseVisibleToRecipientTeam && isInstructor}">
+                <c:if test="${frc.responseVisibleToRecipientTeam}">
                     <tr id="response-recipient-team-${divId}">
                         <td class="text-left">
                             <div data-toggle="tooltip"
@@ -154,7 +157,7 @@
                         </td>
                     </tr>
                 </c:if>
-                 <c:if test="${frc.responseVisibleToStudents && isInstructor}">
+                 <c:if test="${frc.responseVisibleToStudents}">
                     <tr id="response-students-${divId}">
                         <td class="text-left">
                             <div data-toggle="tooltip"
@@ -203,6 +206,7 @@
             </tbody>
         </table>
     </div>
+    </c:if>
     <div class="form-group">
         <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
             ${frc.commentText}
