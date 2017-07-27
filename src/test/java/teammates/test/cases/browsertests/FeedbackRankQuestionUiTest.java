@@ -210,13 +210,13 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Test
     public void testInstructorResultsPageForRankRecipientQuestion() throws Exception {
-        ______TS("Rank recipient self excluding instructor results : question");
+        ______TS("Rank recipient instructor results : question");
 
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "student", false, null);
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-3", "ajax_auto");
         clickAjaxLoadedPanelAndWaitForExpansion(instructorResultsPage, "panelHeading-9", "ajax_auto");
-        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRecipientExcludingSelfView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRecipient.html");
     }
 
     @Test
@@ -380,7 +380,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                         .withUserId(instructorId)
                         .withCourseId(instructorCourseId)
-                        .withSessionName(instructorEditFsName);
+                        .withSessionName(instructorEditFsName)
+                        .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

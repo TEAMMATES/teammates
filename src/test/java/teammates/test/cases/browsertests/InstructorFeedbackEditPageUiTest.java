@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
@@ -66,7 +68,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception {
         testContent();
 
-        testEditSessionLink();
         testEditSessionAction();
 
         testGeneralQuestionOperations();
@@ -76,6 +77,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDoneEditingLink();
 
         testDeleteSessionAction();
+
+        testSanitization();
     }
 
     private void testGeneralQuestionOperations() throws Exception {
@@ -114,6 +117,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // This is the full HTML verification for Instructor Feedback Edit Page, the rest can all be verifyMainHtml
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
+        assertTrue(feedbackEditPage.verifyEditSessionBoxIsEnabled());
 
     }
 
@@ -177,6 +181,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
         // TODO: to implement a more sophisticated method to wait for the persistence of data
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        testEditSessionLink();
 
         // test expanded uncommon settings section
         feedbackEditPage.reloadPage();
@@ -185,7 +190,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.isElementVisible("sendEmailsForPanel");
 
         // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
         feedbackEditPage.clickSaveSessionButton();
@@ -204,7 +208,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditManuallyPublished.html");
 
         // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
 
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
@@ -500,7 +503,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
-    private void testEditQuestionNumberAction() {
+    private void testEditQuestionNumberAction() throws MaximumRetriesExceededException {
         ______TS("edit question number success");
 
         feedbackEditPage.clickEditQuestionButton(2);
@@ -793,6 +796,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
+    private void testSanitization() throws IOException {
+        ______TS("Test sanitization for edit page");
+
+        instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
+        FeedbackSessionAttributes session = testData.feedbackSessions.get("session1InTestingSanitizationCourse");
+        courseId = session.getCourseId();
+        feedbackSessionName = session.getFeedbackSessionName();
+
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPageTestingSanitization.html");
+
+        ______TS("Test sanitization for copy question modal");
+
+        feedbackEditPage.clickCopyButton();
+        feedbackEditPage.waitForCopyTableToLoad();
+        feedbackEditPage.verifyHtmlPart(By.id("copyModal"), "/instructorFeedbackCopyQuestionModalTestingSanitization.html");
+    }
+
     private void assertEnabledVisibilityOptionsIncludesOnly(List<FeedbackParticipantType> expectedTypes,
                                                             int questionNumber) {
         Set<String> expectedEnabledOptions = new HashSet<>();
@@ -871,7 +892,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
     }
 
-    private void testDeleteQuestionAction(int qnNumber) {
+    private void testDeleteQuestionAction(int qnNumber) throws MaximumRetriesExceededException {
 
         ______TS("qn " + qnNumber + " delete then cancel");
 
@@ -888,7 +909,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testEditNonExistentQuestion() {
+    private void testEditNonExistentQuestion() throws MaximumRetriesExceededException {
 
         ______TS("test editing a non-existent question");
 
@@ -1067,7 +1088,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
     }
 
-    private void testDeleteSessionAction() {
+    private void testDeleteSessionAction() throws MaximumRetriesExceededException {
 
         ______TS("session delete then cancel");
 
@@ -1087,7 +1108,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
-                                    .withSessionName(feedbackSessionName);
+                                    .withSessionName(feedbackSessionName)
+                                    .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1099,7 +1121,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
-                                    .withSessionName(sessionWithoutQuestions);
+                                    .withSessionName(sessionWithoutQuestions)
+                                    .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

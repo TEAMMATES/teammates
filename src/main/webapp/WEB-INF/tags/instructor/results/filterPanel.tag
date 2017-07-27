@@ -1,9 +1,9 @@
 <%@ tag description="instructorFeedbackResultsTop - Filter Panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
-<%@ attribute name="showAll" required="true" %>
-<form class="form-horizontal" style="margin-bottom: 35px" role="form" method="post" action="${filterPanel.resultsLink}">
+<form class="form-horizontal" style="margin-bottom:10px" role="form" method="post" action="${filterPanel.resultsLink}">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
@@ -78,8 +78,8 @@
                                         All
                                     </option>
                                     <c:forEach items="${filterPanel.sections}" var="section">
-                                        <option value="${section}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
-                                            ${section}
+                                        <option value="${fn:escapeXml(section)}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
+                                            ${fn:escapeXml(section)}
                                         </option>
                                     </c:forEach>
                                     <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
@@ -92,23 +92,6 @@
                 </c:if>
             </div>
         </div>
-    </div>
-
-    <div class="pull-right" style="margin-top:50px">
-        <c:choose>
-            <c:when test="${not showAll}">
-                <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" disabled>
-                        Expand All ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
-                    </a>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" data-toggle="tooltip" title="Expand all panels. You can also click on the panel heading to toggle each one individually.">
-                    Expand All ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
-                </a>
-            </c:otherwise>
-        </c:choose>
     </div>
 
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"

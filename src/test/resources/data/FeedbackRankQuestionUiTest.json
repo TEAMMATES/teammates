@@ -828,10 +828,62 @@
       "courseId": "FRankUiT.CS4221",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.4": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.5": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.6": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.7": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
       },
       "giverSection": "Section 2",
       "recipientSection": "Section 1"

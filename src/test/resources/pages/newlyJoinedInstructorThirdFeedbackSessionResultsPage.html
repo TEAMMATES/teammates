@@ -27,7 +27,7 @@
               <div class="col-lg-8">
                 <p class="form-control-static">
                   Session with different question types
-                  <a href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}">
+                  <a href="/page/instructorFeedbackEditPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&editsessiondetails=true&user=${test.instructor}">
                     [Edit]
                   </a>
                 </p>
@@ -145,7 +145,7 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
+  <form action="/page/instructorFeedbackResultsPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" class="form-horizontal" method="post" role="form" style="margin-bottom:10px">
     <div class="panel panel-info margin-0">
       <div class="panel-body">
         <div class="row">
@@ -227,17 +227,17 @@
         </div>
       </div>
     </div>
-    <div class="pull-right" style="margin-top:50px">
-      <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
-        Collapse All Questions
-      </a>
-    </div>
     <input name="fsname" type="hidden" value="Session with different question types">
     <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
     <input name="user" type="hidden" value="${test.instructor}">
   </form>
   <br>
   <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <div>
+    <a class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
+      Collapse All Questions
+    </a>
   </div>
   <br>
   <br>
@@ -8169,6 +8169,11 @@
                         <span class="icon-sort unsorted">
                         </span>
                       </td>
+                      <td class="button-sort-none toggle-sort" id="button_sortname" style="width:10%;">
+                        Self Rank
+                        <span class="icon-sort unsorted">
+                        </span>
+                      </td>
                       <td class="button-sort-none toggle-sort" id="button_sortclaimed" style="width:15%;">
                         Average Rank
                         <span class="icon-sort unsorted">
@@ -8192,6 +8197,9 @@
                         1
                       </td>
                       <td>
+                        -
+                      </td>
+                      <td>
                         1
                       </td>
                       <td>
@@ -8208,6 +8216,9 @@
                         2
                       </td>
                       <td>
+                        -
+                      </td>
+                      <td>
                         2
                       </td>
                       <td>
@@ -8222,6 +8233,9 @@
                       </td>
                       <td>
                         1 , 2
+                      </td>
+                      <td>
+                        -
                       </td>
                       <td>
                         1.5

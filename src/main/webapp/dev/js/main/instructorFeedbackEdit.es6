@@ -82,6 +82,8 @@ import {
     addRubricCol,
     addRubricRow,
     bindAssignWeightsCheckboxes,
+    bindMoveRubricColButtons,
+    disableCornerMoveRubricColumnButtons,
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
@@ -461,6 +463,7 @@ function enableQuestion(questionNum) {
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
+    disableCornerMoveRubricColumnButtons(questionNum);
 }
 
 /**
@@ -526,6 +529,7 @@ function enableNewQuestion() {
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
     $(`#button_question_submit-${NEW_QUESTION}`).show();
+    disableCornerMoveRubricColumnButtons(NEW_QUESTION);
 }
 
 /**
@@ -1071,12 +1075,13 @@ function readyFeedbackEditPage() {
     });
 
     // Bind destructive changes
-    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function () {
-        const editStatus = $(this).parents('form').attr('editStatus');
-        if (editStatus === 'hasResponses') {
-            $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
-        }
-    });
+    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').not('.visibilityCheckbox')
+            .change(function () {
+                const editStatus = $(this).parents('form').attr('editStatus');
+                if (editStatus === 'hasResponses') {
+                    $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
+                }
+            });
 
     $('#add-new-question-dropdown > li').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
@@ -1088,7 +1093,11 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.
-    disableEditFS();
+    if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
+        enableEditFS();
+    } else {
+        disableEditFS();
+    }
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
@@ -1099,6 +1108,7 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMoveRubricColButtons();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
@@ -1127,15 +1137,6 @@ $(document).ready(() => {
     });
 
     prepareDatepickers();
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: true,
-        });
-        /* eslint-enable camelcase */
-    }
 
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
