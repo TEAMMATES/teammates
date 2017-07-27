@@ -398,7 +398,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement moveColButton = browser.driver.findElement(By.id(elemId));
 
         if (moveColButton.getAttribute("disabled") == null) {
-            moveColButton.click();
+            waitForElementToBeClickable(moveColButton);
+            click(moveColButton);
 
             return true;
         }
