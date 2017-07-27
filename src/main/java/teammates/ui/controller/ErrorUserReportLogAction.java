@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
@@ -15,7 +16,9 @@ public class ErrorUserReportLogAction extends Action {
     @Override
     protected ActionResult execute() {
         emailContent = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, emailContent);
         emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, emailSubject);
         log.severe(getUserErrorReportLogMessage());
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS,
