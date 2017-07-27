@@ -122,6 +122,8 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/admin/adminHomePage`.
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
 1. On the production server, you will be granted the access only if your account has administrator permission to the application.
+1. When logged in as administrator, masquerade mode can also be used to impersonate different users by adding user=username to the URL
+ e.g. `http://localhost:8888/page/studentHomePage?user=johnKent`.
 
 ### As instructor
 
@@ -148,11 +150,6 @@ You need a student account which can be created by instructors.
 1. Log out and log in to `http://localhost:8888/admin/adminSearchPage` as administrator.
 1. Search for the student you added in as instructor. From the search results, click anywhere on the desired row (except on the student name) to get the course join link for that student.
 1. Log out and use that join link (again, change the base URL to `http://localhost:8888` if necessary) to log in as a student.
-1. Masquerade mode can also be used to impersonate different users by adding user=username to the URL
- e.g. `http://localhost:8888/page/studentHomePage?user=johnKent`.
-
-**NOTE**
-> Masquerade mode will only work if the logged in user has admin access.
 
 **Alternative**: Run the test cases, they create several student and instructor accounts in the datastore. Use one of them to log in.
 
