@@ -324,24 +324,34 @@ public class GateKeeper {
     }
 
     public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,
-            String section, String email) {
+                                                                       String section, String email) {
+        if (!isValidInstructor(section, courseId, account) && !isValidStudent(email, courseId, account)) {
+            throw new UnauthorizedAccessException("User is not in the course that student belongs to");
+        }
+    }
+
+    private boolean isValidInstructor(String section, String courseId, AccountAttributes account) {
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
-        if (instructor != null) {
-            if (!instructor.isAllowedForPrivilege(section,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-                throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
-            }
-            return;
+        if (instructor == null) {
+            return false;
         }
 
+        if (!instructor.isAllowedForPrivilege(section,
+                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
+        }
+        return true;
+    }
+
+    private boolean isValidStudent(String email, String courseId, AccountAttributes account) {
         StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
-        if (student != null) {
-            if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
-                throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
-            }
-            return;
+        if (student == null) {
+            return false;
         }
 
-        throw new UnauthorizedAccessException("User is not in the course that student belongs to");
+        if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
+            throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
+        }
+        return true;
     }
 }
