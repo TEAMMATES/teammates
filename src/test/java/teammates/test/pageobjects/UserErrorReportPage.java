@@ -29,7 +29,7 @@ public class UserErrorReportPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h2>Error Feedback Collection</h2>");
+        return getPageSource().contains("<h2>Uh oh! Something went wrong.</h2>");
     }
 
     public void verifyErrorReportFormContents() {
