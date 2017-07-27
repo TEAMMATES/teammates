@@ -64,7 +64,7 @@
           <input type="button" class="btn btn-primary" id="auto-detect-time-zone" disabled value="Auto-Detect Time Zone">
         </div>
       </div>
-      
+
       <div class="form-group">
         <div class=" col-sm-12 align-center">
           <input type="submit" class="btn btn-primary" id="btnSaveCourse" name="btnSaveCourse"
