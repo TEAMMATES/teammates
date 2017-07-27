@@ -210,17 +210,17 @@
     </div>
     <div class="modal fade" id="editModal" role="dialog">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" data-dismiss="modal" type="button">
-              ×
-            </button>
-            <h4 class="modal-title">
-              Edit View
-            </h4>
-          </div>
-          <div class="modal-body">
-            <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" method="post">
+        <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" method="post">
+          <div class="modal-content">
+            <div class="modal-header alert-info">
+              <button class="close" data-dismiss="modal" type="button">
+                ×
+              </button>
+              <h4 class="modal-title">
+                Edit View
+              </h4>
+            </div>
+            <div class="modal-body">
               <div class="row">
                 <div class="col-md-7">
                   <div class="form-group">
@@ -300,22 +300,17 @@
               <input name="fsname" type="hidden" value="Second Session">
               <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
               <input name="user" type="hidden" value="CFResultsUiT.instr">
-              <hr>
-              <div class="row">
-                <div class="col-md-2">
-                  <button class="btn btn-primary" id="submitBtn" type="submit">
-                    Change View
-                  </button>
-                </div>
-                <div class="col-md-offset-8 col-md-2">
-                  <button class="btn btn-danger" data-dismiss="modal" type="button">
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary pull-right margin-left-7px" id="submitBtn" type="submit">
+                Change View
+              </button>
+              <button class="btn btn-default pull-right" data-dismiss="modal" type="button">
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
