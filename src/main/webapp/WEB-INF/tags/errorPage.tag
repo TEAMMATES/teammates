@@ -29,13 +29,26 @@
         <jsp:doBody />
         <div class="row">
             <div class="col-md-6 col-md-offset-3 align-center">
-                <h2>Error Feedback Collection</h2>
+                <h2>Uh oh! Something went wrong.</h2>
             </div>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-12">
-                <p>You seem to have encountered an error! If you think you were incorrectly shown this error page then we request you to take a moment and fill in the email below detailing your steps before you encountered it.</p>
+                <p>
+                  We are sorry this happened. You can safely ignore this error page in the following cases:
+                </p>
+                <ul>
+                  <li>
+                    Retrying the same action a few minutes later succeeds (i.e. no more error page).
+                  </li>
+                  <li>
+                    You loaded an outdated page unintentionally. e.g. some browsers auto-load the pages that were loaded in the previous browsing session.
+                  </li>
+                </ul>
+                <p>
+                  However, if you keep seeing this page on multiple failed attempts when trying to perform some action in TEAMMATES, please help us troubleshoot the problem by providing us some additional details using the form below.
+                </p>
             </div>
         </div>
         <t:errorPageEmailCompose />
