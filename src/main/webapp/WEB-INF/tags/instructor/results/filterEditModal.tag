@@ -8,7 +8,7 @@
   <div class="modal-dialog">
     <form method="post" action="${filterPanel.resultsLink}">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header alert-info">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Edit View</h4>
         </div>
@@ -104,11 +104,11 @@
                    value="${filterPanel.courseId}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
                    value="${data.account.googleId}">
-
         </div>
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
-          <button id="submitBtn" type="submit" class="btn btn-primary pull-left">Change View</button>
+          <button id="submitBtn" type="submit" class="btn btn-primary pull-right margin-left-7px">Change View</button>
+          <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </form>
