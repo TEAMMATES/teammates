@@ -5,14 +5,14 @@
 
 <br>
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        <strong><jsp:doBody/></strong>
-    </div>
+  <div class="panel-heading">
+    <strong><jsp:doBody/></strong>
+  </div>
 
-    <c:forEach items="${commentsForResponsesTables}" var="searchCommentsForResponsesTable" varStatus="i">
-        <c:forEach items="${searchCommentsForResponsesTable.feedbackSessionRows}" var="fsRow">
-            <c:set var="fsName" value="${fsRow.feedbackSessionName}" />
-            <search:searchCommentFeedbackSession feedbackSessionRow="${fsRow}" fsIndx="${i.count}"/>
-        </c:forEach>
+  <c:forEach items="${commentsForResponsesTables}" var="searchCommentsForResponsesTable" varStatus="i">
+    <c:forEach items="${searchCommentsForResponsesTable.feedbackSessionRows}" var="fsRow">
+      <c:set var="fsName" value="${fsRow.feedbackSessionName}" />
+      <search:searchCommentFeedbackSession feedbackSessionRow="${fsRow}" fsIndx="${i.count}"/>
     </c:forEach>
+  </c:forEach>
 </div>

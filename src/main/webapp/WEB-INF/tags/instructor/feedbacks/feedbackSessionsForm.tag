@@ -6,11 +6,15 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
+<%@ attribute name="fsEnableEdit" %>
 
 <div class="well well-plain">
   <form class="form-group" method="post"
       action="${fsForm.formSubmitAction}"
-      id="form_feedbacksession">
+      id="form_feedbacksession"
+      <c:if test="${not empty fsEnableEdit}">
+        data-<%= Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT %>="${fsEnableEdit}"
+      </c:if>>
 
     <feedbacks:feedbackSessionsFormHeader fsForm="${fsForm}" />
 
