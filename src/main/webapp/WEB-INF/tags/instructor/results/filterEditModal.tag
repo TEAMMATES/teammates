@@ -1,6 +1,6 @@
+<%@ tag description="instructorFeedbackResultsTop - Filter Panel Edit Modal" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ tag description="instructorFeedbackResultsTop - Filter Panel Edit Modal" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
@@ -104,14 +104,10 @@
                  value="${filterPanel.courseId}">
           <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
                  value="${data.account.googleId}">
-          <hr>
-          <div class="row">
-            <div class="col-md-2">
-              <button id="submitBtn" type="submit" class="btn btn-primary">Change View</button>
-            </div>
-            <div class="col-md-offset-8 col-md-2">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            </div>
+
+          <div class="modal-footer">
+            <button id="submitBtn" type="submit" class="btn btn-primary pull-left">Change View</button>
+            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
           </div>
         </form>
       </div>
