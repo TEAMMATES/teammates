@@ -60,7 +60,7 @@
                             data-placement="top" title="Add comment">
                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                     </button>
-                    <div class="form form-horizontal" id="studentInfomationTable">
+                    <div class="form form-horizontal margin-top-20px" id="studentInfomationTable">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Student Name:</label>
                             <div class="col-sm-10">

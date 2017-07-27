@@ -1558,18 +1558,21 @@
                 <div class="well well-plain">
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            From:
-                            <strong>Alice Betsy (Team 2)</strong>
-                            <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
-                            <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                                </form>
-                                &nbsp;
-                                <div class="display-icon" style="display:inline;">
-                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="panel-heading" style="position: relative;">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    From:
+                                    <strong>Alice Betsy (Team 2)</strong>
+                                    <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
                                 </div>
+                                <div class="col-sm-5" style="padding-right: 40px;">
+                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                                        <input type="submit" class="btn btn-primary btn-xs pull-right mobile-no-pull" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="display-icon" style="position: absolute; top: 13px; right: 15px;">
+                                <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1704,18 +1707,21 @@
                     </div>
 
                     <div class="panel panel-primary" id="benny">
-                        <div class="panel-heading">
-                            From:
-                            <strong>Benny Charles (Team 1)</strong>
-                            <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
-                            <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                                </form>
-                                &nbsp;
-                                <div class="display-icon" style="display:inline;">
-                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="panel-heading" style="position: relative;">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    From:
+                                    <strong>Benny Charles (Team 1)</strong>
+                                    <a class="link-in-dark-bg" href="#responcesSortbyGiver">[benny.c.tmms@gmail.com]</a>
                                 </div>
+                                <div class="col-sm-5" style="padding-right: 40px;">
+                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                                        <input type="submit" class="btn btn-primary btn-xs pull-right mobile-no-pull" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="display-icon" style="position: absolute; top: 13px; right: 15px;">
+                                <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1794,18 +1800,21 @@
                     </div>
                     <!-- second -->
                     <div class="panel panel-primary" id="charlie">
-                        <div class="panel-heading">
-                            From:
-                            <strong>Charlie Davis (Team 1)</strong>
-                            <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
-                            <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                                </form>
-                                &nbsp;
-                                <div class="display-icon" style="display:inline;">
-                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="panel-heading" style="position: relative;">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    From:
+                                    <strong>Charlie Davis (Team 1)</strong>
+                                    <a class="link-in-dark-bg" href="#responcesSortbyGiver">[charlie.d.tmms@gmail.com]</a>
                                 </div>
+                                <div class="col-sm-5" style="padding-right: 40px;">
+                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                                        <input type="submit" class="btn btn-primary btn-xs pull-right mobile-no-pull" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="display-icon" style="position: absolute; top: 13px; right: 15px;">
+                                <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -2404,7 +2413,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable7">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-7" disabled="">
@@ -2425,7 +2434,7 @@
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -2853,7 +2862,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable4">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
@@ -2874,7 +2883,7 @@
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -3867,20 +3876,20 @@
                                             <div class="row">
                                                 <form class="form-horizontal col-sm-12" role="form">
                                                     <div class="form-group margin-0">
-                                                        <label class="col-sm-2 control-label font-weight-normal">Average:</label>
-                                                        <div class="col-sm-3">
+                                                        <label class="col-md-1 control-label font-weight-normal">Average:</label>
+                                                        <div class="col-md-4">
                                                             <p class="form-control-static">4.5</p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group margin-0">
-                                                        <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
-                                                        <div class="col-sm-3">
+                                                        <label class="col-md-1 control-label font-weight-normal">Minimum:</label>
+                                                        <div class="col-md-4">
                                                             <p class="form-control-static">4</p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group margin-0">
-                                                        <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
-                                                        <div class="col-sm-3">
+                                                        <label class="col-md-1 control-label font-weight-normal">Maximum:</label>
+                                                        <div class="col-md-4">
                                                             <p class="form-control-static">5</p>
                                                         </div>
                                                     </div>
@@ -3965,7 +3974,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable9">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-6" disabled="">
@@ -3986,7 +3995,7 @@
                                                 &nbsp; Distribute points (among options) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -4597,7 +4606,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable10">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-6" disabled="">
@@ -4618,7 +4627,7 @@
                                                 &nbsp; Distribute points (among recipients) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -6106,7 +6115,6 @@
                         <div class="form-horizontal">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Question 10:
-                                    <br>
                                     <span >Please answer the following questions.</span>
                                 </div>
                                 <div class="panel-body">
