@@ -42,7 +42,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         giverRole = Boolean.parseBoolean(getRequestParamValue(Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR))
                 ? Const.INSTRUCTOR : Const.STUDENT;
         Assumption.assertPostParamNotNull(Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, giverRole);
-        
+
         isModeration = false;
         String moderatedPersonEmail = "";
         if (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON) != null) {

@@ -153,7 +153,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
-                    extractFeedbackResponseCommentsDataForResponse(requestParameters, questionIndx, responseIndx,
+                    extractFeedbackResponseCommentsDataForResponse(questionIndx, responseIndx,
                             questionAttributes, response);
                 }
             }
@@ -239,15 +239,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return createSpecificRedirectResult();
     }
 
-    private void extractFeedbackResponseCommentsDataForResponse(
-            Map<String, String[]> requestParameters, int questionIndx,
+    private void extractFeedbackResponseCommentsDataForResponse(int questionIndx,
             int responseIndx, FeedbackQuestionAttributes questionAttributes,
             FeedbackResponseAttributes response) {
         if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
             String commentText =
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                             + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
-            if (commentText != null && !commentText.toString().isEmpty()) {
+            if (commentText != null && !commentText.isEmpty()) {
                 String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                 responseGiverMapForComments.put(commentIndx, response.giver);
@@ -307,7 +306,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
             String commentId = commentToUpdateId.get(commentIndx);
-            String updatedCommentText = commentToUpdateText.get(commentIndx); 
+            String updatedCommentText = commentToUpdateText.get(commentIndx);
             FeedbackResponseAttributes responseToEditComment =
                     logic.getFeedbackResponse(questionIdsForComment.get(commentIndx),
                             responseGiverMapForComments.get(commentIndx), responseRecipientMapForComments.get(commentIndx));

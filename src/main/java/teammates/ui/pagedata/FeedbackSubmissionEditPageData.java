@@ -268,7 +268,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             Map<String, String> commentGiverEmailNameTable = bundle.commentGiverEmailNameTable;
             if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
                 comments = getResponseCommentsForQuestion(questionAttributes,
-                    existingResponse, bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
+                        bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
                     responseVisibilityMap, commentGiverEmailNameTable);
                 double sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow responseExplainationComment = buildFeedbackResponseCommentAddForm(
@@ -301,16 +301,16 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 if (isPreview()) {
-                    if (previewInstructor != null) {
-                        giverName = getPreviewInstructor().name;
-                        responseExplainationComment = buildFeedbackResponseCommentAddForm(
-                                questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
-                                recipientName, true, sessionTimeZone);
-                    } else {
+                    if (previewInstructor == null) {
                         giverName = getStudentToViewPageAs().name;
                         responseExplainationComment = buildFeedbackResponseCommentAddForm(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, true), giverName,
                                 recipientName, false, sessionTimeZone);
+                    } else {
+                        giverName = getPreviewInstructor().name;
+                        responseExplainationComment = buildFeedbackResponseCommentAddForm(
+                                questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
+                                recipientName, true, sessionTimeZone);
                     }
                 }
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
@@ -337,7 +337,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     private List<FeedbackResponseCommentRow> getResponseCommentsForQuestion(FeedbackQuestionAttributes question,
-            FeedbackResponseAttributes response, List<FeedbackResponseCommentAttributes> frcList, String giverName,
+            List<FeedbackResponseCommentAttributes> frcList, String giverName,
             String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
             Map<String, String> commentGiverEmailNameTable) {
         List<FeedbackResponseCommentRow> frcCommentRowList = new ArrayList<FeedbackResponseCommentRow>();
