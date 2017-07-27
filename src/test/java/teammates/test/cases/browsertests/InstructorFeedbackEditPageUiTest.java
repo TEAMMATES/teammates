@@ -227,7 +227,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         By feedbackSessionEditFormSection = By.id("form_feedbacksession");
         feedbackEditPage = getFeedbackEditPage();
         // Edit and save FS to accommodate changes to DOM due to enableEditFS() and disableEditFS() JS methods.
-        feedbackEditPage.clickEditSessionButton();
         feedbackEditPage.clickSaveSessionButton();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
 
