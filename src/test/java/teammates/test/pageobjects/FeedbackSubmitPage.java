@@ -225,6 +225,7 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(modalMessage.getText(), expectedModalMessage);
 
         click(closeButton);
+        waitForModalToDisappear();
     }
 
     private void closeMoreInfoAboutEqualShareModal() {
