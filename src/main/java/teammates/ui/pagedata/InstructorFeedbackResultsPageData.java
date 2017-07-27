@@ -1676,7 +1676,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String getInstructorFeedbackSessionEditLink() {
         return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
                ? getInstructorFeedbackEditLink(bundle.feedbackSession.getCourseId(),
-                                                      bundle.feedbackSession.getFeedbackSessionName())
+                                                      bundle.feedbackSession.getFeedbackSessionName(), true)
                : null;
     }
 
