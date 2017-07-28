@@ -32,7 +32,7 @@
         <strong>[${course.courseId}] : </strong>${fn:escapeXml(course.courseName)}
     </div>
     <div class="panel-collapse collapse">
-        <div class="panel-body padding-0">
+        <div class="panel-body table-responsive padding-0">
         </div>
     </div>
 </div>

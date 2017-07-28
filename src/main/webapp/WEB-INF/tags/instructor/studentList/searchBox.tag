@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <form method="get" action="${searchBox.instructorSearchLink}" name="search_form">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <div class="form-group">
                             <input type="text" id="searchbox"
                                    title="<%= Const.Tooltips.SEARCH_STUDENT %>"
@@ -19,7 +19,7 @@
                                    value="${searchBox.searchKey}">
                         </div>
                     </div>
-                    <div class="col-md-2 nav">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <button id="buttonSearch" class="btn btn-primary" type="submit" value="Search">
                                 <span class="glyphicon glyphicon-search"></span> Find students
