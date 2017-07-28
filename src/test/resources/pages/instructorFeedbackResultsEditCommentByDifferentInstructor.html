@@ -780,10 +780,10 @@
                             </div>
                             <ul class="list-group" id="responseCommentTable-1-0-1-1" style="margin-top:15px;">
                               <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-0-1-1-1">
-                                <div class="row" id="commentBar-1-0-1-1-1">
+                                <div class="row" id="commentBar-1-0-1-1-1" style="display: block;">
                                   <div class="col-xs-10">
                                     <span class="text-muted">
-                                      From: Teammates Test2 [Tue, 03 Apr 2012, 07:59 AM UTC+0800]
+                                      From: Teammates Test2 [Tue, 03 Apr 2012, 07:59 AM UTC+0800] (last edited by Teammates Test at ${datetime.now} UTC+0800)
                                     </span>
                                     <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, response recipient, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                     </span>
@@ -808,8 +808,10 @@
                                     </a>
                                   </div>
                                 </div>
-                                <div id="plainCommentText-1-0-1-1-1" style="margin-left: 15px;">
-                                  Comment to be edited by different instructor.
+                                <div id="plainCommentText-1-0-1-1-1" style="margin-left: 15px; display: block;">
+                                  <p>
+                                    Comment edited by different instructor
+                                  </p>
                                 </div>
                                 <form class="responseCommentEditForm" id="responseCommentEditForm-1-0-1-1-1" style="display: none;">
                                   <div class="form-group form-inline">
@@ -900,10 +902,12 @@
                                     </table>
                                   </div>
                                   <div class="form-group">
-                                    <div class="panel panel-default panel-body" id="responsecommenttext-1-0-1-1-1">
-                                      Comment to be edited by different instructor.
+                                    <div class="panel panel-default panel-body content-editor" id="responsecommenttext-1-0-1-1-1" spellcheck="false" style="position: relative;">
+                                      <p>
+                                        Comment edited by different instructor
+                                      </p>
                                     </div>
-                                    <input name="responsecommenttext" type="hidden">
+                                    <input name="responsecommenttext" type="hidden" value="<p>Comment edited by different instructor</p>">
                                   </div>
                                   <div class="col-sm-offset-5">
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-1-0-1-1-1" type="button">
