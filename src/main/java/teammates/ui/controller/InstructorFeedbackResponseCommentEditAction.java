@@ -103,6 +103,8 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + "by: " + feedbackResponseComment.giverEmail + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
+
+        // createdAt, lastEditedAt, commentGiverName and lastEditorName are required to generate editedCommentDetails
         data.comment = updatedComment;
         data.question = logic.getFeedbackQuestion(response.feedbackQuestionId);
         data.showCommentToString = StringHelper.toString(updatedComment.showCommentTo, ",");
