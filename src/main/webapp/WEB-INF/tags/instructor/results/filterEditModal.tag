@@ -108,7 +108,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button id="submitBtn" type="submit" class="btn btn-primary margin-left-7px">Change View</button>
+          <button id="submitBtn" type="submit" class="btn btn-primary">Change View</button>
         </div>
       </div>
     </form>
