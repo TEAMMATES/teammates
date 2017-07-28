@@ -375,7 +375,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 1 Text", 1, 2, 1);
         feedbackEditPage.fillRubricDescriptionBox("New Row 2, Col 0 Text", 1, 2, 0);
 
-        // move column buttons must be visible, otherwise test fails
         // move last column to first
         assertTrue(feedbackEditPage.moveRubricColLeft(1, 5));
         assertTrue(feedbackEditPage.moveRubricColLeft(1, 3));
