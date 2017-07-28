@@ -94,7 +94,6 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
-//        String gender = Const.GenderTypes.male;
         GenderType gender = GenderType.male;
         String moreInfo = "Information for John Doe.";
 
