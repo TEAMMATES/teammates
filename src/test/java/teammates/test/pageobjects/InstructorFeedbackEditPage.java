@@ -357,7 +357,55 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
 
-    public WebElement getRubicSubQuestionBox(int qnNumber, int subQnIndex) {
+    public boolean isRubricColLeftMovable(int qnNumber, int colNumber) {
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT + "-" + qnNumber + "-" + colNumber;
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    public boolean isRubricColRightMovable(int qnNumber, int colNumber) {
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT + "-" + qnNumber + "-" + colNumber;
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    /**
+     * Returns true if button is enabled and click was successful.
+     */
+    public boolean moveRubricColLeft(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, true);
+    }
+
+    /**
+     * Returns true if button is enabled and click was successful.
+     */
+    public boolean moveRubricColRight(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, false);
+    }
+
+    private boolean moveRubricCol(int qnNumber, int colNumber, boolean isMoveLeft) {
+        String elemId;
+
+        if (isMoveLeft) {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT + "-" + qnNumber + "-" + colNumber;
+        } else {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT + "-" + qnNumber + "-" + colNumber;
+        }
+
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        if (moveColButton.getAttribute("disabled") == null) {
+            moveColButton.click();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
         String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
@@ -366,13 +414,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isRubricSubQuestionBoxFocused(int qnNumber, int subQnIndex) {
-        WebElement subQnBox = getRubicSubQuestionBox(qnNumber, subQnIndex);
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
 
         return subQnBox.equals(browser.driver.switchTo().activeElement());
     }
 
     public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
-        WebElement subQnBox = getRubicSubQuestionBox(qnNumber, subQnIndex);
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
 
         fillTextBox(subQnBox, subQuestion);
     }
