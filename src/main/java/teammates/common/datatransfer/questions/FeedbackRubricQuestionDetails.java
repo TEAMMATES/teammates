@@ -764,6 +764,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
         //To show comment only once for each response.
         boolean shouldShowComments = hasCommentsForResponses;
+        boolean isFirstVisibleAnswer = true;
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
@@ -774,7 +775,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             //To show comment only once for each response.
-            shouldShowComments = i < 1 && shouldShowComments;
+            shouldShowComments = isFirstVisibleAnswer && shouldShowComments;
+            isFirstVisibleAnswer = false;
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
             String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
