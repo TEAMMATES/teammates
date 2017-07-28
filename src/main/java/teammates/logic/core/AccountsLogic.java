@@ -1,5 +1,8 @@
 package teammates.logic.core;
 
+import static com.google.appengine.repackaged.com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.appengine.api.users.User;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -68,8 +71,9 @@ public final class AccountsLogic {
         return accountsDb.getAccount(googleId) != null;
     }
 
-    public boolean isAccountAnInstructor(String googleId) {
-        AccountAttributes a = accountsDb.getAccount(googleId);
+    public boolean isAccountAnInstructor(User user) {
+        checkNotNull(user);
+        AccountAttributes a = accountsDb.getAccount(user.getNickname());
         return a != null && a.isInstructor;
     }
 

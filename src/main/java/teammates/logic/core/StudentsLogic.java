@@ -1,5 +1,8 @@
 package teammates.logic.core;
 
+import static com.google.appengine.repackaged.com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.appengine.api.users.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,8 +152,9 @@ public final class StudentsLogic {
         return StringHelper.encrypt(studentData.key);
     }
 
-    public boolean isStudentInAnyCourse(String googleId) {
-        return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
+    public boolean isStudentInAnyCourse(User user) {
+        checkNotNull(user);
+        return studentsDb.getStudentsForGoogleId(user.getNickname()).size() != 0;
     }
 
     public boolean isStudentInCourse(String courseId, String studentEmail) {
