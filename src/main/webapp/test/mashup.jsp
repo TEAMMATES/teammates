@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>TEAMMATES - Webpage Compilation</title>
+    <title>Webpage Compilation - TEAMMATES</title>
 
     <link rel="shortcut icon" href="/favicon.png">
     <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>">

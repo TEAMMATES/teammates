@@ -1070,7 +1070,7 @@
       "courseId": "CFResultsUiT.SanitizedTeam",
       "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "Normal question text - to be replaced with better test data"
+        "value": "Some question text. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
       },
       "questionDescription": {
         "value": "<p> Some  question description. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"

@@ -137,6 +137,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                            "Session with sanitized data");
         clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
+
+        ______TS("Results with sanitized data with comments : giver > recipient > question");
+
+        resultsPage.displayByGiverRecipientQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-1-2", "ajax_auto");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageGQRWithSanitizedData.html");
     }
 
     private void testModerateResponsesButton() {

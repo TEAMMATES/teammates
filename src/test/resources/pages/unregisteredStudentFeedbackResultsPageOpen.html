@@ -2,7 +2,7 @@
   <div id="topOfPage">
   </div>
   <h1>
-    Feedback Results - Student
+    Feedback Results
   </h1>
   <br>
   <div class="alert alert-info" id="registerMessage">
@@ -46,7 +46,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Sun, 01 Apr 2012, 11:59 PM
+                Sun, 01 Apr 2012, 11:59 PM UTC+0800
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Thu, 30 Apr 2026, 11:59 PM
+                Thu, 30 Apr 2026, 11:59 PM UTC+0800
               </p>
             </div>
           </div>
@@ -66,7 +66,7 @@
   </div>
   <br>
   <div id="statusMessagesToUser">
-    <div class="overflow-auto alert alert-info statusMessage">
+    <div class="overflow-auto alert alert-info icon-info statusMessage">
       You have received feedback from others. Please see below.
     </div>
   </div>
@@ -109,20 +109,28 @@
               <td>
                 <ul class="list-group comment-list">
                   <li class="list-group-item list-group-item-warning" id="responseCommentRow-${comment.id}">
-                    <div id="commentBar-${comment.id}">
-                      <span class="text-muted">
-                        From: Teammates Test [Mon, 02 Mar 2026, 07:59 AM UTC+0800] (last edited by Teammates Test at Tue, 03 Mar 2026, 07:59 AM UTC+0800)
-                      </span>
+                    <div class="row" id="commentBar-${comment.id}">
+                      <div class="col-xs-10">
+                        <span class="text-muted">
+                          From: Teammates Test [Mon, 02 Mar 2026, 07:59 AM UTC+0800] (last edited by Teammates Test at Tue, 03 Mar 2026, 07:59 AM UTC+0800)
+                        </span>
+                      </div>
+                      <div class="col-xs-2">
+                      </div>
                     </div>
                     <div id="plainCommentText-${comment.id}" style="margin-left: 15px;">
                       Instructor first comment to Alice
                     </div>
                   </li>
                   <li class="list-group-item list-group-item-warning" id="responseCommentRow-${comment.id}">
-                    <div id="commentBar-${comment.id}">
-                      <span class="text-muted">
-                        From: Teammates Test [Tue, 03 Mar 2026, 07:59 AM UTC+0800]
-                      </span>
+                    <div class="row" id="commentBar-${comment.id}">
+                      <div class="col-xs-10">
+                        <span class="text-muted">
+                          From: Teammates Test [Tue, 03 Mar 2026, 07:59 AM UTC+0800]
+                        </span>
+                      </div>
+                      <div class="col-xs-2">
+                      </div>
                     </div>
                     <div id="plainCommentText-${comment.id}" style="margin-left: 15px;">
                       Instructor second comment to Alice
