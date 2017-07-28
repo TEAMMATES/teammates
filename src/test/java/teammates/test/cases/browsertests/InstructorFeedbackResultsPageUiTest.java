@@ -633,6 +633,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditComment.html");
 
+        ______TS("Typical case: edit comment created by different instructor");
+
+        resultsPage.editFeedbackResponseComment("-1-0-1-1-1", "Comment edited by different instructor");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
+
         ______TS("Typical case: delete existing feedback response comment");
 
         resultsPage.deleteFeedbackResponseComment("-1-1-1-1-1");

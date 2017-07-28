@@ -103,7 +103,6 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + "by: " + feedbackResponseComment.giverEmail + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
-
         data.comment = updatedComment;
         data.question = logic.getFeedbackQuestion(response.feedbackQuestionId);
         data.showCommentToString = StringHelper.toString(updatedComment.showCommentTo, ",");
