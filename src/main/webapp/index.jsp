@@ -37,8 +37,8 @@
     <div class="col-xs-12 col-sm-8">
       <h2 class="media-heading">Praised by Users:</h2>
       <p id="testimonialContainer">
-        Thank you for building such a wonderful tool.
-        <br>-Faculty user, Canada
+        I just started exploring TEAMMATES and am very impressed. Wish I discovered it earlier. 
+        <br>Faculty user, Singapore
       </p>
     </div>
   </div>
