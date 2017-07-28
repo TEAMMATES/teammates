@@ -5,7 +5,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/instructorCourseStudentEdit.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Student Details" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Edit Student Details" jsIncludes="${jsIncludes}">
   <csde:studentInformationTable
       studentInfoTable="${data.studentInfoTable}"
       newEmail="${data.newEmail}"

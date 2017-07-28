@@ -39,7 +39,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, "true"
         };
 
         instructorFeedbackEditPageAction = getAction(submissionParams);
@@ -65,7 +66,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123"
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123",
+                Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, "true"
         };
 
         instructorFeedbackEditPageAction = getAction(submissionParams);
@@ -90,7 +92,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, "true"
         };
 
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);

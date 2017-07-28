@@ -66,9 +66,6 @@ public final class Const {
     public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt";
     public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
 
-    // used for instructor details single line form
-    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
-
     public static final String DEFAULT_SECTION = "None";
 
     public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
@@ -624,7 +621,6 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String INSTRUCTOR_NAME = "instructorname";
-        public static final String INSTRUCTOR_DETAILS_SINGLE_LINE = "instructordetailssingleline";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
@@ -693,6 +689,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
         public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
+        public static final String FEEDBACK_SESSION_ENABLE_EDIT = "editsessiondetails";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
@@ -735,6 +732,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
+        public static final String FEEDBACK_QUESTION_RUBRIC_EDIT_TABLE = "rubricEditTable";
         public static final String FEEDBACK_QUESTION_RUBRIC_SUBQUESTION = "rubricSubQn";
         public static final String FEEDBACK_QUESTION_RUBRIC_CHOICE = "rubricChoice";
         public static final String FEEDBACK_QUESTION_RUBRIC_DESCRIPTION = "rubricDesc";
@@ -742,6 +740,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT = "rubricWeight";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
+        public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT = "rubric-move-col-left";
+        public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT = "rubric-move-col-right";
         public static final String FEEDBACK_QUESTION_RANKOPTION = "rankOption";
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
@@ -1161,8 +1161,6 @@ public final class Const {
         public static final String NOT_A_RECEIVER_LIST_FILE =
                 "The file that you have uploaded is not a receiver list file. ";
         public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
-
-        public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
 
         public static final String STUDENT_FIRST_TIME =
                 "<div class=\"align-left\">"
