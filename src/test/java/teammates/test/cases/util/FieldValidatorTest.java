@@ -1,8 +1,24 @@
 package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
-import static teammates.common.util.FieldValidator.*;
-//CHECKSTYLE.ON:AvoidStarImport
+import static teammates.common.util.FieldValidator.COURSE_ID_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.COURSE_NAME_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.EMAIL_FIELD_NAME;
+import static teammates.common.util.FieldValidator.EMAIL_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.GENDER_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.GOOGLE_ID_FIELD_NAME;
+import static teammates.common.util.FieldValidator.GOOGLE_ID_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.INSTITUTE_NAME_MAX_LENGTH;
+import static teammates.common.util.FieldValidator.NATIONALITY_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.REGEX_COURSE_ID;
+import static teammates.common.util.FieldValidator.REGEX_EMAIL;
+import static teammates.common.util.FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL;
+import static teammates.common.util.FieldValidator.REGEX_NAME;
+import static teammates.common.util.FieldValidator.REGEX_SAMPLE_COURSE_ID;
+import static teammates.common.util.FieldValidator.ROLE_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE;
 
 import java.util.Date;
 
@@ -10,6 +26,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -18,6 +35,8 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FieldValidatorExtension;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
+
+//CHECKSTYLE.ON:AvoidStarImport
 
 /**
  * SUT: {@link FieldValidator}.
@@ -370,23 +389,22 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void invalidityInfoFor_validGender_returnEmptyString() {
-        String validGender = "other";
+        GenderType validGender = GenderType.other;
         String actual = validator.getInvalidityInfoForGender(validGender);
         assertEquals("Valid gender should return empty string", "", actual);
     }
 
     @Test
     public void invalidityInfoFor_invalidGender_returnErrorString() {
-        String invalidGender = "alpha male";
+        GenderType invalidGender = GenderType.invalid;
         String actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Invalid gender should return appropriate error string",
-                     String.format(GENDER_ERROR_MESSAGE, invalidGender),
-                     actual);
+                String.format(GENDER_ERROR_MESSAGE, invalidGender),
+                actual);
 
-        invalidGender = "<script> alert('hi!'); </script>";
         actual = validator.getInvalidityInfoForGender(invalidGender);
         assertEquals("Unsanitized, invalid gender should return appropriate error string",
-                String.format(GENDER_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidGender)),
+                String.format(GENDER_ERROR_MESSAGE, invalidGender),
                 actual);
     }
 

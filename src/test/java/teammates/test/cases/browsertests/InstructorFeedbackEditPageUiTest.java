@@ -553,7 +553,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("Fails gracefully with an error message");
         feedbackEditPage = getFeedbackEditPage();
 
-        feedbackEditPage.changeActionLinkOnCopyButton("INVALID URL");
+        feedbackEditPage.changeActionLinkOnCopyButton("invalid URL");
         feedbackEditPage.clickCopyButton();
 
         feedbackEditPage.waitForCopyErrorMessageToLoad();

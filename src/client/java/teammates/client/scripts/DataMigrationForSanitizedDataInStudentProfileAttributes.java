@@ -76,7 +76,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
-        profile.gender = desanitizeIfHtmlSanitized(profile.gender);
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {
@@ -96,6 +95,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
     private boolean hasAnySanitizedField(StudentProfileAttributes profile) {
         return isSanitizedHtml(profile.shortName) || isSanitizedHtml(profile.email)
                 || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
-                || isSanitizedHtml(profile.gender) || isSanitizedHtml(profile.moreInfo);
+                || isSanitizedHtml(profile.moreInfo);
     }
 }

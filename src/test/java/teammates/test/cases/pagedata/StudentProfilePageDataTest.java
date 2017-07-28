@@ -3,6 +3,7 @@ package teammates.test.cases.pagedata;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -48,7 +49,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withEmail("e@mail2.com")
                 .withInstitute("inst")
                 .withNationality("American")
-                .withGender("male")
+                .withGender(GenderType.male)
                 .withMoreInfo("more info")
                 .withPictureKey("pictureKey")
                 .build();
@@ -64,7 +65,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
         spa = StudentProfileAttributes.builder()
                 .withGoogleId("valid.id.2")
-                .withGender("male")
+                .withGender(GenderType.male)
                 .build();
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;

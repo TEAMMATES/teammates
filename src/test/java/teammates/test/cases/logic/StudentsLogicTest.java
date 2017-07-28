@@ -22,6 +22,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
@@ -191,7 +192,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
         expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = "female";
+        expectedStudentProfile.gender = GenderType.female;
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
 
         student1.studentProfile = expectedStudentProfile;
@@ -600,7 +601,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
-                .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
+                .withGoogleId(instructorId).withShortName("Ins1").withGender(GenderType.male)
                 .build();
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
@@ -692,7 +693,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("same student added, modified and unmodified");
 
         StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
-                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
+                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender(GenderType.male)
                 .build();
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",

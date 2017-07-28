@@ -25,7 +25,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public String gender; // only accepts "male", "female" or "other"
+    public GenderType gender; // only accepts "male", "female" or "other"
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
@@ -37,7 +37,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = "other";
+        this.gender = GenderType.other;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = new Date();
@@ -71,7 +71,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
-                .withGender(gender)
+                .withGender(GenderType.other)
                 .withNationality(nationality)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
@@ -214,8 +214,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withGender(String gender) {
-            profileAttributes.gender = isGenderValid(gender) ? gender : "other";
+        public Builder withGender(GenderType gender) {
+            profileAttributes.gender = isGenderValid(gender) ? gender : GenderType.other;
             return this;
         }
 
@@ -242,8 +242,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return profileAttributes;
         }
 
-        private boolean isGenderValid(String gender) {
-            return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
+        private boolean isGenderValid(GenderType gender) {
+            return GenderType.male.equals(gender) || GenderType.female.equals(gender) || GenderType.other.equals(gender);
         }
     }
 }

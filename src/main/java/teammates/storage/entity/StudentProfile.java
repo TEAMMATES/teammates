@@ -12,6 +12,8 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
 
+import teammates.common.datatransfer.attributes.GenderType;
+
 /**
  * Represents profile details for student entities associated with an
  * account entity.
@@ -35,7 +37,7 @@ public class StudentProfile extends BaseEntity {
     private String nationality;
 
     /* only accepts "male", "female" or "other" */
-    private String gender;
+    private GenderType gender;
 
     /* must be html sanitized before saving */
     private Text moreInfo;
@@ -70,7 +72,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
+                          String nationality, GenderType gender, Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -88,7 +90,7 @@ public class StudentProfile extends BaseEntity {
         this.setEmail("");
         this.setInstitute("");
         this.setNationality("");
-        this.setGender("other");
+        this.setGender(GenderType.other);
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());
@@ -138,11 +140,11 @@ public class StudentProfile extends BaseEntity {
         this.nationality = nationality;
     }
 
-    public String getGender() {
+    public GenderType getGender() {
         return this.gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(GenderType gender) {
         this.gender = gender;
     }
 

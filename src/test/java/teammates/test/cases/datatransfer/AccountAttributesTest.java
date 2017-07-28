@@ -5,6 +5,7 @@ import static teammates.common.util.Const.EOL;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -170,7 +171,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
         String nationality = "&\"invalid nationality &";
-        String gender = "'\"'other";
+        GenderType gender = GenderType.other;
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 

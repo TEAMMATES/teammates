@@ -1,12 +1,13 @@
 package teammates.ui.template;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 public class StudentProfile {
     private String pictureUrl;
     private String name;
     private String shortName;
-    private String gender;
+    private GenderType gender;
     private String email;
     private String institute;
     private String nationality;
@@ -35,7 +36,7 @@ public class StudentProfile {
         return shortName;
     }
 
-    public String getGender() {
+    public GenderType getGender() {
         return gender;
     }
 

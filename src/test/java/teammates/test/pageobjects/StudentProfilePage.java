@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 
@@ -133,15 +134,15 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(String gender) {
+    public void selectGender(GenderType gender) {
         switch (gender) {
-        case Const.GenderTypes.MALE:
+        case male:
             click(genderMaleRadio);
             break;
-        case Const.GenderTypes.FEMALE:
+        case female:
             click(genderFemaleRadio);
             break;
-        case Const.GenderTypes.OTHER:
+        case other:
             click(genderOtherRadio);
             break;
         default:
@@ -151,7 +152,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfileThroughUi(String shortName, String email, String institute,
-                                     String nationality, String gender, String moreInfo) {
+                                     String nationality, GenderType gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);

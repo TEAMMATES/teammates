@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.PageData;
@@ -17,7 +18,7 @@ public class StudentProfileEditBox {
     /** option to select the nationality. */
     private List<ElementTag> nationalitySelectField;
     private String legacyNationalityInstructions;
-    private String gender;
+    private GenderType gender;
     private String moreInfo;
     private String googleId;
     private String pictureUrl;
@@ -66,7 +67,7 @@ public class StudentProfileEditBox {
         return nationalitySelectField;
     }
 
-    public String getGender() {
+    public GenderType getGender() {
         return gender;
     }
 
