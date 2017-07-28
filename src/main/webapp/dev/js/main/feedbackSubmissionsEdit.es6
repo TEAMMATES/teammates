@@ -963,7 +963,7 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
-            const isSessionClosed = $(textField).data('is-session-closed');
+            const isSessionClosed = $(textField).data('is-session-closed') || false;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
