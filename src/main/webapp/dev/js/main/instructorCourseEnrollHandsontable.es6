@@ -31,38 +31,17 @@ const handsontable = new Handsontable(container, {
     ],
 });
 
-$(document).ready(() => {
-    const $form = $('#enrollSubmitForm');
-    const COURSE_ID = $form.children(`input[name="${ParamsNames.COURSE_ID}"]`).val();
-    const USER = $form.children(`input[name="${ParamsNames.USER_ID}"]`).val();
+function jsUcfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
-    $.ajax({
-        type: 'POST',
-        url: '/page/instructorCourseStudentList',
-        data: {
-            courseid: COURSE_ID,
-            user: USER,
-        },
-        success(data) {
-            const objects = data.students;
-            objects.forEach((object) => {
-                const studentData = [];
-                studentData.push(object.section);
-                studentData.push(object.team);
-                studentData.push(object.name);
-                studentData.push(object.email);
-                studentData.push(object.comments);
-                studentListData.push(studentData);
-            });
-            handsontable.loadData(studentListData);
-        },
-    });
-
-    $('#addEmptyRows').click(() => {
-        const emptyRowsCount = $("input[name='number_of_rows']").val();
-        handsontable.alter('insert_row', null, emptyRowsCount);
-    });
-});
+function moveCommentToFirst(array) {
+    const getCommentValue = array[2];
+    array.splice(2, 1);
+    array.unshift(getCommentValue);
+    array.reverse();
+    return array;
+}
 
 function updateHeaderOrder() {
     const colHeader = handsontable.getColHeader();
@@ -118,8 +97,63 @@ function updateDataDump() {
     /* eslint-enable consistent-return */
 }
 
-const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
+function addHandsontableHooks() {
+    const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
 
-for (let itr = 0; itr < hooks.length; itr += 1) {
-    handsontable.addHook(hooks[itr], updateDataDump);
+    for (let itr = 0; itr < hooks.length; itr += 1) {
+        handsontable.addHook(hooks[itr], updateDataDump);
+    }
 }
+
+function fetchStudentList() {
+    const $form = $('#enrollSubmitForm');
+    const COURSE_ID = $form.children(`input[name="${ParamsNames.COURSE_ID}"]`).val();
+    const USER = $form.children(`input[name="${ParamsNames.USER_ID}"]`).val();
+
+    $.ajax({
+        type: 'POST',
+        cache: false,
+        url: '/page/instructorCourseStudentList',
+        data: {
+            courseid: COURSE_ID,
+            user: USER,
+        },
+        beforeSend() {
+            $('#statusBox').html('<img src=\'/images/ajax-loader.gif\'/>');
+        },
+        error() {
+            $('#statusBox').html('<button id=\'retryFetchingList\' type=\'button\''
+                                    + ' class=\'btn btn-danger btn-xs\'>An Error Occurred, Please Retry</button>');
+        },
+        success(data) {
+            $('#statusBox').hide();
+            const objects = data.students;
+            objects.forEach((object) => {
+                let studentData = [];
+                Object.keys(object).forEach((key) => {
+                    if (columns.includes(jsUcfirst(key))) {
+                        studentData.push(object[key]);
+                    }
+                });
+                studentData = moveCommentToFirst(studentData);
+                studentListData.push(studentData);
+            });
+
+            handsontable.loadData(studentListData);
+        },
+    });
+}
+
+$(document).ready(() => {
+    fetchStudentList();
+    addHandsontableHooks();
+
+    $('#statusBox').on('click', '#retryFetchingList', () => {
+        fetchStudentList();
+    });
+
+    $('#addEmptyRows').click(() => {
+        const emptyRowsCount = $("input[name='number_of_rows']").val();
+        handsontable.alter('insert_row', null, emptyRowsCount);
+    });
+});

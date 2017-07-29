@@ -42,6 +42,7 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <strong>Student data</strong>
+                    <span id="statusBox" class="pull-right margin-right-10px"></span>
                   </div>
                   <div class="panel-body">
                     <div id="spreadsheet"></div>
