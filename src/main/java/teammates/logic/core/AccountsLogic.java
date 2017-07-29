@@ -77,6 +77,11 @@ public final class AccountsLogic {
         return a != null && a.isInstructor;
     }
 
+    public boolean isAccountAnInstructor(String googleId) {
+        AccountAttributes a = accountsDb.getAccount(googleId);
+        return a != null && a.isInstructor;
+    }
+
     public List<AccountAttributes> getInstructorAccounts() {
         return accountsDb.getInstructorAccounts();
     }

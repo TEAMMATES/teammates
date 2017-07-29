@@ -157,6 +157,10 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForGoogleId(user.getNickname()).size() != 0;
     }
 
+    public boolean isStudentInAnyCourse(String googleId) {
+        return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
+    }
+
     public boolean isStudentInCourse(String courseId, String studentEmail) {
         return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
     }
