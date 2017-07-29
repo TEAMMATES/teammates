@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
