@@ -27,7 +27,7 @@ public class InstructorCourseStudentDeleteAllActionTest extends BaseActionTest {
         ______TS("success: delete all students");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -56,7 +56,7 @@ public class InstructorCourseStudentDeleteAllActionTest extends BaseActionTest {
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 

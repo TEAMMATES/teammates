@@ -48,20 +48,20 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         verifyAssumptionFailure();
 
         //null student email
-        String[] invalidParams = new String[]{
+        String[] invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         verifyAssumptionFailure(invalidParams);
 
         //null course id
-        invalidParams = new String[]{
+        invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
         verifyAssumptionFailure(invalidParams);
 
         ______TS("Typical case, successful edit and save student detail");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
@@ -110,7 +110,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
 
-        String[] submissionParamsToBeTrimmed = new String[]{
+        String[] submissionParamsToBeTrimmed = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
@@ -153,7 +153,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 + "@gmail.tmt";
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail, //Use the new email as the previous email have been changed
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
@@ -196,7 +196,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         String takenStudentEmail = student2InCourse1.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail, //Use the new email as the previous email have been changed
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
@@ -238,7 +238,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
 
         String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
                 Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
@@ -271,7 +271,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Unsuccessful case: test null student email parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
 
@@ -285,7 +285,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         }
 
         ______TS("Unsuccessful case: test null course id parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail
         };
 
@@ -318,7 +318,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student3InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };

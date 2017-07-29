@@ -32,7 +32,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         String[] submissionParams = {};
         verifyAssumptionFailure(submissionParams);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId()
         };
 
@@ -144,7 +144,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     protected void testAccessControl() throws Exception {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId()
         };
 

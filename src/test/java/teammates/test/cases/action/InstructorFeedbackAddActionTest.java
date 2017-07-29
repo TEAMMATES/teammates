@@ -201,7 +201,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
         ______TS("Unsuccessful case: test null course ID parameter");
-        params = new String[]{};
+        params = new String[] {};
 
         try {
             a = getAction(params);
