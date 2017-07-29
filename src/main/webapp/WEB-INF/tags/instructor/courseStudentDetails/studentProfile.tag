@@ -3,9 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.datatransfer.attributes.GenderType" %>
 <c:set var="none"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
 <c:set var="noneForGender"><span class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></span></c:set>
-<c:set var="other"><%= Const.GenderTypes.OTHER %></c:set>
+<c:set var="other"><%= GenderType.other %></c:set>
 <div class="row">
     <div class="col-xs-12">
         <div class="row" id="studentProfile">

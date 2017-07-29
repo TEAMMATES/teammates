@@ -1,11 +1,12 @@
 <%@ tag description="studentProfile - Edit profile div" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.datatransfer.attributes.GenderType" %>
 <%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
 <%@ attribute name="sessionToken" required="true" %>
-<c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
-<c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
-<c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
+<c:set var="MALE" value="<%= GenderType.male %>" />
+<c:set var="FEMALE" value="<%= GenderType.female %>" />
+<c:set var="OTHER" value="<%= GenderType.other %>" />
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
   <h3 id="studentName">
     <strong>${profile.name}</strong>
@@ -115,7 +116,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= Const.GenderTypes.MALE %>"
+              value="<%= GenderType.male %>"
               <c:if test="${profile.gender == MALE}">checked</c:if>> Male
         </label>
         <label for="genderFemale" class="radio-inline">
@@ -123,7 +124,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= Const.GenderTypes.FEMALE %>"
+              value="<%= GenderType.female %>"
               <c:if test="${profile.gender == FEMALE}">checked</c:if>> Female
         </label>
         <label class="radio-inline" for="genderOther">
@@ -131,7 +132,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= Const.GenderTypes.OTHER %>"
+              value="<%= GenderType.other %>"
               <c:if test="${profile.gender == OTHER}">checked</c:if>> Not Specified
         </label>
       </div>

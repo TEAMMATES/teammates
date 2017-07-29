@@ -65,6 +65,7 @@ public class StudentProfileEditSaveAction extends Action {
     private void preprocessParameters(StudentProfileAttributes studentProfile) {
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
+        // studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
         studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);
