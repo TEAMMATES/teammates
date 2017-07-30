@@ -517,6 +517,21 @@ function updateConstSumMessageQn(qnNum) {
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
                 messageElement.removeClass('text-color-blue');
+
+                if (distributeToRecipients) {
+                    for (let i = 0; i < numRecipients; i += 1) {
+                        if (isNaN(parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10))) {
+                            $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(0);
+                        }
+                    }
+                } else {
+                    const recipientIndex = parseInt(messageElement.selector[messageElement.selector.length - 1], 10);
+                    for (let k = 0; k < numOptions; k += 1) {
+                        if (isNaN(parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`).val(), 10))) {
+                            $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`).val(0);
+                        }
+                    }
+                }
             }
         } else if (remainingPoints > 0) {
             message = `${remainingPoints} points left to distribute.`;
