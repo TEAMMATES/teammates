@@ -394,7 +394,7 @@ function isQuestionHavingResponses(questionNum) {
     return EDIT_STATUS === 'hasResponses' || EDIT_STATUS === 'mustDeleteResponses';
 }
 
-function getDestructiveFields(questionNum, shouldCloneJqueryObject = false) {
+function getDestructiveFields(questionNum) {
     const $fields = $(`#form_editquestion-${questionNum}`)
                      .find(':input:enabled')
                      .not('button')
@@ -402,11 +402,16 @@ function getDestructiveFields(questionNum, shouldCloneJqueryObject = false) {
                      .not('input[name^="questiondescription"]')
                      .not('.visibilityCheckbox');
 
-    if (shouldCloneJqueryObject) {
-        return $fields.clone();
+    const fieldsDict = {};
+
+    for (let i = 0; i < $fields.length; i += 1) {
+        // .get(i) returns a JS object
+        const element = $fields.get(i);
+
+        fieldsDict[element.name] = element.value;
     }
 
-    return $fields;
+    return fieldsDict;
 }
 
 /**
@@ -415,25 +420,10 @@ function getDestructiveFields(questionNum, shouldCloneJqueryObject = false) {
  * @param questionNum
  */
 function isDestructiveFieldsModifed(questionNum) {
-    const $curr = getDestructiveFields(questionNum);
-    const $prev = destructiveFieldsBackup[questionNum];
+    const currFieldsDict = getDestructiveFields(questionNum);
+    const prevFieldsDict = destructiveFieldsBackup[questionNum];
 
-    if ($curr.length !== $prev.length) {
-        return true;
-    }
-
-    const numFields = $prev.length;
-
-    for (let i = 0; i < numFields; i += 1) {
-        const prevVal = $($prev.get(i)).val();
-        const currVal = $($curr.get(i)).val();
-
-        if (prevVal !== currVal) {
-            return true;
-        }
-    }
-
-    return false;
+    return JSON.stringify(currFieldsDict) !== JSON.stringify(prevFieldsDict);
 }
 
 function correctEditStatusIfRequired($form) {
@@ -457,7 +447,7 @@ function correctEditStatusIfRequired($form) {
  * @param questionNum
  */
 function backupDestructiveFields(questionNum) {
-    destructiveFieldsBackup[questionNum] = destructiveFieldsBackup[questionNum] || getDestructiveFields(questionNum, true);
+    destructiveFieldsBackup[questionNum] = destructiveFieldsBackup[questionNum] || getDestructiveFields(questionNum);
 }
 
 /**
@@ -1142,6 +1132,7 @@ function readyFeedbackEditPage() {
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
                     null, null, StatusType.DANGER);
         }
+        event.preventDefault();
     });
 
     $('form.form_question').submit(function () {
