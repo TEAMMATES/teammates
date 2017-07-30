@@ -7,7 +7,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/instructorCourseJoinConfirmation.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Course Join Confirmation" jsIncludes="${jsIncludes}">
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <br>

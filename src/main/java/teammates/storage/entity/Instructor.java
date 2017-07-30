@@ -189,7 +189,7 @@ public class Instructor extends BaseEntity {
         if (this.isDisplayedToStudents == null) {
             return true;
         }
-        return isDisplayedToStudents.booleanValue();
+        return isDisplayedToStudents;
     }
 
     public void setIsDisplayedToStudents(boolean shouldDisplayToStudents) {
