@@ -1802,56 +1802,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         assertEquals(StringUtils.join(expected, Const.EOL), export);
 
-        ______TS("RUBRIC results with unchecked isMissingResponsesShown");
-
-        session = newDataBundle.feedbackSessions.get("rubricSession");
-        instructor = newDataBundle.instructors.get("instructor1OfCourse1");
-
-        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
-                session.getFeedbackSessionName(), session.getCourseId(), instructor.email, null, false, true);
-
-        expected = new String[] {
-                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
-                "Course,\"" + session.getCourseId() + "\"",
-                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
-                "",
-                "",
-                "Question 1,\"Please choose the best choice for the following sub-questions.\"",
-                "",
-                "Summary Statistics,",
-                ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
-                "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
-                "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"b\",\"No\",\"2\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
-                "",
-                "",
-                "Question 2,\"Please choose the best choice for the following sub-questions. Only first subquestion has responses\"",
-                "",
-                "Summary Statistics,",
-                ",\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Average",
-                "\"a) This student has done a good job.\",67% (2),33% (1),1.17",
-                "\"b) This student has tried his/her best.\",- (0),- (0),-",
-                "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
-                "",
-                "",
-                ""
-                // CHECKSTYLE.ON:LineLength
-        };
-
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
-
         ______TS("RANK results");
 
         session = newDataBundle.feedbackSessions.get("rankSession");

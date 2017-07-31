@@ -79,8 +79,7 @@ public abstract class FeedbackQuestionDetails {
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponses,
-                                             boolean isMissingResponsesShown) {
+                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
