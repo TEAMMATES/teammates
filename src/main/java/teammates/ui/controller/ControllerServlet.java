@@ -163,14 +163,14 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private String appendParamsToUrlIfRequired(String baseUrl, Map<String, String[]> params) {
-    	StringBuffer redirectUrl = new StringBuffer(baseUrl);
+        StringBuffer redirectUrl = new StringBuffer(baseUrl);
         if (params.get(Const.ParamsNames.REGKEY) != null
-        		&& params.get(Const.ParamsNames.COURSE_ID) != null
-        		&& params.get(Const.ParamsNames.STUDENT_EMAIL) != null) {
-        	redirectUrl.append('?')
-        	           .append(Const.ParamsNames.REGKEY + '=' + params.get(Const.ParamsNames.REGKEY)[0] + '&')
-        	           .append(Const.ParamsNames.COURSE_ID + '=' + params.get(Const.ParamsNames.COURSE_ID)[0] + '&')
-        	           .append(Const.ParamsNames.STUDENT_EMAIL + '=' + params.get(Const.ParamsNames.STUDENT_EMAIL)[0]);
+                && params.get(Const.ParamsNames.COURSE_ID) != null
+                && params.get(Const.ParamsNames.STUDENT_EMAIL) != null) {
+            redirectUrl.append('?')
+                       .append(Const.ParamsNames.REGKEY + '=' + params.get(Const.ParamsNames.REGKEY)[0] + '&')
+                       .append(Const.ParamsNames.COURSE_ID + '=' + params.get(Const.ParamsNames.COURSE_ID)[0] + '&')
+                       .append(Const.ParamsNames.STUDENT_EMAIL + '=' + params.get(Const.ParamsNames.STUDENT_EMAIL)[0]);
         }
         return redirectUrl.toString();
     }
