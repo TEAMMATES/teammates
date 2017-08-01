@@ -77,7 +77,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void displayEditSettingsWindow() {
         WebElement editBtn = browser.driver.findElement(By.id("editBtn"));
-        editBtn.click();
+        click(editBtn);
         waitForElementVisibility(By.id("editModal"));
     }
 
@@ -173,13 +173,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickShowStats() {
         displayEditSettingsWindow();
-        showStatsCheckbox.click();
+        click(showStatsCheckbox);
         submitEditForm();
     }
 
     public void clickIndicateMissingResponses() {
         displayEditSettingsWindow();
-        indicateMissingResponsesCheckbox.click();
+        click(indicateMissingResponsesCheckbox);
         submitEditForm();
     }
 
