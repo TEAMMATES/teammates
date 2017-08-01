@@ -324,33 +324,31 @@ public class GateKeeper {
     }
 
     public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,
-                                                                       String section, String email) {
-        if (!isValidInstructor(section, courseId, account) && !isValidStudent(email, courseId, account)) {
-            throw new UnauthorizedAccessException("User is not in the course that student belongs to");
+            String section, String email) {
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
+        if (instructor != null) {
+            verifyInstructorCanViewPhoto(instructor, section);
+            return;
         }
+        StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
+        if (student != null) {
+            verifyStudentCanViewPhoto(student, email, courseId);
+            return;
+        }
+        throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
     }
 
-    private boolean isValidInstructor(String section, String courseId, AccountAttributes account) {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
-        if (instructor == null) {
-            return false;
-        }
-
+    private boolean verifyInstructorCanViewPhoto(InstructorAttributes instructor, String section) {
         if (!instructor.isAllowedForPrivilege(section,
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            return false;
         }
         return true;
     }
 
-    private boolean isValidStudent(String email, String courseId, AccountAttributes account) {
-        StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
-        if (student == null) {
-            return false;
-        }
-
+    private boolean verifyStudentCanViewPhoto(StudentAttributes student, String courseId, String email) {
         if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
-            throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
+            return false;
         }
         return true;
     }
