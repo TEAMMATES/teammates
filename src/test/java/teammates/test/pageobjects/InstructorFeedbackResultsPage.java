@@ -397,7 +397,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String popoverSelector = panelBodySelector + " .popover-content";
         String clickSelector = panelBodySelector + " .profile-pic-icon-click a";
 
-        waitForElementPresence(By.cssSelector(clickSelector)).click();
+        WebElement link = waitForElementPresence(By.cssSelector(clickSelector));
+        moveToElement(link);
+        click(link);
 
         verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
@@ -409,7 +411,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String hoverSelector = headingSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
         verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
                 "Hover and verify student photo on heading");
@@ -436,7 +438,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String hoverSelector = cellSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
         verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
                 "Hover and verify photo on table cell");
@@ -477,7 +479,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
             @Override
             public void beforeRetry() {
-                waitForElementPresence(By.cssSelector(clickSelector)).click();
+                WebElement link = waitForElementPresence(By.cssSelector(clickSelector));
+                moveToElement(link);
+                click(link);
             }
         }, WebDriverException.class);
     }
@@ -581,7 +585,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void moveToElement(By by) {
-        WebElement element = browser.driver.findElement(by);
+        moveToElement(browser.driver.findElement(by));
+    }
+
+    private void moveToElement(WebElement element) {
         new Actions(browser.driver).moveToElement(element).perform();
     }
 
