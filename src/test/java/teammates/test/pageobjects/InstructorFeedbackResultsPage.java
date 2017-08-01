@@ -397,9 +397,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String popoverSelector = panelBodySelector + " .popover-content";
         String clickSelector = panelBodySelector + " .profile-pic-icon-click a";
 
-        WebElement link = waitForElementPresence(By.cssSelector(clickSelector));
-        moveToElement(link);
-        click(link);
+        moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
 
         verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
@@ -479,9 +477,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
             @Override
             public void beforeRetry() {
-                WebElement link = waitForElementPresence(By.cssSelector(clickSelector));
-                moveToElement(link);
-                click(link);
+                moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
             }
         }, WebDriverException.class);
     }
@@ -594,6 +590,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void focusViaClickAction(WebElement element) {
         new Actions(browser.driver).moveToElement(element).click().perform();
+    }
+
+    private void moveToElementAndClickAfterWaitForPresence(By by) {
+        WebElement element = waitForElementPresence(by);
+        moveToElement(element);
+        click(element);
     }
 
     private String getElementSrcWithRetryAfterWaitForPresence(By by) {
