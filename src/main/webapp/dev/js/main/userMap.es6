@@ -41,11 +41,11 @@ function initializeMap(err, countryCoordinates, userData) {
     });
 
     // set the last updated date in the page
-    $('#lastUpdate').get(0).innerHTML = date;
+    $('#lastUpdate').html() = date;
     // set the institution count in the page
-    $('#totalUserCount').get(0).innerHTML = total;
+    $('#totalUserCount').html() = total;
     // set the country count in the page
-    $('#totalCountryCount').get(0).innerHTML = userCountries.length;
+    $('#totalCountryCount').html() = userCountries.length;
 
     // Data format example
     // var series = [

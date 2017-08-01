@@ -266,7 +266,7 @@ function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
     $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
-        const isGroupByTeam = $('#frgroupbyteam').get(0).checked;
+        const isGroupByTeam = $('#frgroupbyteam').prop('checked');
         const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
         const panels = $(e.currentTarget).closest('.panel-success')
                             .children('.panel-collapse')
