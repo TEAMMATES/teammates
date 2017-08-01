@@ -38,7 +38,6 @@ public class AdminEmailComposePageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
 
-        prepareTestData();
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 

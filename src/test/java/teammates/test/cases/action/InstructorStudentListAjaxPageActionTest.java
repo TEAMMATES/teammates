@@ -64,7 +64,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COURSE_INDEX, "1"
         };
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

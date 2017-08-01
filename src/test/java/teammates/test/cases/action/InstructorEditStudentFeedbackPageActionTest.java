@@ -31,7 +31,6 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        prepareTestData();
         InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         String idOfInstructor = instructor.googleId;
@@ -211,6 +210,6 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

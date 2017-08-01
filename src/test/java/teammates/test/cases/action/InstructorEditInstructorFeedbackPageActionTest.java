@@ -30,7 +30,6 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        prepareTestData();
         InstructorAttributes instructor = dataBundle.instructors.get("IEIFPTCourseinstr");
         InstructorAttributes moderatedInstructor = dataBundle.instructors.get("IEIFPTCoursehelper1");
         InstructorEditInstructorFeedbackPageAction editInstructorFpAction;
@@ -141,19 +140,17 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = moderatedInstructor.courseId;
-        String feedbackSessionName = "";
-        String moderatedInstructorEmail = "instructor1@course1.tmt";
-        String[] submissionParams;
+        String feedbackSessionName = "First feedback session";
+        String moderatedInstructorEmail = "helper@course1.tmt";
 
-        feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

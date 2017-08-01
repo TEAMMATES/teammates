@@ -31,7 +31,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
-    protected DataBundle typicalBundle = getTypicalDataBundle();
 
     @Override
     @BeforeClass
@@ -97,7 +96,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     protected void removeAndRestoreTypicalDataBundle() {
-        typicalBundle = getTypicalDataBundle();
+        DataBundle typicalBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(typicalBundle);
     }
 
