@@ -26,6 +26,7 @@
         </div>
     </div>
     <div class="container" id="mainContent">
+        <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
         <jsp:doBody />
         <div class="row">
             <div class="col-md-6 col-md-offset-3 align-center">
