@@ -330,17 +330,18 @@ public class GateKeeper {
             verifyInstructorCanViewPhoto(instructor, section);
             return;
         }
+
         StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
         if (student != null) {
             verifyStudentCanViewPhoto(student, email, courseId);
             return;
         }
+
         throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 
     private void verifyInstructorCanViewPhoto(InstructorAttributes instructor, String section) {
-        if (!instructor.isAllowedForPrivilege(section,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+        if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
         }
     }
