@@ -20,6 +20,8 @@ public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
 
     protected abstract void testEditQuestionAction() throws Exception;
 
+    protected abstract void testDestructiveChanges();
+
     protected abstract void testDeleteQuestionAction();
 
     protected InstructorFeedbackEditPage getFeedbackEditPage(String instructorId, String courseId,

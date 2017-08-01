@@ -113,6 +113,11 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     }
 
     @Override
+    protected void testDestructiveChanges() {
+        // TODO: write tests
+    }
+
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 

@@ -169,6 +169,11 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @Override
+    protected void testDestructiveChanges() {
+        // TODO: write tests
+    }
+
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 

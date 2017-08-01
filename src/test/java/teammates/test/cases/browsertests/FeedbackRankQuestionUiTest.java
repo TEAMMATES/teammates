@@ -322,6 +322,11 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @Override
+    protected void testDestructiveChanges() {
+        // TODO: write tests
+    }
+
+    @Override
     public void testEditQuestionAction() throws Exception {
         ______TS("rank edit: edit rank options question success");
         feedbackEditPage.clickEditQuestionButton(1);

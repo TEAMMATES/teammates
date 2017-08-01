@@ -163,6 +163,11 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @Override
+    protected void testDestructiveChanges() {
+        // TODO: write tests
+    }
+
+    @Override
     public void testEditQuestionAction() throws Exception {
 
         ______TS("MCQ: edit question success");

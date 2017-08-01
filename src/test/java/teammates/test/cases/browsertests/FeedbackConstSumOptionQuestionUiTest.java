@@ -1,8 +1,13 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -47,6 +52,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
     }
 
@@ -158,6 +164,84 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("30", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionAddSuccess.html");
+    }
+
+    @Override
+    protected void testDestructiveChanges() {
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+
+        // readying for tests
+        FeedbackConstantSumQuestionDetails csQuestion = (FeedbackConstantSumQuestionDetails) question.getQuestionDetails();
+        String prevVal = csQuestion.getConstSumOptions().get(0);
+
+        assertFalse(feedbackEditPage.isElementVisible(By.cssSelector(".modal-header .alert-danger")));
+
+        ______TS("CONST SUM: testing changes to const sum option");
+        // make changes to option title, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillConstSumOption(0, "modified const sum option", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.fillConstSumOption(0, prevVal, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        ______TS("CONST SUM: testing adding a const sum option");
+        // add an option, must display modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreConstSumOptionLink(1);
+        feedbackEditPage.fillConstSumOption(3, "new const sum option", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.clickRemoveConstSumOptionLink(3, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        ______TS("CONST SUM: testing deleting a const sum option");
+        // delete last option, must display modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        feedbackEditPage.clickDiscardChangesLink(1);
+
+        ______TS("CONST SUM: testing changing feedback path");
+        // delete last option, must display modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override

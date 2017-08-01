@@ -72,8 +72,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testGeneralQuestionOperations();
 
-        testDestructiveChangesDialog();
-
         testPreviewSessionAction();
 
         testDoneEditingLink();
@@ -81,10 +79,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteSessionAction();
 
         testSanitization();
-    }
-
-    private void testDestructiveChangesDialog() throws Exception {
-        assertTrue(false);
     }
 
     private void testGeneralQuestionOperations() throws Exception {
