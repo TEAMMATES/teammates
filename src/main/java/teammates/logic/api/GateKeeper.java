@@ -333,7 +333,7 @@ public class GateKeeper {
 
         StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
         if (student != null) {
-            verifyStudentCanViewPhoto(student, email, courseId);
+            verifyStudentCanViewPhoto(student, courseId, email);
             return;
         }
 
