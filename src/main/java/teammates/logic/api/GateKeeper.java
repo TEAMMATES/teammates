@@ -335,21 +335,20 @@ public class GateKeeper {
             verifyStudentCanViewPhoto(student, email, courseId);
             return;
         }
-        throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
+        throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 
-    private boolean verifyInstructorCanViewPhoto(InstructorAttributes instructor, String section) {
+    private void verifyInstructorCanViewPhoto(InstructorAttributes instructor, String section) {
         if (!instructor.isAllowedForPrivilege(section,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            return false;
+            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
         }
-        return true;
     }
 
-    private boolean verifyStudentCanViewPhoto(StudentAttributes student, String courseId, String email) {
+    private void verifyStudentCanViewPhoto(StudentAttributes student, String courseId, String email) {
         if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
-            return false;
+            throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
         }
-        return true;
+        return;
     }
 }
