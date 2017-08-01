@@ -70,6 +70,7 @@ $('document').ready(() => {
     const currentDate = new Date();
     $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
 
+    loopTestimonials();
     window.setInterval(loopTestimonials, LOOP_INTERVAL);
 
     checkBrowserVersion();
