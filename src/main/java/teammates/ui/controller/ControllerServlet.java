@@ -88,31 +88,31 @@ public class ControllerServlet extends HttpServlet {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.ACTION_NOT_FOUND_PAGE, params));
         } catch (EntityNotFoundException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE, params));
 
         } catch (FeedbackSessionNotVisibleException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
-            resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE, params));
 
         } catch (InvalidOriginException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(Const.ViewURIs.INVALID_ORIGIN);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.INVALID_ORIGIN, params));
 
         } catch (UnauthorizedAccessException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.UNAUTHORIZED, params));
 
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
             /*This exception may not be caught because GAE kills
@@ -122,7 +122,7 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             log.severe("Deadline exceeded exception caught by ControllerServlet : "
                     + TeammatesException.toStringWithStackTrace(e));
-            resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE, params));
 
         //TODO: handle invalid parameters exception
         } catch (NullPostParameterException e) {
@@ -143,7 +143,7 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
             } else {
                 cleanUpStatusMessageInSession(req);
-                resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
+                resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.ERROR_PAGE, params));
             }
         } catch (Throwable t) {
             /* Log only stack trace to prevent delay in termination of request
@@ -153,12 +153,25 @@ public class ControllerServlet extends HttpServlet {
             log.severe("Unexpected exception caught by ControllerServlet : "
                         + TeammatesException.toStringWithStackTrace(t));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
+            resp.sendRedirect(appendParamsToUrlIfRequired(Const.ViewURIs.ERROR_PAGE, params));
         }
 
     }
 
     private void cleanUpStatusMessageInSession(HttpServletRequest req) {
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+    }
+
+    private String appendParamsToUrlIfRequired(String baseUrl, Map<String, String[]> params) {
+    	StringBuffer redirectUrl = new StringBuffer(baseUrl);
+        if (params.get(Const.ParamsNames.REGKEY) != null
+        		&& params.get(Const.ParamsNames.COURSE_ID) != null
+        		&& params.get(Const.ParamsNames.STUDENT_EMAIL) != null) {
+        	redirectUrl.append('?')
+        	           .append(Const.ParamsNames.REGKEY + '=' + params.get(Const.ParamsNames.REGKEY)[0] + '&')
+        	           .append(Const.ParamsNames.COURSE_ID + '=' + params.get(Const.ParamsNames.COURSE_ID)[0] + '&')
+        	           .append(Const.ParamsNames.STUDENT_EMAIL + '=' + params.get(Const.ParamsNames.STUDENT_EMAIL)[0]);
+        }
+        return redirectUrl.toString();
     }
 }

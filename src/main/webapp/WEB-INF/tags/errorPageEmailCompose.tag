@@ -18,4 +18,7 @@
         <textarea id="error-feedback-email-composer-content" name=<%= Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT %> class="form-control" placeholder="Tell us the steps you took that led you to this error page"></textarea>
     </div>
     <button type="submit" class="btn btn-success">Send feedback</button>
+    <input type="hidden" name=<%= Const.ParamsNames.REGKEY %> value="${param.key}">
+    <input type="hidden" name=<%= Const.ParamsNames.COURSE_ID %> value="${param.courseid}">
+    <input type="hidden" name=<%= Const.ParamsNames.STUDENT_EMAIL %> value="${param.studentemail}">
 </form>
