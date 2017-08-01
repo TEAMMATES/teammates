@@ -63,7 +63,6 @@
                     <th class="text-center">Can see this comment</th>
                     <th class="text-center">Can see comment giver's name</th>
                 </tr>
-                <c:if test="${frc.responseVisibleToRecipient && isInstructor}">
                 <tr id="response-giver-${divId}">
                     <td class="text-left">
                         <div data-toggle="tooltip"
@@ -86,7 +85,6 @@
                                <c:if test="${frc.showGiverNameToResponseGiver}">checked</c:if>>
                     </td>
                 </tr>
-                </c:if>
                 <c:if test="${frc.responseVisibleToRecipient}">
                     <tr id="response-recipient-${divId}">
                         <td class="text-left">

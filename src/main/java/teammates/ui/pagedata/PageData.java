@@ -17,6 +17,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
 import teammates.common.util.SanitizationHelper;
@@ -897,8 +898,8 @@ public class PageData {
             }
         }
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                                              getResponseCommentVisibilityString(frca, question),
-                                              getResponseCommentGiverNameVisibilityString(frca, question),
+                                              getResponseCommentVisibilityString(question),
+                                              getResponseCommentGiverNameVisibilityString(question),
                                               responseVisibilityMap, timeZone);
     }
 
@@ -917,12 +918,37 @@ public class PageData {
                     FeedbackParticipantType.INSTRUCTORS
             };
             for (FeedbackParticipantType type : relevantTypes) {
-                if (isResponseCommentVisibleTo(question, type)) {
-                    responseVisibilities.put(type, true);
-                }
+                responseVisibilities.put(type, isResponseVisibleTo(type, question));
             }
         }
         return responseVisibilities;
+    }
+
+    private boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
+        switch (participantType) {
+        case GIVER:
+            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+        case INSTRUCTORS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        case OWN_TEAM_MEMBERS:
+            return question.giverType != FeedbackParticipantType.INSTRUCTORS
+                   && question.giverType != FeedbackParticipantType.SELF
+                   && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        case RECEIVER:
+            return question.recipientType != FeedbackParticipantType.SELF
+                   && question.recipientType != FeedbackParticipantType.NONE
+                   && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+        case RECEIVER_TEAM_MEMBERS:
+            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                    && question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        case STUDENTS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+        default:
+            Assumption.fail("Invalid participant type");
+            return false;
+        }
     }
 
 }
