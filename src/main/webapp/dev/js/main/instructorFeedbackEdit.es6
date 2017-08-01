@@ -1136,7 +1136,6 @@ function readyFeedbackEditPage() {
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
                     null, null, StatusType.DANGER);
         }
-        event.preventDefault();
     });
 
     $('form.form_question').submit(function () {
