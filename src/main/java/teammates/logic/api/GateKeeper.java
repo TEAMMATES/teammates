@@ -349,6 +349,5 @@ public class GateKeeper {
         if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
             throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
         }
-        return;
     }
 }
