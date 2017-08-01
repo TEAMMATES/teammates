@@ -15,7 +15,6 @@ const handsontable = new Handsontable(container, {
     className: 'htCenter',
     manualColumnResize: true,
     sortIndicator: true,
-    maxRows: 100,
     maxCols: 5,
     stretchH: 'all',
     minSpareRows: 2,
