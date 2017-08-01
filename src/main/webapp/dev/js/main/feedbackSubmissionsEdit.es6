@@ -518,17 +518,23 @@ function updateConstSumMessageQn(qnNum) {
                 messageElement.removeClass('text-color-red');
                 messageElement.removeClass('text-color-blue');
 
+                /*
+                 * Once all the points are distributed,
+                 * look for empty Input fields and fill them with 0.
+                 */
                 if (distributeToRecipients) {
                     for (let i = 0; i < numRecipients; i += 1) {
-                        if (isNaN(parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10))) {
-                            $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(0);
+                        const $inputFeildElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`);
+                        if (isNaN(parseInt($inputFeildElement.val(), 10))) {
+                            $inputFeildElement.val(0);
                         }
                     }
                 } else {
                     const recipientIndex = parseInt(messageElement.selector[messageElement.selector.length - 1], 10);
                     for (let k = 0; k < numOptions; k += 1) {
-                        if (isNaN(parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`).val(), 10))) {
-                            $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`).val(0);
+                        const $inputFeildElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`);
+                        if (isNaN(parseInt($inputFeildElement.val(), 10))) {
+                            $inputFeildElement.val(0);
                         }
                     }
                 }

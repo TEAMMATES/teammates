@@ -70,6 +70,13 @@ public class FeedbackSubmitPage extends AppPage {
         return element.getAttribute("value");
     }
 
+    public String getResponseTextBoxValue(int qnNumber, int responseNumber, int responseSubNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                    + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+        return element.getAttribute("value");
+    }
+
     public int getResponseTextBoxLengthLabelValue(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("responseLength" + "-" + qnNumber + "-" + responseNumber));

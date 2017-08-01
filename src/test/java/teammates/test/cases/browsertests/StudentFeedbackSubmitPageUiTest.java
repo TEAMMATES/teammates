@@ -167,6 +167,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(18, 0, 0, "90");
         submitPage.fillResponseTextBox(18, 0, 1, "10");
 
+        submitPage.fillResponseTextBox(19, 1, 0, "200");
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
         submitPage.chooseContribOption(20, 0, "Equal share");
 
         // Just check that some of the responses persisted.
@@ -319,12 +322,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
                                                 aliceTeam,
                                                 "Team 2"));
-        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                                                aliceTeam,
-                                                "Team 2"));
-        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                                                aliceTeam,
-                                                "Team 3"));
 
         submitPage.submitWithoutConfirmationEmail();
 
