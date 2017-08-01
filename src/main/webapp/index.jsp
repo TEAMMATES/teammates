@@ -38,7 +38,7 @@
       <h2 class="media-heading">Praised by Users:</h2>
       <p id="testimonialContainer">
         I just started exploring TEAMMATES and am very impressed. Wish I discovered it earlier.
-        <br>Faculty user, Singapore
+        <br>-Faculty user, Singapore
       </p>
     </div>
   </div>
