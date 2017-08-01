@@ -62,10 +62,6 @@ function showHideStats() {
     }
 }
 
-function updateStatsCheckBox() {
-    $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
-}
-
 /**
  * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
  *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
@@ -350,26 +346,6 @@ function prepareInstructorFeedbackResultsPage() {
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
-
-    $('#viewSelect').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('#sectionSelect').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('#indicate-missing-responses-checkbox').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('.checkbox-group-by-team').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('#show-stats-checkbox').on('change', () => {
-        updateStatsCheckBox();
-    });
 
     $('#collapse-panels-button').on('click', (e) => {
         expandOrCollapsePanels(e.target);
