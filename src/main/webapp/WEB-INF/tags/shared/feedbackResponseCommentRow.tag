@@ -43,6 +43,7 @@
         </c:if>
         </div>
         <div class="col-xs-2">
+        ${frc.editDeleteEnabled}
           <c:if test="${frc.editDeleteEnabled}">
               <c:choose>
               <c:when test="${isOnFeedbackSubmissionEditPage}">
