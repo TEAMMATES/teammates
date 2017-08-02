@@ -12,6 +12,7 @@ public class ErrorUserReportLogAction extends Action {
     private static final Logger log = Logger.getLogger();
     private String emailSubject;
     private String emailContent;
+    private String requestedUrl;
 
     @Override
     protected ActionResult execute() {
@@ -19,6 +20,7 @@ public class ErrorUserReportLogAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, emailContent);
         emailSubject = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT);
         Assumption.assertPostParamNotNull(Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, emailSubject);
+        requestedUrl = getRequestParamValue(Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED);
         log.severe(getUserErrorReportLogMessage());
         PageData data = new PageData(account, sessionToken);
         statusToUser.add(new StatusMessage(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS,
@@ -31,6 +33,7 @@ public class ErrorUserReportLogAction extends Action {
      */
     public String getUserErrorReportLogMessage() {
         return "====== USER FEEDBACK ABOUT ERROR ====== \n"
+                + "REQUESTED URL: " + requestedUrl + "\n"
                 + "ACCOUNT DETAILS: " + account.toString() + "\n"
                 + "SUBJECT: " + emailSubject + "\n"
                 + "FEEDBACK: " + emailContent;

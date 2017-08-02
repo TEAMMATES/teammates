@@ -89,31 +89,31 @@ public class ControllerServlet extends HttpServlet {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE, params, url));
         } catch (EntityNotFoundException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE, params, url));
 
         } catch (FeedbackSessionNotVisibleException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE, params, url));
 
         } catch (InvalidOriginException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.INVALID_ORIGIN, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.INVALID_ORIGIN, params, url));
 
         } catch (UnauthorizedAccessException e) {
             log.warning(new LogMessageGenerator()
                                 .generateActionFailureLogMessage(url, params, e, userType));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.UNAUTHORIZED, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.UNAUTHORIZED, params, url));
 
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
             /*This exception may not be caught because GAE kills
@@ -123,7 +123,7 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             log.severe("Deadline exceeded exception caught by ControllerServlet : "
                     + TeammatesException.toStringWithStackTrace(e));
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE, params, url));
 
         //TODO: handle invalid parameters exception
         } catch (NullPostParameterException e) {
@@ -144,7 +144,7 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
             } else {
                 cleanUpStatusMessageInSession(req);
-                resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ERROR_PAGE, params));
+                resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ERROR_PAGE, params, url));
             }
         } catch (Throwable t) {
             /* Log only stack trace to prevent delay in termination of request
@@ -154,7 +154,7 @@ public class ControllerServlet extends HttpServlet {
             log.severe("Unexpected exception caught by ControllerServlet : "
                         + TeammatesException.toStringWithStackTrace(t));
             cleanUpStatusMessageInSession(req);
-            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ERROR_PAGE, params));
+            resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.ERROR_PAGE, params, url));
         }
 
     }
@@ -163,8 +163,9 @@ public class ControllerServlet extends HttpServlet {
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
     }
 
-    private String appendParamsToErrorPageUrl(String baseUrl, Map<String, String[]> params) {
+    private String appendParamsToErrorPageUrl(String baseUrl, Map<String, String[]> params, String requestUrl) {
         String redirectUrl = baseUrl;
+        redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, requestUrl);
         redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.REGKEY, params.get(Const.ParamsNames.REGKEY)[0]);
         redirectUrl = Url.addParamToUrl(redirectUrl,
                 Const.ParamsNames.COURSE_ID, params.get(Const.ParamsNames.COURSE_ID)[0]);

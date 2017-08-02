@@ -851,6 +851,7 @@ public final class Const {
         public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
         public static final String ERROR_FEEDBACK_EMAIL_CONTENT = "errorfeedbackemailcontent";
+        public static final String ERROR_FEEDBACK_URL_REQUESTED = "errorfeedbackrequestedurl";
     }
 
     public static class SearchIndex {
