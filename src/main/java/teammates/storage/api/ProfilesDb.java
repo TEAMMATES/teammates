@@ -70,7 +70,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
 
     private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
         StudentProfileAttributes newSpaCopy = newSpa.getCopy();
-        StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
+        StudentProfileAttributes existingProfile = StudentProfileAttributes.valueOf(profileToUpdate);
 
         newSpaCopy.modifiedDate = existingProfile.modifiedDate;
         return existingProfile.toString().equals(newSpaCopy.toString());
@@ -276,6 +276,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     protected StudentProfileAttributes makeAttributes(StudentProfile entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new StudentProfileAttributes(entity);
+        return StudentProfileAttributes.valueOf(entity);
     }
 }

@@ -22,7 +22,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
-                        <strong>${sectionPanel.sectionNameForDisplay}</strong>
+                        <strong>${fn:escapeXml(sectionPanel.sectionNameForDisplay)}</strong>
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
@@ -42,7 +42,7 @@
             <div class="panel-heading ajax_auto">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
-                        <strong>${sectionPanel.sectionNameForDisplay}</strong>
+                        <strong>${fn:escapeXml(sectionPanel.sectionNameForDisplay)}</strong>
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
@@ -60,7 +60,7 @@
                 <form style="display:none;" id="seeMore-${sectionIndex}" class="seeMoreForm-${sectionIndex}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${feedbackSessionName}">
-                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${sectionPanel.sectionName}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${fn:escapeXml(sectionPanel.sectionName)}">
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="${data.groupByTeam}">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="${data.sortType}">

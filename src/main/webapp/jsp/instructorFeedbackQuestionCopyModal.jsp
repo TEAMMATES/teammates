@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
   <thead class="fill-primary">
@@ -25,7 +26,7 @@
       <td>${row.courseId}</td>
       <td>${row.fsName}</td>
       <td>${row.qnType}</td>
-      <td>${row.qnText}</td>
+      <td>${fn:escapeXml(row.qnText)}</td>
       <input type="hidden" value="${row.qnId}">
       <input type="hidden" class="courseid" value="${row.courseId}">
       <input type="hidden" class="fsname" value="${row.fsName}">

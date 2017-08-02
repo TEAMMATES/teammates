@@ -18,6 +18,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
@@ -102,7 +103,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                           + updatedQuestion.courseId + "]</span> edited.<br>"
                           + "<span class=\"bold\">"
                           + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
-                          + updatedQuestionDetails.getQuestionText();
+                          + SanitizationHelper.sanitizeForHtml(updatedQuestionDetails.getQuestionText());
         } else {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;

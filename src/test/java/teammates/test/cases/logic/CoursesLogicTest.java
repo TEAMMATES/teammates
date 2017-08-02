@@ -227,7 +227,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
@@ -283,7 +283,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -343,7 +343,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -395,7 +395,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
@@ -799,7 +799,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         a.email = i.email;
         a.institute = "TEAMMATES Test Institute 5";
         a.isInstructor = false;
-        a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {

@@ -294,12 +294,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return true;
         }
 
-        if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
-                || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
-                || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
-            return true;
-        }
-
         return this.getQuestionDetails().isChangesRequiresResponseDeletion(newAttributes.getQuestionDetails());
     }
 

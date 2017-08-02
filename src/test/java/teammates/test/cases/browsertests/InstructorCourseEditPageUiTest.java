@@ -227,14 +227,38 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.getEditInstructorLink(editInstructorIndex).getText().contains("Edit failed."));
         courseEditPage.reloadPage();
 
-        ______TS("success: edit an instructor");
+        ______TS("success: edit instructor, make hidden and verify changes");
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", false, "",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
+                false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt",
+        ______TS("success: unhide instructor and verify changes");
+
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
+                true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        ______TS("success: edit yet-to-join instructor, make hidden and verify changes");
+
+        editInstructorIndex = 3;
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", false, "",
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        assertTrue(courseEditPage.isInstructorListSortedByName());
+
+        ______TS("success: unhide yet-to-join instructor and verify changes");
+
+        courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", true,
+                "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
 
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
 
+        editInstructorIndex = 1;
         courseEditPage.clickEditInstructorLink(editInstructorIndex);
         assertTrue(courseEditPage.isInstructorEditable(editInstructorIndex));
 
@@ -372,13 +396,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
 
-        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail,
+        courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail, true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
-        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt",
+        courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
 
@@ -718,9 +742,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
         courseEditPage.verifyStatus(
-                getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                                         FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                         FieldValidator.COURSE_NAME_MAX_LENGTH));
+                getPopulatedEmptyStringErrorMessage(
+                                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                     FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
     }
 
     private void testDeleteCourseAction() {

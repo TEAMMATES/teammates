@@ -373,6 +373,9 @@ function updateVisibilityMessageDiv($containingForm) {
         type: 'POST',
         url,
         data: formData,
+        beforeSend() {
+            $visibilityMessageDiv.html("<img src='/images/ajax-loader.gif'/>");
+        },
         success(data) {
             // update stored form data
             previousFormDataMap[questionNum] = formData;
@@ -399,20 +402,6 @@ function getVisibilityMessage(clickedButton) {
     updateVisibilityMessageDiv($containingForm);
 }
 
-function checkAndMarkDestructiveChange(selectedOption, $containingForm) {
-    if (selectedOption === 'Custom visibility options...') {
-        return;
-    }
-
-    const currentOption = $containingForm.find('.visibility-options-dropdown button').text();
-    const isSelectionChanged = selectedOption !== currentOption;
-    const hasResponses = $containingForm.attr('editStatus') === 'hasResponses';
-
-    if (isSelectionChanged && hasResponses) {
-        $containingForm.attr('editStatus', 'mustDeleteResponses');
-    }
-}
-
 /**
  * binds events to the visibility dropdown menu to
  *  - show/hide visibility checkboxes div
@@ -425,7 +414,6 @@ function attachVisibilityDropdownEvent() {
         const selectedOption = $clickedElem.data('optionName');
         const $containingForm = $clickedElem.closest('form');
 
-        checkAndMarkDestructiveChange($clickedElem.text(), $containingForm);
         setVisibilityDropdownMenuText($clickedElem.text(), $containingForm);
 
         const $editTab = $containingForm.find('.visibilityOptions');

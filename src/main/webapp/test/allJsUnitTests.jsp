@@ -2,14 +2,14 @@
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>QUnit Testing Result</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="<%= FrontEndLibrary.QUNIT_CSS %>" type="text/css" media="screen">
-</head>
-<body>
+  </head>
+  <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
     <div id="blanket-main"></div>
@@ -34,5 +34,5 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
 
     <script type="text/javascript" src="/test/jsUnitTests.js" data-cover></script>
-</body>
+  </body>
 </html>

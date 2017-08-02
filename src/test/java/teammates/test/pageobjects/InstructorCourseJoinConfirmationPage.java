@@ -4,8 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.test.driver.retry.RetryManager;
-import teammates.test.driver.retry.RetryableTask;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryableTask;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
@@ -28,8 +28,8 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
         return changePageType(InstructorHomePage.class);
     }
 
-    public InstructorHomePage clickConfirmButtonWithRetry() {
-        RetryManager.runUntilSuccessful(new RetryableTask("Course join") {
+    public InstructorHomePage clickConfirmButtonWithRetry() throws MaximumRetriesExceededException {
+        persistenceRetryManager.runUntilSuccessful(new RetryableTask("Course join") {
             @Override
             public void run() {
                 clickConfirmButtonAndWaitForPageToLoad();

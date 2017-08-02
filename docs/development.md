@@ -13,7 +13,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 The instructions in all parts of this document work for Linux, OS X, and Windows, with the following pointers:
 - Replace `./gradlew` to `gradlew.bat` if you are using Windows.
 - All the commands are assumed to be run from the root project folder, unless otherwise specified.
-- It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).
+- It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
@@ -39,22 +39,28 @@ In addition, the command will also *minify* the JavaScript files to reduce the s
 
 #### Starting the dev server
 
-Run the following command:
-
+To start the server in the background, run the following command
+and wait until the task exits with a `BUILD SUCCESSFUL`:
 ```sh
 ./gradlew appengineRun
 ```
 
-Wait until the task exits with a `BUILD SUCCESSFUL`.
+To start the server in the foreground (e.g. if you want the console output to be visible),
+run the following command instead:
+```sh
+./gradlew appengineRun -Pdisable_daemon
+```
+
 The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
 
 #### Stopping the dev server
 
-Run the following command:
-
+If you started the server in the background, run the following command to stop it:
 ```sh
 ./gradlew appengineStop
 ```
+
+If the server is running in the foreground, press `Ctrl + C` to stop it.
 
 ### With Eclipse
 
@@ -116,6 +122,8 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/admin/adminHomePage`.
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
 1. On the production server, you will be granted the access only if your account has administrator permission to the application.
+1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
+ e.g `http://localhost:8888/page/studentHomePage?user=johnKent`.
 
 ### As instructor
 
@@ -163,7 +171,7 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
 * If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
-  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache = false`.
+  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
 
 ### Using Chrome
 

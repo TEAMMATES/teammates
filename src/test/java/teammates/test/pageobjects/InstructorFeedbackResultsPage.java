@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryableTask;
 import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
@@ -72,58 +75,112 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
 
+    public void displayEditSettingsWindow() {
+        WebElement editBtn = browser.driver.findElement(By.id("editBtn"));
+        click(editBtn);
+        waitForElementVisibility(By.id("editModal"));
+    }
+
+    public void submitEditForm() {
+        WebElement submitBtn = browser.driver.findElement(By.id("submitBtn"));
+        submitBtn.submit();
+    }
+
     public void displayByGiverRecipientQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Recipient > Question");
+
+        submitEditForm();
     }
 
     public void displayByRecipientGiverQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Giver > Question");
+
+        submitEditForm();
     }
 
     public void displayByGiverQuestionRecipient() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Question > Recipient");
+
+        submitEditForm();
     }
 
     public void displayByRecipientQuestionGiver() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Question > Giver");
+
+        submitEditForm();
     }
 
     public void filterResponsesForSection(String section) {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText(section);
+
+        submitEditForm();
     }
 
     public void filterResponsesForAllSections() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText("All");
+
+        submitEditForm();
     }
 
     public void displayByQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Question");
+
+        submitEditForm();
     }
 
     public void clickGroupByTeam() {
+        displayEditSettingsWindow();
+
         WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
         click(button);
+
+        submitEditForm();
     }
 
     public void clickCollapseExpandButton() {
         click(collapseExpandButton);
     }
 
+    public void expandPanels() {
+        if (isElementPresent("collapse-panels-button")) {
+            clickCollapseExpandButton();
+            waitForPanelsToExpand();
+        }
+    }
+
     public void clickShowStats() {
+        displayEditSettingsWindow();
         click(showStatsCheckbox);
+        submitEditForm();
     }
 
     public void clickIndicateMissingResponses() {
+        displayEditSettingsWindow();
         click(indicateMissingResponsesCheckbox);
+        submitEditForm();
     }
 
     public void clickRemindAllButtonAndWaitForFormToLoad() {
@@ -179,10 +236,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         click(showResponseCommentAddFormButton);
-        WebElement editorElement = addResponseCommentForm.findElement(By.className("mce-content-body"));
+        WebElement editorElement = waitForElementPresence(By.cssSelector("#" + addResponseCommentId + " .mce-content-body"));
         waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         fillRichTextEditor(editorElement.getAttribute("id"), commentText);
-        click(addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
+        WebElement saveButton = addResponseCommentForm
+                .findElement(By.className("col-sm-offset-5"))
+                .findElement(By.tagName("a"));
+        if ("chrome".equals(TestProperties.BROWSER)) {
+            // Focus on save button to fire events triggered when the editor loses focus
+            focusViaClickAction(saveButton);
+        }
+        click(saveButton);
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
             waitForElementToBeClickable(editorElement);
@@ -328,58 +392,108 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) {
+    public void clickViewPhotoLink(String panelBodyIndex, String urlRegex) throws MaximumRetriesExceededException {
         String panelBodySelector = "#panelBodyCollapse-" + panelBodyIndex;
         String popoverSelector = panelBodySelector + " .popover-content";
+        String clickSelector = panelBodySelector + " .profile-pic-icon-click a";
 
-        browser.driver.findElement(By.cssSelector(panelBodySelector + " .profile-pic-icon-click a")).click();
+        moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
 
-        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        verifyImageUrl(urlRegex, imgSrc);
+        verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex) {
+    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex)
+            throws MaximumRetriesExceededException {
         String headingSelector = "#panelHeading-" + panelHeadingIndex;
         String popoverSelector = headingSelector + " .popover-content";
+        String hoverSelector = headingSelector + " .profile-pic-icon-hover";
 
-        moveToElement(By.cssSelector(headingSelector + " .profile-pic-icon-hover"));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        moveToElement(By.cssSelector(hoverSelector));
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
-        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        verifyImageUrl(urlRegex, imgSrc);
+        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
+                "Hover and verify student photo on heading");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex) {
+    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex)
+            throws MaximumRetriesExceededException {
         String bodyRowSelector = "#panelBodyCollapse-" + panelBodyIndex + " > .panel-body > .row";
         String popoverSelector = bodyRowSelector + " .popover-content";
+        String hoverSelector = bodyRowSelector + " .profile-pic-icon-hover";
 
-        moveToElement(By.cssSelector(bodyRowSelector + " .profile-pic-icon-hover"));
+        moveToElement(By.cssSelector(hoverSelector));
 
-        String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
-        verifyImageUrl(urlRegex, imgSrc);
+        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
+                "Hover and verify student photo on body");
     }
 
-    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                  int tableCol, String urlRegex) {
+    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex)
+            throws MaximumRetriesExceededException {
         String cellSelector = "#questionBody-" + questionBodyIndex + " .dataTable tbody"
                               + " tr:nth-child(" + (tableRow + 1) + ")"
                               + " td:nth-child(" + (tableCol + 1) + ")";
         String popoverSelector = cellSelector + " .popover-content";
+        String hoverSelector = cellSelector + " .profile-pic-icon-hover";
 
-        moveToElement(By.cssSelector(cellSelector + " .profile-pic-icon-hover"));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        moveToElement(By.cssSelector(hoverSelector));
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
+        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
+                "Hover and verify photo on table cell");
+    }
+
+    /**
+     * Popovers triggered by hover actions sometimes fail to appear, resulting in a {@link WebDriverException}.
+     * Popover image verifications that depend on hover actions should therefore be retried several times,
+     * with the hover action triggered before each retry.
+     */
+    private void verifyPopoverImageUrlWithHoverRetry(
+            final String popoverSelector, final String hoverSelector, final String urlRegex, String taskName)
+            throws MaximumRetriesExceededException {
+        uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
+            @Override
+            public void run() {
+                verifyPopoverImageUrl(popoverSelector, urlRegex);
+            }
+
+            @Override
+            public void beforeRetry() {
+                moveToElement(By.cssSelector(hoverSelector));
+            }
+        }, WebDriverException.class);
+    }
+
+    /**
+     * Similar to {@link #verifyPopoverImageUrlWithHoverRetry}, but for click actions.
+     */
+    private void verifyPopoverImageUrlWithClickRetry(
+            final String popoverSelector, final String clickSelector, final String urlRegex, String taskName)
+            throws MaximumRetriesExceededException {
+        uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
+            @Override
+            public void run() {
+                verifyPopoverImageUrl(popoverSelector, urlRegex);
+            }
+
+            @Override
+            public void beforeRetry() {
+                moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
+            }
+        }, WebDriverException.class);
+    }
+
+    private void verifyPopoverImageUrl(String popoverSelector, String urlRegex) {
         String imgSrc = getElementSrcWithRetryAfterWaitForPresence(By.cssSelector(popoverSelector + " > img"));
         verifyImageUrl(urlRegex, imgSrc);
     }
 
-    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                       String urlRegex) {
+    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex)
+            throws MaximumRetriesExceededException {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
-    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
-                                                           String urlRegex) {
+    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex)
+            throws MaximumRetriesExceededException {
         hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 
@@ -467,12 +581,26 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void moveToElement(By by) {
-        WebElement element = browser.driver.findElement(by);
+        moveToElement(browser.driver.findElement(by));
+    }
+
+    private void moveToElement(WebElement element) {
         new Actions(browser.driver).moveToElement(element).perform();
+    }
+
+    private void focusViaClickAction(WebElement element) {
+        new Actions(browser.driver).moveToElement(element).click().perform();
+    }
+
+    private void moveToElementAndClickAfterWaitForPresence(By by) {
+        WebElement element = waitForElementPresence(by);
+        moveToElement(element);
+        click(element);
     }
 
     private String getElementSrcWithRetryAfterWaitForPresence(By by) {
         try {
+            waitForAjaxLoaderGifToDisappear();
             return waitForElementPresence(by).getAttribute("src");
         } catch (StaleElementReferenceException e) {
             // Element changed (e.g. loading gif changed to actual image)
