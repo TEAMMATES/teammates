@@ -16,13 +16,13 @@
 </tr>
 
 <c:if test="${not empty response.comments}">
-    <tr>
-        <td>
-            <ul class="list-group comment-list">
-                <c:forEach items="${response.comments}" var="comment">
-                    <shared:feedbackResponseCommentRow frc="${comment}" isInstructor="false"/>
-                </c:forEach>
-            </ul>
-        </td>
-    </tr>
+  <tr>
+    <td>
+      <ul class="list-group comment-list">
+        <c:forEach items="${response.comments}" var="comment">
+          <shared:feedbackResponseCommentRow frc="${comment}" isInstructor="false"/>
+        </c:forEach>
+      </ul>
+    </td>
+  </tr>
 </c:if>

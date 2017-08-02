@@ -124,6 +124,7 @@ const addCommentHandler = (e) => {
 
     const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
     formObject.find('input[name=responsecommenttext]').val(editor.getContent());
+
     const formData = formObject.serialize();
 
     $.ajax({
@@ -269,6 +270,7 @@ function enableHoverToDisplayEditOptions() {
 
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
     const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+
     $(`#responseCommentTable${id}`).show();
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
         $(`#responseCommentTable${id}`).css('margin-top', '15px');
