@@ -245,6 +245,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         List<String> responseSubmittedRecipient = new ArrayList<String>();
         int responseIndx = 0;
+        // to generate options when responseIndx < numOfResponseBoxes.
         int i = 0;
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
