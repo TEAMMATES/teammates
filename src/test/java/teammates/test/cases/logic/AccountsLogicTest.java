@@ -1,6 +1,5 @@
 package teammates.test.cases.logic;
 
-import com.google.appengine.api.users.User;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -21,7 +20,6 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.entity.Instructor;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 
