@@ -112,7 +112,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         ______TS("Question text requires sanitization");
 
         FeedbackSessionAttributes sanitizationSession =
-                dataBundle.feedbackSessions.get("session1InTestingSanitizationCourse");
+                typicalBundle.feedbackSessions.get("session1InTestingSanitizationCourse");
         question1 = FeedbackQuestionsLogic
                 .inst()
                 .getFeedbackQuestion(sanitizationSession.getFeedbackSessionName(),
