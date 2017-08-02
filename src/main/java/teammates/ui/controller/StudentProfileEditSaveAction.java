@@ -58,7 +58,7 @@ public class StudentProfileEditSaveAction extends Action {
         try {
             genderType = GenderType.valueOf("other");
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            e.getLocalizedMessage(); // .printStackTrace() is a PMD violation
         }
         editedProfile.gender = genderType;
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
