@@ -9,7 +9,23 @@ import {
  */
 const container = document.getElementById('spreadsheet');
 const columns = ['Section', 'Team', 'Name', 'Email', 'Comments (Optional)'];
-const studentListData = [];
+
+/**
+ * Validator Function to validation emails
+ * @param {string} value
+ * @param {function} callback
+ *
+ * @return {function} true/false
+ */
+const emailValidator = (value, callback) => {
+    setTimeout(() => {
+        if (/.+@.+/.test(value)) {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    }, 100);
+};
 
 /**
  * Holds Handsontable settings, reference and other information for Spreadsheet.
@@ -34,16 +50,22 @@ const handsontable = new Handsontable(container, {
         'make_read_only',
         'alignment',
     ],
+    columns: [
+        {
+            type: 'text',
+        }, {
+            type: 'text',
+        }, {
+            type: 'text',
+        }, {
+            type: 'text',
+            validator: emailValidator,
+            allowInvalid: false,
+        }, {
+            type: 'text',
+        },
+    ],
 });
-
-/**
- * Convert strings first letter to uppercase
- * @param {string} string
- * @return {string}
- */
-function jsUcfirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 /**
  * Removes ' (Optional)' string from an array of string
@@ -55,19 +77,6 @@ function removeOptionalWord(columnsList) {
         columnsList[itr] = columnsList[itr].replace(' (Optional)', '');
     }
     return columnsList;
-}
-
-/**
- * Shift particular element at start of array and then reverse array
- * @param {array of string} array
- * @return {array of string} array
- */
-function moveCommentToFirst(array) {
-    const getCommentValue = array[2];
-    array.splice(2, 1);
-    array.unshift(getCommentValue);
-    array.reverse();
-    return array;
 }
 
 /**
@@ -180,20 +189,31 @@ function fetchStudentList() {
         },
         success(data) {
             $('#statusBox').hide();
+
             const objects = data.students;
             if (objects.length !== 0) {
-                const columnsList = removeOptionalWord(handsontable.getColHeader());
-                objects.forEach((object) => {
-                    let studentData = [];
-                    Object.keys(object).forEach((key) => {
-                        if (columnsList.includes(jsUcfirst(key))) {
-                            studentData.push(object[key]);
-                        }
-                    });
-                    studentData = moveCommentToFirst(studentData);
-                    studentListData.push(studentData);
+                handsontable.updateSettings({
+                    data: data.students,
+                    columns: [
+                        {
+                            data: 'section',
+                            type: 'text',
+                        }, {
+                            data: 'team',
+                            type: 'text',
+                        }, {
+                            data: 'name',
+                            type: 'text',
+                        }, {
+                            data: 'email',
+                            validator: emailValidator,
+                            allowInvalid: false,
+                        }, {
+                            data: 'comments',
+                            type: 'text',
+                        },
+                    ],
                 });
-                handsontable.loadData(studentListData);
             }
         },
     });
