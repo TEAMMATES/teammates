@@ -226,8 +226,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.clickDiscardChangesLink(1);
 
-        ______TS("CONST SUM: testing changing feedback path");
-        // delete last option, must display modal
+        ______TS("CONST SUM: testing changing recipient");
+        // change recipient, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
@@ -239,6 +239,37 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        // change giver, must display modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.INSTRUCTORS, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        int points = csQuestion.getPoints();
+
+        // change const sum points, must display modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillConstSumPointsBox("50", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.fillConstSumPointsBox(Integer.toString(points), 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
 
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();
