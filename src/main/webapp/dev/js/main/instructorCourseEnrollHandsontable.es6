@@ -4,10 +4,16 @@ import {
     ParamsNames,
 } from '../common/const.es6';
 
+/**
+ * @Global Variables
+ */
 const container = document.getElementById('spreadsheet');
-const columns = ['Section', 'Team', 'Name', 'Email', 'Comments'];
+const columns = ['Section', 'Team', 'Name', 'Email', 'Comments (Optional)'];
 const studentListData = [];
 
+/**
+ * Holds Handsontable settings, reference and other information for Spreadsheet.
+ */
 const handsontable = new Handsontable(container, {
     rowHeaders: true,
     colHeaders: columns,
@@ -30,10 +36,32 @@ const handsontable = new Handsontable(container, {
     ],
 });
 
+/**
+ * Convert strings first letter to uppercase
+ * @param {string} string
+ * @return {string}
+ */
 function jsUcfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/**
+ * Removes ' (Optional)' string from an array of string
+ * @param {array of string} columns
+ * @return {array of string} columns
+ */
+function removeOptionalWord(columnsList) {
+    for (let itr = 0; itr < columnsList.length; itr += 1) {
+        columnsList[itr] = columnsList[itr].replace(' (Optional)', '');
+    }
+    return columnsList;
+}
+
+/**
+ * Shift particular element at start of array and then reverse array
+ * @param {array of string} array
+ * @return {array of string} array
+ */
 function moveCommentToFirst(array) {
     const getCommentValue = array[2];
     array.splice(2, 1);
@@ -42,9 +70,15 @@ function moveCommentToFirst(array) {
     return array;
 }
 
+/**
+ * Updates column header order and generates a header string.
+ *
+ * Example: Change this array ['Section', 'Team', 'Name', 'Email', 'Comments']
+ * into a string = "Section | Team | Name | Email | Comments"
+ */
 function updateHeaderOrder() {
-    const colHeader = handsontable.getColHeader();
     let headerString = '';
+    const colHeader = removeOptionalWord(handsontable.getColHeader());
     for (let itr = 0; itr < colHeader.length; itr += 1) {
         headerString += colHeader[itr];
         if (itr < colHeader.length - 1) {
@@ -55,6 +89,14 @@ function updateHeaderOrder() {
     return headerString;
 }
 
+/**
+ * Updates the Student data from the spreadsheet when any of the
+ * following event occurs afterChange, afterColumnMove or afterRemoveRow.
+ *
+ * Push the output data into the textarea (used for form submission).
+ *
+ * Handles the width of column and height of row in case of overflow.
+ */
 function updateDataDump() {
     const spreadsheetData = handsontable.getData();
     let dataPushToTextarea = updateHeaderOrder();
@@ -96,6 +138,9 @@ function updateDataDump() {
     /* eslint-enable consistent-return */
 }
 
+/**
+ * Adds the listener to specified hook name and only for this Handsontable instance.
+ */
 function addHandsontableHooks() {
     const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
 
@@ -104,6 +149,15 @@ function addHandsontableHooks() {
     }
 }
 
+/**
+ * Fetch all students enrolled in a particular course
+ *
+ * @param {string} COURSE_ID
+ * @param {string} USER
+ *
+ * Returns the list of all students data object and push them
+ * in the spreadsheet.
+ */
 function fetchStudentList() {
     const $form = $('#enrollSubmitForm');
     const COURSE_ID = $form.children(`input[name="${ParamsNames.COURSE_ID}"]`).val();
@@ -122,22 +176,22 @@ function fetchStudentList() {
         },
         error() {
             $('#statusBox').html('<button id=\'retryFetchingList\' type=\'button\''
-                                    + ' class=\'btn btn-danger btn-xs\'>An Error Occurred, Please Retry</button>');
+                                + ' class=\'btn btn-danger btn-xs\'>An Error Occurred, Please Retry</button>');
         },
         success(data) {
             $('#statusBox').hide();
             const objects = data.students;
+            const columnsList = removeOptionalWord(handsontable.getColHeader());
             objects.forEach((object) => {
                 let studentData = [];
                 Object.keys(object).forEach((key) => {
-                    if (columns.includes(jsUcfirst(key))) {
+                    if (columnsList.includes(jsUcfirst(key))) {
                         studentData.push(object[key]);
                     }
                 });
                 studentData = moveCommentToFirst(studentData);
                 studentListData.push(studentData);
             });
-
             handsontable.loadData(studentListData);
         },
     });

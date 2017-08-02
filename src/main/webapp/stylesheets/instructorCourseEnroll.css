@@ -70,3 +70,7 @@ input[name='number_of_rows'] {
 #addEmptyRows {
     margin-top: -3px;
 }
+
+#spreadsheet-link {
+    display: none;
+}
