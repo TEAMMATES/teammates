@@ -94,7 +94,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
-        GenderType gender = GenderType.male;
+        GenderType gender = GenderType.MALE;
         String moreInfo = "Information for John Doe.";
 
         if (pictureKey == null || pictureKey.isEmpty()) {

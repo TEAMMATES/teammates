@@ -14,7 +14,6 @@ import org.joda.time.DateTimeZone;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.GenderType;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -91,9 +90,6 @@ public class FieldValidator {
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
 
     public static final String GENDER_FIELD_NAME = "gender";
-    public static final List<GenderType> GENDER_ACCEPTED_VALUES =
-            Collections.unmodifiableList(
-                    Arrays.asList(GenderType.male, GenderType.female, GenderType.other));
 
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
@@ -189,11 +185,6 @@ public class FieldValidator {
     public static final String NATIONALITY_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
             + HINT_FOR_CORRECT_NATIONALITY;
-
-    public static final String GENDER_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
-            + "Values have to be one of: " + GenderType.male + ", "
-            + GenderType.female + ", " + GenderType.other + ".";
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
@@ -411,20 +402,6 @@ public class FieldValidator {
         return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
                                                                STUDENT_ROLE_COMMENTS_MAX_LENGTH,
                                                                studentRoleComments);
-    }
-
-    /**
-     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}.
-     * @return An explanation of why the {@code gender} is not acceptable.
-     *         Returns an empty string if the {@code gender} is acceptable.
-     */
-    public String getInvalidityInfoForGender(GenderType gender) {
-        Assumption.assertTrue("Non-null value expected", gender != null);
-
-        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
-            return String.format(GENDER_ERROR_MESSAGE, gender);
-        }
-        return "";
     }
 
     /**

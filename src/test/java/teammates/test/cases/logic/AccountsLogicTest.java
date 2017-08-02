@@ -60,7 +60,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = GenderType.male;
+        spa.gender = GenderType.MALE;
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";

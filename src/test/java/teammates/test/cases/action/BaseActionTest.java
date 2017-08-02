@@ -134,7 +134,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA",
-                String.valueOf(GenderType.female), "female",
+                String.valueOf(GenderType.FEMALE), "female",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };
     }

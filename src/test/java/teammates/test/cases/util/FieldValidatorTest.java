@@ -7,7 +7,6 @@ import static teammates.common.util.FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.EMAIL_FIELD_NAME;
 import static teammates.common.util.FieldValidator.EMAIL_MAX_LENGTH;
 import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH;
-import static teammates.common.util.FieldValidator.GENDER_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_FIELD_NAME;
 import static teammates.common.util.FieldValidator.GOOGLE_ID_MAX_LENGTH;
 import static teammates.common.util.FieldValidator.INSTITUTE_NAME_MAX_LENGTH;
@@ -26,7 +25,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -385,27 +383,6 @@ public class FieldValidatorTest extends BaseTestCase {
                      "The field 'email subject' is empty. The value of a/an email subject should be no longer than "
                          + "200 characters. It should not be empty.",
                      actual);
-    }
-
-    @Test
-    public void invalidityInfoFor_validGender_returnEmptyString() {
-        GenderType validGender = GenderType.other;
-        String actual = validator.getInvalidityInfoForGender(validGender);
-        assertEquals("Valid gender should return empty string", "", actual);
-    }
-
-    @Test
-    public void invalidityInfoFor_invalidGender_returnErrorString() {
-        GenderType invalidGender = GenderType.invalid;
-        String actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Invalid gender should return appropriate error string",
-                String.format(GENDER_ERROR_MESSAGE, invalidGender),
-                actual);
-
-        actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Unsanitized, invalid gender should return appropriate error string",
-                String.format(GENDER_ERROR_MESSAGE, invalidGender),
-                actual);
     }
 
     @Test

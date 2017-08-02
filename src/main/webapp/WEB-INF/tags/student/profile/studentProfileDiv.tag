@@ -4,8 +4,8 @@
 <%@ tag import="teammates.common.datatransfer.attributes.GenderType" %>
 <%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
 <%@ attribute name="sessionToken" required="true" %>
-<c:set var="MALE" value="<%= GenderType.male %>" />
-<c:set var="FEMALE" value="<%= GenderType.female %>" />
+<c:set var="MALE" value="<%= GenderType.MALE %>" />
+<c:set var="FEMALE" value="<%= GenderType.FEMALE %>" />
 <c:set var="OTHER" value="<%= GenderType.other %>" />
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
   <h3 id="studentName">
@@ -116,7 +116,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= GenderType.male %>"
+              value="<%= GenderType.MALE %>"
               <c:if test="${profile.gender == MALE}">checked</c:if>> Male
         </label>
         <label for="genderFemale" class="radio-inline">
@@ -124,7 +124,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= GenderType.female %>"
+              value="<%= GenderType.FEMALE %>"
               <c:if test="${profile.gender == FEMALE}">checked</c:if>> Female
         </label>
         <label class="radio-inline" for="genderOther">

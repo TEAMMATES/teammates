@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -43,6 +44,7 @@ public class StudentProfileEditSaveAction extends Action {
 
     private StudentProfileAttributes extractProfileData() {
         StudentProfileAttributes editedProfile = StudentProfileAttributes.builder().build();
+        GenderType genderType = null;
 
         editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
@@ -52,7 +54,13 @@ public class StudentProfileEditSaveAction extends Action {
         if ("".equals(editedProfile.nationality)) {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
-        // editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
+
+        try {
+            genderType = GenderType.valueOf("other");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        editedProfile.gender = genderType;
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 

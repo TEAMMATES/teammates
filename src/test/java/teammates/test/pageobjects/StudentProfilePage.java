@@ -135,10 +135,10 @@ public class StudentProfilePage extends AppPage {
 
     public void selectGender(GenderType gender) {
         switch (gender) {
-        case male:
+        case MALE:
             click(genderMaleRadio);
             break;
-        case female:
+        case FEMALE:
             click(genderFemaleRadio);
             break;
         case other:
@@ -185,10 +185,10 @@ public class StudentProfilePage extends AppPage {
 
     private void ensureGenderIsSelectedAs(GenderType gender) {
         switch (gender) {
-        case male:
+        case MALE:
             assertTrue(genderMaleRadio.isSelected());
             break;
-        case female:
+        case FEMALE:
             assertTrue(genderFemaleRadio.isSelected());
             break;
         case other:

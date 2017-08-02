@@ -25,7 +25,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public GenderType gender; // only accepts "male", "female" or "other"
+    public GenderType gender; // only accepts "MALE", "FEMALE" or "other"
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
@@ -71,7 +71,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
-                .withGender(GenderType.other)
+                .withGender(gender)
                 .withNationality(nationality)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
@@ -126,8 +126,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         if (!StringHelper.isEmpty(nationality)) {
             addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
-
-        addNonEmptyError(validator.getInvalidityInfoForGender(gender), errors);
 
         Assumption.assertNotNull(this.pictureKey);
 
@@ -215,7 +213,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public Builder withGender(GenderType gender) {
-            profileAttributes.gender = isGenderValid(gender) ? gender : GenderType.other;
+            profileAttributes.gender = GenderType.other;
             return this;
         }
 
@@ -240,10 +238,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         public StudentProfileAttributes build() {
             return profileAttributes;
-        }
-
-        private boolean isGenderValid(GenderType gender) {
-            return GenderType.male.equals(gender) || GenderType.female.equals(gender) || GenderType.other.equals(gender);
         }
     }
 }

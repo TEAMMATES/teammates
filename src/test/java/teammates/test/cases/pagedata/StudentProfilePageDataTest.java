@@ -49,7 +49,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withEmail("e@mail2.com")
                 .withInstitute("inst")
                 .withNationality("American")
-                .withGender(GenderType.male)
+                .withGender(GenderType.MALE)
                 .withMoreInfo("more info")
                 .withPictureKey("pictureKey")
                 .build();
@@ -65,7 +65,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
         spa = StudentProfileAttributes.builder()
                 .withGoogleId("valid.id.2")
-                .withGender(GenderType.male)
+                .withGender(GenderType.MALE)
                 .build();
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
