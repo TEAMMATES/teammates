@@ -181,18 +181,20 @@ function fetchStudentList() {
         success(data) {
             $('#statusBox').hide();
             const objects = data.students;
-            const columnsList = removeOptionalWord(handsontable.getColHeader());
-            objects.forEach((object) => {
-                let studentData = [];
-                Object.keys(object).forEach((key) => {
-                    if (columnsList.includes(jsUcfirst(key))) {
-                        studentData.push(object[key]);
-                    }
+            if (objects.length !== 0) {
+                const columnsList = removeOptionalWord(handsontable.getColHeader());
+                objects.forEach((object) => {
+                    let studentData = [];
+                    Object.keys(object).forEach((key) => {
+                        if (columnsList.includes(jsUcfirst(key))) {
+                            studentData.push(object[key]);
+                        }
+                    });
+                    studentData = moveCommentToFirst(studentData);
+                    studentListData.push(studentData);
                 });
-                studentData = moveCommentToFirst(studentData);
-                studentListData.push(studentData);
-            });
-            handsontable.loadData(studentListData);
+                handsontable.loadData(studentListData);
+            }
         },
     });
 }
