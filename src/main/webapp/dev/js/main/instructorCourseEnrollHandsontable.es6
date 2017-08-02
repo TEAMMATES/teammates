@@ -58,7 +58,6 @@ const handsontable = new Handsontable(container, {
         }, {
             type: 'text',
         }, {
-            type: 'text',
             validator: emailValidator,
             allowInvalid: false,
         }, {
