@@ -91,6 +91,8 @@
             <li>Each existing cells can be edited by just clicking on it.</li>
             <li>The entire table can be sorted by just clicking on the column name.</li>
             <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
+            <li>To access more edit functions, right-click on a cell.</li>
+            <li>Column width can be adjusted.</li>
           </ul>
         </div>
       </li>
