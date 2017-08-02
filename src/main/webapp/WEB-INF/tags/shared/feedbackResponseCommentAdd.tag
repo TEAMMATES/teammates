@@ -11,7 +11,8 @@
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="moderatedPersonEmail" %>
-
+<%@ attribute name="isPreview" %>
+<%@ attribute name="submitTable" %>
 <c:choose>
   <c:when test="${not empty fourthIndex}">
     <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}" />
