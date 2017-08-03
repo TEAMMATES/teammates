@@ -389,6 +389,25 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGenerateUserCourseRegisterEmail() throws IOException {
+
+        ______TS("student course register email");
+
+        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
+        AccountAttributes user = new AccountAttributes();
+        user.email = "user@email.tmt";
+        user.name = "User Name";
+        user.googleId = "user.googleid";
+
+        EmailWrapper email = new EmailGenerator().generateUserCourseRegisterEmail(user, course);
+        String subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
+                course.getId(), course.getName());
+
+        verifyEmail(email, user.email, subject, "/userCourseRegiserEmail.html");
+
+    }
+
+    @Test
     public void testGenerateCompiledLogsEmail() throws IOException {
         AppLogLine typicalLogLine = new AppLogLine();
         typicalLogLine.setLogLevel(LogLevel.ERROR);
