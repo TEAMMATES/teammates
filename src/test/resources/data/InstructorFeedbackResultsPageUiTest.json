@@ -7,6 +7,13 @@
       "email": "CFResultsUiT.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "CFResultsUiT.instr2": {
+      "googleId": "CFResultsUiT.instr2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "CFResultsUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "CFResultsUiT.helper1": {
       "googleId": "CFResultsUiT.helper1",
       "name": "Teammates Helper",
@@ -87,6 +94,29 @@
       "courseId": "CFResultsUiT.CS2104",
       "name": "Teammates Test",
       "email": "CFResultsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CFResultsUiT.instr2": {
+      "googleId": "CFResultsUiT.instr2",
+      "courseId": "CFResultsUiT.CS2104",
+      "name": "Teammates Test2",
+      "email": "CFResultsUiT.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Instructor",
@@ -1762,6 +1792,36 @@
       },
       "lastEditorEmail": "CFResultsUiT.instr@gmail.tmt",
       "lastEditedAt": "2026-03-02 11:59 PM UTC"
+    },
+  "comment2ToBeEditedByDifferentInstructor": {
+      "courseId": "CFResultsUiT.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "CFResultsUiT.instr2@gmail.tmt",
+      "giverSection": "Section A",
+      "receiverSection": "Section A",
+      "feedbackResponseId": "2%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+        ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-02 11:59 PM UTC",
+      "commentText": {
+        "value": "Comment to be edited by different instructor."
+      },
+      "lastEditorEmail": "CFResultsUiT.instr2@gmail.tmt",
+      "lastEditedAt": "2012-04-02 11:59 PM UTC"
     }
   },
   "profiles": {}
