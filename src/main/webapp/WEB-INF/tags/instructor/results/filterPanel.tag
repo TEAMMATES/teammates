@@ -92,4 +92,4 @@
 
   <r:filterEditModal filterPanel="${filterPanel}" />
 
-</div
+</div>
