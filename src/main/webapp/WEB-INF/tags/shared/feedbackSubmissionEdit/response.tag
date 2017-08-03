@@ -9,11 +9,13 @@
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="isRecipientTeam" value="${questionWithResponses.question.recipientTeam}"/>
+<c:set var="isRecipientStudent" value="${questionWithResponses.question.recipientStudent}"/>
+<c:set var="isRecipientInstructor" value="${questionWithResponses.question.recipientInstructor}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
-  <c:when test="${isNumResponsesMax}"><c:set var="divClassType" value="col-sm-10"/></c:when>
-  <c:otherwise><c:set var="divClassType" value="col-sm-8"/></c:otherwise>
+  <c:when test="${isNumResponsesMax}"><c:set var="divClassType" value="col-sm-9"/></c:when>
+  <c:otherwise><c:set var="divClassType" value="col-sm-7"/></c:otherwise>
 </c:choose>
 
 <c:set var="autoWidth" value="" />
@@ -23,10 +25,21 @@
 
 <br>
 <div class="form-group margin-0">
-  <div ${isNumResponsesMax ? 'class="col-sm-2 form-inline mobile-align-left"' : 'class="col-sm-4 form-inline mobile-align-left"'}
+  <div ${isNumResponsesMax ? 'class="col-sm-3 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
-    <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
+    <label for="input">
+      <span data-toggle="tooltip"
+        data-placement="top"
+        title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
+        Evaluee
+      </span>
+      <c:choose>
+        <c:when test="${isRecipientStudent}"> (Student)</c:when>
+        <c:when test="${isRecipientInstructor}"> (Instructor)</c:when>
+        <c:when test="${isRecipientTeam}"> (Team)</c:when>
+      </c:choose>:
+    </label>
 
     <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
         name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"

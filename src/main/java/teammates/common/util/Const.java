@@ -260,6 +260,7 @@ public final class Const {
                 + "using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, "
                 + "but a joined student can access extra features e.g. set up a user profile";
 
+        public static final String EVALUEE_DESCRIPTION = "The party being evaluated or given feedback to";
         public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT =
                 "If this is unselected, the instructor will be completely invisible to students."
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
