@@ -37,8 +37,10 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
 
         final String testErrorReportSubject = "Test Error Subject";
         final String testErrorReportContent = "This is a test user-submitted error report.";
+        final String testErrorReportRequestedUrl = "/page/testurl";
 
         String[] params = new String[]{
+                Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, testErrorReportRequestedUrl,
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, testErrorReportSubject,
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, testErrorReportContent,
         };
@@ -53,6 +55,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
                 .getAccount(instructor1ofCourse1.googleId, false);
 
         final String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ====== \n"
+                + "REQUESTED URL: " + testErrorReportRequestedUrl + "\n"
                 + "ACCOUNT DETAILS: " + instructor1ofCourse1AccountAttributes.toString() + "\n"
                 + "SUBJECT: " + testErrorReportSubject + "\n"
                 + "FEEDBACK: " + testErrorReportContent;
@@ -69,7 +72,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, "test content",
         };
 
-        verifyAnyRegisteredUserCanAccess(submissionParams);
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
 
     }
 
