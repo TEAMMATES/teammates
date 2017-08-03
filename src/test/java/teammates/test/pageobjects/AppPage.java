@@ -593,6 +593,16 @@ public abstract class AppPage {
     }
 
     /**
+     * Returns the contents of the href attribute on an link in a table cell.
+     */
+    public String getCellLinkHrefFromDataTable(int row, int column) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(0);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
+        WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
+        return tdElement.findElement(By.tagName("a")).getAttribute("href");
+    }
+
+    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
