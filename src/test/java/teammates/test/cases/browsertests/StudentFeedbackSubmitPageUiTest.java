@@ -170,6 +170,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(19, 1, 0, "200");
         assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
 
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
         submitPage.chooseContribOption(20, 0, "Equal share");
 
         // Just check that some of the responses persisted.
