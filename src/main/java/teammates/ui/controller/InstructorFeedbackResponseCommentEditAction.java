@@ -2,8 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -16,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
 /**
@@ -61,11 +58,6 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 courseId, feedbackSessionName, null, instructor.email, null, new Date(),
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
-        String commentCreatorName = logic.getInstructorForEmail(courseId, frc.giverEmail).name;
-        String commentEditorName = instructor.name;
-        Map<String, String> instructorEmailNameTable = new HashMap<String, String>();
-        instructorEmailNameTable.put(frc.giverEmail, commentCreatorName);
-        instructorEmailNameTable.put(instructor.email, commentEditorName);
 
         //Edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
@@ -84,7 +76,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes();
+        FeedbackResponseCommentAttributes updatedComment = null;
         try {
             updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
             //TODO: move putDocument to task queue
@@ -102,16 +94,13 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.giverEmail + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
+            // createdAt, lastEditedAt, commentGiverName and lastEditorName are required to generate editedCommentDetails
+            String commentGiverName = logic.getInstructorForEmail(courseId, frc.giverEmail).name;
+            String commentEditorName = instructor.name;
+            data.comment = updatedComment;
+            data.sessionTimeZone = session.getTimeZone();
+            data.editedCommentDetails = data.createEditedCommentDetails(commentGiverName, commentEditorName);
         }
-
-        // createdAt, lastEditedAt, commentGiverName and lastEditorName are required to generate editedCommentDetails
-        data.comment = updatedComment;
-        data.question = logic.getFeedbackQuestion(response.feedbackQuestionId);
-        data.showCommentToString = StringHelper.toString(updatedComment.showCommentTo, ",");
-        data.showGiverNameToString = StringHelper.toString(updatedComment.showGiverNameTo, ",");
-        data.instructorEmailNameTable = instructorEmailNameTable;
-        data.sessionTimeZone = session.getTimeZone();
-        data.editedCommentDetails = data.createEditedCommentDetails();
         return createAjaxResult(data);
     }
 }
