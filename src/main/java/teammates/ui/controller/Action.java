@@ -9,22 +9,28 @@ import javax.servlet.http.HttpSession;
 
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidOriginException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.CryptoHelper;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogMessageGenerator;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -36,6 +42,8 @@ import teammates.ui.pagedata.PageData;
  * perform that action.
  */
 public abstract class Action {
+
+    private static Logger log;
 
     /** This is used to ensure unregistered users don't access certain pages in the system. */
     public String regkey;
@@ -100,6 +108,7 @@ public abstract class Action {
 
     @SuppressWarnings("unchecked")
     protected void initialiseAttributes(HttpServletRequest req) {
+        log = Logger.getLogger();
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
@@ -700,5 +709,16 @@ public abstract class Action {
 
     protected void excludeStudentDetailsFromResponseParams() {
         regkey = null;
+    }
+
+    protected void sendCourseRegisteredEmail(String courseId) {
+        CourseAttributes course = logic.getCourse(courseId);
+        EmailWrapper email = new EmailGenerator().generateUserCourseRegisterEmail(
+                logic.getAccount(account.googleId), course);
+        try {
+            emailSender.sendEmail(email);
+        } catch (EmailSendingException e) {
+            log.severe("Instructor course register email failed to send: " + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 }

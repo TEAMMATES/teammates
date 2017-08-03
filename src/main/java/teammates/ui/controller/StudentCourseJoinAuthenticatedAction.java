@@ -69,6 +69,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
 
         addStatusMessageToUser();
+        sendCourseRegisteredEmail(student.course);
 
         return response;
     }

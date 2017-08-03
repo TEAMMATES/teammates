@@ -63,6 +63,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
         if (instructor != null) {
             response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);
+            sendCourseRegisteredEmail(instructor.getCourseId());
         }
 
         return response;
