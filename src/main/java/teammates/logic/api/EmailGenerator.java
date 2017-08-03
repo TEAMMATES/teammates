@@ -577,7 +577,7 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates the course register email for the given {@code user} in {@code course}. 
+     * Generates the course register email for the given {@code user} in {@code course}.
      */
     public EmailWrapper generateUserCourseRegisterEmail(AccountAttributes user, CourseAttributes course) {
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_COURSE_REGISTER,
