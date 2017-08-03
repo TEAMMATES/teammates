@@ -28,6 +28,16 @@
     <c:set var="divId" value="${frc.commentId}" />
   </c:otherwise>
 </c:choose>
+<c:choose>
+    <c:when test="${isInstructor}">
+        <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+        <c:set var="deleteLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %></c:set>
+    </c:when>
+    <c:otherwise>
+        <c:set var="submitLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+        <c:set var="deleteLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE %></c:set>
+    </c:otherwise>
+</c:choose>
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}" class="row">
         <div class="col-xs-10">
@@ -52,7 +62,7 @@
                   <form class="responseCommentDeleteForm pull-right">
               </c:otherwise>
               </c:choose>
-                  <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
+                  <a href="${deleteLink}"
                      type="button"
                      id="commentdelete-${divId}"
                      class="btn btn-default btn-xs icon-button"

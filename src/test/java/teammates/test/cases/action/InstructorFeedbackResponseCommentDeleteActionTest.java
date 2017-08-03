@@ -12,11 +12,11 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
-import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
+import teammates.ui.controller.FeedbackResponseCommentDeleteAction;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
- * SUT: {@link InstructorFeedbackResponseCommentDeleteAction}.
+ * SUT: {@link FeedbackResponseCommentDeleteAction}.
  */
 public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 
@@ -77,7 +77,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
 
-        InstructorFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
+        FeedbackResponseCommentDeleteAction action = getAction(submissionParams);
         AjaxResult result = getAjaxResult(action);
 
         FeedbackResponseCommentAjaxPageData data =
@@ -145,8 +145,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     }
 
     @Override
-    protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
-        return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected FeedbackResponseCommentDeleteAction getAction(String... params) {
+        return (FeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override

@@ -4,47 +4,24 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
-/**
- * Action: Delete {@link FeedbackResponseCommentAttributes}.
- */
-public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFeedbackResponseCommentAbstractAction {
+public class InstructorFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
 
     @Override
-    protected ActionResult execute() {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
-        String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseCommentId);
-
+    protected void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa, FeedbackResponseAttributes response) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        boolean isCreatorOnly = true;
+        gateKeeper.verifyAccessible(instructor, fsa, !isCreatorOnly, response.giverSection,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        gateKeeper.verifyAccessible(instructor, fsa, !isCreatorOnly, response.recipientSection,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+    }
 
-        verifyAccessibleForInstructorToFeedbackResponseComment(
-                feedbackResponseCommentId, instructor, session, response);
-
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
-        feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
-
-        logic.deleteDocument(feedbackResponseComment);
-        logic.deleteFeedbackResponseComment(feedbackResponseComment);
-
+    @Override
+    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
         statusToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
-
-        FeedbackResponseCommentAjaxPageData data =
-                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
-
-        return createAjaxResult(data);
     }
 }

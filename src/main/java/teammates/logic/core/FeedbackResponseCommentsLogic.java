@@ -18,6 +18,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
@@ -361,7 +362,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     private void verifyIsUserOfCourse(String courseId, String email, String giverRole) throws EntityDoesNotExistException {
-        if ("student".equals(giverRole)) {
+        if (Const.STUDENT.equals(giverRole)) {
             StudentAttributes student = studentsLogic.getStudentForEmail(courseId, email);
             if (student == null) {
                 throw new EntityDoesNotExistException("User " + email + " is not a registered student for course "
