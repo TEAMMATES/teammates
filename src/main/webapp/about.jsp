@@ -860,6 +860,14 @@
           <td>bug reporting/fixing, enhancements</td>
         </tr>
         <tr>
+          <td>Shehan Vanderputt</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astanislous"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Shiluka Dharmasena</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ashiluka"
@@ -1627,6 +1635,14 @@
           </td>
         </tr>
         <tr>
+          <td>Jon Vanderlaan</td>
+          <td>
+            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Avandy56"
+                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
+            </a>
+          </td>
+        </tr>
+        <tr>
           <td>Jonathan Lim</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Ajonathanlimsc"
@@ -2089,14 +2105,6 @@
           <td>Sharthak Mishra</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3ASharUzumaki"
-                target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>Shehan Vanderputt</td>
-          <td>
-            <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Astanislous"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
           </td>
