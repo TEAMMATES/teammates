@@ -963,12 +963,12 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
-            const isSessionClosed = $(textField).data('is-session-closed') || false;
+            const isSessionOpen = $(textField).data('isSessionOpen');
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
-                readonly: isSessionClosed,
+                readonly: !isSessionOpen,
                 setup(ed) {
                     ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
