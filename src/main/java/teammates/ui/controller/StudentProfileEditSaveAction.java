@@ -44,7 +44,6 @@ public class StudentProfileEditSaveAction extends Action {
 
     private StudentProfileAttributes extractProfileData() {
         StudentProfileAttributes editedProfile = StudentProfileAttributes.builder().build();
-
         editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
@@ -54,7 +53,11 @@ public class StudentProfileEditSaveAction extends Action {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
 
-        editedProfile.gender = GenderType.valueOf("other");
+        try {
+            editedProfile.gender = GenderType.valueOf("other");
+        } catch (IllegalArgumentException iae) {
+            setStatusForException(iae);
+        }
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
