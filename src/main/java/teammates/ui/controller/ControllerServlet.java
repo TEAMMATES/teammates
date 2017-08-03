@@ -166,11 +166,12 @@ public class ControllerServlet extends HttpServlet {
     private String appendParamsToErrorPageUrl(String baseUrl, Map<String, String[]> params, String requestUrl) {
         String redirectUrl = baseUrl;
         redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, requestUrl);
-        redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.REGKEY, params.get(Const.ParamsNames.REGKEY)[0]);
+        redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.REGKEY,
+                HttpRequestHelper.getValueFromParamMap(params, Const.ParamsNames.REGKEY));
         redirectUrl = Url.addParamToUrl(redirectUrl,
-                Const.ParamsNames.COURSE_ID, params.get(Const.ParamsNames.COURSE_ID)[0]);
+                Const.ParamsNames.COURSE_ID, HttpRequestHelper.getValueFromParamMap(params, Const.ParamsNames.COURSE_ID));
         redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.STUDENT_EMAIL,
-                params.get(Const.ParamsNames.STUDENT_EMAIL)[0]);
+                HttpRequestHelper.getValueFromParamMap(params, Const.ParamsNames.STUDENT_EMAIL));
         return redirectUrl;
     }
 }
