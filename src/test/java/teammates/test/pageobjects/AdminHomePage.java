@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -93,6 +94,13 @@ public class AdminHomePage extends AppPage {
 
     public String getMessageFromResultTable(int index) {
         return getCellValueFromDataTable(index, 5);
+    }
+
+    public String getJoinLink(int index) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(0);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(index);
+        WebElement tdElement = trElement.findElements(By.tagName("td")).get(5);
+        return tdElement.findElement(By.tagName("a")).getAttribute("href");
     }
 
 }

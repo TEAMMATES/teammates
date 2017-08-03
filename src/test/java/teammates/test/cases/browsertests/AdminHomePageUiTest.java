@@ -93,6 +93,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created and will "
                 + "receive an email shortly with the below join link.\njoin link", homePage.getMessageFromResultTable(2));
+        assertEquals(expectedjoinUrl, homePage.getJoinLink(2));
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();
@@ -136,6 +137,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created and will "
                 + "receive an email shortly with the below join link.\njoin link", homePage.getMessageFromResultTable(1));
+        assertEquals(expectedjoinUrl, homePage.getJoinLink(1));
 
         homePage.logout();
         //verify the instructor and the demo course have been created
