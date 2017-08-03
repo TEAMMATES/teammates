@@ -103,6 +103,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
             // are required to generate timestamps in editedCommentDetails
             data.comment = updatedComment;
             data.sessionTimeZone = session.getTimeZone();
+
             data.editedCommentDetails = data.createEditedCommentDetails(commentGiverName, commentEditorName);
         }
 
