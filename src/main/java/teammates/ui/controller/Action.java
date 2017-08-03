@@ -43,7 +43,7 @@ import teammates.ui.pagedata.PageData;
  */
 public abstract class Action {
 
-    private static Logger log;
+    private static final Logger log = Logger.getLogger();
 
     /** This is used to ensure unregistered users don't access certain pages in the system. */
     public String regkey;
@@ -108,7 +108,6 @@ public abstract class Action {
 
     @SuppressWarnings("unchecked")
     protected void initialiseAttributes(HttpServletRequest req) {
-        log = Logger.getLogger();
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
         logic = new Logic();
