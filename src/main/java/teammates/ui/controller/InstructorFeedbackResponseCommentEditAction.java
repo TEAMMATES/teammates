@@ -76,6 +76,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
+
         FeedbackResponseCommentAttributes updatedComment = null;
         try {
             updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
@@ -94,13 +95,14 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                            + feedbackResponseComment.feedbackSessionName + "<br>"
                            + "by: " + feedbackResponseComment.giverEmail + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
-            // createdAt, lastEditedAt, commentGiverName and lastEditorName are required to generate editedCommentDetails
+            // createdAt, lastEditedAt, commentGiverName and commentEditorName are required to generate editedCommentDetails
             String commentGiverName = logic.getInstructorForEmail(courseId, frc.giverEmail).name;
             String commentEditorName = instructor.name;
             data.comment = updatedComment;
             data.sessionTimeZone = session.getTimeZone();
             data.editedCommentDetails = data.createEditedCommentDetails(commentGiverName, commentEditorName);
         }
+
         return createAjaxResult(data);
     }
 }
