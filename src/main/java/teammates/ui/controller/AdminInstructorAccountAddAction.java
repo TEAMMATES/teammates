@@ -107,7 +107,8 @@ public class AdminInstructorAccountAddAction extends Action {
             log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }
         data.statusForAjax = "Instructor " + SanitizationHelper.sanitizeForHtml(data.instructorName)
-                             + " has been successfully created with join link:<br>" + joinLink;
+                             + " has been successfully created and will receive an email shortly with"
+                             + " the below join link.<br><a href=\"" + joinLink + "\">join link</a>";
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + SanitizationHelper.sanitizeForHtmlTag(data.instructorName) + "</span> has been created.<br>"

@@ -95,4 +95,8 @@ public class AdminHomePage extends AppPage {
         return getCellValueFromDataTable(index, 5);
     }
 
+    public String getJoinLinkFromResultTable(int index) {
+        return getCellLinkHrefFromDataTable(index, 5);
+    }
+
 }
