@@ -68,35 +68,35 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
                                                                  false, "question");
-        instructorResultsPage.clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
+        instructorResultsPage.loadResultPanel(1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
 
         // Giver Recipient Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "giver-recipient-question");
-        instructorResultsPage.clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
 
         // Giver Question Recipient View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "giver-question-recipient");
-        instructorResultsPage.clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
 
         // Recipient Question Giver View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-question-giver");
-        instructorResultsPage.clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
 
         // Recipient Giver Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-giver-question");
-        instructorResultsPage.clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-section-0-1", "ajax_auto");
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
 
     }

@@ -605,9 +605,29 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void clickAjaxLoadedPanelAndWaitForExpansion(String panelId, String ajaxClass) {
+    public void loadResultPanel(int panelId) {
+        String panel = "panelHeading-" + panelId;
+        clickAutoAjaxLoadedPanelAndWaitForExpansion(panel);
+    }
+
+    public void loadResultSectionPanel(int panelId, int sectionId) {
+        String panel = "panelHeading-section-" + panelId + "-" + sectionId;
+        clickAutoAjaxLoadedPanelAndWaitForExpansion(panel);
+    }
+
+    public void loadResultSubmitAjaxPanel(int panelId) {
+        String panel = "panelHeading-" + panelId;
+        clickSubmitAjaxLoadedPanelAndWaitForExpansion(panel);
+    }
+
+    private void clickAutoAjaxLoadedPanelAndWaitForExpansion(String panelId) {
         clickElementById(panelId);
-        waitForAjaxLoadedPanelToExpand(panelId, ajaxClass);
+        waitForAjaxLoadedPanelToExpand(panelId, "ajax_auto");
+    }
+
+    private void clickSubmitAjaxLoadedPanelAndWaitForExpansion(String panelId) {
+        clickElementById(panelId);
+        waitForAjaxLoadedPanelToExpand(panelId, "ajax_submit");
     }
 
 }
