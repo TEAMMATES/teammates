@@ -227,6 +227,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
     }
 
@@ -323,7 +324,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Override
     protected void testDestructiveChanges() {
-        // TODO: write tests
+        // TODO:
     }
 
     @Override
