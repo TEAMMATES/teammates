@@ -70,7 +70,12 @@ public class StudentProfileEditSaveAction extends Action {
     private void preprocessParameters(StudentProfileAttributes studentProfile) {
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
-        // studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
+
+        try {
+            studentProfile.gender = GenderType.valueOf(StringHelper.trimIfNotNull(String.valueOf(studentProfile.gender)));
+        } catch (IllegalArgumentException iae) {
+            setStatusForException(iae);
+        }
         studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);
