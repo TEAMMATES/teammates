@@ -401,7 +401,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         EmailWrapper email = new EmailGenerator().generateUserCourseRegisterEmail(user, course);
         String subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
-                course.getId(), course.getName());
+                course.getName(), course.getId());
 
         verifyEmail(email, user.email, subject, "/userCourseRegiserEmail.html");
 
