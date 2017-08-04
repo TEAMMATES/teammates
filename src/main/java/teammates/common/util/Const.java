@@ -689,6 +689,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
         public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
+        public static final String FEEDBACK_SESSION_ENABLE_EDIT = "editsessiondetails";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
@@ -731,6 +732,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
+        public static final String FEEDBACK_QUESTION_RUBRIC_EDIT_TABLE = "rubricEditTable";
         public static final String FEEDBACK_QUESTION_RUBRIC_SUBQUESTION = "rubricSubQn";
         public static final String FEEDBACK_QUESTION_RUBRIC_CHOICE = "rubricChoice";
         public static final String FEEDBACK_QUESTION_RUBRIC_DESCRIPTION = "rubricDesc";
@@ -738,6 +740,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT = "rubricWeight";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
+        public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT = "rubric-move-col-left";
+        public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT = "rubric-move-col-right";
         public static final String FEEDBACK_QUESTION_RANKOPTION = "rankOption";
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
