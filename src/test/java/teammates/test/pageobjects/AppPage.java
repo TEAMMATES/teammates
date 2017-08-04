@@ -593,16 +593,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns the contents of the href attribute on an link in a table cell.
-     */
-    public String getCellLinkHrefFromDataTable(int row, int column) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(0);
-        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
-        WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
-        return tdElement.findElement(By.tagName("a")).getAttribute("href");
-    }
-
-    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
@@ -619,6 +609,26 @@ public abstract class AppPage {
         WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
         WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
         return tdElement.getText();
+    }
+
+    /**
+     * Returns the the href attribute on a link in a cell located at {@code (row, column)}
+     *         from the first table (which is of type {@code class=table}) in the page.
+     */
+    public String getCellLinkHrefFromDataTable(int row, int column) {
+        return getCellLinkHrefFromDataTable(0, row, column);
+    }
+
+    /**
+     * Returns the contents of the href attribute on a link in a table cell located at {@code (row, column)}
+     *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
+     */
+    public String getCellLinkHrefFromDataTable(int tableNum, int row, int column) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
+        WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
+        WebElement aElement = tdElement.findElement(By.tagName("a"));
+        return aElement.getAttribute("href");
     }
 
     /**
