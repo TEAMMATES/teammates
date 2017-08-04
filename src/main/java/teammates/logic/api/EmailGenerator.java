@@ -589,7 +589,7 @@ public class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(user.getEmail());
         email.setSubject(String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
-                course.getId(), course.getName()));
+                course.getName(), course.getId()));
         email.setContent(emailBody);
         return email;
     }
