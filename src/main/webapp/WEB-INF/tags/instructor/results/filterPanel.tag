@@ -83,7 +83,7 @@
     <div class="row">
       <div class="col-md-offset-10 col-md-2">
         <button id="editBtn" type="button" class="btn btn-primary btn-block"
-                data-toggle="modal" data-target="#editModal">
+            data-toggle="modal" data-target="#editModal">
           Edit View
         </button>
       </div>
