@@ -612,7 +612,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns the the href attribute on a link in a cell located at {@code (row, column)}
+     * Returns the contents of the href attribute on a link in a cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellLinkHrefFromDataTable(int row, int column) {
