@@ -212,6 +212,7 @@ const editCommentHandler = (e) => {
                 // Update editted comment
                 displayedText.html(data.comment.commentText.value);
                 updateVisibilityOptionsForResponseComment(formObject, data);
+                commentBar.find('span[class="text-muted"]').first().text(data.editedCommentDetails);
                 commentBar.show();
 
                 // Reset edit comment form

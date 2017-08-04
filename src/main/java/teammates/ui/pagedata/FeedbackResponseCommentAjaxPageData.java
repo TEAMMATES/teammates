@@ -8,6 +8,8 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.ui.template.FeedbackResponseCommentRow;
 
 /*
@@ -21,6 +23,7 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public String showCommentToString;
     public String showGiverNameToString;
     public String errorMessage;
+    public String editedCommentDetails;
     public boolean isError;
     public FeedbackQuestionAttributes question;
     public Map<String, String> commentGiverNameEmailTable;
@@ -113,5 +116,12 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
 
     public void setModeration(boolean moderation) {
         this.moderation = moderation;
+    }
+
+    public String createEditedCommentDetails(String giverName, String editorName) {
+        boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverName);
+        return "From: " + giverName + " [" + TimeHelper.formatDateTimeForSessions(comment.createdAt, sessionTimeZone) + "] "
+                + "(last edited " + (isGiverAnonymous ? "" : "by " + editorName + " ")
+                + "at " + TimeHelper.formatDateTimeForSessions(comment.lastEditedAt, sessionTimeZone) + ")";
     }
 }
