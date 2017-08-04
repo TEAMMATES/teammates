@@ -590,7 +590,6 @@
                               <div class="panel panel-default panel-body" id="responsecommenttext-1-0-1-1-1">
                                 Comment to be edited by different instructor.
                               </div>
-                              <input name="responsecommenttext" type="hidden">
                             </div>
                             <div class="col-sm-offset-5">
                               <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-1-0-1-1-1" type="button">
@@ -598,15 +597,17 @@
                               </a>
                               <input class="btn btn-default hide-frc-edit-form" data-frcindex="1" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" type="button" value="Cancel">
                             </div>
-                            <input name="responsecommentid" type="hidden" value="${comment.id}">
                             <input name="fsindex" type="hidden" value="0">
+                            <input name="responsecommentid" type="hidden" value="${comment.id}">
+                            <input name="responsecommenttext" type="hidden">
                             <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
+                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                             <input name="token" type="hidden" value="${sessionToken}">
+                            <input name="isInstructor" type="hidden" value="true">
+                            <input name="user" type="hidden" value="CFResultsUiT.instr">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-0-1-1" style="display: none;">
