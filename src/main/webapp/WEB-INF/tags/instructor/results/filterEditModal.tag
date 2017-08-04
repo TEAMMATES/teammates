@@ -51,7 +51,7 @@
                       </option>
                       <c:forEach items="${filterPanel.sections}" var="section">
                         <option value="${fn:escapeXml(section)}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
-                            ${fn:escapeXml(section)}
+                          ${fn:escapeXml(section)}
                         </option>
                       </c:forEach>
                       <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
@@ -70,9 +70,9 @@
                 <div class="checkbox">
                   <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
                     <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
-                           id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
-                           <c:if test="${filterPanel.groupedByTeam}">checked</c:if>
-                           <c:if test="${filterPanel.sortType != 'question'}">class="checkbox-group-by-team"</c:if>> Group by Teams
+                        id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
+                        <c:if test="${filterPanel.groupedByTeam}">checked</c:if>
+                        <c:if test="${filterPanel.sortType != 'question'}">class="checkbox-group-by-team"</c:if>> Group by Teams
                   </label>
                 </div>
               </div>
@@ -80,7 +80,7 @@
                 <div class="checkbox">
                   <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
                     <input type="checkbox" id="show-stats-checkbox"
-                           name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"
+                        name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"
                     <c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
                   </label>
                 </div>
@@ -88,10 +88,10 @@
               <div data-toggle="tooltip" title="Indicate missing responses">
                 <div class="checkbox">
                   <input type="checkbox"
-                         id="indicate-missing-responses-checkbox"
-                         value="true"
-                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
-                  <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>>
+                      id="indicate-missing-responses-checkbox"
+                      value="true"
+                      name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
+                      <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>>
                   Indicate Missing Responses
                 </div>
               </div>
@@ -99,11 +99,11 @@
           </div>
 
           <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
-                 value="${filterPanel.feedbackSessionName}">
+              value="${filterPanel.feedbackSessionName}">
           <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
-                 value="${filterPanel.courseId}">
+              value="${filterPanel.courseId}">
           <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
-                 value="${data.account.googleId}">
+              value="${data.account.googleId}">
         </div>
 
         <div class="modal-footer">
