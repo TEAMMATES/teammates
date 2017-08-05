@@ -410,7 +410,13 @@ function getDestructiveFields(questionNum) {
         // .get(i) returns a JS object
         const element = $fields.get(i);
 
-        fieldsDict[element.name] = element.value;
+        if (element.type === 'radio') {
+            fieldsDict[element.name] = $(`#form_editquestion-${questionNum} input[name="${element.name}"]:checked`).val();
+        } else if (element.type === 'checkbox') {
+            fieldsDict[element.name] = $(element).is(':checked');
+        } else {
+            fieldsDict[element.name] = element.value;
+        }
     }
 
     return fieldsDict;
