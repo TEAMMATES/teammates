@@ -84,6 +84,13 @@ public class FeedbackSubmitPage extends AppPage {
         element.clear();
     }
 
+    public boolean isTextBoxValueEmpty(int qnNumber, int responseNumber, int responseSubNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                    + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+        return checkEmptyTextBoxValue(element);
+    }
+
     public int getResponseTextBoxLengthLabelValue(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("responseLength" + "-" + qnNumber + "-" + responseNumber));

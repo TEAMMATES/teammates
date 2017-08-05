@@ -175,9 +175,15 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clearResponseTextBoxValue(19, 0, 0);
         assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
 
-        // after auto-filled with 0, modify a non-zero value and remove a 0,
-        submitPage.fillResponseTextBox(19, 0, 0, "90");
-        submitPage.fillResponseTextBox(19, 1, 0, "110");
+        // modify a non-zero value and remove a 0
+        submitPage.fillResponseTextBox(19, 1, 0, "100");
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+
+        // verify no longer auto-filled with 0
+        assertTrue(submitPage.isTextBoxValueEmpty(19, 0, 0));
+
+        // Clearing both input box for successful form submission.
+        submitPage.clearResponseTextBoxValue(19, 1, 0);
 
         submitPage.chooseContribOption(20, 0, "Equal share");
 
@@ -321,6 +327,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(18, 0, 0, "70");
         submitPage.fillResponseTextBox(18, 0, 1, "30");
+
+        submitPage.fillResponseTextBox(19, 0, 0, "90");
+        submitPage.fillResponseTextBox(19, 1, 0, "110");
 
         submitPage.chooseContribOption(20, 1, "0%");
 
