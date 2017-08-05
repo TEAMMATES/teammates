@@ -33,7 +33,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         profile.institute = "institute";
         profile.email = "valid@email.com";
         profile.nationality = "Lebanese";
-        profile.gender = GenderType.other;
+        profile.gender = GenderType.OTHER;
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
     }
@@ -54,7 +54,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
-        assertEquals(GenderType.other, profileAttributes.gender);
+        assertEquals(GenderType.OTHER, profileAttributes.gender);
         assertEquals("", profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
         assertEquals("", profileAttributes.email);
@@ -67,7 +67,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", GenderType.other,
+                "Teammates Institute", "American", GenderType.OTHER,
                 new Text("hello"), new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
@@ -103,7 +103,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
-                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"other\","
+                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"OTHER\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
@@ -235,7 +235,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
-        GenderType gender = GenderType.other;
+        GenderType gender = GenderType.OTHER;
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 

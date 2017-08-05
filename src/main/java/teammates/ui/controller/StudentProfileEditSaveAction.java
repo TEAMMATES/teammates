@@ -54,7 +54,7 @@ public class StudentProfileEditSaveAction extends Action {
         }
 
         try {
-            editedProfile.gender = GenderType.valueOf("other");
+            editedProfile.gender = GenderType.valueOf("OTHER");
         } catch (IllegalArgumentException iae) {
             setStatusForException(iae);
         }

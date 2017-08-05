@@ -6,7 +6,7 @@
 <%@ attribute name="sessionToken" required="true" %>
 <c:set var="MALE" value="<%= GenderType.MALE %>" />
 <c:set var="FEMALE" value="<%= GenderType.FEMALE %>" />
-<c:set var="OTHER" value="<%= GenderType.other %>" />
+<c:set var="OTHER" value="<%= GenderType.OTHER %>" />
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
   <h3 id="studentName">
     <strong>${profile.name}</strong>
@@ -132,7 +132,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= GenderType.other %>"
+              value="<%= GenderType.OTHER %>"
               <c:if test="${profile.gender == OTHER}">checked</c:if>> Not Specified
         </label>
       </div>

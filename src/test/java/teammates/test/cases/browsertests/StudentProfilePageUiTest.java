@@ -2,7 +2,7 @@ package teammates.test.cases.browsertests;
 
 import static teammates.common.datatransfer.attributes.GenderType.FEMALE;
 import static teammates.common.datatransfer.attributes.GenderType.MALE;
-import static teammates.common.datatransfer.attributes.GenderType.other;
+import static teammates.common.datatransfer.attributes.GenderType.OTHER;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
@@ -151,10 +151,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: changing genders for complete coverage");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", other,
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", OTHER,
                 "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                other, "this is enough!$%&*</>");
+                OTHER, "this is enough!$%&*</>");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", FEMALE,
                 "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",

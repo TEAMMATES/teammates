@@ -171,7 +171,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
         String nationality = "&\"invalid nationality &";
-        GenderType gender = GenderType.other;
+        GenderType gender = GenderType.OTHER;
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 

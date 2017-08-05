@@ -37,7 +37,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = GenderType.other;
+        this.gender = GenderType.OTHER;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = new Date();
@@ -213,7 +213,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public Builder withGender(GenderType gender) {
-            profileAttributes.gender = GenderType.other;
+            if (gender != null) {
+                profileAttributes.gender = gender;
+            }
             return this;
         }
 

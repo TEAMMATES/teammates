@@ -90,7 +90,7 @@ public class StudentProfile extends BaseEntity {
         this.setEmail("");
         this.setInstitute("");
         this.setNationality("");
-        this.setGender(GenderType.other);
+        this.setGender(GenderType.OTHER);
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());

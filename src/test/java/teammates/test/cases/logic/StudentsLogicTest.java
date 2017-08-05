@@ -180,6 +180,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // fill-in auto-generated and default values
         expectedSpa.institute = actualSpa.institute;
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        expectedSpa.gender = actualSpa.gender;
 
         assertEquals(expectedSpa.toString(), actualSpa.toString());
 

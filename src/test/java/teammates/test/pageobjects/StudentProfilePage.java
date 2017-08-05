@@ -141,7 +141,7 @@ public class StudentProfilePage extends AppPage {
         case FEMALE:
             click(genderFemaleRadio);
             break;
-        case other:
+        case OTHER:
             click(genderOtherRadio);
             break;
         default:
@@ -191,7 +191,7 @@ public class StudentProfilePage extends AppPage {
         case FEMALE:
             assertTrue(genderFemaleRadio.isSelected());
             break;
-        case other:
+        case OTHER:
             assertTrue(genderOtherRadio.isSelected());
             break;
         default:

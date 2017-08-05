@@ -124,7 +124,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = GenderType.other;
+        spa.gender = GenderType.OTHER;
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
@@ -146,12 +146,12 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertFalse(accountDataTest.isInstructor);
         // Change a field
         accountDataTest.isInstructor = true;
-        accountDataTest.studentProfile.gender = GenderType.FEMALE;
+        accountDataTest.studentProfile.gender = GenderType.OTHER;
         accountsDb.createAccount(accountDataTest);
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
-        assertEquals(GenderType.other, accountDataTest.studentProfile.gender);
+        assertEquals(GenderType.OTHER, accountDataTest.studentProfile.gender);
 
         accountsDb.deleteAccount(a.googleId);
 
