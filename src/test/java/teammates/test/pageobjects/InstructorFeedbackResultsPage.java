@@ -605,27 +605,38 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
+    /**
+     * loads result of particular panel by giving panelId.
+     * @param panelId  the Id of panel element
+     */
     public void loadResultPanel(int panelId) {
         String panel = "panelHeading-" + panelId;
-        clickAutoAjaxLoadedPanelAndWaitForExpansion(panel);
+        clickAutoLoadedPanelAndWaitForExpansion(panel);
     }
 
+    /**
+     * loads result of particular section panel by giving panelId and sectionId.
+     */
     public void loadResultSectionPanel(int panelId, int sectionId) {
         String panel = "panelHeading-section-" + panelId + "-" + sectionId;
-        clickAutoAjaxLoadedPanelAndWaitForExpansion(panel);
+        clickAutoLoadedPanelAndWaitForExpansion(panel);
     }
 
-    public void loadResultSubmitAjaxPanel(int panelId) {
+    /**
+     * loads result of particular panel by giving panelId.
+     * @param panelId  the Id of panel element
+     */
+    public void loadResultSubmitPanel(int panelId) {
         String panel = "panelHeading-" + panelId;
-        clickSubmitAjaxLoadedPanelAndWaitForExpansion(panel);
+        clickSubmitLoadedPanelAndWaitForExpansion(panel);
     }
 
-    private void clickAutoAjaxLoadedPanelAndWaitForExpansion(String panelId) {
+    private void clickAutoLoadedPanelAndWaitForExpansion(String panelId) {
         clickElementById(panelId);
         waitForAjaxLoadedPanelToExpand(panelId, "ajax_auto");
     }
 
-    private void clickSubmitAjaxLoadedPanelAndWaitForExpansion(String panelId) {
+    private void clickSubmitLoadedPanelAndWaitForExpansion(String panelId) {
         clickElementById(panelId);
         waitForAjaxLoadedPanelToExpand(panelId, "ajax_submit");
     }
