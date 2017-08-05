@@ -9,7 +9,6 @@ import {
     displayAjaxRetryMessageForPanelHeading,
     isEmptySection,
     prepareInstructorFeedbackResultsPage,
-    removeSection,
     showHideStats,
 } from '../common/instructorFeedbackResults.es6';
 
