@@ -186,6 +186,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         actualData = (InstructorStudentRecordsPageData) r.data;
         expectedProfile.modifiedDate = actualData.spa.modifiedDate;
+        expectedProfile.gender = actualData.spa.gender;
 
         assertEquals(
                 getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, false, instructorId),
