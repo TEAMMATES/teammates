@@ -13,6 +13,8 @@ const TESTIMONIALS = [
     'I find it really great and so simple to use. <br>-Faculty user, Austria',
     'These peer evaluations will be perfect for classes.  I can already see that this is going to be an excellent tool as I need the teams to evaluate each other on a weekly basis.  Adding a new evaluation item and the questions/response criteria is so easy through your system. <br>-Faculty user, USA',
     'Thank you for building such a wonderful tool. <br>-Faculty user, Canada',
+    'I would absolutely recommend TEAMMATES. I haven\'t seen anything that\'s better, as well as being open source. It works very well for us. <br>-Faculty user, UK',
+    'I just started exploring TEAMMATES and am very impressed. Wish I discovered it earlier. <br>-Faculty user, Singapore',
 ];
 /* eslint-enable max-len */
 const LOOP_INTERVAL = '5000'; // in milliseconds
@@ -68,6 +70,7 @@ $('document').ready(() => {
     const currentDate = new Date();
     $('#submissionsNumber').html(submissionCounter(currentDate, baseDate, submissionPerHour, baseCount));
 
+    loopTestimonials();
     window.setInterval(loopTestimonials, LOOP_INTERVAL);
 
     checkBrowserVersion();
