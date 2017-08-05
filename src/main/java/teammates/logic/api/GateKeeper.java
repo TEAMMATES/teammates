@@ -327,21 +327,28 @@ public class GateKeeper {
             String section, String email) {
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
         if (instructor != null) {
-            if (!instructor.isAllowedForPrivilege(section,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-                throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
-            }
+            verifyInstructorCanViewPhoto(instructor, section);
             return;
         }
 
         StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
         if (student != null) {
-            if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
-                throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
-            }
+            verifyStudentCanViewPhoto(student, courseId, email);
             return;
         }
 
         throw new UnauthorizedAccessException("User is not in the course that student belongs to");
+    }
+
+    private void verifyInstructorCanViewPhoto(InstructorAttributes instructor, String section) {
+        if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
+        }
+    }
+
+    private void verifyStudentCanViewPhoto(StudentAttributes student, String courseId, String email) {
+        if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
+            throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
+        }
     }
 }

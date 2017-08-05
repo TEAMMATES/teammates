@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks - form which is currently used to load the sessiosn table by ajax." %>
+<%@ tag description="instructorFeedbacks - form which is currently used to load the sessions table by ajax." %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
