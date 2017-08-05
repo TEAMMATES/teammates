@@ -187,11 +187,12 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null,
                                                 null);
         BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
         FeedbackNumericalScaleQuestionDetails nsQuestion =
                 (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetails();
 
         ______TS("num scale: change min value box");
-        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillMinNumScaleBox(nsQuestion.getMinScale() + 1, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);

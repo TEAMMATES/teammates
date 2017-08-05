@@ -132,10 +132,11 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
                                                 null,
                                                 null);
         BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("CONST SUM: testing changing recipient");
         // change recipient, must display modal
-        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);

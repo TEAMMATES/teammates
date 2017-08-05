@@ -1,6 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -182,12 +181,11 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         // readying for tests
         FeedbackConstantSumQuestionDetails csQuestion = (FeedbackConstantSumQuestionDetails) question.getQuestionDetails();
         String prevVal = csQuestion.getConstSumOptions().get(0);
-
-        assertFalse(feedbackEditPage.isElementVisible(By.cssSelector(".modal-header .alert-danger")));
 
         ______TS("CONST SUM: testing changes to const sum option");
         // make changes to option title, must display modal
@@ -240,6 +238,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        ______TS("CONST SUM: testing changing giver");
         // change giver, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -255,6 +254,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         int points = csQuestion.getPoints();
 
+        ______TS("CONST SUM: testing changing const sum points");
         // change const sum points, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -268,8 +268,19 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        ______TS("CONST SUM: testing changing points distribution scheme");
+        // change const sum points, must display modal
         feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.selectConstSumPointsOptions("Total", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.selectConstSumPointsOptions("PerOption", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();

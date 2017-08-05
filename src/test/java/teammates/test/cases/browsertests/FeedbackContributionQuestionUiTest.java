@@ -140,6 +140,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null,
                                                 null);
         BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("contrib: saving just after edit");
         feedbackEditPage.clickEditQuestionButton(1);

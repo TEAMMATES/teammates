@@ -324,7 +324,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Override
     protected void testDestructiveChanges() {
-        // TODO:
+        // TODO: add tests
     }
 
     @Override

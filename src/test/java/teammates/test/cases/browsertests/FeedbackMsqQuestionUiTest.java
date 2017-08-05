@@ -174,9 +174,10 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null,
                                                 null);
         BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("msq: change generate options selection");
-        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectMsqGenerateOptionsFor("teams", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
