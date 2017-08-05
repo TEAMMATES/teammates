@@ -5,13 +5,13 @@
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="jsIncludes" %>
 <ti:instructorPage title="${title}">
-    <jsp:attribute name="jsIncludes">
-        <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_PRINTTHIS %>"></script>
-        ${jsIncludes}
-    </jsp:attribute>
-    <jsp:body>
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
-        <jsp:doBody />
-        <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />
-    </jsp:body>
+  <jsp:attribute name="jsIncludes">
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_PRINTTHIS %>"></script>
+    ${jsIncludes}
+  </jsp:attribute>
+  <jsp:body>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
+    <jsp:doBody />
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />
+  </jsp:body>
 </ti:instructorPage>
