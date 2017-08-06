@@ -40,7 +40,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         testActionWithNoParams();
         testActionWithBlobKey();
-        testActionWithEmailAndCourse();
     }
 
     private void testActionWithNoParams() {
@@ -338,11 +337,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.USER_ID, account.googleId,
-                Const.ParamsNames.BLOB_KEY, account.studentProfile.pictureKey
-        };
-        verifyAnyRegisteredUserCanAccess(submissionParams);
+        testActionWithEmailAndCourse();
     }
 
 }
