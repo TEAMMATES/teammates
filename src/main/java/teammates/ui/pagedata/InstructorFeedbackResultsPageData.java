@@ -700,14 +700,33 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
         sectionPanels = new LinkedHashMap<>();
 
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
-        sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        InstructorFeedbackResultsSectionPanel sectionPanel;
+
+        if (isDisplayNoSpecificRecipientPanel() && isResponsesForNoSpecificRecipientPanelExists()) {
+            sectionPanel = new InstructorFeedbackResultsSectionPanel(
+                    Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
+            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        }
 
         for (String section : sections) {
             sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
+    }
+
+    private boolean isResponsesForNoSpecificRecipientPanelExists() {
+        for (FeedbackResponseAttributes response : bundle.responses) {
+            if (response.recipient.equals(Const.GENERAL_QUESTION)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isDisplayNoSpecificRecipientPanel() {
+        return viewType.equals(InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER)
+                || viewType.equals(InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION);
     }
 
     private int getSectionPosition(String name) {
