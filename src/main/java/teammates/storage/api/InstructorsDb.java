@@ -4,7 +4,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.appengine.api.search.Results;
@@ -389,9 +388,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
-        List<Instructor> instructorReturnList = load().filter("courseId =", courseId).list();
-        Collections.sort(instructorReturnList, Instructor.compareByName);
-        return instructorReturnList;
+        return load().filter("courseId =", courseId).list();
     }
 
     private List<Instructor> getInstructorEntities() {

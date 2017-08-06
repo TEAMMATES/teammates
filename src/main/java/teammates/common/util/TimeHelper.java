@@ -167,6 +167,21 @@ public final class TimeHelper {
     }
 
     /**
+     * Converts the {@code localDate} from {@code localTimeZone}) to UTC through shifting by the offset.
+     *
+     * @deprecated Method should be removed once all time data is migrated to UTC.
+     */
+    @Deprecated
+    public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
+        if (localDate == null) {
+            return null;
+        }
+        Calendar localCal = dateToCalendar(localDate);
+        localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
+        return localCal.getTime();
+    }
+
+    /**
      * Formats a date in the corresponding option value in 'Time' dropdowns The
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
@@ -215,20 +230,20 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateTimeForComments(Date date, double sessionTimeZone) {
-        if (date == null) {
+    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
+        if (dateInUtc == null) {
             return "";
         }
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
         c.setTimeZone(timeZone);
-        c.setTime(date);
+        c.setTime(dateInUtc);
         String periodIndicator =
                 c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0 ? "'NOON'" : "a";
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm " + periodIndicator + " 'UTC'Z");
         sdf.setTimeZone(timeZone);
-        return sdf.format(date);
+        return sdf.format(dateInUtc);
     }
 
     /**
@@ -249,6 +264,18 @@ public final class TimeHelper {
         sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
+    }
+
+    /**
+     * Formats {@code dateInUtc} according to the ISO8601 format.
+     */
+    public static String formatDateToIso8601Utc(Date dateInUtc) {
+        if (dateInUtc == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(dateInUtc);
     }
 
     public static String calendarToString(Calendar c) {

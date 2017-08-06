@@ -1,5 +1,3 @@
-@charset 'UTF-8';
-
 /*////////////////////////////////////////////////////////////
 /////////////////// Atomic Classes //////////////////////////
 //////////////////////////////////////////////////////////*/
@@ -126,7 +124,6 @@ Apply to alert to override Bootstrap's default 3d alerts
 
 .cursor-pointer {
     cursor: pointer;
-    cursor: hand;
 }
 
 .constSumOptionsLabel {
@@ -1187,9 +1184,11 @@ Prevent Long URL From Breaking Out of Container
 /*
 Glyphicon for success status messages
 */
-.alert-success:before {
+
+.icon-success:before {
     font-family: 'Glyphicons Halflings';
     display: inline-block;
-    padding-right: 2px;
+    padding-right: .5em;
     content: '\e084';
+    vertical-align: top;
 }

@@ -10,7 +10,7 @@
     <c:when test="${fn:length(statusMessagesToUser) gt 0}">
         <div id="statusMessagesToUser">
             <c:forEach items="${statusMessagesToUser}" var="statusMessage">
-                <div class="overflow-auto alert alert-${statusMessage.color} statusMessage">
+                <div class="overflow-auto alert alert-${statusMessage.color} icon-${statusMessage.color} statusMessage">
                     ${statusMessage.text}
                 </div>
             </c:forEach>
