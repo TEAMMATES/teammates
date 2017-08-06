@@ -182,7 +182,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // verify no longer auto-filled with 0
         assertTrue(submitPage.isTextBoxValueEmpty(19, 0, 0));
 
-        // Clearing both input box for successful form submission.
+        // clear both input box for successful form submission.
         submitPage.clearResponseTextBoxValue(19, 1, 0);
 
         submitPage.chooseContribOption(20, 0, "Equal share");
@@ -337,6 +337,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
                                                 aliceTeam,
                                                 "Team 2"));
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                                                aliceTeam,
+                                                "Team 2"));
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
+                                                aliceTeam,
+                                                "Team 3"));
 
         submitPage.submitWithoutConfirmationEmail();
 
