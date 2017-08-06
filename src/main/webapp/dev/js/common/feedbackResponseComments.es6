@@ -324,7 +324,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id}`));
     $.each(checkboxesInAddFormTable, (i, checkboxInAddFormTable) => {
         const checkbox = `${$(checkboxInAddFormTable).attr('class')} - ${$(checkboxInAddFormTable).val()}`;
-        $(checkboxesInAddFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
+        $(checkboxInAddFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
     });
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
@@ -416,7 +416,7 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`));
     $.each(checkboxesInEditFormTable, (i, checkboxInEditFormTable) => {
         const checkbox = `${$(checkboxInEditFormTable).attr('class')} - ${$(checkboxInEditFormTable).val()}`;
-        $(checkboxesInEditFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
+        $(checkboxInEditFormTable).prop('checked', valueOfCheckboxes.get(checkbox));
     });
     $(`#responseCommentEditForm${id}`).hide();
     tinymce.get(`responsecommenttext${id}`).setContent($(`#plainCommentText${id}`).text());
