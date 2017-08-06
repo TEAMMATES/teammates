@@ -345,13 +345,17 @@ public class FeedbackSubmissionEditPageData extends PageData {
         double sessionTimeZone = bundle.feedbackSession.getTimeZone();
         List<FeedbackResponseCommentAttributes> filteredFrcs =
                 filterFeedbackResponseCommentAttributes(bundle.roster, frcList);
+        String giverRole = "";
         for (FeedbackResponseCommentAttributes frcAttributes : filteredFrcs) {
             FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
                                                frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                                getResponseCommentVisibilityString(frcAttributes, question),
                                                getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                                responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
-            frc.enableEditDelete();
+            giverRole = frcAttributes.giverRole;
+            if (!Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR.equals(giverRole) && frcAttributes.giverEmail.equals(student.email)) {
+                frc.enableEditDelete();
+            }
             frcCommentRowList.add(frc);
         }
         return frcCommentRowList;
