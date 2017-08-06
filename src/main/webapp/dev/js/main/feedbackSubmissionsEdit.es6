@@ -963,7 +963,8 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
-            const isSessionOpen = $(textField).data('isSessionOpen');
+            const isSessionOpenData = $(textField).data('isSessionOpen');
+            const isSessionOpen = typeof (isSessionOpenData) === 'boolean' ? isSessionOpenData : true;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
