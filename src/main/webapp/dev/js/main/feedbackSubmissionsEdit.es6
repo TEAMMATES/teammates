@@ -136,29 +136,6 @@ function updateMsqOtherOptionField() {
     }
 }
 
-// Binds change event on Msq checkboxes which
-// imposes and upper limit on selectable choices
-function bindMaxSelectableChoicesForMsq(qNum) {
-    const $maxSelectableChoices = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
-
-    if ($maxSelectableChoices.prop('disabled')) {
-        return;
-    }
-
-    $maxSelectableChoices.each((e) => {
-        // const maxSelectableChoices = $(e.target).val();
-        const $responseTable = $(e.target).siblings('table');
-
-        $responseTable.find(`input[name^="responsetext-${qNum}-"]`).change(function () {
-            const selectedChoices = $responseTable.find(`input[name^="responsetext-${qNum}-"]:checked`).length;
-
-            if (selectedChoices > $maxSelectableChoices.val()) {
-                $(this).prop('checked', false);
-            }
-        });
-    });
-}
-
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('#moderated-question').length > 0) {
@@ -301,8 +278,6 @@ function prepareMSQQuestions() {
                 updateOtherOptionAttributes($(this), indexSuffix);
             }
         });
-
-        bindMaxSelectableChoicesForMsq(qnNum);
     });
 }
 
@@ -625,17 +600,53 @@ function updateConstSumMessages() {
     }
 }
 
+function getMaxSelectableMsqChoices(qNum) {
+    const $input = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
+
+    return $input.prop('disabled') ? Number.MAX_SAFE_INTEGER : $input.val();
+}
+
+function getMinSelectableMsqChoices(qNum) {
+    const $input = $(`input[name="msqMinSelectableChoices-${qNum}"]`);
+
+    return $input.prop('disabled') ? 0 : $input.val();
+}
+
 function validateMsqQuestions() {
     const msqQuestionNums = getQuestionTypeNumbers('MSQ');
 
     for (let i = 0; i < msqQuestionNums.length; i += 1) {
-        const qnNum = msqQuestionNums[i];
-        let count = 0;
+        const qNum = msqQuestionNums[i];
+        let recipientIndex = 0;
+        const maxSelectableChoices = getMaxSelectableMsqChoices(qNum);
+        const minSelectableChoices = getMinSelectableMsqChoices(qNum);
 
-        while ($(`input[name="responsetext-${i}-0"]`).length !== 0) {
-            // validate
+        while ($(`input[name="responsetext-${qNum}-${recipientIndex}"]`).length !== 0) {
+            const numOfSelectedChoices = $(`input[name="responsetext-${qNum}-${recipientIndex}"]:checked`).length;
+
+            if (numOfSelectedChoices === 0) {
+                // student is allowed to skip/ignore question
+                recipientIndex += 1;
+                continue;
+            }
+
+            if (numOfSelectedChoices < minSelectableChoices) {
+                setStatusMessage(`Minimum selectable choices for question ${qNum} is ${minSelectableChoices}.`,
+                        StatusType.DANGER);
+                return false;
+            }
+
+            if (numOfSelectedChoices > maxSelectableChoices) {
+                setStatusMessage(`Maximum selectable choices for question ${qNum} is ${maxSelectableChoices}.`,
+                        StatusType.DANGER);
+                return false;
+            }
+
+            recipientIndex += 1;
         }
     }
+
+    return true;
 }
 
 function validateConstSumQuestions() {
@@ -1050,7 +1061,8 @@ $(document).ready(() => {
 
         const validationStatus = validateConstSumQuestions()
                                  && validateRankQuestions()
-                                 && validateAllAnswersHaveRecipient();
+                                 && validateAllAnswersHaveRecipient()
+                                 && validateMsqQuestions();
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
