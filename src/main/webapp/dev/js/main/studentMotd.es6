@@ -6,7 +6,8 @@ function fetchMotd(motdUrl, motdContentSelector, motdContainerSelector) {
         type: 'GET',
         url: `${window.location.origin}/${motdUrl}`,
         success(data) {
-            $(motdContentSelector).html(data);
+            const bodyContent = data.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+            $(motdContentSelector).html(bodyContent);
         },
         error() {
             $(motdContainerSelector).html('');

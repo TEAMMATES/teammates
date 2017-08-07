@@ -78,7 +78,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         emailPage.clearRecipientBox();
         emailPage.clearSubjectBox();
-        emailPage.inputGroupRecipient("invalidGroupList.xlxs");
+        emailPage.inputGroupRecipient("invalidGroupList.xlsx");
         emailPage.verifyStatus("Group receiver list upload failed. Please try again.");
 
         ______TS("send email to group - no subject");

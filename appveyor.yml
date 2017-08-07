@@ -20,7 +20,6 @@ skip_commits:
     - docs/**/*
 
 install:
-  - choco install firefox --version 46.0
   - npm install
 
 build_script:
