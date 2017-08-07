@@ -146,7 +146,7 @@ function bindMaxSelectableChoicesForMsq(qNum) {
     }
 
     $maxSelectableChoices.each((e) => {
-        const maxSelectableChoices = $(e.target).val();
+        // const maxSelectableChoices = $(e.target).val();
         const $responseTable = $(e.target).siblings('table');
 
         $responseTable.find(`input[name^="responsetext-${qNum}-"]`).change(function () {
@@ -632,7 +632,7 @@ function validateMsqQuestions() {
         const qnNum = msqQuestionNums[i];
         let count = 0;
 
-        while ($(`input[name="responsetext-${i}-0"]`).length != 0) {
+        while ($(`input[name="responsetext-${i}-0"]`).length !== 0) {
             // validate
         }
     }
