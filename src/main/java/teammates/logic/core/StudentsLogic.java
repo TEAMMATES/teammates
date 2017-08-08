@@ -1,10 +1,8 @@
 package teammates.logic.core;
 
-import static com.google.appengine.repackaged.com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.appengine.api.users.User;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.appengine.api.users.User;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.StudentAttributesFactory;
@@ -16,10 +14,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.*;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -48,6 +43,13 @@ public final class StudentsLogic {
 
     private StudentsLogic() {
         // prevent initialization
+    }
+
+    private void checkNotNull(Object object, String typeName) {
+        if (object == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName
+                                                      + " entity");
+        }
     }
 
     public static StudentsLogic inst() {
@@ -153,7 +155,7 @@ public final class StudentsLogic {
     }
 
     public boolean isStudentInAnyCourse(User user) {
-        checkNotNull(user);
+        checkNotNull(user, "User");
         return studentsDb.getStudentsForGoogleId(user.getNickname()).size() != 0;
     }
 
