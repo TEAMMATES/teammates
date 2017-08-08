@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.List;
+
 import com.google.appengine.api.users.User;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -8,7 +9,11 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.*;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JoinCourseException;
+import teammates.common.exception.TeammatesException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -74,7 +79,7 @@ public final class AccountsLogic {
     }
 
     public boolean isAccountAnInstructor(User user) {
-        checkNotNull(user,"User");
+        checkNotNull(user, "User");
         AccountAttributes a = accountsDb.getAccount(user.getNickname());
         return a != null && a.isInstructor;
     }
