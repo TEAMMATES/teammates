@@ -403,7 +403,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                 course.getName(), course.getId());
 
-        verifyEmail(email, user.email, subject, "/userCourseRegiserEmail.html");
+        verifyEmail(email, user.email, subject, "/userCourseRegisterEmail.html");
 
     }
 
