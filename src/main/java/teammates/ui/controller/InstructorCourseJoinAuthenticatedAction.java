@@ -15,7 +15,7 @@ import teammates.common.util.StringHelper;
  * {@link InstructorCourseJoinAction}. This action does the actual
  * joining of the instructor to the course.
  */
-public class InstructorCourseJoinAuthenticatedAction extends Action {
+public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
 
     private static final Logger log = Logger.getLogger();
 
