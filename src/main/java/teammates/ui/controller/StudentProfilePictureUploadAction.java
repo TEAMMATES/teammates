@@ -23,6 +23,8 @@ import teammates.common.util.StatusMessageColor;
  *         that was just uploaded.
  */
 public class StudentProfilePictureUploadAction extends Action {
+    private String status;
+
     /*
      * This class is not tested in ActionTests as it is difficult to
      * reproduce the upload action done by Google Blobstore API
@@ -61,6 +63,7 @@ public class StudentProfilePictureUploadAction extends Action {
             throw e;
         }
 
+        statusToAdmin.add(status);
         return r;
     }
 
@@ -124,16 +127,16 @@ public class StudentProfilePictureUploadAction extends Action {
         try {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            statusToAdmin.add(Const.ACTION_RESULT_FAILURE
+            status += Const.ACTION_RESULT_FAILURE
                           + " : Unable to delete profile picture (possible unused picture with key: "
                           + blobKey.getKeyString() + " || Error Message: "
-                          + bfe.getMessage() + Const.EOL);
+                          + bfe.getMessage() + Const.EOL;
         }
     }
 
     private void updateStatusesForBlobstoreFailure() {
-        appendToStatus(Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
-                       + account.googleId + ")" + Const.EOL);
+        status += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
+                       + account.googleId + ")" + Const.EOL;
         statusToUser.clear();
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN,
                                            StatusMessageColor.DANGER));

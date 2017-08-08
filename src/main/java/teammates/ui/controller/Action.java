@@ -702,13 +702,4 @@ public abstract class Action {
         regkey = null;
     }
 
-    protected void appendToStatus(String message) {
-        if (statusToAdmin.isEmpty()) {
-            statusToAdmin.add(message);
-        } else {
-            String toAdd = statusToAdmin.get(statusToAdmin.size() - 1) + message;
-            statusToAdmin.remove(statusToAdmin.size() - 1);
-            statusToAdmin.add(toAdd);
-        }
-    }
 }

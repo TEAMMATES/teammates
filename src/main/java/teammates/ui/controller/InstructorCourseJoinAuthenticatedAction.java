@@ -18,6 +18,7 @@ import teammates.common.util.StringHelper;
 public class InstructorCourseJoinAuthenticatedAction extends Action {
 
     private static final Logger log = Logger.getLogger();
+    private String status = "";
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -53,9 +54,9 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         }
 
         if (statusToAdmin == null) {
-            statusToAdmin.add(joinedCourseMsg.toString());
+            status += joinedCourseMsg.toString();
         } else {
-            appendToStatus("<br><br>" + joinedCourseMsg.toString());
+            status += "<br><br>" + joinedCourseMsg.toString();
         }
 
         /* Create redirection to instructor's homepage */
@@ -65,6 +66,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
             response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);
         }
 
+        statusToAdmin.add(status);
         return response;
     }
 }

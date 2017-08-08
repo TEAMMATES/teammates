@@ -19,6 +19,7 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSendAction extends Action {
 
+    private String status;
     private List<String> addressReceiver = new ArrayList<>();
     private List<String> groupReceiver = new ArrayList<>();
 
@@ -100,6 +101,7 @@ public class AdminEmailComposeSendAction extends Action {
             data.emailToEdit.emailId = emailId;
         }
 
+        statusToAdmin.add(status);
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
@@ -124,7 +126,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
 
-        appendToStatus("<br/>" + "Group receiver's list " + groupReceiverListFileKey);
+        status += "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
         statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
                      StatusMessageColor.SUCCESS));
     }
@@ -135,7 +137,7 @@ public class AdminEmailComposeSendAction extends Action {
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
 
-        appendToStatus("<br/>" + "Recipient: " + addressReceiverListString);
+        status += "<br/>" + "Recipient: " + addressReceiverListString;
         statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
                      StatusMessageColor.SUCCESS));
     }

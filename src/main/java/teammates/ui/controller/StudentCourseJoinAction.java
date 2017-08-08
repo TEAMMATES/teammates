@@ -18,17 +18,18 @@ import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
  * his registration key with another student's google account.
  */
 public class StudentCourseJoinAction extends Action {
+    private String status;
 
     @Override
     public ActionResult execute() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
 
-        statusToAdmin.add("Action Student Clicked Join Link"
+        status += "Action Student Clicked Join Link"
                         + (account.googleId == null ? "<br>Email: " + account.email
-                                                    : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey));
+                                                    : "<br>Google ID: " + account.googleId + "<br>Key: " + regkey);
 
         if (student == null) {
-            appendToStatus("<br>Student course join failed as student does not exist.");
+            status += "<br>Student course join failed as student does not exist.";
             String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
             Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
             isError = true;
@@ -69,6 +70,7 @@ public class StudentCourseJoinAction extends Action {
             nextUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
         }
 
+        statusToAdmin.add(status);
         return nextUrl;
     }
 

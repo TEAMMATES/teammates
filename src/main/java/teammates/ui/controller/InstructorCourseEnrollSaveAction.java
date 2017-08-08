@@ -59,7 +59,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         } catch (EnrollException | InvalidParametersException e) {
             setStatusForException(e);
 
-            appendToStatus("<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>"));
+            statusToAdmin.add("<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>"));
 
             InstructorCourseEnrollPageData pageData =
                     new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);

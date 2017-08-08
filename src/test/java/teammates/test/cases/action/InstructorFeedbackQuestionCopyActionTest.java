@@ -175,7 +175,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                              + "instructorFeedbackQuestionCopy|||true|||"
                              + "Instructor|||Instructor 1 of Course 1|||"
                              + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + "Unknown|||/page/instructorFeedbackQuestionCopy";
+                             + "|||/page/instructorFeedbackQuestionCopy";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Masquerade mode");

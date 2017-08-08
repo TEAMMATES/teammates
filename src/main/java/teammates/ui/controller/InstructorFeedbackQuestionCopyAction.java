@@ -10,6 +10,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
 
 public class InstructorFeedbackQuestionCopyAction extends Action {
+    private String status = "";
 
     @Override
     protected ActionResult execute() {
@@ -35,13 +36,13 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
                 feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
 
-                appendToStatus("Created Feedback Question for Feedback Session:<span class=\"bold\">("
+                status += "Created Feedback Question for Feedback Session:<span class=\"bold\">("
                         + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                         + feedbackQuestion.courseId + "]</span> created.<br>"
                         + "<span class=\"bold\">"
                         + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
                         + ":</span> "
-                        + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText()));
+                        + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
             }
 
             if (index > 0) {
@@ -55,10 +56,11 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             // This part is not tested because GateKeeper handles if this happens, would be
             // extremely difficult to replicate a situation whereby it gets past GateKeeper
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin.add(e.getMessage());
+            status += e.getMessage();
             isError = true;
         }
 
+        statusToAdmin.add(status);
         return createRedirectResult(new PageData(account, sessionToken)
                 .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
