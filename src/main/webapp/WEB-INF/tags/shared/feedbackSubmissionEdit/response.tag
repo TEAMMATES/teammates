@@ -47,7 +47,7 @@
     <c:choose>
       <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
               <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form"
-                          data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
+                          id="button_add_comment" data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
                           data-qnindex="${thirdIndex}" style="margin-bottom:1em;">
                           <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
               </button>
