@@ -14,6 +14,9 @@
       <th id="button_sortid" class="button-sort-none toggle-sort">
         Course Name<span class="icon-sort unsorted"></span>
       </th>
+      <th id="button_sortcoursecreateddate" class="button-sort-none toggle-sort">
+        Course Created At<span class="icon-sort unsorted"></span>
+      </th>
       <th class="align-center no-print">Action(s)</th>
     </tr>
   </thead>
@@ -21,6 +24,7 @@
     <tr>
       <td id="courseid${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseId}</td>
       <td id="coursename${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseName}</td>
+      <td id="coursecreateddate${i.index + fn:length(activeCourses.rows)}">${archivedCourse.createdAtDateString}</td>
       <td class="align-center no-print">
         <c:forEach items="${archivedCourse.actions}" var="button">
           <a ${button.attributesToString}>

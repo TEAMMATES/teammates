@@ -12,6 +12,9 @@
       <th id="button_sortcoursename" class="button-sort-none toggle-sort">
         Course Name<span class="icon-sort unsorted"></span>
       </th>
+      <th id="button_sortcoursecreateddate" class="button-sort-none toggle-sort">
+        Course Created At<span class="icon-sort unsorted"></span>
+      </th>
       <th>
         Sections
       </th>
@@ -33,6 +36,7 @@
     <tr>
       <td id="courseid${i.index}">${activeCourse.courseId}</td>
       <td id="coursename${i.index}">${activeCourse.courseName}</td>
+      <td id="coursecreateddate${i.index}">${activeCourse.createdAtDateString}</td>
       <td id="course-stats-sectionNum-${i.index}">
         <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
       </td>
