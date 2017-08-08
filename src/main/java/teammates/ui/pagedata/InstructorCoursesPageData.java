@@ -100,6 +100,8 @@ public class InstructorCoursesPageData extends PageData {
 
             ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
                                                                       SanitizationHelper.sanitizeForHtml(course.getName()),
+                                                                      SanitizationHelper.sanitizeForHtml(
+                                                                              course.getCreatedAtDateString()),
                                                                                                 actionsParam);
             archivedCoursesTable.getRows().add(row);
 
@@ -152,6 +154,8 @@ public class InstructorCoursesPageData extends PageData {
 
             ActiveCoursesTableRow row = new ActiveCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
                                                                   SanitizationHelper.sanitizeForHtml(course.getName()),
+                                                                  SanitizationHelper.sanitizeForHtml(
+                                                                          course.getCreatedAtDateString()),
                                                                   this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);
