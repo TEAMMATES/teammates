@@ -189,7 +189,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
         spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
         try {
-            spa.gender = GenderType.valueOf(submissionParams[9]);
+            spa.gender = GenderType.valueOf(StringHelper.trimIfNotNull(submissionParams[9].toUpperCase()));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

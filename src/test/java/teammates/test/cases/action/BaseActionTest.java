@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
@@ -123,7 +122,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
                 Const.ParamsNames.STUDENT_NATIONALITY, "American",
-                String.valueOf(GenderType.OTHER), "  other   ",
+                Const.ParamsNames.STUDENT_GENDER, "  other   ",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
     }
@@ -134,7 +133,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA",
-                String.valueOf(GenderType.FEMALE), "female",
+                Const.ParamsNames.STUDENT_GENDER, "female",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };
     }
