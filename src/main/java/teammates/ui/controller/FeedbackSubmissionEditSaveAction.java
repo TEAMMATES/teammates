@@ -256,23 +256,26 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (response.getId() != null) {
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
-                for (int i = 1; i <= previousComments.size(); i++) {
-                    String editedCommentText =
-                            getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                    + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
-                    String commentId =
-                            getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
-                                    + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
-                    FeedbackResponseCommentAttributes commentCheck =
-                            logic.getFeedbackResponseComment(Long.parseLong(commentId));
-                    if (editedCommentText != null && !editedCommentText.isEmpty()
-                            && !commentCheck.commentText.equals(editedCommentText)) {
-                        String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
-                        questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                        commentsToUpdateId.put(commentIndx, commentId);
-                        commentsToUpdateText.put(commentIndx, editedCommentText);
-                        responseGiverMapForComments.put(commentIndx, response.giver);
-                        responseRecipientMapForComments.put(commentIndx, response.recipient);
+                filterCommentsOfUser(getUserEmailForCourse(), previousComments);
+                if (!previousComments.isEmpty()) {
+                    for (int i = 1; i <= previousComments.size(); i++) {
+                        String editedCommentText =
+                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                        + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
+                        String commentId =
+                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
+                                        + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
+                        FeedbackResponseCommentAttributes commentCheck =
+                                logic.getFeedbackResponseComment(Long.parseLong(commentId));
+                        if (editedCommentText != null && !editedCommentText.isEmpty()
+                                && !commentCheck.commentText.equals(editedCommentText)) {
+                            String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
+                            questionIdsForComments.put(commentIndx, questionAttributes.getId());
+                            commentsToUpdateId.put(commentIndx, commentId);
+                            commentsToUpdateText.put(commentIndx, editedCommentText);
+                            responseGiverMapForComments.put(commentIndx, getUserEmailForCourse());
+                            responseRecipientMapForComments.put(commentIndx, response.recipient);
+                        }
                     }
                 }
             }
@@ -557,6 +560,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         if (!isError) {
             setStatusToAdmin(feedbackResponseComment);
+        }
+    }
+
+    private void filterCommentsOfUser(String giverEmail, List<FeedbackResponseCommentAttributes> previousComments) {
+        for (FeedbackResponseCommentAttributes comment : previousComments) {
+            if (!comment.giverEmail.equals(giverEmail)) {
+                previousComments.remove(comment);
+            }
         }
     }
 

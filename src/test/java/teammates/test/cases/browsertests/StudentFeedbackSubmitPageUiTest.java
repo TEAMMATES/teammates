@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import org.openqa.selenium.By;
@@ -40,6 +41,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testSubmitAction();
+        testCommentsAction();
         testInputValidation();
         testLinks();
         testResponsiveSubmission();
@@ -447,6 +449,60 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt",
                                                    "SFSubmitUiT.charlie.d@gmail.tmt"));
+    }
+
+    private void testCommentsAction() throws IOException {
+        ______TS("add comments on MCQ questions");
+
+        testCommentsOnMcqQuestions();
+    }
+
+    private void testCommentsOnMcqQuestions() throws IOException {
+        ______TS("add comment on question without response: no effect");
+
+        logout();
+        submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageNoCommentsPage.html");
+
+        ______TS("add new comments on question with responses");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.chooseMcqOption(6, 0, "UI");
+        submitPage.chooseMcqOption(12, 0, "Team 2");
+        submitPage.chooseMcqOption(10, 0, "Drop out (Team 2)");
+
+
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-10", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-12", "New MCQ Comment 3");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAddComment.html");
+
+        ______TS("edit comment on question with responses");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MCQ Comment 2");
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEditComment.html");
+
+        ______TS("delete comment on question with responses");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
+        submitPage.verifyRowMissing("-0-1-12-1");
     }
 
     private void testInputValidation() {
