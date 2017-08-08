@@ -2222,6 +2222,10 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
+    public double getTimeZone() {
+        return feedbackSession.getTimeZone();
+    }
+
     private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
         Map<String, String> instructorEmailNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = roster.getInstructors();

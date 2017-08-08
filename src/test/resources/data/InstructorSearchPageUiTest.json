@@ -269,7 +269,7 @@
       "name": "Stud1<script> alert(\"hi!\"); </script>",
       "comments": "<script> alert('hi!'); </script>",
       "team": "Team tags&\"</td>",
-      "section": "Section'</td>"
+      "section": "Section'\"/></td>"
     }
   },
   "feedbackSessions": {
@@ -285,6 +285,29 @@
       "endTime": "2027-04-30 11:59 PM UTC",
       "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
       "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1InTestingSanitizationCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "creatorEmail": "searchUI.instructor1@sanitization.tmt",
+      "instructions": {
+        "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -407,6 +430,28 @@
         "STUDENTS",
         "INSTRUCTORS"
       ]
+    },
+    "qn1InSession1InTestingSanitizationCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "creatorEmail": "searchUI.instructor1@sanitization.tmt",
+      "questionMetaData": {
+        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -487,6 +532,19 @@
       },
       "giverSection": "None",
       "recipientSection": "None"
+    },
+    "response1ForQ1S1TSC": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "searchUI.normal@sanitization.tmt",
+      "recipient": "searchUI.normal@sanitization.tmt",
+      "responseMetaData": {
+        "value": "Feedback reponse. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "giverSection": "Section'\"/></td>",
+      "recipientSection": "Section'\"/></td>"
     }
   },
   "feedbackResponseComments": {
@@ -586,6 +644,22 @@
       },
       "lastEditorEmail": "searchUI.instructor3@course1.tmt",
       "lastEditedAt": "2015-02-05 11:59 PM UTC"
+    },
+    "comment1ForR1S1TSC": {
+      "courseId": "searchUI.idOfTestingSanitizationCourse",
+      "feedbackSessionName": "Normal feedback session name",
+      "feedbackQuestionId": "1",
+      "giverEmail": "searchUI.instructor1@sanitization.tmt",
+      "giverSection": "None",
+      "receiverSection": "Section'\"/></td>",
+      "feedbackResponseId": "1%searchUI.normal@sanitization.tmt%searchUI.normal@sanitization.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2026-03-01 11:59 PM UTC",
+      "commentText": {
+        "value": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      }
     }
   },
   "profiles": {}

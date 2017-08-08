@@ -516,7 +516,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
       },
       "questionNumber": 10,
       "questionType": "CONSTSUM",
@@ -668,7 +668,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about my contribution (shown to other teammates)"
+        "value": "Comments about your contribution (shown to other teammates)"
       },
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -699,7 +699,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My comments about this teammate(confidential and only shown to instructor)"
+        "value": "Your comments about this teammate (confidential and only shown to instructor)"
       },
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -721,7 +721,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about team dynamics(confidential and only shown to instructor)"
+        "value": "Comments about team dynamics (confidential and only shown to instructor)"
       },
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -743,7 +743,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My feedback to this teammate(shown anonymously to the teammate)"
+        "value": "Your feedback to this teammate (shown anonymously to the teammate)"
       },
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -793,7 +793,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about my contribution (shown to other teammates)"
+        "value": "Comments about your contribution (shown to other teammates)"
       },
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -824,7 +824,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My comments about this teammate(confidential and only shown to instructor)"
+        "value": "Your comments about this teammate (confidential and only shown to instructor)"
       },
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -846,7 +846,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about team dynamics(confidential and only shown to instructor)"
+        "value": "Comments about team dynamics (confidential and only shown to instructor)"
       },
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -868,7 +868,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My feedback to this teammate(shown anonymously to the teammate)"
+        "value": "Your feedback to this teammate (shown anonymously to the teammate)"
       },
       "questionNumber": 5,
       "questionType": "TEXT",

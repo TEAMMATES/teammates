@@ -31,9 +31,16 @@ public class ProfilesLogicTest extends BaseLogicTest {
         //      => It saves time during tests
 
         ______TS("get SP");
-        StudentProfileAttributes expectedSpa =
-                new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                                             "institute", "American", "female", "moreInfo", "");
+        StudentProfileAttributes expectedSpa = StudentProfileAttributes.builder()
+                .withGoogleId("id")
+                .withShortName("shortName")
+                .withEmail("personal@email.com")
+                .withInstitute("institute")
+                .withNationality("American")
+                .withGender("female")
+                .withMoreInfo("moreInfo")
+                .build();
+
         AccountAttributes accountWithStudentProfile =
                 new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
 

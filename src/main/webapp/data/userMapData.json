@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "31 May 2017",
+  "lastUpdated": "End of June 2017",
   "institutes": {
      "Argentina": [
        "Southworks",
@@ -18,6 +18,7 @@
       "Australian National University",
       "Avondale College of Higher Education",
       "Bond University",
+      "Carey Baptist College",
       "Canterbury Primary",
       "Charles Sturt University",
       "Curtin University of Technology",
@@ -159,9 +160,9 @@
       "Burnaby North Secondary School",
       "Capilano University",
       "Carleton University",
-      "Cegep de Bois-de-Boulogne",
       "Chetwynd Secondary School",
       "Collège Ahuntsic",
+      "Collège de Bois-de-Boulogne",
       "Collège Regina Assumpta",
       "Concordia University",
       "Conestoga College",
@@ -203,6 +204,7 @@
       "Simon Fraser University",
       "Southern Alberta Institute of Technology",
       "St. Andrew's College",
+      "St. Barbara Catholic Elementary",
       "St. David Catholic Elementary",
       "St. George's School",
       "St. Lawrence College",
@@ -253,7 +255,11 @@
       "Universidad de Cundinamarca",
       "Universidad de Los Andes",
       "Universidad de San Buenaventura Bogotá",
+      "Universidad del Norte",
       "Universidad El Bosque"
+    ],
+    "Costa Rica": [
+      "Colegio Calasanz Hispanocostarricense"
     ],
     "Croatia": [
       "University of Zagreb"
@@ -286,7 +292,8 @@
       "The International School of Elite Education"
     ],
     "Estonia": [
-      "University of Tartu"
+      "University of Tartu",
+      "Tartu University Pärnu College"
     ],
     "Faroe Islands": [
       "University of the Faroe Islands"
@@ -387,6 +394,7 @@
       "Gujarat University",
       "Guru Gobind Singh Indraprastha University",
       "Ideas That Scale Accelerator LLP",
+      "IIIT Allahabad",
       "IIIT Delhi",
       "IIIT",
       "IIT Bhubaneswar",
@@ -404,6 +412,7 @@
       "Nabakrushna Choudhury Centre for Development Studies",
       "NIT Hamirpur",
       "P S Senior Secondary School",
+      "Payilagam",
       "Pearl Academy",
       "Rajalakshmi School of Business",
       "Swami Ram Ahimalayan University",
@@ -492,6 +501,7 @@
     "Malaysia": [
       "Help University",
       "International Islamic University  Malaysia",
+      "International University of Malaya-Wales",
       "Kolej PolyTech Mara",
       "Monash University Malaysia",
       "Sekolah Menengah Kebangsaan Bukit Jalor",
@@ -522,16 +532,19 @@
     ],
     "Mexico": [
       "Centro de Estudios Superiores de Diseño",
+      "CETYS Universidad",
       "Escuela Bancaria y Comercial",
       "ITESM",
       "ITESO",
       "Instituto Tecnologico de Estudios Superiores",
       "Latin American School",
+      "Lemon Three",
       "Peterson Schools",
       "Universidad Autónoma de Baja California",
       "Universidad de Celaya",
       "Universidad de Monterrey",
       "UNID",
+      "UDLAP",
       "Universidad Tecmilenio",
       "Unosquare"
     ],
@@ -596,9 +609,12 @@
     ],
     "New Zealand": [
       "Auckland University of Technology",
+      "Eastern Institute of Technology",
       "Manukau Institute of Technology",
+      "Massey University",
       "Media Design School",
       "Otago Polytechnic",
+      "Queen's High School",
       "Unitec Institute of Technology",
       "University of Auckland",
       "University of Canterbury",
@@ -660,6 +676,7 @@
       "Escola Profissional de Almada",
       "Faculdade de Engenharia da Universidade do Porto",
       "Musaic",
+      "School of Education Porto",
       "Universidade do Minho"
     ],
     "Puerto Rico": [
@@ -707,6 +724,7 @@
       "Hwa Chong Institution",
       "Institute of Technical Education",
       "International Community School",
+      "MCI Group",
       "Methodist Girls' School",
       "Millennia Institute",
       "Ministry of Education",
@@ -725,7 +743,7 @@
       "Rosyth School",
       "Sengkang Secondary School",
       "Serangoon Junior College",
-      "SHATEC Pte Ltd",
+      "SHATEC Institutes Pte Ltd",
       "Silicon Straits",
       "Singapore Chinese Girls' School",
       "Singapore Institute of Technology",
@@ -768,6 +786,7 @@
     "Spain": [
       "Centre Universitari de Disseny",
       "Centro Didáctico",
+      "Cooke e-learning",
       "Escola Martí",
       "Escola Oficial d'Idiomes Sant Feliu de Guíxols",
       "IE Business School",
@@ -776,6 +795,7 @@
       "Mondragon University",
       "Santa María del Pilar",
       "Universidad Complutense de Madrid",
+      "Universidad de Barcelona",
       "Universidad de Navarra",
       "Universidad de Valencia",
       "Universidad del País Vasco",
@@ -804,11 +824,13 @@
       "HES-SO",
       "International School of Geneva",
       "International School of Zug and Luzern",
+      "Pädagogische Hochschule St. Gallen",
       "University of Geneva"
     ],
     "Taiwan": [
       "China Institute of Technology and Science",
       "Ching Cheng High School",
+      "Chung-Yuan Christian University",
       "National Central University",
       "National Taiwan Normal University",
       "National Taiwan University",
@@ -836,6 +858,7 @@
       "Hacettepe University",
       "International Training Institute",
       "Koç University",
+      "Kredi Akademi",
       "Meliksah University",
       "Middle East Technical University",
       "Yasar University"
@@ -853,6 +876,7 @@
     "United Kingdom": [
       "Barking Abbey School",
       "Bournemouth University",
+      "Brunel University",
       "Cardiff University",
       "City University London",
       "Coventry University",
@@ -1038,6 +1062,7 @@
       "Cleveland State University",
       "Clio Area High School",
       "Coastal Carolina University",
+      "College America",
       "College of Mount Saint Vincent",
       "College of William and Mary",
       "Collin College",
@@ -1110,6 +1135,7 @@
       "Ferguson Enterprises",
       "Ferris State University",
       "First Presbyterian Day School ",
+      "Flagship Computing",
       "Florence Chapel Middle School",
       "Florida A&M University",
       "Florida Atlantic University",
@@ -1195,6 +1221,7 @@
       "JN Fries Magnet School",
       "John F Kennedy Middle School.",
       "John F. Kennedy University",
+      "Johns Hopkins University",
       "Johnson & Wales University",
       "Juan Seguin High School",
       "Judson University",
@@ -1284,6 +1311,8 @@
       "Moorpark College, VCCCD",
       "Morningside College",
       "Moreno Valley High School",
+      "Morgan County Charter School System",
+      "Morgan County Middle School",
       "Morgan State University",
       "Morton Ranch High School",
       "Mount Mercy University",
@@ -1308,6 +1337,8 @@
       "Newbury Park High School",
       "Newport News Schools",
       "Newton Conover City Schools",
+      "Nichols College",
+      "Noncommsioned Officer Academy at the USAJFKSWCS",
       "Norman Regional Health System",
       "North Butler High School",
       "North Carolina Central University",
@@ -1359,6 +1390,7 @@
       "Pensacola State College",
       "Perry Lindsey Academy",
       "Person High School",
+      "Phillip & Sala Burton Academic High School",
       "Pickens High School",
       "Pima Community College",
       "Plymouth State University",
@@ -1553,6 +1585,7 @@
       "University of Nebraska",
       "University of Nebraska-Lincoln",
       "University of Nevada",
+      "University of New Hampshire",
       "University of New Mexico",
       "University of North Carolina",
       "University of North Carolina Greensboro",

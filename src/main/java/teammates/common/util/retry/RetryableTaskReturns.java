@@ -1,4 +1,4 @@
-package teammates.test.driver.retry;
+package teammates.common.util.retry;
 
 /**
  * Convenience subclass of {link RetryableTaskReturnsThrows} for when checked exceptions are not thrown.

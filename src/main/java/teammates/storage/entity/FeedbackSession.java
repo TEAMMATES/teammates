@@ -134,8 +134,8 @@ public class FeedbackSession extends BaseEntity {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
-        this.respondingInstructorList = instructorList == null ? new HashSet<String>() : respondingInstructorList;
-        this.respondingStudentList = studentList == null ? new HashSet<String>() : respondingStudentList;
+        this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
+        this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
     }
 
     public String getFeedbackSessionName() {
