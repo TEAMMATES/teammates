@@ -1,81 +1,3 @@
-<html>
-<head>
-<title>
-  Benny Charlés's Records&lt;small class="muted"&gt; - ISR.CS2104&lt;/small&gt; [Instructor]
-</title>
-<link href="/favicon.png" rel="shortcut icon">
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
-<link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
-        <span class="sr-only">
-          Toggle navigation
-        </span>
-        <span class="icon-bar">
-        </span>
-        <span class="icon-bar">
-        </span>
-        <span class="icon-bar">
-        </span>
-      </button>
-      <a class="navbar-brand" href="/">
-        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
-      </a>
-    </div>
-    <div class="collapse navbar-collapse" id="contentLinks">
-      <ul class="nav navbar-nav">
-        <li>
-          <a class="nav home" data-link="instructorHome" href="/page/instructorHomePage?user=ISR.teammates.test">
-            Home
-          </a>
-        </li>
-        <li>
-          <a class="nav courses" data-link="instructorCourse" href="/page/instructorCoursesPage?user=ISR.teammates.test">
-            Courses
-          </a>
-        </li>
-        <li>
-          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=ISR.teammates.test">
-            Sessions
-          </a>
-        </li>
-        <li class="active">
-          <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=ISR.teammates.test">
-            Students
-          </a>
-        </li>
-        <li>
-          <a class="nav search" data-link="instructorSearch" href="/page/instructorSearchPage?user=ISR.teammates.test">
-            Search
-          </a>
-        </li>
-        <li>
-          <a class="nav help" href="/instructorHelp.jsp" rel="noopener noreferrer" target="_blank">
-            Help
-          </a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav pull-right">
-        <li>
-          <a class="nav logout" href="/logout" id="btnLogout">
-            Logout (
-            <span class="text-info tool-tip-decorate" data-original-title="ISR.teammates.test" data-placement="bottom" data-toggle="tooltip" title="">
-              ISR.teammates.test
-            </span>
-            )
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
 <div class="container" id="mainContent">
   <div id="topOfPage">
   </div>
@@ -241,10 +163,10 @@
                           </div>
                           <ul class="list-group" id="responseCommentTable-0-1-1-GRQ" style="margin-top:15px;">
                             <li class="list-group-item list-group-item-warning" id="responseCommentRow-RGQ-1-1-1-1">
-                              <div class="row" id="commentBar-RGQ-1-1-1-1">
+                              <div class="row" id="commentBar-RGQ-1-1-1-1" style="display: block;">
                                 <div class="col-xs-10">
                                   <span class="text-muted">
-                                    From: Teammates Test2 [Tue, 03 Apr 2012, 01:59 AM UTC+0200]
+                                    From: Teammates Test2 [Tue, 03 Apr 2012, 01:59 AM UTC+0200] (last edited by Teammates Test at ${datetime.now} UTC+0200)
                                   </span>
                                   <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                   </span>
@@ -269,8 +191,10 @@
                                   </a>
                                 </div>
                               </div>
-                              <div id="plainCommentText-RGQ-1-1-1-1" style="margin-left: 15px;">
-                                First comment to Alice about feedback to Benny from different instructor
+                              <div id="plainCommentText-RGQ-1-1-1-1" style="margin-left: 15px; display: block;">
+                                <p>
+                                  First edited comment to Alice about feedback to Benny from different Instructor
+                                </p>
                               </div>
                               <form class="responseCommentEditForm" id="responseCommentEditForm-RGQ-1-1-1-1" style="display: none;">
                                 <div class="form-group form-inline">
@@ -348,10 +272,12 @@
                                   </table>
                                 </div>
                                 <div class="form-group">
-                                  <div class="panel panel-default panel-body" id="responsecommenttext-RGQ-1-1-1-1">
-                                    First comment to Alice about feedback to Benny from different instructor
+                                  <div class="panel panel-default panel-body content-editor" id="responsecommenttext-RGQ-1-1-1-1" spellcheck="false" style="position: relative;">
+                                    <p>
+                                      First edited comment to Alice about feedback to Benny from different Instructor
+                                    </p>
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
+                                  <input name="responsecommenttext" type="hidden" value="<p>First edited comment to Alice about feedback to Benny from different Instructor</p>">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-RGQ-1-1-1-1" type="button">
@@ -371,7 +297,7 @@
                               </form>
                             </li>
                             <li class="list-group-item list-group-item-warning" id="responseCommentRow-RGQ-1-1-1-2">
-                              <div class="row" id="commentBar-RGQ-1-1-1-2">
+                              <div class="row" id="commentBar-RGQ-1-1-1-2" style="display: block;">
                                 <div class="col-xs-10">
                                   <span class="text-muted">
                                     From: Teammates Test [Mon, 02 Mar 2026, 01:59 AM UTC+0200] (last edited by Teammates Test at Tue, 03 Mar 2026, 01:59 AM UTC+0200)
@@ -397,7 +323,7 @@
                                   </a>
                                 </div>
                               </div>
-                              <div id="plainCommentText-RGQ-1-1-1-2" style="margin-left: 15px;">
+                              <div id="plainCommentText-RGQ-1-1-1-2" style="margin-left: 15px; display: block;">
                                 Instructor second comment to Alice about feedback to Benny
                               </div>
                               <form class="responseCommentEditForm" id="responseCommentEditForm-RGQ-1-1-1-2" style="display: none;">
@@ -476,10 +402,13 @@
                                   </table>
                                 </div>
                                 <div class="form-group">
-                                  <div class="panel panel-default panel-body" id="responsecommenttext-RGQ-1-1-1-2">
-                                    Instructor second comment to Alice about feedback to Benny
+                                  <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="responsecommenttext-RGQ-1-1-1-2" spellcheck="false" style="position: relative;">
+                                    <p>
+                                      <br data-mce-bogus="1">
+                                    </p>
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
+                                  <input name="responsecommenttext-RGQ-1-1-1-2" type="hidden">
+                                  <input name="responsecommenttext" type="hidden" value="">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-RGQ-1-1-1-2" type="button">
@@ -769,52 +698,3 @@
     </div>
   </div>
 </div>
-<div class="container-fluid" id="footerComponent">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-2">
-        <span>
-          [
-          <a href="/">
-            TEAMMATES
-          </a>
-          V${version}]
-        </span>
-      </div>
-      <div class="col-md-8">
-        [for
-        <span class="highlight-white">
-          TEAMMATES Test Institute 10
-        </span>
-        ]
-      </div>
-      <div class="col-md-2">
-        <span>
-          [Send
-          <a class="link" href="/contact.jsp" rel="noopener noreferrer" target="_blank">
-            Feedback
-          </a>
-          ]
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
-</script>
-<script src="/js/googleAnalytics.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
-</script>
-<script src="/js/instructorStudentRecords.js" type="text/javascript">
-</script>
-</body>
-</html>
