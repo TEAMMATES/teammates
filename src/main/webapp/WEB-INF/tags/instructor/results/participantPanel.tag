@@ -12,11 +12,11 @@
 <%@ attribute name="isSecondaryParticipantType" type="java.lang.Boolean" required="true" %>
 
 <c:choose>
-    <c:when test="${isSecondaryParticipantType}">
-        <results:participantGroupBySecondaryParticipantPanel groupByParticipantPanel="${participantPanel}"/>
-    </c:when>
-    <c:otherwise>
-        <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}"
-                                                 isShowingAll="${isShowingAll}"/>
-    </c:otherwise>
+  <c:when test="${isSecondaryParticipantType}">
+    <results:participantGroupBySecondaryParticipantPanel groupByParticipantPanel="${participantPanel}"/>
+  </c:when>
+  <c:otherwise>
+    <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}"
+        isShowingAll="${isShowingAll}"/>
+  </c:otherwise>
 </c:choose>
