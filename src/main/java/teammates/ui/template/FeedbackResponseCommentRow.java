@@ -249,6 +249,9 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
         }
+        if (commentGiverEmailNameTable.get(giverEmail) == null) {
+            return giverEmail;
+        }
         return commentGiverEmailNameTable.get(giverEmail);
     }
 
@@ -257,8 +260,10 @@ public class FeedbackResponseCommentRow {
             return "";
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
+        String lastEditor = commentGiverEmailNameTable.get(lastEditorEmail) == null ? lastEditorEmail
+                : commentGiverEmailNameTable.get(lastEditorEmail);
         return "(last edited "
-                + (isGiverAnonymous ? "" : "by " + commentGiverEmailNameTable.get(lastEditorEmail) + " ")
+                + (isGiverAnonymous ? "" : "by " + lastEditor + " ")
                 + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
     }
 }

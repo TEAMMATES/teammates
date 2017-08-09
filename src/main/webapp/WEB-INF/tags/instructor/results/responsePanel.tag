@@ -39,10 +39,12 @@
         <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
           <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
               secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
-              fourthIndex="${fourthIndex}" frcIndex="${status.count}" isInstructor="true"/>
+              fourthIndex="${fourthIndex}" frcIndex="${status.count}"
+              giverRole="Instructor"/>
         </c:forEach>
         <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}"
-            secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" isInstructor="true"/>
+            secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}"
+            giverRole="Instructor"/>
       </ul>
     </c:if>
   </div>

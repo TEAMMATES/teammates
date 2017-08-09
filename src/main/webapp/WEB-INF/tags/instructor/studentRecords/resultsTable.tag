@@ -43,7 +43,8 @@
                                                     </c:if>
                                                     <c:if test="${forOrBy == 'for'}">
                                                         <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="1"
-                                                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="RGQ" isInstructor="true"/>
+                                                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="RGQ" isInstructor="true"
+                                                                giverRole="Instructor"/>
                                                     </c:if>
                                                 </c:forEach>
                                             </ul>

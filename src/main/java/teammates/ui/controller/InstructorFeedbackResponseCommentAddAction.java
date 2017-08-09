@@ -48,9 +48,4 @@ public class InstructorFeedbackResponseCommentAddAction extends FeedbackResponse
                 + feedbackResponseComment.createdAt + "<br>"
                 + "comment text: " + feedbackResponseComment.commentText.getValue();
     }
-
-    @Override
-    protected boolean isInstructor() {
-        return true;
-    }
 }

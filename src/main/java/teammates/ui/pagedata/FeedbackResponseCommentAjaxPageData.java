@@ -24,10 +24,10 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public String showGiverNameToString;
     public String errorMessage;
     public String editedCommentDetails;
+    public String giverRole;
     public boolean isError;
     public FeedbackQuestionAttributes question;
     public Map<String, String> commentGiverNameEmailTable;
-    public boolean commentGiverInstructor;
     public String moderatedPersonEmail;
     public boolean moderation;
     public double sessionTimeZone;
@@ -94,12 +94,12 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
         }
     }
 
-    public boolean isCommentGiverInstructor() {
-        return commentGiverInstructor;
+    public String getGiverRole() {
+        return giverRole;
     }
 
-    public void setCommentGiverInstructor(boolean commentGiverInstructor) {
-        this.commentGiverInstructor = commentGiverInstructor;
+    public void setGiverRole(String giverRole) {
+        this.giverRole = giverRole;
     }
 
     public String getModeratedPersonEmail() {

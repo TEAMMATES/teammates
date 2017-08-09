@@ -5,7 +5,6 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
-<%@ attribute name="isInstructor" required="true" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
@@ -14,6 +13,7 @@
 <%@ attribute name="viewType" %>
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="moderatedPersonEmail" %>
+<%@ attribute name="giverRole" %>
 <c:choose>
   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
     <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
@@ -29,7 +29,7 @@
   </c:otherwise>
 </c:choose>
 <c:choose>
-    <c:when test="${isInstructor}">
+    <c:when test="${giverRole eq 'Instructor'}">
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
         <c:set var="deleteLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %></c:set>
     </c:when>
@@ -114,7 +114,7 @@
     <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
     <c:if test="${frc.editDeleteEnabled}">
         <c:choose>
-        <c:when test="${isInstructor}">
+        <c:when test="${giverRole eq 'Instructor'}">
             <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
         </c:when>
         <c:otherwise>
@@ -135,7 +135,7 @@
                                             submitLink="${submitLink}"
                                             buttonText="Save"
                                             isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
-                                            isInstructor="${isInstructor}"
-                                            moderatedPersonEmail="${moderatedPersonEmail}"/>
+                                            moderatedPersonEmail="${moderatedPersonEmail}"
+                                            giverRole="${giverRole}"/>
     </c:if>
 </li>

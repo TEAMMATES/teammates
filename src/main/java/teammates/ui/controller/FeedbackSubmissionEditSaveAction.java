@@ -256,7 +256,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (response.getId() != null) {
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
-                filterCommentsOfUser(getUserEmailForCourse(), previousComments);
+                filterCommentsOfUser(response.giver, previousComments);
                 if (!previousComments.isEmpty()) {
                     for (int i = 1; i <= previousComments.size(); i++) {
                         String editedCommentText =
@@ -273,7 +273,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             questionIdsForComments.put(commentIndx, questionAttributes.getId());
                             commentsToUpdateId.put(commentIndx, commentId);
                             commentsToUpdateText.put(commentIndx, editedCommentText);
-                            responseGiverMapForComments.put(commentIndx, getUserEmailForCourse());
+                            responseGiverMapForComments.put(commentIndx, response.giver);
                             responseRecipientMapForComments.put(commentIndx, response.recipient);
                         }
                     }
@@ -294,10 +294,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String commentText = commentsToAddText.get(commentId);
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentId);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentId);
-            boolean isInstructor =
-                    Boolean.parseBoolean(getRequestParamValue(Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR + commentId));
-            String giverRole = isInstructor ? Const.INSTRUCTOR : Const.STUDENT;
-            createCommentsForResponses(courseId, feedbackSessionName, getUserEmailForCourse(), questionId,
+            String giverRole = getRequestParamValue("giverRole" + commentId);
+            createCommentsForResponses(courseId, feedbackSessionName, giver, questionId,
                     responseToAddComment, commentText, giverRole, showCommentTo, showGiverNameTo);
         }
     }
@@ -565,7 +563,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void filterCommentsOfUser(String giverEmail, List<FeedbackResponseCommentAttributes> previousComments) {
         for (FeedbackResponseCommentAttributes comment : previousComments) {
-            if (!comment.giverEmail.equals(giverEmail)) {
+            if (!comment.giverEmail.equals(giverEmail) || !comment.giverEmail.equals(student.team)) {
                 previousComments.remove(comment);
             }
         }

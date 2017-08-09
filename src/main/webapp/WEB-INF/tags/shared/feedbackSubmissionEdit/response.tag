@@ -14,6 +14,7 @@
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="isRecipientTeam" value="${questionWithResponses.question.recipientTeam}"/>
+<c:set var="isGiverTeam" value="${questionWithResponses.question.giverTeam}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
@@ -53,18 +54,29 @@
               </button>
               ${response.submissionFormHtml}
       <br>
+      <c:choose>
+        <c:when test="${isGiverTeam}">
+          <c:set var="giverRole" value="Team"/>
+        </c:when>
+        <c:when test="${isInstructor}">
+          <c:set var="giverRole" value="Instructor"/>
+        </c:when>
+        <c:otherwise>
+          <c:set var="giverRole" value="Student"/>
+        </c:otherwise>
+      </c:choose>
       <ul class="list-group" id="responseCommentTable-${firstIndex}-${secondIndex}-${thirdIndex}"
               style="${not empty response.commentsOnResponses ? 'margin-top:15px;': 'display:none'}">
               <c:forEach items="${response.commentsOnResponses}" var="responseComment" varStatus="status">
                   <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
                                                   secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
-                                                  frcIndex="${status.count}" isOnFeedbackSubmissionEditPage="true" isInstructor="${isInstructor}"
-                                                  moderatedPersonEmail="${moderatedPersonEmail}"/>
+                                                  frcIndex="${status.count}" isOnFeedbackSubmissionEditPage="true"
+                                                  moderatedPersonEmail="${moderatedPersonEmail}" giverRole="${giverRole}"/>
               </c:forEach>
                <shared:feedbackResponseCommentAdd frc="${response.responseExplainationComment}" firstIndex="${firstIndex}"
-                                                  secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" isOnFeedbackSubmissionEditPage="true" isInstructor="${isInstructor}"
+                                                  secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" isOnFeedbackSubmissionEditPage="true"
                                                   moderatedPersonEmail="${moderatedPersonEmail}"
-                                                  isPreview="${data.preview}" submitTable="${data.submittable}"/>
+                                                  isPreview="${data.preview}" submitTable="${data.submittable}" giverRole="${giverRole}"/>
       </ul>
       </c:when>
       <c:otherwise>

@@ -50,7 +50,7 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
-        verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.giverRole);
+        //verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.giverRole);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {

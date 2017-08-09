@@ -353,7 +353,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                                responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
             giverRole = frcAttributes.giverRole;
-            if (!Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR.equals(giverRole) && frcAttributes.giverEmail.equals(student.email)) {
+            if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
                 frc.enableEditDelete();
             }
             frcCommentRowList.add(frc);
@@ -365,7 +365,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
             List<FeedbackResponseCommentAttributes> frcList) {
         List<FeedbackResponseCommentAttributes> filteredComments = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseCommentAttributes comment : frcList) {
-            if (roster.isInstructorOfCourse(comment.giverEmail) || comment.giverEmail.equals(student.email)) {
+            if (roster.isInstructorOfCourse(comment.giverEmail) || comment.giverEmail.equals(student.email)
+                    || comment.giverEmail.equals(student.team)) {
                 filteredComments.add(comment);
             }
         }
