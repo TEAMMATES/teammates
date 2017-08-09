@@ -18,7 +18,7 @@ public abstract class CourseJoinAuthenticatedAbstractAction extends Action {
         try {
             emailSender.sendEmail(email);
         } catch (EmailSendingException e) {
-            log.severe("Instructor course register email failed to send: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("User course register email failed to send: " + TeammatesException.toStringWithStackTrace(e));
         }
     }
 
