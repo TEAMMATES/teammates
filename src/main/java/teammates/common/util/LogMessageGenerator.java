@@ -44,9 +44,7 @@ public class LogMessageGenerator {
             updateInfoForNormalUser(builder, currUser, userAccount);
         }
 
-        String message = statusToAdmin.isEmpty() ? null : StringHelper.join(
-                "", statusToAdmin.toArray(new String[statusToAdmin.size()]));
-        builder.withLogMessage(message);
+        builder.generateMessage(statusToAdmin);
         return builder.build().generateLogMessage();
     }
 
