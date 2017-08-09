@@ -122,7 +122,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
                 Const.ParamsNames.STUDENT_NATIONALITY, "American",
-                Const.ParamsNames.STUDENT_GENDER, "  other   ",
+                Const.ParamsNames.STUDENT_GENDER, "OTHER",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
     }
@@ -133,7 +133,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA",
-                Const.ParamsNames.STUDENT_GENDER, "female",
+                Const.ParamsNames.STUDENT_GENDER, "FEMALE",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
         };
     }
