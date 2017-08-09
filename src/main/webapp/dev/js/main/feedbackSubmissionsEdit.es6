@@ -502,7 +502,7 @@ function updateConstSumMessageQn(qnNum) {
     let allNotNumbers = true;
     let answerSet = {};
 
-    function fillEmptyFieldWithZero(inputFieldElement) {
+    function fillWithZeroIfEmpty(inputFieldElement) {
         if (isNaN(parseInt(inputFieldElement.val(), 10))) {
             inputFieldElement.val(0);
         }
@@ -531,13 +531,13 @@ function updateConstSumMessageQn(qnNum) {
                 if (distributeToRecipients) {
                     for (let i = 0; i < numRecipients; i += 1) {
                         const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`);
-                        fillEmptyFieldWithZero($inputFieldElement);
+                        fillWithZeroIfEmpty($inputFieldElement);
                     }
                 } else {
                     const recipientIndex = parseInt(messageElement.selector[messageElement.selector.length - 1], 10);
                     for (let k = 0; k < numOptions; k += 1) {
                         const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`);
-                        fillEmptyFieldWithZero($inputFieldElement);
+                        fillWithZeroIfEmpty($inputFieldElement);
                     }
                 }
             }
