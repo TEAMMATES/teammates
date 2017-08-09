@@ -582,6 +582,7 @@ public class EmailGenerator {
     public EmailWrapper generateUserCourseRegisterEmail(AccountAttributes user, CourseAttributes course) {
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_COURSE_REGISTER,
                 "${userName}", SanitizationHelper.sanitizeForHtml(user.getName()),
+                "${userType}", user.isInstructor() ? "an instructor" : "a student",
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${googleId}", SanitizationHelper.sanitizeForHtml(user.getGoogleId()),
