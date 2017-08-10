@@ -898,8 +898,8 @@ public class PageData {
             }
         }
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                                              getResponseCommentVisibilityString(question),
-                                              getResponseCommentGiverNameVisibilityString(question),
+                                              getResponseCommentVisibilityString(frca, question),
+                                              getResponseCommentGiverNameVisibilityString(frca, question),
                                               responseVisibilityMap, timeZone);
     }
 
