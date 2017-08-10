@@ -351,8 +351,14 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                getResponseCommentVisibilityString(frcAttributes, question),
                                                getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                                responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
-            if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
-                frc.enableEditDelete();
+            if (isFeedbackSessionForInstructor) {
+                if (frcAttributes.giverEmail.equals(account.email)) {
+                    frc.enableEditDelete();
+                }
+            } else {
+                if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
+                    frc.enableEditDelete();
+                }
             }
             frcCommentRowList.add(frc);
         }

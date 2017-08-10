@@ -563,7 +563,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void filterCommentsOfUser(String giverEmail, List<FeedbackResponseCommentAttributes> previousComments) {
         for (FeedbackResponseCommentAttributes comment : previousComments) {
-            if (!comment.giverEmail.equals(giverEmail) || !comment.giverEmail.equals(student.team)) {
+            if (!comment.giverEmail.equals(giverEmail)) {
                 previousComments.remove(comment);
             }
         }

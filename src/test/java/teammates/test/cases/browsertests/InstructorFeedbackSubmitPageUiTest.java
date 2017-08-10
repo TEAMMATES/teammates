@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -29,6 +31,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testContent();
         testClosedSessionSubmitAction();
         testSubmitAction();
+        testCommentsAction();
         testModifyData();
         // No links to test
         testQuestionTypesSubmitAction();
@@ -297,6 +300,70 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
+    }
+
+    private void testCommentsAction() throws IOException {
+        testCommentsOnMcqQuestions();
+    }
+
+    private void testCommentsOnMcqQuestions() throws IOException {
+        ______TS("add comment on question without response: no effect");
+
+        logout();
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.chooseMcqOption(5, 0, "UI");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-5", "Comment without response");
+
+        ______TS("add new comments on question with responses");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
+
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-6", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-2-1-6", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-9", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-11", "New MCQ Comment 5");
+        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-15", "New MCQ Comment 6");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("edit comment on question with responses");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddComment.html");
+
+        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-6-1", "Edited MCQ Comment 2");
+        submitPage.editFeedbackResponseComment("-2-1-6-1", "Edited MCQ Comment 3");
+        submitPage.editFeedbackResponseComment("-0-1-9-1", "Edited MCQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-11-1", "Edited MCQ Comment 5");
+        submitPage.editFeedbackResponseComment("-0-1-15-1", "Edited MCQ Comment 6");
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("delete comment on question with responses");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditComment.html");
+
+        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
+        submitPage.verifyRowMissing("-0-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-6-1");
+        submitPage.verifyRowMissing("-1-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-6-1");
+        submitPage.verifyRowMissing("-2-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-9-1");
+        submitPage.verifyRowMissing("-0-1-9-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-11-1");
+        submitPage.verifyRowMissing("-0-1-11-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-15-1");
+        submitPage.verifyRowMissing("-0-1-15-1");
     }
 
     /**
