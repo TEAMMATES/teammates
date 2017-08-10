@@ -116,10 +116,10 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
-                + "|||true|||Student|||" + student.name + "|||" + student.googleId
-                + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
-                + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
+        // expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
+        //         + "|||true|||Student|||" + student.name + "|||" + student.googleId
+        //         + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
+        //         + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
 
         // This assertion fails
         // AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
