@@ -606,28 +606,28 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     /**
-     * loads result of particular panel by giving panelId.
-     * @param panelId  the Id of panel element
+     * Expands a particular panel, causing its results to load.
+     * @param panelNumber the position of panel element
      */
-    public void loadResultPanel(int panelId) {
-        String panel = "panelHeading-" + panelId;
+    public void loadResultPanel(int panelNumber) {
+        String panel = "panelHeading-" + panelNumber;
         clickAutoLoadedPanelAndWaitForExpansion(panel);
     }
 
     /**
-     * loads result of particular section panel by giving panelId and sectionId.
+     * Expands a particular section, causing its results to load.
      */
-    public void loadResultSectionPanel(int panelId, int sectionId) {
-        String panel = "panelHeading-section-" + panelId + "-" + sectionId;
+    public void loadResultSectionPanel(int panelNumber, int sectionNumber) {
+        String panel = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
         clickAutoLoadedPanelAndWaitForExpansion(panel);
     }
 
     /**
-     * loads result of particular panel by giving panelId.
-     * @param panelId  the Id of panel element
+     * Expands a particular panel, causing its results to load.
+     * @param panelNumber the position of panel element
      */
-    public void loadResultSubmitPanel(int panelId) {
-        String panel = "panelHeading-" + panelId;
+    public void loadResultSubmitPanel(int panelNumber) {
+        String panel = "panelHeading-" + panelNumber;
         clickSubmitLoadedPanelAndWaitForExpansion(panel);
     }
 
