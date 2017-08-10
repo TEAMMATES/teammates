@@ -30,7 +30,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 * **ERROR (on Windows)**: Dev server launched by Eclipse keeps running even after closing Eclipse. After restarting Eclipse, you will be able to relaunch dev server on the same port but requests will be received by the previous server instance.
 
   **REASON**: If Eclipse crashes while dev server is running inside Eclipse, the server might keep running even after Eclipse is closed.
-
+  
   **SOLUTION**: Go to Windows Task Manager and kill processes named `javaw.exe`.
 
 * **ERROR**: Eclipse complains "file out of sync".
