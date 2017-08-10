@@ -397,6 +397,8 @@ public final class HtmlHelper {
         String dateTimeNow = sdf.format(now);
         SimpleDateFormat sdfForIso8601 = new SimpleDateFormat("yyyy-MM-dd'T'");
         String dateTimeNowInIso8601 = sdfForIso8601.format(now);
+        SimpleDateFormat sdfForCoursesPage = new SimpleDateFormat("d MMM yyyy");
+        String dateTimeNowInCoursesPageFormat = sdfForCoursesPage.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
                       .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
@@ -450,6 +452,7 @@ public final class HtmlHelper {
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
+                      .replaceAll(dateTimeNowInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -505,7 +508,8 @@ public final class HtmlHelper {
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
-                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now));
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
+                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
     }
 
     private static TimeZone getTimeZone(String content) {
