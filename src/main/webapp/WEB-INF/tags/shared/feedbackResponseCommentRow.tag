@@ -12,6 +12,7 @@
 <%@ attribute name="frcIndex" %>
 <%@ attribute name="viewType" %>
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
+<%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="giverRole" %>
 <c:choose>
@@ -69,7 +70,8 @@
                      data-toggle="tooltip"
                      data-placement="top"
                      title="<%= Const.Tooltips.COMMENT_DELETE %>"
-                     <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
+                     <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>
+                     <c:if test="${not isSessionOpenForSubmission}">disabled</c:if>>
                      <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                   </a>
                   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
