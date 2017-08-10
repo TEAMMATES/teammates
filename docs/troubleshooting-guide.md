@@ -47,7 +47,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
   **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
   
-* **ERROR**: Some characters are displayed incorrectly in browser. Example, Charlés's is displayed as CharlÃ©s.
+* **ERROR**: Some characters are displayed incorrectly in browser. Example, `Charlés's` is displayed as `CharlÃ©s`.
 
   **REASON**: Page encoding is not set to UTF-8.
 
