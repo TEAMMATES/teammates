@@ -3,14 +3,15 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
 
 public class StudentFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
 
     @Override
     protected void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa, FeedbackResponseAttributes response) {
-        StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
-        gateKeeper.verifyAccessible(student, logic.getFeedbackSession(feedbackSessionName, courseId));
+
     }
 
     @Override
