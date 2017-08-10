@@ -1181,14 +1181,34 @@ Prevent Long URL From Breaking Out of Container
     margin-right: 5px;
 }
 
-/*
-Glyphicon for success status messages
-*/
+/*//////////////////////////////////////////////////////////
+/////////////////////// Status Icons ///////////////////////
+//////////////////////////////////////////////////////////*/
 
-.icon-success:before {
+.icon-success:before,
+.icon-warning:before,
+.icon-danger:before,
+.icon-info:before {
+    /* Icon font has no generic fallback */
+    /* noinspection CssNoGenericFontName */
     font-family: 'Glyphicons Halflings';
     display: inline-block;
     padding-right: .5em;
-    content: '\e084';
     vertical-align: top;
+}
+
+.icon-success:before {
+    content: '\e084';
+}
+
+.icon-warning:before {
+    content: '\e101';
+}
+
+.icon-danger:before {
+    content: '\e083';
+}
+
+.icon-info:before {
+    content: '\e086';
 }
