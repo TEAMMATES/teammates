@@ -30,7 +30,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 * **ERROR (on Windows)**: Dev server launched by Eclipse keeps running even after closing Eclipse. After restarting Eclipse, you will be able to relaunch dev server on the same port but requests will be received by the previous server instance.
 
   **REASON**: If Eclipse crashes while dev server is running inside Eclipse, the server might keep running even after Eclipse is closed.
-
+  
   **SOLUTION**: Go to Windows Task Manager and kill processes named `javaw.exe`.
 
 * **ERROR**: Eclipse complains "file out of sync".
@@ -46,7 +46,12 @@ Note that some of the screenshots might be outdated, but the instructions will r
 * **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
 
   **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
-
+  
+ * **ERROR**: Issues trying to get the encoding scheme right, despite having all the project specific properties as per `ide-usage.md`.
+ 
+   **SOLUTION**: [Click here](https://z0ltan.wordpress.com/2011/12/25/changing-the-encoding-in-eclipse-to-utf-8-howto/
+) for a solution that has solved this issue for a lot of people.
+  
 ## Troubleshooting test failures
 
 ### Optimizing IDE layout for testing
