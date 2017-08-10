@@ -51,7 +51,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
   **REASON**: Page encoding is not set to UTF-8.
 
-  **SOLUTION**: Go to `Eclipse` → `Preferences` → `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`. If you are a Windows user, then you can navigate to `Preferences` by `Window` → `Pereferences`. If this change does not solve the error, then you can try the methods in [this](https://z0ltan.wordpress.com/2011/12/25/changing-the-encoding-in-eclipse-to-utf-8-howto/) link.
+  **SOLUTION**: Go to `Eclipse` → `Preferences` → `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`. If you are a Windows user, then you can navigate to `Preferences` by `Window` → `Pereferences`. If this does not fix the error, you can try the methods in [this](https://z0ltan.wordpress.com/2011/12/25/changing-the-encoding-in-eclipse-to-utf-8-howto/) link.
 
 
 ## Troubleshooting test failures
