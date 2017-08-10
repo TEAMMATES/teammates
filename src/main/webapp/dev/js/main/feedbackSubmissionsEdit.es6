@@ -502,6 +502,12 @@ function updateConstSumMessageQn(qnNum) {
     let allNotNumbers = true;
     let answerSet = {};
 
+    function fillWithZeroIfEmpty(inputFieldElement) {
+        if (isNaN(parseInt(inputFieldElement.val(), 10))) {
+            inputFieldElement.val(0);
+        }
+    }
+
     function checkAndDisplayMessage(messageElement) {
         let message = '';
 
@@ -517,6 +523,23 @@ function updateConstSumMessageQn(qnNum) {
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
                 messageElement.removeClass('text-color-blue');
+
+                /*
+                 * Once all the points are distributed,
+                 * look for empty Input fields and fill them with 0.
+                 */
+                if (distributeToRecipients) {
+                    for (let i = 0; i < numRecipients; i += 1) {
+                        const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`);
+                        fillWithZeroIfEmpty($inputFieldElement);
+                    }
+                } else {
+                    const recipientIndex = parseInt(messageElement.selector[messageElement.selector.length - 1], 10);
+                    for (let k = 0; k < numOptions; k += 1) {
+                        const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`);
+                        fillWithZeroIfEmpty($inputFieldElement);
+                    }
+                }
             }
         } else if (remainingPoints > 0) {
             message = `${remainingPoints} points left to distribute.`;
