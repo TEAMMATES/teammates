@@ -46,6 +46,13 @@ Note that some of the screenshots might be outdated, but the instructions will r
 * **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
 
   **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
+  
+* **ERROR**: Some characters are displayed incorrectly in browser. Example, Charlés's is displayed as CharlÃ©s.
+
+  **REASON**: Page encoding is not set to UTF-8.
+
+  **SOLUTION**: Go to `Eclipse` → `Preferences` → `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`. If you are a Windows user, then you can navigate to `Preferences` by `Window` → `Pereferences`. If this change does not solve the error, then you can try the methods in [this](https://z0ltan.wordpress.com/2011/12/25/changing-the-encoding-in-eclipse-to-utf-8-howto/) link.
+
 
 ## Troubleshooting test failures
 
