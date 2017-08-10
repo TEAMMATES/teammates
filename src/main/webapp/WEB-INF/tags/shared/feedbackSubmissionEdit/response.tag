@@ -71,7 +71,8 @@
                   <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
                                                   secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
                                                   frcIndex="${status.count}" isOnFeedbackSubmissionEditPage="true"
-                                                  moderatedPersonEmail="${moderatedPersonEmail}" giverRole="${giverRole}"/>
+                                                  moderatedPersonEmail="${moderatedPersonEmail}" giverRole="${giverRole}"
+                                                  isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
               </c:forEach>
                <shared:feedbackResponseCommentAdd frc="${response.responseExplainationComment}" firstIndex="${firstIndex}"
                                                   secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" isOnFeedbackSubmissionEditPage="true"
