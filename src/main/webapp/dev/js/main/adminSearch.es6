@@ -144,4 +144,53 @@ $(document).ready(() => {
     $('#btn-collapse-all-students').on('click', () => {
         adminSearchCollapseAllStudents();
     });
+
+    $('.openEmailApplicationDefaultValues').submit((e) => {
+        e.preventDefault();
+        const entry = $(e.target);
+        const studentEmail = $('input[name=studentEmail]').val();
+        const subjectType = $(entry).find('input[name=subjectType]').val();
+        const courseName = $(entry).find('input[name=courseName]').val();
+        const courseId = $(entry).find('input[name=courseId]').val();
+        const studentName = $(entry).find('input[name=studentName]').val();
+        const sessionStatus = $(entry).find('input[name=sessionStatus]').val();
+
+        const relatedLink = encodeURIComponent($(entry).find('input[name=relatedLink]').val());
+        const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
+        const supportEmail = 'teammates@comp.nus.edu.sg';
+
+        const bodyheader = `Hello ${studentName},`;
+        const bodyfooter = '%0D%0A%0D%0AIf you encounter any problems when using the system,'
+                         + ` you can email TEAMMATES support team at ${supportEmail}.`
+                         + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
+
+        const uniqueLinkMessage = 'The above link is unique to you. Please do not share it with your classmates.';
+
+        let subject = '';
+        let bodyContent = '';
+
+        if (subjectType === 'Invitation to join course') {
+            subject = `TEAMMATES: ${subjectType} [${courseName}][Course ID: ${courseId}]`;
+            bodyContent =
+                    `%0D%0A%0D%0AThe course ${courseName} is using the TEAMMATES System to collect feedback.`
+                    + ` %0D%0A%0D%0ATo "join" the course, please go to this Web address: ${relatedLink}`
+                    + ' %0D%0A%0D%0A*If prompted to log in, use your Google account to log in. If you do not have'
+                    + ` a Google account, please create one from the ${googleSignup} %0D%0A*${uniqueLinkMessage}`
+                    + ' %0D%0A%0D%0ANote that If you wish to access TEAMMATES without using your Google account, you'
+                    + ' do not need to ‘join’ the course as instructed above. You will still be able to'
+                    + ' submit/view feedback by following the instructions sent to you by TEAMMATES at the'
+                    + ' appropriate times. However, we recommend joining the course using your Google account,'
+                    + ' because it gives you more convenient access to all your feedback stored in TEAMMATES.';
+        } else {
+            subject = `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${courseId}]`;
+            bodyContent =
+                    `%0D%0A%0D%0AThe following feedback session is ${sessionStatus}.%0D%0A`
+                    + `Course: [${courseId}][${courseName}]%0D%0AFeedback Session Name: ${courseId}%0D%0A`
+                    + '%0D%0AThe link to the feedback for the above session, please go to this Web'
+                    + ` address: ${relatedLink} %0D%0A%0D%0A*${uniqueLinkMessage}`;
+        }
+
+        const emailWrapper = `mailto:${studentEmail}?Subject=${subject}&body=${bodyheader}${bodyContent}${bodyfooter}`;
+        window.location.href = emailWrapper;
+    });
 });

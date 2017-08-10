@@ -77,22 +77,44 @@
             <c:if test="${not empty student.email}">
                 <li class="list-group-item list-group-item-success has-success">
                     <strong>Email</strong>
-                    <input value="${student.email}" readonly class="form-control">
+                    <input name="studentEmail" value="${student.email}" readonly class="form-control">
                 </li>
             </c:if>
 
             <%-- Course join link --%>
             <li class="list-group-item list-group-item-info">
-                <strong>Course Join Link</strong>
-                <input value="${student.links.courseJoinLink}" readonly class="form-control">
+                <form class="openEmailApplicationDefaultValues">
+                    <strong>Course Join Link</strong>
+                    <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
+                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                        Send Mail
+                    </button>
+                    <input type="hidden" name="courseName" value="${student.courseName}">
+                    <input type="hidden" name="courseId" value="${student.courseId}">
+                    <input type="hidden" name="studentName" value="${student.name}">
+                    <input type="hidden" name="subjectType" value="Invitation to join course">
+                    <input type="hidden" name="sessionStatus" value="">
+                    <input name="relatedLink" value="${student.links.courseJoinLink}" readonly class="form-control">
+                </form>
             </li>
 
             <%-- Open feedback sessions --%>
             <c:if test="${not empty student.openFeedbackSessions}">
                 <c:forEach items="${student.openFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-warning">
-                        <strong>${session.fsName}</strong>
-                        <input value="${session.link}" readonly class="form-control">
+                        <form class="openEmailApplicationDefaultValues">
+                            <strong>${session.fsName}</strong>
+                            <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
+                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                                Send Mail
+                            </button>
+                            <input type="hidden" name="courseName" value="${student.courseName}">
+                            <input type="hidden" name="courseId" value="${student.courseId}">
+                            <input type="hidden" name="studentName" value="${student.name}">
+                            <input type="hidden" name="subjectType" value="Feedback session now open">
+                            <input type="hidden" name="sessionStatus" value="Open">
+                            <input name="relatedLink" value="${session.link}" readonly class="form-control">
+                        </form>
                     </li>
                 </c:forEach>
             </c:if>
@@ -101,8 +123,19 @@
             <c:if test="${not empty student.closedFeedbackSessions}">
                 <c:forEach items="${student.closedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-danger">
-                        <strong>${session.fsName}</strong>
-                        <input value="${session.link}" readonly class="form-control">
+                        <form class="openEmailApplicationDefaultValues">
+                            <strong>${session.fsName}</strong>
+                            <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
+                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                                Send Mail
+                            </button>
+                            <input type="hidden" name="courseName" value="${student.courseName}">
+                            <input type="hidden" name="courseId" value="${student.courseId}">
+                            <input type="hidden" name="studentName" value="${student.name}">
+                            <input type="hidden" name="subjectType" value="Feedback session now closed">
+                            <input type="hidden" name="sessionStatus" value="Closed">
+                            <input name="relatedLink" value="${session.link}" readonly class="form-control">
+                        </form>
                     </li>
                 </c:forEach>
             </c:if>
@@ -111,8 +144,19 @@
             <c:if test="${not empty student.publishedFeedbackSessions}">
                 <c:forEach items="${student.publishedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-success">
-                        <strong>${session.fsName}</strong>
-                        <input value="${session.link}" readonly class="form-control">
+                        <form class="openEmailApplicationDefaultValues">
+                            <strong>${session.fsName}</strong>
+                            <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
+                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                                Send Mail
+                            </button>
+                            <input type="hidden" name="courseName" value="${student.courseName}">
+                            <input type="hidden" name="courseId" value="${student.courseId}">
+                            <input type="hidden" name="studentName" value="${student.name}">
+                            <input type="hidden" name="subjectType" value="Feedback session results published">
+                            <input type="hidden" name="sessionStatus" value="Published">
+                            <input name="relatedLink" value="${session.link}" readonly class="form-control">
+                        </form>
                     </li>
                 </c:forEach>
             </c:if>
