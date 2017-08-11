@@ -865,7 +865,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         header.append(headerFragment);
 
         for (int i = 0; i < numOfRubricChoices; i++) {
-            header.append(rubricChoices.get(i));
+            header.append(SanitizationHelper.sanitizeForCsv(rubricChoices.get(i)));
 
             if (hasAssignedWeights) {
                 header.append(" (Weight: ").append(dfWeight.format(rubricWeights.get(i))).append(')');
@@ -1152,8 +1152,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             DecimalFormat dfAverage = new DecimalFormat("0.00");
 
             // Append recipient identification details and rubric subQuestion
-            csv.append(recipientTeam).append(',').append(recipientName).append(',').append(recipientEmail)
-                    .append(',').append(subQuestionString);
+            csv.append(SanitizationHelper.sanitizeForCsv(recipientTeam)).append(',')
+               .append(SanitizationHelper.sanitizeForCsv(recipientName)).append(',')
+               .append(SanitizationHelper.sanitizeForCsv(recipientEmail)).append(',')
+               .append(SanitizationHelper.sanitizeForCsv(subQuestionString));
 
             // Append number of responses per subQuestion per rubric choice
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
@@ -1161,9 +1163,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // Append aggregate statistics
-            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
-                    .append(dfAverage.format(totalPerSubQuestion[subQuestion] / getNumOfRubricSubQuestions()))
-                    .append(Const.EOL);
+            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion]))
+               .append(',').append(dfAverage.format(totalPerSubQuestion[subQuestion] / getNumOfRubricSubQuestions()))
+               .append(Const.EOL);
 
             return csv.toString();
         }
