@@ -14,6 +14,7 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
 
     protected String courseId;
     protected String feedbackSessionName;
+    protected boolean isModeration;
 
     @Override
     protected ActionResult execute() {
@@ -29,6 +30,10 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
+        isModeration = false;
+        if (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON) != null) {
+            isModeration = true;
+        }
 
         verifyAccessibleForSpecificUser(session, response);
 
