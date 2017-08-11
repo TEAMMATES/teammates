@@ -483,7 +483,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(12, 0, "Team 2");
         submitPage.chooseMcqOption(16, 0, "Teammates Test2");
 
-
         submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "New MCQ Comment 1");
         submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-10", "New MCQ Comment 2");
         submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-12", "New MCQ Comment 3");

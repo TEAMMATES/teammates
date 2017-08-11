@@ -7,6 +7,7 @@ import java.util.Set;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -50,7 +51,7 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
-        //verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.giverRole);
+        verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.giverRole);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
@@ -368,11 +369,24 @@ public final class FeedbackResponseCommentsLogic {
                 throw new EntityDoesNotExistException("User " + email + " is not a registered student for course "
                         + courseId + ".");
             }
-        } else {
+        } else if (Const.INSTRUCTOR.equals(giverRole)) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
                                                     + courseId + ".");
+            }
+        } else {
+            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
+            boolean isTeamPresentInCourse = false;
+            for (TeamDetailsBundle team : teams) {
+                if (team.name.equals(email)) {
+                    isTeamPresentInCourse = true;
+                    break;
+                }
+            }
+            if (!isTeamPresentInCourse) {
+                throw new EntityDoesNotExistException("User " + giverRole + " is not a registered team for course "
+                        + courseId + ".");
             }
         }
     }
