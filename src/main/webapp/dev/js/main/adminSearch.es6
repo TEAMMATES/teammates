@@ -159,8 +159,8 @@ $(document).ready(() => {
         const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
         const supportEmail = 'teammates@comp.nus.edu.sg';
 
-        const bodyheader = `Hello ${studentName},`;
-        const bodyfooter = '%0D%0A%0D%0AIf you encounter any problems when using the system,'
+        const bodyHeader = `Hello ${studentName},`;
+        const bodyFooter = '%0D%0A%0D%0AIf you encounter any problems when using the system,'
                          + ` you can email TEAMMATES support team at ${supportEmail}.`
                          + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
 
@@ -190,7 +190,7 @@ $(document).ready(() => {
                     + ` address: ${relatedLink} %0D%0A%0D%0A*${uniqueLinkMessage}`;
         }
 
-        const emailWrapper = `mailto:${studentEmail}?Subject=${subject}&body=${bodyheader}${bodyContent}${bodyfooter}`;
+        const emailWrapper = `mailto:${studentEmail}?Subject=${subject}&body=${bodyHeader}${bodyContent}${bodyFooter}`;
         window.location.href = emailWrapper;
     });
 });

@@ -1,6 +1,7 @@
 <%@ tag description="studentResultsTable.tag - student results row" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="search" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="student" type="teammates.ui.template.AdminSearchStudentRow" required="true" %>
 
@@ -83,38 +84,21 @@
 
             <%-- Course join link --%>
             <li class="list-group-item list-group-item-info">
-                <form class="openEmailApplicationDefaultValues">
-                    <strong>Course Join Link</strong>
-                    <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
-                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                        Send Mail
-                    </button>
-                    <input type="hidden" name="courseName" value="${student.courseName}">
-                    <input type="hidden" name="courseId" value="${student.courseId}">
-                    <input type="hidden" name="studentName" value="${student.name}">
-                    <input type="hidden" name="subjectType" value="Invitation to join course">
-                    <input type="hidden" name="sessionStatus" value="">
-                    <input name="relatedLink" value="${student.links.courseJoinLink}" readonly class="form-control">
-                </form>
+                <search:emailFormFields linkTitle="Course Join Link"
+                                        relatedLink="${student.links.courseJoinLink}"
+                                        subjectType="Invitation to join course"
+                                        student="${student}"/>
             </li>
 
             <%-- Open feedback sessions --%>
             <c:if test="${not empty student.openFeedbackSessions}">
                 <c:forEach items="${student.openFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-warning">
-                        <form class="openEmailApplicationDefaultValues">
-                            <strong>${session.fsName}</strong>
-                            <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
-                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                                Send Mail
-                            </button>
-                            <input type="hidden" name="courseName" value="${student.courseName}">
-                            <input type="hidden" name="courseId" value="${student.courseId}">
-                            <input type="hidden" name="studentName" value="${student.name}">
-                            <input type="hidden" name="subjectType" value="Feedback session now open">
-                            <input type="hidden" name="sessionStatus" value="Open">
-                            <input name="relatedLink" value="${session.link}" readonly class="form-control">
-                        </form>
+                        <search:emailFormFields linkTitle="${session.fsName}"
+                                                relatedLink="${session.link}"
+                                                subjectType="Feedback session now open"
+                                                sessionStatus="Open"
+                                                student="${student}"/>
                     </li>
                 </c:forEach>
             </c:if>
@@ -123,19 +107,11 @@
             <c:if test="${not empty student.closedFeedbackSessions}">
                 <c:forEach items="${student.closedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-danger">
-                        <form class="openEmailApplicationDefaultValues">
-                            <strong>${session.fsName}</strong>
-                            <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
-                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                                Send Mail
-                            </button>
-                            <input type="hidden" name="courseName" value="${student.courseName}">
-                            <input type="hidden" name="courseId" value="${student.courseId}">
-                            <input type="hidden" name="studentName" value="${student.name}">
-                            <input type="hidden" name="subjectType" value="Feedback session now closed">
-                            <input type="hidden" name="sessionStatus" value="Closed">
-                            <input name="relatedLink" value="${session.link}" readonly class="form-control">
-                        </form>
+                        <search:emailFormFields linkTitle="${session.fsName}"
+                                                relatedLink="${session.link}"
+                                                subjectType="Feedback session now closed"
+                                                sessionStatus="Closed"
+                                                student="${student}"/>
                     </li>
                 </c:forEach>
             </c:if>
@@ -144,19 +120,11 @@
             <c:if test="${not empty student.publishedFeedbackSessions}">
                 <c:forEach items="${student.publishedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-success">
-                        <form class="openEmailApplicationDefaultValues">
-                            <strong>${session.fsName}</strong>
-                            <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
-                                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                                Send Mail
-                            </button>
-                            <input type="hidden" name="courseName" value="${student.courseName}">
-                            <input type="hidden" name="courseId" value="${student.courseId}">
-                            <input type="hidden" name="studentName" value="${student.name}">
-                            <input type="hidden" name="subjectType" value="Feedback session results published">
-                            <input type="hidden" name="sessionStatus" value="Published">
-                            <input name="relatedLink" value="${session.link}" readonly class="form-control">
-                        </form>
+                        <search:emailFormFields linkTitle="${session.fsName}"
+                                                relatedLink="${session.link}"
+                                                subjectType="Feedback session results published"
+                                                sessionStatus="Published"
+                                                student="${student}"/>
                     </li>
                 </c:forEach>
             </c:if>
