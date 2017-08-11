@@ -37,7 +37,9 @@
                 <br>
                 Recipient: ${fn:escapeXml(frc.responseRecipientName)}
             </p>
-            You may change comment's visibility using the visibility options on the right hand side.
+            <c:if test="${giverRole eq 'Instructor'}">
+              You may change comment's visibility using the visibility options on the right hand side.
+            </c:if>
         </div>
         <c:if test="${giverRole eq 'Instructor'}">
         <a id="frComment-visibility-options-trigger-${divId}"
