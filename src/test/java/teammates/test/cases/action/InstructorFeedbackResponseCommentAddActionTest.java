@@ -69,7 +69,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -90,7 +90,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -109,7 +109,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -127,7 +127,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -145,7 +145,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -163,7 +163,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -181,7 +181,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -199,7 +199,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -217,7 +217,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -239,7 +239,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -258,7 +258,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
@@ -304,7 +304,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
-                Const.ParamsNames.IS_COMMENT_GIVER_INSTRUCTOR, "true",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 

@@ -621,6 +621,7 @@ public final class Const {
         public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
+        public static final String COMMENT_GIVER_ROLE = "giverRole";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
@@ -772,8 +773,6 @@ public final class Const {
 
         public static final String STUDENT_ID = "googleid";
         public static final String INVITER_ID = "invitergoogleid";
-
-        public static final String IS_COMMENT_GIVER_INSTRUCTOR = "isInstructor";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
