@@ -887,6 +887,10 @@ public class PageData {
                     frca.showGiverNameTo.add(type);
                 }
             }
+            return new FeedbackResponseCommentRow(frca, giverName, recipientName,
+                    getResponseCommentVisibilityString(question),
+                    getResponseCommentGiverNameVisibilityString(question),
+                    responseVisibilityMap, timeZone);
         } else {
             FeedbackParticipantType[] types = {
                     FeedbackParticipantType.GIVER,

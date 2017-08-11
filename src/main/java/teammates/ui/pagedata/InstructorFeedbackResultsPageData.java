@@ -1423,6 +1423,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             FeedbackResponseCommentAttributes frcAttributes) {
         boolean isInstructorGiver = instructor.email.equals(frcAttributes.giverEmail);
+        String giverRole = frcAttributes.giverRole;
         boolean isInstructorWithPrivilegesToModify =
                 instructor.isAllowedForPrivilege(
                         response.giverSection, response.feedbackSessionName,
@@ -1431,7 +1432,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                            response.recipientSection, response.feedbackSessionName,
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
-        String giverRole = frcAttributes.giverRole;
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
         String whoCanSeeComment = null;
         boolean isVisibilityIconShown = false;
