@@ -7,6 +7,7 @@ import static teammates.common.datatransfer.attributes.GenderType.OTHER;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -38,9 +39,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
+        GenderType student2Gender = GenderType.OTHER;
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.accounts.get("studentWithExistingProfile").email = student2Email;
         testData.accounts.get("studentWithExistingProfile").studentProfile.googleId = student2GoogleId;
+        testData.accounts.get("studentWithExistingProfile").studentProfile.gender = student2Gender;
         testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").email = student2Email;
 

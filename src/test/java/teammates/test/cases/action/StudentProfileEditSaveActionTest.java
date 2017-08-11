@@ -46,7 +46,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: invalid parameters");
 
         String[] submissionParams = createInvalidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFromInvalidParams(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         expectedProfile.googleId = student.googleId;
 
         StudentProfileEditSaveAction action = getAction(submissionParams);
@@ -79,8 +79,10 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         ______TS("Failure case: invalid parameters with attempted script injection");
 
+
         submissionParams = createInvalidParamsForProfileWithScriptInjection();
-        expectedProfile = getProfileAttributesFromInvalidParams(submissionParams);
+
+        expectedProfile = getProfileAttributesFrom(submissionParams);
         expectedProfile.googleId = student.googleId;
 
         action = getAction(submissionParams);
@@ -116,13 +118,13 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
 
-        // expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
-        //         + "|||true|||Student|||" + student.name + "|||" + student.googleId
-        //         + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
-        //         + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
+        expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"
+                 + "|||true|||Student|||" + student.name + "|||" + student.googleId
+                 + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
+                 + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
 
         // This assertion fails
-        // AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
@@ -190,30 +192,12 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
         spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
         spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
-
         try {
             spa.gender = GenderType.valueOf(submissionParams[9]);
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
         }
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
-        spa.modifiedDate = null;
-
-        return spa;
-    }
-
-    private StudentProfileAttributes getProfileAttributesFromInvalidParams(
-            String[] submissionParams) {
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-
-        spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
-        spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
-        spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
-        spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
-
-        spa.gender = GenderType.FEMALE;
-
-        spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[9]);
         spa.modifiedDate = null;
 
         return spa;
@@ -230,7 +214,10 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
+
+                // Since GenderType always store valid genderType: male, female or other, I'm removing invalid gender param
+                Const.ParamsNames.STUDENT_GENDER, "FEMALE",
+
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
         };
     }
