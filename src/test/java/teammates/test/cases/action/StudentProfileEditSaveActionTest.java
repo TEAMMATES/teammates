@@ -79,7 +79,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         ______TS("Failure case: invalid parameters with attempted script injection");
 
-
         submissionParams = createInvalidParamsForProfileWithScriptInjection();
 
         expectedProfile = getProfileAttributesFrom(submissionParams);
