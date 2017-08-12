@@ -256,25 +256,28 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (response.getId() != null) {
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
+                int totalNumberOfComments = previousComments.size();
                 filterCommentsOfUser(response.giver, previousComments);
                 if (!previousComments.isEmpty()) {
-                    for (int i = 1; i <= previousComments.size(); i++) {
+                    for (int i = 1; i <= totalNumberOfComments; i++) {
                         String editedCommentText =
                                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                                         + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
                         String commentId =
                                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
                                         + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
-                        FeedbackResponseCommentAttributes commentCheck =
-                                logic.getFeedbackResponseComment(Long.parseLong(commentId));
-                        if (editedCommentText != null && !editedCommentText.isEmpty()
-                                && !commentCheck.commentText.equals(editedCommentText)) {
-                            String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
-                            questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                            commentsToUpdateId.put(commentIndx, commentId);
-                            commentsToUpdateText.put(commentIndx, editedCommentText);
-                            responseGiverMapForComments.put(commentIndx, response.giver);
-                            responseRecipientMapForComments.put(commentIndx, response.recipient);
+                        if (commentId != null) {
+                            FeedbackResponseCommentAttributes commentCheck =
+                                    logic.getFeedbackResponseComment(Long.parseLong(commentId));
+                            if (editedCommentText != null && !editedCommentText.isEmpty()
+                                    && !commentCheck.commentText.equals(editedCommentText)) {
+                                String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
+                                questionIdsForComments.put(commentIndx, questionAttributes.getId());
+                                commentsToUpdateId.put(commentIndx, commentId);
+                                commentsToUpdateText.put(commentIndx, editedCommentText);
+                                responseGiverMapForComments.put(commentIndx, response.giver);
+                                responseRecipientMapForComments.put(commentIndx, response.recipient);
+                            }
                         }
                     }
                 }
