@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -1061,7 +1062,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientTeam;
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
-        HashSet<String> respondents;
+        Set<String> respondents;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
             this.recipientEmail = recipientEmail;
