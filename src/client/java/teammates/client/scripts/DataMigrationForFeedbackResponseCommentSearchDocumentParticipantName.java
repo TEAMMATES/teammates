@@ -8,8 +8,8 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.search.SearchDocument;
 
 /**
  * Script to fix the giver and recipient name for feedback response in search documents.
@@ -55,7 +55,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
             return false;
         }
 
-        String responseGiverName = SearchDocument.extractContentFromQuotedString(
+        String responseGiverName = StringHelper.extractContentFromQuotedString(
                 document.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
 
         return Const.USER_UNKNOWN_TEXT.equals(responseGiverName);
@@ -67,7 +67,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
             return false;
         }
 
-        String responseReceiverName = SearchDocument.extractContentFromQuotedString(
+        String responseReceiverName = StringHelper.extractContentFromQuotedString(
                 document.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
 
         return Const.USER_UNKNOWN_TEXT.equals(responseReceiverName);

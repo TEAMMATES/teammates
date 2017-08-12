@@ -26,6 +26,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -321,17 +322,17 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
 
             // get giver and recipient names
-            String responseGiverName = extractContentFromQuotedString(
+            String responseGiverName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
             bundle.responseGiverTable.put(response.getId(),
                     getFilteredGiverName(bundle, instructorCourseIdList, response, responseGiverName));
 
-            String responseRecipientName = extractContentFromQuotedString(
+            String responseRecipientName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
             bundle.responseRecipientTable.put(response.getId(),
                     getFilteredRecipientName(bundle, instructorCourseIdList, response, responseRecipientName));
 
-            String commentGiverName = extractContentFromQuotedString(
+            String commentGiverName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
