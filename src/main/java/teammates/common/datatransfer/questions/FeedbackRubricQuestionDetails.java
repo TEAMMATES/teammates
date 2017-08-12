@@ -867,13 +867,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         header.append(headerFragment);
 
         for (int i = 0; i < numOfRubricChoices; i++) {
-            header.append(SanitizationHelper.sanitizeForCsv(rubricChoices.get(i)));
+            StringBuilder rubricChoiceBuilder = new StringBuilder();
+
+            rubricChoiceBuilder.append(rubricChoices.get(i));
 
             if (hasAssignedWeights) {
-                header.append(" (Weight: ").append(dfWeight.format(rubricWeights.get(i))).append(')');
+                rubricChoiceBuilder.append(" (Weight: ").append(dfWeight.format(rubricWeights.get(i))).append(')');
             }
 
-            header.append(',');
+            header.append(SanitizationHelper.sanitizeForCsv(rubricChoiceBuilder.toString())).append(',');
         }
 
         header.append("Total,Average").append(Const.EOL);
