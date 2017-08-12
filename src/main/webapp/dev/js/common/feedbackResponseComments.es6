@@ -468,7 +468,7 @@ const deleteCommentHandlerForFeedbackPage = (e) => {
             type: 'POST',
             url: `${submitButton.attr('href')}?${formData}`,
             beforeSend() {
-                submitButton.html("<img src='/images/ajax-loader.gif'/>");
+                submitButton.html('<img src="/images/ajax-loader.gif"/>');
             },
             error() {
                 showErrorMessage('Failed to delete comment. Please try again.', submitButton);
