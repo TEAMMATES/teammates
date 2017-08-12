@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1060,6 +1061,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientTeam;
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
+        HashSet<String> respondents;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
             this.recipientEmail = recipientEmail;
@@ -1067,11 +1069,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             this.recipientTeam = recipientTeam;
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
             totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
+            respondents = new HashSet<>();
         }
 
         public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
             if (!response.recipient.equalsIgnoreCase(recipientEmail)) {
                 return;
+            }
+
+            if (!respondents.contains(response.giver)) {
+                respondents.add(response.giver);
             }
 
             FeedbackRubricResponseDetails rubricResponse = (FeedbackRubricResponseDetails) response.getResponseDetails();
@@ -1113,7 +1120,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             // <td> entries which display aggregate statistics
             cols.add(df.format(totalPerSubQuestion[subQuestion]));
-            cols.add(dfAverage.format(totalPerSubQuestion[subQuestion] / getNumOfRubricSubQuestions()));
+            cols.add(dfAverage.format(totalPerSubQuestion[subQuestion] / respondents.size()));
 
             // Generate HTML for all <td> entries using template
             for (String col : cols) {
@@ -1164,7 +1171,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             // Append aggregate statistics
             csv.append(',').append(df.format(totalPerSubQuestion[subQuestion]))
-               .append(',').append(dfAverage.format(totalPerSubQuestion[subQuestion] / getNumOfRubricSubQuestions()))
+               .append(',').append(dfAverage.format(totalPerSubQuestion[subQuestion] / respondents.size()))
                .append(Const.EOL);
 
             return csv.toString();
