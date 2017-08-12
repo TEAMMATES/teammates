@@ -9,7 +9,7 @@ public class FeedbackSubmissionEditResponse {
     private String submissionFormHtml;
     private String responseId;
     private List<FeedbackResponseCommentRow> commentsOnResponses;
-    private FeedbackResponseCommentRow responseExplainationComment;
+    private FeedbackResponseCommentRow responseExplanationComment;
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
                                     List<String> recipientOptionsForQuestion, String submissionFormHtml, String responseId) {
@@ -23,7 +23,7 @@ public class FeedbackSubmissionEditResponse {
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
             List<String> recipientOptionsForQuestion, String submissionFormHtml, String responseId,
-            List<FeedbackResponseCommentRow> commentsOnResponses, FeedbackResponseCommentRow responseExplaiantionComment) {
+            List<FeedbackResponseCommentRow> commentsOnResponses, FeedbackResponseCommentRow responseExplaantionComment) {
 
         this.responseIndx = responseIndx;
         this.isExistingResponse = isExistingResponse;
@@ -31,7 +31,7 @@ public class FeedbackSubmissionEditResponse {
         this.submissionFormHtml = submissionFormHtml;
         this.responseId = responseId;
         this.commentsOnResponses = commentsOnResponses;
-        this.responseExplainationComment = responseExplaiantionComment;
+        this.responseExplanationComment = responseExplaantionComment;
     }
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
@@ -43,7 +43,7 @@ public class FeedbackSubmissionEditResponse {
         this.recipientOptionsForQuestion = recipientOptionsForQuestion;
         this.submissionFormHtml = submissionFormHtml;
         this.responseId = responseId;
-        this.responseExplainationComment = responseExplaiantionComment;
+        this.responseExplanationComment = responseExplaiantionComment;
     }
 
     public int getResponseIndx() {
@@ -66,13 +66,13 @@ public class FeedbackSubmissionEditResponse {
         return responseId;
     }
 
-    public FeedbackResponseCommentRow getResponseExplainationComment() {
-        return responseExplainationComment;
+    public FeedbackResponseCommentRow getResponseExplanationComment() {
+        return responseExplanationComment;
     }
 
-    public void setResponseExplainationComment(
-            FeedbackResponseCommentRow responseExplainationComment) {
-        this.responseExplainationComment = responseExplainationComment;
+    public void setResponseExplanationComment(
+            FeedbackResponseCommentRow responseExplanationComment) {
+        this.responseExplanationComment = responseExplanationComment;
     }
 
     public List<FeedbackResponseCommentRow> getCommentsOnResponses() {

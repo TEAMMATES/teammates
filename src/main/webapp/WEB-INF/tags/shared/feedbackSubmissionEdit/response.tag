@@ -74,7 +74,7 @@
                                                   moderatedPersonEmail="${moderatedPersonEmail}" giverRole="${giverRole}"
                                                   isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
               </c:forEach>
-               <shared:feedbackResponseCommentAdd frc="${response.responseExplainationComment}" firstIndex="${firstIndex}"
+               <shared:feedbackResponseCommentAdd frc="${response.responseExplanationComment}" firstIndex="${firstIndex}"
                                                   secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" isOnFeedbackSubmissionEditPage="true"
                                                   moderatedPersonEmail="${moderatedPersonEmail}"
                                                   isPreview="${data.preview}" submitTable="${data.submittable}" giverRole="${giverRole}"/>

@@ -272,11 +272,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
                     responseVisibilityMap, commentGiverEmailNameTable);
                 double sessionTimeZone = bundle.feedbackSession.getTimeZone();
-                FeedbackResponseCommentRow responseExplainationComment = buildFeedbackResponseCommentAddForm(
+                FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
                         questionAttributes, existingResponse.getId(), responseVisibilityMap, giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
-                        submissionFormHtml, existingResponse.getId(), comments, responseExplainationComment));
+                        submissionFormHtml, existingResponse.getId(), comments, responseExplanationComment));
                 responseSubmittedRecipient.add(recipientName);
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
@@ -297,25 +297,25 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 String recipientName = recipientListForUnsubmittedResponse.get(i);
                 String giverName = account.name;
                 double sessionTimeZone = bundle.feedbackSession.getTimeZone();
-                FeedbackResponseCommentRow responseExplainationComment = buildFeedbackResponseCommentAddForm(
+                FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
                         questionAttributes, "",
                         getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 if (isPreview()) {
                     if (previewInstructor == null) {
                         giverName = getStudentToViewPageAs().name;
-                        responseExplainationComment = buildFeedbackResponseCommentAddForm(
+                        responseExplanationComment = buildFeedbackResponseCommentAddForm(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, true), giverName,
                                 recipientName, false, sessionTimeZone);
                     } else {
                         giverName = getPreviewInstructor().name;
-                        responseExplainationComment = buildFeedbackResponseCommentAddForm(
+                        responseExplanationComment = buildFeedbackResponseCommentAddForm(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
                                 recipientName, true, sessionTimeZone);
                     }
                 }
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                        submissionFormHtml, "", responseExplainationComment));
+                        submissionFormHtml, "", responseExplanationComment));
                 i++;
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
