@@ -1160,10 +1160,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             DecimalFormat dfAverage = new DecimalFormat("0.00");
 
             // Append recipient identification details and rubric subQuestion
-            csv.append(SanitizationHelper.sanitizeForCsv(recipientTeam)).append(',')
-               .append(SanitizationHelper.sanitizeForCsv(recipientName)).append(',')
-               .append(SanitizationHelper.sanitizeForCsv(recipientEmail)).append(',')
-               .append(SanitizationHelper.sanitizeForCsv(subQuestionString));
+            csv.append(recipientTeam).append(',')
+               .append(recipientName).append(',')
+               .append(recipientEmail).append(',')
+               .append(subQuestionString);
 
             // Append number of responses per subQuestion per rubric choice
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
