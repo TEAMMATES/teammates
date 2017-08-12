@@ -308,17 +308,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
 
             // get giver and recipient names
-            String responseGiverName = question.getGiverType().equals(FeedbackParticipantType.TEAMS)
-                    ? response.giver
-                    : extractContentFromQuotedString(
-                            doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
+            String responseGiverName = extractContentFromQuotedString(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
             bundle.responseGiverTable.put(response.getId(),
                     getFilteredGiverName(bundle, instructorCourseIdList, response, responseGiverName));
 
-            String responseRecipientName = question.getRecipientType().equals(FeedbackParticipantType.TEAMS)
-                    ? response.recipient
-                    : extractContentFromQuotedString(
-                            doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
+            String responseRecipientName = extractContentFromQuotedString(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
             bundle.responseRecipientTable.put(response.getId(),
                     getFilteredRecipientName(bundle, instructorCourseIdList, response, responseRecipientName));
 
