@@ -270,7 +270,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
                 comments = getResponseCommentsForQuestion(questionAttributes,
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
-                    responseVisibilityMap, commentGiverEmailNameTable);
+                        responseVisibilityMap, commentGiverEmailNameTable);
                 double sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
                         questionAttributes, existingResponse.getId(), responseVisibilityMap, giverName,
@@ -346,11 +346,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseCommentAttributes> filteredFrcs =
                 filterFeedbackResponseCommentAttributes(bundle.roster, frcList);
         for (FeedbackResponseCommentAttributes frcAttributes : filteredFrcs) {
-            FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                                               frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
-                                               getResponseCommentVisibilityString(frcAttributes, question),
-                                               getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                               responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
+            FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
+                    giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, question),
+                    getResponseCommentGiverNameVisibilityString(frcAttributes, question),
+                    responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
             setEditDeleteCommentOptionForUser(frcAttributes, frc);
             frcCommentRowList.add(frc);
         }

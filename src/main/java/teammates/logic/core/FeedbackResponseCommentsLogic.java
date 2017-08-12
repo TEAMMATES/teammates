@@ -373,7 +373,7 @@ public final class FeedbackResponseCommentsLogic {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
-                                                    + courseId + ".");
+                        + courseId + ".");
             }
         } else {
             List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
