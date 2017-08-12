@@ -44,7 +44,7 @@ public abstract class SearchDocument {
 
     protected abstract Document toDocument();
 
-    protected static String extractContentFromQuotedString(String quotedString) {
+    public static String extractContentFromQuotedString(String quotedString) {
         if (quotedString.matches("^\".*\"$")) {
             return quotedString.substring(1, quotedString.length() - 1);
         }

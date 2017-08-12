@@ -100,7 +100,7 @@ public abstract class DataMigrationForFeedbackResponseCommentSearchDocument exte
     }
 
     private void fixDocuments(List<FeedbackResponseCommentAttributes> commentsToFix) {
-        println("Running data migration for " + commentsToFix.size() + " documents in old date format...");
+        println("Running data migration for " + commentsToFix.size() + " invalid documents");
         println("Preview: " + isPreview());
 
         List<Document> documentsToUpdate = new ArrayList<>();
