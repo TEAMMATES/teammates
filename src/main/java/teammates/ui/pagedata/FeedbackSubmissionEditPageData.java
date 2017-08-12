@@ -351,15 +351,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                getResponseCommentVisibilityString(frcAttributes, question),
                                                getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                                responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
-            if (isFeedbackSessionForInstructor) {
-                if (frcAttributes.giverEmail.equals(account.email)) {
-                    frc.enableEditDelete();
-                }
-            } else {
-                if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
-                    frc.enableEditDelete();
-                }
-            }
+            setEditDeleteCommentOptionForUser(frcAttributes, frc);
             frcCommentRowList.add(frc);
         }
         return frcCommentRowList;
@@ -384,5 +376,28 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     public void setFeedbackSessionForInstructor(boolean isFeedbackSessionForInstructor) {
         this.isFeedbackSessionForInstructor = isFeedbackSessionForInstructor;
+    }
+
+    private void setEditDeleteCommentOptionForUser(FeedbackResponseCommentAttributes frcAttributes,
+            FeedbackResponseCommentRow frc) {
+        if (isModeration) {
+            if (isFeedbackSessionForInstructor) {
+                if (frcAttributes.giverEmail.equals(previewInstructor.email)) {
+                    frc.enableEditDelete();
+                }
+            } else {
+                if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
+                    frc.enableEditDelete();
+                }
+            }
+        } else if (isFeedbackSessionForInstructor) {
+            if (frcAttributes.giverEmail.equals(account.email)) {
+                frc.enableEditDelete();
+            }
+        } else {
+            if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
+                frc.enableEditDelete();
+            }
+        }
     }
 }
