@@ -73,6 +73,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 addedEmailSet.add(ins.email);
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
             }
+        } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS) {
+            responseGiverName = relatedResponse.giver;
         } else {
             StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
@@ -84,37 +86,47 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
         }
 
-        if (relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS) {
-            InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
-            if (ins != null && !addedEmailSet.contains(ins.email)) {
-                relatedInstructors.add(ins);
-                addedEmailSet.add(ins.email);
-                responseRecipientName = ins.name + " (" + ins.displayedName + ")";
-            }
-        } else if (relatedQuestion.recipientType == FeedbackParticipantType.SELF) {
-            responseRecipientName = responseGiverName;
-        } else if (relatedQuestion.recipientType == FeedbackParticipantType.NONE) {
-            responseRecipientName = Const.USER_NOBODY_TEXT;
-        } else {
-            StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.recipient);
-            if (stu != null && !addedEmailSet.contains(stu.email)) {
-                relatedStudents.add(stu);
-                addedEmailSet.add(stu.email);
-                responseRecipientName = stu.name + " (" + stu.team + ")";
-            }
-            List<StudentAttributes> team = studentsDb.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
-            if (team != null) {
-                responseRecipientName = relatedResponse.recipient; // it's actually a team name here
-                for (StudentAttributes studentInTeam : team) {
-                    if (!addedEmailSet.contains(studentInTeam.email)) {
-                        relatedStudents.add(studentInTeam);
-                        addedEmailSet.add(studentInTeam.email);
+        switch (relatedQuestion.recipientType) {
+            case INSTRUCTORS:
+                InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
+                if (ins != null && !addedEmailSet.contains(ins.email)) {
+                    relatedInstructors.add(ins);
+                    addedEmailSet.add(ins.email);
+                    responseRecipientName = ins.name + " (" + ins.displayedName + ")";
+                }
+                break;
+            case SELF:
+                responseRecipientName = responseGiverName;
+                break;
+            case NONE:
+                responseRecipientName = Const.USER_NOBODY_TEXT;
+                break;
+            case TEAMS:
+                responseRecipientName = relatedResponse.recipient;
+                break;
+            default:
+                StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.recipient);
+
+                if (stu != null && !addedEmailSet.contains(stu.email)) {
+                    relatedStudents.add(stu);
+                    addedEmailSet.add(stu.email);
+                    responseRecipientName = stu.name + " (" + stu.team + ")";
+                }
+
+                List<StudentAttributes> team = studentsDb.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
+                if (team != null) {
+                    responseRecipientName = relatedResponse.recipient; // it's actually a team name here
+                    for (StudentAttributes studentInTeam : team) {
+                        if (!addedEmailSet.contains(studentInTeam.email)) {
+                            relatedStudents.add(studentInTeam);
+                            addedEmailSet.add(studentInTeam.email);
+                        }
                     }
                 }
-            }
-            if (stu == null || team == null) {
-                responseRecipientName = Const.USER_UNKNOWN_TEXT;
-            }
+
+                if (stu == null || team == null) {
+                    responseRecipientName = Const.USER_UNKNOWN_TEXT;
+                }
         }
     }
 
