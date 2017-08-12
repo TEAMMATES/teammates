@@ -11,7 +11,6 @@ import com.google.gson.JsonParser;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
-import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 
 /**
  * Script to fix the date format in old {@link FeedbackResponseCommentSearchDocument}s created before V5.93.

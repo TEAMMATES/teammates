@@ -21,7 +21,7 @@ import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.SearchManager;
 
 /**
- * Describes common operations for data migration for FeedbackResponseCommentSearchDocument class
+ * Describes common operations for data migration for FeedbackResponseCommentSearchDocument class.
  */
 public abstract class DataMigrationForFeedbackResponseCommentSearchDocument extends RemoteApiClient {
 

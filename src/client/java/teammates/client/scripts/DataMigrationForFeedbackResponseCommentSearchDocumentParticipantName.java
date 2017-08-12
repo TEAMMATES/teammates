@@ -14,10 +14,10 @@ import teammates.storage.search.SearchDocument;
 /**
  * Script to fix the giver and recipient name for feedback response in search documents.
  *
- * When giver or recipient of response is a team they become "Unknown user" during inserting in search document.
- * Use this script to correct displaying participant name in documents that were created before fix.
+ * <p>When giver or recipient of response is a team they become "Unknown user" during inserting in search document.
+ * Use this script to correct displaying participant name in documents that were created before fix.</p>
  *
- * See issue #7655.
+ * <p>See issue #7655.</p>
  */
 public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantName
         extends DataMigrationForFeedbackResponseCommentSearchDocument {
