@@ -3,7 +3,6 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,8 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 
 public class FeedbackSessionQuestionsBundle {
@@ -50,7 +47,7 @@ public class FeedbackSessionQuestionsBundle {
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
         this.roster = roster;
-        this.commentGiverEmailNameTable = getCommentGiverEmailNameTableFromRoster(roster);
+        this.commentGiverEmailNameTable = roster.getCommentGiverEmailNameTableFromRoster();
     }
 
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
@@ -194,18 +191,5 @@ public class FeedbackSessionQuestionsBundle {
             outputName = name + " (" + teamName + ")";
         }
         return outputName;
-    }
-
-    private Map<String, String> getCommentGiverEmailNameTableFromRoster(CourseRoster roster) {
-        Map<String, String> commentGiverEmailNameTable = new HashMap<>();
-        List<InstructorAttributes> instructorList = roster.getInstructors();
-        for (InstructorAttributes instructor : instructorList) {
-            commentGiverEmailNameTable.put(instructor.email, instructor.name);
-        }
-        List<StudentAttributes> studentList = roster.getStudents();
-        for (StudentAttributes student : studentList) {
-            commentGiverEmailNameTable.put(student.email, student.name);
-        }
-        return commentGiverEmailNameTable;
     }
 }

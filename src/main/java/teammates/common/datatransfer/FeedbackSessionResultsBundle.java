@@ -750,7 +750,7 @@ public class FeedbackSessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
-        this.commentGiverEmailNameTable = getCommentGiverEmailNameTableFromRoster(roster);
+        this.commentGiverEmailNameTable = roster.getCommentGiverEmailNameTableFromRoster();
         this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
@@ -2248,18 +2248,5 @@ public class FeedbackSessionResultsBundle {
             }
         }
         return SanitizationHelper.sanitizeForCsv(comment.toString());
-    }
-
-    public Map<String, String> getCommentGiverEmailNameTableFromRoster(CourseRoster roster) {
-        Map<String, String> commentGiverEmailNameTable = new HashMap<>();
-        List<InstructorAttributes> instructorList = roster.getInstructors();
-        for (InstructorAttributes instructor : instructorList) {
-            commentGiverEmailNameTable.put(instructor.email, instructor.name);
-        }
-        List<StudentAttributes> studentList = roster.getStudents();
-        for (StudentAttributes student : studentList) {
-            commentGiverEmailNameTable.put(student.email, student.name);
-        }
-        return commentGiverEmailNameTable;
     }
 }
