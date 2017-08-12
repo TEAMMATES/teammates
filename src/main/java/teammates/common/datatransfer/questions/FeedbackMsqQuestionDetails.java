@@ -79,7 +79,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if (minSelectableChoicesParam != null) {
-            msqMinSelectableChoices = Integer.parseInt(maxSelectableChoicesParam);
+            msqMinSelectableChoices = Integer.parseInt(minSelectableChoicesParam);
         }
 
         String generatedMsqOptions =
