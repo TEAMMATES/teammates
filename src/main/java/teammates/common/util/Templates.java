@@ -32,6 +32,8 @@ public final class Templates {
     public static class EmailTemplates {
         public static final String USER_COURSE_JOIN =
                 FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
+        public static final String USER_COURSE_REGISTER =
+                FileHelper.readResourceFile("userEmailTemplate-userRegisterForCourse.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
