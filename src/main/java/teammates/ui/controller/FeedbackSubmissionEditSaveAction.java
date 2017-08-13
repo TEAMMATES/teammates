@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -260,8 +259,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (response.getId() != null) {
                 // to Avoid ConcurrentModificationException
                 List<FeedbackResponseCommentAttributes> previousComments =
-                        new CopyOnWriteArrayList<FeedbackResponseCommentAttributes>();
-                previousComments = logic.getFeedbackResponseCommentsForResponse(response.getId());
+                        logic.getFeedbackResponseCommentsForResponse(response.getId());
                 int totalNumberOfComments = previousComments.size();
                 filterCommentsOfUser(response.giver, previousComments);
                 if (!previousComments.isEmpty()) {
@@ -574,11 +572,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
 
     private void filterCommentsOfUser(String giverEmail, List<FeedbackResponseCommentAttributes> previousComments) {
+        List<FeedbackResponseCommentAttributes> commentsToRemove = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseCommentAttributes comment : previousComments) {
             if (!comment.giverEmail.equals(giverEmail)) {
-                previousComments.remove(comment);
+                commentsToRemove.add(comment);
             }
         }
+        previousComments.removeAll(commentsToRemove);
     }
 
     protected abstract void appendRespondent();
