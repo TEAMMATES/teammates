@@ -75,7 +75,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         InstructorFeedbackResponseCommentEditAction action = getAction(submissionParams);
@@ -94,7 +95,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -114,7 +116,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, ""
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -134,6 +137,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -151,6 +155,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -168,6 +173,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -185,6 +191,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -202,6 +209,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -219,6 +227,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -238,7 +247,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         try {
@@ -260,7 +270,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
         action = getAction(submissionParams);
         result = getAjaxResult(action);
@@ -286,7 +297,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText
                                                                 + " (Edited for published session)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -304,7 +316,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
 
         action = getAction(submissionParams);
@@ -351,7 +364,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor"
         };
         // this person is not the giver. so not accessible
         verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
