@@ -57,6 +57,7 @@ const ParamsNames = {
     FEEDBACK_QUESTION_DESCRIPTION: 'questiondescription',
     FEEDBACK_QUESTION_DISCARDCHANGES: 'questiondiscardchanges',
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
+    FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
 };
 
 const Const = {
@@ -68,6 +69,12 @@ const Const = {
             text: 'You have to register using a google account in order to access this page. '
                   + 'Would you like to proceed and register?',
         },
+
+    },
+
+    StatusMessages: {
+
+        INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
 
     },
 

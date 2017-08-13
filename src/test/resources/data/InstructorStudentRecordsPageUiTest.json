@@ -7,6 +7,13 @@
       "email": "teammates.test@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "teammates.test2": {
+      "googleId": "ISR.teammates.test2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "teammates.test2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "teammates.test.Helper": {
       "googleId": "ISR.teammates.test.Helper",
       "name": "Teammates Test",
@@ -106,6 +113,29 @@
       "courseId": "ISR.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test2.CS2104": {
+      "googleId": "ISR.teammates.test2",
+      "courseId": "ISR.CS2104",
+      "name": "Teammates Test2",
+      "email": "teammates.test2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -665,19 +695,21 @@
       "courseId": "ISR.CS2104",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.test@gmail.tmt",
+      "giverEmail": "teammates.test2@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
+      "showCommentTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2012-04-02 11:59 PM UTC",
       "commentText": {
-        "value": "Instructor first comment to Alice about feedback to Benny"
-      },
-      "lastEditorEmail": "teammates.test@gmail.tmt",
-      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+        "value": "First comment to Alice about feedback to Benny from different instructor"
+      }
     },
     "comment2FromT1C1ToR1Q2S1C1": {
       "courseId": "ISR.CS2104",
@@ -690,9 +722,27 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-02 11:59 PM UTC",
+      "createdAt": "2026-03-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor second comment to Alice about feedback to Benny"
+      },
+      "lastEditorEmail": "teammates.test@gmail.tmt",
+      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+    },
+    "comment3FromT1C1ToR1Q2S1C1": {
+      "courseId": "ISR.CS2104",
+      "feedbackSessionName": "First feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.test@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2026-03-02 11:59 PM UTC",
+      "commentText": {
+        "value": "Instructor third comment to Alice about feedback to Benny"
       }
     }
   },

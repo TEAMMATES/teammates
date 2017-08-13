@@ -48,12 +48,12 @@
 
 <c:choose>
   <c:when test="${isInstructor}">
-    <ti:instructorPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+    <ti:instructorPage title="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
       <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
     </ti:instructorPage>
   </c:when>
   <c:otherwise>
-    <ts:studentPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+    <ts:studentPage title="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
       <c:if test="${not data.headerHidden}">
         <ts:studentMessageOfTheDay />
       </c:if>

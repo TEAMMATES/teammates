@@ -41,9 +41,13 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const END_TIME = '#end-time';
+const MS_IN_FIFTEEN_MINUTES = 900000;
 
 // text displayed to user
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
+const SESSION_CLOSING_HEADER = 'Feedback Session Will Be Closing Soon';
+const SESSION_CLOSING_MESSAGE = 'Warning: you have less than 15 minutes before the submission deadline expires!';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -498,6 +502,12 @@ function updateConstSumMessageQn(qnNum) {
     let allNotNumbers = true;
     let answerSet = {};
 
+    function fillWithZeroIfEmpty(inputFieldElement) {
+        if (isNaN(parseInt(inputFieldElement.val(), 10))) {
+            inputFieldElement.val(0);
+        }
+    }
+
     function checkAndDisplayMessage(messageElement) {
         let message = '';
 
@@ -513,6 +523,23 @@ function updateConstSumMessageQn(qnNum) {
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
                 messageElement.removeClass('text-color-blue');
+
+                /*
+                 * Once all the points are distributed,
+                 * look for empty Input fields and fill them with 0.
+                 */
+                if (distributeToRecipients) {
+                    for (let i = 0; i < numRecipients; i += 1) {
+                        const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`);
+                        fillWithZeroIfEmpty($inputFieldElement);
+                    }
+                } else {
+                    const recipientIndex = parseInt(messageElement.selector[messageElement.selector.length - 1], 10);
+                    for (let k = 0; k < numOptions; k += 1) {
+                        const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`);
+                        fillWithZeroIfEmpty($inputFieldElement);
+                    }
+                }
             }
         } else if (remainingPoints > 0) {
             message = `${remainingPoints} points left to distribute.`;
@@ -919,6 +946,17 @@ function hasWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).length;
 }
 
+function isSessionClosingSoon() {
+    const endTimeData = $(END_TIME).data('end-time');
+    if (!endTimeData) {
+        return false;
+    }
+    const endDate = new Date(endTimeData);
+    const currentDate = new Date();
+    const remainingTime = endDate - currentDate;
+    return remainingTime <= MS_IN_FIFTEEN_MINUTES && remainingTime > 0;
+}
+
 function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
@@ -926,6 +964,12 @@ function getWarningMessage() {
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
         showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
+    }
+}
+
+function showModalWarningIfSessionClosingSoon() {
+    if (isSessionClosingSoon()) {
+        showModalAlert(SESSION_CLOSING_HEADER, SESSION_CLOSING_MESSAGE, null, StatusType.WARNING);
     }
 }
 
@@ -1060,6 +1104,8 @@ $(document).ready(() => {
     bindModerationHintButton();
 
     showModalWarningIfSessionClosed();
+
+    showModalWarningIfSessionClosingSoon();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });

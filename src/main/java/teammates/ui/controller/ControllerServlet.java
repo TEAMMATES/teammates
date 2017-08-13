@@ -120,6 +120,8 @@ public class ControllerServlet extends HttpServlet {
               message in the log will be emailed to the admin by a separate
               cron job.*/
             cleanUpStatusMessageInSession(req);
+            log.severe("Deadline exceeded exception caught by ControllerServlet : "
+                    + TeammatesException.toStringWithStackTrace(e));
             resp.sendRedirect(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
 
         //TODO: handle invalid parameters exception
