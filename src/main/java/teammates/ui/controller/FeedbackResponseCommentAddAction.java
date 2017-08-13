@@ -113,7 +113,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         }
 
         if (!data.isError) {
-            setStatusToAdmin(feedbackResponseComment);
+            appendToStatusToAdmin(feedbackResponseComment);
         }
 
         data.comment = createdComment;
@@ -140,6 +140,6 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
     protected abstract FeedbackSessionResultsBundle getDataBundle(String userEmailForCourse)
             throws EntityDoesNotExistException;
 
-    protected abstract void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
 
 }

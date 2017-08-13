@@ -102,7 +102,7 @@ public final class Const {
     public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     // used to fetch comments in FeedbackSubmissionEdit Pages
-    public static int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
+    public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
 
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");

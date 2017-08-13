@@ -44,7 +44,7 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
     }
 
     @Override
-    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
         if (isModeration) {
             String instructorEmail = logic.getInstructorForGoogleId(courseId, account.googleId).email;
             statusToAdmin += "StudentFeedbackResponseCommentAddAction:<br>"

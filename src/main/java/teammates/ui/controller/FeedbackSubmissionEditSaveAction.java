@@ -276,8 +276,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
                             if (editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
                                     && !commentCheck.commentText.equals(editedCommentText)) {
-                                String commentIndx = "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                        + "-" + questionIndx + "-" + i;
+                                String commentIndx = "-" + responseIndx + "-"
+                                        + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
                                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                                 commentsToUpdateId.put(commentIndx, commentId);
                                 commentsToUpdateText.put(commentIndx, editedCommentText);
@@ -566,7 +566,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         if (!isError) {
-            setStatusToAdmin(feedbackResponseComment);
+            appendToStatusToAdmin(feedbackResponseComment);
         }
     }
 
@@ -599,5 +599,5 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     protected abstract RedirectResult createSpecificRedirectResult();
 
-    protected abstract void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
 }

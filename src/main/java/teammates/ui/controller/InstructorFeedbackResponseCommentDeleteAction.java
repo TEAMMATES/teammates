@@ -19,7 +19,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends FeedbackRespo
     }
 
     @Override
-    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
         statusToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";

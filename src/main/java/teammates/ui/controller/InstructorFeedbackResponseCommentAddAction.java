@@ -39,7 +39,7 @@ public class InstructorFeedbackResponseCommentAddAction extends FeedbackResponse
     }
 
     @Override
-    protected void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
         statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
                 + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                 + "in course/feedback session: " + feedbackResponseComment.courseId + "/"

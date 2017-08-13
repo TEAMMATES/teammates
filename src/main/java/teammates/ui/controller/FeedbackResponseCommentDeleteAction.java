@@ -43,7 +43,7 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
         logic.deleteDocument(feedbackResponseComment);
         logic.deleteFeedbackResponseComment(feedbackResponseComment);
 
-        setStatusToAdmin(feedbackResponseComment);
+        appendToStatusToAdmin(feedbackResponseComment);
 
         FeedbackResponseCommentAjaxPageData data =
                 new FeedbackResponseCommentAjaxPageData(account, sessionToken);
@@ -54,5 +54,5 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
     protected abstract void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa,
             FeedbackResponseAttributes response);
 
-    protected abstract void setStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
 }
