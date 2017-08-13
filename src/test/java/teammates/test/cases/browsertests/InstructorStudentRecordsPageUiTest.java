@@ -146,7 +146,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.verifyCommentRowContent("-RGQ-1-1-1-1", "First edited comment to Alice about feedback to Benny from "
                 + "different Instructor",
                 "Teammates Test");
-         viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageEditedCommentOfDifferentInstructor.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageEditedCommentOfDifferentInstructor.html");
 
         ______TS("Typical Case: Edit comment");
 
