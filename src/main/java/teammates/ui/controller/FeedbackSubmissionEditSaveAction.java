@@ -290,15 +290,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             Map<String, String> responseGiverMapForComments,
             Map<String, String> responseRecipientMapForComments,
             Map<String, String> questionIdsForComments) throws EntityDoesNotExistException {
-        for (String commentId : commentsToAddText.keySet()) {
-            String questionId = questionIdsForComments.get(commentId);
-            String giver = responseGiverMapForComments.get(commentId);
-            String recipient = responseRecipientMapForComments.get(commentId);
+        for (String commentIndx : commentsToAddText.keySet()) {
+            String questionId = questionIdsForComments.get(commentIndx);
+            String giver = responseGiverMapForComments.get(commentIndx);
+            String recipient = responseRecipientMapForComments.get(commentIndx);
             FeedbackResponseAttributes responseToAddComment = logic.getFeedbackResponse(questionId, giver, recipient);
-            String commentText = commentsToAddText.get(commentId);
-            String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentId);
-            String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentId);
-            String giverRole = getRequestParamValue("giverRole" + commentId);
+            String commentText = commentsToAddText.get(commentIndx);
+            String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
+            String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
+            String giverRole = getRequestParamValue("giverRole" + commentIndx);
             createCommentsForResponses(courseId, feedbackSessionName, giver, questionId,
                     responseToAddComment, commentText, giverRole, showCommentTo, showGiverNameTo);
         }
