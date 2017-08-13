@@ -34,6 +34,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
@@ -246,7 +247,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String commentText =
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                             + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
-            if (commentText != null && !commentText.isEmpty()) {
+            if (commentText != null && !StringHelper.isEmpty(commentText)) {
                 String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                 responseGiverMapForComments.put(commentIndx, response.giver);
@@ -269,7 +270,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         if (commentId != null) {
                             FeedbackResponseCommentAttributes commentCheck =
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
-                            if (editedCommentText != null && !editedCommentText.isEmpty()
+                            if (editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
                                     && !commentCheck.commentText.equals(editedCommentText)) {
                                 String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
                                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
