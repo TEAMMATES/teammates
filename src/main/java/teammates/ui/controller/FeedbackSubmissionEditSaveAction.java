@@ -246,9 +246,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
             String commentText =
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                            + "-" + responseIndx + "-" + "1" + "-" + questionIndx);
+                            + "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                            + "-" + questionIndx);
             if (commentText != null && !StringHelper.isEmpty(commentText)) {
-                String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx;
+                String commentIndx = "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                        + "-" + questionIndx;
                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                 responseGiverMapForComments.put(commentIndx, response.giver);
                 responseRecipientMapForComments.put(commentIndx, response.recipient);
@@ -263,16 +265,19 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     for (int i = 1; i <= totalNumberOfComments; i++) {
                         String editedCommentText =
                                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                        + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
+                                        + "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                        + "-" + questionIndx + "-" + i);
                         String commentId =
                                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
-                                        + "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i);
+                                        + "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                        + "-" + questionIndx + "-" + i);
                         if (commentId != null) {
                             FeedbackResponseCommentAttributes commentCheck =
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
                             if (editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
                                     && !commentCheck.commentText.equals(editedCommentText)) {
-                                String commentIndx = "-" + responseIndx + "-" + "1" + "-" + questionIndx + "-" + i;
+                                String commentIndx = "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                        + "-" + questionIndx + "-" + i;
                                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                                 commentsToUpdateId.put(commentIndx, commentId);
                                 commentsToUpdateText.put(commentIndx, editedCommentText);
