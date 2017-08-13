@@ -69,7 +69,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
@@ -349,7 +349,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("filter by section A");
 
         resultsPage.filterResponsesForSection("Section A");
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionFilteredBySectionATeam.html");
     }
 
@@ -520,7 +520,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         resultsPage.verifyResultsHidden();
 
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertEquals("Collapse All Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
@@ -534,7 +534,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private void testShowStats() {
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
 
         ______TS("Typical case: show stats");
 
@@ -542,12 +542,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.verifyAllStatsVisibility());
 
         resultsPage.clickShowStats();
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"), null);
         assertFalse(resultsPage.verifyAllStatsVisibility());
 
         resultsPage.clickShowStats();
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"), "true");
         assertTrue(resultsPage.verifyAllStatsVisibility());
 
@@ -580,17 +580,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testIndicateMissingResponses() {
 
         ______TS("Typical case: Hide Missing Responses");
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
 
         resultsPage.clickIndicateMissingResponses();
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertFalse(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertTrue(resultsPage.verifyMissingResponsesVisibility());
 
         resultsPage.clickIndicateMissingResponses();
-        resultsPage.clickCollapseExpandButton();
+        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
     }

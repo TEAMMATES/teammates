@@ -160,20 +160,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         submitEditForm();
     }
 
-    public void clickCollapseExpandButton() {
+    public void clickCollapseExpandButtonAndWaitForPanelsToExpand() {
         click(collapseExpandButton);
         waitForPanelsToExpand();
     }
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
-            clickCollapseExpandButton();
+            clickCollapseExpandButtonAndWaitForPanelsToExpand();
             waitForPanelsToExpand();
         }
     }
 
     public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
-        clickCollapseExpandButton();
+        clickCollapseExpandButtonAndWaitForPanelsToExpand();
         waitForPanelsToCollapse();
     }
 
@@ -610,16 +610,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * @param panelNumber the position of panel element
      */
     public void loadResultPanel(int panelNumber) {
-        String panel = "panelHeading-" + panelNumber;
-        clickAutoLoadedPanelAndWaitForExpansion(panel);
+        String panelId = "panelHeading-" + panelNumber;
+        clickAutoLoadedPanelAndWaitForExpansion(panelId);
     }
 
     /**
-     * Expands a particular section, causing its results to load.
+     * Expands a particular section panel, causing its results to load.
      */
     public void loadResultSectionPanel(int panelNumber, int sectionNumber) {
-        String panel = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
-        clickAutoLoadedPanelAndWaitForExpansion(panel);
+        String panelId = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
+        clickAutoLoadedPanelAndWaitForExpansion(panelId);
     }
 
     /**
@@ -627,8 +627,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * @param panelNumber the position of panel element
      */
     public void loadResultSubmitPanel(int panelNumber) {
-        String panel = "panelHeading-" + panelNumber;
-        clickSubmitLoadedPanelAndWaitForExpansion(panel);
+        String panelId = "panelHeading-" + panelNumber;
+        clickSubmitLoadedPanelAndWaitForExpansion(panelId);
     }
 
     private void clickAutoLoadedPanelAndWaitForExpansion(String panelId) {
