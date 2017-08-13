@@ -1670,7 +1670,7 @@ public final class FeedbackSessionsLogic {
                     role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = "Anonymous";
+                    frc.giverEmail = Const.ANONYMOUS_USER;
                 }
 
                 if (responseComments.get(frc.feedbackResponseId) == null) {
@@ -1806,7 +1806,7 @@ public final class FeedbackSessionsLogic {
                         userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                        frc.giverEmail = "Anonymous";
+                        frc.giverEmail = Const.ANONYMOUS_USER;
                     }
 
                     List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);

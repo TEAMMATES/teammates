@@ -52,7 +52,7 @@ public final class Const {
     public static final String NO_SPECIFIC_RECIPIENT = "No specific recipient";
 
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
-    public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
+    public static final String ANONYMOUS_USER = "Anonymous";
 
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";

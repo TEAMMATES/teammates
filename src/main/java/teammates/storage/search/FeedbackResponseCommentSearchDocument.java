@@ -356,7 +356,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                                       FeedbackResponseAttributes response,
                                                       FeedbackResponseCommentAttributes comment, String name) {
         return isCommentGiverNameVisibleToInstructor(
-                bundle.instructorEmails, instructorCourseIdList, response, comment) ? name : "Anonymous";
+                bundle.instructorEmails, instructorCourseIdList, response, comment) ? name : Const.ANONYMOUS_USER;
     }
 
     private static String getFilteredGiverName(FeedbackResponseCommentSearchResultBundle bundle,

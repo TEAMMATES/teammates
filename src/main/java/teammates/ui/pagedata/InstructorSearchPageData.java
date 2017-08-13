@@ -171,7 +171,7 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
-            if (!"Anonymous".equals(frCommentGiver)) {
+            if (!Const.ANONYMOUS_USER.equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
 
