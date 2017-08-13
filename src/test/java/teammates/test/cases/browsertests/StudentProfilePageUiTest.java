@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.StudentProfile;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.driver.TestProperties;
@@ -30,24 +31,32 @@ import teammates.test.pageobjects.StudentProfilePicturePage;
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {
     private StudentProfilePage profilePage;
+    private String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
 
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
 
+        String student2Email = student2GoogleId + "@gmail.com";
+
         // use the 2nd student account injected for this test
 
-        String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
-        String student2Email = student2GoogleId + "@gmail.com";
-        GenderType student2Gender = GenderType.OTHER;
         testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.accounts.get("studentWithExistingProfile").email = student2Email;
         testData.accounts.get("studentWithExistingProfile").studentProfile.googleId = student2GoogleId;
-        testData.accounts.get("studentWithExistingProfile").studentProfile.gender = student2Gender;
+        testData.accounts.get("studentWithExistingProfile").studentProfile.gender = transformData();
         testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
         testData.students.get("studentWithExistingProfile").email = student2Email;
 
         removeAndRestoreDataBundle(testData);
+    }
+
+    private GenderType transformData() {
+        StudentProfile studentProfile = new StudentProfile(student2GoogleId);
+        String gender = studentProfile.getGender().toString();
+        studentProfile.importGender(gender);
+        GenderType genderType = studentProfile.getGender();
+        return genderType;
     }
 
     @Test

@@ -4,10 +4,11 @@ import java.util.Date;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.AlsoLoad;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.IgnoreLoad;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
@@ -36,7 +37,8 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
-    /* only accepts "male", "female" or "other" */
+    /* only accepts MALE, FEMALE or OTHER */
+    @IgnoreLoad
     private GenderType gender;
 
     /* must be html sanitized before saving */
@@ -170,6 +172,14 @@ public class StudentProfile extends BaseEntity {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public void importGender(@AlsoLoad("gender") String gender) {
+        if (gender == null) {
+            return;
+        }
+
+        this.gender = GenderType.valueOf(gender.toUpperCase());
     }
 
 }
