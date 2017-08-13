@@ -123,7 +123,7 @@
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
       </c:when>
       <c:otherwise>
-        <c:set var="submitLink"><%= Const.ActioURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+        <c:set var="submitLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
       </c:otherwise>
     </c:choose>
     <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
