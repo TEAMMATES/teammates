@@ -57,9 +57,9 @@
       </c:if>
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-                                               questionWithResponses="${questionWithResponses}" firstIndex="${response.responseIndx}"
-                                               secondIndex="1" thirdIndex="${questionWithResponses.question.qnIndx}" isInstructor="${isInstructor}"
-                                               moderatedPersonEmail="${moderatedPersonEmail}"/>
+            questionWithResponses="${questionWithResponses}" firstIndex="${response.responseIndx}"
+            secondIndex="1" thirdIndex="${questionWithResponses.question.qnIndx}" isInstructor="${isInstructor}"
+            moderatedPersonEmail="${moderatedPersonEmail}"/>
       </c:forEach>
     </div>
   </div>

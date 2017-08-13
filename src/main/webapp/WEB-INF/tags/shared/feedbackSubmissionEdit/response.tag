@@ -30,7 +30,7 @@
 <br>
 <div class="form-group margin-0">
   <div ${isNumResponsesMax ? 'class="col-sm-2 form-inline mobile-align-left"' : 'class="col-sm-4 form-inline mobile-align-left"'}
-       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
+    ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
     <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
 
@@ -39,55 +39,55 @@
         ${isNumResponsesMax ? 'style="display:none;max-width:125px"' : 'style="width:275px;max-width:275px"'}
         ${isSessionOpenForSubmission ? '' : 'disabled' }>
 
-    <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
-      ${option}
-    </c:forEach>
+      <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
+        ${option}
+      </c:forEach>
     </select>
   </div>
   <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
     <c:choose>
       <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
-              <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form"
-                          id="button_add_comment" data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
-                          data-qnindex="${thirdIndex}" style="margin-bottom:1em;">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-              </button>
-              ${response.submissionFormHtml}
-      <br>
-      <c:choose>
-        <c:when test="${isGiverTeam}">
-          <c:set var="giverRole" value="Team"/>
-        </c:when>
-        <c:when test="${isInstructor}">
-          <c:set var="giverRole" value="Instructor"/>
-        </c:when>
-        <c:otherwise>
-          <c:set var="giverRole" value="Student"/>
-        </c:otherwise>
-      </c:choose>
-      <ul class="list-group" id="responseCommentTable-${firstIndex}-${secondIndex}-${thirdIndex}"
-              style="${not empty response.commentsOnResponses ? 'margin-top:15px;': 'display:none'}">
-              <c:forEach items="${response.commentsOnResponses}" var="responseComment" varStatus="status">
-                  <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
-                                                  secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
-                                                  frcIndex="${status.count}" isOnFeedbackSubmissionEditPage="true"
-                                                  moderatedPersonEmail="${moderatedPersonEmail}" giverRole="${giverRole}"
-                                                  isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
-              </c:forEach>
-               <shared:feedbackResponseCommentAdd frc="${response.responseExplanationComment}" firstIndex="${firstIndex}"
-                                                  secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" isOnFeedbackSubmissionEditPage="true"
-                                                  moderatedPersonEmail="${moderatedPersonEmail}"
-                                                  isPreview="${data.preview}" submitTable="${data.submittable}" giverRole="${giverRole}"/>
-      </ul>
+        <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form"
+            id="button_add_comment" data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
+            data-qnindex="${thirdIndex}" style="margin-bottom:1em;">
+          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+        </button>
+        ${response.submissionFormHtml}
+        <br>
+        <c:choose>
+          <c:when test="${isGiverTeam}">
+            <c:set var="giverRole" value="Team"/>
+          </c:when>
+          <c:when test="${isInstructor}">
+            <c:set var="giverRole" value="Instructor"/>
+          </c:when>
+          <c:otherwise>
+            <c:set var="giverRole" value="Student"/>
+          </c:otherwise>
+        </c:choose>
+        <ul class="list-group" id="responseCommentTable-${firstIndex}-${secondIndex}-${thirdIndex}"
+            style="${not empty response.commentsOnResponses ? 'margin-top:15px;': 'display:none'}">
+          <c:forEach items="${response.commentsOnResponses}" var="responseComment" varStatus="status">
+            <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${firstIndex}"
+                secondIndex="${secondIndex}" thirdIndex="${thirdIndex}"
+                frcIndex="${status.count}" isOnFeedbackSubmissionEditPage="true"
+                moderatedPersonEmail="${moderatedPersonEmail}" giverRole="${giverRole}"
+                isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
+          </c:forEach>
+          <shared:feedbackResponseCommentAdd frc="${response.responseExplanationComment}" firstIndex="${firstIndex}"
+              secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" isOnFeedbackSubmissionEditPage="true"
+              moderatedPersonEmail="${moderatedPersonEmail}"
+              isPreview="${data.preview}" submitTable="${data.submittable}" giverRole="${giverRole}"/>
+        </ul>
       </c:when>
       <c:otherwise>
-      ${response.submissionFormHtml}
+        ${response.submissionFormHtml}
       </c:otherwise>
-      </c:choose>
-      <c:if test="${response.existingResponse}">
-          <input type="hidden"
-              name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-              value="<c:out value="${response.responseId}"/>">
-      </c:if>
+    </c:choose>
+    <c:if test="${response.existingResponse}">
+        <input type="hidden"
+            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+            value="<c:out value="${response.responseId}"/>">
+    </c:if>
   </div>
 </div>
