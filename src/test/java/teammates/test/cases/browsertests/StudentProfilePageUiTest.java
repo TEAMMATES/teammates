@@ -55,8 +55,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         StudentProfile studentProfile = new StudentProfile(student2GoogleId);
         String gender = studentProfile.getGender().toString();
         studentProfile.importGender(gender);
-        GenderType genderType = studentProfile.getGender();
-        return genderType;
+        return studentProfile.getGender();
     }
 
     @Test
