@@ -1,5 +1,9 @@
 package teammates.test.cases.browsertests;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -344,6 +348,11 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("RUBRIC: move rubric column success");
         feedbackEditPage.clickEditQuestionButton(1);
+        List<String> col0 = feedbackEditPage.getRubricColValues(1, 0);
+        List<String> col1 = feedbackEditPage.getRubricColValues(1, 1);
+        List<String> col2 = feedbackEditPage.getRubricColValues(1, 2);
+        List<String> col3 = feedbackEditPage.getRubricColValues(1, 3);
+        assertTrue(false);  // for debug
 
         // 4 choices as of now
         assertFalse(feedbackEditPage.isRubricColLeftMovable(1, 0));

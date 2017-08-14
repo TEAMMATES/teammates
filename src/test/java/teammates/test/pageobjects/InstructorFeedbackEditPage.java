@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -406,12 +407,57 @@ public class InstructorFeedbackEditPage extends AppPage {
         return false;
     }
 
-    public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
+    private String getRubricSubQuestionSelectorId(int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
-        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
+        return Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
+    }
 
-        return browser.driver.findElement(By.id(elemId));
+    public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
+        return browser.driver.findElement(By.id(getRubricSubQuestionSelectorId(qnNumber, subQnIndex)));
+    }
+
+    private String getRubricChoice(int qnNumber, int colNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + idSuffix + "-" + colNumber;
+
+        return browser.driver.findElement(By.id(elemId)).getAttribute("value");
+    }
+
+    private String getRubricWeight(int qnNumber, int colNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + colNumber;
+
+        return browser.driver.findElement(By.id(elemId)).getAttribute("value");
+    }
+
+    private String getRubricDescription(int qnNumber, int subQnIndex, int choiceIndex) {
+        return getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex).getText();
+    }
+
+    private boolean isRubricDescriptionBoxPresent(int qnNumber, int subQnIndex, int choiceIndex) {
+        return !browser.driver.findElements(By.id(getRubricDescriptionBoxId(qnNumber, subQnIndex, choiceIndex))).isEmpty();
+    }
+
+    public List<String> getRubricColValues(int qnNumber, int choiceIndex) {
+        List<String> col = new ArrayList<>();
+
+        col.add(getRubricChoice(qnNumber, choiceIndex));
+        col.add(getRubricWeight(qnNumber, choiceIndex));
+
+        int subQnIndex = 0;
+
+        while (isRubricDescriptionBoxPresent(qnNumber, subQnIndex, choiceIndex)) {
+            col.add(getRubricDescription(qnNumber, subQnIndex, choiceIndex));
+            subQnIndex++;
+        }
+
+        return col;
+    }
+
+    public boolean verifyRubricQuestion(int qnNumber, List<String> columns[]) {
+        // verify whole question
+        return true;
     }
 
     public boolean isRubricSubQuestionBoxFocused(int qnNumber, int subQnIndex) {
@@ -448,13 +494,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRubricWeightBox(weight, NEW_QUESTION_NUM, choiceIndex);
     }
 
-    public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
+    private String getRubricDescriptionBoxId(int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
-        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION
-                        + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
+        return Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
+    }
 
-        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
+    private WebElement getRubricDescriptionBox(int qnNumber, int subQnIndex, int choiceIndex) {
+        return browser.driver.findElement(By.id(getRubricDescriptionBoxId(qnNumber, subQnIndex, choiceIndex)));
+    }
+
+    public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
+        WebElement subQnBox = getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex);
         fillTextBox(subQnBox, description);
     }
 
