@@ -8,7 +8,6 @@ import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
-import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -77,7 +76,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
-        profile.gender = GenderType.valueOf(desanitizeIfHtmlSanitized(profile.gender.toString()));
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {
