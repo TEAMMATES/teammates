@@ -35,7 +35,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         profile.institute = "institute";
         profile.email = "valid@email.com";
         profile.nationality = "Lebanese";
-        profile.gender = GenderType.OTHER;
+        profile.gender = GenderType.FEMALE;
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
     }
@@ -69,11 +69,12 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", GenderType.OTHER,
+                "Teammates Institute", "American", GenderType.MALE,
                 new Text("hello"), new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
         assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
+        assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
         assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
         assertEquals(studentProfile.getEmail(), profileAttributes.email);
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
@@ -105,7 +106,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
-                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"OTHER\","
+                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"FEMALE\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
