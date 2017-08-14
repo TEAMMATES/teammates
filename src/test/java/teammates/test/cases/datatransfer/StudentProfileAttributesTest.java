@@ -1,5 +1,8 @@
 package teammates.test.cases.datatransfer;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+import static org.junit.Assert.assertNotEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,6 +118,19 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         testGetInvalidityInfoForValidProfileWithValues();
         testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
+    }
+
+    @Test
+    public void testValidImportGender() {
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
+        StudentProfile studentProfile = new StudentProfile(spa.googleId);
+        studentProfile.importGender("male");
+        ofy().save().entity(studentProfile).now();
+
+        StudentProfile studentProfileFetched = ofy().load().entity(studentProfile).now();
+        assertEquals(GenderType.MALE, studentProfileFetched.getGender());
+        assertNotEquals(GenderType.FEMALE, studentProfileFetched.getGender());
+        assertNotEquals(GenderType.OTHER, studentProfileFetched.getGender());
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
