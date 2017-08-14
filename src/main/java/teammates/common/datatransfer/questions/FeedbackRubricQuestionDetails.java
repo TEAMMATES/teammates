@@ -1101,8 +1101,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
             String subQuestionString = SanitizationHelper.sanitizeForHtml(alphabeticalIndex + ") "
                     + getRubricSubQuestions().get(subQuestion));
-            DecimalFormat df = new DecimalFormat("#");
-            DecimalFormat dfAverage = new DecimalFormat("0.00");
+            DecimalFormat df = new DecimalFormat("0.00");
 
             List<String> cols = new ArrayList<>();
 
@@ -1119,7 +1118,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // <td> entries which display aggregate statistics
             cols.add(df.format(totalPerSubQuestion[subQuestion]));
             cols.add(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                    : dfAverage.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
+                    : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
 
             // Generate HTML for all <td> entries using template
             for (String col : cols) {
@@ -1154,8 +1153,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
             String subQuestionString = SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") "
                     + getRubricSubQuestions().get(subQuestion));
-            DecimalFormat df = new DecimalFormat("#");
-            DecimalFormat dfAverage = new DecimalFormat("0.00");
+            DecimalFormat df = new DecimalFormat("0.00");
 
             // Append recipient identification details and rubric subQuestion
             csv.append(recipientTeam).append(',')
@@ -1171,7 +1169,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Append aggregate statistics
             csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
                .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                       : dfAverage.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
+                       : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
                .append(Const.EOL);
 
             return csv.toString();
