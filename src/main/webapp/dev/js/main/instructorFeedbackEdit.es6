@@ -505,7 +505,11 @@ function enableNewQuestion() {
 
     $newQuestionTable.find(`#rubricAddChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`#rubricAddSubQuestionLink-${NEW_QUESTION}`).show();
-    $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+    if (!hasAssignedWeights(NEW_QUESTION)) {
+        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+    } else {
+    	$newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
+    }
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
