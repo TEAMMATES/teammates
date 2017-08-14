@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -1064,7 +1062,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientTeam;
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
-        Set<String> respondents;
+        int[] respondentsPerSubQuestion;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
             this.recipientEmail = recipientEmail;
@@ -1072,16 +1070,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             this.recipientTeam = recipientTeam;
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
             totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
-            respondents = new HashSet<>();
+            respondentsPerSubQuestion = new int[getNumOfRubricSubQuestions()];
         }
 
         public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
             if (!response.recipient.equalsIgnoreCase(recipientEmail)) {
                 return;
-            }
-
-            if (!respondents.contains(response.giver)) {
-                respondents.add(response.giver);
             }
 
             FeedbackRubricResponseDetails rubricResponse = (FeedbackRubricResponseDetails) response.getResponseDetails();
@@ -1092,6 +1086,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (choice >= 0) {
                     ++numOfResponsesPerSubQuestionPerChoice[i][choice];
                     totalPerSubQuestion[i] += getRubricWeights().get(choice);
+                    respondentsPerSubQuestion[i]++;
                 }
             }
         }
@@ -1123,7 +1118,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             // <td> entries which display aggregate statistics
             cols.add(df.format(totalPerSubQuestion[subQuestion]));
-            cols.add(dfAverage.format(totalPerSubQuestion[subQuestion] / respondents.size()));
+
+            if (respondentsPerSubQuestion[subQuestion] != 0) {
+                cols.add(dfAverage.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
+            } else {
+                cols.add("0");
+            }
 
             // Generate HTML for all <td> entries using template
             for (String col : cols) {
@@ -1173,9 +1173,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // Append aggregate statistics
-            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion]))
-               .append(',').append(dfAverage.format(totalPerSubQuestion[subQuestion] / respondents.size()))
-               .append(Const.EOL);
+            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',');
+
+            if (respondentsPerSubQuestion[subQuestion] != 0) {
+                csv.append(dfAverage.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
+            } else {
+                csv.append("0");
+            }
+
+            csv.append(Const.EOL);
 
             return csv.toString();
         }
