@@ -869,13 +869,13 @@ public class FeedbackSessionResultsBundle {
     }
 
     public String getAnonNameWithoutNumericalId(FeedbackParticipantType type) {
-        return "Anonymous " + type.toSingularFormString();
+        return Const.ANONYMOUS_USER + " " + type.toSingularFormString();
     }
 
     public static String getAnonName(FeedbackParticipantType type, String name) {
         String hashedEncryptedName = getHashOfName(getEncryptedName(name));
         String participantType = type.toSingularFormString();
-        return String.format("Anonymous %s %s", participantType, hashedEncryptedName);
+        return String.format(Const.ANONYMOUS_USER + " %s %s", participantType, hashedEncryptedName);
     }
 
     private static String getEncryptedName(String name) {
