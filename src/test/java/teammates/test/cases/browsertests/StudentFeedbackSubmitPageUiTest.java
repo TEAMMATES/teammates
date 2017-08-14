@@ -1,7 +1,6 @@
 package teammates.test.cases.browsertests;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
@@ -16,6 +15,7 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -90,7 +90,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFSubmitUiT.CS2104",
                                                                    "Grace Period Session");
 
-        Calendar endDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar endDate = TimeHelper.now(fs.getTimeZone());
         endDate.add(Calendar.MINUTE, -1);
         fs.setGracePeriod(10);
         fs.setEndTime(endDate.getTime());
@@ -166,6 +166,24 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(18, 0, 0, "90");
         submitPage.fillResponseTextBox(18, 0, 1, "10");
+
+        // total sums up to expected value, verify empty entries are filled with 0
+        submitPage.fillResponseTextBox(19, 1, 0, "200");
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
+        // delete an auto-filled 0, verify it's auto-filled again
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
+        // modify a non-zero value and remove a 0
+        submitPage.fillResponseTextBox(19, 1, 0, "100");
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+
+        // verify no longer auto-filled with 0
+        assertTrue(submitPage.isTextBoxValueEmpty(19, 0, 0));
+
+        // clear both input box for successful form submission.
+        submitPage.clearResponseTextBoxValue(19, 1, 0);
 
         submitPage.chooseContribOption(20, 0, "Equal share");
 

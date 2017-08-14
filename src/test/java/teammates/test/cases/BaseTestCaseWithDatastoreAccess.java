@@ -172,7 +172,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             expected.studentProfile = null;
         } else {
             if (expected.studentProfile == null) {
-                expected.studentProfile = new StudentProfileAttributes();
+                expected.studentProfile = StudentProfileAttributes.builder().build();
                 expected.studentProfile.googleId = actual.googleId;
             }
             expected.studentProfile.modifiedDate = actual.studentProfile.modifiedDate;

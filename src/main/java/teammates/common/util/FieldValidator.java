@@ -94,6 +94,15 @@ public class FieldValidator {
             Collections.unmodifiableList(
                     Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
 
+    public static final String ROLE_FIELD_NAME = "access-level";
+    public static final List<String> ROLE_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
@@ -111,6 +120,8 @@ public class FieldValidator {
     public static final String REASON_UNAVAILABLE_AS_CHOICE = "not available as a choice";
 
     // error message components
+    public static final String EMPTY_STRING_ERROR_INFO =
+            "The field '${fieldName}' is empty.";
     public static final String ERROR_INFO =
             "\"${userInput}\" is not acceptable to TEAMMATES as a/an ${fieldName} because it ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
@@ -126,6 +137,8 @@ public class FieldValidator {
     // generic (i.e., not specific to any field) error messages
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
     public static final String INVALID_NAME_ERROR_MESSAGE =
@@ -146,18 +159,24 @@ public class FieldValidator {
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+    public static final String EMAIL_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
+    public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+    public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
 
     public static final String HINT_FOR_CORRECT_COURSE_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
@@ -174,6 +193,9 @@ public class FieldValidator {
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
             + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
             + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+
+    public static final String ROLE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -282,7 +304,7 @@ public class FieldValidator {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_EMPTY,
+            return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
                                             EMAIL_MAX_LENGTH);
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
@@ -314,8 +336,8 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_EMPTY, GOOGLE_ID_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                                            GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
@@ -339,8 +361,8 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", courseId != null);
 
         if (courseId.isEmpty()) {
-            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
-                                            REASON_EMPTY, COURSE_ID_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                                            COURSE_ID_FIELD_NAME, COURSE_ID_MAX_LENGTH);
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
@@ -486,6 +508,22 @@ public class FieldValidator {
     }
 
     /**
+     * Checks if {@code role} is one of the recognized roles {@link #ROLE_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code role} is not acceptable.
+     *         Returns an empty string if the {@code role} is acceptable.
+     */
+    public String getInvalidityInfoForRole(String role) {
+        Assumption.assertTrue("Non-null value expected", role != null);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
+
+        if (!ROLE_ACCEPTED_VALUES.contains(role)) {
+            return String.format(ROLE_ERROR_MESSAGE, sanitizedValue);
+        }
+        return "";
+    }
+
+    /**
      * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength},
      * and also does not contain any invalid characters (| or %).
@@ -504,8 +542,8 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
 
         if (value.isEmpty()) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
-                                            REASON_EMPTY, maxLength);
+            return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                            fieldName, maxLength);
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -722,5 +760,11 @@ public class FieldValidator {
         return messageTemplate.replace("${userInput}", userInput)
                               .replace("${fieldName}", fieldName)
                               .replace("${reason}", errorReason);
+    }
+
+    public static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
+            String fieldName, int maxLength) {
+        return messageTemplate.replace("${fieldName}", fieldName)
+                              .replace("${maxLength}", String.valueOf(maxLength));
     }
 }
