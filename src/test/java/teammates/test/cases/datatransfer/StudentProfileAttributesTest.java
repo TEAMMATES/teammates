@@ -1,6 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
 import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
@@ -126,12 +125,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfile studentProfile = new StudentProfile(spa.googleId);
         studentProfile.importGender("male");
 
-        ofy().save().entity(studentProfile).now();
-        StudentProfile studentProfileFetched = ofy().load().entity(studentProfile).now();
-
-        assertEquals(GenderType.MALE, studentProfileFetched.getGender());
-        assertNotEquals(GenderType.FEMALE, studentProfileFetched.getGender());
-        assertNotEquals(GenderType.OTHER, studentProfileFetched.getGender());
+        assertEquals(GenderType.MALE, studentProfile.getGender());
+        assertNotEquals(GenderType.FEMALE, studentProfile.getGender());
+        assertNotEquals(GenderType.OTHER, studentProfile.getGender());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -140,13 +136,10 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfile studentProfile2 = new StudentProfile(spa2.googleId);
         studentProfile2.importGender("banana");
 
-        ofy().save().entity(studentProfile2).now();
-        StudentProfile studentProfileFetched2 = ofy().load().entity(studentProfile2).now();
-
-        assertNotEquals(GenderType.OTHER, studentProfileFetched2.getGender());
-        assertNotEquals(GenderType.FEMALE, studentProfileFetched2.getGender());
-        assertNotEquals(GenderType.OTHER, studentProfileFetched2.getGender());
-        assertNotEquals("banana", studentProfileFetched2.getGender());
+        assertNotEquals(GenderType.OTHER, studentProfile2.getGender());
+        assertNotEquals(GenderType.FEMALE, studentProfile2.getGender());
+        assertNotEquals(GenderType.OTHER, studentProfile2.getGender());
+        assertNotEquals("banana", studentProfile2.getGender());
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
