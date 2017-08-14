@@ -125,12 +125,28 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         StudentProfile studentProfile = new StudentProfile(spa.googleId);
         studentProfile.importGender("male");
-        ofy().save().entity(studentProfile).now();
 
+        ofy().save().entity(studentProfile).now();
         StudentProfile studentProfileFetched = ofy().load().entity(studentProfile).now();
+
         assertEquals(GenderType.MALE, studentProfileFetched.getGender());
         assertNotEquals(GenderType.FEMALE, studentProfileFetched.getGender());
         assertNotEquals(GenderType.OTHER, studentProfileFetched.getGender());
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInValidImportGender() {
+        StudentProfileAttributes spa2 = StudentProfileAttributes.valueOf(profile.toEntity());
+        StudentProfile studentProfile2 = new StudentProfile(spa2.googleId);
+        studentProfile2.importGender("banana");
+
+        ofy().save().entity(studentProfile2).now();
+        StudentProfile studentProfileFetched2 = ofy().load().entity(studentProfile2).now();
+
+        assertNotEquals(GenderType.OTHER, studentProfileFetched2.getGender());
+        assertNotEquals(GenderType.FEMALE, studentProfileFetched2.getGender());
+        assertNotEquals(GenderType.OTHER, studentProfileFetched2.getGender());
+        assertNotEquals("banana", studentProfileFetched2.getGender());
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
