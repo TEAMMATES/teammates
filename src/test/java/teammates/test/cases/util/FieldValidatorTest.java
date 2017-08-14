@@ -1,23 +1,7 @@
 package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
-import static teammates.common.util.FieldValidator.COURSE_ID_MAX_LENGTH;
-import static teammates.common.util.FieldValidator.COURSE_NAME_FIELD_NAME;
-import static teammates.common.util.FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.EMAIL_FIELD_NAME;
-import static teammates.common.util.FieldValidator.EMAIL_MAX_LENGTH;
-import static teammates.common.util.FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH;
-import static teammates.common.util.FieldValidator.GOOGLE_ID_FIELD_NAME;
-import static teammates.common.util.FieldValidator.GOOGLE_ID_MAX_LENGTH;
-import static teammates.common.util.FieldValidator.INSTITUTE_NAME_MAX_LENGTH;
-import static teammates.common.util.FieldValidator.NATIONALITY_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REGEX_COURSE_ID;
-import static teammates.common.util.FieldValidator.REGEX_EMAIL;
-import static teammates.common.util.FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL;
-import static teammates.common.util.FieldValidator.REGEX_NAME;
-import static teammates.common.util.FieldValidator.REGEX_SAMPLE_COURSE_ID;
-import static teammates.common.util.FieldValidator.ROLE_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE;
+import static teammates.common.util.FieldValidator.*;
 
 import java.util.Date;
 
