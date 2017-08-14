@@ -214,7 +214,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
 
-                // Since GenderType always store valid genderType: male, female or other, I'm removing invalid gender param
+                // Since GenderType always store valid genderType: MALE, FEMALE or OTHER, we can remove invalid gender
                 Const.ParamsNames.STUDENT_GENDER, "FEMALE",
 
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"

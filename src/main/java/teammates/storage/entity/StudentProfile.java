@@ -174,6 +174,7 @@ public class StudentProfile extends BaseEntity {
         this.modifiedDate = modifiedDate;
     }
 
+    // Equalizes Objectify and GenderType enum
     public void importGender(@AlsoLoad("gender") String gender) {
         if (gender == null) {
             return;
