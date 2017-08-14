@@ -52,13 +52,7 @@ public class StudentProfileEditSaveAction extends Action {
         if ("".equals(editedProfile.nationality)) {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
-
-        try {
-            editedProfile.gender = GenderType.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
-        } catch (IllegalArgumentException iae) {
-            setStatusForException(iae);
-        }
-
+        editedProfile.gender = GenderType.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
