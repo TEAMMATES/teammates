@@ -504,9 +504,15 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
-        public static final String MSQ_ERROR_EXCEEDED_MAX_SELECTABLE_CHOICES =
-                "Exceeded max selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ
-                + ". Maximum selectable choices is: ";
+        public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
+                "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
+                "Minimum selectable choices mentioned exceeds maximum selectable choices for "
+                + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_MIN_FOR_MAX_SELCTABLE_CHOICES =
+                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be greater than 1.";
+        public static final String MSQ_ERROR_MIN_FOR_MIN_SELCTABLE_CHOICES =
+                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be greater than 0.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =

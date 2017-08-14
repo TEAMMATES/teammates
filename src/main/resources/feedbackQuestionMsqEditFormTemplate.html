@@ -52,7 +52,7 @@
         <div class="col-md-9 margin-bottom-7px">
             <div class="checkbox">
                 <label class="bold-label">
-                    <input type="checkbox" disabled ${enabledMaxSelectableChoices}
+                    <input type="checkbox" disabled ${isMaxSelectableChoicesEnabled}
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}"
                             id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}-${questionNumber}">
                     Maximum number of options a respondent is allowed to select
@@ -68,7 +68,7 @@
         <div class="col-md-9 margin-bottom-7px">
             <div class="checkbox">
                 <label class="bold-label">
-                    <input type="checkbox" disabled ${enabledMinSelectableChoices}
+                    <input type="checkbox" disabled ${isMinSelectableChoicesEnabled}
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}"
                             id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}-${questionNumber}">
                     Minimum number of options a respondent is allowed to select
