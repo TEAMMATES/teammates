@@ -39,7 +39,7 @@ function getCheckBoxesInFormTable(form) {
     return formTable.find('tr').find('input.visibilityCheckbox');
 }
 
-function setInitialVisibilityOfCheckboxes(form, e) {
+function restoreInitialVisibilityOfCheckboxes(form, e) {
     const checkboxes = getCheckBoxesInFormTable(form);
     const valueOfCheckboxes = getInitialVisibilityOfCheckboxes(e);
     $.each(checkboxes, (i, checkbox) => {
@@ -334,7 +334,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         $(`#responseCommentTable${id}`).css('margin-top', '0');
         $(`#responseCommentTable${id}`).hide();
     }
-    setInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
+    restoreInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
@@ -421,7 +421,7 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.show();
     $(`#plainCommentText${id}`).show();
-    setInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`), $(`#responseCommentEditForm${id}`));
+    restoreInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`), $(`#responseCommentEditForm${id}`));
     $(`#responseCommentEditForm${id}`).hide();
     tinymce.get(`responsecommenttext${id}`).setContent($(`#plainCommentText${id}`).text());
     removeFormErrorMessage($(`#button_save_comment_for_edit${id}`));
