@@ -152,7 +152,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
-        assertEquals(GenderType.OTHER, accountDataTest.studentProfile.gender);
+        assertEquals(GenderType.FEMALE, accountDataTest.studentProfile.gender);
 
         accountsDb.deleteAccount(a.googleId);
 
