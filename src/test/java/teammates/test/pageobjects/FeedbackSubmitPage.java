@@ -214,11 +214,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void addFeedbackResponseComment(String commentIdSuffix, String commentText) {
-        WebElement addResponseCommentForm = browser.driver.findElement(By.id("showResponseCommentAddForm" + commentIdSuffix));
+        WebElement addResponseCommentForm =
+                browser.driver.findElement(By.id("showResponseCommentAddForm" + commentIdSuffix));
         WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
         WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         click(showResponseCommentAddFormButton);
-        WebElement editorElement = waitForElementPresence(By.cssSelector("#" + "showResponseCommentAddForm" + commentIdSuffix + " .mce-content-body"));
+        WebElement editorElement = waitForElementPresence(
+                By.cssSelector("#" + "showResponseCommentAddForm" + commentIdSuffix + " .mce-content-body"));
         waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         fillRichTextEditor(editorElement.getAttribute("id"), commentText);
     }
