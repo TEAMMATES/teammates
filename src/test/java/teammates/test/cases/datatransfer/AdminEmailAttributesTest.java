@@ -54,7 +54,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest{
     @Test
     public void testGetIdentificationString() {
         AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals(this.sendDate + "/" + this.subject, adminEmail.getIdentificationString());
+        assertEquals(sendDate + "/" + subject, adminEmail.getIdentificationString());
     }
 
     @Test
