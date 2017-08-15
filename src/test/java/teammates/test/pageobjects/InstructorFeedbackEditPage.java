@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.Select;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -432,18 +433,25 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getRubricDescription(int qnNumber, int subQnIndex, int choiceIndex) {
-        return getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex).getText();
+        return getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex).getAttribute("value");
+    }
+
+    private boolean isRubricWeightsEnabled(int qnNumber) {
+        return browser.driver.findElement(By.id("rubricAssignWeights-" + qnNumber)).isSelected();
     }
 
     private boolean isRubricDescriptionBoxPresent(int qnNumber, int subQnIndex, int choiceIndex) {
         return !browser.driver.findElements(By.id(getRubricDescriptionBoxId(qnNumber, subQnIndex, choiceIndex))).isEmpty();
     }
 
-    public List<String> getRubricColValues(int qnNumber, int choiceIndex) {
+    public String[] getRubricColValues(int qnNumber, int choiceIndex) {
         List<String> col = new ArrayList<>();
 
         col.add(getRubricChoice(qnNumber, choiceIndex));
-        col.add(getRubricWeight(qnNumber, choiceIndex));
+
+        if (isRubricWeightsEnabled(qnNumber)) {
+            col.add(getRubricWeight(qnNumber, choiceIndex));
+        }
 
         int subQnIndex = 0;
 
@@ -452,12 +460,109 @@ public class InstructorFeedbackEditPage extends AppPage {
             subQnIndex++;
         }
 
-        return col;
+        return col.toArray(new String[col.size()]);
     }
 
-    public boolean verifyRubricQuestion(int qnNumber, List<String> columns[]) {
-        // verify whole question
-        return true;
+    /**
+     * Checks if move left button of leftmost column is disabled.
+     * Checks if move right button of rightmost column is disabled.
+     * Checks if all other move column buttons are enabled.
+     * @param qnNumber question number.
+     * @param colIndexes indexes of the columns.
+     */
+    private void verifyRubricColumnsMovability(int qnNumber, int[] colIndexes) {
+        int leftMostColIndex = colIndexes[0];
+        int rightMostColIndex = colIndexes[colIndexes.length - 1];
+
+        // checking move buttons of leftmost column
+        assertFalse(isRubricColLeftMovable(qnNumber, leftMostColIndex));
+        assertTrue(isRubricColRightMovable(qnNumber, leftMostColIndex));
+
+        // checking move buttons of last column
+        assertTrue(isRubricColLeftMovable(qnNumber, rightMostColIndex));
+        assertFalse(isRubricColRightMovable(qnNumber, rightMostColIndex));
+
+        // checking move buttons of remaining columns
+        for (int i = 1; i < colIndexes.length - 1; i++) {
+            assertTrue(isRubricColLeftMovable(qnNumber, colIndexes[i]));
+            assertTrue(isRubricColRightMovable(qnNumber, colIndexes[i]));
+        }
+    }
+
+    /**
+     * Checks if the values given in <i>columns</i> argument match with the
+     * actual values displayed. Also checks if move left/right buttons for
+     * each column is properly enabled or disabled. Assumes that there are
+     * at least 2 columns.
+     * @param qnNumber question number.
+     * @param colIndexes indexes of the columns.
+     * @param columns column values.
+     */
+    public void verifyRubricQuestion(int qnNumber, int[] colIndexes, String[]... columns) {
+        // checking rubric column values - choice, weight, descriptions
+        int i = 0;
+        for (int colIndex : colIndexes) {
+            String[] colValues = columns[i++];
+            int rubDescIndex = 1;
+
+            assertTrue(getRubricChoice(qnNumber, colIndex).equals(colValues[0]));
+
+            if (isRubricWeightsEnabled(qnNumber)) {
+                assertTrue(getRubricWeight(qnNumber, colIndex).equals(colValues[1]));
+                rubDescIndex = 2; // rubric descriptions start from index 2
+            }
+
+            int subQnIndex = 0;
+
+            while (rubDescIndex < colValues.length) {
+                assertTrue(getRubricDescription(qnNumber, subQnIndex, colIndex).equals(colValues[rubDescIndex]));
+                rubDescIndex++;
+                subQnIndex++;
+            }
+        }
+
+        verifyRubricColumnsMovability(qnNumber, colIndexes);
+    }
+
+    /**
+     * Fills a single rubric column of index given by
+     * <i>choiceIndex</i>, with the values given in <i>values</i>.
+     * @param qnNumber question number.
+     * @param choiceIndex index of the column.
+     * @param values column values.
+     */
+    public void fillRubricColumn(int qnNumber, int choiceIndex, String[] values) {
+        fillRubricChoiceBox(values[0], qnNumber, choiceIndex);
+
+        int rubDescIndex = 1;
+
+        if (isRubricWeightsEnabled(qnNumber)) {
+            fillRubricWeightBox(values[1], qnNumber, choiceIndex);
+            rubDescIndex = 2; // rubric descriptions start from index 2
+        }
+
+        int subQnIndex = 0;
+
+        while (rubDescIndex < values.length) {
+            fillRubricDescriptionBox(values[rubDescIndex], qnNumber, subQnIndex, choiceIndex);
+            subQnIndex++;
+            rubDescIndex++;
+        }
+    }
+
+    /**
+     * Fills all rubric columns with respective indexes given in
+     * <i>colIndexes</i>, with respective values given in <i>colValues</i>.
+     * @param qnNumber question number.
+     * @param colIndexes indexes of the columns.
+     * @param colValues column values.
+     */
+    public void fillAllRubricColumns(int qnNumber, int[] colIndexes, String[]... colValues) {
+        Assumption.assertEquals(colIndexes.length, colValues.length);
+
+        for (int i = 0; i < colIndexes.length; i++) {
+            fillRubricColumn(qnNumber, colIndexes[i], colValues[i]);
+        }
     }
 
     public boolean isRubricSubQuestionBoxFocused(int qnNumber, int subQnIndex) {
