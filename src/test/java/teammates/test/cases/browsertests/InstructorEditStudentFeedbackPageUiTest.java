@@ -117,7 +117,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
         submitPage.chooseMcqOption(3, 0, "It's good");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-3", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
 
         ______TS("add new comments on question with responses");
 
@@ -127,7 +127,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedNoComments.html");
 
         submitPage.chooseMcqOption(3, 0, "It's perfect"); // select option
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-3", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-3", "New MCQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);

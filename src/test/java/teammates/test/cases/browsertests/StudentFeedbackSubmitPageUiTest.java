@@ -463,11 +463,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         logout();
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "Comment without response");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-7", "Comment without response");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-10", "Comment without response");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-12", "Comment without response");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-16", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-6", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-7", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-10", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-12", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-16", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -483,11 +483,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(12, 0, "Team 2");
         submitPage.chooseMcqOption(16, 0, "Teammates Test2");
 
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-10", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-12", "New MCQ Comment 3");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-16", "New MCQ Comment 4");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-7", "New MCQ team Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-10", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-0-1-12", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-0-1-16", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-1-1-7", "New MCQ team Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);

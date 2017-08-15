@@ -313,7 +313,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
         submitPage.chooseMcqOption(5, 0, "UI");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-5", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
 
         ______TS("add new comments on question with responses");
 
@@ -321,12 +321,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
 
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-6", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-6", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-2-1-6", "New MCQ Comment 3");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-9", "New MCQ Comment 4");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-11", "New MCQ Comment 5");
-        submitPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-15", "New MCQ Comment 6");
+        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-6", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-2-1-6", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-0-1-9", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-11", "New MCQ Comment 5");
+        submitPage.addFeedbackResponseComment("-0-1-15", "New MCQ Comment 6");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
