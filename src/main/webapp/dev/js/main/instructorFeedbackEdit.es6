@@ -506,8 +506,8 @@ function enableNewQuestion() {
     $newQuestionTable.find(`#rubricAddChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`#rubricAddSubQuestionLink-${NEW_QUESTION}`).show();
 
-    // Prevents the weight input field from not appearing when the instructor
-    // assigns weight to a rubric question, deletes it and then re-creates it.
+    // If instructor had assigned rubric weights before,
+    // then display the weights row, otherwise hide it.
     if (hasAssignedWeights(NEW_QUESTION)) {
         $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
     } else {
