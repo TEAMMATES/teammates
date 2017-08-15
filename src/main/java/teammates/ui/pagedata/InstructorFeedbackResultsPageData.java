@@ -89,7 +89,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
     // for comments form
-    private boolean moderation;
+    private boolean isModeration;
 
     public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -1669,11 +1669,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public boolean isModeration() {
-        return moderation;
+        return isModeration;
     }
 
-    public void setModeration(boolean moderation) {
-        this.moderation = moderation;
+    public void setModeration(boolean isModeration) {
+        this.isModeration = isModeration;
     }
 
 }
