@@ -84,7 +84,7 @@
                   </div>
                 </td>
                 <td id="studentsection-c${courseIndex}.${sectionIndex}"
-                  <c:if test="${not hasSection}">class="hidden"</c:if>>
+                    <c:if test="${not hasSection}">class="hidden"</c:if>>
                   <c:out value="${section.sectionName}"/>
                 </td>
                 <td id="studentteam-c${courseIndex}.${sectionIndex}.${teamIndex}">
@@ -147,14 +147,14 @@
                             href="${student.courseStudentRemindLink}"
                           </c:otherwise>
                         </c:choose>
-                       data-toggle="tooltip"
-                       data-placement="top">
+                        data-toggle="tooltip"
+                        data-placement="top">
                       Send Invite
                     </a>
                   </c:if>
                   <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
                   <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
-                    data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
+                      data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
                       <c:choose>
                         <c:when test="${not deleteButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"

@@ -22,7 +22,7 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <input type="submit" class="btn btn-primary" id="fscopy_submit" value="Copy">
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
-         </div>
+        </div>
       </form>
     </div>
   </div>

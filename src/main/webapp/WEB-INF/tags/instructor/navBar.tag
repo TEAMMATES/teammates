@@ -38,7 +38,8 @@
         </li>
       </ul>
       <ul class="nav navbar-nav pull-right">
-        <li><a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">Logout
+        <li>
+          <a id="btnLogout" class="nav logout" href="<%= Const.ActionURIs.LOGOUT %>">Logout
 
             (<span class="text-info" data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom">
               ${data.account.truncatedGoogleId}
