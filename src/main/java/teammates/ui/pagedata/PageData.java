@@ -891,15 +891,14 @@ public class PageData {
                     getResponseCommentVisibilityString(question),
                     getResponseCommentGiverNameVisibilityString(question),
                     responseVisibilityMap, timeZone);
-        } else {
-            FeedbackParticipantType[] types = {
-                    FeedbackParticipantType.GIVER,
-                    FeedbackParticipantType.INSTRUCTORS
-            };
-            for (FeedbackParticipantType type : types) {
-                frca.showCommentTo.add(type);
-                frca.showGiverNameTo.add(type);
-            }
+        }
+        FeedbackParticipantType[] types = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.INSTRUCTORS
+        };
+        for (FeedbackParticipantType type : types) {
+            frca.showCommentTo.add(type);
+            frca.showGiverNameTo.add(type);
         }
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                 getResponseCommentVisibilityString(frca, question),
