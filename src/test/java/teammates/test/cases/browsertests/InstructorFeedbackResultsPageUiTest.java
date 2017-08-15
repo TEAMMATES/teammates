@@ -76,16 +76,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
-        resultsPage.loadResultPanel(1);
+        resultsPage.loadResultQuestionPanel(1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
-        resultsPage.loadResultPanel(1);
+        resultsPage.loadResultQuestionPanel(1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
-        resultsPage.loadResultPanel(1);
+        resultsPage.loadResultQuestionPanel(1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
 
     }
@@ -115,8 +115,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         BackDoor.editFeedbackQuestion(secondQuestionFromDatastore);
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
-        resultsPage.loadResultPanel(1);
-        resultsPage.loadResultPanel(2);
+        resultsPage.loadResultQuestionPanel(1);
+        resultsPage.loadResultQuestionPanel(2);
         // compare html for each question panel
         // to verify that the right responses are showing for each question
         By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='"
@@ -135,7 +135,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr",
                                                            "Session with sanitized data");
-        resultsPage.loadResultPanel(1);
+        resultsPage.loadResultQuestionPanel(1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
 
         ______TS("Results with sanitized data with comments : giver > recipient > question");
@@ -149,8 +149,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        resultsPage.loadResultPanel(2);
-        resultsPage.loadResultPanel(4);
+        resultsPage.loadResultQuestionPanel(2);
+        resultsPage.loadResultQuestionPanel(4);
 
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
@@ -165,7 +165,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
         resultsPage.displayByQuestion();
-        resultsPage.loadResultPanel(1);
+        resultsPage.loadResultQuestionPanel(1);
 
         ______TS("Typical case: test moderate responses button for instructors as givers");
         verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt",
@@ -241,7 +241,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         // By question
         resultsPage.displayByQuestion();
-        resultsPage.loadResultPanel(1);
+        resultsPage.loadResultQuestionPanel(1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionTeam.html");
 
         additionalInfoId = "";
@@ -343,7 +343,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
-        resultsPage.loadResultPanel(2);
+        resultsPage.loadResultQuestionPanel(2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestionTeam.html");
 
         ______TS("filter by section A");

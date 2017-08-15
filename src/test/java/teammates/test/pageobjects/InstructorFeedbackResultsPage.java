@@ -168,13 +168,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
             clickCollapseExpandButtonAndWaitForPanelsToExpand();
-            waitForPanelsToExpand();
         }
     }
 
     public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
         clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        waitForPanelsToCollapse();
     }
 
     public void clickShowStats() {
@@ -607,10 +605,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     /**
      * Expands a particular panel, causing its results to load.
-     * @param panelNumber the position of panel element
      */
-    public void loadResultPanel(int panelNumber) {
-        String panelId = "panelHeading-" + panelNumber;
+    public void loadResultQuestionPanel(int questionNumber) {
+        String panelId = "panelHeading-" + questionNumber;
         clickAutoLoadedPanelAndWaitForExpansion(panelId);
     }
 

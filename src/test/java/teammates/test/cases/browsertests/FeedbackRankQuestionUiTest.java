@@ -176,7 +176,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false, "question");
-        instructorResultsPage.loadResultPanel(1);
+        instructorResultsPage.loadResultQuestionPanel(1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankQuestionView.html");
 
         ______TS("Rank instructor results : Giver > Recipient > Question");
@@ -214,8 +214,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "student", false, null);
-        instructorResultsPage.loadResultPanel(3);
-        instructorResultsPage.loadResultPanel(9);
+        instructorResultsPage.loadResultQuestionPanel(3);
+        instructorResultsPage.loadResultQuestionPanel(9);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRecipient.html");
     }
 
