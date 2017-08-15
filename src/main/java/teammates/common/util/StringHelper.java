@@ -12,6 +12,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.common.base.Strings;
+
 import teammates.common.exception.InvalidParametersException;
 
 /**
@@ -23,14 +25,6 @@ public final class StringHelper {
 
     private StringHelper() {
         // utility class
-    }
-
-    /**
-     * Checks whether the input string is empty or equals {@code null}.
-     * @param s The string to be checked
-     */
-    public static boolean isEmpty(String s) {
-        return s == null || s.isEmpty();
     }
 
     public static String generateStringOfLength(int length, char character) {
@@ -483,7 +477,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (isEmpty(s)) {
+            if (Strings.isNullOrEmpty(s)) {
                 numOfEmptyStrings += 1;
             }
         }
