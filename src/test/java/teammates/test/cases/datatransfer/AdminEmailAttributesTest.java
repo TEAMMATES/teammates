@@ -1,10 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Assumption.assertEquals;
-import static teammates.common.util.Assumption.assertFalse;
-import static teammates.common.util.Assumption.assertTrue;
-import static teammates.common.util.FieldValidator.getPopulatedErrorMessage;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -25,7 +20,7 @@ import teammates.test.driver.StringHelperExtension;
 /**
  * SUT: {@link AdminEmailAttributes}.
  */
-public class AdminEmailAttributesTest {
+public class AdminEmailAttributesTest extends BaseAttributesTest{
 
     private String subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
     private Text content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
