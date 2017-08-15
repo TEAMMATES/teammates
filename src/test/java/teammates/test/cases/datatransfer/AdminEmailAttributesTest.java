@@ -49,7 +49,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest{
         assertFalse("all valid values", invalidAttributes.isValid());
         assertEquals("all valid values", expectedError,
                 StringHelper.toString(invalidAttributes.getInvalidityInfo()));
-
     }
 
     @Test
@@ -98,11 +97,9 @@ public class AdminEmailAttributesTest extends BaseAttributesTest{
 
         return new AdminEmailAttributes(
                 veryLongSubj, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date());
-
     }
 
     private AdminEmailAttributes createValidAdminEmailAttributesObject() {
         return new AdminEmailAttributes(subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate);
-
     }
 }
