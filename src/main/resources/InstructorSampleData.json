@@ -279,7 +279,7 @@
       "startTime": "2012-04-01 11:59 PM UTC",
       "endTime": "2037-04-02 11:59 PM UTC",
       "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "1970-01-01 00:00 AM UTC",
       "timeZone": 8.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
