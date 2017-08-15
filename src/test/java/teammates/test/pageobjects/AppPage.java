@@ -520,6 +520,11 @@ public abstract class AppPage {
         return textBox.getAttribute("value");
     }
 
+    protected boolean checkEmptyTextBoxValue(WebElement textBox) {
+        String textInsideInputBox = textBox.getAttribute("value");
+        return textInsideInputBox.isEmpty();
+    }
+
     /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
