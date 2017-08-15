@@ -167,6 +167,24 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(18, 0, 0, "90");
         submitPage.fillResponseTextBox(18, 0, 1, "10");
 
+        // total sums up to expected value, verify empty entries are filled with 0
+        submitPage.fillResponseTextBox(19, 1, 0, "200");
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
+        // delete an auto-filled 0, verify it's auto-filled again
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
+        // modify a non-zero value and remove a 0
+        submitPage.fillResponseTextBox(19, 1, 0, "100");
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+
+        // verify no longer auto-filled with 0
+        assertTrue(submitPage.isTextBoxValueEmpty(19, 0, 0));
+
+        // clear both input box for successful form submission.
+        submitPage.clearResponseTextBoxValue(19, 1, 0);
+
         submitPage.chooseContribOption(20, 0, "Equal share");
 
         // Just check that some of the responses persisted.
