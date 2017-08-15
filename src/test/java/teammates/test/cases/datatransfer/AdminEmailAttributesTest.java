@@ -20,7 +20,7 @@ import teammates.test.driver.StringHelperExtension;
 /**
  * SUT: {@link AdminEmailAttributes}.
  */
-public class AdminEmailAttributesTest extends BaseAttributesTest{
+public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     private String subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
     private Text content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
