@@ -362,30 +362,30 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private void verifyIsUserOfCourse(String courseId, String email, String giverRole) throws EntityDoesNotExistException {
+    private void verifyIsUserOfCourse(String courseId, String commentGiver, String giverRole) throws EntityDoesNotExistException {
         if (Const.STUDENT.equals(giverRole)) {
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, email);
+            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
             if (student == null) {
-                throw new EntityDoesNotExistException("User " + email + " is not a registered student for course "
+                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
                         + courseId + ".");
             }
         } else if (Const.INSTRUCTOR.equals(giverRole)) {
-            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
             if (instructor == null) {
-                throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
+                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered instructor for course "
                         + courseId + ".");
             }
         } else {
             List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
             boolean isTeamPresentInCourse = false;
             for (TeamDetailsBundle team : teams) {
-                if (team.name.equals(email)) {
+                if (team.name.equals(commentGiver)) {
                     isTeamPresentInCourse = true;
                     break;
                 }
             }
             if (!isTeamPresentInCourse) {
-                throw new EntityDoesNotExistException("User " + giverRole + " is not a registered team for course "
+                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
                         + courseId + ".");
             }
         }
