@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
@@ -283,7 +284,7 @@ public class BackDoorLogic extends Logic {
 
             courseInstructorsMap.put(instructor.courseId, instructor);
 
-            if (StringHelper.isEmpty(instructor.googleId) || googleIdAccountMap.containsKey(instructor.googleId)) {
+            if (Strings.isNullOrEmpty((instructor.googleId)) || googleIdAccountMap.containsKey(instructor.googleId)) {
                 // No account, or account already exists in the data bundle
                 continue;
             }
@@ -296,7 +297,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students) {
             populateNullSection(student);
 
-            if (StringHelper.isEmpty(student.googleId) || googleIdAccountMap.containsKey(student.googleId)) {
+            if (Strings.isNullOrEmpty((student.googleId)) || googleIdAccountMap.containsKey(student.googleId)) {
                 // No account, account already exists in the data bundle,
                 // or instructor account already exists (i.e. instructor is also a student)
                 continue;
