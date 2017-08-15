@@ -362,7 +362,8 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private void verifyIsUserOfCourse(String courseId, String commentGiver, String giverRole) throws EntityDoesNotExistException {
+    private void verifyIsUserOfCourse(String courseId, String commentGiver, String giverRole)
+            throws EntityDoesNotExistException {
         if (Const.STUDENT.equals(giverRole)) {
             StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
             if (student == null) {
