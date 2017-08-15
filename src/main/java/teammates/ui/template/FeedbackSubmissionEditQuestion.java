@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.util.IsRecipientType;
 
 public class FeedbackSubmissionEditQuestion {
     private String courseId;
@@ -22,9 +23,7 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
     private boolean isGiverTeam;
-    private boolean isRecipientTeam;
-    private boolean isRecipientStudent;
-    private boolean isRecipientInstructor;
+    private IsRecipientType recipient;
 
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -42,9 +41,13 @@ public class FeedbackSubmissionEditQuestion {
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
         isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
-        isRecipientTeam = questionAttributes.recipientType.isTeam();
-        isRecipientStudent = questionAttributes.isRecipientAStudent();
-        isRecipientInstructor = questionAttributes.isRecipientAInstructor();
+        if (questionAttributes.recipientType.isTeam()) {
+            recipient = IsRecipientType.TEAM;
+        } else if (questionAttributes.isRecipientAStudent()) {
+            recipient = IsRecipientType.STUDENT;
+        } else if (questionAttributes.isRecipientAInstructor()) {
+            recipient = IsRecipientType.INSTRUCTOR;
+        }
 
         setMessageToDisplayIfNoRecipientAvailable(questionAttributes);
 
@@ -122,15 +125,7 @@ public class FeedbackSubmissionEditQuestion {
         return isGiverTeam;
     }
 
-    public boolean isRecipientTeam() {
-        return isRecipientTeam;
-    }
-
-    public boolean isRecipientStudent() {
-        return isRecipientStudent;
-    }
-
-    public boolean isRecipientInstructor() {
-        return isRecipientInstructor;
+    public IsRecipientType getRecipient() {
+        return recipient;
     }
 }
