@@ -24,12 +24,12 @@
 
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <tsfse:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
-    <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
-      <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
-          isShowRealQuestionNumber="${data.showRealQuestionNumber}"
-          questionWithResponses="${questionWithResponses}" isInstructor="${isInstructor}"
-          moderatedPersonEmail="${moderatedPersonEmail}"/>
-    </c:forEach>
+  <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
+    <tsfse:questionWithResponses isSessionOpenForSubmission="${data.sessionOpenForSubmission}"
+        isShowRealQuestionNumber="${data.showRealQuestionNumber}"
+        questionWithResponses="${questionWithResponses}" isInstructor="${isInstructor}"
+        moderatedPersonEmail="${moderatedPersonEmail}"/>
+  </c:forEach>
   <div class="bold align-center">
     <c:if test="${data.moderation}">
       <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
