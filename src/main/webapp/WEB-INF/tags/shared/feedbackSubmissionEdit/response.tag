@@ -30,7 +30,7 @@
 <br>
 <div class="form-group margin-0">
   <div ${isNumResponsesMax ? 'class="col-sm-2 form-inline mobile-align-left"' : 'class="col-sm-4 form-inline mobile-align-left"'}
-    ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
+      ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
     <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
 

@@ -32,14 +32,14 @@
 </c:choose>
   <div class="form-group form-inline">
       <div class="form-group text-muted"<c:if test="${isOnFeedbackSubmissionEditPage}"> style="margin-left:1em;"</c:if>>
-          <p>
-              Giver: ${fn:escapeXml(frc.responseGiverName)}
-              <br>
-              Recipient: ${fn:escapeXml(frc.responseRecipientName)}
-          </p>
-          <c:if test="${giverRole eq 'Instructor'}">
-            You may change comment's visibility using the visibility options on the right hand side.
-          </c:if>
+        <p>
+          Giver: ${fn:escapeXml(frc.responseGiverName)}
+          <br>
+          Recipient: ${fn:escapeXml(frc.responseRecipientName)}
+        </p>
+        <c:if test="${giverRole eq 'Instructor'}">
+          You may change comment's visibility using the visibility options on the right hand side.
+        </c:if>
       </div>
       <c:if test="${giverRole eq 'Instructor'}">
         <a id="frComment-visibility-options-trigger-${divId}"
@@ -220,7 +220,7 @@
           <c:if test="${isOnFeedbackSubmissionEditPage}">
             style="display: none;"
           </c:if>>
-            ${buttonText}
+        ${buttonText}
       </a>
       <input type="button"
           class="btn btn-default hide-frc-${fn:toLowerCase(formType)}-form"
@@ -239,7 +239,7 @@
         <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>-${divId}" value="${frc.showCommentToString}">
         <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>-${divId}" value="${frc.showGiverNameToString}">
         <c:if test="${data.moderation}">
-                <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
+          <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
         </c:if>
         <input type="hidden" name="giverRole-${divId}" value="${giverRole}">
       </c:when>

@@ -22,16 +22,16 @@
   </c:when>
 </c:choose>
 <c:choose>
-    <c:when test="${giverRole eq 'Instructor'}">
-      <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
-    </c:when>
-    <c:otherwise>
-      <c:set var="submitLink">/page/StudentFeedbackResponseCommentAdd</c:set>
-    </c:otherwise>
+  <c:when test="${giverRole eq 'Instructor'}">
+    <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+  </c:when>
+  <c:otherwise>
+    <c:set var="submitLink">/page/StudentFeedbackResponseCommentAdd</c:set>
+  </c:otherwise>
 </c:choose>
 <li class="list-group-item list-group-item-warning"
     id="showResponseCommentAddForm-${divId}" style="display: none;">
-    <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
+  <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
       secondIndex="${secondIndex}"
       thirdIndex="${thirdIndex}"
       fourthIndex="${fourthIndex}"
