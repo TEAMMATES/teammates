@@ -85,9 +85,9 @@
       </c:otherwise>
     </c:choose>
     <c:if test="${response.existingResponse}">
-        <input type="hidden"
-            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-            value="<c:out value="${response.responseId}"/>">
+      <input type="hidden"
+          name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+          value="<c:out value="${response.responseId}"/>">
     </c:if>
   </div>
 </div>
