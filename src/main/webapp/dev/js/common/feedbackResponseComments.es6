@@ -334,7 +334,8 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         $(`#responseCommentTable${id}`).css('margin-top', '0');
         $(`#responseCommentTable${id}`).hide();
     }
-    restoreInitialVisibilityOfCheckboxes($(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
+    restoreInitialVisibilityOfCheckboxes(
+        $(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
