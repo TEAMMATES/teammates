@@ -869,13 +869,14 @@ public class FeedbackSessionResultsBundle {
     }
 
     public String getAnonNameWithoutNumericalId(FeedbackParticipantType type) {
-        return Const.ANONYMOUS_USER + " " + type.toSingularFormString();
+        return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " " + type.toSingularFormString();
     }
 
     public static String getAnonName(FeedbackParticipantType type, String name) {
         String hashedEncryptedName = getHashOfName(getEncryptedName(name));
         String participantType = type.toSingularFormString();
-        return String.format(Const.ANONYMOUS_USER + " %s %s", participantType, hashedEncryptedName);
+        return String.format(
+                Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " %s %s", participantType, hashedEncryptedName);
     }
 
     private static String getEncryptedName(String name) {
@@ -1635,7 +1636,7 @@ public class FeedbackSessionResultsBundle {
 
     public String appendTeamNameToName(String name, String teamName) {
         String outputName;
-        if (name.contains(Const.ANONYMOUS_USER) || name.equals(Const.USER_UNKNOWN_TEXT)
+        if (name.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT) || name.equals(Const.USER_UNKNOWN_TEXT)
                 || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
             outputName = name;
         } else {
