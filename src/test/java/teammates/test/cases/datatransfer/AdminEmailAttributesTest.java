@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
