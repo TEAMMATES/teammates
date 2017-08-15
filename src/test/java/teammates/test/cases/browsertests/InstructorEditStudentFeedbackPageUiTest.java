@@ -148,7 +148,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
-        //submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditComment.html");
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditComment.html");
 
         submitPage.deleteFeedbackResponseComment("-0-1-3-1");
         submitPage.verifyRowMissing("-0-1-6-1");
