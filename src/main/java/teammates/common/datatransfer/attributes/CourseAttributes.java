@@ -73,6 +73,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return TimeHelper.formatDateToIso8601Utc(createdAt);
     }
 
+    public String getCreatedAtFullDateTimeString() {
+        return TimeHelper.formatTime12H(createdAt);
+    }
+
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
