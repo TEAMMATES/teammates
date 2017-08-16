@@ -7,6 +7,7 @@ public class ArchivedCoursesTableRow {
     private String courseName;
     private String createdAtDateString;
     private String createdAtDateStamp;
+    private String createdAtFullDateTimeString;
     private List<ElementTag> actions;
 
     public ArchivedCoursesTableRow(String courseIdParam, String courseNameParam,
@@ -16,6 +17,7 @@ public class ArchivedCoursesTableRow {
         this.courseName = courseNameParam;
         this.createdAtDateString = createdAtDateStringParam;
         this.createdAtDateStamp = createdAtDateStampParam;
+        this.createdAtFullDateTimeString = createdAtFullDateTimeStringParam;
         this.actions = actionsParam;
     }
 
@@ -33,6 +35,10 @@ public class ArchivedCoursesTableRow {
 
     public String getCreatedAtDateStamp() {
         return createdAtDateStamp;
+    }
+
+    public String getCreatedAtFullDateTimeString() {
+        return createdAtFullDateTimeString;
     }
 
     public List<ElementTag> getActions() {
