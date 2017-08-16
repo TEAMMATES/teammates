@@ -120,6 +120,6 @@ public class Url {
      */
     public String toAbsoluteString() {
         return baseUrl + toString();
-    } 
-    
+    }
+
 }
