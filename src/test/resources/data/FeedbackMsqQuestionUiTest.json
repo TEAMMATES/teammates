@@ -45,29 +45,6 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
-    },
-    "teammates.test.instructor2": {
-      "googleId": "FMsqQnUiT.instructor2",
-      "courseId": "FMsqQnUiT.CS2104",
-      "name": "Teammates Test Instructor 2",
-      "email": "tmms.test2@gmail.tmt",
-      "role": "Co-owner",
-      "isDisplayedToStudents": false,
-      "displayedName": "Co-owner",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
     }
   },
   "students": {
