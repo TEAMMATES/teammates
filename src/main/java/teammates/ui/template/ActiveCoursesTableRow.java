@@ -11,11 +11,11 @@ public class ActiveCoursesTableRow {
     private List<ElementTag> actions;
 
     public ActiveCoursesTableRow(String courseIdParam, String courseNameParam,
-                                 String createdAtStringParam, String createdAtDateTimeStringParam,
+                                 String createdAtDateStringParam, String createdAtDateTimeStringParam,
                                  String href, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
-        this.createdAtDateString = createdAtStringParam;
+        this.createdAtDateString = createdAtDateStringParam;
         this.createdAtDateTimeString = createdAtDateTimeStringParam;
         this.href = href;
         this.actions = actionsParam;
