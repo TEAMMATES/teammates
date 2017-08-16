@@ -2,6 +2,7 @@ package teammates.test.cases.util;
 
 // CHECKSTYLE.OFF:AvoidStarImport as we want to perform tests on everything from FieldValidator
 import static teammates.common.util.FieldValidator.*;
+//CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.Date;
 
@@ -17,8 +18,6 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FieldValidatorExtension;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
-
-//CHECKSTYLE.ON:AvoidStarImport
 
 /**
  * SUT: {@link FieldValidator}.
