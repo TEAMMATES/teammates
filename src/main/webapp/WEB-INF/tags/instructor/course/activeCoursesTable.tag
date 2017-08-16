@@ -36,7 +36,13 @@
     <tr>
       <td id="courseid${i.index}">${activeCourse.courseId}</td>
       <td id="coursename${i.index}">${activeCourse.courseName}</td>
-      <td id="coursecreateddate${i.index}" data-date-stamp="${activeCourse.createdAtDateStamp}">${activeCourse.createdAtDateString}</td>
+      <td
+        id="coursecreateddate${i.index}"
+        data-date-stamp="${activeCourse.createdAtDateStamp}"
+        data-toggle="tooltip"
+        data-original-title="${activeCourse.createdAtFullDateTimeString}">
+          ${activeCourse.createdAtDateString}
+      </td>
       <td id="course-stats-sectionNum-${i.index}">
         <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
       </td>

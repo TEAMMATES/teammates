@@ -24,7 +24,13 @@
     <tr>
       <td id="courseid${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseId}</td>
       <td id="coursename${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseName}</td>
-      <td id="coursecreateddate${i.index + fn:length(activeCourses.rows)}" data-date-stamp="${archivedCourse.createdAtDateStamp}">${archivedCourse.createdAtDateString}</td>
+      <td
+        id="coursecreateddate${i.index + fn:length(activeCourses.rows)}"
+        data-date-stamp="${archivedCourse.createdAtDateStamp}"
+        data-toggle="tooltip"
+        data-original-title="${archivedCourse.createdAtFullDateTimeString}">
+          ${archivedCourse.createdAtDateString}
+        </td>
       <td class="align-center no-print">
         <c:forEach items="${archivedCourse.actions}" var="button">
           <a ${button.attributesToString}>
