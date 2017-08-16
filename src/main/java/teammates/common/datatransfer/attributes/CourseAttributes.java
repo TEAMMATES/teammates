@@ -69,7 +69,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt);
     }
 
-    public String getCreatedAtDateTimeString() {
+    public String getCreatedAtDateStamp() {
         return TimeHelper.formatDateToIso8601Utc(createdAt);
     }
 
