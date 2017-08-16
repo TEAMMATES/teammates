@@ -120,11 +120,6 @@ public class Url {
      */
     public String toAbsoluteString() {
         return baseUrl + toString();
-    }
-
-    @Override
-    public boolean equals(Object url) {
-        return this.toString().equals(url.toString());
-    }
+    } 
     
 }
