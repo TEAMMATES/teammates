@@ -78,7 +78,7 @@
             <span class="icon-sort unsorted">
             </span>
           </th>
-          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" id="button_sortcoursecreateddate">
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="button_sortcoursecreateddate">
             Course Created At
             <span class="icon-sort unsorted">
             </span>
@@ -108,7 +108,7 @@
           <td id="coursename0">
             Programming Language Concept
           </td>
-          <td id="coursecreateddate0">
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate0">
             ${datetime.now.courses}
           </td>
           <td id="course-stats-sectionNum-0">
@@ -171,7 +171,7 @@
             <span class="icon-sort unsorted">
             </span>
           </th>
-          <th class="button-sort-none toggle-sort" id="button_sortcoursecreateddate">
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="button_sortcoursecreateddate">
             Course Created At
             <span class="icon-sort unsorted">
             </span>
@@ -189,7 +189,7 @@
           <td id="coursename1">
             Programming Methodology
           </td>
-          <td id="coursecreateddate1">
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate1">
             ${datetime.now.courses}
           </td>
           <td class="align-center no-print">
