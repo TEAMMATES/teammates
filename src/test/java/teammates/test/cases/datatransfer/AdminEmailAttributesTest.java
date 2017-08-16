@@ -1,7 +1,6 @@
 package teammates.test.cases.datatransfer;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,13 +21,6 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
-    private String subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
-    private Text content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
-    private Date sendDate = new Date();
-    private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
-    private List<String> groupReceiverListFileKey =
-            Collections.singletonList(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
-
     @Test
     public void testValidate() throws Exception {
         AdminEmailAttributes validAttributes = createValidAdminEmailAttributesObject();
@@ -43,7 +35,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 getPopulatedErrorMessage(
                         FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributes.getContentValue(),
                         FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                        42) + Const.EOL
+                        0) + Const.EOL
                 + getPopulatedErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributes.getSubject(),
                         FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
@@ -57,7 +49,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testGetIdentificationString() {
         AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals(sendDate + "/" + subject, adminEmail.getIdentificationString());
+        assertEquals(new Date() + "/" + "subject of email", adminEmail.getIdentificationString());
     }
 
     @Test
@@ -95,6 +87,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     private AdminEmailAttributes createInvalidAdminEmailAttributesObject() {
+        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
+        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
         String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
         Text emptyContent = new Text("");
 
@@ -103,6 +97,13 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     private AdminEmailAttributes createValidAdminEmailAttributesObject() {
-        return new AdminEmailAttributes(subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate);
+        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
+        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
+        String validSubject = "subject of email";
+        Text content = new Text("valid email content");
+
+        return new AdminEmailAttributes(
+                validSubject, addressReceiverListString, groupReceiverListFileKey, content, new Date());
     }
+
 }
