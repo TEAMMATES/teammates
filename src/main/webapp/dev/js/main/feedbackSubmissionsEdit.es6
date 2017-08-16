@@ -41,6 +41,7 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const SUCCESS_STATUS_MESSAGE = '.alert-success.statusMessage';
 const END_TIME = '#end-time';
 const MS_IN_FIFTEEN_MINUTES = 900000;
 
@@ -48,6 +49,9 @@ const MS_IN_FIFTEEN_MINUTES = 900000;
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
 const SESSION_CLOSING_HEADER = 'Feedback Session Will Be Closing Soon';
 const SESSION_CLOSING_MESSAGE = 'Warning: you have less than 15 minutes before the submission deadline expires!';
+const RESPONSES_SUCCESSFULLY_SUBMITTED = '<p>All your responses have been successfully recorded! '
+        + 'You may now leave this page.</p>'
+        + '<p>Note that you can change your responses and submit them again any time before the session closes.</p>';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -961,6 +965,14 @@ function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
 
+function hasSuccessMessage() {
+    return $(SUCCESS_STATUS_MESSAGE).length;
+}
+
+function getSuccessMessage() {
+    return $(SUCCESS_STATUS_MESSAGE).html().trim();
+}
+
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
         showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
@@ -973,6 +985,11 @@ function showModalWarningIfSessionClosingSoon() {
     }
 }
 
+function showModalSuccessIfResponsesSubmitted() {
+    if (hasSuccessMessage()) {
+        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED, null, StatusType.SUCCESS);
+    }
+}
 /**
  * Updates the length of the textArea
  * @param textAreaId - Id of text area for which char are to be counted
@@ -1106,6 +1123,8 @@ $(document).ready(() => {
     showModalWarningIfSessionClosed();
 
     showModalWarningIfSessionClosingSoon();
+
+    showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
