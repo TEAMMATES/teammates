@@ -1,7 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static org.junit.Assert.assertNotEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,8 +125,8 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         studentProfile.importGender("male");
 
         assertEquals(GenderType.MALE, studentProfile.getGender());
-        assertNotEquals(GenderType.FEMALE, studentProfile.getGender());
-        assertNotEquals(GenderType.OTHER, studentProfile.getGender());
+        assertFalse(studentProfile.getGender().equals(GenderType.FEMALE));
+        assertFalse(studentProfile.getGender().equals(GenderType.OTHER));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -137,10 +135,10 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfile studentProfile2 = new StudentProfile(spa2.googleId);
         studentProfile2.importGender("banana");
 
-        assertNotEquals(GenderType.OTHER, studentProfile2.getGender());
-        assertNotEquals(GenderType.FEMALE, studentProfile2.getGender());
-        assertNotEquals(GenderType.OTHER, studentProfile2.getGender());
-        assertNotEquals("banana", studentProfile2.getGender());
+        assertFalse(studentProfile2.getGender().equals(GenderType.OTHER));
+        assertFalse(studentProfile2.getGender().equals(GenderType.FEMALE));
+        assertFalse(studentProfile2.getGender().equals(GenderType.OTHER));
+        assertFalse(studentProfile2.getGender().equals("banana"));
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
