@@ -179,8 +179,6 @@ public class StudentProfile extends BaseEntity {
         if (gender == null) {
             return;
         }
-
         this.gender = GenderType.valueOf(gender.toUpperCase());
     }
-
 }

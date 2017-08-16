@@ -80,7 +80,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: invalid parameters with attempted script injection");
 
         submissionParams = createInvalidParamsForProfileWithScriptInjection();
-
         expectedProfile = getProfileAttributesFrom(submissionParams);
         expectedProfile.googleId = student.googleId;
 
@@ -121,8 +120,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                  + "|||true|||Student|||" + student.name + "|||" + student.googleId
                  + "|||" + student.email + "|||" + Const.ACTION_RESULT_FAILURE
                  + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
-
-        // This assertion fails
         AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
@@ -212,7 +209,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
                 // Since GenderType always store valid genderType: MALE, FEMALE or OTHER, we can remove invalid gender
                 Const.ParamsNames.STUDENT_GENDER, "FEMALE",
-
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
         };
     }

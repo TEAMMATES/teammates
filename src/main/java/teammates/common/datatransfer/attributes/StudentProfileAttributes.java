@@ -25,7 +25,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public GenderType gender; // only accepts "MALE", "FEMALE" or "OTHER"
+    public GenderType gender; // only accepts MALE, FEMALE or OTHER
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
