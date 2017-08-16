@@ -122,4 +122,9 @@ public class Url {
         return baseUrl + toString();
     }
 
+    @Override
+    public boolean equals(Object url) {
+        return this.toString().equals(url.toString());
+    }
+    
 }
