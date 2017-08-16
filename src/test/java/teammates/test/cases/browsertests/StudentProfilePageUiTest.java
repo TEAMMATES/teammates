@@ -78,7 +78,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testNavLinkToPage() {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
-                       .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
+                                   .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab();
     }
@@ -186,7 +186,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                FEMALE, "this is enough!$%&*</>");
+                                          FEMALE, "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
 
         ______TS("Typical case: picture upload and edit");
