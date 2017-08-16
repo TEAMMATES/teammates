@@ -102,6 +102,8 @@ public class InstructorCoursesPageData extends PageData {
                                                                       SanitizationHelper.sanitizeForHtml(course.getName()),
                                                                       SanitizationHelper.sanitizeForHtml(
                                                                               course.getCreatedAtDateString()),
+                                                                      SanitizationHelper.sanitizeForHtml(
+                                                                              course.getCreatedAtDateTimeString()),
                                                                                                 actionsParam);
             archivedCoursesTable.getRows().add(row);
 
@@ -156,6 +158,8 @@ public class InstructorCoursesPageData extends PageData {
                                                                   SanitizationHelper.sanitizeForHtml(course.getName()),
                                                                   SanitizationHelper.sanitizeForHtml(
                                                                           course.getCreatedAtDateString()),
+                                                                  SanitizationHelper.sanitizeForHtml(
+                                                                          course.getCreatedAtDateTimeString()),
                                                                   this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);

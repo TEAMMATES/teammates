@@ -6,13 +6,16 @@ public class ArchivedCoursesTableRow {
     private String courseId;
     private String courseName;
     private String createdAtDateString;
+    private String createdAtDateTimeString;
     private List<ElementTag> actions;
 
     public ArchivedCoursesTableRow(String courseIdParam, String courseNameParam,
-            String createdAtDateStringParam, List<ElementTag> actionsParam) {
+            String createdAtDateStringParam, String createdAtDateTimeStringParam,
+            List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.createdAtDateString = createdAtDateStringParam;
+        this.createdAtDateTimeString = createdAtDateTimeStringParam;
         this.actions = actionsParam;
     }
 
@@ -26,6 +29,10 @@ public class ArchivedCoursesTableRow {
 
     public String getCreatedAtDateString() {
         return createdAtDateString;
+    }
+
+    public String getCreatedAtDateTimeString() {
+        return createdAtDateTimeString;
     }
 
     public List<ElementTag> getActions() {
