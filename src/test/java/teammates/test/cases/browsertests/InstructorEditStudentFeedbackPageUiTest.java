@@ -70,6 +70,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
 
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
 
@@ -103,6 +104,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
     }
 
     private void testCommentsAction() throws IOException {
@@ -163,6 +165,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
