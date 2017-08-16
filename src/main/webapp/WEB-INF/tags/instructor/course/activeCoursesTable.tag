@@ -12,7 +12,7 @@
       <th id="button_sortcoursename" class="button-sort-none toggle-sort">
         Course Name<span class="icon-sort unsorted"></span>
       </th>
-      <th id="button_sortcoursecreateddate" data-toggle-sort-comparator="sortDate" class="button-sort-none toggle-sort">
+      <th id="button_sortcoursecreateddate" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" class="button-sort-none toggle-sort">
         Course Created At<span class="icon-sort unsorted"></span>
       </th>
       <th>
@@ -36,7 +36,7 @@
     <tr>
       <td id="courseid${i.index}">${activeCourse.courseId}</td>
       <td id="coursename${i.index}">${activeCourse.courseName}</td>
-      <td id="coursecreateddate${i.index}">${activeCourse.createdAtDateString}</td>
+      <td id="coursecreateddate${i.index}" data-date-stamp="${activeCourse.createdAtDateTimeString}">${activeCourse.createdAtDateString}</td>
       <td id="course-stats-sectionNum-${i.index}">
         <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
       </td>
