@@ -32,7 +32,10 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testValidate() throws Exception {
         AdminEmailAttributes validAttributes = createValidAdminEmailAttributesObject();
-        assertTrue("valid value", validAttributes.isValid());
+        assertTrue("Valid input", validAttributes.isValid());
+
+        List<String> actual = validAttributes.getInvalidityInfo();
+        assertTrue("Valid input should return an empty list", actual.isEmpty());
 
         AdminEmailAttributes invalidAttributes = createInvalidAdminEmailAttributesObject();
 
@@ -40,14 +43,14 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 getPopulatedErrorMessage(
                         FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributes.getContentValue(),
                         FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                        FieldValidator.EMAIL_SUBJECT_MAX_LENGTH) + Const.EOL
-                        + getPopulatedErrorMessage(
+                        42) + Const.EOL
+                + getPopulatedErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributes.getSubject(),
                         FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                         FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
 
-        assertFalse("all valid values", invalidAttributes.isValid());
-        assertEquals("all valid values", expectedError,
+        assertFalse("Valid input", invalidAttributes.isValid());
+        assertEquals("Invalid input should return appropriate error string", expectedError,
                 StringHelper.toString(invalidAttributes.getInvalidityInfo()));
     }
 
