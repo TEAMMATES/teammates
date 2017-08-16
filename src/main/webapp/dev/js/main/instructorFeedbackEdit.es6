@@ -511,7 +511,7 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    if ($(`#generateOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+    if ($('[id^=generate][id$=OptionsCheckbox-${NEW_QUESTION}]').prop('checked')) {
         $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
         $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
         $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
