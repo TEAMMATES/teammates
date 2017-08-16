@@ -702,7 +702,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                               .withUserId("CFResultsUiT.instr");
         browser.driver.get(reportUrl.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
-        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
+        assertEquals(reportUrl.toString(), afterReportDownloadUrl);
         // Get an error page due to missing parameters in URL
         // If admin is an instructor, expected url is InstructorHomePage
         //                 otherwise, expected url is unauthorised.jsp
