@@ -95,6 +95,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
     private boolean hasAnySanitizedField(StudentProfileAttributes profile) {
         return isSanitizedHtml(profile.shortName) || isSanitizedHtml(profile.email)
                 || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
-                || isSanitizedHtml(String.valueOf(profile.gender)) || isSanitizedHtml(profile.moreInfo);
+                || isSanitizedHtml(profile.moreInfo);
     }
 }
