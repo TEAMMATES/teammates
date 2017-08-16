@@ -276,7 +276,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             FeedbackResponseCommentAttributes commentCheck =
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
                             if (editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
-                                    && !commentCheck.commentText.equals(editedCommentText)) {
+                                    && !commentCheck.commentText.getValue().equals(editedCommentText)) {
                                 String commentIndx = "-" + responseIndx + "-"
                                         + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
                                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
