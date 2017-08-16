@@ -216,6 +216,182 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
 
+        ______TS("MSQ: min/max selectable options");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check min/max selectable restrictions for
+        // new MSQ question with custom options
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Custom options");
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "A");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "B");
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.fillMsqOptionForNewQuestion(2, "C");
+        feedbackEditPage.fillMsqOptionForNewQuestion(3, "D");
+        checkMinMaxSelectableRestrictionForCustomOptions(-1);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // Check min/max selectable restrictions for
+        // existing MSQ question with custom options
+        feedbackEditPage.clickEditQuestionButton(2);
+        checkMinMaxSelectableRestrictionForCustomOptions(2);
+        feedbackEditPage.clickDeleteQuestionLink(2);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+
+        // Check min/max selectable restrictions for new
+        // MSQ question with options generated from students
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq generated options");
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1);
+        checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // Check min/max selectable restrictions for existing
+        // MSQ question with options generated from students
+        feedbackEditPage.clickEditQuestionButton(2);
+        checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(2);
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+    }
+
+    private void checkMinMaxSelectableRestrictionForCustomOptions(int qnNumber) {
+        // checking inputs after enabling max selectable restriction
+        // scrollToElement(feedbackEditPage.getMsqMaxSelectableChoicesElement(qnNumber));
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // checking inputs when max = 4, 4 options
+        // are present and an option is removed
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, 4);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.clickRemoveMsqOptionLink(0, qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(3, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+
+        // add an option back
+        feedbackEditPage.clickAddMoreMsqOptionLink(qnNumber);
+        feedbackEditPage.fillMsqOption(qnNumber, 4, "X");
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(3, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+
+        // enable min selectable restriction only
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+
+        // check inputs after enabling min selectable restriction
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // checking inputs when min = 4, 4 options
+        // are present and an option is removed
+        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, 4);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.clickRemoveMsqOptionLink(1, qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(3, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // add an option back
+        feedbackEditPage.clickAddMoreMsqOptionLink(qnNumber);
+        feedbackEditPage.fillMsqOption(qnNumber, 5, "Y");
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(3, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // enable min and max selectable restrictions
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+
+        // check inputs after enabling min and max selectable restriction
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // if max is decreased from 3 to 2, min should also decrease
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, 2);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(2, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // checking inputs when min = 4, max = 4,
+        // 4 options are present and an option is removed
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, 4);
+        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, 4);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.clickRemoveMsqOptionLink(2, qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(3, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+        assertEquals(3, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // add an option back
+        feedbackEditPage.clickAddMoreMsqOptionLink(qnNumber);
+        feedbackEditPage.fillMsqOption(qnNumber, 6, "Z");
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(3, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+        assertEquals(3, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // disable min and max selectable restrictions
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+    }
+
+    // assumes student is already selected
+    private void checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(int qnNumber) {
+        // Check min/max selectable restrictions for MSQ
+        // question with options generated from students
+        checkMinMaxSelectableRestrictionForGeneratedOption(qnNumber);
+
+        // Check min/max selectable restrictions for
+        // MSQ question with options generated from teams
+        feedbackEditPage.selectMsqGenerateOptionsFor("teams", qnNumber);
+        checkMinMaxSelectableRestrictionForGeneratedOption(qnNumber);
+
+        // enable min and max selectable restrictions,
+        // change generated options for selection
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+        feedbackEditPage.selectMsqGenerateOptionsFor("students", qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // disable min and max selectable restrictions
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+    }
+
+    private void checkMinMaxSelectableRestrictionForGeneratedOption(int qnNumber) {
+        int numOfOptions = feedbackEditPage.getNumOfMsqOptions(qnNumber);
+
+        // checking inputs after enabling max selectable restriction
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // enable min selectable restriction only
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // enable min and max selectable restrictions
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+
+        // check inputs after enabling min and max selectable restriction
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // set max = numOfOptions and min = numOfOptions,
+        // then decreasing max must decrease min too
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, numOfOptions);
+        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, numOfOptions);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, numOfOptions - 1);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(numOfOptions - 1, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+        assertEquals(numOfOptions - 1, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+
+        // disable min and max selectable restrictions
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
     }
 
     @Override

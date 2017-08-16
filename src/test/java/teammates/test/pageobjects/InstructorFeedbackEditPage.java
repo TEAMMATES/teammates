@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -20,7 +21,6 @@ import org.openqa.selenium.support.ui.Select;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -1086,7 +1086,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return "msqMinSelectableChoices-" + qnNumber;
     }
 
-    private WebElement getMsqMaxSelectableChoicesElement(int qnNumber) {
+    public WebElement getMsqMaxSelectableChoicesElement(int qnNumber) {
         String id = getMsqMaxSelectableChoicesCheckboxId(qnNumber);
 
         return browser.driver.findElement(By.id(id));
@@ -1099,11 +1099,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void toggleMsqMaxSelectableChoices(int qnNumber) {
-        getMsqMaxSelectableChoicesElement(qnNumber).click();
+        click(getMsqMaxSelectableChoicesElement(qnNumber));
     }
 
     public void toggleMsqMinSelectableChoices(int qnNumber) {
-        getMsqMinSelectableChoicesElement(qnNumber).click();
+        click(getMsqMinSelectableChoicesElement(qnNumber));
     }
 
     public boolean isMsqMaxSelectableChoicesEnabled(int qnNumber) {
@@ -1144,31 +1144,38 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void setMsqMinSelectableChoices(int qnNumber, int value) {
         assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
-        assertTrue(getMinOfMsqMinSelectableChoices(qnNumber) <= value);
-        assertTrue(getMaxOfMsqMinSelectableChoices(qnNumber) >= value);
 
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
-        fillTextBox(inputBox, Integer.toString(value));
+        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
+        String id = inputBox.getAttribute("id");
+
+        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
     }
 
     public void setMsqMaxSelectableChoices(int qnNumber, int value) {
         assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
-        assertTrue(getMinOfMsqMaxSelectableChoices(qnNumber) <= value);
-        assertTrue(getMaxOfMsqMaxSelectableChoices(qnNumber) >= value);
 
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
-        fillTextBox(inputBox, Integer.toString(value));
+        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
+        String id = inputBox.getAttribute("id");
+
+        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
     }
 
-    public int getNumOfStudentsForFS() {
+    public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + qnNumber));
+        fillTextBox(optionBox, optionText);
+    }
+
+    public int getNumOfStudentsForFs() {
         return Integer.parseInt(browser.driver.findElement(By.id("num-students")).getAttribute("value"));
     }
 
-    public int getNumOfTeamsForFS() {
+    public int getNumOfTeamsForFs() {
         return Integer.parseInt(browser.driver.findElement(By.id("num-teams")).getAttribute("value"));
     }
 
-    public int getNumOfInstructorsForFS() {
+    public int getNumOfInstructorsForFs() {
         return Integer.parseInt(browser.driver.findElement(By.id("num-instructors")).getAttribute("value"));
     }
 
@@ -1188,6 +1195,85 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
 
         return Integer.parseInt(getValue(getMsqMaxSelectableChoicesBox(qnNumber)));
+    }
+
+    private boolean isGenerateOptionsForMsqChecked(int qnNumber) {
+        return browser.driver.findElement(By.id("generateMsqOptionsCheckbox-" + qnNumber)).isSelected();
+    }
+
+    private String getGenerateOptionsForMsqValue(int qnNumber) {
+        Select options = new Select(browser.driver.findElement(By.id("msqGenerateForSelect-" + qnNumber)));
+
+        return options.getFirstSelectedOption().getText();
+    }
+
+    public int getNumOfMsqOptions(int qnNumber) {
+        int numOfOptions = 0;
+
+        if (isGenerateOptionsForMsqChecked(qnNumber)) {
+            String selectedOption = getGenerateOptionsForMsqValue(qnNumber);
+
+            switch (selectedOption) {
+            case "students":
+                numOfOptions = getNumOfStudentsForFs();
+                break;
+            case "teams":
+                numOfOptions = getNumOfTeamsForFs();
+                break;
+            case "instructors":
+                numOfOptions = getNumOfInstructorsForFs();
+                break;
+            default:
+                numOfOptions = 0;
+                break;
+            }
+        } else {
+            numOfOptions = browser.driver.findElements(
+                    By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
+        }
+
+        return numOfOptions;
+    }
+
+    public void verifyMsqMinMaxSelectableChoices(int qnNumber) {
+        boolean isMinEnabled = isMsqMinSelectableChoicesEnabled(qnNumber);
+        boolean isMaxEnabled = isMsqMaxSelectableChoicesEnabled(qnNumber);
+
+        if (!isMinEnabled && !isMaxEnabled) {
+            return;
+        }
+
+        int numOfOptions = getNumOfMsqOptions(qnNumber);
+
+        if (isMinEnabled) {
+            int lowerLimit = getMinOfMsqMinSelectableChoices(qnNumber);
+            int upperLimit = getMaxOfMsqMinSelectableChoices(qnNumber);
+            int value = getMsqMinSelectableChoices(qnNumber);
+
+            assertTrue(lowerLimit == 1);
+            assertTrue(lowerLimit <= value);
+            assertTrue(value <= upperLimit);
+            assertTrue(upperLimit <= numOfOptions);
+        }
+
+        if (isMaxEnabled) {
+            int lowerLimit = getMinOfMsqMaxSelectableChoices(qnNumber);
+            int upperLimit = getMaxOfMsqMaxSelectableChoices(qnNumber);
+            int value = getMsqMaxSelectableChoices(qnNumber);
+
+            assertTrue(lowerLimit == 2);
+            assertTrue(lowerLimit <= value);
+            assertTrue(value <= upperLimit);
+            assertTrue(upperLimit <= numOfOptions);
+        }
+
+        if (isMinEnabled && isMaxEnabled) {
+            int minValue = getMsqMinSelectableChoices(qnNumber);
+            int maxValue = getMsqMaxSelectableChoices(qnNumber);
+
+            assertTrue(minValue <= maxValue);
+            assertEquals(maxValue, getMaxOfMsqMinSelectableChoices(qnNumber));
+        }
     }
     // <===== ===== ===== ===== ===== MSQ min/max methods END ===== ===== ===== ===== =====>
 
