@@ -1,9 +1,11 @@
 package teammates.test.cases.datatransfer;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -13,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 import teammates.test.driver.StringHelperExtension;
 
@@ -20,6 +23,13 @@ import teammates.test.driver.StringHelperExtension;
  * SUT: {@link AdminEmailAttributes}.
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
+
+    private AdminEmailAttributes emailAttributes;
+
+    @BeforeClass
+    public void classSetup() {
+        emailAttributes = createValidAdminEmailAttributesObject();
+    }
 
     @Test
     public void testValidate() throws Exception {
@@ -44,6 +54,16 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertFalse("Valid input", invalidAttributes.isValid());
         assertEquals("Invalid input should return appropriate error string", expectedError,
                 StringHelper.toString(invalidAttributes.getInvalidityInfo()));
+    }
+
+    @Test
+    public void testSendDateForDisplay() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(emailAttributes.sendDate);
+        calendar = TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+        String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
+
+        assertEquals(dateForDisplay, emailAttributes.getSendDateForDisplay());
     }
 
     @Test
