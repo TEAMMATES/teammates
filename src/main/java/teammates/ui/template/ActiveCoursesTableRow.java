@@ -7,16 +7,18 @@ public class ActiveCoursesTableRow {
     private String courseName;
     private String createdAtDateString;
     private String createdAtDateStamp;
+    private String createdAtFullDateTimeString;
     private String href;
     private List<ElementTag> actions;
 
     public ActiveCoursesTableRow(String courseIdParam, String courseNameParam,
                                  String createdAtDateStringParam, String createdAtDateStampParam,
-                                 String href, List<ElementTag> actionsParam) {
+                                 String createdAtFullDateTimeStringParam, String href, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.createdAtDateString = createdAtDateStringParam;
         this.createdAtDateStamp = createdAtDateStampParam;
+        this.createdAtFullDateTimeString = createdAtFullDateTimeStringParam;
         this.href = href;
         this.actions = actionsParam;
     }
@@ -35,6 +37,10 @@ public class ActiveCoursesTableRow {
 
     public String getCreatedAtDateStamp() {
         return createdAtDateStamp;
+    }
+
+    public String getCreatedAtFullDateTimeString() {
+        return createdAtFullDateTimeString;
     }
 
     public String getHref() {

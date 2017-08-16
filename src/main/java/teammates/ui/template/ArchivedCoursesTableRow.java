@@ -11,7 +11,7 @@ public class ArchivedCoursesTableRow {
 
     public ArchivedCoursesTableRow(String courseIdParam, String courseNameParam,
             String createdAtDateStringParam, String createdAtDateStampParam,
-            List<ElementTag> actionsParam) {
+            String createdAtFullDateTimeStringParam, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.createdAtDateString = createdAtDateStringParam;
