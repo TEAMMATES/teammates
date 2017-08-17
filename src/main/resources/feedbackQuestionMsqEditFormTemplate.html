@@ -14,8 +14,8 @@
           <div class="checkbox">
             <label class="bold-label">
               <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}"
-                   id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}-${questionNumber}"
-                   ${checkedOtherOptionEnabled} onchange="toggleMsqOtherOptionEnabled(this, ${questionNumber})">
+                  id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}-${questionNumber}"
+                  ${checkedOtherOptionEnabled} onchange="toggleMsqOtherOptionEnabled(this, ${questionNumber})">
                 Add 'Other' option (Allows respondents to type in their own answer)
             </label>
           </div>
@@ -32,27 +32,27 @@
       <div class="checkbox">
         <label class="bold-label">
           <input type="checkbox"
-            disabled
-            id="generateMsqOptionsCheckbox-${questionNumber}"
-            ${checkedGeneratedOptions}
-            onchange="toggleMsqGeneratedOptions(this,${questionNumber})">
+              disabled
+              id="generateMsqOptionsCheckbox-${questionNumber}"
+              ${checkedGeneratedOptions}
+              onchange="toggleMsqGeneratedOptions(this,${questionNumber})">
           Or, generate options from the list of all
         </label>
       </div>
     </div>
     <div class="col-md-4">
       <select class="form-control" id="msqGenerateForSelect-${questionNumber}"
-        onchange="changeMsqGenerateFor(${questionNumber})"
-        disabled>
+          onchange="changeMsqGenerateFor(${questionNumber})"
+          disabled>
         <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
         <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
         <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
       </select>
     </div>
     <input type="hidden"
-      id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
-      name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}"
-      value="${generateOptionsForValue}">
+        id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
+        name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}"
+        value="${generateOptionsForValue}">
   </div>
   <br>
 </div>

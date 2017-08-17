@@ -14,8 +14,8 @@
           <div class="checkbox">
             <label class="bold-label">
               <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}"
-                   id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
-                   ${checkedOtherOptionEnabled} onchange="toggleMcqOtherOptionEnabled(this, ${questionNumber})">
+                  id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
+                  ${checkedOtherOptionEnabled} onchange="toggleMcqOtherOptionEnabled(this, ${questionNumber})">
                 Add 'Other' option (Allows respondents to type in their own answer)
             </label>
           </div>
@@ -33,25 +33,25 @@
       <label class="bold-label">
         <span class="inline-block">
           <input type="checkbox"
-            disabled
-            id="generateMcqOptionsCheckbox-${questionNumber}"
-            ${checkedGeneratedOptions}
-            onchange="toggleMcqGeneratedOptions(this,${questionNumber})">
+              disabled
+              id="generateMcqOptionsCheckbox-${questionNumber}"
+              ${checkedGeneratedOptions}
+              onchange="toggleMcqGeneratedOptions(this,${questionNumber})">
           Or, generate options from the list of all
         </span>
       </label>
       <select class="form-control width-auto inline" id="mcqGenerateForSelect-${questionNumber}"
-        onchange="changeMcqGenerateFor(${questionNumber})"
-        disabled>
+          onchange="changeMcqGenerateFor(${questionNumber})"
+          disabled>
         <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
         <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
         <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
       </select>
     </div>
     <input type="hidden"
-         id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
-         name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}"
-         value="${generateOptionsForValue}">
+        id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
+        name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}"
+        value="${generateOptionsForValue}">
   </div>
   <br>
 </div>
