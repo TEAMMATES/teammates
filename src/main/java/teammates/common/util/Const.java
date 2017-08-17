@@ -31,6 +31,9 @@ public final class Const {
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
 
+    public static final String INSTRUCTOR = "Instructor";
+    public static final String STUDENT = "Student";
+
     public static final String NONE_OF_THE_ABOVE = "None of the above";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
@@ -98,6 +101,9 @@ public final class Const {
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
     public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+
+    // used to fetch comments in FeedbackSubmissionEdit Pages
+    public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
 
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
@@ -193,6 +199,8 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD,
+                        ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
@@ -617,6 +625,7 @@ public final class Const {
         public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
+        public static final String COMMENT_GIVER_ROLE = "giverRole";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
@@ -967,6 +976,10 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+
+        public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/studentFeedbackResponseCommentAdd";
+        public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/studentFeedbackResponseCommentDelete";
+
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";

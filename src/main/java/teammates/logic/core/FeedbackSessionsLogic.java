@@ -304,14 +304,29 @@ public final class FeedbackSessionsLogic {
 
         InstructorAttributes instructorGiver = instructor;
 
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
+
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
-                    question, instructorGiver, null);
-        }
+                    question, instructorGiver, null, commentsForResponses);
 
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+            for (FeedbackResponseAttributes response : bundle.get(question)) {
+                addEmailNamePairsToTable(emailNameTable, response, question, roster);
+                addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
+                addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
+            }
+        }
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, roster);
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
@@ -333,22 +348,21 @@ public final class FeedbackSessionsLogic {
 
         InstructorAttributes instructorGiver = instructor;
 
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
-                question, instructorGiver, null);
+                question, instructorGiver, null, commentsForResponses);
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
 
     private void updateBundleAndRecipientListWithResponsesForInstructor(
-            String courseId,
-            String userEmail,
-            FeedbackSessionAttributes fsa,
-            InstructorAttributes instructor,
+            String courseId, String userEmail, FeedbackSessionAttributes fsa, InstructorAttributes instructor,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
-            Map<String, Map<String, String>> recipientList,
-            FeedbackQuestionAttributes question,
-            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
+            Map<String, Map<String, String>> recipientList, FeedbackQuestionAttributes question,
+            InstructorAttributes instructorGiver, StudentAttributes studentGiver,
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses)
             throws EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses =
                 frLogic.getFeedbackResponsesFromGiverForQuestion(
@@ -383,6 +397,11 @@ public final class FeedbackSessionsLogic {
 
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseCommentAttributes> comments =
+                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+            commentsForResponses.put(response.getId(), comments);
+        }
     }
 
     /**
@@ -419,14 +438,27 @@ public final class FeedbackSessionsLogic {
                 break;
             }
         }
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
+
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
 
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                    bundle, recipientList, question, hiddenInstructorEmails);
+                    bundle, recipientList, question, hiddenInstructorEmails, commentsForResponses);
+            for (FeedbackResponseAttributes response : bundle.get(question)) {
+                addEmailNamePairsToTable(emailNameTable, response, question, roster);
+                addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
+                addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
+            }
         }
-
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, roster);
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
@@ -456,19 +488,31 @@ public final class FeedbackSessionsLogic {
             hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
         }
 
-        updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                bundle, recipientList, question, hiddenInstructorEmails);
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        CourseRoster roster = new CourseRoster(studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
 
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+        updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
+                bundle, recipientList, question, hiddenInstructorEmails, commentsForResponses);
+        for (FeedbackResponseAttributes response : bundle.get(question)) {
+            addEmailNamePairsToTable(emailNameTable, response, question, roster);
+            addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
+            addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
+        }
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
+                emailLastNameTable, emailTeamNameTable, roster);
     }
 
     private void updateBundleAndRecipientListWithResponsesForStudent(
-            String userEmail,
-            StudentAttributes student,
+            String userEmail, StudentAttributes student,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
-            Map<String, Map<String, String>> recipientList,
-            FeedbackQuestionAttributes question,
-            Set<String> hiddenInstructorEmails)
+            Map<String, Map<String, String>> recipientList, FeedbackQuestionAttributes question,
+            Set<String> hiddenInstructorEmails,
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses)
             throws EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses =
                 frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
@@ -482,6 +526,12 @@ public final class FeedbackSessionsLogic {
 
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
+
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseCommentAttributes> comments =
+                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+            commentsForResponses.put(response.getId(), comments);
+        }
     }
 
     /**

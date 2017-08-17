@@ -2,13 +2,16 @@ package teammates.test.pageobjects;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.ThreadHelper;
 
 public class FeedbackSubmitPage extends AppPage {
 
@@ -255,6 +258,42 @@ public class FeedbackSubmitPage extends AppPage {
         waitForElementToBeClickable(closeButton);
         click(closeButton);
         waitForElementToDisappear(By.id("more-info-equal-share-modal"));
+    }
+
+    public void addFeedbackResponseComment(String commentIdSuffix, String commentText) {
+        WebElement addResponseCommentForm =
+                browser.driver.findElement(By.id("showResponseCommentAddForm" + commentIdSuffix));
+        WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
+        WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
+        click(showResponseCommentAddFormButton);
+        WebElement editorElement = waitForElementPresence(
+                By.cssSelector("#" + "showResponseCommentAddForm" + commentIdSuffix + " .mce-content-body"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), commentText);
+    }
+
+    public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
+        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        click(commentRow.findElements(By.tagName("a")).get(1));
+        fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
+    }
+
+    public void deleteFeedbackResponseComment(String commentIdSuffix) {
+        WebElement commentDeleteButton = browser.driver.findElement(By.id("commentdelete" + commentIdSuffix));
+        click(commentDeleteButton);
+        waitForConfirmationModalAndClickOk();
+        ThreadHelper.waitFor(1500);
+    }
+
+    public void verifyRowMissing(String rowIdSuffix) {
+        try {
+            waitForAjaxLoaderGifToDisappear();
+            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
+            fail("Row expected to be missing found.");
+        } catch (NoSuchElementException expected) {
+            // row expected to be missing
+            return;
+        }
     }
 
 }

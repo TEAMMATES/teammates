@@ -28,7 +28,7 @@ public class FeedbackResponseCommentRow {
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
-    private Map<String, String> instructorEmailNameTable;
+    private Map<String, String> commentGiverEmailNameTable;
 
     private String whoCanSeeComment;
     private double sessionTimeZone;
@@ -38,8 +38,8 @@ public class FeedbackResponseCommentRow {
     private boolean isEditDeleteEnabled;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-            Map<String, String> instructorEmailNameTable, double sessionTimeZone) {
-        this.instructorEmailNameTable = instructorEmailNameTable;
+            Map<String, String> commentGiverEmailNameTable, double sessionTimeZone) {
+        this.commentGiverEmailNameTable = commentGiverEmailNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
@@ -51,9 +51,9 @@ public class FeedbackResponseCommentRow {
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailNameTable,
             double sessionTimeZone) {
-        this(frc, giverDisplay, instructorEmailNameTable, sessionTimeZone);
+        this(frc, giverDisplay, commentGiverEmailNameTable, sessionTimeZone);
         setDataForAddEditDelete(frc, giverName, recipientName,
                 showCommentToString, showGiverNameToString, responseVisibilities);
     }
@@ -249,7 +249,10 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
         }
-        return instructorEmailNameTable.get(giverEmail);
+        if (commentGiverEmailNameTable.get(giverEmail) == null) {
+            return giverEmail;
+        }
+        return commentGiverEmailNameTable.get(giverEmail);
     }
 
     private String getEditedAtText(String lastEditorEmail, Date createdAt, Date lastEditedAt) {
@@ -257,8 +260,10 @@ public class FeedbackResponseCommentRow {
             return "";
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
+        String lastEditor = commentGiverEmailNameTable.get(lastEditorEmail) == null ? lastEditorEmail
+                : commentGiverEmailNameTable.get(lastEditorEmail);
         return "(last edited "
-                + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
+                + (isGiverAnonymous ? "" : "by " + lastEditor + " ")
                 + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
     }
 }
