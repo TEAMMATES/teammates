@@ -546,7 +546,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnRubricQuestions() throws IOException {
-        ______TS("add commentS on Rubric questions without response: no effect");
+        ______TS("add comments on Rubric questions without response: no effect");
 
         logout();
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
