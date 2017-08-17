@@ -550,23 +550,28 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         //TODO: check that msq options do not repeat. needed?
 
-        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
-        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
+        // checks for manual options only
+        // TODO: add checks for generated options too
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
+            boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
+            boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
-        if (isMaxSelectableChoicesEnabled) {
-            if (msqChoices.size() < maxSelectableChoices) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
-            } else if (maxSelectableChoices < 2) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELCTABLE_CHOICES);
+            if (isMaxSelectableChoicesEnabled) {
+                if (msqChoices.size() < maxSelectableChoices) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
+                } else if (maxSelectableChoices < 2) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELCTABLE_CHOICES);
+                }
             }
-        }
 
-        if (isMinSelectableChoicesEnabled && minSelectableChoices < 1) {
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELCTABLE_CHOICES);
-        }
+            if (isMinSelectableChoicesEnabled && minSelectableChoices < 1) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELCTABLE_CHOICES);
+            }
 
-        if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled && minSelectableChoices > maxSelectableChoices) {
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE);
+            if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
+                    && minSelectableChoices > maxSelectableChoices) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE);
+            }
         }
 
         return errors;
