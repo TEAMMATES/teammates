@@ -153,7 +153,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditComment.html");
 
         submitPage.deleteFeedbackResponseComment("-0-1-3-1");
-        submitPage.verifyRowMissing("-0-1-6-1");
+        submitPage.verifyRowMissing("-0-1-3-1");
     }
 
     private void testDeleteResponse() {
