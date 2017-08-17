@@ -24,20 +24,26 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
-    private AdminEmailAttributes emailAttributes;
+    private AdminEmailAttributes adminEmailAttributes;
 
     @BeforeClass
     public void classSetup() {
-        emailAttributes = createValidAdminEmailAttributesObject();
-        emailAttributes.createDate = new Date();
+        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
+        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
+        String validSubject = "subject of email";
+        Text content = new Text("valid email content");
+
+        adminEmailAttributes = new AdminEmailAttributes(
+                validSubject, addressReceiverListString, groupReceiverListFileKey, content, new Date());
+
+        adminEmailAttributes.createDate = new Date();
     }
 
     @Test
     public void testValidate() throws Exception {
-        AdminEmailAttributes validAttributes = createValidAdminEmailAttributesObject();
-        assertTrue("Valid input", validAttributes.isValid());
+        assertTrue("Valid input", adminEmailAttributes.isValid());
 
-        List<String> actual = validAttributes.getInvalidityInfo();
+        List<String> actual = adminEmailAttributes.getInvalidityInfo();
         assertTrue("Valid input should return an empty list", actual.isEmpty());
 
         AdminEmailAttributes invalidAttributes = createInvalidAdminEmailAttributesObject();
@@ -64,16 +70,16 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSendDateForDisplay() {
-        Calendar calendar = formatDate(emailAttributes.sendDate);
+        Calendar calendar = formatDate(adminEmailAttributes.sendDate);
         String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
-        assertEquals(dateForDisplay, emailAttributes.getSendDateForDisplay());
+        assertEquals(dateForDisplay, adminEmailAttributes.getSendDateForDisplay());
     }
 
     @Test
     public void testCreateDateForDisplay() {
-        Calendar calendar = formatDate(emailAttributes.createDate);
+        Calendar calendar = formatDate(adminEmailAttributes.createDate);
         String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
-        assertEquals(dateForDisplay, emailAttributes.getCreateDateForDisplay());
+        assertEquals(dateForDisplay, adminEmailAttributes.getCreateDateForDisplay());
     }
 
     /**
@@ -87,25 +93,21 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetIdentificationString() {
-        AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals(new Date() + "/" + "subject of email", adminEmail.getIdentificationString());
+        assertEquals(new Date() + "/" + "subject of email", adminEmailAttributes.getIdentificationString());
     }
 
     @Test
     public void testGetEntityTypeAsString() {
-        AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals("Admin Email", adminEmail.getEntityTypeAsString());
+        assertEquals("Admin Email", adminEmailAttributes.getEntityTypeAsString());
     }
 
     @Test
     public void testGetBackupIdentifier() {
-        AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals("Admin Email", adminEmail.getBackupIdentifier());
+        assertEquals("Admin Email", adminEmailAttributes.getBackupIdentifier());
     }
 
     @Test
     public void testToEntity() {
-        AdminEmailAttributes adminEmailAttributes = createValidAdminEmailAttributesObject();
         AdminEmail adminEmail = adminEmailAttributes.toEntity();
 
         assertEquals(adminEmailAttributes.subject, adminEmail.getSubject());
@@ -117,8 +119,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSanitizeForSaving() {
-        AdminEmailAttributes actualAdminEmail = createValidAdminEmailAttributesObject();
-        AdminEmailAttributes expectedAdminEmail = createValidAdminEmailAttributesObject();
+        AdminEmailAttributes actualAdminEmail = adminEmailAttributes;
+        AdminEmailAttributes expectedAdminEmail = adminEmailAttributes;
         actualAdminEmail.sanitizeForSaving();
 
         assertEquals(SanitizationHelper.sanitizeTextField(expectedAdminEmail.subject), actualAdminEmail.subject);
@@ -133,16 +135,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         return new AdminEmailAttributes(
                 veryLongSubj, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date());
-    }
-
-    private AdminEmailAttributes createValidAdminEmailAttributesObject() {
-        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
-        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
-        String validSubject = "subject of email";
-        Text content = new Text("valid email content");
-
-        return new AdminEmailAttributes(
-                validSubject, addressReceiverListString, groupReceiverListFileKey, content, new Date());
     }
 
 }
