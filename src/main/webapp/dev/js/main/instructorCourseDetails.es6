@@ -102,7 +102,7 @@ $(document).ready(() => {
 
     // auto select the html table when modal is shown
     $('#studentTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('detailsTable'));
+        selectElementContents($('#detailsTable').get(0));
     });
 
     attachEventToRemindStudentsButton();
@@ -111,7 +111,7 @@ $(document).ready(() => {
     attachEventToDeleteAllStudentLink();
 
     $('#btn-select-element-contents').on('click', () => {
-        selectElementContents(document.getElementById('detailsTable'));
+        selectElementContents($('#detailsTable').get(0));
     });
 
     $('#btn-display-table').on('click', () => {
