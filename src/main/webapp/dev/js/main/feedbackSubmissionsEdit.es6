@@ -1068,7 +1068,7 @@ $(document).ready(() => {
 
             // disable button to prevent user from clicking submission button again
             const $submissionButton = $('#response_submit_button');
-            addLoadingIndicator($submissionButton, '');
+            addLoadingIndicator($submissionButton, 'Submitting ');
         }
     });
 
