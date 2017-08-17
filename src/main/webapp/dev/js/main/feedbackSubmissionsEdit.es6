@@ -1024,10 +1024,13 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
+            const isSessionOpenData = $(textField).data('isSessionOpen');
+            const isSessionOpen = typeof (isSessionOpenData) === 'boolean' ? isSessionOpenData : true;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
+                readonly: !isSessionOpen,
                 setup(ed) {
                     ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
@@ -1065,7 +1068,7 @@ $(document).ready(() => {
 
             // disable button to prevent user from clicking submission button again
             const $submissionButton = $('#response_submit_button');
-            addLoadingIndicator($submissionButton, '');
+            addLoadingIndicator($submissionButton, 'Submitting ');
         }
     });
 
