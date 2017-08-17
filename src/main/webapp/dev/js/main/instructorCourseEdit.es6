@@ -178,7 +178,7 @@ function disableFormEditInstructor(number) {
     $(`#accessControlInfoForInstr${number}`).show();
     $(`#accessControlEditDivForInstr${number}`).hide();
     $(`#btnSaveInstructor${number}`).hide();
-    document.getElementById(`formEditInstructor${number}`).reset();
+    $(`#formEditInstructor${number}`).get(0).reset();
     const instrRole = instructorCourseEditInstructorAccessLevelWhenLoadingPage[number - 1];
     $(`input[id='instructorroleforinstructor${number}'][value='${instrRole}']`).prop('checked', true);
     hideAllTunePermissionsDivs(number);
