@@ -1,11 +1,17 @@
 package teammates.test.cases.browsertests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
+import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
@@ -37,6 +43,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     @Test
     public void allTests() throws Exception {
         testEditPage();
+        testStudentSubmitPage();
 
         //TODO: move/create other MSQ question related UI tests here.
         //i.e. results page, submit page.
@@ -411,4 +418,113 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    /**
+     * Test submission of MSQ questions.
+     */
+    public void testStudentSubmitPage() {
+        addQuestionsForStudentSubmitTest();
+
+        FeedbackSubmitPage submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FMsqQnUiT.CS2104", "openSession");
+        List<String> choiceNames = new ArrayList<>();
+
+        for (String key : testData.students.keySet()) {
+            StudentAttributes student = testData.students.get(key);
+
+            choiceNames.add(student.name + " (" + student.team + ')');
+        }
+
+        // Submit Q1 with 1 option checked
+        submitPage.toggleMsqOption(1, 0, choiceNames.get(0));
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MIN_CHECK, 1, 2));
+
+        // Submit Q1 with 2 options checked
+        submitPage.toggleMsqOption(1, 0, choiceNames.get(2));
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit Q1 with 3 options checked
+        submitPage.toggleMsqOption(1, 0, choiceNames.get(3));
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit Q1 with 4 options checked
+        submitPage.toggleMsqOption(1, 0, choiceNames.get(4));
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MAX_CHECK, 1, 3));
+
+        // Check 3 options only for Q1 to avoid status errors
+        submitPage.toggleMsqOption(1, 0, choiceNames.get(4));
+
+        // Submit Q2 1st recipient with 2 options checked
+        submitPage.toggleMsqOption(2, 0, "B");
+        submitPage.toggleMsqOption(2, 0, "C");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MIN_CHECK, 2, 3));
+
+        // Submit Q2 1st recipient with 3 options checked
+        submitPage.toggleMsqOption(2, 0, "E");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit Q2 1st recipient with 4 options checked
+        submitPage.toggleMsqOption(2, 0, "A");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MAX_CHECK, 2, 3));
+    }
+
+    private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
+            String studentName, String fsName) {
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withUserId(testData.students.get(studentName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
+    }
+
+    /**
+     * Adds 2 MSQ questions to FS to test min
+     * and max selectable choices restriction.
+     */
+    private void addQuestionsForStudentSubmitTest() {
+        // 1. With generated options, min = 2, max = 3
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("With generated options, min = 2, max = 3");
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1);
+        feedbackEditPage.toggleMsqMaxSelectableChoices(-1);
+        feedbackEditPage.setMsqMaxSelectableChoices(-1, 3);
+        feedbackEditPage.toggleMsqMinSelectableChoices(-1);
+        feedbackEditPage.setMsqMinSelectableChoices(-1, 2);
+        feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.NONE, -1);
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // 2. Custom options, min = 3, max = 3
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Custom options, min = 3, max = 3");
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "A");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "B");
+        feedbackEditPage.fillMsqOptionForNewQuestion(2, "C");
+        feedbackEditPage.fillMsqOptionForNewQuestion(3, "D");
+        feedbackEditPage.fillMsqOptionForNewQuestion(4, "E");
+        feedbackEditPage.toggleMsqMaxSelectableChoices(-1);
+        feedbackEditPage.setMsqMaxSelectableChoices(-1, 3);
+        feedbackEditPage.toggleMsqMinSelectableChoices(-1);
+        feedbackEditPage.setMsqMinSelectableChoices(-1, 3);
+        feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+    }
 }
