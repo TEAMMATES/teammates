@@ -29,6 +29,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @BeforeClass
     public void classSetup() {
         emailAttributes = createValidAdminEmailAttributesObject();
+        emailAttributes.createDate = new Date();
     }
 
     @Test
@@ -58,12 +59,26 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSendDateForDisplay() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(emailAttributes.sendDate);
-        calendar = TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+        Calendar calendar = formatDate(emailAttributes.sendDate);
         String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
-
         assertEquals(dateForDisplay, emailAttributes.getSendDateForDisplay());
+    }
+
+    @Test
+    public void testCreateDateForDisplay() {
+        Calendar calendar = formatDate(emailAttributes.createDate);
+        String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
+        assertEquals(dateForDisplay, emailAttributes.getCreateDateForDisplay());
+    }
+
+    /**
+     * Format Date for tests in this class.
+     */
+    public Calendar formatDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar = TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+        return calendar;
     }
 
     @Test
