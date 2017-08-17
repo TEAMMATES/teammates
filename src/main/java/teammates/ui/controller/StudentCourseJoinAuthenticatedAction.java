@@ -23,7 +23,7 @@ import teammates.common.util.StatusMessageColor;
  * {@link StudentCourseJoinAction}. This action does the actual
  * joining of the student to the course.
  */
-public class StudentCourseJoinAuthenticatedAction extends Action {
+public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
 
     private static final Logger log = Logger.getLogger();
 
@@ -69,6 +69,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
 
         addStatusMessageToUser();
+        sendCourseRegisteredEmail(student.course);
 
         return response;
     }
