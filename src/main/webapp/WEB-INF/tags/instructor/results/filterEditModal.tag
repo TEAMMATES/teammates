@@ -55,7 +55,7 @@
                         </option>
                       </c:forEach>
                       <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
-                        <%=Const.NO_SPECIFIC_RECIPIENT%>
+                        <%=Const.NO_SPECIFIC_SECTION%>
                       </option>
                     </select>
                   </div>
