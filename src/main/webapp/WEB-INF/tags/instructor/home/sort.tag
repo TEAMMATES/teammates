@@ -8,7 +8,7 @@
 <div class="row">
   <div class="col-xs-2">
     <a class="btn btn-primary btn-md" href="${data.instructorCoursesLink}"
-      id="addNewCourse">Add New Course</a>
+        id="addNewCourse">Add New Course</a>
   </div>
   <div class="col-xs-10">
     <div class="pull-right">
