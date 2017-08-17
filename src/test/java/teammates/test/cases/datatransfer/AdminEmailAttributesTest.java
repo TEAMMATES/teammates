@@ -58,6 +58,11 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testGetValidityInfo() {
+        //already tested in testValidate() above
+    }
+
+    @Test
     public void testSendDateForDisplay() {
         Calendar calendar = formatDate(emailAttributes.sendDate);
         String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
@@ -77,8 +82,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public Calendar formatDate(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar = TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        return calendar;
+        return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
     @Test
