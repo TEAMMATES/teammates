@@ -1,5 +1,8 @@
 package teammates.test.pageobjects;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -220,6 +223,30 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement moreInfoAboutEqualShareModal = browser.driver.findElement(By.id("more-info-equal-share-modal"));
         waitForElementVisibility(moreInfoAboutEqualShareModal);
         closeMoreInfoAboutEqualShareModal();
+    }
+
+    public void verifyAndCloseSuccessfulSubmissionModal() {
+        // Waiting for modal visibility
+        WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
+        waitForElementToBeClickable(closeButton);
+
+        // Verify modal header has success class
+        WebElement modalHeader = closeButton.findElement(By.xpath(".."));
+        assertTrue(modalHeader.getAttribute("class").contains("success"));
+
+        // Verify title content
+        WebElement modalTitle = browser.driver.findElement(By.xpath("//h4[@class='modal-title icon-success']"));
+        assertEquals(modalTitle.getText(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        // Verify message content
+        final String expectedModalMessage = "All your responses have been successfully recorded! "
+                + "You may now leave this page.\n"
+                + "Note that you can change your responses and submit them again any time before the session closes.";
+        WebElement modalMessage = browser.driver.findElement(By.xpath("//div[@class='bootbox-body']"));
+        assertEquals(modalMessage.getText(), expectedModalMessage);
+
+        click(closeButton);
+        waitForModalToDisappear();
     }
 
     private void closeMoreInfoAboutEqualShareModal() {
