@@ -31,6 +31,7 @@ public class InstructorFeedbackResultsResponseRow {
 
     private String displayableResponse;
     private InstructorFeedbackResultsModerationButton moderationButton;
+    private FeedbackResponseCommentRow addCommentButton;
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
@@ -164,6 +165,14 @@ public class InstructorFeedbackResultsResponseRow {
             }
         });
         return responseRows;
+    }
+
+    public FeedbackResponseCommentRow getAddCommentButton() {
+        return addCommentButton;
+    }
+
+    public void setAddCommentButton(FeedbackResponseCommentRow addCommentButton) {
+        this.addCommentButton = addCommentButton;
     }
 
 }

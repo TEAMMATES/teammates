@@ -1082,6 +1082,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
             configureResponseRow(prevGiver, response.recipient, responseRow);
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+            boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
+                    .isCommentsOnResponsesAllowed();
+            if (isCommentsOnResponsesAllowed) {
+                FeedbackResponseCommentRow addCommentButton = buildFeedbackResponseCommentAddForm(question, response,
+                        responseVisibilityMap, response.giver, response.recipient);
+                responseRow.setAddCommentButton(addCommentButton);
+            }
             responseRows.add(responseRow);
         }
 
