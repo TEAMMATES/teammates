@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.Const;
 
 public class StudentProfile {
     private String pictureUrl;
@@ -54,5 +55,12 @@ public class StudentProfile {
 
     public String getMoreInfo() {
         return moreInfo;
+    }
+
+    // Ensures gender type is displayed in lower case
+    public String getDisplayedGenderType() {
+        return gender == null || gender == GenderType.OTHER
+                ? Const.STUDENT_PROFILE_FIELD_NOT_FILLED
+                : gender.name().toLowerCase();
     }
 }
