@@ -606,9 +606,8 @@ public final class StudentsLogic {
 
                 if (isStudentEmailDuplicated(student.email, studentList)) {
                     String info =
-                            StringHelper.toString(
-                                    getInvalidityInfoInDuplicatedEmail(student.email, studentList, linesArray),
-                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+                            getInvalidityInfoInDuplicatedEmail(student.email, studentList, linesArray)
+                            + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
                     invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
 
@@ -626,16 +625,16 @@ public final class StudentsLogic {
         return studentList;
     }
 
-    private List<String> getInvalidityInfoInDuplicatedEmail(String email,
+    private String getInvalidityInfoInDuplicatedEmail(String email,
             List<StudentAttributes> studentList, String[] linesArray) {
-        List<String> info = new ArrayList<>();
+        String info = null;
         int index;
         for (index = 0; index < studentList.size(); index++) {
             if (studentList.get(index).email.equalsIgnoreCase(email)) {
-                break;
+                info = "Same email address as the student in line \"" + linesArray[index + 1] + "\"";
+                return info;
             }
         }
-        info.add("Same email address as the student in line \"" + linesArray[index + 1] + "\"");
         return info;
     }
 
