@@ -32,7 +32,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     @Test
     public void testGetAccount() throws Exception {
-
         AccountAttributes a = createNewAccount();
 
         ______TS("typical success case without");
