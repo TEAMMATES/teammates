@@ -15,7 +15,8 @@
       <th id="button_sortname" class="button-sort-none session-name-table-width toggle-sort">
         Session Name <span class="icon-sort unsorted"></span>
       </th>
-      <th>Status</th>
+      <th>Submission Status</th>
+      <th>Published Status</th>
       <th>
         <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" data-toggle="tooltip" data-placement="top">
           Response Rate
@@ -32,8 +33,11 @@
           <td>${sessionRow.name}</td>
           <td>
             <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
-              ${sessionRow.status}
+              ${sessionRow.submissionStatus}
             </span>
+          </td>
+          <td>
+            ${sessionRow.publishedStatus}          
           </td>
           <td class="session-response-for-test">
             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
