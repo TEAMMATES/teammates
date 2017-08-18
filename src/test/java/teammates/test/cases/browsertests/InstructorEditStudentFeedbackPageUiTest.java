@@ -109,6 +109,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
     private void testCommentsAction() throws IOException {
         testCommentsOnMcqQuestion();
+        testCommentsOnRubricQuestion();
+        testCommentsOnMsqQuestions();
     }
 
     private void testCommentsOnMcqQuestion() throws IOException {
@@ -154,6 +156,100 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.deleteFeedbackResponseComment("-0-1-3-1");
         submitPage.verifyRowMissing("-0-1-3-1");
+    }
+
+    private void testCommentsOnRubricQuestion() throws IOException {
+        ______TS("add comment on Rubric questions without responses: no effect");
+
+        logout();
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.addFeedbackResponseComment("-0-1-4", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-4", "Comment without response");
+
+        ______TS("add new comment on Rubric questions with response");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedNoCommentsOnRubricQuestion.html");
+
+        submitPage.clickRubricRadio(4, 0, 0, 0); // select option
+        submitPage.clickRubricRadio(4, 1, 0, 1); // select option
+        submitPage.addFeedbackResponseComment("-0-1-4", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-4", "New Rubric Comment 1");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("edit comment on Rubric questions with response");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedAddCommentOnRubricQuestion.html");
+
+        submitPage.editFeedbackResponseComment("-0-1-4-1", "Edited Rubric Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-4-1", "Edited Rubric Comment 1");
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("delete comment on Rubric questions with response");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditCommentOnRubricQuestion.html");
+
+        submitPage.deleteFeedbackResponseComment("-0-1-4-1");
+        submitPage.verifyRowMissing("-0-1-4-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-4-1");
+        submitPage.verifyRowMissing("-1-1-4-1");
+    }
+
+    private void testCommentsOnMsqQuestions() throws IOException {
+        ______TS("add comment on question without response: no effect");
+
+        logout();
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
+
+        ______TS("add new comments on MSQ question with response");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedNoCommentsOnMsqQuestion.html");
+
+        submitPage.toggleMsqOption(5, 0, ""); // select option
+        submitPage.addFeedbackResponseComment("-0-1-5", "New MSQ Comment 1");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("edit comment on question with responses");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedAddCommentOnMsqQuestion.html");
+
+        submitPage.editFeedbackResponseComment("-0-1-5-1", "Edited MSQ Comment 1");
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("delete comment on question with responses");
+
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditCommentOnMsqQuestion.html");
+
+        submitPage.deleteFeedbackResponseComment("-0-1-5-1");
+        submitPage.verifyRowMissing("-0-1-5-1");
     }
 
     private void testDeleteResponse() {

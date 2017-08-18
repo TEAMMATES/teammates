@@ -112,7 +112,7 @@
             <div class="col-sm-12">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
-                  Student 1 self feedback.
+                  Good design
                 </p>
               </div>
               <input name="responsetext-1-0" type="hidden">
@@ -127,7 +127,7 @@
                 <div class="pull-right">
                   Response length:
                   <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">
-                    4
+                    2
                   </span>
                   words
                 </div>
@@ -170,10 +170,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="student1InIESFPTCourse@gmail.tmt">
+                <option selected="" value="student1InIESFPTCourse@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -183,7 +183,7 @@
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
-                <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="">
+                <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="4">
                 <input name="numscalemin-2-0" type="hidden" value="1">
                 <input name="numscalemax-2-0" type="hidden" value="5">
                 <input name="numscalestep-2-0" type="hidden" value="0.5">
@@ -191,6 +191,7 @@
               <div class="text-muted form-control-static">
                 [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
               </div>
+              <input name="responseid-2-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
             </div>
           </div>
         </div>
@@ -228,10 +229,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="student1InIESFPTCourse@gmail.tmt">
+                <option selected="" value="student1InIESFPTCourse@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -260,7 +261,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input name="responsetext-3-0" type="radio" value="It's perfect">
+                          <input checked="" name="responsetext-3-0" type="radio" value="It's perfect">
                           It's perfect
                         </label>
                       </div>
@@ -275,9 +276,9 @@
                     <div class="form-group form-inline">
                       <div class="form-group text-muted" style="margin-left:1em;">
                         <p>
-                          Giver: IESFPTCourseinstr
+                          Giver: student1 In Course1&lt;/td&gt;&lt;/div&gt;'"
                           <br>
-                          Recipient: Myself
+                          Recipient: student1 In Course1&lt;/td&gt;&lt;/div&gt;'"
                         </p>
                       </div>
                     </div>
@@ -301,6 +302,7 @@
                   </div>
                 </li>
               </ul>
+              <input name="responseid-3-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
             </div>
           </div>
         </div>
@@ -338,18 +340,18 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="IESFPTCoursehelper3@email.tmt">
+                <option style="display: none;" value="IESFPTCoursehelper3@email.tmt">
                   Instructor Three
                 </option>
-                <option style="display: none;" value="IESFPTCoursehelper2@email.tmt">
+                <option selected="" value="IESFPTCoursehelper2@email.tmt">
                   Instructor Two
                 </option>
               </select>
               <span>
-                Instructor Three
+                Instructor Two
               </span>
             </div>
             <div class="col-sm-10">
@@ -377,7 +379,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr class="row-answered">
                         <td>
                           <p>
                             a) This instructor has done a good job.
@@ -389,8 +391,8 @@
                             Most of the time
                           </span>
                         </td>
-                        <td class="col-md-1">
-                          <input class="overlay" id="rubricChoice-4-0-0-1" name="rubricChoice-4-0-0" type="radio" value="0-1">
+                        <td class="col-md-1 cell-selected">
+                          <input checked="" class="overlay" id="rubricChoice-4-0-0-1" name="rubricChoice-4-0-0" type="radio" value="0-1">
                           <span class="color_neutral overlay">
                             Less than half the time
                           </span>
@@ -418,7 +420,7 @@
                     </tbody>
                   </table>
                   <div class="visible-xs visible-sm">
-                    <div class="panel panel-default">
+                    <div class="panel panel-success">
                       <div class="panel-heading">
                         a) This instructor has done a good job.
                       </div>
@@ -434,7 +436,7 @@
                         </div>
                         <div class="radio">
                           <label>
-                            <input id="mobile-rubricChoice-4-0-0-1" name="mobile-rubricChoice-4-0-0" type="radio" value="0-1">
+                            <input checked="" id="mobile-rubricChoice-4-0-0-1" name="mobile-rubricChoice-4-0-0" type="radio" value="0-1">
                             <strong>
                               No
                             </strong>
@@ -479,9 +481,9 @@
                     <div class="form-group form-inline">
                       <div class="form-group text-muted" style="margin-left:1em;">
                         <p>
-                          Giver: IESFPTCourseinstr
+                          Giver: student1 In Course1&lt;/td&gt;&lt;/div&gt;'"
                           <br>
-                          Recipient: Instructor Three
+                          Recipient: Instructor Two
                         </p>
                       </div>
                     </div>
@@ -505,6 +507,7 @@
                   </div>
                 </li>
               </ul>
+              <input name="responseid-4-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%IESFPTCoursehelper2@email.tmt">
             </div>
           </div>
           <br>
@@ -513,18 +516,18 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option style="display: none;" value="IESFPTCoursehelper3@email.tmt">
+                <option selected="" value="IESFPTCoursehelper3@email.tmt">
                   Instructor Three
                 </option>
-                <option value="IESFPTCoursehelper2@email.tmt">
+                <option style="display: none;" value="IESFPTCoursehelper2@email.tmt">
                   Instructor Two
                 </option>
               </select>
               <span>
-                Instructor Two
+                Instructor Three
               </span>
             </div>
             <div class="col-sm-10">
@@ -552,14 +555,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr class="row-answered">
                         <td>
                           <p>
                             a) This instructor has done a good job.
                           </p>
                         </td>
-                        <td class="col-md-1">
-                          <input class="overlay" id="rubricChoice-4-1-0-0" name="rubricChoice-4-1-0" type="radio" value="0-0">
+                        <td class="col-md-1 cell-selected">
+                          <input checked="" class="overlay" id="rubricChoice-4-1-0-0" name="rubricChoice-4-1-0" type="radio" value="0-0">
                           <span class="color_neutral overlay">
                             Most of the time
                           </span>
@@ -593,14 +596,14 @@
                     </tbody>
                   </table>
                   <div class="visible-xs visible-sm">
-                    <div class="panel panel-default">
+                    <div class="panel panel-success">
                       <div class="panel-heading">
                         a) This instructor has done a good job.
                       </div>
                       <div class="panel-body">
                         <div class="radio">
                           <label>
-                            <input id="mobile-rubricChoice-4-1-0-0" name="mobile-rubricChoice-4-1-0" type="radio" value="0-0">
+                            <input checked="" id="mobile-rubricChoice-4-1-0-0" name="mobile-rubricChoice-4-1-0" type="radio" value="0-0">
                             <strong>
                               Yes
                             </strong>
@@ -654,9 +657,9 @@
                     <div class="form-group form-inline">
                       <div class="form-group text-muted" style="margin-left:1em;">
                         <p>
-                          Giver: IESFPTCourseinstr
+                          Giver: student1 In Course1&lt;/td&gt;&lt;/div&gt;'"
                           <br>
-                          Recipient: Instructor Two
+                          Recipient: Instructor Three
                         </p>
                       </div>
                     </div>
@@ -680,6 +683,7 @@
                   </div>
                 </li>
               </ul>
+              <input name="responseid-4-1" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%IESFPTCoursehelper3@email.tmt">
             </div>
           </div>
         </div>
