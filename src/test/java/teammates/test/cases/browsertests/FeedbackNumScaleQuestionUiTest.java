@@ -218,7 +218,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("num scale: change step value box");
+        ______TS("num scale: change max value box");
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillMaxNumScaleBox(nsQuestion.getMaxScale() + 1, 1);

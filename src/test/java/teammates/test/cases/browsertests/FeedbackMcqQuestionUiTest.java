@@ -195,6 +195,40 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        // save MCQ with custom options, needed for further tests
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 0, "A");
+        feedbackEditPage.fillMcqOption(1, 1, "B");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        // previous action deletes responses, create a response again
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        // add a new option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 2, "C");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // remove the new option, must not display modal
+        feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        // remove an option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMcqOptionLink(1, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();
     }

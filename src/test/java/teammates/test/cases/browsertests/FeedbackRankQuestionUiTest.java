@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -324,7 +325,81 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Override
     protected void testDestructiveChanges() {
-        // TODO: add tests
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                instructorEditFsName,
+                                                instructorCourseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        ______TS("rank: testing destructive changes");
+        // check "same rank" checkbox, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.tickDuplicatesAllowedCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // uncheck "same rank" checkbox, must not display modal
+        feedbackEditPage.untickDuplicatesAllowedCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        // add rank option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreRankOptionLink(1);
+        feedbackEditPage.fillRankOption(1, 2, "Dummy option");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // remove newly added option, must not display modal
+        feedbackEditPage.clickRemoveRankOptionLink(1, 3);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
+        // delete response for question 1 (Rank options question)
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+
+        // Create dummy response for question 2, Rank recipients question
+        question = BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2);
+        fra = new FeedbackResponseAttributes(
+                                                instructorEditFsName,
+                                                instructorCourseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2);
+
+        // uncheck "same rank" checkbox, must display modal
+        feedbackEditPage.clickEditQuestionButton(2);
+        feedbackEditPage.untickDuplicatesAllowedCheckbox(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // check "same rank" checkbox, must not display modal
+        feedbackEditPage.tickDuplicatesAllowedCheckbox(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2);
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override

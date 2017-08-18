@@ -149,6 +149,18 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        // change "not sure" answer option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.toggleNotSureCheck(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.toggleNotSureCheck(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();
     }
