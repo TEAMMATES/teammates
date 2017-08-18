@@ -114,7 +114,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnMcqQuestion() throws IOException {
-        ______TS("add comment on question without response: no effect");
+        ______TS("add comments on questions without response: no effect");
 
         logout();
         submitPage = loginToInstructorEditStudentFeedbackPage(
@@ -123,7 +123,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(3, 0, "It's good");
         submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
 
-        ______TS("add new comments on question with responses");
+        ______TS("add new comments on questions with response");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
@@ -136,7 +136,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("edit comment on question with responses");
+        ______TS("edit comments on questions with response");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
@@ -147,7 +147,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("delete comment on question with responses");
+        ______TS("delete comments on questions with response");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
