@@ -4,7 +4,8 @@
       <label class="bold-label">
         <input type="radio"
             name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
-            ${disabled} ${checked} value="${mcqChoiceValue}" data-text="otherOptionText"> Other
+            ${disabled} ${checked} value="${mcqChoiceValue}" data-text="otherOptionText">
+        Other
       </label>
       <input class="form-control margin-top-2px" type="text" name="otherOptionText-${questionIndex}-${responseIndex}" id="otherOptionText-${questionIndex}-${responseIndex}"
           ${text-disabled} value="${mcqChoiceValue}">
