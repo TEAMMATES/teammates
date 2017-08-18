@@ -5,7 +5,8 @@ public class FeedbackSessionsTableRow {
     private String name;
     private String tooltip;
     private String href;
-    private String status;
+    private String submissionStatus;
+    private String publishedStatus;
     private InstructorFeedbackSessionActions actions;
 
     private ElementTag rowAttributes;
@@ -18,13 +19,15 @@ public class FeedbackSessionsTableRow {
      * @param href link for the session under response rate
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */
-    public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String status, String href,
-                                    InstructorFeedbackSessionActions actions, ElementTag attributes) {
+    public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String submissionStatus,
+                                    String publishedStatus, String href, InstructorFeedbackSessionActions actions,
+                                    ElementTag attributes) {
         this.courseId = courseId;
         this.name = name;
         this.tooltip = tooltip;
         this.href = href;
-        this.status = status;
+        this.submissionStatus = submissionStatus;
+        this.publishedStatus = publishedStatus;
         this.actions = actions;
         this.rowAttributes = attributes;
     }
@@ -37,8 +40,12 @@ public class FeedbackSessionsTableRow {
         return name;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public String getPublishedStatus() {
+        return publishedStatus;
     }
 
     public String getTooltip() {
