@@ -67,7 +67,8 @@ public class StudentHomePageData extends PageData {
             rows.add(new StudentHomeFeedbackSessionRow(
                     PageData.sanitizeForHtml(sessionName),
                     getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
-                    getStudentStatusForSession(feedbackSession, hasSubmitted),
+                    getStudentSubmissionStatusForSession(feedbackSession, hasSubmitted),
+                    getStudentPublishedStatusForSession(feedbackSession),
                     TimeHelper.formatTime12H(feedbackSession.getEndTime()),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
@@ -84,7 +85,7 @@ public class StudentHomePageData extends PageData {
      * @param session The feedback session in question.
      * @param hasSubmitted Whether the student had submitted the session or not.
      */
-    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
+    private String getStudentSubmissionStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         if (session.isOpened()) {
             return hasSubmitted ? "Submitted" : "Pending";
         }
@@ -93,11 +94,15 @@ public class StudentHomePageData extends PageData {
             return "Awaiting";
         }
 
+        return "Closed";
+    }
+
+    private String getStudentPublishedStatusForSession(FeedbackSessionAttributes session) {
         if (session.isPublished()) {
             return "Published";
         }
 
-        return "Closed";
+        return "Not Published";
     }
 
     /**
