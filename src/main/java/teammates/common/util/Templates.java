@@ -300,6 +300,10 @@ public final class Templates {
                     "${isMaxSelectableChoicesEnabled}";
             public static final String MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED =
                     "${isMinSelectableChoicesEnabled}";
+            public static final String MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT =
+                    "${displayMaxSelectableChoicesHint}";
+            public static final String MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT =
+                    "${displayMinSelectableChoicesHint}";
             public static final String MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}";
             public static final String MSQ_PARAM_ENABLED_MIN_SELECTABLE_CHOICES =
