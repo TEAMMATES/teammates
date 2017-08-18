@@ -18,9 +18,7 @@
             data-toggle="tooltip" data-placement="top">
           <div class="row">
             <div class="col-md-6">
-              <label
-                  for="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
-                  class="label-control">
+              <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>" class="label-control">
                 From
               </label>
             </div>
@@ -59,9 +57,7 @@
             data-toggle="tooltip" data-placement="top">
           <div class="row">
             <div class="col-md-6">
-              <label
-                  for="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>"
-                  class="label-control">To</label>
+              <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDDATE%>" class="label-control">To</label>
             </div>
           </div>
           <div class="row">
@@ -96,9 +92,7 @@
         <div class="col-md-4 border-left-gray">
           <div class="row">
             <div class="col-md-12">
-              <label
-                  for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                  class="control-label">
+              <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>" class="control-label">
                 Time Zone</label>
             </div>
           </div>
@@ -113,9 +107,9 @@
               </select>
             </div>
             <div class="col-sm-6">
-              <button type="submit"
-                  class="btn btn-primary btn-block">Filter
-                by Range</button>
+              <button type="submit" class="btn btn-primary btn-block">
+                Filter by Range
+              </button>
             </div>
           </div>
         </div>

@@ -21,19 +21,19 @@
       <thead>
         <tr>
           <th>Status</th>
-          <th class="button-sort-none toggle-sort">[Course ID] Session Name &nbsp; <span
-              class="icon-sort unsorted"></span>
+          <th class="button-sort-none toggle-sort">
+            [Course ID] Session Name &nbsp; <span class="icon-sort unsorted"></span>
           </th>
           <th>Response Rate</th>
-          <th class="button-sort-none toggle-sort"
-              data-toggle-sort-comparator="sortDate">Start Time&nbsp;
-            <span class="icon-sort unsorted"></span>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate">
+            Start Time&nbsp;<span class="icon-sort unsorted"></span>
           </th>
-          <th class="button-sort-none toggle-sort"
-              data-toggle-sort-comparator="sortDate">End Time&nbsp; <span
-            class="icon-sort unsorted"></span></th>
-          <th class="button-sort-none">Creator
-            <span class="icon-sort unsorted"></span></th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate">
+            End Time&nbsp; <span class="icon-sort unsorted"></span>
+          </th>
+          <th class="button-sort-none">
+            Creator<span class="icon-sort unsorted"></span>
+          </th>
         </tr>
       </thead>
 

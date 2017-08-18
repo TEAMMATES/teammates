@@ -46,9 +46,7 @@
           <div class="col-md-12">
             <div class="alert alert-info text-center">
               <span class="glyphicon glyphicon-filter"></span>
-              A query is formed by a
-              list of filters. Each
-              filter is in the format
+              A query is formed by a list of filters. Each filter is in the format
               <strong>&nbsp;[filter label]: [value1, value2, value3....]</strong><br>
             </div>
 
@@ -65,18 +63,12 @@
               <div class="form-control-static">
                 <strong>Sample Queries:</strong> <br>
                 <ul>
-                  <li>E.g. receiver:
-                    alice@gmail.com AND
-                    subject:
-                    welcome,TEAMMATES
-                    AND after:
-                    15/03/15</li>
-                  <li>E.g. after:
-                    13/3/15 AND before:
-                    17/3/15 AND
-                    Receiver:
-                    teammates@test.com
-                    AND info:click,join link</li>
+                  <li>
+                    E.g. receiver: alice@gmail.com AND subject: welcome,TEAMMATES AND after: 15/03/15
+                  </li>
+                  <li>
+                    E.g. after: 13/3/15 AND before: 17/3/15 AND Receiver: teammates@test.com AND info:click,join link
+                  </li>
                 </ul>
               </div>
             </div>
@@ -85,10 +77,8 @@
           <div class="form-group">
             <div class="col-md-12">
               <div class="form-control-static">
-                <strong>
-                  Possible Labels:</strong>&nbsp;after,
-                  before, receiver, subject,
-                  info, version<br>
+                <strong>Possible Labels:</strong>
+                  &nbsp;after, before, receiver, subject, info, version<br>
                 <ul>
 
                   <li>E.g. after: 13/03/15</li>

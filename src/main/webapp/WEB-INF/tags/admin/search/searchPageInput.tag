@@ -8,11 +8,8 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-12">
-            <span class="help-block">Tips:
-              Surround key word to search
-              a whole string or string
-              contains punctuation like
-              "-" "."
+            <span class="help-block">
+              Tips: Surround key word to search a whole string or string contains punctuation like "-" "."
             </span>
 
             <div class="input-group">

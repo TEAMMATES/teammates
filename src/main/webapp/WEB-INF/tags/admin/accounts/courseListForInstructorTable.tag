@@ -19,9 +19,7 @@
         <tr>
           <td>[${row.courseDetails.course.id}] ${row.courseDetails.course.name}</td>
           <td>
-            <a  <c:forEach items="${row.removeFromCourseButton.attributes}" var="attribute">
-                ${attribute.key}="${attribute.value}"
-                </c:forEach>>
+            <a ${row.removeFromCourseButton.attributesToString}>
               ${row.removeFromCourseButton.content}
             </a>
           </td>

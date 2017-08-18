@@ -41,8 +41,7 @@
             <th>Group Receiver</th>
             <th>Subject</th>
             <th class="button-sort-ascending toggle-sort">
-              Date <span class="icon-sort unsorted"
-                  id="button_sort_date"></span>
+              Date <span class="icon-sort unsorted" id="button_sort_date"></span>
             </th>
           </tr>
         </thead>

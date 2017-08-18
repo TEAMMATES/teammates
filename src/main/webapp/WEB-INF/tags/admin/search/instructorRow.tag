@@ -64,7 +64,7 @@
         <input value="${instructor.email}" readonly class="form-control">
       </li>
 
-       <%-- Course join link --%>
+      <%-- Course join link --%>
       <c:if test="${not empty instructor.courseJoinLink}">
         <li class="list-group-item list-group-item-info">
           <strong>Course Join Link</strong>

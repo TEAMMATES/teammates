@@ -8,16 +8,16 @@
   <div class="panel panel-success">
     <div class="panel-heading">
       <strong>
-          <span id="sentEmailsCount">
-            <c:choose>
-              <c:when test="${sentEmailTable.numEmailsSent > 0}">
-                Emails Sent: ${sentEmailTable.numEmailsSent}
-              </c:when>
-              <c:otherwise>
-                No Sent Email
-              </c:otherwise>
-            </c:choose>
-          </span>
+        <span id="sentEmailsCount">
+          <c:choose>
+            <c:when test="${sentEmailTable.numEmailsSent > 0}">
+              Emails Sent: ${sentEmailTable.numEmailsSent}
+            </c:when>
+            <c:otherwise>
+              No Sent Email
+            </c:otherwise>
+          </c:choose>
+        </span>
       </strong>
     </div>
     <div class="table-responsive">
@@ -28,9 +28,9 @@
             <th>Address Receiver</th>
             <th>Group Receiver</th>
             <th>Subject</th>
-            <th class="button-sort-ascending toggle-sort">Date <span
-              class="icon-sort unsorted"
-              id="button_sort_date"></span></th>
+            <th class="button-sort-ascending toggle-sort">
+              Date <span class="icon-sort unsorted" id="button_sort_date"></span>
+            </th>
           </tr>
         </thead>
         <tbody>

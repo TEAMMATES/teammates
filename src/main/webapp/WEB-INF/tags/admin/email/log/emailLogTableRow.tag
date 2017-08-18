@@ -21,12 +21,12 @@
 
 <tr class="email-log-content-unsanitized" style="display:none;">
   <td colspan="3">
-  <div class="well well-sm">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-success emailLog-text email-content">
-        <small>${log.unsanitizedContent}</small>
-      </li>
-    </ul>
-  </div>
-   </td>
+    <div class="well well-sm">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-success emailLog-text email-content">
+          <small>${log.unsanitizedContent}</small>
+        </li>
+      </ul>
+    </div>
+  </td>
 </tr>

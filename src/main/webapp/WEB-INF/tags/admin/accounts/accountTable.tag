@@ -7,7 +7,9 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     <strong>Instructor List</strong>
-    <strong class="pull-right"><span id="currentPageEntryCount">1</span>&nbsp;/&nbsp;<span id="totalEntryCount">10</span></strong>
+    <strong class="pull-right">
+      <span id="currentPageEntryCount">1</span>&nbsp;/&nbsp;<span id="totalEntryCount">10</span>
+    </strong>
   </div>
   <div class="table-responsive">
     <table class="table table-striped dataTable">
@@ -54,16 +56,16 @@
             <td id="${row.account.googleId}_createAt">${row.createdAt}</td>
             <td>
               <a class="btn btn-link btn-xs" id="${row.account.googleId}_details"
-                href="${row.adminViewAccountDetailsLink}" target="_blank" rel="noopener noreferrer">
+                  href="${row.adminViewAccountDetailsLink}" target="_blank" rel="noopener noreferrer">
                 <span class="glyphicon glyphicon-info-sign"></span> View Details
               </a>
               &nbsp;&nbsp;&nbsp;&nbsp;
               <a class="btn btn-link btn-xs" id="${row.account.googleId}_delete"
-                href="${row.adminDeleteInstructorStatusLink}" role="button">
+                  href="${row.adminDeleteInstructorStatusLink}" role="button">
                 <span class="glyphicon glyphicon-remove"></span> Delete Instructor Status
               </a>
               <a class="admin-delete-account-link btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
-                href="${row.adminDeleteAccountLink}" data-google-id="${row.account.googleId}">
+                  href="${row.adminDeleteAccountLink}" data-google-id="${row.account.googleId}">
                 <span class="glyphicon glyphicon-trash"></span> Delete Entire Account
               </a>
 

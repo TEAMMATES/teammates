@@ -40,14 +40,12 @@
           <span class="glyphicon glyphicon-eye-open text-danger"></span>
         </c:if>
         <a href="${log.displayedActionUrl}"
-           class="${log.isActionFailure || log.isActionErrorReport ? "text-danger" : "" }"
-           target="_blank">
+            class="${log.isActionFailure || log.isActionErrorReport ? "text-danger" : "" }"
+            target="_blank">
           ${log.actionName}
         </a>
         <small>
-          id: ${log.logId}
-          [
-          ${log.userName}
+          id: ${log.logId}[${log.userName}
           <c:choose>
             <c:when test="${log.hasUserHomeLink}">
               <a href="${log.userHomeLink}" target="_blank">${log.userGoogleId}</a>
@@ -68,14 +66,12 @@
           ]
         </small>
         <button type="submit" class="btn btn-xs ${log.isActionFailure ? "btn-warning"
-            : log.isActionErrorReport ? "btn-danger"
-            : "btn-info"}">
+            : log.isActionErrorReport ? "btn-danger" : "btn-info"}">
           <span class="glyphicon glyphicon-zoom-in"></span>
         </button>
         <input type="hidden" name="filterQuery" value="person:${log.userIdentity}">
         <input class="ifShowAll_for_person" type="hidden" name="all" value="false">
-        <input class="ifShowTestData_for_person" type="hidden" name="testdata"
-            value="false">
+        <input class="ifShowTestData_for_person" type="hidden" name="testdata" value="false">
       </h4>
       <div class="log-message">${log.message}</div>
     </form>

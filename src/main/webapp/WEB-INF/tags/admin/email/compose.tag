@@ -25,15 +25,16 @@
             id="groupReceiverListFileKey" type="text" class="form-control"
             name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY%>"
             value="${(not empty emailToEdit) and (not empty emailToEdit.groupReceiver) ? emailToEdit.firstGroupReceiver : ''}">
-       </div>
-       <div class="col-md-1 border-left-gray">
+      </div>
+      <div class="col-md-1 border-left-gray">
         <button type="button" class="btn btn-info" id="adminEmailGroupReceiverListUploadButton">
           <strong>Upload</strong>
         </button>
-       </div>
+      </div>
     </div>
     <br>
-    Subject : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>"
+    Subject : 
+    <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>"
         value="${not empty emailToEdit ? emailToEdit.subject : ''}">
     <br>
     <p>
@@ -49,7 +50,8 @@
 
   <div id="adminEmailGroupReceiverListUploadBox" style="display:none;">
     <form id="adminEmailReceiverListForm" action="" method="POST" enctype="multipart/form-data">
-      <span id="adminEmailGroupReceiverListInput"> <input
+      <span id="adminEmailGroupReceiverListInput"> 
+      <input
           type="file"
           name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD%>"
           id="adminEmailGroupReceiverList">
@@ -60,7 +62,8 @@
   <div style="display: none;">
     <form id="adminEmailFileForm" action=""
         method="POST" enctype="multipart/form-data">
-      <span id="adminEmailFileInput"> <input
+      <span id="adminEmailFileInput"> 
+      <input
           type="file"
           name="<%=Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD%>"
           id="adminEmailFile">

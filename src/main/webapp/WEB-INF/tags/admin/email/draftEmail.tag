@@ -4,15 +4,11 @@
 
 <tr id="${draftEmail.emailId}">
   <td>
-    <a <c:forEach items="${draftEmail.actions.editButton.attributes}" var="attribute">
-        ${attribute.key}="${attribute.value}"
-        </c:forEach>>
+    <a ${draftEmail.actions.editButton.attributesToString}>
       ${draftEmail.actions.editButton.content}
     </a>
 
-    <a <c:forEach items="${draftEmail.actions.deleteButton.attributes}" var="attribute">
-        ${attribute.key}="${attribute.value}"
-        </c:forEach>>
+    <a ${draftEmail.actions.deleteButton.attributesToString}>
       ${draftEmail.actions.deleteButton.content}
     </a>
   </td>
