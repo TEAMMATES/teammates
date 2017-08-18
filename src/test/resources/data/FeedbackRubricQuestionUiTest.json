@@ -384,7 +384,6 @@
         "RECEIVER"
       ]
     }
-
   },
   "feedbackResponses": {
     "feedbackResponseForFourthSessionQn1.1": {
@@ -496,7 +495,7 @@
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RUBRIC",
-      "giver": "alice.b.tmms@gmail.tmt",
+      "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": {
         "value": "{\n  \"answer\": [\n    0,\n    0\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
@@ -509,7 +508,7 @@
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RUBRIC",
-      "giver": "benny.c.tmms@gmail.tmt",
+      "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "recipient": "Team 2</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": {
         "value": "{\n  \"answer\": [\n    1,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
@@ -522,7 +521,7 @@
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RUBRIC",
-      "giver": "colin.d.tmms@gmail.tmt",
+      "giver": "Team 2</option><option value=\"dump\"></td><td>'\"",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": {
         "value": "{\n  \"answer\": [\n    0,\n    1\n  ],\n  \"questionType\": \"RUBRIC\"\n}"
