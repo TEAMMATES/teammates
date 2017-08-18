@@ -1009,6 +1009,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
 
+    public void fillMcqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + qnNumber));
+        fillTextBox(optionBox, optionText);
+    }
+
+    public void clickAddMoreMcqOptionLink(int qnNumber) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + qnNumber));
+        click(addMoreOptionLink);
+    }
+
     public void clickAddMoreMcqOptionLinkForNewQuestion() {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + NEW_QUESTION_NUM));
         click(addMoreOptionLink);
@@ -1039,6 +1049,11 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         WebElement generateOptionsCheckbox = browser.driver.findElement(By.id(idPrefix + idSuffix));
         click(generateOptionsCheckbox);
+    }
+
+    public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + qnNumber));
+        fillTextBox(optionBox, optionText);
     }
 
     public void fillMsqOptionForNewQuestion(int optionIndex, String optionText) {
