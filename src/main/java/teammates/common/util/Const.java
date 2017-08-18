@@ -1315,6 +1315,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
+                "The feedback session is not open for submissions. "
+                + "You cannot send reminders for a session that is not open.";
         public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
         public static final String FEEDBACK_SESSION_EXISTS =
                 "A feedback session by this name already exists under this course";

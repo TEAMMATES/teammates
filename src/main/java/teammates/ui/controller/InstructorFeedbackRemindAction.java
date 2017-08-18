@@ -24,6 +24,12 @@ public class InstructorFeedbackRemindAction extends Action {
                 feedbackSession,
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
+        if (!feedbackSession.isOpened()) {
+            statusToUser.add(new StatusMessage(
+                    Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN, StatusMessageColor.DANGER));
+            return createRedirectResult(nextUrl);
+        }
+
         taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
 
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
