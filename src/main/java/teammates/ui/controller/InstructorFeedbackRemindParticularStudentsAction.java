@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -16,10 +17,18 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
             nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         }
 
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getFeedbackSession(feedbackSessionName, courseId),
+                feedbackSession,
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+
+        if (!feedbackSession.isOpened()) {
+            statusToUser.add(new StatusMessage(
+                    Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN, StatusMessageColor.DANGER));
+            return createRedirectResult(nextUrl);
+        }
 
         String[] usersToRemind = getRequestParamValues(Const.ParamsNames.SUBMISSION_REMIND_USERLIST);
         if (usersToRemind == null || usersToRemind.length == 0) {
