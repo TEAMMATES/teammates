@@ -1538,8 +1538,8 @@
                                             <option value="Tutorial Group 2">
                                             Tutorial Group 2
                                             </option>
-                                            <option value="No specific recipient">
-                                            No specific recipient
+                                            <option value="No specific section">
+                                            No specific section
                                             </option>
                                         </select>
                                     </div>

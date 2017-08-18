@@ -62,10 +62,6 @@ function showHideStats() {
     }
 }
 
-function updateStatsCheckBox() {
-    $('input[id=statsShownCheckBox]').val($('#show-stats-checkbox').is(':checked'));
-}
-
 /**
  * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
  *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
@@ -266,7 +262,7 @@ function prepareInstructorFeedbackResultsPage() {
     const participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
     $('a[id^="collapse-panels-button-section-"]').on('click', (e) => {
-        const isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        const isGroupByTeam = $('#frgroupbyteam').prop('checked');
         const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
         const panels = $(e.currentTarget).closest('.panel-success')
                             .children('.panel-collapse')
@@ -295,7 +291,7 @@ function prepareInstructorFeedbackResultsPage() {
 
     // auto select the html table when modal is shown
     $('#fsResultsTableWindow').on('shown.bs.modal', () => {
-        selectElementContents(document.getElementById('fsModalTable'));
+        selectElementContents($('#fsModalTable').get(0));
     });
 
     const panels = $('div.panel');
@@ -351,32 +347,12 @@ function prepareInstructorFeedbackResultsPage() {
     const $responseRatePanel = $('.ajax-response-submit,.ajax-response-auto');
     $responseRatePanel.click(responseRateRequest);
 
-    $('#viewSelect').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('#sectionSelect').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('#indicate-missing-responses-checkbox').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('.checkbox-group-by-team').on('change', (e) => {
-        e.target.form.submit();
-    });
-
-    $('#show-stats-checkbox').on('change', () => {
-        updateStatsCheckBox();
-    });
-
     $('#collapse-panels-button').on('click', (e) => {
         expandOrCollapsePanels(e.target);
     });
 
     $('#btn-select-element-contents').on('click', () => {
-        selectElementContents(document.getElementById('fsModalTable'));
+        selectElementContents($('#fsModalTable').get(0));
     });
 
     $('#btn-display-table').on('click', () => {
