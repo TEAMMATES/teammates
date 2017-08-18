@@ -21,9 +21,7 @@
       </strong>
       <%-- Empty trash button --%>
       <span class="pull-right">
-        <a <c:forEach items="${trashEmailTable.emptyTrashButton.attributes}" var="attribute">
-            ${attribute.key}="${attribute.value}"
-            </c:forEach>>
+        <a ${trashEmailTable.emptyTrashButton.attributesToString}>
 
           <strong>
             <span class="glyphicon glyphicon-floppy-remove">
