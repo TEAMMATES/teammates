@@ -619,17 +619,27 @@ public class PageData {
         return link;
     }
 
-    public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
+    public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return "Private";
         } else if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
             return "Awaiting";
+        } else {
+            return "Closed";
+        }
+    }
+
+    public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
+        if (session.isPrivateSession()) {
+            return "NA for Private Session";
+        } else if (session.isWaitingToOpen()) {
+            return "NA for not-yet-open Session";
         } else if (session.isPublished()) {
             return "Published";
         } else {
-            return "Closed";
+            return "Not Published";
         }
     }
 
