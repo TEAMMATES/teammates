@@ -610,8 +610,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
-        WebElement subQnBox = getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex);
-        fillTextBox(subQnBox, description);
+        WebElement descriptionBox = getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex);
+        fillTextBox(descriptionBox, description);
     }
 
     public void clickQuestionEditForQuestion(int qnNumber) {
