@@ -163,11 +163,25 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
 
-        if (this.maxSelectableChoices != newMsqDetails.maxSelectableChoices) {
+        if (this.maxSelectableChoices == Integer.MIN_VALUE && newMsqDetails.maxSelectableChoices != Integer.MAX_VALUE) {
+            // Delete responses if max selectable restriction is newly added
             return true;
         }
 
-        if (this.minSelectableChoices != newMsqDetails.minSelectableChoices) {
+        if (this.minSelectableChoices == Integer.MIN_VALUE && newMsqDetails.minSelectableChoices != Integer.MAX_VALUE) {
+            // Delete responses if min selectable restriction is newly added
+            return true;
+        }
+
+        if (this.minSelectableChoices != Integer.MIN_VALUE && newMsqDetails.minSelectableChoices != Integer.MIN_VALUE
+                && this.minSelectableChoices > newMsqDetails.minSelectableChoices) {
+            // A more strict min selectable choices restriction is placed
+            return true;
+        }
+
+        if (this.maxSelectableChoices != Integer.MIN_VALUE && newMsqDetails.maxSelectableChoices != Integer.MIN_VALUE
+                && this.maxSelectableChoices < newMsqDetails.maxSelectableChoices) {
+            // A more strict max selectable choices restriction is placed
             return true;
         }
 
