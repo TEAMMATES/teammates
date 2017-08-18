@@ -642,6 +642,7 @@ function getMinSelectableMsqChoices(qNum) {
 function validateMsqQuestions() {
     const msqQuestionNums = getQuestionTypeNumbers('MSQ');
 
+    // validate min/max selectable choices restrictions
     for (let i = 0; i < msqQuestionNums.length; i += 1) {
         const qNum = msqQuestionNums[i];
         let recipientIndex = 0;
@@ -650,6 +651,14 @@ function validateMsqQuestions() {
 
         while ($(`input[name="responsetext-${qNum}-${recipientIndex}"]`).length !== 0) {
             const numOfSelectedChoices = $(`input[name="responsetext-${qNum}-${recipientIndex}"]:checked`).length;
+
+            if (numOfSelectedChoices === 1
+                    && $(`input[name="responsetext-${qNum}-${recipientIndex}"][value=""]`).prop('checked')) {
+                // Selecting "None of the above" as
+                // the only option is a valid response
+                recipientIndex += 1;
+                continue;
+            }
 
             if (numOfSelectedChoices === 0) {
                 // student is allowed to skip/ignore question
