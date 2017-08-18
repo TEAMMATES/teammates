@@ -178,7 +178,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
             String courseId = session.getCourseId();
             String name = sanitizeForHtml(session.getFeedbackSessionName());
             String tooltip = getInstructorHoverMessageForFeedbackSession(session);
-            String status = getInstructorStatusForFeedbackSession(session);
+            String submissionStatus = getInstructorSubmissionStatusForFeedbackSession(session);
+            String publishedStatus = getInstructorPublishedStatusForFeedbackSession(session);
             String href = getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName());
 
             InstructorFeedbackSessionActions actions =
@@ -193,7 +194,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                 elementAttributes = new ElementTag("class", "sessionsRow");
             }
 
-            rows.add(new FeedbackSessionsTableRow(courseId, name, tooltip, status, href,
+            rows.add(new FeedbackSessionsTableRow(courseId, name, tooltip, submissionStatus, publishedStatus, href,
                                                   actions, elementAttributes));
         }
 

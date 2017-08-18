@@ -124,7 +124,8 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
                     sanitizeForHtml(session.getFeedbackSessionName()),
                     getInstructorHoverMessageForFeedbackSession(session),
-                    getInstructorStatusForFeedbackSession(session),
+                    getInstructorSubmissionStatusForFeedbackSession(session),
+                    getInstructorPublishedStatusForFeedbackSession(session),
                     TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTime()),
                     session.getStartTimeString(),
                     TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
