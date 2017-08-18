@@ -482,7 +482,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnMcqQuestions() throws IOException {
-        ______TS("add comments on questions without response: no effect");
+        ______TS("add comments on questions without responses: no effect");
 
         logout();
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
@@ -496,7 +496,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("add new comments on questions with response");
+        ______TS("add new comments on questions with responses");
 
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
         submitPage.waitForPageToLoad();
@@ -531,7 +531,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("delete comments on questions with response");
+        ______TS("delete comments on questions with responses");
 
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
         submitPage.waitForPageToLoad();
@@ -546,7 +546,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnRubricQuestions() throws IOException {
-        ______TS("add comments on Rubric questions without response: no effect");
+        ______TS("add comments on Rubric questions without responses: no effect");
 
         logout();
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");
@@ -608,7 +608,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnMsqQuestions() throws IOException {
-        ______TS("add comment on MSQ questions without response: no effect");
+        ______TS("add comments on MSQ questions without responses: no effect");
 
         logout();
         submitPage = loginToStudentFeedbackSubmitPage("Charlie", "Open Session");

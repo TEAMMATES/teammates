@@ -309,7 +309,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnMcqQuestions() throws IOException {
-        ______TS("add comment on questions without responses: no effect");
+        ______TS("add comments on questions without responses: no effect");
 
         logout();
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -317,7 +317,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(5, 0, "UI");
         submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
 
-        ______TS("add new comments on questions with response");
+        ______TS("add new comments on questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -333,7 +333,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("edit comments on question with response");
+        ______TS("edit comments on question with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -348,7 +348,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("delete comments on questions with response");
+        ______TS("delete comments on questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -369,14 +369,14 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnRubricQuestions() throws IOException {
-        ______TS("add comment on Rubric question without response: no effect");
+        ______TS("add comments on Rubric questions without responses: no effect");
 
         logout();
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
         submitPage.addFeedbackResponseComment("-0-1-22", "Comment without response");
 
-        ______TS("add new comment on Rubric question with response");
+        ______TS("add new comments on Rubric questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -388,7 +388,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("edit comment on Rubric question with response");
+        ______TS("edit comments on Rubric questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -398,7 +398,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("delete comment on Rubric question with response");
+        ______TS("delete comments on Rubric questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -409,7 +409,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testCommentsOnMsqQuestions() throws IOException {
-        ______TS("add comment on MSQ questions without response: no effect");
+        ______TS("add comments on MSQ questions without responses: no effect");
 
         logout();
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -458,7 +458,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        ______TS("delete comments on MSQ question with responses");
+        ______TS("delete comments on MSQ questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
