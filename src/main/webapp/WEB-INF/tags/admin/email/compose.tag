@@ -33,7 +33,7 @@
       </div>
     </div>
     <br>
-    Subject : 
+    Subject :
     <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>"
         value="${not empty emailToEdit ? emailToEdit.subject : ''}">
     <br>
@@ -50,7 +50,7 @@
 
   <div id="adminEmailGroupReceiverListUploadBox" style="display:none;">
     <form id="adminEmailReceiverListForm" action="" method="POST" enctype="multipart/form-data">
-      <span id="adminEmailGroupReceiverListInput"> 
+      <span id="adminEmailGroupReceiverListInput">
       <input
           type="file"
           name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD%>"
@@ -62,7 +62,7 @@
   <div style="display: none;">
     <form id="adminEmailFileForm" action=""
         method="POST" enctype="multipart/form-data">
-      <span id="adminEmailFileInput"> 
+      <span id="adminEmailFileInput">
       <input
           type="file"
           name="<%=Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD%>"
