@@ -27,9 +27,12 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testModerationHint();
+        testAddCommentsWithoutResponse();
         testEditResponse();
         testAddResponse();
-        testCommentsAction();
+        testAddCommentsWithResponses();
+        testEditCommentsAction();
+        testDeleteCommentsAction();
         testDeleteResponse();
     }
 
@@ -50,6 +53,19 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("[More]", submitPage.getModerationHintButtonText());
     }
 
+    private void testAddCommentsWithoutResponse() {
+        ______TS("add comment on question without response: no effect");
+
+        logout();
+        submitPage = loginToInstructorEditStudentFeedbackPage(
+                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
+        submitPage.waitForPageToLoad();
+        submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
     private void testEditResponse() throws Exception {
         ______TS("edit responses");
 
@@ -58,7 +74,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                                   "student1InIESFPTCourse@gmail.tmt",
                                                   "student1InIESFPTCourse@gmail.tmt");
 
-        assertEquals("Student 1 self feedback.", fr.getResponseDetails().getAnswerString());
+        assertEquals("<p>Student 1 self feedback.</p>", fr.getResponseDetails().getAnswerString());
 
         submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt",
                                                               "session1InIESFPTCourse");
@@ -107,50 +123,40 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
     }
 
-    private void testCommentsAction() throws IOException {
-        testCommentsOnMcqQuestion();
-    }
-
-    private void testCommentsOnMcqQuestion() throws IOException {
-        ______TS("add comment on question without response: no effect");
-
-        logout();
-        submitPage = loginToInstructorEditStudentFeedbackPage(
-                "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
-        submitPage.waitForPageToLoad();
-        submitPage.chooseMcqOption(3, 0, "It's good");
-        submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
-
-        ______TS("add new comments on question with responses");
+    private void testAddCommentsWithResponses() throws IOException {
+        ______TS("add new comment on question with responses");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedNoComments.html");
 
-        submitPage.chooseMcqOption(3, 0, "It's perfect"); // select option
         submitPage.addFeedbackResponseComment("-0-1-3", "New MCQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
 
+    private void testEditCommentsAction() throws IOException {
         ______TS("edit comment on question with responses");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedAddComment.html");
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedAddedCommentOnResponses.html");
 
         submitPage.editFeedbackResponseComment("-0-1-3-1", "Edited MCQ Comment 1");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
 
+    private void testDeleteCommentsAction() throws IOException {
         ______TS("delete comment on question with responses");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditComment.html");
+        submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditedComments.html");
 
         submitPage.deleteFeedbackResponseComment("-0-1-3-1");
         submitPage.verifyRowMissing("-0-1-3-1");
