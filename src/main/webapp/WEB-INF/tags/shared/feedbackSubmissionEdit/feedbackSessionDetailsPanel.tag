@@ -27,7 +27,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Opening time:</label>
           <div class="col-sm-10">
-            <p class="form-control-static">${feedbackSession.startTimeString}</p>
+            <p class="form-control-static" data-start-time="${feedbackSession.startTimeInIso8601Format}">${feedbackSession.startTimeString}</p>
           </div>
         </div>
 
