@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
@@ -96,8 +95,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         String expectedError =
                 "\"" + invalidSubjectChars + "\" is not acceptable to TEAMMATES as a/an email subject because "
-                        + "it starts with a non-alphanumeric character. All email subject must start with an " +
-                        "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
+                        + "it starts with a non-alphanumeric character. All email subject must start with an "
+                        + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
 
 
         assertEquals("Invalid subject input should return appropriate error string",
@@ -107,7 +106,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     @Test(expectedExceptions = NullPointerException.class)
-    public void testAttributesForNull() throws  Exception{
+    public void testAttributesForNull() throws Exception {
         AdminEmailAttributes invalidAttributesNullSubject = new AdminEmailAttributes(
                 null, addressReceiverListString, groupReceiverListFileKey, content, date);
 
@@ -162,12 +161,19 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSanitizeForSaving() {
-        AdminEmailAttributes actualAdminEmail = adminEmailAttributes;
-        AdminEmailAttributes expectedAdminEmail = adminEmailAttributes;
-        actualAdminEmail.sanitizeForSaving();
+        String emailSubject = " subject to be sanitized by removing leading/trailing whitespace ";
+        Text emailContent = new Text(" content to be sanitized by removing leading/trailing whitespace ");
 
-        assertEquals(SanitizationHelper.sanitizeTextField(expectedAdminEmail.subject), actualAdminEmail.subject);
-        assertEquals(SanitizationHelper.sanitizeForRichText(expectedAdminEmail.content), actualAdminEmail.content);
+        AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+                emailSubject, addressReceiverListString, groupReceiverListFileKey, emailContent, date);
+
+        adminEmailAttributes.sanitizeForSaving();
+
+        assertEquals("subject to be sanitized by removing leading/trailing whitespace",
+                adminEmailAttributes.getSubject());
+
+        assertEquals("content to be sanitized by removing leading/trailing whitespace",
+                adminEmailAttributes.getContentValue());
     }
 
 }
