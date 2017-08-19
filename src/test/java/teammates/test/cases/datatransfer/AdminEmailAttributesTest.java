@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -109,15 +108,13 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testAttributesForNull() throws Exception {
         AdminEmailAttributes invalidAttributesNullSubject = new AdminEmailAttributes(
                 null, addressReceiverListString, groupReceiverListFileKey, content, date);
-
-        assertFalse(invalidAttributesNullSubject.getSubject().equals(null));
-        Assumption.assertTrue("Non-null value expected", invalidAttributesNullSubject.subject != null);
+        assertNull(invalidAttributesNullSubject.getSubject());
+        assertEquals(invalidAttributesNullSubject.getSubject(), null);
 
         AdminEmailAttributes invalidAttributesNullContent = new AdminEmailAttributes(
                 subject, addressReceiverListString, groupReceiverListFileKey, null, date);
-
-        assertFalse(invalidAttributesNullContent.getContentValue().equals(null));
-        Assumption.assertTrue("Non-null value expected", invalidAttributesNullContent.content != null);
+        assertNull(invalidAttributesNullContent.getContentValue());
+        assertFalse("Invalid input", invalidAttributesNullContent.isValid());
     }
 
     @Test
