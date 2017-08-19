@@ -73,7 +73,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertFalse("Invalid input", invalidAttributesContentEmpty.isValid());
 
-
         // Subject exceeds max length
         String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
         AdminEmailAttributes invalidAttributesSubjectLength = new AdminEmailAttributes(
@@ -96,7 +95,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 "\"" + invalidSubjectChars + "\" is not acceptable to TEAMMATES as a/an email subject because "
                         + "it starts with a non-alphanumeric character. All email subject must start with an "
                         + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
-
 
         assertEquals("Invalid subject input should return appropriate error string",
                 expectedError, StringHelper.toString(invalidAttributesSubjectChars.getInvalidityInfo()));
