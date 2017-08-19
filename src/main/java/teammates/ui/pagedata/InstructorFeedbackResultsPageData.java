@@ -699,15 +699,38 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
         sectionPanels = new LinkedHashMap<>();
+        InstructorFeedbackResultsSectionPanel sectionPanel;
 
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
-        sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        if (isResponsesExistsWithinGivenSection(Const.DEFAULT_SECTION)) {
+            sectionPanel = new InstructorFeedbackResultsSectionPanel(
+                    Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
+            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        }
 
         for (String section : sections) {
             sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
+    }
+
+    private boolean isResponsesExistsWithinGivenSection(String section) {
+        String currentSection;
+        boolean recipientIsPrimaryParticipant = isRecipientPrimaryParticipant();
+
+        for (FeedbackResponseAttributes response : bundle.getResponses()) {
+            currentSection = recipientIsPrimaryParticipant ? response.recipientSection : response.giverSection;
+
+            if (section.equals(currentSection)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isRecipientPrimaryParticipant() {
+        return viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER
+                || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION;
     }
 
     private int getSectionPosition(String name) {
