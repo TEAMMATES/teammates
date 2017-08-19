@@ -4176,10 +4176,10 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-22-0" style="display:none;max-width:125px">
-                <option selected="" value="">
+              <select class="participantSelect middlealign form-control" name="responserecipient-22-0" style="display:none;max-width:125px">
+                <option value="">
                 </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -4212,14 +4212,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr class="row-answered">
                         <td>
                           <p>
                             a) This instructor has done a good job.
                           </p>
                         </td>
-                        <td class="col-md-1">
-                          <input class="overlay" id="rubricChoice-22-0-0-0" name="rubricChoice-22-0-0" type="radio" value="0-0">
+                        <td class="col-md-1 cell-selected">
+                          <input checked="" class="overlay" id="rubricChoice-22-0-0-0" name="rubricChoice-22-0-0" type="radio" value="0-0">
                           <span class="color_neutral overlay">
                             Most of the time
                           </span>
@@ -4253,14 +4253,14 @@
                     </tbody>
                   </table>
                   <div class="visible-xs visible-sm">
-                    <div class="panel panel-default">
+                    <div class="panel panel-success">
                       <div class="panel-heading">
                         a) This instructor has done a good job.
                       </div>
                       <div class="panel-body">
                         <div class="radio">
                           <label>
-                            <input id="mobile-rubricChoice-22-0-0-0" name="mobile-rubricChoice-22-0-0" type="radio" value="0-0">
+                            <input checked="" id="mobile-rubricChoice-22-0-0-0" name="mobile-rubricChoice-22-0-0" type="radio" value="0-0">
                             <strong>
                               Yes
                             </strong>
@@ -4316,7 +4316,7 @@
                         <p>
                           Giver: Teammates Test
                           <br>
-                          Recipient: Myself
+                          Recipient: Teammates Test
                         </p>
                         You may change comment's visibility using the visibility options on the right hand side.
                       </div>
@@ -4391,6 +4391,7 @@
                   </div>
                 </li>
               </ul>
+              <input name="responseid-22-0" type="hidden" value="${question.id}%IFSubmitUiT.instr@gmail.tmt%IFSubmitUiT.instr@gmail.tmt">
             </div>
           </div>
         </div>
