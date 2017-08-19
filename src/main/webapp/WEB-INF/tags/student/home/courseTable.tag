@@ -10,8 +10,8 @@
         <tr>
           <th>Session Name</th>
           <th>Deadline</th>
-          <th>Submission Status</th>
-          <th>Published Status</th>
+          <th>Submissions</th>
+          <th>Published?</th>
           <th class="studentHomeActions">Action(s)</th>
         </tr>
       </thead>

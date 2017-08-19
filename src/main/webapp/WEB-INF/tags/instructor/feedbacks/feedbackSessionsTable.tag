@@ -15,8 +15,8 @@
       <th id="button_sortname" class="button-sort-none session-name-table-width toggle-sort">
         Session Name <span class="icon-sort unsorted"></span>
       </th>
-      <th>Submission Status</th>
-      <th>Published Status</th>
+      <th>Submissions</th>
+      <th>Published?</th>
       <th>
         <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" data-toggle="tooltip" data-placement="top">
           Response Rate
