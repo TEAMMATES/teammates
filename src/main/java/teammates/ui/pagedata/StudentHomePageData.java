@@ -66,7 +66,8 @@ public class StudentHomePageData extends PageData {
 
             rows.add(new StudentHomeFeedbackSessionRow(
                     PageData.sanitizeForHtml(sessionName),
-                    getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
+                    getStudentSubmissionsTooltipForSession(feedbackSession, hasSubmitted),
+                    getStudentPublishedTooltipForSession(feedbackSession),
                     getStudentSubmissionStatusForSession(feedbackSession, hasSubmitted),
                     getStudentPublishedStatusForSession(feedbackSession),
                     TimeHelper.formatTime12H(feedbackSession.getEndTime()),
@@ -111,7 +112,7 @@ public class StudentHomePageData extends PageData {
      * @param session The feedback session in question.
      * @param hasSubmitted Whether the student had submitted the session or not.
      */
-    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
+    private String getStudentSubmissionsTooltipForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         StringBuilder msg = new StringBuilder();
 
         Boolean isAwaiting = session.isWaitingToOpen();
@@ -126,10 +127,15 @@ public class StudentHomePageData extends PageData {
         if (session.isClosed()) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
-        if (session.isPublished()) {
-            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED);
-        }
         return msg.toString();
+    }
+
+    private String getStudentPublishedTooltipForSession(FeedbackSessionAttributes session) {
+        if (session.isPublished()) {
+            return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
+        } else {
+            return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
+        }
     }
 
     /**
