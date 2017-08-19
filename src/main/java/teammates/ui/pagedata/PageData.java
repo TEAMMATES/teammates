@@ -632,14 +632,10 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return "NA for Private Session";
-        } else if (session.isWaitingToOpen()) {
-            return "NA for not-yet-open Session";
-        } else if (session.isPublished()) {
-            return "Published";
+        if (session.isPublished()) {
+            return "Yes";
         } else {
-            return "Not Published";
+            return "No";
         }
     }
 
