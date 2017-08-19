@@ -639,7 +639,7 @@ public class PageData {
         }
     }
 
-    public static String getInstructorHoverMessageForFeedbackSession(FeedbackSessionAttributes session) {
+    public static String getInstructorSubmissionsTooltipForFeedbackSession(FeedbackSessionAttributes session) {
 
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
@@ -660,13 +660,19 @@ public class PageData {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
 
-        if (session.isPublished()) {
-            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
-        }
-
         msg.append('.');
 
         return msg.toString();
+    }
+
+    public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
+        if (session.isPrivateSession()) {
+            return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
+        } else if (session.isPublished()) {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+        } else {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
+        }
     }
 
     /**
