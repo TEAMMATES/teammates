@@ -20,12 +20,14 @@
           <td>${sessionRow.name}</td>
           <td>${sessionRow.endTime}</td>
           <td>
-            <span data-toggle="tooltip" data-placement="top" title="${sessionRow.tooltip}">
+            <span data-toggle="tooltip" data-placement="top" title="${sessionRow.submissionsTooltip}">
               ${sessionRow.submissionStatus}
             </span>
           </td>
           <td>
-            ${sessionRow.publishedStatus}
+            <span data-toggle="tooltip" data-placement="top" title="${sessionRow.publishedTooltip}">
+              ${sessionRow.publishedStatus}
+            </span>
           </td>
           <td class="studentHomeActions">
             <home:rowActions actions="${sessionRow.actions}" index="${sessionRow.index}" />

@@ -51,12 +51,14 @@
                         <span title="${sessionRow.endTimeToolTip}" data-toggle="tooltip">${sessionRow.endTime}</span>
                     </td>
                     <td>
-                        <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
+                        <span title="${sessionRow.submissionsTooltip}" data-toggle="tooltip" data-placement="top">
                             ${sessionRow.submissionStatus}
                         </span>
                     </td>
                     <td>
-                      ${sessionRow.publishedStatus}
+                      <span title="${sessionRow.publishedTooltip}" data-toggle="tooltip" data-placement="top">
+                        ${sessionRow.publishedStatus}
+                      </span>
                     </td>
                     <td class="session-response-for-test">
                         <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
