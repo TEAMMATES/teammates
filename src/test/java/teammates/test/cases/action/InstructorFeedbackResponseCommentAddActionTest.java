@@ -280,11 +280,9 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
-        FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes();
-        comment.courseId = fs.getCourseId();
-        comment.feedbackSessionName = fs.getFeedbackSessionName();
-        comment.feedbackQuestionId = question.getId();
-        comment.feedbackResponseId = response.getId();
+        FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes.builder(fs.getCourseId(),
+                fs.getFeedbackSessionName(), question.getId(), response.getId(), giverEmail)
+                .build();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, comment.courseId,
