@@ -42,7 +42,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public String giverSection;
     public String receiverSection;
 
-    public FeedbackResponseCommentAttributes() {
+    FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
         receiverSection = Const.DEFAULT_SECTION;
         showCommentTo = new ArrayList<>();
