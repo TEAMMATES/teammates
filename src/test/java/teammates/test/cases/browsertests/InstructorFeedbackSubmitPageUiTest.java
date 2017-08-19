@@ -88,7 +88,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testAddCommentsWithoutResponses() {
-        ______TS("add comments on MCQ questions without responses: no effect");
+        ______TS("add comments on questions without responses: no effect");
 
         logout();
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -317,7 +317,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testAddCommentsWithResponses() throws IOException {
-        ______TS("add new comments on MCQ questions with responses");
+        ______TS("add new comments on questions with responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -335,7 +335,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testEditCommentsAction() throws IOException {
-        ______TS("edit comments on MCQ questions");
+        ______TS("edit comments on responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -352,7 +352,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testDeleteCommentsAction() throws IOException {
-        ______TS("delete comments on MCQ questions");
+        ______TS("delete comments on responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
