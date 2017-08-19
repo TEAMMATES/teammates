@@ -85,6 +85,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
+     * Remove search document for the comment with given id.
+     *
+     * @param commentId
+     */
+    public void deleteDocumentByCommentId(long commentId) {
+        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, String.valueOf(commentId));
+    }
+
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return Null if not found.
@@ -335,6 +344,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return makeAttributes(load().list());
     }
 
+    /**
+     * Removes comment with given id.
+     *
+     * @param id
+     */
+    public void deleteCommentById(Long id) {
+        ofy().delete().keys(getEntityQueryKeys(id)).now();
+    }
+
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
@@ -442,17 +460,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     protected QueryKeys<FeedbackResponseComment> getEntityQueryKeys(FeedbackResponseCommentAttributes attributes) {
         Long id = attributes.getId();
 
-        Query<FeedbackResponseComment> query;
-        if (id == null) {
-            query = load()
-                    .filter("courseId =", attributes.courseId)
-                    .filter("createdAt =", attributes.createdAt)
-                    .filter("giverEmail =", attributes.giverEmail);
-        } else {
-            query = load().filterKey(Key.create(FeedbackResponseComment.class, id));
+        if (id != null) {
+            return getEntityQueryKeys(id);
         }
 
-        return query.keys();
+        return load()
+                .filter("courseId =", attributes.courseId)
+                .filter("createdAt =", attributes.createdAt)
+                .filter("giverEmail =", attributes.giverEmail)
+                .keys();
+    }
+
+    private QueryKeys<FeedbackResponseComment> getEntityQueryKeys(long commentId) {
+        return load().filterKey(Key.create(FeedbackResponseComment.class, commentId)).keys();
     }
 
     @Override
