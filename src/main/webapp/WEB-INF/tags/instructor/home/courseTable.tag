@@ -44,10 +44,10 @@
                         ${sessionRow.name}
                     </td>
                     <td class="text-nowrap">
-                        <span title="${sessionRow.startTimeToolTip}" data-toggle="tooltip">${sessionRow.startTime}</span>
+                        <span title="${sessionRow.startTimeToolTip}" data-toggle="tooltip" data-date-stamp="${sessionRow.startTimeDateStamp}">${sessionRow.startTime}</span>
                     </td>
                     <td class="text-nowrap">
-                        <span title="${sessionRow.endTimeToolTip}" data-toggle="tooltip">${sessionRow.endTime}</span>
+                        <span title="${sessionRow.endTimeToolTip}" data-toggle="tooltip" data-date-stamp="${sessionRow.endTimeDateStamp}">${sessionRow.endTime}</span>
                     </td>
                     <td>
                         <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
