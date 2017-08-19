@@ -24,6 +24,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
@@ -1082,13 +1083,29 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
             configureResponseRow(prevGiver, response.recipient, responseRow);
+            String giverName = bundle.getNameForEmail(response.giver);
+            String recipientName = bundle.getNameForEmail(response.recipient);
+
+            String giverTeam = bundle.getTeamNameForEmail(response.giver);
+            String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
+
+            giverName = bundle.appendTeamNameToName(giverName, giverTeam);
+            recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
+
+            List<FeedbackResponseCommentRow> comments =
+                    buildResponseComments(giverName, recipientName, question, response);
+            Logger log = Logger.getLogger();
+            log.info(comments.toString());
+            if (comments != null) {
+                responseRow.setCommentsOnResponses(comments);
+            }
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
             boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
                     .isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
-                FeedbackResponseCommentRow addCommentButton = buildFeedbackResponseCommentAddForm(question, response,
+                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
                         responseVisibilityMap, response.giver, response.recipient);
-                responseRow.setAddCommentButton(addCommentButton);
+                responseRow.setAddCommentButton(addCommentForm);
             }
             responseRows.add(responseRow);
         }

@@ -6,6 +6,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="responseRow" type="teammates.ui.template.InstructorFeedbackResultsResponseRow" required="true" %>
+<%@ attribute name="questionIndex" type="java.lang.Integer"%>
+<%@ attribute name="responseIndex" type="java.lang.Integer"%>
 
 <tr <c:forEach items="${responseRow.rowAttributes.attributes}" var="attr">${attr.key}="${attr.value}"</c:forEach>>
   <c:if test="${responseRow.giverDisplayed}">
@@ -88,6 +90,13 @@
     <td>
       <c:if test="${not empty responseRow.moderationButton}">
         <results:moderationButton moderationButton="${responseRow.moderationButton}" />
+      </c:if>
+      <c:if test="${not responseRow.rowGrey}">
+        <button type="button" class="btn btn-default btn-xs" style="margin-top:0.5em;"
+              data-toggle="modal" data-target="#commentModal">
+            Add Comment
+        </button>
+        <results:commentModal response="${responseRow}" questionIndex="${questionIndex}" responseIndex="${responseIndex}"/>
       </c:if>
     </td>
   </c:if>

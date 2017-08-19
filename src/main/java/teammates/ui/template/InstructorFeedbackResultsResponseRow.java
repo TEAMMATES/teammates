@@ -33,6 +33,8 @@ public class InstructorFeedbackResultsResponseRow {
     private InstructorFeedbackResultsModerationButton moderationButton;
     private FeedbackResponseCommentRow addCommentButton;
 
+    private List<FeedbackResponseCommentRow> commentsOnResponses;
+
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse,
@@ -173,6 +175,14 @@ public class InstructorFeedbackResultsResponseRow {
 
     public void setAddCommentButton(FeedbackResponseCommentRow addCommentButton) {
         this.addCommentButton = addCommentButton;
+    }
+
+    public List<FeedbackResponseCommentRow> getCommentsOnResponses() {
+        return commentsOnResponses;
+    }
+
+    public void setCommentsOnResponses(List<FeedbackResponseCommentRow> commentsOnResponses) {
+        this.commentsOnResponses = commentsOnResponses;
     }
 
 }
