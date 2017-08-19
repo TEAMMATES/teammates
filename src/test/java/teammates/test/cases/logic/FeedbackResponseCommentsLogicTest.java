@@ -338,8 +338,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 dataBundle.feedbackResponseComments.get(existingFrCommentInDataBundle);
 
         FeedbackResponseCommentAttributes frComment = FeedbackResponseCommentAttributes.builder(
-                existingFrComment.courseId, existingFrComment.feedbackSessionName, existingFrComment.feedbackQuestionId,
-                existingFrComment.feedbackResponseId, existingFrComment.giverEmail)
+                existingFrComment.courseId, existingFrComment.feedbackSessionName)
+                .withGiverEmail(existingFrComment.giverEmail)
+                .withFeedbackQuestionId(existingFrComment.feedbackQuestionId)
+                .withFeedbackResponseId(existingFrComment.feedbackResponseId)
                 .withCommentText(existingFrComment.commentText)
                 .withCreatedAt(existingFrComment.createdAt)
                 .build();

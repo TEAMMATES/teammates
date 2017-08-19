@@ -55,7 +55,8 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName, null, null, instructor.email)
+                .builder(courseId, feedbackSessionName)
+                .withGiverEmail(instructor.email)
                 .withCreatedAt(new Date())
                 .withCommentText(new Text(commentText))
                 .withGiverSection(response.giverSection)

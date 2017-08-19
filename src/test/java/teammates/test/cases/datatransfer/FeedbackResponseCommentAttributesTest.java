@@ -19,7 +19,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithDefaultValues() {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes.builder("course",
-                "name", "questionId", "responseId", "email")
+                "name")
                 .build();
 
         // Default values for following fields
@@ -34,7 +34,10 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithNullValues() {
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes.builder("course",
-                "name", "questionId", "responseId", "email")
+                "name")
+                .withGiverEmail(null)
+                .withFeedbackResponseId(null)
+                .withFeedbackQuestionId(null)
                 .withShowGiverNameTo(null)
                 .withShowCommentTo(null)
                 .withLastEditorEmail(null)

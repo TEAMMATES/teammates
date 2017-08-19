@@ -281,7 +281,10 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes.builder(fs.getCourseId(),
-                fs.getFeedbackSessionName(), question.getId(), response.getId(), giverEmail)
+                fs.getFeedbackSessionName())
+                .withGiverEmail(giverEmail)
+                .withFeedbackQuestionId(question.getId())
+                .withFeedbackResponseId(response.getId())
                 .build();
 
         String[] submissionParams = new String[] {

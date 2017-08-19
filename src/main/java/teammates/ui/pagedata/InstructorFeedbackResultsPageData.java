@@ -1459,8 +1459,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
-                .builder(question.courseId, question.feedbackSessionName,
-                        question.getFeedbackQuestionId(), response.getId(), null)
+                .builder(question.courseId, question.feedbackSessionName)
+                .withFeedbackResponseId(response.getId())
+                .withFeedbackQuestionId(question.getId())
                 .build();
 
         FeedbackParticipantType[] relevantTypes = {
