@@ -360,6 +360,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
 
+        // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-6-1");
         submitPage.verifyRowMissing("-0-1-6-1");
         submitPage.deleteFeedbackResponseComment("-1-1-6-1");
