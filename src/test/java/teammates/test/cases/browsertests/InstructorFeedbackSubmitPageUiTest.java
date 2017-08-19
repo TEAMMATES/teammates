@@ -93,6 +93,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         logout();
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
+
         submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-22", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-7", "Comment without response");

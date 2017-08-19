@@ -128,6 +128,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         logout();
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
+
         submitPage.addFeedbackResponseComment("-0-1-6", "Comment without response");
         submitPage.addFeedbackResponseComment("-1-1-7", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-10", "Comment without response");
