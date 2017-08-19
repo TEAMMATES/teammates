@@ -279,7 +279,9 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED =
                 "<br>The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED =
-                "<br>The responses for the session can now be viewed.";
+                "The responses for the session have been published and can now be viewed.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED =
+                "The responses for the session have not yet been published and cannot be viewed.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
@@ -347,7 +349,10 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
         public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
-        public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br>The responses for this session are visible";
+        public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = "The responses for this session are visible.";
+        public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
+        public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION = 
+                "This feedback session is not published as it is private and only visible to you.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
                 "You should not need to change this as your timezone is auto-detected. <br><br>"
