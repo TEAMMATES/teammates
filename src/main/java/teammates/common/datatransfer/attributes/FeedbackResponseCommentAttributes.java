@@ -21,8 +21,6 @@ import teammates.storage.entity.FeedbackResponseComment;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
-    private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
-
     // Required fields
     public String courseId;
     public String feedbackSessionName;
@@ -178,6 +176,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * A Builder for {@link FeedbackResponseCommentAttributes}.
      */
     public static class Builder {
+        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
+
         private final FeedbackResponseCommentAttributes frca;
 
         public Builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
