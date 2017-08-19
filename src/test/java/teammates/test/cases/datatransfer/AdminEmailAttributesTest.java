@@ -64,11 +64,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testGetValidityInfo() {
-        //already tested in testValidate() above
-    }
-
-    @Test
     public void testSendDateForDisplay() {
         Calendar calendar = formatDate(adminEmailAttributes.sendDate);
         String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
@@ -94,16 +89,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testGetIdentificationString() {
         assertEquals(new Date() + "/" + "subject of email", adminEmailAttributes.getIdentificationString());
-    }
-
-    @Test
-    public void testGetEntityTypeAsString() {
-        assertEquals("Admin Email", adminEmailAttributes.getEntityTypeAsString());
-    }
-
-    @Test
-    public void testGetBackupIdentifier() {
-        assertEquals("Admin Email", adminEmailAttributes.getBackupIdentifier());
     }
 
     @Test
