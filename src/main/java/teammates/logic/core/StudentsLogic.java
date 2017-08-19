@@ -599,16 +599,11 @@ public final class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
-                                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                    addInvalidStudentInfo(invalidityInfo, student, sanitizedLine);
                 }
 
-                if (isStudentEmailDuplicated(student.email, studentList)) {
-                    String info =
-                            getInvalidityInfoInDuplicatedEmail(student.email, studentList, linesArray)
-                            + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                if (getDuplicateIndex(student.email, studentList) != -1) {
+                    addDuplicateEmailInfo(invalidityInfo, student, sanitizedLine, studentList, linesArray);
                 }
 
                 studentList.add(student);
@@ -627,25 +622,22 @@ public final class StudentsLogic {
 
     private String getInvalidityInfoInDuplicatedEmail(String email,
             List<StudentAttributes> studentList, String[] linesArray) {
-        String info = null;
-        int index;
-        for (index = 0; index < studentList.size(); index++) {
+        for (int index = 0; index < studentList.size(); index++) {
             if (studentList.get(index).email.equalsIgnoreCase(email)) {
-                info = "Same email address as the student in line \"" + linesArray[index + 1] + "\"";
-                return info;
+                return "Same email address as the student in line \"" + linesArray[index + 1] + "\"";
             }
         }
-        return info;
+        return "";
     }
 
-    private boolean isStudentEmailDuplicated(String email,
+    private int getDuplicateIndex(String email,
             List<StudentAttributes> studentList) {
-        for (StudentAttributes studentInfo : studentList) {
-            if (studentInfo.email.equalsIgnoreCase(email)) {
-                return true;
+        for (int index = 0; index < studentList.size(); index++) {
+            if (studentList.get(index).email.equalsIgnoreCase(email)) {
+                return index;
             }
         }
-        return false;
+        return -1;
     }
 
     private boolean isInEnrollList(StudentAttributes student,
@@ -677,6 +669,20 @@ public final class StudentsLogic {
             return teamResult;
         }
         return null;
+    }
+
+    private void addInvalidStudentInfo(List<String> invalidityInfo, StudentAttributes student, String sanitizedLine) {
+        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
+                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+        invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+    }
+
+    private void addDuplicateEmailInfo(List<String> invalidityInfo, StudentAttributes student,
+            String sanitizedLine, List<StudentAttributes> studentList, String[] linesArray) {
+        String info =
+                getInvalidityInfoInDuplicatedEmail(student.email, studentList, linesArray)
+                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
+        invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
     }
 
 }
