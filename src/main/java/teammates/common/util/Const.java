@@ -351,7 +351,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
         public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = "The responses for this session are visible.";
         public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
-        public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION = 
+        public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
                 "This feedback session is not published as it is private and only visible to you.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
