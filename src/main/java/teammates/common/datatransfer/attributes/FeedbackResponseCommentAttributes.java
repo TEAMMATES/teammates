@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -19,6 +20,8 @@ import teammates.storage.entity.FeedbackResponseComment;
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
+
+    private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
 
     // Required fields
     public String courseId;
@@ -46,6 +49,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
         commentText = new Text("");
+        createdAt = new Date();
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
@@ -180,6 +184,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                        String feedbackResponseId, String giverEmail) {
             frca = new FeedbackResponseCommentAttributes();
 
+            validateRequiredFields(courseId, feedbackSessionName, feedbackQuestionId, feedbackResponseId, giverEmail);
+
             frca.courseId = courseId;
             frca.feedbackSessionName = feedbackSessionName;
             frca.feedbackQuestionId = feedbackQuestionId;
@@ -188,12 +194,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            frca.showCommentTo = showCommentTo;
+            frca.showCommentTo = showCommentTo == null ? new ArrayList<FeedbackParticipantType>() : showCommentTo;
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            frca.showGiverNameTo = showGiverNameTo;
+            frca.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
             return this;
         }
 
@@ -204,7 +210,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withCreatedAt(Date createdAt) {
-            frca.createdAt = createdAt;
+            if (createdAt != null) {
+                frca.createdAt = createdAt;
+            }
+
             return this;
         }
 
@@ -248,6 +257,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         public FeedbackResponseCommentAttributes build() {
             return frca;
+        }
+
+        private void validateRequiredFields(Object... objects) {
+            for (Object object : objects) {
+                Objects.requireNonNull(object, REQUIRED_FIELD_CANNOT_BE_NULL);
+            }
         }
     }
 
