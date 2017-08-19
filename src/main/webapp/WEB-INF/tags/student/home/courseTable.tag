@@ -17,7 +17,7 @@
       <c:forEach items="${sessionRows}" var="sessionRow">
         <tr class="home_evaluations_row" id="evaluation${sessionRow.index}">
           <td>${sessionRow.name}</td>
-          <td>${sessionRow.endTime}</td>
+          <td data-date-stamp="${sessionRow.endTimeDateStamp}">${sessionRow.endTime}</td>
           <td>
             <span data-toggle="tooltip" data-placement="top" title="${sessionRow.tooltip}">
               ${sessionRow.status}

@@ -69,6 +69,7 @@ public class StudentHomePageData extends PageData {
                     getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
                     getStudentStatusForSession(feedbackSession, hasSubmitted),
                     TimeHelper.formatTime12H(feedbackSession.getEndTime()),
+                    feedbackSession.getEndTimeInIso8601Format(),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
 
