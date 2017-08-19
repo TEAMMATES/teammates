@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -118,8 +119,10 @@ public final class InstructorsLogic {
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
+        Collections.sort(instructorReturnList, InstructorAttributes.compareByName);
 
-        return instructorsDb.getInstructorsForCourse(courseId);
+        return instructorReturnList;
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {

@@ -248,16 +248,13 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", false, "",
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
-        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt",
-                false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        assertTrue(courseEditPage.isInstructorListSortedByName());
 
         ______TS("success: unhide yet-to-join instructor and verify changes");
 
         courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", true,
                 "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
-        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt",
-                true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
 
@@ -745,9 +742,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
         courseEditPage.verifyStatus(
-                getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                                         FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                         FieldValidator.COURSE_NAME_MAX_LENGTH));
+                getPopulatedEmptyStringErrorMessage(
+                                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                     FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
     }
 
     private void testDeleteCourseAction() {

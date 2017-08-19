@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -32,11 +31,7 @@ public class InstructorFeedbackResultsFilterPanel {
         this.sortType = sortType;
         this.resultsLink = resultsLink;
         this.isMissingResponsesShown = isMissingResponsesShown;
-        List<String> sanitizedSections = new ArrayList<>();
-        for (String s : sections) {
-            sanitizedSections.add(SanitizationHelper.sanitizeForHtml(s));
-        }
-        this.sections = sanitizedSections;
+        this.sections = sections;
     }
 
     public boolean isStatsShown() {
