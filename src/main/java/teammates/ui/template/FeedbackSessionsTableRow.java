@@ -3,7 +3,8 @@ package teammates.ui.template;
 public class FeedbackSessionsTableRow {
     private String courseId;
     private String name;
-    private String tooltip;
+    private String submissionsTooltip;
+    private String publishedTooltip;
     private String href;
     private String submissionStatus;
     private String publishedStatus;
@@ -19,12 +20,13 @@ public class FeedbackSessionsTableRow {
      * @param href link for the session under response rate
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */
-    public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String submissionStatus,
-                                    String publishedStatus, String href, InstructorFeedbackSessionActions actions,
-                                    ElementTag attributes) {
+    public FeedbackSessionsTableRow(String courseId, String name, String submissionsTooltip, String publishedTooltip,
+                                    String submissionStatus, String publishedStatus, String href,
+                                    InstructorFeedbackSessionActions actions, ElementTag attributes) {
         this.courseId = courseId;
         this.name = name;
-        this.tooltip = tooltip;
+        this.submissionsTooltip = submissionsTooltip;
+        this.publishedTooltip = publishedTooltip;
         this.href = href;
         this.submissionStatus = submissionStatus;
         this.publishedStatus = publishedStatus;
@@ -48,8 +50,12 @@ public class FeedbackSessionsTableRow {
         return publishedStatus;
     }
 
-    public String getTooltip() {
-        return tooltip;
+    public String getSubmissionsTooltip() {
+        return submissionsTooltip;
+    }
+
+    public String getPublishedTooltip() {
+        return publishedTooltip;
     }
 
     public String getHref() {
