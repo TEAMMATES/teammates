@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -24,58 +25,100 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
+    private FieldValidator fieldValidator;
     private AdminEmailAttributes adminEmailAttributes;
+    private List<String> addressReceiverListString;
+    private List<String> groupReceiverListFileKey;
+    private String subject;
+    private Text content;
+    private Date date;
 
     @BeforeClass
     public void classSetup() {
-        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
-        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
-        String validSubject = "subject of email";
-        Text content = new Text("valid email content");
+        addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
+        groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
+        subject = "subject of email";
+        content = new Text("valid email content");
+        date = new Date();
+
+        fieldValidator = new FieldValidator();
 
         adminEmailAttributes = new AdminEmailAttributes(
-                validSubject, addressReceiverListString, groupReceiverListFileKey, content, new Date());
+                subject, addressReceiverListString, groupReceiverListFileKey, content, date);
 
         adminEmailAttributes.createDate = new Date();
     }
 
     @Test
     public void testValidate() throws Exception {
-        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
-        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
-        String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
-        Text emptyContent = new Text("");
 
+        // Valid input
         assertTrue("Valid input", adminEmailAttributes.isValid());
+        List<String> errorList = adminEmailAttributes.getInvalidityInfo();
+        assertTrue("Valid input should return an empty list of errors", errorList.isEmpty());
 
-        List<String> actual = adminEmailAttributes.getInvalidityInfo();
-        assertTrue("Valid input should return an empty list of errors", actual.isEmpty());
-
-        // Testing invalid empty content
-        AdminEmailAttributes invalidAttributes = new AdminEmailAttributes(
-                adminEmailAttributes.subject, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date());
+        // Content empty
+        Text emptyContent = new Text("");
+        AdminEmailAttributes invalidAttributesContentEmpty = new AdminEmailAttributes(
+                subject, addressReceiverListString, groupReceiverListFileKey, emptyContent, date);
 
         String expectedContentLengthError = getPopulatedErrorMessage(
-                FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributes.getContentValue(),
+                FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributesContentEmpty.getContentValue(),
                 FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY,
                 0);
 
         assertEquals("Invalid content input should return appropriate error string", expectedContentLengthError,
-                StringHelper.toString(invalidAttributes.getInvalidityInfo()));
+                StringHelper.toString(invalidAttributesContentEmpty.getInvalidityInfo()));
 
-        // Testing invalid subject length
-        invalidAttributes.content = adminEmailAttributes.content;
-        invalidAttributes.subject = veryLongSubj;
+        String expectedStringContentError = fieldValidator.getInvalidityInfoForEmailContent(emptyContent);
+        assertEquals(FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, expectedStringContentError);
 
-        String expectedEmpytSubjectError = getPopulatedErrorMessage(
-                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributes.getSubject(),
+        assertFalse("Invalid input", invalidAttributesContentEmpty.isValid());
+
+
+        // Subject exceeds max length
+        String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
+        AdminEmailAttributes invalidAttributesSubjectLength = new AdminEmailAttributes(
+                veryLongSubj, addressReceiverListString, groupReceiverListFileKey, content, date);
+
+        String expectedEmptySubjectLengthError = getPopulatedErrorMessage(
+                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributesSubjectLength.getSubject(),
                 FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
 
-        assertEquals("Invalid subject input should return appropriate error string", expectedEmpytSubjectError,
-                StringHelper.toString(invalidAttributes.getInvalidityInfo()));
+        assertEquals("Invalid subject input should return appropriate error string",
+                expectedEmptySubjectLengthError, StringHelper.toString(invalidAttributesSubjectLength.getInvalidityInfo()));
 
-        assertFalse("Invalid input", invalidAttributes.isValid());
+        // Subject Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%).
+        String invalidSubjectChars = "%Invalid%Subject|";
+        AdminEmailAttributes invalidAttributesSubjectChars = new AdminEmailAttributes(
+                invalidSubjectChars, addressReceiverListString, groupReceiverListFileKey, content, date);
+
+        String expectedError =
+                "\"" + invalidSubjectChars + "\" is not acceptable to TEAMMATES as a/an email subject because "
+                        + "it starts with a non-alphanumeric character. All email subject must start with an " +
+                        "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
+
+
+        assertEquals("Invalid subject input should return appropriate error string",
+                expectedError, StringHelper.toString(invalidAttributesSubjectChars.getInvalidityInfo()));
+
+        assertFalse("Invalid input", invalidAttributesSubjectChars.isValid());
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testAttributesForNull() throws  Exception{
+        AdminEmailAttributes invalidAttributesNullSubject = new AdminEmailAttributes(
+                null, addressReceiverListString, groupReceiverListFileKey, content, date);
+
+        assertFalse(invalidAttributesNullSubject.getSubject().equals(null));
+        Assumption.assertTrue("Non-null value expected", invalidAttributesNullSubject.subject != null);
+
+        AdminEmailAttributes invalidAttributesNullContent = new AdminEmailAttributes(
+                subject, addressReceiverListString, groupReceiverListFileKey, null, date);
+
+        assertFalse(invalidAttributesNullContent.getContentValue().equals(null));
+        Assumption.assertTrue("Non-null value expected", invalidAttributesNullContent.content != null);
     }
 
     @Test
@@ -103,7 +146,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetIdentificationString() {
-        assertEquals(new Date() + "/" + "subject of email", adminEmailAttributes.getIdentificationString());
+        assertEquals(date + "/" + "subject of email", adminEmailAttributes.getIdentificationString());
     }
 
     @Test
