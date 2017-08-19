@@ -304,7 +304,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String commentText = commentsToAddText.get(commentIndx);
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
-            String giverRole = getRequestParamValue("giverRole" + commentIndx);
+            String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_ROLE + commentIndx);
             createCommentsForResponses(courseId, feedbackSessionName, giver, questionId,
                     responseToAddComment, commentText, giverRole, showCommentTo, showGiverNameTo);
         }
