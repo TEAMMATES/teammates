@@ -74,7 +74,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, feedbackQuestionId, feedbackResponseId, instructor.email)
-                .withCreatedAt(new Date()).withCommentText(new Text(commentText))
+                .withCreatedAt(new Date())
+                .withCommentText(new Text(commentText))
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
                 .build();

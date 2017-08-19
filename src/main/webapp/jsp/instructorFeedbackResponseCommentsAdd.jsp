@@ -4,6 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:choose>
+  <c:when test="${data.isError}">
+    <div class="alert alert-danger">
+      Error occurred during feedback response comment adding.
+    </div>
+  </c:when>
   <c:when test="${fn:length(data.commentIds) eq 5}">
     <shared:feedbackResponseCommentRow frc="${data.comment}"
         firstIndex="${data.commentIds[3]}"
