@@ -41,26 +41,41 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValidate() throws Exception {
+        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
+        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
+        String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
+        Text emptyContent = new Text("");
+
         assertTrue("Valid input", adminEmailAttributes.isValid());
 
         List<String> actual = adminEmailAttributes.getInvalidityInfo();
-        assertTrue("Valid input should return an empty list", actual.isEmpty());
+        assertTrue("Valid input should return an empty list of errors", actual.isEmpty());
 
-        AdminEmailAttributes invalidAttributes = createInvalidAdminEmailAttributesObject();
+        // Testing invalid empty content
+        AdminEmailAttributes invalidAttributes = new AdminEmailAttributes(
+                adminEmailAttributes.subject, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date());
 
-        String expectedError =
-                getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributes.getContentValue(),
-                        FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                        0) + Const.EOL
-                + getPopulatedErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributes.getSubject(),
-                        FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                        FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        String expectedContentLengthError = getPopulatedErrorMessage(
+                FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributes.getContentValue(),
+                FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY,
+                0);
 
-        assertFalse("Valid input", invalidAttributes.isValid());
-        assertEquals("Invalid input should return appropriate error string", expectedError,
+        assertEquals("Invalid content input should return appropriate error string", expectedContentLengthError,
                 StringHelper.toString(invalidAttributes.getInvalidityInfo()));
+
+        // Testing invalid subject length
+        invalidAttributes.content = adminEmailAttributes.content;
+        invalidAttributes.subject = veryLongSubj;
+
+        String expectedEmpytSubjectError = getPopulatedErrorMessage(
+                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributes.getSubject(),
+                FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+
+        assertEquals("Invalid subject input should return appropriate error string", expectedEmpytSubjectError,
+                StringHelper.toString(invalidAttributes.getInvalidityInfo()));
+
+        assertFalse("Invalid input", invalidAttributes.isValid());
     }
 
     @Test
@@ -110,16 +125,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals(SanitizationHelper.sanitizeTextField(expectedAdminEmail.subject), actualAdminEmail.subject);
         assertEquals(SanitizationHelper.sanitizeForRichText(expectedAdminEmail.content), actualAdminEmail.content);
-    }
-
-    private AdminEmailAttributes createInvalidAdminEmailAttributesObject() {
-        List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
-        List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
-        String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
-        Text emptyContent = new Text("");
-
-        return new AdminEmailAttributes(
-                veryLongSubj, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date());
     }
 
 }
