@@ -40,8 +40,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public String receiverSection;
 
     public FeedbackResponseCommentAttributes() {
-        giverSection = "None";
-        receiverSection = "None";
+        giverSection = Const.DEFAULT_SECTION;
+        receiverSection = Const.DEFAULT_SECTION;
         showCommentTo = new ArrayList<>();
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
@@ -174,80 +174,80 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * A Builder for {@link FeedbackResponseCommentAttributes}.
      */
     public static class Builder {
-        private final FeedbackResponseCommentAttributes feedbackAttributes;
+        private final FeedbackResponseCommentAttributes frca;
 
         public Builder(String courseId, String feedbackSessionName, String feedbackQuestionId,
                        String feedbackResponseId, String giverEmail) {
-            feedbackAttributes = new FeedbackResponseCommentAttributes();
+            frca = new FeedbackResponseCommentAttributes();
 
-            feedbackAttributes.courseId = courseId;
-            feedbackAttributes.feedbackSessionName = feedbackSessionName;
-            feedbackAttributes.feedbackQuestionId = feedbackQuestionId;
-            feedbackAttributes.feedbackResponseId = feedbackResponseId;
-            feedbackAttributes.giverEmail = giverEmail;
+            frca.courseId = courseId;
+            frca.feedbackSessionName = feedbackSessionName;
+            frca.feedbackQuestionId = feedbackQuestionId;
+            frca.feedbackResponseId = feedbackResponseId;
+            frca.giverEmail = giverEmail;
         }
 
         public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            feedbackAttributes.showCommentTo = showCommentTo;
+            frca.showCommentTo = showCommentTo;
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            feedbackAttributes.showGiverNameTo = showGiverNameTo;
+            frca.showGiverNameTo = showGiverNameTo;
             return this;
         }
 
         public Builder withVisibilityFollowingFeedbackQuestion(Boolean visibilityFollowingFeedbackQuestion) {
-            feedbackAttributes.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion == null
+            frca.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion == null
                     || visibilityFollowingFeedbackQuestion; // true as default value if param is null
             return this;
         }
 
         public Builder withCreatedAt(Date createdAt) {
-            feedbackAttributes.createdAt = createdAt;
+            frca.createdAt = createdAt;
             return this;
         }
 
         public Builder withCommentText(Text commentText) {
-            feedbackAttributes.commentText = commentText == null ? new Text("") : commentText;
+            frca.commentText = commentText == null ? new Text("") : commentText;
             return this;
         }
 
         public Builder withLastEditorEmail(String lastEditorEmail) {
-            feedbackAttributes.lastEditorEmail = lastEditorEmail == null
-                    ? feedbackAttributes.giverEmail
+            frca.lastEditorEmail = lastEditorEmail == null
+                    ? frca.giverEmail
                     : lastEditorEmail;
             return this;
         }
 
         public Builder withLastEditedAt(Date lastEditedAt) {
-            feedbackAttributes.lastEditedAt = lastEditedAt == null
-                    ? feedbackAttributes.createdAt
+            frca.lastEditedAt = lastEditedAt == null
+                    ? frca.createdAt
                     : lastEditedAt;
             return this;
         }
 
         public Builder withFeedbackResponseCommentId(Long feedbackResponseCommentId) {
             if (feedbackResponseCommentId != null) {
-                feedbackAttributes.feedbackResponseCommentId = feedbackResponseCommentId;
+                frca.feedbackResponseCommentId = feedbackResponseCommentId;
             }
             return this;
         }
 
         public Builder withGiverSection(String giverSection) {
-            feedbackAttributes.giverSection = giverSection == null ? "None" : giverSection;
+            frca.giverSection = giverSection == null ? Const.DEFAULT_SECTION : giverSection;
             return this;
         }
 
         public Builder withReceiverSection(String receiverSection) {
-            feedbackAttributes.receiverSection = receiverSection == null
-                    ? "None"
+            frca.receiverSection = receiverSection == null
+                    ? Const.DEFAULT_SECTION
                     : receiverSection;
             return this;
         }
 
         public FeedbackResponseCommentAttributes build() {
-            return feedbackAttributes;
+            return frca;
         }
     }
 
