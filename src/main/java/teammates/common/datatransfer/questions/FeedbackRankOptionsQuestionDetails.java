@@ -194,14 +194,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_NUM_OPTIONS, String.valueOf(options.size()),
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "option",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_IS_MIN_CHOICES_ENABLED, minOptionsToBeRanked != Integer.MIN_VALUE ? "" : "disabled",
+                Slots.RANK_IS_MIN_CHOICES_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MIN_CHOICES_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED,
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
-                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, Integer.toString(minOptionsToBeRanked),
-                Slots.RANK_IS_MAX_CHOICES_ENABLED, maxOptionsToBeRanked != Integer.MIN_VALUE ? "" : "disabled",
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
+                        ? Integer.toString(minOptionsToBeRanked) : "1",
+                Slots.RANK_IS_MAX_CHOICES_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MAX_CHOICES_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED,
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
-                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, Integer.toString(maxOptionsToBeRanked),
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
+                        ? Integer.toString(maxOptionsToBeRanked) : "1",
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
 
     }

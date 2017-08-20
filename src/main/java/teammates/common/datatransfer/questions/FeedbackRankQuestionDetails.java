@@ -12,18 +12,20 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
-    private boolean areDuplicatesAllowed;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
+    private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
-        minOptionsToBeRanked = maxOptionsToBeRanked = Integer.MIN_VALUE;
+        minOptionsToBeRanked = Integer.MIN_VALUE;
+        maxOptionsToBeRanked = Integer.MIN_VALUE;
     }
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
-        minOptionsToBeRanked = maxOptionsToBeRanked = Integer.MIN_VALUE;
+        minOptionsToBeRanked = Integer.MIN_VALUE;
+        maxOptionsToBeRanked = Integer.MIN_VALUE;
     }
 
     @Override

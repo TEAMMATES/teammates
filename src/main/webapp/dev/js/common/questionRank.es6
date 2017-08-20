@@ -2,6 +2,109 @@ import {
     ParamsNames,
 } from './const.es6';
 
+function isMinOptionsToBeRankedEnabled(qnNumber) {
+    return $(`#minOptionsToBeRankedEnabled-${qnNumber}`).prop('checked');
+}
+
+function isMaxOptionsToBeRankedEnabled(qnNumber) {
+    return $(`#maxOptionsToBeRankedEnabled-${qnNumber}`).prop('checked');
+}
+
+function getNumOfRankOptions(qnNumber) {
+    return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
+}
+
+function getMinOptionsToBeRankedBox(qnNumber) {
+    return $(`#minOptionsToBeRanked-${qnNumber}`);
+}
+
+function getMaxOptionsToBeRankedBox(qnNumber) {
+    return $(`#maxOptionsToBeRanked-${qnNumber}`);
+}
+
+function setUpperLimitForMinOptionsToBeRanked(qnNumber, upperLimit) {
+    getMinOptionsToBeRankedBox(qnNumber).prop('max', upperLimit);
+}
+
+function setUpperLimitForMaxOptionsToBeRanked(qnNumber, upperLimit) {
+    getMaxOptionsToBeRankedBox(qnNumber).prop('max', upperLimit);
+}
+
+function getMinOptionsToBeRanked(qnNumber) {
+    if (isMinOptionsToBeRankedEnabled(qnNumber)) {
+        return parseInt(getMinOptionsToBeRankedBox(qnNumber).val(), 10);
+    }
+
+    return Number.MAX_SAFE_INTEGER;
+}
+
+function getMaxOptionsToBeRanked(qnNumber) {
+    if (isMaxOptionsToBeRankedEnabled(qnNumber)) {
+        return parseInt(getMaxOptionsToBeRankedBox(qnNumber).val(), 10);
+    }
+
+    return Number.MAX_SAFE_INTEGER;
+}
+
+function setMinOptionsToBeRanked(qnNumber, newVal) {
+    if (newVal < 1) {
+        return;
+    }
+
+    getMinOptionsToBeRankedBox(qnNumber).val(newVal);
+}
+
+function setMaxOptionsToBeRanked(qnNumber, newVal) {
+    if (newVal < 1) {
+        return;
+    }
+
+    getMaxOptionsToBeRankedBox(qnNumber).val(newVal);
+}
+
+function adjustMinOptionsToBeRanked(qnNumber) {
+    if (!isMinOptionsToBeRankedEnabled(qnNumber)) {
+        return;
+    }
+
+    const upperLimit = Math.min(getNumOfRankOptions(qnNumber), getMaxOptionsToBeRanked(qnNumber));
+    const currentVal = getMinOptionsToBeRanked(qnNumber);
+
+    setUpperLimitForMinOptionsToBeRanked(qnNumber, upperLimit);
+    setMinOptionsToBeRanked(qnNumber, Math.min(currentVal, upperLimit));
+}
+
+function adjustMaxOptionsToBeRanked(qnNumber) {
+    if (!isMaxOptionsToBeRankedEnabled(qnNumber)) {
+        return;
+    }
+
+    const upperLimit = getNumOfRankOptions(qnNumber);
+    const currentVal = getMaxOptionsToBeRanked(qnNumber);
+
+    setUpperLimitForMaxOptionsToBeRanked(qnNumber, upperLimit);
+    setMaxOptionsToBeRanked(qnNumber, Math.min(currentVal, upperLimit));
+}
+
+function adjustMinMaxOptionsToBeRanked(qnNumber) {
+    adjustMaxOptionsToBeRanked(qnNumber);
+    adjustMinOptionsToBeRanked(qnNumber);
+}
+
+function toggleMinOptionsToBeRanked(qnNumber) {
+    const $maxOptionsToBeRanked = getMinOptionsToBeRankedBox(qnNumber);
+
+    $maxOptionsToBeRanked.prop('disabled', !isMinOptionsToBeRankedEnabled(qnNumber));
+    adjustMinMaxOptionsToBeRanked(qnNumber);
+}
+
+function toggleMaxOptionsToBeRanked(qnNumber) {
+    const $maxOptionsToBeRanked = getMaxOptionsToBeRankedBox(qnNumber);
+
+    $maxOptionsToBeRanked.prop('disabled', !isMaxOptionsToBeRankedEnabled(qnNumber));
+    adjustMinMaxOptionsToBeRanked(qnNumber);
+}
+
 function addRankOption(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -29,6 +132,8 @@ function addRankOption(questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
+
+    adjustMinMaxOptionsToBeRanked(questionNum);
 }
 
 function hideRankOptionTable(questionNum) {
@@ -51,10 +156,37 @@ function removeRankOption(index, questionNum) {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
+
+    adjustMinMaxOptionsToBeRanked(questionNum);
+}
+
+function bindRankEvents() {
+    $(document).on('change', 'input[name="minOptionsToBeRanked"]', (e) => {
+        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        adjustMinMaxOptionsToBeRanked(questionNum);
+    });
+
+    $(document).on('change', 'input[name="maxOptionsToBeRanked"]', (e) => {
+        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        adjustMinMaxOptionsToBeRanked(questionNum);
+    });
+
+    $(document).on('change', 'input[name="minOptionsToBeRankedEnabled"]', (e) => {
+        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        toggleMinOptionsToBeRanked(questionNum);
+    });
+
+    $(document).on('change', 'input[name="maxOptionsToBeRankedEnabled"]', (e) => {
+        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        toggleMaxOptionsToBeRanked(questionNum);
+    });
 }
 
 export {
     addRankOption,
+    bindRankEvents,
     hideRankOptionTable,
     removeRankOption,
+    toggleMaxOptionsToBeRanked,
+    toggleMinOptionsToBeRanked,
 };
