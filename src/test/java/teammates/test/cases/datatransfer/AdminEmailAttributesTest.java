@@ -60,12 +60,12 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         AdminEmailAttributes invalidAttributesContentEmpty = new AdminEmailAttributes(
                 subject, addressReceiverListString, groupReceiverListFileKey, emptyContent, date);
 
-        String expectedContentLengthError = getPopulatedErrorMessage(
+        String expectedContentEmptyError = getPopulatedErrorMessage(
                 FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributesContentEmpty.getContentValue(),
                 FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY,
                 0);
 
-        assertEquals("Invalid content input should return appropriate error string", expectedContentLengthError,
+        assertEquals("Invalid content input should return appropriate error string", expectedContentEmptyError,
                 StringHelper.toString(invalidAttributesContentEmpty.getInvalidityInfo()));
 
         String expectedStringContentError = fieldValidator.getInvalidityInfoForEmailContent(emptyContent);
@@ -86,15 +86,15 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals("Invalid subject input should return appropriate error string",
                 expectedEmptySubjectLengthError, StringHelper.toString(invalidAttributesSubjectLength.getInvalidityInfo()));
 
-        // Subject Must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%).
+        // Subject must start with alphanumeric character, cannot contain vertical bar(|) or percent sign(%).
         String invalidSubjectChars = "%Invalid%Subject|";
         AdminEmailAttributes invalidAttributesSubjectChars = new AdminEmailAttributes(
                 invalidSubjectChars, addressReceiverListString, groupReceiverListFileKey, content, date);
 
         String expectedError =
                 "\"" + invalidSubjectChars + "\" is not acceptable to TEAMMATES as a/an email subject because "
-                        + "it starts with a non-alphanumeric character. All email subject must start with an "
-                        + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
+                + "it starts with a non-alphanumeric character. All email subject must start with an "
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
 
         assertEquals("Invalid subject input should return appropriate error string",
                 expectedError, StringHelper.toString(invalidAttributesSubjectChars.getInvalidityInfo()));
