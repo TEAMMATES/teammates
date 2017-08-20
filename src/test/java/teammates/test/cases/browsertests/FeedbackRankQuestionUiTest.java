@@ -359,6 +359,51 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertTrue(feedbackEditPage.isRankDuplicatesAllowedChecked(2));
+
+        ______TS("Rank options: test min/max restrictions");
+
+        int qNum = 1;
+        feedbackEditPage.clickEditQuestionButton(qNum);
+
+        // checking max options to be ranked restriction
+        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
+        assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // checking min options to be ranked restriction
+        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
+        feedbackEditPage.toggleMinOptionsToBeRankedCheckbox(qNum);
+        assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
+        assertFalse(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // checking max and min options to be ranked restrictions
+        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
+        assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
+        assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // when max = min, decreasing max must decrease min too
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
+        assertEquals(2, feedbackEditPage.getMinOptionsToBeRanked(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // when max = numOfOptions, removing an option must decrease max too
+        feedbackEditPage.clickAddMoreRankOptionLink(qNum);
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 4);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 4);
+        feedbackEditPage.clickRemoveRankOptionLink(qNum, 3);
+        assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
+        assertEquals(3, feedbackEditPage.getMinOptionsToBeRanked(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(qNum);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankMinMaxChoicesSuccess.html");
     }
 
     @Override
