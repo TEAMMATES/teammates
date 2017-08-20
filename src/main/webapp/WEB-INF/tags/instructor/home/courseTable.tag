@@ -18,7 +18,7 @@
                          data-toggle-sort-comparator="sortDate"
                          data-toggle-sort-extractor="tooltipExtractor">End Date<span class="icon-sort unsorted"></span></th>
                     <th>Submissions</th>
-                    <th>Published?</th>
+                    <th>Responses</th>
                     <th>
                         <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>"
                                 data-toggle="tooltip" data-placement="top">Response Rate</span>
