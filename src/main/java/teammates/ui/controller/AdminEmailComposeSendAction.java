@@ -76,9 +76,9 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = new Builder(
-                    subject, addressReceiver, groupReceiver, new Text(emailContent), null)
-                    .withEmailId(emailId)
-                    .build();
+                        subject, addressReceiver, groupReceiver, new Text(emailContent), null)
+                        .withEmailId(emailId)
+                        .build();
 
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
@@ -93,9 +93,9 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = new Builder(
-                    subject, addressReceiver, groupReceiver, new Text(emailContent), null)
-                    .withEmailId(emailId)
-                    .build();
+                        subject, addressReceiver, groupReceiver, new Text(emailContent), null)
+                        .withEmailId(emailId)
+                        .build();
         }
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
@@ -144,8 +144,8 @@ public class AdminEmailComposeSendAction extends Action {
                                     String content) {
 
         AdminEmailAttributes newDraft = new Builder(
-                subject, addressReceiver, groupReceiver, new Text(content), new Date())
-                .build();
+                    subject, addressReceiver, groupReceiver, new Text(content), new Date())
+                    .build();
         try {
             Date createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
@@ -167,8 +167,8 @@ public class AdminEmailComposeSendAction extends Action {
                                         String content) {
 
         AdminEmailAttributes finalisedEmail = new Builder(
-                subject, addressReceiver, groupReceiver, new Text(content), new Date())
-                .build();
+                    subject, addressReceiver, groupReceiver, new Text(content), new Date())
+                    .build();
 
         try {
             logic.updateAdminEmailById(finalisedEmail, emailId);

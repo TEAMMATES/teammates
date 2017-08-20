@@ -83,8 +83,8 @@ public class AdminEmailComposeSaveAction extends Action {
                                           ) {
 
         AdminEmailAttributes newDraft = new Builder(
-                subject, addressReceiver, groupReceiver, new Text(content), null)
-                .build();
+                    subject, addressReceiver, groupReceiver, new Text(content), null)
+                    .build();
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
@@ -100,8 +100,8 @@ public class AdminEmailComposeSaveAction extends Action {
                                        String content) {
 
         AdminEmailAttributes newDraft = new Builder(
-                subject, addressReceiver, groupReceiver, new Text(content), null)
-                .build();
+                    subject, addressReceiver, groupReceiver, new Text(content), null)
+                    .build();
         try {
             logic.createAdminEmail(newDraft);
         } catch (InvalidParametersException e) {

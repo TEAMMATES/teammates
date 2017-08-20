@@ -60,8 +60,8 @@ public class AdminEmailAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithRequiredValues() {
         AdminEmailAttributes attributes = new Builder(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .build();
+                    subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
+                    .build();
         assertEquals(subject, attributes.getSubject());
         assertEquals(addressReceiverListString, attributes.getAddressReceiver());
         assertEquals(groupReceiverListFileKey, attributes.getGroupReceiver());
@@ -72,8 +72,8 @@ public class AdminEmailAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithDefaultOptionalValues() {
         AdminEmailAttributes attributes = new Builder(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .build();
+                    subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
+                    .build();
         assertEquals(DEFAULT_EMAIL_ID, attributes.getEmailId());
         assertEquals(DEFAULT_IS_IN_TRASH_BIN, attributes.getIsInTrashBin());
         assertEquals(DEFAULT_DATE, attributes.getCreateDate());
@@ -82,11 +82,11 @@ public class AdminEmailAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithNullArguments() {
         AdminEmailAttributes attributes = new Builder(
-                null, null, null, null, null)
-                .withCreateDate(null)
-                .withEmailId(null)
-                .withIsInTrashBin(null)
-                .build();
+                    null, null, null, null, null)
+                    .withCreateDate(null)
+                    .withEmailId(null)
+                    .withIsInTrashBin(null)
+                    .build();
         // No default values for required params
         assertNull(attributes.getSubject());
         assertNull(attributes.getAddressReceiver());
@@ -157,11 +157,11 @@ public class AdminEmailAttributesTest extends BaseTestCase {
 
     private AdminEmailAttributes createValidAdminEmailAttributesObject() {
         return new Builder(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .withCreateDate(DEFAULT_DATE)
-                .withEmailId(DEFAULT_EMAIL_ID)
-                .withIsInTrashBin(DEFAULT_IS_IN_TRASH_BIN)
-                .build();
+                    subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
+                    .withCreateDate(DEFAULT_DATE)
+                    .withEmailId(DEFAULT_EMAIL_ID)
+                    .withIsInTrashBin(DEFAULT_IS_IN_TRASH_BIN)
+                    .build();
     }
 
 }
