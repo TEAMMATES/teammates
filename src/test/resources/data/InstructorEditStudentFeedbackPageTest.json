@@ -471,6 +471,79 @@
         "INSTRUCTORS"
       ]
     },
+    "qn9InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a team, rank them\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 9,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 8,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn10InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\"]}"
+      },
+      "questionNumber": 10,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn11InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+      },
+      "questionNumber": 11,
+      "questionType": "CONSTSUM",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
