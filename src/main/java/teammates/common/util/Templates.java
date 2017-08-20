@@ -393,8 +393,12 @@ public final class Templates {
             public static final String RANK_AVERAGE = "${averageRank}";
             public static final String RANK_EXCLUDING_SELF_AVERAGE = "${averageRankExcludingSelf}";
             public static final String RANK_EDIT_FORM_OPTION_FRAGMENTS = "${rankEditFormOptionFragments}";
+            public static final String RANK_MIN_OPTIONS_TO_BE_RANKED = "${minOptionsToBeRanked}";
+            public static final String RANK_MAX_OPTIONS_TO_BE_RANKED = "${maxOptionsToBeRanked}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_VALUE = "${areDuplicatesAllowedValue}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_CHECKED = "${areDuplicatesAllowedChecked}";
+            public static final String RANK_IS_MIN_CHOICES_ENABLED = "${isMinChoicesEnabled}";
+            public static final String RANK_IS_MAX_CHOICES_ENABLED = "${isMaxChoicesEnabled}";
             public static final String RANK_SUBMISSION_FORM_OPTION_FRAGMENTS = "${rankSubmissionFormOptionFragments}";
             public static final String RANK_OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
             public static final String RANK_PARAM_TO_RECIPIENT = "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}";
@@ -402,6 +406,14 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}";
             public static final String RANK_PARAM_IS_DUPLICATES_ALLOWED =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}";
+            public static final String RANK_PARAM_MIN_CHOICES_CHECKBOX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINCHOICESCHECKBOX}";
+            public static final String RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}";
+            public static final String RANK_PARAM_MAX_CHOICES_CHECKBOX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXCHOICESCHECKBOX}";
+            public static final String RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}";
             public static final String RANK_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}";
             public static final String RANK_PARAM_NUMBER_OF_CHOICE_CREATED =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
