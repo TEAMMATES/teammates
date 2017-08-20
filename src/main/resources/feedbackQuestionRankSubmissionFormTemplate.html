@@ -1,4 +1,10 @@
 <div>
+    <p class="text-muted">
+        You need to rank at least 3 options.
+    </p>
+    <p class="text-muted">
+        You cannot rank more than 3 options.
+    </p>
     ${rankSubmissionFormOptionFragments}
     <div id="rankInfo-${questionIndex}-${responseIndex}" class="form-group" ${rankOptionVisibility}>
         <div class="col-sm-2" ${rankOptionVisibility}>
@@ -13,4 +19,6 @@
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionIndex}" value="${rankToRecipientsValue}">
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}-${questionIndex}" value="${rankNumOptionValue}">
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionIndex}" value="${areDuplicatesAllowedValue}">
+    <input type="hidden" ${isMinChoicesEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionIndex}" value="${minOptionsToBeRanked}">
+    <input type="hidden" ${isMaxChoicesEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}-${questionIndex}" value="${maxOptionsToBeRanked}">
 </div>
