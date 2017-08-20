@@ -147,6 +147,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-1-1-22", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-23", "Comment without response");
         submitPage.addFeedbackResponseComment("-1-1-23", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-18", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-19", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-19", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -563,6 +566,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-1-1-22", "New Rank(Recipeints) Comment 2");
         submitPage.addFeedbackResponseComment("-0-1-23", "New Rank(Options) Comment 1");
         submitPage.addFeedbackResponseComment("-1-1-23", "New Rank(Options) Comment 2");
+        submitPage.addFeedbackResponseComment("-0-1-18", "New ConstSum Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-19", "New ConstSum Comment 2");
+        submitPage.addFeedbackResponseComment("-1-1-19", "New ConstSum Comment 3");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -595,6 +601,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.editFeedbackResponseComment("-1-1-22-1", "Edited Rank(Recipeints) Comment 2");
         submitPage.editFeedbackResponseComment("-0-1-23-1", "Edited Rank(Options) Comment 1");
         submitPage.editFeedbackResponseComment("-1-1-23-1", "Edited Rank(Options) Comment 2");
+        submitPage.editFeedbackResponseComment("-0-1-18-1", "Edited ConstSum Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-19-1", "Edited ConstSum Comment 2");
+        submitPage.editFeedbackResponseComment("-1-1-19-1", "Edited ConstSum Comment 3");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -655,6 +664,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyRowMissing("-0-1-23-1");
         submitPage.deleteFeedbackResponseComment("-1-1-23-1");
         submitPage.verifyRowMissing("-1-1-23-1");
+
+        // constsum questions
+        submitPage.deleteFeedbackResponseComment("-0-1-18-1");
+        submitPage.verifyRowMissing("-0-1-18-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-19-1");
+        submitPage.verifyRowMissing("-0-1-19-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-19-1");
+        submitPage.verifyRowMissing("-1-1-19-1");
     }
 
     private void testInputValidation() {
