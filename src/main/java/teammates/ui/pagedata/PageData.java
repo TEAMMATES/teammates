@@ -632,7 +632,9 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPublished()) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return "-";
+        } else if (session.isPublished()) {
             return "Published";
         } else {
             return "Not Published";

@@ -99,6 +99,10 @@ public class StudentHomePageData extends PageData {
     }
 
     private String getStudentPublishedStatusForSession(FeedbackSessionAttributes session) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return "-";
+        }
+
         if (session.isPublished()) {
             return "Yes";
         }
