@@ -142,6 +142,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-0-1-11", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-13", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-17", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-15", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-22", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-22", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-23", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-23", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -221,6 +226,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clickRubricRadio(21, 0, 0, 0);
         submitPage.clickRubricRadio(21, 1, 0, 1);
 
+        submitPage.selectResponseTextDropdown(22, 0, 0, "1");
+        submitPage.selectResponseTextDropdown(22, 1, 0, "2");
+        submitPage.selectResponseTextDropdown(23, 0, 0, "1");
+        submitPage.selectResponseTextDropdown(23, 1, 0, "1");
+
         // Just check that some of the responses persisted.
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
                                                                      "First Session", 2);
@@ -239,6 +249,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackQuestionAttributes fqContrib = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
                                                                             "First Session", 21);
         FeedbackQuestionAttributes fqRubric = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 22);
+
+        FeedbackQuestionAttributes fqRank = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 23);
+
+        FeedbackQuestionAttributes fqRankOptions = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 24);
 
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
@@ -270,6 +284,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         assertNull(BackDoor.getFeedbackResponse(
                 fqRubric.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
+
+        assertNull(BackDoor.getFeedbackResponse(
+                fqRank.getId(), aliceTeam, "Team 3"));
+
+        assertNull(BackDoor.getFeedbackResponse(
+                fqRankOptions.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.instr@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
 
@@ -307,7 +327,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "SFSubmitUiT.benny.c@gmail.tmt"));
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        //submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
 
         ______TS("test toggle radio button");
 
@@ -321,7 +341,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), aliceTeam, "Team 3"));
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        //submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
 
         ______TS("edit existing response");
 
@@ -453,7 +473,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 
-        //submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
 
         ______TS("create new response for unreg student");
         submitPage.logout();
@@ -505,7 +525,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        //submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "Team 2", "Team 3"));
@@ -538,6 +558,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-0-1-11", "New MSQ Comment 4");
         submitPage.addFeedbackResponseComment("-0-1-13", "New MSQ Comment 5");
         submitPage.addFeedbackResponseComment("-0-1-17", "New MSQ Comment 6");
+        submitPage.addFeedbackResponseComment("-0-1-15", "New NumScale Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-22", "New Rank(Recipients) Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-22", "New Rank(Recipeints) Comment 2");
+        submitPage.addFeedbackResponseComment("-0-1-23", "New Rank(Options) Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-23", "New Rank(Options) Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -565,6 +590,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.editFeedbackResponseComment("-0-1-11-1", "Edited MSQ Comment 4");
         submitPage.editFeedbackResponseComment("-0-1-13-1", "Edited MSQ Comment 5");
         submitPage.editFeedbackResponseComment("-0-1-17-1", "Edited MSQ Comment 6");
+        submitPage.editFeedbackResponseComment("-0-1-15-1", "Edited NumScale Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-22-1", "Edited Rank(Recipients) Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-22-1", "Edited Rank(Recipeints) Comment 2");
+        submitPage.editFeedbackResponseComment("-0-1-23-1", "Edited Rank(Options) Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-23-1", "Edited Rank(Options) Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -611,6 +641,20 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyRowMissing("-0-1-13-1");
         submitPage.deleteFeedbackResponseComment("-0-1-17-1");
         submitPage.verifyRowMissing("-0-1-17-1");
+
+        // numscale question
+        submitPage.deleteFeedbackResponseComment("-0-1-15-1");
+        submitPage.verifyRowMissing("-0-1-15-1");
+
+        // rank questions
+        submitPage.deleteFeedbackResponseComment("-0-1-22-1");
+        submitPage.verifyRowMissing("-0-1-22-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-22-1");
+        submitPage.verifyRowMissing("-1-1-22-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-23-1");
+        submitPage.verifyRowMissing("-0-1-23-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-23-1");
+        submitPage.verifyRowMissing("-1-1-23-1");
     }
 
     private void testInputValidation() {
