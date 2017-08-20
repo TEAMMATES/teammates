@@ -32,9 +32,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testClosedSessionSubmitAction();
         testAddCommentsWithoutResponses();
         testSubmitAction();
-        testAddCommentsWithResponses();
-        testEditCommentsAction();
-        testDeleteCommentsAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testModifyData();
         // No links to test
         testQuestionTypesSubmitAction();
@@ -318,7 +318,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
     }
 
-    private void testAddCommentsWithResponses() throws IOException {
+    private void testAddCommentsToResponses() throws IOException {
         ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -336,7 +336,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testEditCommentsAction() throws IOException {
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
         ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -354,7 +354,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testDeleteCommentsAction() throws IOException {
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
         ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
