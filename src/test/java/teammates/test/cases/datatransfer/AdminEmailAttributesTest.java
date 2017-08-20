@@ -1,6 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.datatransfer.attributes.AdminEmailAttributes.AdminEmailAttributesBuilder;
+import static teammates.common.datatransfer.attributes.AdminEmailAttributes.Builder;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,7 +59,7 @@ public class AdminEmailAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithRequiredValues() {
-        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
+        AdminEmailAttributes attributes = new Builder(
                 subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
                 .build();
         assertEquals(subject, attributes.getSubject());
@@ -71,7 +71,7 @@ public class AdminEmailAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithDefaultOptionalValues() {
-        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
+        AdminEmailAttributes attributes = new Builder(
                 subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
                 .build();
         assertEquals(DEFAULT_EMAIL_ID, attributes.getEmailId());
@@ -81,7 +81,7 @@ public class AdminEmailAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithNullArguments() {
-        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
+        AdminEmailAttributes attributes = new Builder(
                 null, null, null, null, null)
                 .withCreateDate(null)
                 .withEmailId(null)
@@ -150,13 +150,13 @@ public class AdminEmailAttributesTest extends BaseTestCase {
         String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
         Text emptyContent = new Text("");
 
-        return new AdminEmailAttributesBuilder(
+        return new Builder(
                 veryLongSubj, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date())
                 .build();
     }
 
     private AdminEmailAttributes createValidAdminEmailAttributesObject() {
-        return new AdminEmailAttributesBuilder(
+        return new Builder(
                 subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
                 .withCreateDate(DEFAULT_DATE)
                 .withEmailId(DEFAULT_EMAIL_ID)

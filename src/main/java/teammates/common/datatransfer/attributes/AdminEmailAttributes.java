@@ -42,7 +42,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
      * </ul>
      */
-    AdminEmailAttributes(AdminEmailAttributesBuilder builder) {
+    AdminEmailAttributes(Builder builder) {
         this.subject = builder.subject;
         this.addressReceiver = builder.addressReceiver;
         this.groupReceiver = builder.groupReceiver;
@@ -54,8 +54,13 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         this.isInTrashBin = builder.isInTrashBin;
     }
 
+    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver,
+                                  Text content, Date sendDate) {
+        return new Builder(subject, addressReceiver, groupReceiver, content, sendDate);
+    }
+
     public static AdminEmailAttributes valueOf(AdminEmail adminEmail) {
-        return new AdminEmailAttributesBuilder(
+        return new Builder(
                 adminEmail.getSubject(),
                 adminEmail.getAddressReceiver(),
                 adminEmail.getGroupReceiver(),
@@ -171,7 +176,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         return getGroupReceiver().get(0);
     }
 
-    public static class AdminEmailAttributesBuilder {
+    public static class Builder {
         // Required fields
         public List<String> addressReceiver;
         public List<String> groupReceiver;
@@ -184,8 +189,8 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         public String emailId;
         public boolean isInTrashBin;
 
-        public AdminEmailAttributesBuilder(String subject, List<String> addressReceiver, List<String> groupReceiver,
-                                           Text content, Date sendDate) {
+        public Builder(String subject, List<String> addressReceiver, List<String> groupReceiver,
+                       Text content, Date sendDate) {
             this.addressReceiver = addressReceiver;
             this.groupReceiver = groupReceiver;
             this.subject = subject;
@@ -197,21 +202,21 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             this.isInTrashBin = DEFAULT_IS_IN_TRASH_BIN;
         }
 
-        public AdminEmailAttributesBuilder withCreateDate(Date createDate) {
+        public Builder withCreateDate(Date createDate) {
             if (createDate != null) {
                 this.createDate = createDate;
             }
             return this;
         }
 
-        public AdminEmailAttributesBuilder withEmailId(String emailId) {
+        public Builder withEmailId(String emailId) {
             if (emailId != null) {
                 this.emailId = emailId;
             }
             return this;
         }
 
-        public AdminEmailAttributesBuilder withIsInTrashBin(Boolean isInTrashBin) {
+        public Builder withIsInTrashBin(Boolean isInTrashBin) {
             if (isInTrashBin != null) {
                 this.isInTrashBin = isInTrashBin;
             }
