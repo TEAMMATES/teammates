@@ -106,13 +106,13 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testAttributesForNull() throws Exception {
         AdminEmailAttributes invalidAttributesNullSubject = new AdminEmailAttributes(
                 null, addressReceiverListString, groupReceiverListFileKey, content, date);
-        assertNull(invalidAttributesNullSubject.getSubject());
-        assertEquals(invalidAttributesNullSubject.getSubject(), null);
+        assertNull("Passing null to the constructor will throw an exception",
+                invalidAttributesNullSubject.getSubject());
 
         AdminEmailAttributes invalidAttributesNullContent = new AdminEmailAttributes(
                 subject, addressReceiverListString, groupReceiverListFileKey, null, date);
-        assertNull(invalidAttributesNullContent.getContentValue());
-        assertFalse("Invalid input", invalidAttributesNullContent.isValid());
+        assertNull("Passing null to the constructor will throw an exception",
+                invalidAttributesNullContent.getContentValue());
     }
 
     @Test
