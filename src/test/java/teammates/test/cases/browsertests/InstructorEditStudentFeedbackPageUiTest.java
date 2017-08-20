@@ -143,7 +143,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private void testAddCommentsWithResponses() throws IOException {
-        ______TS("add new comments on questions with responses");
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
@@ -161,7 +161,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private void testEditCommentsAction() throws IOException {
-        ______TS("edit comments on questions with responses");
+        ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
@@ -179,7 +179,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private void testDeleteCommentsAction() throws IOException {
-        ______TS("delete comments on questions with responses");
+        ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
