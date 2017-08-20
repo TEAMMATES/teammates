@@ -495,7 +495,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testAddCommentsWithResponses() throws IOException {
-        ______TS("add new comments on questions with responses");
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
@@ -514,7 +514,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testEditCommentsAction() throws IOException {
-        ______TS("edit comments on responses");
+        ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
@@ -533,7 +533,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testDeleteCommentsAction() throws IOException {
-        ______TS("delete comments on responses");
+        ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
