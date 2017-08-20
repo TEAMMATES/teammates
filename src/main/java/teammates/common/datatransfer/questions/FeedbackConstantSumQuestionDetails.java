@@ -777,9 +777,4 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public int getPoints() {
         return points;
     }
-
-    @Override
-    public boolean isStudentsCommentsOnResponsesAllowed() {
-        return true;
-    }
 }
