@@ -44,7 +44,7 @@
       </c:forEach>
     </select>
   </div>
-  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
+  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> col-lg-10</c:if>">
     <c:choose>
       <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
         <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form"
