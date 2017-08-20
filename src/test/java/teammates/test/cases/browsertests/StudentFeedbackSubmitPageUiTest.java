@@ -42,9 +42,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testContent();
         testAddCommentsWithoutResponses();
         testSubmitAction();
-        testAddCommentsWithResponses();
-        testEditCommentsAction();
-        testDeleteCommentsAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testInputValidation();
         testLinks();
         testResponsiveSubmission();
@@ -517,7 +517,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                    "SFSubmitUiT.charlie.d@gmail.tmt"));
     }
 
-    private void testAddCommentsWithResponses() throws IOException {
+    private void testAddCommentsToResponses() throws IOException {
         ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
@@ -544,7 +544,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testEditCommentsAction() throws IOException {
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
         ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
@@ -571,7 +571,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testDeleteCommentsAction() throws IOException {
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
         ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
