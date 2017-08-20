@@ -118,15 +118,19 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testSendDateForDisplay() {
         Calendar calendar = formatDate(adminEmailAttributes.sendDate);
-        String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
-        assertEquals(dateForDisplay, adminEmailAttributes.getSendDateForDisplay());
+        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        String actualDate = adminEmailAttributes.getSendDateForDisplay();
+
+        assertEquals(expectedDate, actualDate);
     }
 
     @Test
     public void testCreateDateForDisplay() {
         Calendar calendar = formatDate(adminEmailAttributes.createDate);
-        String dateForDisplay = TimeHelper.formatTime12H(calendar.getTime());
-        assertEquals(dateForDisplay, adminEmailAttributes.getCreateDateForDisplay());
+        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        String actualDate = adminEmailAttributes.getCreateDateForDisplay();
+
+        assertEquals(expectedDate, actualDate);
     }
 
     /**
