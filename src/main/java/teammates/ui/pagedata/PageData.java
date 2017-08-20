@@ -671,7 +671,7 @@ public class PageData {
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
         } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-          return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;  
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;  
         } else if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
