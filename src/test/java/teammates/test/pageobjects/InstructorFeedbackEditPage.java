@@ -1245,7 +1245,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isMaxOptionsToBeRankedEnabled(int qnNumber) {
         return getMaxOptionsToBeRankedCheckbox(qnNumber).isEnabled()
-                && getMinOptionsToBeRankedInputElement(qnNumber).isEnabled();
+                && getMaxOptionsToBeRankedInputElement(qnNumber).isEnabled();
     }
 
     private int getMinOfMinOptionsToBeSelectedInput(int qnNumber) {
