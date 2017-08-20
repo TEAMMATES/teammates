@@ -617,7 +617,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEditedComments.html");
 
-        // mcq questions
+        // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-6-1");
         submitPage.verifyRowMissing("-0-1-6-1");
         submitPage.deleteFeedbackResponseComment("-0-1-10-1");
@@ -631,13 +631,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.deleteFeedbackResponseComment("-1-1-7-1");
         submitPage.verifyRowMissing("-1-1-7-1");
 
-        // rubric Questions
+        // rubric questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-21-1");
         submitPage.verifyRowMissing("-0-1-21-1");
         submitPage.deleteFeedbackResponseComment("-1-1-21-1");
         submitPage.verifyRowMissing("-1-1-21-1");
 
-        // msq questions
+        // msq questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-8-1");
         submitPage.verifyRowMissing("-0-1-8-1");
         submitPage.deleteFeedbackResponseComment("-0-1-9-1");
@@ -651,11 +651,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.deleteFeedbackResponseComment("-0-1-17-1");
         submitPage.verifyRowMissing("-0-1-17-1");
 
-        // numscale question
+        // numscale question comment
         submitPage.deleteFeedbackResponseComment("-0-1-15-1");
         submitPage.verifyRowMissing("-0-1-15-1");
 
-        // rank questions
+        // rank questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-22-1");
         submitPage.verifyRowMissing("-0-1-22-1");
         submitPage.deleteFeedbackResponseComment("-1-1-22-1");
@@ -665,7 +665,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.deleteFeedbackResponseComment("-1-1-23-1");
         submitPage.verifyRowMissing("-1-1-23-1");
 
-        // constsum questions
+        // constsum questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-18-1");
         submitPage.verifyRowMissing("-0-1-18-1");
         submitPage.deleteFeedbackResponseComment("-0-1-19-1");
