@@ -38,7 +38,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         subject = "subject of email";
         content = new Text("valid email content");
         date = new Date();
-
         fieldValidator = new FieldValidator();
 
         adminEmailAttributes = new AdminEmailAttributes(
@@ -117,7 +116,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSendDateForDisplay() {
-        Calendar calendar = formatDate(adminEmailAttributes.sendDate);
+        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.sendDate);
         String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
         String actualDate = adminEmailAttributes.getSendDateForDisplay();
 
@@ -126,17 +125,14 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testCreateDateForDisplay() {
-        Calendar calendar = formatDate(adminEmailAttributes.createDate);
+        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.createDate);
         String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
         String actualDate = adminEmailAttributes.getCreateDateForDisplay();
 
         assertEquals(expectedDate, actualDate);
     }
 
-    /**
-     * Format Date for tests in this class.
-     */
-    public Calendar formatDate(Date date) {
+    private Calendar formatDateForAdminEmailAttributesTest(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
