@@ -633,9 +633,9 @@ public class PageData {
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPublished()) {
-            return "Yes";
+            return "Published";
         } else {
-            return "No";
+            return "Not Published";
         }
     }
 
