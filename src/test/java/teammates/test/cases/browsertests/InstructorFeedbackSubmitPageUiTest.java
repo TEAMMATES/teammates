@@ -123,7 +123,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-2-1-23", "Comment without response");
         submitPage.addFeedbackResponseComment("-3-1-23", "Comment without response");
         submitPage.addFeedbackResponseComment("-0-1-24", "Comment without response");
-        
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -455,7 +454,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.editFeedbackResponseComment("-2-1-23-1", "Edited Rank(Recipients) Comment 3");
         submitPage.editFeedbackResponseComment("-3-1-23-1", "Edited Rank(Recipients) Comment 4");
         submitPage.editFeedbackResponseComment("-0-1-24-1", "Edited Rank(Options) Comment 1");
-        
+
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
