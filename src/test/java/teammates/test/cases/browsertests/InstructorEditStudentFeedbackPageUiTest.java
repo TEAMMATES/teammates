@@ -30,9 +30,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         testAddCommentsWithoutResponse();
         testEditResponse();
         testAddResponse();
-        testAddCommentsWithResponses();
-        testEditCommentsAction();
-        testDeleteCommentsAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testDeleteResponse();
     }
 
@@ -166,8 +166,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
     }
 
-    private void testAddCommentsWithResponses() throws IOException {
-        ______TS("add new comments on questions with responses");
+    private void testAddCommentsToResponses() throws IOException {
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
@@ -189,8 +189,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testEditCommentsAction() throws IOException {
-        ______TS("edit comments on questions with responses");
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
+        ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
@@ -212,8 +212,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testDeleteCommentsAction() throws IOException {
-        ______TS("delete comments on questions with responses");
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
+        ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
