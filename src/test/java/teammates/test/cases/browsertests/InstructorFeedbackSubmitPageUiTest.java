@@ -30,8 +30,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testClosedSessionSubmitAction();
+        testAddCommentsWithoutResponses();
         testSubmitAction();
-        testCommentsAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testModifyData();
         // No links to test
         testQuestionTypesSubmitAction();
@@ -82,6 +85,19 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
 
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
+    }
+
+    private void testAddCommentsWithoutResponses() {
+        ______TS("add comments on questions without responses: no effect");
+
+        logout();
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
     private void testSubmitAction() throws Exception {
@@ -302,20 +318,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
     }
 
-    private void testCommentsAction() throws IOException {
-        testCommentsOnMcqQuestions();
-    }
-
-    private void testCommentsOnMcqQuestions() throws IOException {
-        ______TS("add comment on question without response: no effect");
-
-        logout();
-        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.waitForPageToLoad();
-        submitPage.chooseMcqOption(5, 0, "UI");
-        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
-
-        ______TS("add new comments on question with responses");
+    private void testAddCommentsToResponses() throws IOException {
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
@@ -330,12 +334,14 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
 
-        ______TS("edit comment on question with responses");
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
+        ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddComment.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddedCommentOnResponses.html");
 
         submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
         submitPage.editFeedbackResponseComment("-1-1-6-1", "Edited MCQ Comment 2");
@@ -343,15 +349,19 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.editFeedbackResponseComment("-0-1-9-1", "Edited MCQ Comment 4");
         submitPage.editFeedbackResponseComment("-0-1-11-1", "Edited MCQ Comment 5");
         submitPage.editFeedbackResponseComment("-0-1-15-1", "Edited MCQ Comment 6");
+
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
 
-        ______TS("delete comment on question with responses");
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
+        ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditComment.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
 
+        // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-6-1");
         submitPage.verifyRowMissing("-0-1-6-1");
         submitPage.deleteFeedbackResponseComment("-1-1-6-1");
