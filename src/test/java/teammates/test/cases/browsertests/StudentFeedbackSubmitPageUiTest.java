@@ -307,7 +307,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "SFSubmitUiT.benny.c@gmail.tmt"));
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        //submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
 
         ______TS("test toggle radio button");
 
@@ -321,7 +321,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), aliceTeam, "Team 3"));
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        //submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
 
         ______TS("edit existing response");
 
@@ -453,7 +453,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
 
-        //submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
 
         ______TS("create new response for unreg student");
         submitPage.logout();
@@ -505,7 +505,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        //submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "Team 2", "Team 3"));
