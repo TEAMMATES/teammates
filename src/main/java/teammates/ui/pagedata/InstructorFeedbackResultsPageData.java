@@ -701,7 +701,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<>();
         InstructorFeedbackResultsSectionPanel sectionPanel;
 
-        if (isResponsesExistsWithinGivenSection(Const.DEFAULT_SECTION)) {
+        if (isSectionHavingResponses(Const.DEFAULT_SECTION)) {
             sectionPanel = new InstructorFeedbackResultsSectionPanel(
                     Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
             sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
@@ -713,14 +713,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
 
-    private boolean isResponsesExistsWithinGivenSection(String section) {
-        String currentSection;
-        boolean recipientIsPrimaryParticipant = isRecipientPrimaryParticipant();
-
+    private boolean isSectionHavingResponses(String section) {
         for (FeedbackResponseAttributes response : bundle.getResponses()) {
-            currentSection = recipientIsPrimaryParticipant ? response.recipientSection : response.giverSection;
+            String sectionOfResponse = isRecipientPrimaryParticipant() ? response.recipientSection : response.giverSection;
 
-            if (section.equals(currentSection)) {
+            if (section.equals(sectionOfResponse)) {
                 return true;
             }
         }
