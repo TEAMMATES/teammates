@@ -10,7 +10,7 @@
       <li>
         <a href="#faq">Frequently Asked Questions
         </a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#faq1">How do I view a list of students in a course?</a>
@@ -63,7 +63,7 @@
       </li>
       <li>
         <a href="#editCourse">Add/Edit instructors</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#editCourseAddInstructor">How do I add instructors to my course?</a>
@@ -82,7 +82,7 @@
       </li>
       <li>
         <a href="#sessionTypes">Sessions</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#fbSetupSession">Setting up a feedback session</a>
@@ -136,7 +136,7 @@
       </li>
       <li>
         <a href="#profiles">Profiles</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#viewStudentProfile">Viewing student profiles</a>
@@ -149,7 +149,7 @@
       </li>
       <li>
         <a href="#search">Search</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#searchStudents">Searching for students</a>
@@ -162,7 +162,7 @@
       </li>
       <li>
         <a href="#sections">Sections</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#sectionsWhatIsItMeantFor">What are sections meant for?</a>
@@ -178,7 +178,7 @@
       </li>
       <li>
         <a href="#archiving">Archiving</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#archivingCourse">Archiving a course</a>
@@ -194,7 +194,7 @@
       </li>
       <li>
         <a href="#editComments">Comments</a>
-        <div style="margin: 0 auto; padding: 0 50px;">
+        <div style="margin: 0 auto; padding: 0 10px;">
           <ul>
             <li>
               <a href="#addResponseComments">Create comments for response</a>

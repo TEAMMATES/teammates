@@ -6,12 +6,12 @@
 <c:set var="byName" value="<%= Const.SORT_BY_COURSE_NAME %>" />
 <c:set var="byCreationDate" value="<%= Const.SORT_BY_COURSE_CREATION_DATE %>" />
 <div class="row">
-    <div class="col-xs-2">
+    <div class="col-sm-3">
         <a class="btn btn-primary btn-md" href="${data.instructorCoursesLink}"
             id="addNewCourse">Add New Course</a>
     </div>
-    <div class="col-xs-10">
-        <div class="pull-right">
+    <div class="col-sm-9">
+        <div class="pull-right mobile-no-pull margin-sm-15px">
             <h5 class="inline-block"><strong> Sort By: </strong></h5>
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default<c:if test="${data.sortCriteria == byCourse}"> active</c:if>"

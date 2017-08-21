@@ -4,8 +4,8 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionRows" type="java.util.Collection" required="true" %>
 <div class="panel-collapse collapse">
-    <div class="panel-body padding-0">
-        <table class="table-responsive table table-striped table-bordered margin-0">
+    <div class="panel-body table-responsive padding-0">
+        <table class="table table-striped table-bordered margin-0">
             <thead>
                 <tr>
                     <th class="button_sortname button-sort-none toggle-sort">

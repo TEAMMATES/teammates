@@ -218,7 +218,6 @@
                             </a>
                           </c:otherwise>
                         </c:choose>
-
                         <div id="tuneSessionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" class="row" style="display: none;">
                           <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}sessionsset" value="false"/>
                           <table class="table table-striped">
@@ -236,7 +235,6 @@
                                   <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
                                 </tr>
                               </c:if>
-
                               <c:forEach items="${sectionRow.feedbackSessions}" var="feedbackSession">
                                 <tr>
                                   <td>${feedbackSession.feedbackSessionName}</td>

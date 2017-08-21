@@ -201,10 +201,10 @@
                                     <div class="row">
                                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select the course for which the feedback session is to be created.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-4">
+                                                <h5 class="col-md-4">
                                                     <label for="courseid" class="control-label">Course ID</label>
                                                 </h5>
-                                                <div class="col-sm-8">
+                                                <div class="col-md-8">
                                                     <select class="form-control" name="courseid" id="courseid">
                                                         <option value="CS1101">CS1101</option>
                                                         <option value="CS2013">CS2103</option>
@@ -216,10 +216,10 @@
                                         </div>
                                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="You should not need to change this as your timezone is auto-detected. <br><br>However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-4">
+                                                <h5 class="col-md-4">
                                                     <label for="timezone" class="control-label">Timezone</label>
                                                 </h5>
-                                                <div class="col-sm-8">
+                                                <div class="col-md-8">
                                                     <select class="form-control" name="timezone" id="timezone">
                                                         <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
                                                         <option value="-11">(UTC -11:00) American Samoa, Niue</option>
@@ -270,11 +270,11 @@
                                     <div class="row">
                                         <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Enter the name of the feedback session e.g. Feedback Session 1.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-2">
+                                                <h5 class="col-md-2">
                                                     <label for="fsname" class="control-label">Session name
                                                     </label>
                                                 </h5>
-                                                <div class="col-sm-10">
+                                                <div class="col-md-10">
                                                     <input class="form-control" type="text" name="fsname" id="fsname" maxlength="38" value="" placeholder="e.g. Feedback for Project Presentation 1">
                                                 </div>
                                             </div>
@@ -284,10 +284,10 @@
                                     <div class="row" id="instructionsRow">
                                         <div class="col-md-12" data-toggle="tooltip" data-placement="top" title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> It will be displayed at the top of the page when users respond to the session.">
                                             <div class="form-group">
-                                                <h5 class="col-sm-2">
+                                                <h5 class="col-md-2">
                                                     <label for="instructions" class="control-label">Instructions</label>
                                                 </h5>
-                                                <div class="col-sm-10">
+                                                <div class="col-md-10">
                                                     <textarea class="form-control" rows="4" cols="100%" name="instructions" id="instructions" placeholder="e.g. Please answer all the given questions.">Please answer all the given questions.</textarea>
                                                 </div>
                                             </div>
@@ -542,27 +542,27 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-2" data-toggle="tooltip" data-placement="top" title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
+                                        <div class="col-md-2" data-toggle="tooltip" data-placement="top" title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
                                             <div class="checkbox">
                                                 <label for="sendreminderemail_join">Join reminder
                                                 </label>
                                                 <input type="checkbox" id="sendreminderemail_join" disabled="">
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session is open for submission." disabled="">
+                                        <div class="col-md-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session is open for submission." disabled="">
                                             <div class="checkbox">
                                                 <label>Session opening reminder
                                                 </label>
                                                 <input type="checkbox" name="sendreminderemail" id="sendreminderemail_open" value="FEEDBACK_OPENING">
                                             </div>
                                         </div>
-                                        <div class="col-sm-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
+                                        <div class="col-md-3" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
                                             <div class="checkbox">
                                                 <label for="sendreminderemail_closing">Session closing reminder</label>
                                                 <input type="checkbox" name="sendreminderemail" id="sendreminderemail_closing" value="FEEDBACK_CLOSING">
                                             </div>
                                         </div>
-                                        <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session results is published.">
+                                        <div class="col-md-4" data-toggle="tooltip" data-placement="top" title="Select this option to automatically send an email to students to notify them when the session results is published.">
                                             <div class="checkbox">
                                                 <label for="sendreminderemail_published">Results published announcement</label>
                                                 <input type="checkbox" name="sendreminderemail" id="sendreminderemail_published" value="FEEDBACK_PUBLISHED">
@@ -923,10 +923,10 @@
             </div>
 
             <br>
-            <span class="alert alert-success">
+            <div class="alert alert-success">
                 <span class="glyphicon glyphicon-info-sign"></span> Remember to
                 <b>Save Changes</b> to the question after editing!
-            </span>
+            </div>
             <br>
             <br>When the session is open, an instructor can answer the above question. This is how it will look like:
             <br>
@@ -953,7 +953,7 @@
 
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                <div class="col-md-4 form-inline mobile-align-left">
                                     <label for="input">To Team: </label>
                                     <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                         <option value="" selected=""></option>
@@ -962,7 +962,7 @@
                                         <option value="Team 3">Team 3</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-md-8 margin-md-15px">
                                     <div id="rich-text-toolbar-response-text-container-1-0"></div>
                                     <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
                                     <div class="margin-top-7px text-color-gray font-weight-normal">
@@ -978,7 +978,7 @@
 
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+                                <div class="col-md-4 form-inline mobile-align-left">
                                     <label for="input">To Team: </label>
                                     <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                                         <option value="" selected=""></option>
@@ -987,7 +987,7 @@
                                         <option value="Team 3">Team 3</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-md-8 margin-md-15px">
                                     <div id="rich-text-toolbar-response-text-container-1-0"></div>
                                     <div class="panel panel-default panel-body mce-content-body content-editor empty" id="responsetext-1-0" name="responsetext-1-0" data-length-text-id="responseLength-1-0" data-recommended-text="0" contenteditable="true" style="position: relative;" spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="responsetext-1-0">
                                     <div class="margin-top-7px text-color-gray font-weight-normal">
@@ -1407,13 +1407,13 @@
                 <div class="well well-plain inputTable" id="questionPreviewTable">
                     <div class="row">
                         <form class="form-horizontal">
-                            <label class="control-label col-sm-2 text-right">
+                            <label class="control-label col-md-2 text-right">
                                 Preview Session:
                             </label>
                         </form>
-                        <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.">
+                        <div class="col-md-5 margin-md-15px" data-toggle="tooltip" data-placement="top" title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.">
                             <form name="form_previewasstudent" class="form_preview">
-                                <div class="col-sm-6">
+                                <div class="col-md-6 margin-md-bottom-10px">
                                     <select class="form-control" name="previewas">
                                         <option value="alice.b.tmms@gmail.com">[Team 1] Alice Betsy</option>
                                         <option value="benny.c.tmms@gmail.com">[Team 1] Benny Charles</option>
@@ -1424,19 +1424,19 @@
                                         <option value="gene.h.tmms@gmail.com">[Team 2] Gene Hudson</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                     <input id="button_preview_student" class="btn btn-primary" value="Preview as Student">
                                 </div>
                             </form>
                         </div>
-                        <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to an instructor who is submitting feedback.">
+                        <div class="col-md-5 margin-md-15px" data-toggle="tooltip" data-placement="top" title="View how this session would look like to an instructor who is submitting feedback.">
                             <form class="form_preview">
-                                <div class="col-sm-6">
+                                <div class="col-md-6 margin-md-bottom-10px">
                                     <select class="form-control" name="previewas">
                                         <option value="inst@gmail.com">Instructor A</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                     <input id="button_preview_instructor" class="btn btn-primary" value="Preview as Instructor">
                                 </div>
                             </form>
@@ -1497,7 +1497,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 pull-right">
+                            <div class="col-sm-3 pull-right">
                                 <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
                                     <div class="margin-0 checkbox padding-top-0 min-height-0">
                                         <label class="text-strike">
@@ -1558,18 +1558,21 @@
                 <div class="well well-plain">
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            From:
-                            <strong>Alice Betsy (Team 2)</strong>
-                            <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
-                            <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                                </form>
-                                &nbsp;
-                                <div class="display-icon" style="display:inline;">
-                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="panel-heading" style="position: relative;">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    From:
+                                    <strong>Alice Betsy (Team 2)</strong>
+                                    <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
                                 </div>
+                                <div class="col-sm-5" style="padding-right: 40px;">
+                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                                        <input type="submit" class="btn btn-primary btn-xs pull-right mobile-no-pull" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="display-icon" style="position: absolute; top: 13px; right: 15px;">
+                                <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1704,18 +1707,21 @@
                     </div>
 
                     <div class="panel panel-primary" id="benny">
-                        <div class="panel-heading">
-                            From:
-                            <strong>Benny Charles (Team 1)</strong>
-                            <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
-                            <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                                </form>
-                                &nbsp;
-                                <div class="display-icon" style="display:inline;">
-                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="panel-heading" style="position: relative;">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    From:
+                                    <strong>Benny Charles (Team 1)</strong>
+                                    <a class="link-in-dark-bg" href="#responcesSortbyGiver">[benny.c.tmms@gmail.com]</a>
                                 </div>
+                                <div class="col-sm-5" style="padding-right: 40px;">
+                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                                        <input type="submit" class="btn btn-primary btn-xs pull-right mobile-no-pull" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="display-icon" style="position: absolute; top: 13px; right: 15px;">
+                                <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1794,18 +1800,21 @@
                     </div>
                     <!-- second -->
                     <div class="panel panel-primary" id="charlie">
-                        <div class="panel-heading">
-                            From:
-                            <strong>Charlie Davis (Team 1)</strong>
-                            <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
-                            <div class="pull-right">
-                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                                </form>
-                                &nbsp;
-                                <div class="display-icon" style="display:inline;">
-                                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="panel-heading" style="position: relative;">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    From:
+                                    <strong>Charlie Davis (Team 1)</strong>
+                                    <a class="link-in-dark-bg" href="#responcesSortbyGiver">[charlie.d.tmms@gmail.com]</a>
                                 </div>
+                                <div class="col-sm-5" style="padding-right: 40px;">
+                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                                        <input type="submit" class="btn btn-primary btn-xs pull-right mobile-no-pull" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="display-icon" style="position: absolute; top: 13px; right: 15px;">
+                                <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                             </div>
                         </div>
                         <div class="panel-body">
@@ -1856,9 +1865,9 @@
                                 <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                             </div>
                             Participants who have not responded to any question</div>
-                        <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
+                        <div class="panel-collapse collapse in table-responsive" id="panelBodyCollapse-12" style="height: auto;">
                             <div class="panel-body padding-0">
-                                <table class="table table-striped table-bordered margin-0">
+                                <table class="table table-striped table-bordered margin-0 table-responsive">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
                                             <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this)" style="width: 30%;">
@@ -2404,7 +2413,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable7">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-7" disabled="">
@@ -2425,7 +2434,7 @@
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -2853,7 +2862,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable4">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
@@ -2874,7 +2883,7 @@
                                                 &nbsp; Multiple-choice (single answer) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -3292,14 +3301,14 @@
                                     <div class="resultStatistics">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-sm-4 text-color-gray">
+                                                <div class="col-md-7 text-color-gray">
                                                     <strong>
                                                         Response Summary
                                                     </strong>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-md-12 table-responsive">
                                                     <table class="table margin-0">
                                                         <thead>
                                                             <tr>
@@ -3867,20 +3876,20 @@
                                             <div class="row">
                                                 <form class="form-horizontal col-sm-12" role="form">
                                                     <div class="form-group margin-0">
-                                                        <label class="col-sm-2 control-label font-weight-normal">Average:</label>
-                                                        <div class="col-sm-3">
+                                                        <label class="col-md-1 control-label font-weight-normal">Average:</label>
+                                                        <div class="col-md-4">
                                                             <p class="form-control-static">4.5</p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group margin-0">
-                                                        <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
-                                                        <div class="col-sm-3">
+                                                        <label class="col-md-1 control-label font-weight-normal">Minimum:</label>
+                                                        <div class="col-md-4">
                                                             <p class="form-control-static">4</p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group margin-0">
-                                                        <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
-                                                        <div class="col-sm-3">
+                                                        <label class="col-md-1 control-label font-weight-normal">Maximum:</label>
+                                                        <div class="col-md-4">
                                                             <p class="form-control-static">5</p>
                                                         </div>
                                                     </div>
@@ -3965,7 +3974,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable9">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-6" disabled="">
@@ -3986,7 +3995,7 @@
                                                 &nbsp; Distribute points (among options) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -4467,14 +4476,14 @@
                                     <div class="resultStatistics">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-sm-4 text-color-gray">
+                                                <div class="col-md-4 text-color-gray">
                                                     <strong>
                                                         Response Summary
                                                     </strong>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-md-4">
                                                     <table class="table margin-0">
                                                         <thead>
                                                             <tr>
@@ -4597,7 +4606,7 @@
                             <div class="panel panel-primary questionTable" id="questionTable10">
                                 <div class="panel-heading">
                                     <div class="row">
-                                        <div class="col-sm-7">
+                                        <div class="col-sm-8">
                                             <span>
                                                 <strong>Question</strong>
                                                 <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-6" disabled="">
@@ -4618,7 +4627,7 @@
                                                 &nbsp; Distribute points (among recipients) question
                                             </span>
                                         </div>
-                                        <div class="col-sm-5 mobile-margin-top-10px">
+                                        <div class="col-sm-4 mobile-margin-top-10px">
                                             <span class="mobile-no-pull pull-right">
                                                 <a class="btn btn-primary btn-xs" id="questionedittext-6" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(6,6)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit
@@ -5493,7 +5502,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-12 table-responsive">
                                                     <table class="table table-bordered table-responsive margin-0">
                                                         <thead>
                                                             <tr>
@@ -6106,7 +6115,6 @@
                         <div class="form-horizontal">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Question 10:
-                                    <br>
                                     <span >Please answer the following questions.</span>
                                 </div>
                                 <div class="panel-body">
@@ -6121,11 +6129,11 @@
 
                                     <br>
                                     <div class="form-group margin-0">
-                                        <div class="col-sm-2 form-inline" style="text-align:right">
+                                        <div class="col-md-2 form-inline">
                                             <label for="input">To:</label>
                                             <span> Charlie Davis</span>
                                         </div>
-                                        <div class="col-sm-10">
+                                        <div class="col-md-10">
                                             <div class="row">
                                                 <div class="col-sm-12 table-responsive">
                                                     <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-0">
@@ -6203,11 +6211,11 @@
 
                                     <br>
                                     <div class="form-group margin-0">
-                                        <div class="col-sm-2 form-inline" style="text-align:right">
+                                        <div class="col-md-2 form-inline">
                                             <label for="input">To:</label>
                                             <span> Francis Gabriel</span>
                                         </div>
-                                        <div class="col-sm-10">
+                                        <div class="col-md-10">
                                             <div class="row">
                                                 <div class="col-sm-12 table-responsive">
                                                     <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-1">
@@ -6362,7 +6370,7 @@
                                             <div class="row">
                                                 <br>
                                                 <div class="col-sm-12 table-responsive">
-                                                    <table class="table table-bordered margin-0" id="rubricEditTable-1">
+                                                    <table class="table table-bordered margin-0 table-responsive" id="rubricEditTable-1">
                                                         <thead>
                                                             <tr>
                                                                 <th style="text-align:center; vertical-align:middle;">Choices <span class="glyphicon glyphicon-arrow-right"></span></th>
@@ -7670,14 +7678,14 @@
                     <div class="bs-example">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-4 text-color-gray">
+                                <div class="col-md-4 text-color-gray">
                                     <strong>
                                         Response Summary
                                     </strong>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-md-12 table-responsive">
                                     <table class="table table-bordered table-responsive margin-0">
                                         <thead>
                                         <tr>
@@ -7693,45 +7701,45 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                            <td>
-                                -
-                            </td>
-                            <td>
-                                Team 1
-                            </td>
-                            <td>
-                                1 , 1 , 2
-                            </td>
-                            <td>
-                                1.33
-                            </td>
-                        </tr><tr>
-                            <td>
-                                -
-                            </td>
-                            <td>
-                                Team 2
-                            </td>
-                            <td>
-                                1 , 2
-                            </td>
-                            <td>
-                                1.5
-                            </td>
-                        </tr><tr>
-                            <td>
-                                -
-                            </td>
-                            <td>
-                                Team 3
-                            </td>
-                            <td>
-                                1 , 2
-                            </td>
-                            <td>
-                                1.5
-                            </td>
-                        </tr>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>
+                                                    Team 1
+                                                </td>
+                                                <td>
+                                                    1 , 1 , 2
+                                                </td>
+                                                <td>
+                                                    1.33
+                                                </td>
+                                            </tr><tr>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>
+                                                    Team 2
+                                                </td>
+                                                <td>
+                                                    1 , 2
+                                                </td>
+                                                <td>
+                                                    1.5
+                                                </td>
+                                            </tr><tr>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>
+                                                    Team 3
+                                                </td>
+                                                <td>
+                                                    1 , 2
+                                                </td>
+                                                <td>
+                                                    1.5
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

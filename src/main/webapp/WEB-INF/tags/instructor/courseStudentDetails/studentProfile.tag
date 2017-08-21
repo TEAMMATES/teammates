@@ -9,10 +9,10 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="row" id="studentProfile">
-            <div class="col-md-2 col-xs-3 block-center">
-                <img src="${student.pictureUrl}" class="profile-pic pull-right">
+            <div class="col-sm-2 col-xs-12 block-center">
+                <img src="${student.pictureUrl}" class="profile-pic">
             </div>
-            <div class="col-md-10 col-sm-9 col-xs-8">
+            <div class="col-sm-10 col-xs-12">
                 <table class="table table-striped">
                     <thead>
                         <tr>

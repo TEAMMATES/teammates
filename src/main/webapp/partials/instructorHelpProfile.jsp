@@ -18,10 +18,10 @@
                 <br>A new page should open which displays the student's profile, similar to the sample profile below:
                 <br><br>
                 <div class="row">
-                    <div class="col-md-2 col-xs-3 block-center">
-                        <img src="/images/profile_picture_default.png" class="profile-pic pull-right">
+                    <div class="col-md-2 col-xs-12 block-center">
+                        <img src="/images/profile_picture_default.png" class="profile-pic">
                     </div>
-                    <div class="col-md-10 col-sm-9 col-xs-8">
+                    <div class="col-md-10 col-xs-12">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -60,34 +60,34 @@
                             data-placement="top" title="Add comment">
                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                     </button>
-                    <div class="form form-horizontal" id="studentInfomationTable">
+                    <div class="form form-horizontal margin-top-20px" id="studentInfomationTable">
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">Student Name:</label>
-                            <div class="col-sm-11">
+                            <label class="col-sm-2 control-label">Student Name:</label>
+                            <div class="col-sm-10">
                                 <p class="form-control-static">Alice Betsy</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">Section Name:</label>
-                            <div class="col-sm-11">
+                            <label class="col-sm-2 control-label">Section Name:</label>
+                            <div class="col-sm-10">
                                 <p class="form-control-static">Section A</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">Team Name:</label>
-                            <div class="col-sm-11">
+                            <label class="col-sm-2 control-label">Team Name:</label>
+                            <div class="col-sm-10">
                                 <p class="form-control-static">Team A</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">Official Email Address:</label>
-                            <div class="col-sm-11">
+                            <label class="col-sm-2 control-label">Official Email Address:</label>
+                            <div class="col-sm-10">
                                 <p class="form-control-static">alice@email.com</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label">Comments:</label>
-                            <div class="col-sm-11">
+                            <label class="col-sm-2 control-label">Comments:</label>
+                            <div class="col-sm-10">
                                 <p class="form-control-static">Alice is a transfer student.</p>
                             </div>
                         </div>
@@ -151,33 +151,33 @@
                     <div class="panel-body fill-plain">
                         <form class="form form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Student Name:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Student Name:</label>
+                                <div class="col-sm-10">
                                     <input class="form-control" value="Alice Betsy">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Section Name:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Section Name:</label>
+                                <div class="col-sm-10">
                                     <input class="form-control" value="Section A">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Team Name:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Team Name:</label>
+                                <div class="col-sm-10">
                                     <input class="form-control" value="Team A">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">E-mail Address:
+                                <label class="col-sm-2 control-label">E-mail Address:
                                 </label>
-                                <div class="col-sm-11">
+                                <div class="col-sm-10">
                                     <input class="form-control" value="alice@email.com">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-1 control-label">Comments:</label>
-                                <div class="col-sm-11">
+                                <label class="col-sm-2 control-label">Comments:</label>
+                                <div class="col-sm-10">
                                     <textarea class="form-control" rows="6">Alice is a transfer student.</textarea>
                                 </div>
                             </div>

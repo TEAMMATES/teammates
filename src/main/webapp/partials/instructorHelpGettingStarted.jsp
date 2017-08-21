@@ -120,8 +120,10 @@
                                     </h5>
                                 </div>
                             </div>
-                            <h4 class="label-control col-md-1 text-md">Or: </h4>
-                            <div class="col-md-3">
+                            <div class="col-md-1">
+                                <h4 class="label-control text-md">OR</h4>
+                            </div>
+                            <div class="col-md-4">
                                 <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                             </div>
                         </div>
@@ -316,7 +318,7 @@
 
                     <ul>
                         <li>Session with your own questions</li>
-                        <div style="margin: 0 auto; padding: 0 50px;">
+                        <div style="margin: 0 auto; padding: 0 10px;">
                             <ul>
                                 <li>Creates an empty feedback session</li>
                                 <li>Allows you to craft custom questions that fit your needs</li>
@@ -325,7 +327,7 @@
                     </ul>
                     <ul>
                         <li>Team peer evaluation session</li>
-                        <div style="margin: 0 auto; padding: 0 50px;">
+                        <div style="margin: 0 auto; padding: 0 10px;">
                             <ul>
                                 <li>Provides 5 standard questions for team peer evaluations</li>
                                 <li> Allows you to modify/remove the given questions and add your own questions as required</li>
@@ -345,8 +347,8 @@
 
                             <br>
                             <br>See
-                            <a href="#sessionTypes">here</a> for more info about session types.</li>
-
+                            <a href="#sessionTypes">here</a> for more info about session types.
+                        </li>
                     </ul>
                     <br>
 
@@ -390,7 +392,7 @@
             <span class="text-bold">Any time</span>
             <div class="helpSectionContent">
                 You can use the ‘Students’ page any time to do these things:
-                <div style="margin: 0 auto; padding: 0 50px;">
+                <div style="margin: 0 auto; padding: 0 10px;">
                     <ul>
                         <li>
                             <span class="text-bold">Email a group of students</span>: Filter out students in certain teams/courses and email them. Also handy for locating the email of any past student.</li>
