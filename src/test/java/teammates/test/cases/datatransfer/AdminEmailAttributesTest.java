@@ -91,8 +91,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 invalidSubjectChars, addressReceiverListString, groupReceiverListFileKey, content, date);
 
         String expectedError =
-                "\"" + invalidSubjectChars + "\" is not acceptable to TEAMMATES as a/an email subject because "
-                + "it starts with a non-alphanumeric character. All email subject must start with an "
+                "\"" + invalidAttributesSubjectChars.subject + "\" is not acceptable to TEAMMATES as a/an email subject "
+                + "because it starts with a non-alphanumeric character. A/An email subject must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
 
         assertEquals("Invalid subject input should return appropriate error string",
@@ -105,7 +105,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testGetInvalidityInfoForEmailContent_null_throwException() {
         AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
                 subject, addressReceiverListString, groupReceiverListFileKey, null, date);
-        String errorMessage = "Did not throw the expected AssertionError for null Email Subject";
+        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
         try {
             fieldValidator.getInvalidityInfoForEmailContent(adminEmailAttributes.content);
             signalFailureToDetectException(errorMessage);
@@ -125,30 +125,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         } catch (AssertionError e) {
             ignoreExpectedException();
         }
-    }
-
-    @Test
-    public void testSendDateForDisplay() {
-        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.sendDate);
-        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
-        String actualDate = adminEmailAttributes.getSendDateForDisplay();
-
-        assertEquals(expectedDate, actualDate);
-    }
-
-    @Test
-    public void testCreateDateForDisplay() {
-        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.createDate);
-        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
-        String actualDate = adminEmailAttributes.getCreateDateForDisplay();
-
-        assertEquals(expectedDate, actualDate);
-    }
-
-    private Calendar formatDateForAdminEmailAttributesTest(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
     @Test
@@ -182,6 +158,30 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals("content to be sanitized by removing leading/trailing whitespace",
                 adminEmailAttributes.getContentValue());
+    }
+
+    @Test
+    public void testSendDateForDisplay() {
+        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.sendDate);
+        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        String actualDate = adminEmailAttributes.getSendDateForDisplay();
+
+        assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void testCreateDateForDisplay() {
+        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.createDate);
+        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        String actualDate = adminEmailAttributes.getCreateDateForDisplay();
+
+        assertEquals(expectedDate, actualDate);
+    }
+
+    private Calendar formatDateForAdminEmailAttributesTest(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
     }
 
 }
