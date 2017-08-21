@@ -257,7 +257,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 commentsToAddText.put(commentIndx, commentText);
             }
             if (response.getId() != null) {
-                // to Avoid ConcurrentModificationException
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
                 int totalNumberOfComments = previousComments.size();
