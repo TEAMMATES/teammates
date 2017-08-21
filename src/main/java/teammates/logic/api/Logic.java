@@ -2158,7 +2158,7 @@ public class Logic {
     }
 
     public List<FeedbackResponseAttributes>
-            qqgetFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
+            getFeedbackResponsesForSession(String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
