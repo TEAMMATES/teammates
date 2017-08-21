@@ -168,13 +168,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
             clickCollapseExpandButtonAndWaitForPanelsToExpand();
-            waitForPanelsToExpand();
         }
     }
 
     public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
         clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        waitForPanelsToCollapse();
     }
 
     public void clickShowStats() {
