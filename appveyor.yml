@@ -18,6 +18,7 @@ skip_commits:
     - '**/*.gif'
     - LICENSE
     - docs/**/*
+    - .templates/**/*
 
 install:
   - npm install
