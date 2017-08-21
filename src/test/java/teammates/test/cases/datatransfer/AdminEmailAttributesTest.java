@@ -103,9 +103,11 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
+        AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+                subject, addressReceiverListString, groupReceiverListFileKey, null, date);
+        String errorMessage = "Did not throw the expected AssertionError for null Email Subject";
         try {
-            fieldValidator.getInvalidityInfoForEmailContent(null);
+            fieldValidator.getInvalidityInfoForEmailContent(adminEmailAttributes.content);
             signalFailureToDetectException(errorMessage);
         } catch (AssertionError e) {
             ignoreExpectedException();
@@ -114,9 +116,11 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetInvalidityInfoForEmailSubject_null_throwException() {
+        AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+                null, addressReceiverListString, groupReceiverListFileKey, content, date);
         String errorMessage = "Did not throw the expected AssertionError for null Email Subject";
         try {
-            fieldValidator.getInvalidityInfoForEmailSubject(null);
+            fieldValidator.getInvalidityInfoForEmailSubject(adminEmailAttributes.subject);
             signalFailureToDetectException(errorMessage);
         } catch (AssertionError e) {
             ignoreExpectedException();
