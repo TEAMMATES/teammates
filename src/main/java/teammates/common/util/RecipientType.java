@@ -1,6 +1,6 @@
 package teammates.common.util;
 
-public enum IsRecipientType {
+public enum RecipientType {
     INSTRUCTOR,
     STUDENT,
     TEAM

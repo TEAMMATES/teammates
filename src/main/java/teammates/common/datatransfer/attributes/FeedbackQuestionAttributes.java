@@ -279,7 +279,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
-    public boolean isRecipientAInstructor() {
+    public boolean isRecipientInstructor() {
         return recipientType == FeedbackParticipantType.INSTRUCTORS;
     }
 
