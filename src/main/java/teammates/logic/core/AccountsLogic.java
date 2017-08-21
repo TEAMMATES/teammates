@@ -46,7 +46,7 @@ public final class AccountsLogic {
     }
 
     public void createAccount(AccountAttributes accountData)
-            throws InvalidParametersException {
+                    throws InvalidParametersException {
 
         List<String> invalidityInfo = accountData.getInvalidityInfo();
         if (!invalidityInfo.isEmpty()) {
@@ -166,10 +166,12 @@ public final class AccountsLogic {
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
 
         if (account == null) {
-            createAccount(new AccountAttributesBuilder(
-                    googleId, instructor.name, instructor.email, instituteToSave)
-                    .withIsInstructor(true)
-                    .build());
+            createAccount(new AccountAttributesBuilder(googleId,
+                                                       instructor.name,
+                                                       instructor.email,
+                                                       instituteToSave)
+                                                       .withIsInstructor(true)
+                                                       .build());
         } else {
             makeAccountInstructor(googleId);
         }
@@ -214,7 +216,7 @@ public final class AccountsLogic {
         if (existingInstructor != null) {
             throw new JoinCourseException(
                     String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER,
-                            googleId));
+                                  googleId));
         }
 
     }
@@ -227,7 +229,7 @@ public final class AccountsLogic {
         AccountAttributes existingAccount = accountsDb.getAccount(googleId);
         if (existingAccount != null && existingAccount.isInstructor) {
             throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                    googleId + " has already joined this course");
+                                          googleId + " has already joined this course");
         }
 
     }
@@ -238,7 +240,7 @@ public final class AccountsLogic {
         if (instructorForKey == null) {
             String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?key=" + encryptedKey;
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
-                    "You have used an invalid join link: " + joinUrl);
+                                          "You have used an invalid join link: " + joinUrl);
 
         }
     }
@@ -252,8 +254,8 @@ public final class AccountsLogic {
         //  person already.
         if (!instructorForKey.googleId.equals(googleId)) {
             throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
-                    String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                            StringHelper.obscure(instructorForKey.googleId)));
+                                          String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
+                                                  StringHelper.obscure(instructorForKey.googleId)));
         }
     }
 
@@ -273,7 +275,7 @@ public final class AccountsLogic {
             throw new JoinCourseException(
                     Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                     String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                            StringHelper.obscure(studentRole.googleId)));
+                                  StringHelper.obscure(studentRole.googleId)));
         }
 
         StudentAttributes existingStudent =
@@ -301,7 +303,7 @@ public final class AccountsLogic {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly "
-                        + "while removing instruction privileges from account :" + account.toString());
+                                + "while removing instruction privileges from account :" + account.toString());
             }
         }
     }
@@ -318,7 +320,7 @@ public final class AccountsLogic {
                 accountsDb.updateAccount(account);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail("Invalid account data detected unexpectedly "
-                        + "while adding instruction privileges to account :" + account.toString());
+                                + "while adding instruction privileges to account :" + account.toString());
             }
         }
     }
@@ -342,7 +344,6 @@ public final class AccountsLogic {
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
-
         account.studentProfile = spa;
         accountsDb.createAccount(account);
     }
