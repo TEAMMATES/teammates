@@ -95,6 +95,15 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-22", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-7", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-8", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-8", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-8", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-10", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-12", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-16", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-21", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -125,6 +134,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(17, 0, 0, "90");
         submitPage.fillResponseTextBox(17, 0, 1, "10");
 
+        submitPage.clickRubricRadio(22, 0, 0, 0);
+
         // Just check that some of the responses persisted.
         FeedbackQuestionAttributes fq =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 2);
@@ -140,6 +151,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 19);
         FeedbackQuestionAttributes fqConstSum2 =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 20);
+        FeedbackQuestionAttributes fqRubric =
+                BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 25);
 
         assertNull(BackDoor.getFeedbackResponse(
                                fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -153,6 +166,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                fqNumscale.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(
                                fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(
+                fqRubric.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
 
@@ -170,6 +185,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                    fqNumscale.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(
+                fqRubric.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePartiallyFilled.html");
@@ -331,6 +348,15 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-0-1-9", "New MCQ Comment 4");
         submitPage.addFeedbackResponseComment("-0-1-11", "New MCQ Comment 5");
         submitPage.addFeedbackResponseComment("-0-1-15", "New MCQ Comment 6");
+        submitPage.addFeedbackResponseComment("-0-1-22", "New Rubric Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-7", "New MSQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-8", "New MSQ Comment 2");
+        submitPage.addFeedbackResponseComment("-1-1-8", "New MSQ Comment 3");
+        submitPage.addFeedbackResponseComment("-2-1-8", "New MSQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-10", "New MSQ Comment 5");
+        submitPage.addFeedbackResponseComment("-0-1-12", "New MSQ Comment 6");
+        submitPage.addFeedbackResponseComment("-0-1-16", "New MSQ Comment 7");
+        submitPage.addFeedbackResponseComment("-0-1-21", "New MSQ Comment 8");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -349,6 +375,15 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.editFeedbackResponseComment("-0-1-9-1", "Edited MCQ Comment 4");
         submitPage.editFeedbackResponseComment("-0-1-11-1", "Edited MCQ Comment 5");
         submitPage.editFeedbackResponseComment("-0-1-15-1", "Edited MCQ Comment 6");
+        submitPage.editFeedbackResponseComment("-0-1-22-1", "Edited Rubric Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-7-1", "Edited MSQ Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-8-1", "Edited MSQ Comment 2");
+        submitPage.editFeedbackResponseComment("-1-1-8-1", "Edited MSQ Comment 3");
+        submitPage.editFeedbackResponseComment("-2-1-8-1", "Edited MSQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MSQ Comment 5");
+        submitPage.editFeedbackResponseComment("-0-1-12-1", "Edited MSQ Comment 6");
+        submitPage.editFeedbackResponseComment("-0-1-16-1", "Edited MSQ Comment 7");
+        submitPage.editFeedbackResponseComment("-0-1-21-1", "Edited MSQ Comment 8");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -374,6 +409,28 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyRowMissing("-0-1-11-1");
         submitPage.deleteFeedbackResponseComment("-0-1-15-1");
         submitPage.verifyRowMissing("-0-1-15-1");
+
+        // rubric questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-22-1");
+        submitPage.verifyRowMissing("-0-1-22-1");
+
+        // msq questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-7-1");
+        submitPage.verifyRowMissing("-0-1-7-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-8-1");
+        submitPage.verifyRowMissing("-0-1-8-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-8-1");
+        submitPage.verifyRowMissing("-1-1-8-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-8-1");
+        submitPage.verifyRowMissing("-2-1-8-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-10-1");
+        submitPage.verifyRowMissing("-0-1-10-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
+        submitPage.verifyRowMissing("-0-1-12-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-16-1");
+        submitPage.verifyRowMissing("-0-1-16-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-21-1");
+        submitPage.verifyRowMissing("-0-1-21-1");
     }
 
     /**

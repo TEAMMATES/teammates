@@ -62,6 +62,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-4", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-4", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -104,6 +107,10 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(2, 0, "4");
         submitPage.chooseMcqOption(3, 0, "It's good");
+        submitPage.clickRubricRadio(4, 0, 0, 0);
+        submitPage.clickRubricRadio(4, 1, 0, 1);
+        submitPage.toggleMsqOption(5, 0, "");
+
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
@@ -111,14 +118,24 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         FeedbackQuestionAttributes fqMcq =
                 BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 6);
+        FeedbackQuestionAttributes fqRubric =
+                BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 7);
+        FeedbackQuestionAttributes fqMsq =
+                BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 8);
 
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(
                 fq.getId(), "student1InIESFPTCourse@gmail.tmt", "student1InIESFPTCourse@gmail.tmt");
         FeedbackResponseAttributes frMcq = BackDoor.getFeedbackResponse(
                 fqMcq.getId(), "student1InIESFPTCourse@gmail.tmt", "student1InIESFPTCourse@gmail.tmt");
+        FeedbackResponseAttributes frRubric = BackDoor.getFeedbackResponse(
+                fqRubric.getId(), "student1InIESFPTCourse@gmail.tmt", "IESFPTCoursehelper2@email.tmt");
+        FeedbackResponseAttributes frMsq = BackDoor.getFeedbackResponse(
+                fqMsq.getId(), "student1InIESFPTCourse@gmail.tmt", "student2InIESFPTCourse@gmail.tmt");
 
         assertEquals("4", fr.getResponseDetails().getAnswerString());
         assertNotNull(frMcq);
+        assertNotNull(frRubric);
+        assertNotNull(frMsq);
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
@@ -134,6 +151,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedNoComments.html");
 
         submitPage.addFeedbackResponseComment("-0-1-3", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-4", "New Rubric Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-4", "New Rubric Comment 2");
+        submitPage.addFeedbackResponseComment("-0-1-5", "New MSQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -149,6 +169,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedAddedCommentOnResponses.html");
 
         submitPage.editFeedbackResponseComment("-0-1-3-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-4-1", "Edited Rubric Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-4-1", "Edited Rubric Comment 2");
+        submitPage.editFeedbackResponseComment("-0-1-5-1", "Edited MSQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
@@ -163,8 +186,19 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModifiedEditedComments.html");
 
+        // mcq comments questions
         submitPage.deleteFeedbackResponseComment("-0-1-3-1");
         submitPage.verifyRowMissing("-0-1-3-1");
+
+        // rubric questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-4-1");
+        submitPage.verifyRowMissing("-0-1-4-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-4-1");
+        submitPage.verifyRowMissing("-1-1-4-1");
+
+        // msq questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-5-1");
+        submitPage.verifyRowMissing("-0-1-5-1");
     }
 
     private void testDeleteResponse() {

@@ -931,6 +931,28 @@
         "INSTRUCTORS"
       ]
     },
+    "qn25InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFSubmitUiT.CS2104",
+      "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This instructor has done a good job.\",\"This instructor has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"Most of the time\",\"Less than half the time\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 25,
+      "questionType": "RUBRIC",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFSubmitUiT.CS2104",
