@@ -127,18 +127,18 @@ public class AccountAttributesTest extends BaseAttributesTest {
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
-                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
-                    FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                    FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
-                    FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
-                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                    FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                    FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                    FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
 
@@ -155,8 +155,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
-                                              account.email, account.institute,
-                                              StudentProfileAttributes.builder().build().toEntity());
+                account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
 
         Account actualAccount = valueOf(expectedAccount).toEntity();
 
