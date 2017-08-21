@@ -397,7 +397,9 @@ public final class Templates {
             public static final String RANK_MAX_OPTIONS_TO_BE_RANKED = "${maxOptionsToBeRanked}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_VALUE = "${areDuplicatesAllowedValue}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_CHECKED = "${areDuplicatesAllowedChecked}";
+            public static final String RANK_DISPLAY_MIN_OPTIONS_HINT = "${displayMinOptionsHint}";
             public static final String RANK_IS_MIN_CHOICES_ENABLED = "${isMinChoicesEnabled}";
+            public static final String RANK_DISPLAY_MAX_OPTIONS_HINT = "${displayMaxOptionsHint}";
             public static final String RANK_IS_MAX_CHOICES_ENABLED = "${isMaxChoicesEnabled}";
             public static final String RANK_SUBMISSION_FORM_OPTION_FRAGMENTS = "${rankSubmissionFormOptionFragments}";
             public static final String RANK_OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
