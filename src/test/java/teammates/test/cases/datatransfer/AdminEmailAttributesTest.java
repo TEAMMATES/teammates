@@ -101,17 +101,26 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertFalse("Invalid input", invalidAttributesSubjectChars.isValid());
     }
 
-    @Test(expectedExceptions = NullPointerException.class)
-    public void testAttributesForNull() throws Exception {
-        AdminEmailAttributes invalidAttributesNullSubject = new AdminEmailAttributes(
-                null, addressReceiverListString, groupReceiverListFileKey, content, date);
-        assertNull("Passing null to the constructor will throw an exception",
-                invalidAttributesNullSubject.getSubject());
+    @Test
+    public void testGetInvalidityInfoForEmailContent_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null Email Content";
+        try {
+            fieldValidator.getInvalidityInfoForEmailContent(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
 
-        AdminEmailAttributes invalidAttributesNullContent = new AdminEmailAttributes(
-                subject, addressReceiverListString, groupReceiverListFileKey, null, date);
-        assertNull("Passing null to the constructor will throw an exception",
-                invalidAttributesNullContent.getContentValue());
+    @Test
+    public void testGetInvalidityInfoForEmailSubject_null_throwException() {
+        String errorMessage = "Did not throw the expected AssertionError for null Email Subject";
+        try {
+            fieldValidator.getInvalidityInfoForEmailSubject(null);
+            signalFailureToDetectException(errorMessage);
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
     }
 
     @Test
