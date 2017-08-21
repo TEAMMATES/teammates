@@ -601,15 +601,14 @@ public final class StudentsLogic {
                 if (!student.isValid()) {
                     addInvalidStudentInfo(invalidityInfo, student, sanitizedLine);
                 }
-
-                if (getDuplicateIndex(student.email, studentList) != -1) {
-                    addDuplicateEmailInfo(invalidityInfo, student, sanitizedLine, studentList, linesArray);
+                int isDuplicate = getDuplicateIndex(student.email, studentList);
+                if (isDuplicate != -1) {
+                    addDuplicateEmailInfo(invalidityInfo, sanitizedLine, linesArray, isDuplicate);
                 }
 
                 studentList.add(student);
             } catch (EnrollException e) {
-                String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
-                invalidityInfo.add(info);
+                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, e.getMessage()));
             }
         }
 
@@ -620,18 +619,23 @@ public final class StudentsLogic {
         return studentList;
     }
 
-    private String getInvalidityInfoInDuplicatedEmail(String email,
-            List<StudentAttributes> studentList, String[] linesArray) {
-        for (int index = 0; index < studentList.size(); index++) {
-            if (studentList.get(index).email.equalsIgnoreCase(email)) {
-                return "Same email address as the student in line \"" + linesArray[index + 1] + "\"";
-            }
+    private String getInvalidityInfoInDuplicatedEmail(String[] linesArray, int isDuplicate) {
+        if (isDuplicate > -1) {
+            return "Same email address as the student in line \"" + linesArray[isDuplicate + 1] + "\"";
         }
         return "";
     }
 
-    private int getDuplicateIndex(String email,
-            List<StudentAttributes> studentList) {
+    private void addInvalidStudentInfo(List<String> invalidityInfo, StudentAttributes student, String sanitizedLine) {
+        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
+                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+        invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+    }
+
+    /**
+     * Check for the duplicate email, if duplicate is found returns its index in studentList else return -1.
+     */
+    private int getDuplicateIndex(String email, List<StudentAttributes> studentList) {
         for (int index = 0; index < studentList.size(); index++) {
             if (studentList.get(index).email.equalsIgnoreCase(email)) {
                 return index;
@@ -640,8 +644,7 @@ public final class StudentsLogic {
         return -1;
     }
 
-    private boolean isInEnrollList(StudentAttributes student,
-            List<StudentAttributes> studentInfoList) {
+    private boolean isInEnrollList(StudentAttributes student, List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;
@@ -671,18 +674,16 @@ public final class StudentsLogic {
         return null;
     }
 
-    private void addInvalidStudentInfo(List<String> invalidityInfo, StudentAttributes student, String sanitizedLine) {
-        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
-                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+    private void addDuplicateEmailInfo(
+            List<String> invalidityInfo, String sanitizedLine, String[] linesArray, int isDuplicate) {
+        String info =
+                getInvalidityInfoInDuplicatedEmail(linesArray, isDuplicate)
+                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
         invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
     }
 
-    private void addDuplicateEmailInfo(List<String> invalidityInfo, StudentAttributes student,
-            String sanitizedLine, List<StudentAttributes> studentList, String[] linesArray) {
-        String info =
-                getInvalidityInfoInDuplicatedEmail(student.email, studentList, linesArray)
-                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
-        invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+    private String enrollExceptionInfo(String sanitizedLine, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, errorMessage);
     }
 
 }
