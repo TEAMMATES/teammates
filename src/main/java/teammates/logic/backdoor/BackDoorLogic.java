@@ -591,7 +591,7 @@ public class BackDoorLogic extends Logic {
     }
 
     public void uploadAndUpdateStudentProfilePicture(String googleId,
-           byte[] pictureData) throws EntityDoesNotExistException, IOException {
+            byte[] pictureData) throws EntityDoesNotExistException, IOException {
         String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(googleId, pictureData);
         updateStudentProfilePicture(googleId, pictureKey);
     }
