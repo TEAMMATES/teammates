@@ -60,7 +60,6 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
-
         isEditingPhoto = "false";
         pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                    + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
@@ -73,13 +72,11 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withGoogleId("valid.id.2")
                 .withGender("male")
                 .build();
-
         acct = new AccountAttributesBuilder(
                 "valid.id", "full name", "e@mail1.com", "inst")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
-
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         return new StudentProfilePageData(acct, dummySessionToken, isEditingPhoto);
     }

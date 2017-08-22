@@ -19,7 +19,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public static final Date DEFAULT_DATE = new Date();
     public static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
             StudentProfileAttributes.builder().build();
-
     //Note: be careful when changing these variables as their names are used in *.json files.
 
     // Required fields
@@ -27,7 +26,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String name;
     public String email;
     public String institute;
-
     // Optional fields
     public boolean isInstructor;
     public Date createdAt;
@@ -121,12 +119,12 @@ public class AccountAttributes extends EntityAttributes<Account> {
         addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
 
         Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
-        // Only check profile if the account is proper
+        // only check profile if the account is proper
         if (errors.isEmpty()) {
             errors.addAll(this.studentProfile.getInvalidityInfo());
         }
 
-        // No validation for isInstructor and createdAt fields.
+        //No validation for isInstructor and createdAt fields.
         return errors;
     }
 

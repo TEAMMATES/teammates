@@ -608,7 +608,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
                 .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
                 .build();
-
         AccountAttributes accountToAdd = new AccountAttributesBuilder(
                 instructorId, "Instructor 1", instructorEmail, "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
@@ -701,8 +700,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("same student added, modified and unmodified");
 
         StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
-                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
-                .build();
+                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male").build();
 
         accountToAdd = new AccountAttributesBuilder(
                 "tes.instructor", "Instructor 1", "instructor@email.tmt", "TEAMMATES Test Institute 1")

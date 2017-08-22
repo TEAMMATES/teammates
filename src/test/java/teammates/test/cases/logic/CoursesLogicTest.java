@@ -230,13 +230,11 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
-
         AccountsLogic.inst().createAccount(new AccountAttributesBuilder(
                 "instructor1", "instructor1", "instructor@email.tmt", "TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build());
-
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.getId());
@@ -813,13 +811,11 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
         studentProfile.googleId = i.googleId;
-
         AccountAttributes a = new AccountAttributesBuilder(
                 i.googleId, i.name, i.email, "TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
-
         accountsDb.createAccount(a);
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());

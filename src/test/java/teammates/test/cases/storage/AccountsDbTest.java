@@ -167,13 +167,13 @@ public class AccountsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                     getPopulatedErrorMessage(
-                            FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
-                            FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                            FieldValidator.EMAIL_MAX_LENGTH),
-                    e.getMessage());
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH),
+                e.getMessage());
         }
 
-        ______TS("failure: null parameter");
+        ______TS("failure: null paramter");
         try {
             accountsDb.createAccount(null);
             signalFailureToDetectException(" - AssertionError");

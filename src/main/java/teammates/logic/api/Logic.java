@@ -97,6 +97,7 @@ public class Logic {
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
+
         accountsLogic.createAccount(accountToAdd);
     }
 
