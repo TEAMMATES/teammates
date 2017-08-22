@@ -460,4 +460,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
+
+    @Override
+    public boolean isStudentsCommentsOnResponsesAllowed() {
+        return true;
+    }
 }

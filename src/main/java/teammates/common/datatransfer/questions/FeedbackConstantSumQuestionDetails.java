@@ -778,4 +778,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return points;
     }
 
+    @Override
+    public boolean isStudentsCommentsOnResponsesAllowed() {
+        return true;
+    }
 }

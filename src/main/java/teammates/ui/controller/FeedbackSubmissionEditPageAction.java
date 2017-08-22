@@ -44,6 +44,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         data.bundle = getDataBundle(userEmailForCourse);
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
+        data.setFeedbackSessionForInstructor(isFeedbackSubmissionForInstructor());
 
         setStatusToAdmin();
 
@@ -73,4 +74,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     protected abstract ShowPageResult createSpecificShowPageResult();
 
     protected abstract RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException;
+
+    protected abstract boolean isFeedbackSubmissionForInstructor();
 }

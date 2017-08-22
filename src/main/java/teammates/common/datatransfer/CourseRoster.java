@@ -86,4 +86,17 @@ public class CourseRoster {
         }
     }
 
+    public Map<String, String> getCommentGiverEmailNameTableFromRoster() {
+        Map<String, String> commentGiverEmailNameTable = new HashMap<>();
+        List<InstructorAttributes> instructorList = getInstructors();
+        for (InstructorAttributes instructor : instructorList) {
+            commentGiverEmailNameTable.put(instructor.email, instructor.name);
+        }
+        List<StudentAttributes> studentList = getStudents();
+        for (StudentAttributes student : studentList) {
+            commentGiverEmailNameTable.put(student.email, student.name);
+        }
+        return commentGiverEmailNameTable;
+    }
+
 }

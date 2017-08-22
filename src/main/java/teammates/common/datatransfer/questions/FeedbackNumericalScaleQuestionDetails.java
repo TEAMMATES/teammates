@@ -782,4 +782,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return step;
     }
 
+    @Override
+    public boolean isStudentsCommentsOnResponsesAllowed() {
+        return true;
+    }
+
 }
