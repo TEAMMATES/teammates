@@ -851,6 +851,56 @@
         "STUDENTS"
       ]
     },
+    "qn23InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a team, rank them\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 23,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 8,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn24InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\"]}"
+      },
+      "questionNumber": 24,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "SFSubmitUiT.CS2104",

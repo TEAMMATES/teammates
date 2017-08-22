@@ -188,10 +188,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
 
-        saveResponsesComments(commentsToAddText, responseGiverMapForComments, responseRecipientMapForComments,
-                questionIdsForComments);
         updateResponsesComments(commentsToUpdateId, commentsToUpdateText, responseGiverMapForComments,
                 responseRecipientMapForComments, questionIdsForComments);
+        saveResponsesComments(commentsToAddText, responseGiverMapForComments, responseRecipientMapForComments,
+                questionIdsForComments);
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
         }
@@ -257,7 +257,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 commentsToAddText.put(commentIndx, commentText);
             }
             if (response.getId() != null) {
-                // to Avoid ConcurrentModificationException
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
                 int totalNumberOfComments = previousComments.size();

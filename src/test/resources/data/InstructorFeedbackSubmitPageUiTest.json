@@ -953,6 +953,56 @@
         "INSTRUCTORS"
       ]
     },
+    "qn26InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFSubmitUiT.CS2104",
+      "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank them\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 26,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": 8,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn27InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFSubmitUiT.CS2104",
+      "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank yourself in following qualities\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\"]}"
+      },
+      "questionNumber": 27,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFSubmitUiT.CS2104",
