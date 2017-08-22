@@ -11,7 +11,7 @@
           <th>Session Name</th>
           <th>Deadline</th>
           <th>Submissions</th>
-          <th>Published?</th>
+          <th>Responses</th>
           <th class="studentHomeActions">Action(s)</th>
         </tr>
       </thead>
