@@ -147,7 +147,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
         // Testing question with both min and max options to be ranked restriction
-        qnNumber = 11;        
+        qnNumber = 11;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
