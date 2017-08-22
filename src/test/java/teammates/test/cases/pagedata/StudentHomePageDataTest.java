@@ -88,13 +88,13 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
         testFeedbackSession(index++, submittedRow, submittedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Submitted", "No");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Submitted", "Not Published");
         testFeedbackSession(index++, pendingRow, pendingSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Pending", "No");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Pending", "Not Published");
         testFeedbackSession(index++, awaitingRow, awaitingSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Awaiting", "No");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Awaiting", "Not Published");
     }
 
     private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
@@ -112,17 +112,17 @@ public class StudentHomePageDataTest extends BaseTestCase {
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
-                            "Closed", "Yes");
+                            "Closed", "Published");
         testFeedbackSession(index++, closedRow, closedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED,
-                            "Closed", "No");
+                            "Closed", "Not Published");
         testFeedbackSession(index++, submittedClosedRow, submittedClosedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED,
-                            "Closed", "No");
+                            "Closed", "Not Published");
     }
 
     private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
