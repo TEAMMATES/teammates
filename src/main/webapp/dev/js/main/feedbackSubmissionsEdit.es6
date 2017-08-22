@@ -877,7 +877,7 @@ function updateRankMessageQn(qnNum) {
             $messageElement.addClass('text-color-red');
         } else if (isMaxOptionsToBeRankedViolated) {
             const max = getMaxOptionsToBeRanked(qnNum);
-            message += ` You cannot rank more than ${max} options. `;
+            message += ` Rank no more than ${max} options. `;
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked && !isMinOrMaxOptionsToBeRankedEnabled) {
             message = `Please rank the above ${isDistributingToRecipients ? 'recipients. '

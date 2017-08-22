@@ -142,7 +142,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
-        assertEquals("You cannot rank more than 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("Rank no more than 2 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
@@ -155,11 +155,11 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 0, 4, "4");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
         submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
-        assertEquals("You cannot rank more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "5");
-        assertEquals("You cannot rank more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
-        assertEquals("You cannot rank more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 

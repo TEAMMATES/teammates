@@ -30,8 +30,8 @@
         <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at least the mentioned number of options.">
             <label class="bold-label">
                 <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINCHOICESCHECKBOX}"
-                    id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINCHOICESCHECKBOX}-${questionNumber}"
-                    ${isMinChoicesEnabled}>
+                    id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}-${questionNumber}"
+                    ${isMinOptionsToBeRankedEnabled}>
                 Minimum number of options a respondent must rank
             </label>
         </div>
@@ -45,8 +45,8 @@
         <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
             <label class="bold-label">
                 <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXCHOICESCHECKBOX}"
-                    id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXCHOICESCHECKBOX}-${questionNumber}"
-                    ${isMaxChoicesEnabled}>
+                    id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}-${questionNumber}"
+                    ${isMaxOptionsToBeRankedEnabled}>
                 Maximum number of options a respondent can rank
             </label>
         </div>

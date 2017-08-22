@@ -3,7 +3,7 @@
         You need to rank at least ${minOptionsToBeRanked} options.
     </p>
     <p class="text-muted" ${displayMaxOptionsHint}>
-        You cannot rank more than ${maxOptionsToBeRanked} options.
+        Rank no more than ${maxOptionsToBeRanked} options.
     </p>
     ${rankSubmissionFormOptionFragments}
     <div id="rankInfo-${questionIndex}-${responseIndex}" class="form-group" ${rankOptionVisibility}>
@@ -19,6 +19,6 @@
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionIndex}" value="${rankToRecipientsValue}">
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}-${questionIndex}" value="${rankNumOptionValue}">
     <input type="hidden" id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionIndex}" value="${areDuplicatesAllowedValue}">
-    <input type="hidden" ${isMinChoicesEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionIndex}" value="${minOptionsToBeRanked}">
-    <input type="hidden" ${isMaxChoicesEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}-${questionIndex}" value="${maxOptionsToBeRanked}">
+    <input type="hidden" ${isMinOptionsToBeRankedEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionIndex}" value="${minOptionsToBeRanked}">
+    <input type="hidden" ${isMaxOptionsToBeRankedEnabled} id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}-${questionIndex}" value="${maxOptionsToBeRanked}">
 </div>
