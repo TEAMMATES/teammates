@@ -20,8 +20,8 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 
-    private String instructorCourseId;
-    private String instructorEditFsName;
+    private String courseId;
+    private String feedbackSessionName;
     private String instructorId;
 
     @Override
@@ -30,7 +30,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         removeAndRestoreDataBundle(testData);
 
         instructorId = testData.accounts.get("instructor1").googleId;
-        instructorCourseId = testData.courses.get("course").getId();
+        CourseId = testData.courses.get("course").getId();
         instructorEditFsName = testData.feedbackSessions.get("edit").getFeedbackSessionName();
     }
 
@@ -270,7 +270,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("Rank edit: add rank option question action success");
 
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1));
+        assertNull(BackDoor.getFeedbackQuestion(CourseId, instructorEditFsName, 1));
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
@@ -299,7 +299,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1));
+        assertNotNull(BackDoor.getFeedbackQuestion(CourseId, instructorEditFsName, 1));
 
         assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
 
@@ -307,7 +307,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
 
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(CourseId, instructorEditFsName, 2));
 
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
@@ -316,7 +316,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2));
+        assertNotNull(BackDoor.getFeedbackQuestion(CourseId, instructorEditFsName, 2));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionAddSuccess.html");
     }
@@ -368,18 +368,18 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(CourseId, instructorEditFsName, 2));
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1));
+        assertNull(BackDoor.getFeedbackQuestion(CourseId, instructorEditFsName, 1));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                         .withUserId(instructorId)
-                        .withCourseId(instructorCourseId)
+                        .withCourseId(CourseId)
                         .withSessionName(instructorEditFsName)
                         .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
