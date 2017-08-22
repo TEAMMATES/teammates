@@ -407,7 +407,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-1-1-23", "New Rank(Recipients) Comment 2");
         submitPage.addFeedbackResponseComment("-2-1-23", "New Rank(Recipients) Comment 3");
         submitPage.addFeedbackResponseComment("-3-1-23", "New Rank(Recipients) Comment 4");
-        submitPage.addFeedbackResponseComment("-0-1-24", "New Rank(Options) Comment 5");
+        submitPage.addFeedbackResponseComment("-0-1-24", "New Rank(Options) Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
