@@ -58,6 +58,7 @@ const ParamsNames = {
     FEEDBACK_QUESTION_DISCARDCHANGES: 'questiondiscardchanges',
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
     FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
+    TEAMMATES_EMAIL_ADDRESS: 'teammates@comp.nus.edu.sg',
 };
 
 const Const = {
