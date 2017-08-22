@@ -387,7 +387,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         return this.options.size() != newRankQuestionDetails.options.size()
             || !this.options.containsAll(newRankQuestionDetails.options)
-            || !newRankQuestionDetails.options.containsAll(this.options);
+            || !newRankQuestionDetails.options.containsAll(this.options)
+            || this.minOptionsToBeRanked != newRankQuestionDetails.minOptionsToBeRanked
+            || this.maxOptionsToBeRanked != newRankQuestionDetails.maxOptionsToBeRanked;
     }
 
     @Override
