@@ -1822,7 +1822,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromSection(feedbackSessionName, courseId,
-                userEmail, section);
+                                                                                       userEmail, section);
     }
 
     /**

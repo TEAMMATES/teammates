@@ -276,8 +276,8 @@ public class BackDoorLogic extends Logic {
     }
 
     private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
-                 SetMultimap<String, InstructorAttributes> courseInstructorsMap,
-                 Map<String, AccountAttributes> googleIdAccountMap) {
+            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
+            Map<String, AccountAttributes> googleIdAccountMap) {
         for (InstructorAttributes instructor : instructors) {
             validateInstructorPrivileges(instructor);
 

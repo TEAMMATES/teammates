@@ -173,7 +173,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                     e.getMessage());
         }
 
-        ______TS("failure: null paramter");
+        ______TS("failure: null parameter");
         try {
             accountsDb.createAccount(null);
             signalFailureToDetectException(" - AssertionError");
@@ -292,7 +292,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
 
-        ______TS("failure null parameter");
+        ______TS("failure null paramter");
 
         try {
             accountsDb.deleteAccount(null);
