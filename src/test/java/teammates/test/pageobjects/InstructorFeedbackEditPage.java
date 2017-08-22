@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -451,7 +452,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION
-                        + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
+                + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
 
         WebElement descriptionBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(descriptionBox, description);
@@ -582,7 +583,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickVisibilityDropdown(String optionValue, int qnNumber) {
         click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
-                                                        + "a[data-option-name=\"" + optionValue + "\"]")));
+                + "a[data-option-name=\"" + optionValue + "\"]")));
     }
 
     public void clickVisibilityDropdownForNewQuestion(String optionValue) {
@@ -591,7 +592,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public String getVisibilityDropdownLabel(int qnNumber) {
         return browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber
-                                                         + " .visibility-options-dropdown button")).getText().trim();
+                + " .visibility-options-dropdown button")).getText().trim();
     }
 
     public String getVisibilityDropdownLabelForNewQuestion() {
@@ -623,9 +624,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public WebElement getSelectQuestionNumberDropdown(int qnNumber) {
+        return browser.driver.findElement(By.id("questionnum-" + qnNumber));
+    }
+
     public void selectQuestionNumber(int qnNumber, int newQnNumber) {
-        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
         selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
+    }
+
+    public boolean isSelectQuestionNumberEnabled(int qnNumber) {
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
+        return qnNumSelect.isEnabled();
+    }
+
+    public int getSelectedQuestionNumber(int qnNumber) {
+        Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
+        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
     }
 
     /**
@@ -634,23 +649,23 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public boolean verifyEditSessionBoxIsEnabled() {
         boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled()
-                                       // && "Session visible from" radio buttons
-                                       && neverSessionVisibleTimeButton.isEnabled()
-                                       && defaultSessionVisibleTimeButton.isEnabled()
-                                       && customSessionVisibleTimeButton.isEnabled()
-                                       // && "Send emails for" checkboxes
-                                       && closingSessionEmailReminderButton.isEnabled()
-                                       && publishedSessionEmailReminderButton.isEnabled();
+                // && "Session visible from" radio buttons
+                && neverSessionVisibleTimeButton.isEnabled()
+                && defaultSessionVisibleTimeButton.isEnabled()
+                && customSessionVisibleTimeButton.isEnabled()
+                // && "Send emails for" checkboxes
+                && closingSessionEmailReminderButton.isEnabled()
+                && publishedSessionEmailReminderButton.isEnabled();
 
         if (isEditSessionEnabled && !neverSessionVisibleTimeButton.isSelected()) {
             isEditSessionEnabled = gracePeriodDropdown.isEnabled() // && Submission times inputs
-                                   && startDateBox.isEnabled() && startTimeDropdown.isEnabled()
-                                   && endDateBox.isEnabled() && endTimeDropdown.isEnabled()
-                                   // && "Responses visible from" radio buttons
-                                   && defaultResultsVisibleTimeButton.isEnabled()
-                                   && customResultsVisibleTimeButton.isEnabled()
-                                   && manualResultsVisibleTimeButton.isEnabled()
-                                   && neverResultsVisibleTimeButton.isEnabled();
+                    && startDateBox.isEnabled() && startTimeDropdown.isEnabled()
+                    && endDateBox.isEnabled() && endTimeDropdown.isEnabled()
+                    // && "Responses visible from" radio buttons
+                    && defaultResultsVisibleTimeButton.isEnabled()
+                    && customResultsVisibleTimeButton.isEnabled()
+                    && manualResultsVisibleTimeButton.isEnabled()
+                    && neverResultsVisibleTimeButton.isEnabled();
         }
 
         return isEditSessionEnabled;
@@ -712,7 +727,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
         return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox)
-               && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
+                && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
     }
 
     /**
@@ -894,7 +909,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement recipientOption =
                 browser.driver.findElement(
                         By.cssSelector("#recipienttype-" + questionNumber
-                                       + " option[value='" + recipientType + "']"));
+                                + " option[value='" + recipientType + "']"));
         return !"none".equals(recipientOption.getCssValue("display"));
     }
 
@@ -945,7 +960,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement questionTable = browser.driver.findElement(By.id("questionTable-" + qnNumber));
         WebElement dropdownButton = questionTable.findElement(By.cssSelector(".feedback-path-dropdown > button"));
         WebElement otherOption = questionTable.findElement(
-                                     By.className("feedback-path-dropdown-option-other"));
+                By.className("feedback-path-dropdown-option-other"));
         click(dropdownButton);
         click(otherOption);
     }
@@ -957,13 +972,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
-                      + TimeHelper.formatDate(startTime) + "';");
+                + TimeHelper.formatDate(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
-                      + TimeHelper.formatDate(endTime) + "';");
+                + TimeHelper.formatDate(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
@@ -1188,8 +1203,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     public int getNumOfOptionsInRankOptions(int qnIndex) {
         WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
         List<WebElement> optionInputFields = rankOptionsTable
-                                                .findElements(
-                                                     By.cssSelector("input[id^='rankOption-']"));
+                .findElements(
+                        By.cssSelector("input[id^='rankOption-']"));
         return optionInputFields.size();
     }
 
@@ -1214,8 +1229,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickCopyTableAtRow(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
-                                                      .findElements(By.tagName("tr"))
-                                                      .get(rowIndex + 1);
+                .findElements(By.tagName("tr"))
+                .get(rowIndex + 1);
         click(row);
     }
 
@@ -1238,9 +1253,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isVisibilityDropdownOptionHidden(String optionValue, int qnNumber) {
         return browser.driver.findElement(By.id("questionTable-" + qnNumber))
-                             .findElement(By.className("visibility-options-dropdown-option"))
-                             .findElement(By.xpath("//a[@data-option-name='" + optionValue + "']/.."))
-                             .getAttribute("class").contains("hidden");
+                .findElement(By.className("visibility-options-dropdown-option"))
+                .findElement(By.xpath("//a[@data-option-name='" + optionValue + "']/.."))
+                .getAttribute("class").contains("hidden");
     }
 
     public boolean isVisibilityDropdownOptionHiddenForNewQuestion(String optionValue) {
@@ -1249,8 +1264,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isVisibilityDropdownSeparatorHidden(int qnNumber) {
         return browser.driver.findElement(By.id("questionTable-" + qnNumber))
-                             .findElement(By.cssSelector(".visibility-options-dropdown .divider"))
-                             .getAttribute("class").contains("hidden");
+                .findElement(By.cssSelector(".visibility-options-dropdown .divider"))
+                .getAttribute("class").contains("hidden");
     }
 
     public boolean isVisibilityDropdownSeparatorHiddenForNewQuestion() {
@@ -1305,8 +1320,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public String getVisibilityParamShowResponsesTo(int questionNumber) {
         return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
-                             .findElement(By.cssSelector("input[name='showresponsesto']"))
-                             .getAttribute("value");
+                .findElement(By.cssSelector("input[name='showresponsesto']"))
+                .getAttribute("value");
     }
 
     public String getVisibilityParamShowResponsesToForNewQuestion() {
@@ -1315,8 +1330,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public String getVisibilityParamShowGiverTo(int questionNumber) {
         return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
-                             .findElement(By.cssSelector("input[name='showgiverto']"))
-                             .getAttribute("value");
+                .findElement(By.cssSelector("input[name='showgiverto']"))
+                .getAttribute("value");
     }
 
     public String getVisibilityParamShowGiverToForNewQuestion() {
@@ -1325,8 +1340,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public String getVisibilityParamShowRecipientTo(int questionNumber) {
         return browser.driver.findElement(By.id("form_editquestion-" + questionNumber))
-                             .findElement(By.cssSelector("input[name='showrecipientto']"))
-                             .getAttribute("value");
+                .findElement(By.cssSelector("input[name='showrecipientto']"))
+                .getAttribute("value");
     }
 
     public String getVisibilityParamShowRecipientToForNewQuestion() {
@@ -1343,7 +1358,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void toggleNotSureCheck(int questionNumber) {
         click(browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED
-                                               + "-" + questionNumber)));
+                + "-" + questionNumber)));
     }
 
     public void changeQuestionTypeInForm(int questionNumber, String newQuestionType) {
@@ -1360,7 +1375,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickResponseVisibilityCheckBox(String checkBoxValue, int questionNumber) {
         By responseVisibilitycheckBox = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkBoxValue
-                                                       + "'].answerCheckbox");
+                + "'].answerCheckbox");
         WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         click(checkbox);
@@ -1372,7 +1387,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickGiverNameVisibilityCheckBox(String checkBoxValue, int questionNumber) {
         By giverNameVisibilitycheckBox = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkBoxValue
-                                                       + "'].giverCheckbox");
+                + "'].giverCheckbox");
         WebElement checkbox = browser.driver.findElement(giverNameVisibilitycheckBox);
         waitForElementVisibility(checkbox);
         click(checkbox);
@@ -1380,7 +1395,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isCheckboxChecked(String checkboxClass, String checkboxValue, int questionNumber) {
         By checkboxSelector = By.cssSelector("#questionTable-" + questionNumber + " input[value='" + checkboxValue
-                                                       + "']." + checkboxClass);
+                + "']." + checkboxClass);
         WebElement checkbox = browser.driver.findElement(checkboxSelector);
         return checkbox.isSelected();
     }
