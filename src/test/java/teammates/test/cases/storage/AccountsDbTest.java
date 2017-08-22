@@ -170,7 +170,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                         FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH),
-                e.getMessage());
+                    e.getMessage());
         }
 
         ______TS("failure: null paramter");
