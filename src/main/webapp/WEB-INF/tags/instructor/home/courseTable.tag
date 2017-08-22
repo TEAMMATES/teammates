@@ -13,10 +13,12 @@
           </th>
           <th class="button_sortstartdate button-sort-none toggle-sort"
               data-toggle-sort-comparator="sortDate"
-              data-toggle-sort-extractor="tooltipExtractor">Start Date<span class="icon-sort unsorted"></span></th>
+              data-toggle-sort-extractor="tooltipExtractor">Start Date<span class="icon-sort unsorted"></span>
+          </th>
           <th  class="button_sortenddate button-sort-none toggle-sort"
               data-toggle-sort-comparator="sortDate"
-              data-toggle-sort-extractor="tooltipExtractor">End Date<span class="icon-sort unsorted"></span></th>
+              data-toggle-sort-extractor="tooltipExtractor">End Date<span class="icon-sort unsorted"></span>
+          </th>
           <th>Status</th>
           <th>
             <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>"
@@ -25,11 +27,10 @@
           <th class="no-print">Action(s)</th>
         </tr>
       </thead>
-      <c:if test="${empty sessionRows}">
+          <c:if test="${empty sessionRows}">
         <tr>
           <td>
-            <span class="text-muted"> This course does not have any sessions yet.
-            </span>
+            <span class="text-muted"> This course does not have any sessions yet.</span>
           </td>
           <td></td>
           <td></td>
@@ -51,8 +52,7 @@
           </td>
           <td>
             <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
-              ${sessionRow.status}
-            </span>
+              ${sessionRow.status}</span>
           </td>
           <td class="session-response-for-test">
             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
