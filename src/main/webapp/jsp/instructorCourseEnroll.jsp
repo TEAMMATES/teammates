@@ -5,9 +5,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
-<c:set var="cssIncludes">
-  <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css">
-</c:set>
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/instructorCourseEnrollPage.js"></script>
 </c:set>
