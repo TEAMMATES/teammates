@@ -41,6 +41,7 @@ const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
+const SUCCESS_STATUS_MESSAGE = '.alert-success.statusMessage';
 const END_TIME = '#end-time';
 const MS_IN_FIFTEEN_MINUTES = 900000;
 
@@ -48,6 +49,9 @@ const MS_IN_FIFTEEN_MINUTES = 900000;
 const SESSION_NOT_OPEN = 'Feedback Session Not Open';
 const SESSION_CLOSING_HEADER = 'Feedback Session Will Be Closing Soon';
 const SESSION_CLOSING_MESSAGE = 'Warning: you have less than 15 minutes before the submission deadline expires!';
+const RESPONSES_SUCCESSFULLY_SUBMITTED = '<p>All your responses have been successfully recorded! '
+        + 'You may now leave this page.</p>'
+        + '<p>Note that you can change your responses and submit them again any time before the session closes.</p>';
 
 function isPreview() {
     return $(document).find('.navbar').text().indexOf('Preview') !== -1;
@@ -502,6 +506,12 @@ function updateConstSumMessageQn(qnNum) {
     let allNotNumbers = true;
     let answerSet = {};
 
+    function fillWithZeroIfEmpty(inputFieldElement) {
+        if (isNaN(parseInt(inputFieldElement.val(), 10))) {
+            inputFieldElement.val(0);
+        }
+    }
+
     function checkAndDisplayMessage(messageElement) {
         let message = '';
 
@@ -517,6 +527,23 @@ function updateConstSumMessageQn(qnNum) {
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
                 messageElement.removeClass('text-color-blue');
+
+                /*
+                 * Once all the points are distributed,
+                 * look for empty Input fields and fill them with 0.
+                 */
+                if (distributeToRecipients) {
+                    for (let i = 0; i < numRecipients; i += 1) {
+                        const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`);
+                        fillWithZeroIfEmpty($inputFieldElement);
+                    }
+                } else {
+                    const recipientIndex = parseInt(messageElement.selector[messageElement.selector.length - 1], 10);
+                    for (let k = 0; k < numOptions; k += 1) {
+                        const $inputFieldElement = $(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${recipientIndex}-${k}`);
+                        fillWithZeroIfEmpty($inputFieldElement);
+                    }
+                }
             }
         } else if (remainingPoints > 0) {
             message = `${remainingPoints} points left to distribute.`;
@@ -938,6 +965,14 @@ function getWarningMessage() {
     return $(WARNING_STATUS_MESSAGE).html().trim();
 }
 
+function hasSuccessMessage() {
+    return $(SUCCESS_STATUS_MESSAGE).length;
+}
+
+function getSuccessMessage() {
+    return $(SUCCESS_STATUS_MESSAGE).html().trim();
+}
+
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
         showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
@@ -950,6 +985,11 @@ function showModalWarningIfSessionClosingSoon() {
     }
 }
 
+function showModalSuccessIfResponsesSubmitted() {
+    if (hasSuccessMessage()) {
+        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED, null, StatusType.SUCCESS);
+    }
+}
 /**
  * Updates the length of the textArea
  * @param textAreaId - Id of text area for which char are to be counted
@@ -984,10 +1024,13 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
+            const isSessionOpenData = $(textField).data('isSessionOpen');
+            const isSessionOpen = typeof (isSessionOpenData) === 'boolean' ? isSessionOpenData : true;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
+                readonly: !isSessionOpen,
                 setup(ed) {
                     ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
@@ -1025,7 +1068,7 @@ $(document).ready(() => {
 
             // disable button to prevent user from clicking submission button again
             const $submissionButton = $('#response_submit_button');
-            addLoadingIndicator($submissionButton, '');
+            addLoadingIndicator($submissionButton, 'Submitting ');
         }
     });
 
@@ -1083,6 +1126,8 @@ $(document).ready(() => {
     showModalWarningIfSessionClosed();
 
     showModalWarningIfSessionClosingSoon();
+
+    showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
