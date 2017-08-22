@@ -122,6 +122,47 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // to verify that the question submit form with existing response works correctly
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageSuccessRank.html");
 
+        ______TS("Rank : min/max options to be ranked test");
+
+        // Testing question with only min options to be ranked restriction
+        int qnNumber = 9;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "");
+        assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+
+        // Testing question with only max options to be ranked restriction
+        qnNumber = 10;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
+        assertEquals("You cannot rank more than 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+
+        // Testing question with both min and max options to be ranked restriction
+        qnNumber = 11;        
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 4, "4");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
+        assertEquals("You cannot rank more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "5");
+        assertEquals("You cannot rank more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
+        assertEquals("You cannot rank more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+
         ______TS("Rank : student results");
 
         StudentFeedbackResultsPage studentResultsPage =
