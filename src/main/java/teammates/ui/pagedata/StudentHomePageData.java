@@ -104,10 +104,10 @@ public class StudentHomePageData extends PageData {
         }
 
         if (session.isPublished()) {
-            return "Yes";
+            return "Published";
         }
 
-        return "No";
+        return "Not Published";
     }
 
     /**
