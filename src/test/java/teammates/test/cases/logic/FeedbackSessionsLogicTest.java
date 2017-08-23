@@ -869,7 +869,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         actualStrings.add(nobodyUserName);
 
         // case: Anonymous User
-        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        String anonymousUserName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " " + System.currentTimeMillis();
         anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
         actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
