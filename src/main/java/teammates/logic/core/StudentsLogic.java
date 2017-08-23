@@ -602,9 +602,9 @@ public final class StudentsLogic {
                     invalidityInfo.add(addInvalidStudentInfo(student, sanitizedLine));
                 }
 
-                int duplicateIndex = getDuplicateIndex(student.email, studentList);
-                if (duplicateIndex != -1) {
-                    invalidityInfo.add(addDuplicateEmailInfo(sanitizedLine, linesArray, duplicateIndex));
+                int duplicateEmailIndex = getDuplicateIndex(student.email, studentList);
+                if (duplicateEmailIndex != -1) {
+                    invalidityInfo.add(addDuplicateEmailInfo(sanitizedLine, linesArray, duplicateEmailIndex));
                 }
 
                 studentList.add(student);
@@ -620,8 +620,8 @@ public final class StudentsLogic {
         return studentList;
     }
 
-    private String getInvalidityInfoInDuplicatedEmail(String[] linesArray, int duplicateIndex) {
-        return "Same email address as the student in line \"" + linesArray[duplicateIndex + 1] + "\"";
+    private String getInvalidityInfoInDuplicatedEmail(String[] linesArray, int duplicateEmailIndex) {
+        return "Same email address as the student in line \"" + linesArray[duplicateEmailIndex + 1] + "\"";
     }
 
     private String addInvalidStudentInfo(StudentAttributes student, String sanitizedLine) {
