@@ -46,7 +46,7 @@
                   </c:if>
                 </c:forEach>
                 <c:if test="${filterPanel.noneSectionSelected}">
-                  <%=Const.NO_SPECIFIC_RECIPIENT%>
+                  <%=Const.NO_SPECIFIC_SECTION%>
                 </c:if>
               </div>
             </div>
@@ -83,7 +83,7 @@
     <div class="row">
       <div class="col-md-offset-10 col-md-2">
         <button id="editBtn" type="button" class="btn btn-primary btn-block"
-                data-toggle="modal" data-target="#editModal">
+            data-toggle="modal" data-target="#editModal">
           Edit View
         </button>
       </div>

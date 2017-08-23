@@ -13,6 +13,41 @@ import {
     richTextEditorBuilder,
 } from './richTextEditor.es6';
 
+const initialVisibilityOptions = new Map();
+
+function generateCheckboxKey(checkbox) {
+    return `${$(checkbox).attr('class')}-${$(checkbox).val()}`;
+}
+
+function saveInitialVisibilityOfCheckboxes(id, element) {
+    const tableInForm = element.find('table').first();
+    const checkboxesInForm = tableInForm.find('tr').find('input.visibilityCheckbox');
+    const valuesOfCheckbox = new Map();
+    $.each(checkboxesInForm, (i, checkboxInForm) => {
+        const checkboxKey = generateCheckboxKey(checkboxInForm);
+        valuesOfCheckbox.set(checkboxKey, $(checkboxInForm).prop('checked'));
+    });
+    initialVisibilityOptions.set(id, valuesOfCheckbox);
+}
+
+function getInitialVisibilityOfCheckboxes(e) {
+    return initialVisibilityOptions.get(e.attr('id'));
+}
+
+function getCheckBoxesInFormTable(form) {
+    const formTable = form.find('table').first();
+    return formTable.find('tr').find('input.visibilityCheckbox');
+}
+
+function restoreInitialVisibilityOfCheckboxes(form, e) {
+    const checkboxes = getCheckBoxesInFormTable(form);
+    const valueOfCheckboxes = getInitialVisibilityOfCheckboxes(e);
+    $.each(checkboxes, (i, checkbox) => {
+        const checkboxKey = generateCheckboxKey(checkbox);
+        $(checkbox).prop('checked', valueOfCheckboxes.get(checkboxKey));
+    });
+}
+
 function removeFormErrorMessage(submitButton) {
     if (submitButton.next().next().attr('id') === 'errorMessage') {
         submitButton.next().next().remove();
@@ -212,6 +247,7 @@ const editCommentHandler = (e) => {
                 // Update editted comment
                 displayedText.html(data.comment.commentText.value);
                 updateVisibilityOptionsForResponseComment(formObject, data);
+                commentBar.find('span[class="text-muted"]').first().text(data.editedCommentDetails);
                 commentBar.show();
 
                 // Reset edit comment form
@@ -286,7 +322,8 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         });
         /* eslint-enable camelcase */
     }
-
+    saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
+        $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
     $(`#responseCommentAddForm${id}`).focus();
 }
 
@@ -297,6 +334,8 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         $(`#responseCommentTable${id}`).css('margin-top', '0');
         $(`#responseCommentTable${id}`).hide();
     }
+    restoreInitialVisibilityOfCheckboxes(
+        $(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
@@ -318,7 +357,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $(`#responseCommentEditForm${id} > div > textarea`).val($(`#plainCommentText${id}`).text());
     $(`#responseCommentEditForm${id}`).show();
     $(`#responseCommentEditForm${id} > div > textarea`).focus();
-
+    saveInitialVisibilityOfCheckboxes(`responseCommentEditForm${id}`, $(`#responseCommentEditForm${id}`));
     if (typeof richTextEditorBuilder !== 'undefined') {
         if (tinymce.get(`responsecommenttext${id}`)) {
             return;
@@ -383,7 +422,9 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
     commentBar.show();
     $(`#plainCommentText${id}`).show();
+    restoreInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`), $(`#responseCommentEditForm${id}`));
     $(`#responseCommentEditForm${id}`).hide();
+    tinymce.get(`responsecommenttext${id}`).setContent($(`#plainCommentText${id}`).text());
     removeFormErrorMessage($(`#button_save_comment_for_edit${id}`));
 }
 
