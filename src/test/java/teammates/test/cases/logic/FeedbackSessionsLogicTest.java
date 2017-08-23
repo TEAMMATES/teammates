@@ -273,7 +273,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (Exception e) {
             assertEquals("\"test %| test\" is not acceptable to TEAMMATES as a/an feedback session name "
-                             + "because it contains invalid characters. All feedback session name "
+                             + "because it contains invalid characters. A/An feedback session name "
                              + "must start with an alphanumeric character, and cannot contain "
                              + "any vertical bar (|) or percent sign (%).",
                          e.getMessage());
@@ -869,7 +869,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         actualStrings.add(nobodyUserName);
 
         // case: Anonymous User
-        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        String anonymousUserName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " " + System.currentTimeMillis();
         anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
         actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
@@ -1744,6 +1744,16 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
                 "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
                 "",
+                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Total,Average",
+                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
+                "Team 1.1</td></div>'\",student1 In Course1</td></div>'\",student1InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,1,-1.70,-1.70",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,1,-1.70,-1.70",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,0,0.00,0.00",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",1,0,1.25,1.25",
+                "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"b\",\"No\",\"2\"",
@@ -1774,6 +1784,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 ",\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Average",
                 "\"a) This student has done a good job.\",67% (2),33% (1),1.17",
                 "\"b) This student has tried his/her best.\",- (0),- (0),-",
+                "",
+                "Team,Recipient Name,Recipient's Email,Sub Question,\"Yes (Weight: 1.25)\",\"No (Weight: 1)\",Total,Average",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
+                "Team 1.1</td></div>'\",student2 In Course1,student2InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"a) This student has done a good job.\",0,1,1.00,1.00",
+                "Team 1.1</td></div>'\",student3 In Course1,student3InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"a) This student has done a good job.\",1,0,1.25,1.25",
+                "Team 1.1</td></div>'\",student4 In Course1,student4InCourse1@gmail.tmt,\"b) This student has tried his/her best.\",0,0,0.00,0.00",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",

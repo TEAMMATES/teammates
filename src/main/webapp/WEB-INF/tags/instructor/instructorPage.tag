@@ -11,19 +11,19 @@
 <c:set var="defaultFooter"><t:bodyFooter /></c:set>
 
 <t:page pageTitle="${title} [Instructor]" bodyTitle="${title}">
-    <jsp:attribute name="cssIncludes">
-        ${cssIncludes}
-    </jsp:attribute>
-    <jsp:attribute name="jsIncludes">
-        ${jsIncludes}
-    </jsp:attribute>
-    <jsp:attribute name="navBar">
-        ${empty altNavBar ? defaultNavBar : altNavBar}
-    </jsp:attribute>
-    <jsp:attribute name="bodyFooter">
-        ${empty altFooter ? defaultFooter : altFooter}
-    </jsp:attribute>
-    <jsp:body>
-        <jsp:doBody />
-    </jsp:body>
+  <jsp:attribute name="cssIncludes">
+    ${cssIncludes}
+  </jsp:attribute>
+  <jsp:attribute name="jsIncludes">
+    ${jsIncludes}
+  </jsp:attribute>
+  <jsp:attribute name="navBar">
+    ${empty altNavBar ? defaultNavBar : altNavBar}
+  </jsp:attribute>
+  <jsp:attribute name="bodyFooter">
+    ${empty altFooter ? defaultFooter : altFooter}
+  </jsp:attribute>
+  <jsp:body>
+    <jsp:doBody />
+  </jsp:body>
 </t:page>
