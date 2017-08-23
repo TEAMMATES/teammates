@@ -505,7 +505,15 @@ function enableNewQuestion() {
 
     $newQuestionTable.find(`#rubricAddChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`#rubricAddSubQuestionLink-${NEW_QUESTION}`).show();
-    $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+
+    // If instructor had assigned rubric weights before,
+    // then display the weights row, otherwise hide it.
+    if (hasAssignedWeights(NEW_QUESTION)) {
+        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
+    } else {
+        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+    }
+
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 

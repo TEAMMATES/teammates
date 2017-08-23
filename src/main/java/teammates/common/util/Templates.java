@@ -188,6 +188,14 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBodyFragment.html");
             public static final String RUBRIC_RESULT_STATS_BODY =
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBody.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsTemplate.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsHeaderFragment.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyFragment.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyRowFragment.html");
             public static final String RUBRIC_ADDITIONAL_INFO =
                     FileHelper.readResourceFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
 
@@ -258,6 +266,7 @@ public final class Templates {
             public static final String MOBILE_HTML = "${mobileHtml}";
             public static final String PANEL_BODY = "${panelBody}";
             public static final String ITERATOR = "${i}";
+            public static final String IS_SESSION_OPEN = "${isSessionOpen}";
 
             // TEXT
             public static final String TEXT_EXISTING_RESPONSE = "${existingResponse}";
@@ -412,6 +421,9 @@ public final class Templates {
             public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
             public static final String RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML = "${tableWeightRowFragmentHtml}";
             public static final String RUBRIC_ADDITIONAL_INFO_FRAGMENTS = "${rubricAdditionalInfoFragments}";
+            public static final String RUBRIC_RECIPIENT_STAT_CELL = "${recipientStatCell}";
+            public static final String RUBRIC_RECIPIENT_STATS_HTML = "${perRecipientStatsHtml}";
+            public static final String RUBRIC_RECIPIENT_STAT_ROW = "${recipientStatRow}";
             public static final String RUBRIC_TOOLTIPS_ASSIGN_WEIGHTS =
                     "${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}";
             public static final String RUBRIC_PARAM_ASSIGN_WEIGHTS =
