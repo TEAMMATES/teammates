@@ -34,6 +34,9 @@ public class InstructorFeedbackResultsResponseRow {
     private FeedbackResponseCommentRow addCommentButton;
 
     private List<FeedbackResponseCommentRow> commentsOnResponses;
+    private int responseRecipientIndex;
+    private int responseGiverIndex;
+    private boolean isCommentsOnResponsesAllowed;
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
@@ -183,6 +186,30 @@ public class InstructorFeedbackResultsResponseRow {
 
     public void setCommentsOnResponses(List<FeedbackResponseCommentRow> commentsOnResponses) {
         this.commentsOnResponses = commentsOnResponses;
+    }
+
+    public int getResponseRecipientIndex() {
+        return responseRecipientIndex;
+    }
+
+    public void setResponseRecipientIndex(int responseRecipientIndex) {
+        this.responseRecipientIndex = responseRecipientIndex;
+    }
+
+    public int getResponseGiverIndex() {
+        return responseGiverIndex;
+    }
+
+    public void setResponseGiverIndex(int responseGiverIndex) {
+        this.responseGiverIndex = responseGiverIndex;
+    }
+
+    public boolean isCommentsOnResponsesAllowed() {
+        return isCommentsOnResponsesAllowed;
+    }
+
+    public void setCommentsOnResponsesAllowed(boolean isCommentsOnResponsesAllowed) {
+        this.isCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
     }
 
 }

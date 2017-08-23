@@ -161,6 +161,7 @@ const addCommentHandler = (e) => {
     formObject.find('input[name=responsecommenttext]').val(editor.getContent());
 
     const formData = formObject.serialize();
+    const isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
 
     $.ajax({
         type: 'POST',
@@ -201,6 +202,8 @@ const addCommentHandler = (e) => {
                 addFormRow.prev().show();
                 addFormRow.hide();
                 destroyEditor(`responseCommentAddForm-${responseCommentId}`);
+                console.log("hello");
+                openResponseCommentAddForm(responseCommentId);
             }
         },
     });
@@ -443,6 +446,9 @@ function registerResponseCommentsEvent() {
             '.show-frc-edit-form', [showResponseCommentEditForm,
                     ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(
+            '.comment-button', [showResponseCommentAddForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
             '.hide-frc-add-form', [hideResponseCommentAddForm,
                     ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
@@ -495,6 +501,29 @@ function registerResponseCommentCheckboxEvent() {
         });
         form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
     });
+}
+
+function openResponseCommentAddForm(formId) {
+    const id = formId;
+
+    $(`#responseCommentTable${id}`).show();
+    if ($(`#responseCommentTable${id} > li`).length <= 1) {
+        $(`#responseCommentTable${id}`).css('margin-top', '15px');
+    }
+    $(`#showResponseCommentAddForm${id}`).show();
+
+    $(`#responseCommentAddForm${id}`).empty();
+
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
+            inline: true,
+        });
+        /* eslint-enable camelcase */
+    }
+    saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
+        $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
+    $(`#responseCommentAddForm${id}`).focus();
 }
 
 export {

@@ -125,6 +125,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 questionPanel.setHasResponses(false);
             } else {
                 questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
+                Logger log = Logger.getLogger();
+                log.info("hi");
             }
 
             questionPanels.add(questionPanel);
@@ -1045,7 +1047,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<String> possibleReceiversWithoutResponsesForGiver = new ArrayList<>();
 
         String prevGiver = "";
-
+        int responseRecipientIndex = 0;
+        int responseGiverIndex = 0;
+        int userIndex = 0;
+        Map<String, Integer> userIndexesForComments = new HashMap<String, Integer>();
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
                 possibleGiversWithoutResponses.clear();
@@ -1094,9 +1099,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             List<FeedbackResponseCommentRow> comments =
                     buildResponseComments(giverName, recipientName, question, response);
-            Logger log = Logger.getLogger();
-            log.info(comments.toString());
-            if (comments != null) {
+            if (!comments.isEmpty()) {
                 responseRow.setCommentsOnResponses(comments);
             }
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
@@ -1104,8 +1107,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     .isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                        responseVisibilityMap, response.giver, response.recipient);
+                        responseVisibilityMap, giverName, recipientName);
                 responseRow.setAddCommentButton(addCommentForm);
+                if (userIndexesForComments.get(response.giver) == null) {
+                    userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
+                }
+                responseGiverIndex = userIndexesForComments.get(response.giver);
+                if (userIndexesForComments.get(response.recipient) == null) {
+                    userIndex = generateIndexForUser(response.recipient, userIndex, userIndexesForComments);
+                }
+                responseRecipientIndex = userIndexesForComments.get(response.recipient);
+
+                responseRow.setResponseRecipientIndex(responseRecipientIndex);
+                responseRow.setResponseGiverIndex(responseGiverIndex);
+                responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
             }
             responseRows.add(responseRow);
         }
@@ -1769,6 +1784,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // Only used for testing the ui
     public void setLargeNumberOfRespondents(boolean needAjax) {
         this.isLargeNumberOfRespondents = needAjax;
+    }
+
+    private int generateIndexForUser(String name, int index, Map<String, Integer> userIndexesForComments) {
+        userIndexesForComments.put(name, index + 1);
+        return index + 1;
     }
 
 }

@@ -1,4 +1,10 @@
 import {
+    enableHoverToDisplayEditOptions,
+    registerResponseCommentCheckboxEvent,
+    registerResponseCommentsEvent,
+} from '../common/feedbackResponseComments.es6';
+
+import {
     bindStudentPhotoHoverLink,
     bindStudentPhotoLink,
     prepareInstructorPages,
@@ -80,6 +86,9 @@ $(document).ready(() => {
                 $(panelHeading).off('click');
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
+                enableHoverToDisplayEditOptions();
+                registerResponseCommentCheckboxEvent();
+                registerResponseCommentsEvent();
 
                 if (isPanelSetAsEmptyByBackend($panelBody)) {
                     displayAsEmptyPanel($panelBody);

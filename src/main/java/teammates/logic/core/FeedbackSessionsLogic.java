@@ -1801,20 +1801,20 @@ public final class FeedbackSessionsLogic {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
                     frc.giverEmail = "Anonymous";
                 }
-                
+
                 List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
-                  if (frcList == null) {
-                      frcList = new ArrayList<>();
-                      frcList.add(frc);
-                      responseComments.put(frc.feedbackResponseId, frcList);
-                  } else {
-                      frcList.add(frc);
-                  }
-              }
-          }
+                if (frcList == null) {
+                    frcList = new ArrayList<>();
+                    frcList.add(frc);
+                    responseComments.put(frc.feedbackResponseId, frcList);
+                } else {
+                    frcList.add(frc);
+                }
+            }
+        }
 
         for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
-                sortByCreatedDate(responseCommentList);
+            sortByCreatedDate(responseCommentList);
         }
 
         return responseComments;
@@ -1889,13 +1889,18 @@ public final class FeedbackSessionsLogic {
                                                     question, userEmail, UserRole.INSTRUCTOR, section);
                 }
 
+                StudentAttributes student = getStudent(courseId, userEmail, role);
+                Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
                 boolean hasResponses = !responsesForThisQn.isEmpty();
                 if (hasResponses) {
+                    Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<>();
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
                         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
                         boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
                                                                              question, instructor);
                         if (isVisibleResponse) {
+                            relevantResponse.put(response.getId(), response);
+                            relevantQuestions.put(question.getId(), question);
                             responses.add(response);
                             addEmailNamePairsToTable(emailNameTable, response, question, roster);
                             addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
@@ -1903,10 +1908,12 @@ public final class FeedbackSessionsLogic {
                             addVisibilityToTable(visibilityTable, question, response, userEmail, role, roster);
                         }
                     }
+                    responseComments = getResponseComments(
+                            feedbackSessionName, courseId, userEmail, role, roster, relevantQuestions, section, student,
+                            studentsEmailInTeam, relevantResponse);
                 }
             }
         }
-
         addSectionTeamNamesToTable(
                 sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
