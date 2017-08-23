@@ -1783,11 +1783,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(String feedbackSessionName,
-                                                                                        String courseId,
-                                                                                        String userEmail,
-                                                                                        String section)
-            throws EntityDoesNotExistException {
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorBySection(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, SectionDisplayMode sectionDisplayMode) throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
@@ -1795,7 +1793,8 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                     userEmail, section);
+                                                                                     userEmail, section,
+                                                                                     sectionDisplayMode);
     }
 
     /**

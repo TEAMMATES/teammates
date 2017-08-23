@@ -39,6 +39,7 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TimeHelperExtension;
+import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.
@@ -997,7 +998,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A");
+                session.getCourseId(), instructor.email, "Section A", SectionDisplayMode.BOTH_IN_SECTION);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         assertEquals(7, results.responses.size());

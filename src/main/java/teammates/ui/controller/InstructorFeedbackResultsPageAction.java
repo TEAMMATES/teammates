@@ -138,36 +138,36 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
-            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
+            data.initForViewByQuestion(instructor, selectedSection, sectionDisplayMode, showStats,
+                    groupByTeam, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+            data.initForSectionPanelViews(instructor, selectedSection, sectionDisplayMode, showStats, groupByTeam,
                                           InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION,
                                           isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         case Const.FeedbackSessionResults.GRQ_SORT_TYPE:
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+            data.initForSectionPanelViews(instructor, selectedSection, sectionDisplayMode, showStats, groupByTeam,
                                           InstructorFeedbackResultsPageViewType.GIVER_RECIPIENT_QUESTION,
                                           isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
         case Const.FeedbackSessionResults.RQG_SORT_TYPE:
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+            data.initForSectionPanelViews(instructor, selectedSection, sectionDisplayMode, showStats, groupByTeam,
                                           InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER,
                                           isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
         case Const.FeedbackSessionResults.GQR_SORT_TYPE:
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+            data.initForSectionPanelViews(instructor, selectedSection, sectionDisplayMode, showStats, groupByTeam,
                                           InstructorFeedbackResultsPageViewType.GIVER_QUESTION_RECIPIENT,
                                           isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
         default:
-            sortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE;
-            data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
+            data.initForSectionPanelViews(instructor, selectedSection, sectionDisplayMode, showStats, groupByTeam,
                                           InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION,
                                           isMissingResponsesShown);
             return createShowPageResult(
@@ -197,9 +197,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 bundle.isComplete = true;
             } else {
                 // bundle for all questions, with a selected section
-                bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
+                bundle = logic.getFeedbackSessionResultsForInstructorBySection(feedbackSessionName, courseId,
                                                                                     instructor.email,
-                                                                                    selectedSection);
+                                                                                    selectedSection, sectionDisplayMode);
             }
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {

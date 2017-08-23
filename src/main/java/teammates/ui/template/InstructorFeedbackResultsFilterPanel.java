@@ -12,6 +12,7 @@ public class InstructorFeedbackResultsFilterPanel {
     private String feedbackSessionName;
     private boolean isAllSectionsSelected;
     private String selectedSection;
+    private String sectionDisplayMode;
     private boolean isGroupedByTeam;
     private String sortType;
     private String resultsLink;
@@ -19,8 +20,8 @@ public class InstructorFeedbackResultsFilterPanel {
 
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
-                                    String selectedSection, boolean isGroupedByTeam, String sortType,
-                                    String resultsLink, List<String> sections,
+                                    String selectedSection, String sectionDisplayMode, boolean isGroupedByTeam,
+                                    String sortType, String resultsLink, List<String> sections,
                                     boolean isMissingResponsesShown) {
         this.isStatsShown = isStatsShown;
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
@@ -32,6 +33,7 @@ public class InstructorFeedbackResultsFilterPanel {
         this.resultsLink = resultsLink;
         this.isMissingResponsesShown = isMissingResponsesShown;
         this.sections = sections;
+        this.sectionDisplayMode = sectionDisplayMode;
     }
 
     public boolean isStatsShown() {
@@ -60,6 +62,10 @@ public class InstructorFeedbackResultsFilterPanel {
 
     public String getSelectedSection() {
         return selectedSection;
+    }
+
+    public String getSectionDisplayMode() {
+        return sectionDisplayMode;
     }
 
     public boolean isGroupedByTeam() {

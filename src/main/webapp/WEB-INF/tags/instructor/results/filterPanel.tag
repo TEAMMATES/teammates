@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.ui.datatransfer.SectionDisplayMode" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
 <div style="margin-bottom: 10px">
@@ -52,6 +53,23 @@
             </div>
           </div>
         </c:if>
+        <br>
+        <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
+          <div class="row">
+            <label class="col-md-offset-1 col-md-3">Section display mode:</label>
+            <div class="col-md-8">
+              <c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}">
+                Both in section
+              </c:if>
+              <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}">
+                Giver in section
+              </c:if>
+              <c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}">
+                Recipient in section
+              </c:if>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
         <label>Additional settings:</label>

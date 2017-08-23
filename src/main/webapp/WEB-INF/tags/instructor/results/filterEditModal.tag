@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.ui.datatransfer.SectionDisplayMode" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
 <div id="editModal" class="modal fade" role="dialog">
@@ -61,6 +62,24 @@
                   </div>
                 </div>
               </c:if>
+              <div class="form-group">
+                <label for="sectionDisplayMode" class="control-label">
+                  Section display mode:
+                </label>
+                <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
+                  <select id="sectionDisplayMode" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SECTION_DISPLAY_MODE%>">
+                    <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
+                      Both in section
+                    </option>
+                    <option value="<%=SectionDisplayMode.GIVER_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}"> selected</c:if>>
+                      Giver in section
+                    </option>
+                    <option value="<%=SectionDisplayMode.RECIPIENT_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}"> selected</c:if>>
+                      Recipient in section
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
             <div class="col-md-5">
               <label class="control-label">
