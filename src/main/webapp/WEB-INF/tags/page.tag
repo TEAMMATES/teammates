@@ -10,7 +10,7 @@
 <%@ attribute name="bodyFooter" required="true" fragment="true" %>
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>${pageTitle}</title>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,18 +20,18 @@
     <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
     <jsp:invoke fragment="cssIncludes" />
     <!--[if lt IE 9]>
-        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head>
-<body>
+  </head>
+  <body>
     <noscript>
-        <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
+      <jsp:include page="<%= Const.ViewURIs.ENABLE_JS %>" />
     </noscript>
     <jsp:invoke fragment="navBar" />
     <div class="container" id="mainContent">
-        <t:bodyHeader title="${bodyTitle}" />
-        <jsp:doBody />
+      <t:bodyHeader title="${bodyTitle}" />
+      <jsp:doBody />
     </div>
     <jsp:invoke fragment="bodyFooter" />
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
@@ -40,5 +40,5 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BOOTBOX %>"></script>
     <jsp:invoke fragment="jsIncludes" />
-</body>
+  </body>
 </html>
