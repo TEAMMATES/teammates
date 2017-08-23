@@ -100,13 +100,10 @@ public class InstructorCoursesPageData extends PageData {
 
             ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
                                                                       SanitizationHelper.sanitizeForHtml(course.getName()),
-                                                                      SanitizationHelper.sanitizeForHtml(
-                                                                              course.getCreatedAtDateString()),
-                                                                      SanitizationHelper.sanitizeForHtml(
-                                                                              course.getCreatedAtDateStamp()),
-                                                                      SanitizationHelper.sanitizeForHtml(
-                                                                              course.getCreatedAtFullDateTimeString()),
-                                                                                                actionsParam);
+                                                                      course.getCreatedAtDateString(),
+                                                                      course.getCreatedAtDateStamp(),
+                                                                      course.getCreatedAtFullDateTimeString(),
+                                                                      actionsParam);
             archivedCoursesTable.getRows().add(row);
 
         }
@@ -158,12 +155,9 @@ public class InstructorCoursesPageData extends PageData {
 
             ActiveCoursesTableRow row = new ActiveCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
                                                                   SanitizationHelper.sanitizeForHtml(course.getName()),
-                                                                  SanitizationHelper.sanitizeForHtml(
-                                                                          course.getCreatedAtDateString()),
-                                                                  SanitizationHelper.sanitizeForHtml(
-                                                                          course.getCreatedAtDateStamp()),
-                                                                  SanitizationHelper.sanitizeForHtml(
-                                                                          course.getCreatedAtFullDateTimeString()),
+                                                                  course.getCreatedAtDateString(),
+                                                                  course.getCreatedAtDateStamp(),
+                                                                  course.getCreatedAtFullDateTimeString(),
                                                                   this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);
