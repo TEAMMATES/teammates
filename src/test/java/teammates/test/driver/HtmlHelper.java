@@ -431,8 +431,9 @@ public final class HtmlHelper {
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                       // anonymous student identifier on results page
-                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
-                                  "Anonymous $1 \\${participant\\.hash}")
+                      .replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                                  + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT
+                                  + " $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
