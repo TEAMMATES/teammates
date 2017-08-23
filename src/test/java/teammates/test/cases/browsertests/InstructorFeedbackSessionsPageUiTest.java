@@ -485,7 +485,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyStatus(
                 "\"(New Session ##)\" is not acceptable to TEAMMATES as a/an feedback session name because "
                 + "it starts with a non-alphanumeric character. "
-                + "All feedback session name must start with an alphanumeric character, "
+                + "A/An feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
 
         feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
@@ -537,7 +537,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.getFsCopyToModal().verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as a/an "
                 + "feedback session name because it contains invalid characters. "
-                + "All feedback session name must start with an alphanumeric character, "
+                + "A/An feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
 
         feedbackPage.getFsCopyToModal().clickCloseButton();
@@ -966,10 +966,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getStartTime(), newSession.getEndTime(), null, null,
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
-        feedbackPage.verifyStatus(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                                                           "", FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                                           FieldValidator.REASON_EMPTY,
-                                                           FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
+        feedbackPage.verifyStatus(getPopulatedEmptyStringErrorMessage(
+                                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                            FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                            FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
         assertTrue(feedbackPage.isVisible(By.id("timeFramePanel")));
         assertTrue(feedbackPage.isVisible(By.id("responsesVisibleFromColumn")));
         assertTrue(feedbackPage.isVisible(By.id("instructionsRow")));

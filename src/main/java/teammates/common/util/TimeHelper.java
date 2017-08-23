@@ -173,6 +173,9 @@ public final class TimeHelper {
      */
     @Deprecated
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
+        if (localDate == null) {
+            return null;
+        }
         Calendar localCal = dateToCalendar(localDate);
         localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
         return localCal.getTime();
@@ -261,6 +264,18 @@ public final class TimeHelper {
         sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
+    }
+
+    /**
+     * Formats {@code dateInUtc} according to the ISO8601 format.
+     */
+    public static String formatDateToIso8601Utc(Date dateInUtc) {
+        if (dateInUtc == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(dateInUtc);
     }
 
     public static String calendarToString(Calendar c) {

@@ -907,7 +907,7 @@ public final class FeedbackSessionsLogic {
 
             boolean isNewGiver = !prevGiver.equals(response.giver);
             // print missing responses from the current giver
-            if (isNewGiver) {
+            if (isNewGiver && isMissingResponsesShown) {
                 exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
@@ -1670,7 +1670,7 @@ public final class FeedbackSessionsLogic {
                     role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = "Anonymous";
+                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
 
                 if (responseComments.get(frc.feedbackResponseId) == null) {
@@ -1806,7 +1806,7 @@ public final class FeedbackSessionsLogic {
                         userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                        frc.giverEmail = "Anonymous";
+                        frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                     }
 
                     List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
