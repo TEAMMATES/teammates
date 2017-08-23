@@ -907,7 +907,7 @@ public final class FeedbackSessionsLogic {
 
             boolean isNewGiver = !prevGiver.equals(response.giver);
             // print missing responses from the current giver
-            if (isNewGiver) {
+            if (isNewGiver && isMissingResponsesShown) {
                 exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
