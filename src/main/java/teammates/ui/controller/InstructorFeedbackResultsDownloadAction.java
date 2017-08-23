@@ -8,6 +8,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.datatransfer.SectionDisplayMode;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
 
@@ -28,6 +29,9 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
+
+        String sectionDisplayModeParam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_DISPLAY_MODE);
+        SectionDisplayMode sectionDisplayMode = SectionDisplayMode.valueOfOrDefault(sectionDisplayModeParam);
 
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
@@ -50,7 +54,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                        courseId, feedbackSessionName, instructor.email, section,
+                        courseId, feedbackSessionName, instructor.email, section, sectionDisplayMode,
                         questionId, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName

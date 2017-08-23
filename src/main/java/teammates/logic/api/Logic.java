@@ -49,6 +49,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -1326,7 +1327,8 @@ public class Logic {
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, SectionDisplayMode sectionDisplayMode, String questionId,
+            boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(courseId);
@@ -1334,7 +1336,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, instructorEmail, section,
+                feedbackSessionName, courseId, instructorEmail, section, sectionDisplayMode,
                 questionId, isMissingResponsesShown, isStatsShown);
     }
 
@@ -1744,18 +1746,18 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionBySection(
                                     String feedbackSessionName, String courseId, String userEmail,
-                                    String questionId, String selectedSection)
+                                    String questionId, String selectedSection, SectionDisplayMode sectionDisplayMode)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(userEmail);
 
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionBySection(
                                             feedbackSessionName, courseId, userEmail,
-                                            questionId, selectedSection);
+                                            questionId, selectedSection, sectionDisplayMode);
     }
 
     /**

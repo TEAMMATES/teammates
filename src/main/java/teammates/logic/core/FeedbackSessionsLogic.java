@@ -41,6 +41,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Handles operations related to feedback sessions.
@@ -604,9 +605,10 @@ public final class FeedbackSessionsLogic {
      * and in a section.
      * This will not retrieve the list of comments for this question.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionBySection(
                                                 String feedbackSessionName, String courseId, String userEmail,
-                                                String questionId, String selectedSection)
+                                                String questionId, String selectedSection,
+                                                SectionDisplayMode sectionDisplayMode)
                                         throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -614,14 +616,31 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "true");
-        params.put(PARAM_FROM_SECTION, "false");
-        params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_QUESTION_ID, questionId);
         params.put(PARAM_SECTION, selectedSection);
 
+        addSectionDisplayModeToParams(params, sectionDisplayMode);
+
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
                                                           UserRole.INSTRUCTOR, roster, params);
+    }
+
+    private void addSectionDisplayModeToParams(Map<String, String> params, SectionDisplayMode sectionDisplayMode) {
+        params.put(PARAM_IN_SECTION, "false");
+        params.put(PARAM_FROM_SECTION, "false");
+        params.put(PARAM_TO_SECTION, "false");
+
+        switch (sectionDisplayMode) {
+        case GIVER_IN_SECTION:
+            params.put(PARAM_FROM_SECTION, "true");
+            break;
+        case RECIPIENT_IN_SECTION:
+            params.put(PARAM_TO_SECTION, "true");
+            break;
+        default:
+            params.put(PARAM_IN_SECTION, "true");
+            break;
+        }
     }
 
     /**
@@ -807,14 +826,14 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, questionId,
+                feedbackSessionName, courseId, userEmail, null, null, questionId,
                 isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId, String userEmail,
-            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
-            throws EntityDoesNotExistException, ExceedingRangeException {
+            String feedbackSessionName, String courseId, String userEmail, String section,
+            SectionDisplayMode sectionDisplayMode, String questionId, boolean isMissingResponsesShown,
+            boolean isStatsShown) throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
         int indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
@@ -827,8 +846,8 @@ public final class FeedbackSessionsLogic {
             results = getFeedbackSessionResultsForInstructorFromQuestion(
                     feedbackSessionName, courseId, userEmail, questionId);
         } else {
-            results = getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                    feedbackSessionName, courseId, userEmail, questionId, section);
+            results = getFeedbackSessionResultsForInstructorFromQuestionBySection(
+                    feedbackSessionName, courseId, userEmail, questionId, section, sectionDisplayMode);
         }
 
         if (!results.isComplete) {
