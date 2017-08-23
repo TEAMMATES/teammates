@@ -99,6 +99,9 @@ public final class Const {
     public static final Date TIME_REPRESENTS_NOW;
     public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
+    public static final String RECEIVER_SECTION_FIELD_NAME = "receiverSection";
+    public static final String GIVER_SECTION_FIELD_NAME = "giverSection";
+
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
