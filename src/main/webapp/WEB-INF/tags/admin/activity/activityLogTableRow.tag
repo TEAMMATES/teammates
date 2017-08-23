@@ -45,7 +45,7 @@
           ${log.actionName}
         </a>
         <small>
-          id: ${log.logId}[${log.userName}
+          id: ${log.logId} [${log.userName}
           <c:choose>
             <c:when test="${log.hasUserHomeLink}">
               <a href="${log.userHomeLink}" target="_blank">${log.userGoogleId}</a>

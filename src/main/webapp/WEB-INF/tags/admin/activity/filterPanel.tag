@@ -111,11 +111,11 @@
               <p class="form-control-static">
                 <strong>Possible Servlets Requests: </strong> <br>
                 <br>
-              <div class="table-responsive">
-                <table class="table table-condensed">
-                  ${actionListAsHtml}
-                </table>
-              </div>
+                <div class="table-responsive">
+                  <table class="table table-condensed">
+                    ${actionListAsHtml}
+                  </table>
+                </div>
               </p>
             </div>
           </div>

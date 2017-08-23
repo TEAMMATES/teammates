@@ -93,7 +93,8 @@
           <div class="row">
             <div class="col-md-12">
               <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>" class="control-label">
-                Time Zone</label>
+                Time Zone
+              </label>
             </div>
           </div>
           <div class="row">
