@@ -122,11 +122,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 StringHelper.toString(invalidAttributesSubjectWithPercentSign.getInvalidityInfo()));
 
         assertFalse("Invalid input", invalidAttributesSubjectWithPercentSign.isValid());
-
-        // Valid subject
-        invalidAttributesSubjectWithPercentSign.subject = subject;
-        assertTrue("With objects subject change to valid", invalidAttributesSubjectWithPercentSign.isValid());
-
     }
 
     @Test
@@ -171,11 +166,11 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSanitizeForSaving() {
-        String emailSubject = " subject to be sanitized by removing leading/trailing whitespace ";
-        Text emailContent = new Text(" content to be sanitized by removing leading/trailing whitespace ");
+        String subjectWithWhitespaces = " subject to be sanitized by removing leading/trailing whitespace ";
+        Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
 
         AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
-                emailSubject, addressReceiverListString, groupReceiverListFileKey, emailContent, date);
+                subjectWithWhitespaces, addressReceiverListString, groupReceiverListFileKey, contentWithWhitespaces, date);
 
         adminEmailAttributes.sanitizeForSaving();
 
@@ -184,6 +179,27 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals("content to be sanitized by removing leading/trailing whitespace",
                 adminEmailAttributes.getContentValue());
+
+        Text contentWithCodeBlock = new Text("<code>System.out.println(\"Hello World\");</code>");
+        adminEmailAttributes.content = contentWithCodeBlock;
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("<code>System.out.println(&#34;Hello World&#34;);</code>", adminEmailAttributes.getContentValue());
+
+        Text contentWithSuperscript = new Text("f(x) = x<sup>2</sup>");
+        adminEmailAttributes.content = contentWithSuperscript;
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("f(x) &#61; x<sup>2</sup>", adminEmailAttributes.getContentValue());
+
+        Text contentWithFormula = new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>");
+        adminEmailAttributes.content = contentWithFormula;
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>",
+                adminEmailAttributes.getContentValue());
+
+        Text contentWithInvalidClosingTag = new Text("</td></option></div> invalid closing tags");
+        adminEmailAttributes.content = contentWithInvalidClosingTag;
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals(" invalid closing tags", adminEmailAttributes.getContentValue());
     }
 
     @Test
