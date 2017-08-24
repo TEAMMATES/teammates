@@ -136,7 +136,7 @@ function bindDeleteAccountAction() {
 
         const $clickedLink = $(event.target);
         const googleId = $clickedLink.data('googleId');
-        const existingCourses = document.getElementById(`courses_${googleId}`).innerHTML;
+        const existingCourses = $(`#courses_${googleId}`).html();
 
         const messageText = `Are you sure you want to delete the account ${googleId}?`
                           + `<br><br>${existingCourses
