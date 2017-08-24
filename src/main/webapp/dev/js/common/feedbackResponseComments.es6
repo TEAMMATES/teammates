@@ -451,6 +451,9 @@ function registerResponseCommentsEvent() {
             '.hide-frc-add-form', [hideResponseCommentAddForm,
                     ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
+            '.commentModalClose', [hideResponseCommentAddForm,
+                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
             '.hide-frc-edit-form', [hideResponseCommentEditForm,
                     ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(

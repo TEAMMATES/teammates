@@ -28,7 +28,10 @@
       </ul>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default commentModalClose" data-dismiss="modal" data-recipientindex="${responseRecipientIndex}"
+            data-giverindex="${responseGiverIndex}" data-qnindex="${questionIndex}">
+          Close
+        </button>
       </div>
     </div>
   </div>
