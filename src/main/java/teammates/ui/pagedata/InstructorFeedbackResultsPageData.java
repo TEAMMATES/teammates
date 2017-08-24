@@ -125,8 +125,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 questionPanel.setHasResponses(false);
             } else {
                 questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
-                Logger log = Logger.getLogger();
-                log.info("hi");
             }
 
             questionPanels.add(questionPanel);

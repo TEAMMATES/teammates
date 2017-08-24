@@ -12,20 +12,19 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Add Comment:</h4>
       </div>
       <div class="modal-body">
-      <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
-          style="${not empty responseRow.commentsOnResponses ? 'margin-top:15px;': 'display:none'}">
-        <c:forEach items="${responseRow.commentsOnResponses}" var="responseComment" varStatus="status">
-          <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${responseRecipientIndex}"
-              secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-              frcIndex="${status.count}"/>
-        </c:forEach>
-        <shared:feedbackResponseCommentAdd frc="${responseRow.addCommentButton}" firstIndex="${responseRecipientIndex}"
+        <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
+            style="${not empty responseRow.commentsOnResponses ? 'margin-top:15px;': 'display:none'}">
+          <c:forEach items="${responseRow.commentsOnResponses}" var="responseComment" varStatus="status">
+            <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${responseRecipientIndex}"
+                secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
+                frcIndex="${status.count}"/>
+          </c:forEach>
+          <shared:feedbackResponseCommentAdd frc="${responseRow.addCommentButton}" firstIndex="${responseRecipientIndex}"
             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" isOnQuestionsPage="true"/>
-      </ul>
+        </ul>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default commentModalClose" data-dismiss="modal" data-recipientindex="${responseRecipientIndex}"
