@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
@@ -388,8 +389,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         //delete the course, then submit archive request to it
         BackDoor.deleteCourse(courseIdForCS2104);
         homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS2104);
-        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
-
+        assertTrue(browser.driver.getCurrentUrl().contains(Url.addParamToUrl(Const.ViewURIs.UNAUTHORIZED,
+                Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE)));
         // recover the deleted course and its related entities
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreDataBundle(testData);
