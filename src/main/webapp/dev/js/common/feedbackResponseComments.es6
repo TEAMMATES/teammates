@@ -117,17 +117,11 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
               .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
 }
 
-function deleteCommentRow(submitButton) {
+function deleteCommentRow(submitButton, isOnQuestionsPage) {
     const deletedCommentRow = submitButton.closest('li');
     const frCommentList = submitButton.closest('.comments');
 
     const numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-    if (numberOfItemInFrCommentList.length <= 2) {
-        deletedCommentRow.parent().hide();
-    }
-    if (frCommentList.find('li').length <= 1) {
-        frCommentList.hide();
-    }
     deletedCommentRow.remove();
     frCommentList.parent().find('div.delete_error_msg').remove();
 }
@@ -202,8 +196,12 @@ const addCommentHandler = (e) => {
                 addFormRow.prev().show();
                 addFormRow.hide();
                 destroyEditor(`responseCommentAddForm-${responseCommentId}`);
-                console.log("hello");
-                openResponseCommentAddForm(responseCommentId);
+                if (isOnQuestionsPage != null && isOnQuestionsPage) {
+                  const recipientIndex = responseCommentId.substring(0, 1);
+                  const giverIndex = responseCommentId.substring(2, 3);
+                  const questionIndex = responseCommentId.substring(4, 5);
+                  showResponseCommentAddForm(recipientIndex, giverIndex, questionIndex);
+                }
             }
         },
     });
@@ -275,6 +273,7 @@ const deleteCommentHandler = (e) => {
     showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
         const formObject = submitButton.parent();
         const formData = formObject.serialize();
+        const isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
 
         $.ajax({
             type: 'POST',
@@ -501,29 +500,6 @@ function registerResponseCommentCheckboxEvent() {
         });
         form.find("input[name='showresponsegiverto']").val(visibilityOptions.join(', '));
     });
-}
-
-function openResponseCommentAddForm(formId) {
-    const id = formId;
-
-    $(`#responseCommentTable${id}`).show();
-    if ($(`#responseCommentTable${id} > li`).length <= 1) {
-        $(`#responseCommentTable${id}`).css('margin-top', '15px');
-    }
-    $(`#showResponseCommentAddForm${id}`).show();
-
-    $(`#responseCommentAddForm${id}`).empty();
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
-            inline: true,
-        });
-        /* eslint-enable camelcase */
-    }
-    saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
-        $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
-    $(`#responseCommentAddForm${id}`).focus();
 }
 
 export {
