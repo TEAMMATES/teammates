@@ -35,7 +35,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void classSetup() {
         adminEmailAttributes = new AdminEmailAttributes(
                 subject, addressReceiverListString, groupReceiverListFileKey, content, date);
-        adminEmailAttributes.createDate = new Date();
     }
 
     @Test
@@ -73,22 +72,16 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
         AdminEmailAttributes invalidAttributesSubjectLength = new AdminEmailAttributes(
                 veryLongSubj, addressReceiverListString, groupReceiverListFileKey, content, date);
-        String expectedEmptySubjectLengthError = getPopulatedErrorMessage(
-                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributesSubjectLength.getSubject(),
-                FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        String expectedEmptySubjectLengthError = getInvalidityInfoForSubject(invalidAttributesSubjectLength.subject);
         assertEquals("Invalid subject input should return appropriate error string",
                 expectedEmptySubjectLengthError, StringHelper.toString(invalidAttributesSubjectLength.getInvalidityInfo()));
         assertFalse("Invalid input", invalidAttributesSubjectLength.isValid());
 
         ______TS("failure: subject must start with alphanumeric character");
-        String invalidSubjectChars = "_InvalidSubject";
+        String invalidSubjectFirstChar = "_InvalidSubject";
         AdminEmailAttributes invalidAttributesSubjectChars = new AdminEmailAttributes(
-                invalidSubjectChars, addressReceiverListString, groupReceiverListFileKey, content, date);
-        String expectedSubjectCharsError = getPopulatedErrorMessage(
-                FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidAttributesSubjectChars.getSubject(),
-                FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+                invalidSubjectFirstChar, addressReceiverListString, groupReceiverListFileKey, content, date);
+        String expectedSubjectCharsError = getInvalidityInfoForSubject(invalidAttributesSubjectChars.subject);
         assertEquals("Invalid subject input should return appropriate error string",
                 expectedSubjectCharsError, StringHelper.toString(invalidAttributesSubjectChars.getInvalidityInfo()));
         assertFalse("Invalid input", invalidAttributesSubjectChars.isValid());
@@ -97,25 +90,19 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         String invalidSubjectWithBar = "Invalid|Subject";
         AdminEmailAttributes invalidAttributesSubjectWithBar = new AdminEmailAttributes(
                 invalidSubjectWithBar, addressReceiverListString, groupReceiverListFileKey, content, date);
-        String expectedSubjectWithBarError = getPopulatedErrorMessage(
-                FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidAttributesSubjectWithBar.getSubject(),
-                FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        String expectedSubjectWithBarError = getInvalidityInfoForSubject(invalidAttributesSubjectWithBar.subject);
         assertEquals("Invalid subject input should return appropriate error string",
                 expectedSubjectWithBarError, StringHelper.toString(invalidAttributesSubjectWithBar.getInvalidityInfo()));
         assertFalse("Invalid input", invalidAttributesSubjectWithBar.isValid());
 
         ______TS("failure: subject cannot contain percent sign(%)");
         String invalidSubjectWithPercentSign = "Invalid%Subject";
-        AdminEmailAttributes invalidAttributesSubjectWithPercentSign = new AdminEmailAttributes(
+        AdminEmailAttributes invalidAttributesSubjectPercentSign = new AdminEmailAttributes(
                 invalidSubjectWithPercentSign, addressReceiverListString, groupReceiverListFileKey, content, date);
-        String expectedSubjectWithPercentSignError = getPopulatedErrorMessage(
-                FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidAttributesSubjectWithPercentSign.getSubject(),
-                FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR,
-                FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
-        assertEquals("Invalid subject input should return appropriate error string", expectedSubjectWithPercentSignError,
-                StringHelper.toString(invalidAttributesSubjectWithPercentSign.getInvalidityInfo()));
-        assertFalse("Invalid input", invalidAttributesSubjectWithPercentSign.isValid());
+        String expectedSubjectWithPercentError = getInvalidityInfoForSubject(invalidAttributesSubjectPercentSign.subject);
+        assertEquals("Invalid subject input should return appropriate error string", expectedSubjectWithPercentError,
+                StringHelper.toString(invalidAttributesSubjectPercentSign.getInvalidityInfo()));
+        assertFalse("Invalid input", invalidAttributesSubjectPercentSign.isValid());
     }
 
     @Test
@@ -211,6 +198,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testCreateDateForDisplay() {
+        adminEmailAttributes.createDate = new Date();
         Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.createDate);
         String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
         String actualDate = adminEmailAttributes.getCreateDateForDisplay();
@@ -221,6 +209,28 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+    }
+
+    private String getInvalidityInfoForSubject(String emailSubject) throws Exception {
+        if (!Character.isLetterOrDigit(emailSubject.codePointAt(0))) {
+            return getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, emailSubject,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        }
+        if (!StringHelper.isMatching(emailSubject, FieldValidator.REGEX_NAME)) {
+            return getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, emailSubject,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        }
+        if (emailSubject.length() > FieldValidator.EMAIL_SUBJECT_MAX_LENGTH) {
+            return getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, emailSubject,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        }
+        return "";
     }
 
 }
