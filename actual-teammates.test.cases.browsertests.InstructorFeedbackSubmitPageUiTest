@@ -1,3 +1,4 @@
+
 <html>
 <head>
 <title>
@@ -409,7 +410,7 @@
           <a href="/">
             TEAMMATES
           </a>
-          V${version}]
+          V4.18]
         </span>
       </div>
       <div class="col-md-8">
@@ -452,7 +453,7 @@
     <div class="modal-content">
       <div class="modal-header alert-warning">
         <button aria-hidden="true" class="bootbox-close-button close" data-dismiss="modal" type="button">
-          Ã—
+          ×
         </button>
         <h4 class="modal-title icon-warning">
           Feedback Session Not Open
