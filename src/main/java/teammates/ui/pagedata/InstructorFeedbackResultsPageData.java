@@ -24,7 +24,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;

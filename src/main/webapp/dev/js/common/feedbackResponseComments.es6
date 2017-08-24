@@ -49,16 +49,30 @@ function restoreInitialVisibilityOfCheckboxes(form, e) {
 }
 
 function removeFormErrorMessage(submitButton) {
-    if (submitButton.next().next().attr('id') === 'errorMessage') {
-        submitButton.next().next().remove();
+    if (submitButton.next().attr('class') === 'hide-frc-add-form') {
+        if (submitButton.next().next().attr('id') === 'errorMessage') {
+            submitButton.next().next().remove();
+        }
+    } else {
+        if (submitButton.next().attr('id') === 'errorMessage') {
+            submitButton.next().remove();
+        }
     }
 }
 
 function setFormErrorMessage(submitButton, msg) {
-    if (submitButton.next().next().attr('id') === 'errorMessage') {
-        submitButton.next().next().text(msg);
+    if (submitButton.next().attr('class') === 'hide-frc-add-form') {
+        if (submitButton.next().next().attr('id') === 'errorMessage') {
+            submitButton.next().next().text(msg);
+        } else {
+            submitButton.next().after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
+        }
     } else {
-        submitButton.next().after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
+        if (submitButton.next().attr('id') === 'errorMessage') {
+            submitButton.next().text(msg);
+        } else {
+            submitButton.after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
+      }
     }
 }
 
