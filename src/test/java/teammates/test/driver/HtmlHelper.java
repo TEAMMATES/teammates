@@ -348,6 +348,7 @@ public final class HtmlHelper {
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                      .replace("${support.email}", Config.SUPPORT_EMAIL)
                       .replace("${version}", TestProperties.TEAMMATES_VERSION)
                       .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
@@ -431,8 +432,9 @@ public final class HtmlHelper {
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                       // anonymous student identifier on results page
-                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
-                                  "Anonymous $1 \\${participant\\.hash}")
+                      .replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                                  + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT
+                                  + " $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
@@ -479,7 +481,8 @@ public final class HtmlHelper {
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**
@@ -489,6 +492,7 @@ public final class HtmlHelper {
         Date now = new Date();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                      .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                       .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
                       .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("<!-- test.student1.truncated -->",
