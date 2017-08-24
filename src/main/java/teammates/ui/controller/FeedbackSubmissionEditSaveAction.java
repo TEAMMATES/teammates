@@ -274,10 +274,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         if (commentId != null) {
                             FeedbackResponseCommentAttributes commentCheck =
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
-                            if (editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
-                                    && !commentCheck.commentText.getValue().equals(editedCommentText)) {
-                                String commentIndx = "-" + responseIndx + "-"
-                                        + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
+                            String commentIndx = "-" + responseIndx + "-"
+                                    + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
+                            if ((editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
+                                    && !commentCheck.commentText.getValue().equals(editedCommentText))
+                                     || checkChangesInVisibilityOptions(commentIndx, commentCheck)) {
                                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                                 commentsToUpdateId.put(commentIndx, commentId);
                                 commentsToUpdateText.put(commentIndx, editedCommentText);
@@ -578,6 +579,21 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
         previousComments.removeAll(commentsToRemove);
+    }
+
+    private boolean checkChangesInVisibilityOptions(String commentIndx, FeedbackResponseCommentAttributes commentCheck) {
+        String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
+        String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
+
+        String initialShowCommentToString =
+                StringHelper.removeEnclosingSquareBrackets(commentCheck.showCommentTo.toString());
+        String initialShowGiverNameToString =
+                StringHelper.removeEnclosingSquareBrackets(commentCheck.showGiverNameTo.toString());
+
+        if (!showCommentTo.equals(initialShowCommentToString) || !showGiverNameTo.equals(initialShowGiverNameToString)) {
+            return true;
+        }
+        return false;
     }
 
     protected abstract void appendRespondent();
