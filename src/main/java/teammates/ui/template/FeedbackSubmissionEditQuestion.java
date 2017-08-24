@@ -23,7 +23,7 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
     private boolean isGiverTeam;
-    private RecipientType recipient;
+    private RecipientType recipientType;
 
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -42,11 +42,11 @@ public class FeedbackSubmissionEditQuestion {
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
         isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
         if (questionAttributes.recipientType.isTeam()) {
-            recipient = RecipientType.TEAM;
+            recipientType = RecipientType.TEAM;
         } else if (questionAttributes.isRecipientAStudent()) {
-            recipient = RecipientType.STUDENT;
+            recipientType = RecipientType.STUDENT;
         } else if (questionAttributes.isRecipientInstructor()) {
-            recipient = RecipientType.INSTRUCTOR;
+            recipientType = RecipientType.INSTRUCTOR;
         }
 
         setMessageToDisplayIfNoRecipientAvailable(questionAttributes);
@@ -125,7 +125,7 @@ public class FeedbackSubmissionEditQuestion {
         return isGiverTeam;
     }
 
-    public RecipientType getRecipient() {
-        return recipient;
+    public RecipientType getRecipientType() {
+        return recipientType;
     }
 }

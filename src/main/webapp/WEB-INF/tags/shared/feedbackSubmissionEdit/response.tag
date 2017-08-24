@@ -8,7 +8,7 @@
 
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
-<c:set var="isRecipientType" value="${questionWithResponses.question.recipient}"/>
+<c:set var="isRecipientType" value="${questionWithResponses.question.recipientType}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
