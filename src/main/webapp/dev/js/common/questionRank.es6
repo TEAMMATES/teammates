@@ -47,7 +47,7 @@ function getMaxOptionsToBeRanked(qnNumber) {
 }
 
 function setMinOptionsToBeRanked(qnNumber, newVal) {
-    if (newVal < 1) {
+    if (!isMinOptionsToBeRankedEnabled(qnNumber) || newVal < 1) {
         return;
     }
 
@@ -55,7 +55,7 @@ function setMinOptionsToBeRanked(qnNumber, newVal) {
 }
 
 function setMaxOptionsToBeRanked(qnNumber, newVal) {
-    if (newVal < 1) {
+    if (!isMaxOptionsToBeRankedEnabled(qnNumber) || newVal < 1) {
         return;
     }
 
@@ -67,11 +67,15 @@ function adjustMinOptionsToBeRanked(qnNumber) {
         return;
     }
 
-    const upperLimit = Math.min(getNumOfRankOptions(qnNumber), getMaxOptionsToBeRanked(qnNumber));
-    const currentVal = getMinOptionsToBeRanked(qnNumber);
+    const upperLimit = getNumOfRankOptions(qnNumber);
+    const currentVal = Math.min(getMinOptionsToBeRanked(qnNumber), upperLimit);
 
     setUpperLimitForMinOptionsToBeRanked(qnNumber, upperLimit);
-    setMinOptionsToBeRanked(qnNumber, Math.min(currentVal, upperLimit));
+    setMinOptionsToBeRanked(qnNumber, currentVal);
+
+    if (getMaxOptionsToBeRanked(qnNumber) < currentVal) {
+        setMaxOptionsToBeRanked(qnNumber, currentVal);
+    }
 }
 
 function adjustMaxOptionsToBeRanked(qnNumber) {
@@ -80,10 +84,14 @@ function adjustMaxOptionsToBeRanked(qnNumber) {
     }
 
     const upperLimit = getNumOfRankOptions(qnNumber);
-    const currentVal = getMaxOptionsToBeRanked(qnNumber);
+    const currentVal = Math.min(getMaxOptionsToBeRanked(qnNumber), upperLimit);
 
     setUpperLimitForMaxOptionsToBeRanked(qnNumber, upperLimit);
-    setMaxOptionsToBeRanked(qnNumber, Math.min(currentVal, upperLimit));
+    setMaxOptionsToBeRanked(qnNumber, currentVal);
+
+    if (currentVal < getMinOptionsToBeRanked(qnNumber)) {
+        setMinOptionsToBeRanked(qnNumber, currentVal);
+    }
 }
 
 function adjustMinMaxOptionsToBeRanked(qnNumber) {
@@ -163,12 +171,12 @@ function removeRankOption(index, questionNum) {
 function bindRankEvents() {
     $(document).on('change', 'input[name="minOptionsToBeRanked"]', (e) => {
         const questionNum = $(e.target).closest('form').attr('data-qnnumber');
-        adjustMinMaxOptionsToBeRanked(questionNum);
+        adjustMinOptionsToBeRanked(questionNum);
     });
 
     $(document).on('change', 'input[name="maxOptionsToBeRanked"]', (e) => {
         const questionNum = $(e.target).closest('form').attr('data-qnnumber');
-        adjustMinMaxOptionsToBeRanked(questionNum);
+        adjustMaxOptionsToBeRanked(questionNum);
     });
 
     $(document).on('change', 'input[name="minOptionsToBeRankedEnabled"]', (e) => {
