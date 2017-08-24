@@ -245,8 +245,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         List<String> responseSubmittedRecipient = new ArrayList<String>();
         int responseIndx = 0;
-        // to generate options when responseIndx < numOfResponseBoxes.
-        int i = 0;
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
                 // A response recipient can be invalid due to submission adjustment failure
@@ -259,7 +257,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails());
-            List<FeedbackResponseCommentRow> comments = new ArrayList<FeedbackResponseCommentRow>();
 
             String giverName = bundle.getNameForEmail(existingResponse.giver);
             String recipientName = bundle.getNameForEmail(existingResponse.recipient);
@@ -268,7 +265,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     getResponseVisibilityMap(questionAttributes, false);
             Map<String, String> commentGiverEmailNameTable = bundle.commentGiverEmailNameTable;
             if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
-                comments = getResponseCommentsForQuestion(questionAttributes,
+                List<FeedbackResponseCommentRow> comments = getResponseCommentsForQuestion(questionAttributes,
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
                         responseVisibilityMap, commentGiverEmailNameTable);
                 double sessionTimeZone = bundle.feedbackSession.getTimeZone();
@@ -285,6 +282,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
             responseIndx++;
         }
 
+        // to generate options when responseIndx < numOfResponseBoxes.
+        int i = 0;
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
             String submissionFormHtml = questionAttributes.getQuestionDetails()

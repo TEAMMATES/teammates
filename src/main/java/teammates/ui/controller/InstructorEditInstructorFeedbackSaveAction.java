@@ -214,7 +214,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+    protected void appendCommentActionInfoToStatusToAdmin(
+            FeedbackResponseCommentAttributes feedbackResponseComment) {
         statusToAdmin += "InstructorEditInstructorFeedbackSaveAction:<br>"
                 + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                 + "in course/feedback session: " + feedbackResponseComment.courseId + "/"

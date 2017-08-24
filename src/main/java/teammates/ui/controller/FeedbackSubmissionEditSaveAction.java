@@ -247,18 +247,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
             String commentIndxForNewComment = "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
                     + "-" + questionIndx;
-
-            String commentText =
-                    getRequestParamValue(
-                            Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentIndxForNewComment);
-
-            if (commentText != null && !StringHelper.isEmpty(commentText)) {
-
-                questionIdsForComments.put(commentIndxForNewComment, questionAttributes.getId());
-                responseGiverMapForComments.put(commentIndxForNewComment, response.giver);
-                responseRecipientMapForComments.put(commentIndxForNewComment, response.recipient);
-                commentsToAddText.put(commentIndxForNewComment, commentText);
-            }
+            extractCommentsDataForNewComments(response, questionAttributes, commentIndxForNewComment);
 
             if (response.getId() != null) {
                 List<FeedbackResponseCommentAttributes> previousComments =
@@ -271,31 +260,64 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     for (int i = 1; i <= totalNumberOfComments; i++) {
                         String commentIndxForUpdatingComment = "-" + responseIndx + "-"
                                 + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
-
-                        String editedCommentText =
-                                getRequestParamValue(
-                                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentIndxForUpdatingComment);
-                        String commentId =
-                                getRequestParamValue(
-                                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + commentIndxForUpdatingComment);
-
-                        if (commentId != null) {
-                            FeedbackResponseCommentAttributes commentCheck =
-                                    logic.getFeedbackResponseComment(Long.parseLong(commentId));
-
-                            if ((editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
-                                    && !commentCheck.commentText.getValue().equals(editedCommentText))
-                                     || checkChangesInVisibilityOptions(commentIndxForUpdatingComment, commentCheck)) {
-
-                                questionIdsForComments.put(commentIndxForUpdatingComment, questionAttributes.getId());
-                                commentsToUpdateId.put(commentIndxForUpdatingComment, commentId);
-                                commentsToUpdateText.put(commentIndxForUpdatingComment, editedCommentText);
-                                responseGiverMapForComments.put(commentIndxForUpdatingComment, response.giver);
-                                responseRecipientMapForComments.put(commentIndxForUpdatingComment, response.recipient);
-                            }
-                        }
+                        extractCommentsDataForUpdatedComments(response, questionAttributes, commentIndxForUpdatingComment);
                     }
                 }
+            }
+        }
+    }
+
+    private void extractCommentsDataForNewComments(FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes questionAttributes, String commentIndxForNewComment) {
+        String commentText =
+                getRequestParamValue(
+                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentIndxForNewComment);
+
+        if (!StringHelper.isEmpty(commentText)) {
+
+            questionIdsForComments.put(commentIndxForNewComment, questionAttributes.getId());
+            responseGiverMapForComments.put(commentIndxForNewComment, response.giver);
+            responseRecipientMapForComments.put(commentIndxForNewComment, response.recipient);
+            commentsToAddText.put(commentIndxForNewComment, commentText);
+        }
+    }
+
+    private void extractCommentsDataForUpdatedComments(FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes questionAttributes, String commentIndxForUpdatingComment) {
+        String editedCommentText =
+                getRequestParamValue(
+                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentIndxForUpdatingComment);
+        String commentId =
+                getRequestParamValue(
+                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + commentIndxForUpdatingComment);
+
+        if (commentId != null) {
+            FeedbackResponseCommentAttributes commentCheck =
+                    logic.getFeedbackResponseComment(Long.parseLong(commentId));
+
+            String showCommentTo = getRequestParamValue(
+                    Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndxForUpdatingComment);
+            String showGiverNameTo = getRequestParamValue(
+                    Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndxForUpdatingComment);
+
+            String initialShowCommentToString =
+                    StringHelper.removeEnclosingSquareBrackets(commentCheck.showCommentTo.toString());
+            String initialShowGiverNameToString =
+                    StringHelper.removeEnclosingSquareBrackets(commentCheck.showGiverNameTo.toString());
+
+            boolean areVisibilityOptionsChanged =
+                    !showCommentTo.equals(initialShowCommentToString)
+                    || !showGiverNameTo.equals(initialShowGiverNameToString);
+
+            if (editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
+                    && !commentCheck.commentText.getValue().equals(editedCommentText)
+                     || areVisibilityOptionsChanged) {
+
+                questionIdsForComments.put(commentIndxForUpdatingComment, questionAttributes.getId());
+                commentsToUpdateId.put(commentIndxForUpdatingComment, commentId);
+                commentsToUpdateText.put(commentIndxForUpdatingComment, editedCommentText);
+                responseGiverMapForComments.put(commentIndxForUpdatingComment, response.giver);
+                responseRecipientMapForComments.put(commentIndxForUpdatingComment, response.recipient);
             }
         }
     }
@@ -581,10 +603,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         if (!isError) {
-            appendToStatusToAdmin(feedbackResponseComment);
+            appendCommentActionInfoToStatusToAdmin(feedbackResponseComment);
         }
     }
 
+    /*
+     * Remove comments which are not by or for the user.
+    */
     private void filterCommentsOfUser(String giverEmail, List<FeedbackResponseCommentAttributes> previousComments) {
         List<FeedbackResponseCommentAttributes> commentsToRemove = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseCommentAttributes comment : previousComments) {
@@ -593,21 +618,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
         previousComments.removeAll(commentsToRemove);
-    }
-
-    private boolean checkChangesInVisibilityOptions(String commentIndx, FeedbackResponseCommentAttributes commentCheck) {
-        String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
-        String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
-
-        String initialShowCommentToString =
-                StringHelper.removeEnclosingSquareBrackets(commentCheck.showCommentTo.toString());
-        String initialShowGiverNameToString =
-                StringHelper.removeEnclosingSquareBrackets(commentCheck.showGiverNameTo.toString());
-
-        if (!showCommentTo.equals(initialShowCommentToString) || !showGiverNameTo.equals(initialShowGiverNameToString)) {
-            return true;
-        }
-        return false;
     }
 
     protected abstract void appendRespondent();
@@ -631,5 +641,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     protected abstract RedirectResult createSpecificRedirectResult();
 
-    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+    protected abstract void appendCommentActionInfoToStatusToAdmin(
+            FeedbackResponseCommentAttributes feedbackResponseComment);
 }
