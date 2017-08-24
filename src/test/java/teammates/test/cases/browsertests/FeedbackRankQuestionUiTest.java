@@ -433,6 +433,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(2, feedbackEditPage.getMinOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
+        // when max = min, increasing min must increase max too
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
+        assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
         // when max = numOfOptions, removing an option must decrease max too
         feedbackEditPage.clickAddMoreRankOptionLink(qNum);
         feedbackEditPage.setMaxOptionsToBeRanked(qNum, 4);

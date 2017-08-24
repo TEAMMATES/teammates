@@ -1335,7 +1335,6 @@ public class InstructorFeedbackEditPage extends AppPage {
             int maxValue = getMaxOptionsToBeRanked(qnNumber);
             int minValue = getMinOptionsToBeRanked(qnNumber);
 
-            assertEquals(getMaxOfMinOptionsToBeSelectedInput(qnNumber), maxValue);
             assertTrue(minValue <= maxValue);
         }
     }
