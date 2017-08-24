@@ -243,47 +243,55 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private void extractFeedbackResponseCommentsDataForResponse(int questionIndx,
             int responseIndx, FeedbackQuestionAttributes questionAttributes,
             FeedbackResponseAttributes response) {
+
         if (questionAttributes.getQuestionDetails().isStudentsCommentsOnResponsesAllowed()) {
+            String commentIndxForNewComment = "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                    + "-" + questionIndx;
+
             String commentText =
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                            + "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                            + "-" + questionIndx);
+                    getRequestParamValue(
+                            Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentIndxForNewComment);
+
             if (commentText != null && !StringHelper.isEmpty(commentText)) {
-                String commentIndx = "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                        + "-" + questionIndx;
-                questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                responseGiverMapForComments.put(commentIndx, response.giver);
-                responseRecipientMapForComments.put(commentIndx, response.recipient);
-                commentsToAddText.put(commentIndx, commentText);
+
+                questionIdsForComments.put(commentIndxForNewComment, questionAttributes.getId());
+                responseGiverMapForComments.put(commentIndxForNewComment, response.giver);
+                responseRecipientMapForComments.put(commentIndxForNewComment, response.recipient);
+                commentsToAddText.put(commentIndxForNewComment, commentText);
             }
+
             if (response.getId() != null) {
                 List<FeedbackResponseCommentAttributes> previousComments =
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
+
                 int totalNumberOfComments = previousComments.size();
                 filterCommentsOfUser(response.giver, previousComments);
+
                 if (!previousComments.isEmpty()) {
                     for (int i = 1; i <= totalNumberOfComments; i++) {
+                        String commentIndxForUpdatingComment = "-" + responseIndx + "-"
+                                + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
+
                         String editedCommentText =
-                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                        + "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                        + "-" + questionIndx + "-" + i);
+                                getRequestParamValue(
+                                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + commentIndxForUpdatingComment);
                         String commentId =
-                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
-                                        + "-" + responseIndx + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                        + "-" + questionIndx + "-" + i);
+                                getRequestParamValue(
+                                        Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + commentIndxForUpdatingComment);
+
                         if (commentId != null) {
                             FeedbackResponseCommentAttributes commentCheck =
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
-                            String commentIndx = "-" + responseIndx + "-"
-                                    + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndx + "-" + i;
+
                             if ((editedCommentText != null && !StringHelper.isEmpty(editedCommentText)
                                     && !commentCheck.commentText.getValue().equals(editedCommentText))
-                                     || checkChangesInVisibilityOptions(commentIndx, commentCheck)) {
-                                questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                                commentsToUpdateId.put(commentIndx, commentId);
-                                commentsToUpdateText.put(commentIndx, editedCommentText);
-                                responseGiverMapForComments.put(commentIndx, response.giver);
-                                responseRecipientMapForComments.put(commentIndx, response.recipient);
+                                     || checkChangesInVisibilityOptions(commentIndxForUpdatingComment, commentCheck)) {
+
+                                questionIdsForComments.put(commentIndxForUpdatingComment, questionAttributes.getId());
+                                commentsToUpdateId.put(commentIndxForUpdatingComment, commentId);
+                                commentsToUpdateText.put(commentIndxForUpdatingComment, editedCommentText);
+                                responseGiverMapForComments.put(commentIndxForUpdatingComment, response.giver);
+                                responseRecipientMapForComments.put(commentIndxForUpdatingComment, response.recipient);
                             }
                         }
                     }
@@ -296,7 +304,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             Map<String, String> responseGiverMapForComments,
             Map<String, String> responseRecipientMapForComments,
             Map<String, String> questionIdsForComments) throws EntityDoesNotExistException {
+
         for (String commentIndx : commentsToAddText.keySet()) {
+
             String questionId = questionIdsForComments.get(commentIndx);
             String giver = responseGiverMapForComments.get(commentIndx);
             String recipient = responseRecipientMapForComments.get(commentIndx);
@@ -305,6 +315,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
             String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_ROLE + commentIndx);
+
             createCommentsForResponses(courseId, feedbackSessionName, giver, questionId,
                     responseToAddComment, commentText, giverRole, showCommentTo, showGiverNameTo);
         }
@@ -313,7 +324,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private void updateResponsesComments(Map<String, String> commentToUpdateId, Map<String, String> commentToUpdateText,
             Map<String, String> responseGiverMapForComments, Map<String, String> responseRecipientMapForComments,
             Map<String, String> questionIdsForComment) throws EntityDoesNotExistException {
+
         for (String commentIndx : commentToUpdateId.keySet()) {
+
             String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndx);
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
             String commentId = commentToUpdateId.get(commentIndx);
@@ -321,6 +334,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackResponseAttributes responseToEditComment =
                     logic.getFeedbackResponse(questionIdsForComment.get(commentIndx),
                             responseGiverMapForComments.get(commentIndx), responseRecipientMapForComments.get(commentIndx));
+
             updateResponseComment(showCommentTo, showGiverNameTo, commentId, responseToEditComment, updatedCommentText);
         }
     }
