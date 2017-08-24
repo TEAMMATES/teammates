@@ -184,7 +184,7 @@ public class FeedbackSessionQuestionsBundle {
 
     public String appendTeamNameToName(String name, String teamName) {
         String outputName;
-        if (name.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT) || name.equals(Const.USER_UNKNOWN_TEXT)
+        if (name.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT) || name.equals(Const.USER_UNKNOWN_TEXT)
                 || name.equals(Const.USER_NOBODY_TEXT) || teamName.isEmpty()) {
             outputName = name;
         } else {
