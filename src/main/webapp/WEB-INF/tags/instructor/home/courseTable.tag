@@ -17,7 +17,8 @@
           <th  class="button_sortenddate button-sort-none toggle-sort"
               data-toggle-sort-comparator="sortDate"
               data-toggle-sort-extractor="tooltipExtractor">End Date<span class="icon-sort unsorted"></span></th>
-          <th>Status</th>
+          <th>Submissions</th>
+          <th>Responses</th>
           <th>
             <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>"
                 data-toggle="tooltip" data-placement="top">Response Rate</span>
@@ -50,8 +51,13 @@
             <span title="${sessionRow.endTimeToolTip}" data-toggle="tooltip">${sessionRow.endTime}</span>
           </td>
           <td>
-            <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
-              ${sessionRow.status}
+            <span title="${sessionRow.submissionsTooltip}" data-toggle="tooltip" data-placement="top">
+              ${sessionRow.submissionStatus}
+            </span>
+          </td>
+          <td>
+            <span title="${sessionRow.publishedTooltip}" data-toggle="tooltip" data-placement="top">
+              ${sessionRow.publishedStatus}
             </span>
           </td>
           <td class="session-response-for-test">
