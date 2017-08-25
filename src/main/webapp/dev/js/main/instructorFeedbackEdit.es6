@@ -437,9 +437,7 @@ function isDestructiveFieldsModifed(questionNum) {
 function correctEditStatusIfRequired($form) {
     const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
 
-    if ($(`#form_editquestion-${questionNum}`).attr('editstatus') !== 'mustDeleteResponses') {
-        // if 'editstatus' attribute of form is not
-        // 'mustDeleteResponses', then there is nothing to correct
+    if (!isQuestionHavingResponses(questionNum)) {
         return;
     }
 
@@ -447,6 +445,8 @@ function correctEditStatusIfRequired($form) {
         // Destructive changes are same before and after.
         // The changes cancelled out each other.
         $(`#form_editquestion-${questionNum}`).attr('editstatus', 'hasResponses');
+    } else {
+        $(`#form_editquestion-${questionNum}`).attr('editstatus', 'mustDeleteResponses');
     }
 }
 
