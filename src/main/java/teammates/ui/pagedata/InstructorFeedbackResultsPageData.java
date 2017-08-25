@@ -614,7 +614,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIPIENT
+                                                ? Const.NO_SPECIFIC_SECTION
                                                 : sectionName);
             break;
         case RECIPIENT_GIVER_QUESTION:
@@ -622,7 +622,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIPIENT
+                                                ? Const.NO_SPECIFIC_SECTION
                                                 : sectionName);
             break;
         default:
@@ -701,7 +701,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
+                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
@@ -1445,7 +1445,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap, bundle.instructorEmailNameTable);
+                                           responseVisibilityMap, bundle.instructorEmailNameTable,
+                                           bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEditDelete();
@@ -1483,7 +1484,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                                               getResponseCommentVisibilityString(question),
-                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
+                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
+                                              bundle.getTimeZone());
     }
 
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
@@ -1674,7 +1676,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String getInstructorFeedbackSessionEditLink() {
         return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
                ? getInstructorFeedbackEditLink(bundle.feedbackSession.getCourseId(),
-                                                      bundle.feedbackSession.getFeedbackSessionName())
+                                                      bundle.feedbackSession.getFeedbackSessionName(), true)
                : null;
     }
 

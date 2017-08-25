@@ -99,6 +99,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         i.googleId = "valid.fresh.id";
         i.email = "invalid.email.tmt";
+        i.role = "role invalid";
         try {
             instructorsDb.createEntity(i);
             signalFailureToDetectException();
@@ -107,7 +108,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                     getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH),
+                        FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
+                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role),
                     e.getMessage());
         }
 
@@ -315,7 +317,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.name = "New Name";
         instructorToEdit.email = "InstrDbT.new-email@email.tmt";
         instructorToEdit.isArchived = true;
-        instructorToEdit.role = "new role";
+        instructorToEdit.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
         instructorToEdit.isDisplayedToStudents = false;
         instructorToEdit.displayedName = "New Displayed Name";
         instructorToEdit.privileges = new InstructorPrivileges(
@@ -327,7 +329,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals(instructorToEdit.name, instructorUpdated.name);
         assertEquals(instructorToEdit.email, instructorUpdated.email);
         assertTrue(instructorUpdated.isArchived);
-        assertEquals("new role", instructorUpdated.role);
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, instructorUpdated.role);
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
         assertTrue(instructorUpdated.hasObserverPrivileges());
@@ -338,19 +340,20 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.name = "";
         instructorToEdit.email = "aaa";
+        instructorToEdit.role = "invalid role";
         try {
             instructorsDb.updateInstructorByGoogleId(instructorToEdit);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                    getPopulatedErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, instructorToEdit.name,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                        FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                    getPopulatedEmptyStringErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
                     + getPopulatedErrorMessage(
                           FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
                           FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                          FieldValidator.EMAIL_MAX_LENGTH),
+                          FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
+                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }
 
@@ -359,6 +362,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.googleId = "idOfInstructor4";
         instructorToEdit.name = "New Name 2";
         instructorToEdit.email = "InstrDbT.new-email2@email.tmt";
+        instructorToEdit.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
         try {
             instructorsDb.updateInstructorByGoogleId(instructorToEdit);
             signalFailureToDetectException();
@@ -389,7 +393,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.googleId = "new-id";
         instructorToEdit.name = "New Name";
         instructorToEdit.isArchived = true;
-        instructorToEdit.role = "new role";
+        instructorToEdit.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
         instructorToEdit.isDisplayedToStudents = false;
         instructorToEdit.displayedName = "New Displayed Name";
         instructorToEdit.privileges = new InstructorPrivileges(
@@ -401,7 +405,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals("new-id", instructorUpdated.googleId);
         assertEquals("New Name", instructorUpdated.name);
         assertTrue(instructorUpdated.isArchived);
-        assertEquals("new role", instructorUpdated.role);
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, instructorUpdated.role);
         assertFalse(instructorUpdated.isDisplayedToStudents);
         assertEquals("New Displayed Name", instructorUpdated.displayedName);
         assertTrue(instructorUpdated.hasObserverPrivileges());
@@ -412,6 +416,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         instructorToEdit.googleId = "invalid id";
         instructorToEdit.name = "";
+        instructorToEdit.role = "invalid role";
         try {
             instructorsDb.updateInstructorByEmail(instructorToEdit);
             signalFailureToDetectException();
@@ -421,10 +426,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                         FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
                         FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
-                    + getPopulatedErrorMessage(
-                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, instructorToEdit.name,
-                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                          FieldValidator.PERSON_NAME_MAX_LENGTH),
+                    + getPopulatedEmptyStringErrorMessage(
+                          FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                    + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }
 
@@ -433,6 +438,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.googleId = "idOfInstructor4";
         instructorToEdit.name = "New Name 2";
         instructorToEdit.email = "newEmail@email.tmt";
+        instructorToEdit.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER;
         try {
             instructorsDb.updateInstructorByEmail(instructorToEdit);
             signalFailureToDetectException();

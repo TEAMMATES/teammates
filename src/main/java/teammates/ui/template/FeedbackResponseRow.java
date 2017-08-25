@@ -55,7 +55,7 @@ public class FeedbackResponseRow {
                 Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        instructorEmailNameTable);
+                        instructorEmailNameTable, results.getTimeZone());
                 String whoCanSeeComment = null;
                 boolean isVisibilityIconShown = false;
                 if (results.feedbackSession.isPublished()) {

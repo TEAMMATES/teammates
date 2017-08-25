@@ -32,6 +32,8 @@ public final class Templates {
     public static class EmailTemplates {
         public static final String USER_COURSE_JOIN =
                 FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
+        public static final String USER_COURSE_REGISTER =
+                FileHelper.readResourceFile("userEmailTemplate-userRegisterForCourse.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
@@ -40,10 +42,10 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
+        public static final String FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS =
+                FileHelper.readResourceFile("userEmailFragment-sessionClosedAdditionalInstructionsFragment.html");
         public static final String USER_FEEDBACK_SESSION_CLOSING =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSED =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosed.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
@@ -174,6 +176,10 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRubricEditFormBodyFragment.html");
             public static final String RUBRIC_EDIT_FORM_BODY =
                     FileHelper.readResourceFile("feedbackQuestionRubricEditFormBody.html");
+            public static final String RUBRIC_EDIT_FORM_TABLE_OPTIONS =
+                    FileHelper.readResourceFile("feedbackQuestionRubricEditFormTableOptions.html");
+            public static final String RUBRIC_EDIT_FORM_TABLE_OPTIONS_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricEditFormTableOptionsFragment.html");
             public static final String RUBRIC_RESULT_STATS =
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsTemplate.html");
             public static final String RUBRIC_RESULT_STATS_HEADER_FRAGMENT =
@@ -182,6 +188,14 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBodyFragment.html");
             public static final String RUBRIC_RESULT_STATS_BODY =
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBody.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsTemplate.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsHeaderFragment.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyFragment.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyRowFragment.html");
             public static final String RUBRIC_ADDITIONAL_INFO =
                     FileHelper.readResourceFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
 
@@ -203,10 +217,6 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
             public static final String RANK_RESULT_STATS_RECIPIENTFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragment.html");
-            public static final String RANK_RESULT_RECIPIENT_STATS_EXCLUDING_SELF_RESPONSE =
-                    FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientTemplateSelfResponse.html");
-            public static final String RANK_RESULT_STATS_RECIPIENTFRAGMENT_EXCLUDING_SELF_RESPONSE =
-                    FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragmentSelfResponse.html");
         }
 
         public static class Slots {
@@ -256,6 +266,7 @@ public final class Templates {
             public static final String MOBILE_HTML = "${mobileHtml}";
             public static final String PANEL_BODY = "${panelBody}";
             public static final String ITERATOR = "${i}";
+            public static final String IS_SESSION_OPEN = "${isSessionOpen}";
 
             // TEXT
             public static final String TEXT_EXISTING_RESPONSE = "${existingResponse}";
@@ -410,6 +421,9 @@ public final class Templates {
             public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
             public static final String RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML = "${tableWeightRowFragmentHtml}";
             public static final String RUBRIC_ADDITIONAL_INFO_FRAGMENTS = "${rubricAdditionalInfoFragments}";
+            public static final String RUBRIC_RECIPIENT_STAT_CELL = "${recipientStatCell}";
+            public static final String RUBRIC_RECIPIENT_STATS_HTML = "${perRecipientStatsHtml}";
+            public static final String RUBRIC_RECIPIENT_STAT_ROW = "${recipientStatRow}";
             public static final String RUBRIC_TOOLTIPS_ASSIGN_WEIGHTS =
                     "${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}";
             public static final String RUBRIC_PARAM_ASSIGN_WEIGHTS =
@@ -421,6 +435,8 @@ public final class Templates {
             public static final String RUBRIC_PARAM_DESCRIPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}";
             public static final String RUBRIC_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}";
             public static final String RUBRIC_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}";
+            public static final String RUBRIC_TABLE_OPTIONS = "${tableOptionsHtml}";
+            public static final String RUBRIC_TABLE_OPTIONS_FRAGMENT = "${rubricColumnOptionsFragments}";
         }
     }
 

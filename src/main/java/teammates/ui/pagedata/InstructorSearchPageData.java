@@ -171,12 +171,13 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
-            if (!"Anonymous".equals(frCommentGiver)) {
+            if (!Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(frCommentGiver)) {
                 frCommentGiver = frc.giverEmail;
             }
 
+            double sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
-                    frcSearchResultBundle.instructorEmailNameTable);
+                    frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
 
             rows.add(frcDiv);
         }

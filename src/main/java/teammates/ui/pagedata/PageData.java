@@ -427,6 +427,16 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName, boolean shouldLoadInEditMode) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT,
+                Boolean.toString(shouldLoadInEditMode));
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
     public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -609,21 +619,29 @@ public class PageData {
         return link;
     }
 
-    public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
+    public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return "Private";
         } else if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
             return "Awaiting";
-        } else if (session.isPublished()) {
-            return "Published";
         } else {
             return "Closed";
         }
     }
 
-    public static String getInstructorHoverMessageForFeedbackSession(FeedbackSessionAttributes session) {
+    public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return "-";
+        } else if (session.isPublished()) {
+            return "Published";
+        } else {
+            return "Not Published";
+        }
+    }
+
+    public static String getInstructorSubmissionsTooltipForFeedbackSession(FeedbackSessionAttributes session) {
 
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
@@ -644,13 +662,21 @@ public class PageData {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
 
-        if (session.isPublished()) {
-            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
-        }
-
         msg.append('.');
 
         return msg.toString();
+    }
+
+    public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
+        if (session.isPrivateSession()) {
+            return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
+        } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
+        } else if (session.isPublished()) {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+        } else {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
+        }
     }
 
     /**

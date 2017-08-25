@@ -132,7 +132,6 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         String courseId = "tmapitt.tcc.course";
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
-        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = InstructorAttributes.builder(instructorId, courseId, name, email)
                 .build();
 
