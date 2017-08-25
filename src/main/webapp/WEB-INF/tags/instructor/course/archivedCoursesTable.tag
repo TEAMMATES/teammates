@@ -15,7 +15,7 @@
         Course Name<span class="icon-sort unsorted"></span>
       </th>
       <th id="button_sortcoursecreateddate" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" class="button-sort-none toggle-sort">
-        Course Created At<span class="icon-sort unsorted"></span>
+        Creation Date<span class="icon-sort unsorted"></span>
       </th>
       <th class="align-center no-print">Action(s)</th>
     </tr>
