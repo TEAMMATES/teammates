@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -24,18 +23,13 @@ import teammates.test.driver.StringHelperExtension;
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     private FieldValidator fieldValidator = new FieldValidator();
-    private AdminEmailAttributes adminEmailAttributes;
     private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
     private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
     private String subject = "subject of email";
     private Text content = new Text("valid email content");
     private Date date = new Date();
-
-    @BeforeClass
-    public void classSetup() {
-        adminEmailAttributes = new AdminEmailAttributes(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, date);
-    }
+    private AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+            subject, addressReceiverListString, groupReceiverListFileKey, content, date);
 
     @Test
     public void testValidate() throws Exception {
