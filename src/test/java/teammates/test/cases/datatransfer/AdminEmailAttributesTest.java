@@ -49,8 +49,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         List<String> emailErrorList = validAttributesSubjectLength.getInvalidityInfo();
         assertTrue("Valid input should return an empty list of errors", emailErrorList.isEmpty());
 
-        ______TS("invalid admin email");
-
         ______TS("failure: content cannot be empty");
 
         AdminEmailAttributes invalidAttributesContentEmpty = new AdminEmailAttributes(
