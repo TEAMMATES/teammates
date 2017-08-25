@@ -316,7 +316,6 @@ public abstract class AppPage {
         waitForModalToDisappear();
     }
 
-
     private void waitForModalPresence() {
         WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
         waitForElementToBeClickable(closeButton);

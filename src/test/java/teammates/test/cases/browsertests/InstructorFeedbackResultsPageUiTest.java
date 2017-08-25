@@ -55,7 +55,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testBackEndActions() throws Exception {
         testFeedbackResponseCommentActions();
-        //testDownloadAction();
+        testDownloadAction();
     }
 
     private void testContent() throws Exception {

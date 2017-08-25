@@ -53,10 +53,10 @@ function removeFormErrorMessage(submitButton) {
         if (submitButton.next().next().attr('id') === 'errorMessage') {
             submitButton.next().next().remove();
         }
-    } else {
-        if (submitButton.next().attr('id') === 'errorMessage') {
-            submitButton.next().remove();
-        }
+    }
+
+    if (submitButton.next().attr('id') === 'errorMessage') {
+        submitButton.next().remove();
     }
 }
 
@@ -67,12 +67,12 @@ function setFormErrorMessage(submitButton, msg) {
         } else {
             submitButton.next().after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
         }
+    }
+
+    if (submitButton.next().attr('id') === 'errorMessage') {
+        submitButton.next().text(msg);
     } else {
-        if (submitButton.next().attr('id') === 'errorMessage') {
-            submitButton.next().text(msg);
-        } else {
-            submitButton.after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
-      }
+        submitButton.after(`<span id="errorMessage" class="pull-right "> ${msg}</span>`);
     }
 }
 
@@ -131,11 +131,9 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
               .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
 }
 
-function deleteCommentRow(submitButton, isOnQuestionsPage) {
+function deleteCommentRow(submitButton) {
     const deletedCommentRow = submitButton.closest('li');
     const frCommentList = submitButton.closest('.comments');
-
-    const numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
     deletedCommentRow.remove();
     frCommentList.parent().find('div.delete_error_msg').remove();
 }
@@ -151,166 +149,6 @@ function showErrorMessage(errorMessage, submitButton) {
     }
     submitButton.html('<span class="glyphicon glyphicon-trash glyphicon-primary"></span>');
 }
-
-const addCommentHandler = (e) => {
-    const submitButton = $(e.currentTarget);
-    const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
-    const formObject = $(e.currentTarget).closest('form');
-    const addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
-
-    const responseCommentTableId = addFormRow.parent().attr('id');
-    const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
-    const numberOfComments = addFormRow.parent().find('li').length;
-    const commentId = `${responseCommentId}-${numberOfComments}`;
-
-    e.preventDefault();
-
-    const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
-    formObject.find('input[name=responsecommenttext]').val(editor.getContent());
-
-    const formData = formObject.serialize();
-    const isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
-    restoreInitialVisibilityOfCheckboxes($(formObject), $(addFormRow));
-
-    $.ajax({
-        type: 'POST',
-        url: `${submitButton.attr('href')}?${formData}&commentid=${commentId}`,
-        beforeSend() {
-            formObject.find('textarea').prop('disabled', true);
-            submitButton.html("<img src='/images/ajax-loader.gif'/>");
-            submitButton.prop('disabled', true);
-            cancelButton.prop('disabled', true);
-        },
-        error() {
-            formObject.find('textarea').prop('disabled', false);
-            submitButton.prop('disabled', false);
-            cancelButton.prop('disabled', false);
-            setFormErrorMessage(submitButton, 'Failed to save comment. Please try again.');
-            submitButton.text('Add');
-        },
-        success(data) {
-            if (data.isError) {
-                formObject.find('textarea').prop('disabled', false);
-                setFormErrorMessage(submitButton, data.errorMessage);
-                submitButton.text('Add');
-                submitButton.prop('disabled', false);
-                cancelButton.prop('disabled', false);
-            } else {
-                // Inject new comment row
-                addFormRow.parent().attr('class', 'list-group');
-                addFormRow.before(data);
-                if (isOnQuestionsPage == null) {
-                    removeUnwantedVisibilityOptions(commentId);
-                }
-
-                // Reset add comment form
-                formObject.find('textarea').prop('disabled', false);
-                formObject.find('textarea').val('');
-                submitButton.text('Add');
-                submitButton.prop('disabled', false);
-                cancelButton.prop('disabled', false);
-                removeFormErrorMessage(submitButton);
-                addFormRow.prev().show();
-                addFormRow.hide();
-                destroyEditor(`responseCommentAddForm-${responseCommentId}`);
-                if (isOnQuestionsPage != null && isOnQuestionsPage) {
-                  const recipientIndex = responseCommentId.substring(0, 1);
-                  const giverIndex = responseCommentId.substring(2, 3);
-                  const questionIndex = responseCommentId.substring(4, 5);
-                  showResponseCommentAddForm(recipientIndex, giverIndex, questionIndex);
-                }
-            }
-        },
-    });
-};
-
-const editCommentHandler = (e) => {
-    const submitButton = $(e.currentTarget);
-    const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
-    const formObject = $(e.currentTarget).closest('form');
-    const displayedText = formObject.siblings("div[id^='plainCommentText']").first();
-    const commentBar = displayedText.parent().find('div[id^=commentBar]');
-
-    e.preventDefault();
-
-    const commentTextId = formObject.find('div[id^="responsecommenttext-"]').attr('id');
-    formObject.find('input[name=responsecommenttext]').val(tinymce.get(commentTextId).getContent());
-
-    const formData = formObject.serialize();
-
-    $.ajax({
-        type: 'POST',
-        url: `${submitButton.attr('href')}?${formData}`,
-        beforeSend() {
-            formObject.find('textarea').prop('disabled', true);
-            submitButton.html("<img src='/images/ajax-loader.gif'/>");
-            submitButton.prop('disabled', true);
-            cancelButton.prop('disabled', true);
-        },
-        error() {
-            formObject.find('textarea').prop('disabled', false);
-            setFormErrorMessage(submitButton, 'Failed to save changes. Please try again.');
-            submitButton.text('Save');
-            submitButton.prop('disabled', false);
-            cancelButton.prop('disabled', false);
-        },
-        success(data) {
-            if (data.isError) {
-                formObject.find('textarea').prop('disabled', false);
-                setFormErrorMessage(submitButton, data.errorMessage);
-                submitButton.text('Save');
-                submitButton.prop('disabled', false);
-                cancelButton.prop('disabled', false);
-            } else {
-                // Update editted comment
-                displayedText.html(data.comment.commentText.value);
-                updateVisibilityOptionsForResponseComment(formObject, data);
-                commentBar.find('span[class="text-muted"]').first().text(data.editedCommentDetails);
-                commentBar.show();
-
-                // Reset edit comment form
-                formObject.find('textarea').prop('disabled', false);
-                formObject.find('textarea').val(data.comment.commentText.value);
-                submitButton.text('Save');
-                submitButton.prop('disabled', false);
-                cancelButton.prop('disabled', false);
-                removeFormErrorMessage(submitButton);
-                formObject.hide();
-                displayedText.show();
-                destroyEditor(commentTextId);
-            }
-        },
-    });
-};
-
-const deleteCommentHandler = (e) => {
-    const submitButton = $(e.currentTarget);
-    e.preventDefault();
-
-    showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
-        const formObject = submitButton.parent();
-        const formData = formObject.serialize();
-        const isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
-
-        $.ajax({
-            type: 'POST',
-            url: `${submitButton.attr('href')}?${formData}`,
-            beforeSend() {
-                submitButton.html("<img src='/images/ajax-loader.gif'/>");
-            },
-            error() {
-                showErrorMessage('Failed to delete comment. Please try again.', submitButton);
-            },
-            success(data) {
-                if (data.isError) {
-                    showErrorMessage(data.errorMessage, submitButton);
-                } else {
-                    deleteCommentRow(submitButton);
-                }
-            },
-        });
-    }, null, null, null, StatusType.WARNING);
-};
 
 function enableHoverToDisplayEditOptions() {
     // show on hover for comment
@@ -446,6 +284,165 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     tinymce.get(`responsecommenttext${id}`).setContent($(`#plainCommentText${id}`).text());
     removeFormErrorMessage($(`#button_save_comment_for_edit${id}`));
 }
+
+const addCommentHandler = (e) => {
+    const submitButton = $(e.currentTarget);
+    const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
+    const formObject = $(e.currentTarget).closest('form');
+    const addFormRow = formObject.closest("li[id^='showResponseCommentAddForm']");
+
+    const responseCommentTableId = addFormRow.parent().attr('id');
+    const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
+    const numberOfComments = addFormRow.parent().find('li').length;
+    const commentId = `${responseCommentId}-${numberOfComments}`;
+
+    e.preventDefault();
+
+    const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
+    formObject.find('input[name=responsecommenttext]').val(editor.getContent());
+
+    const formData = formObject.serialize();
+    const $isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
+    restoreInitialVisibilityOfCheckboxes($(formObject), $(addFormRow));
+
+    $.ajax({
+        type: 'POST',
+        url: `${submitButton.attr('href')}?${formData}&commentid=${commentId}`,
+        beforeSend() {
+            formObject.find('textarea').prop('disabled', true);
+            submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            submitButton.prop('disabled', true);
+            cancelButton.prop('disabled', true);
+        },
+        error() {
+            formObject.find('textarea').prop('disabled', false);
+            submitButton.prop('disabled', false);
+            cancelButton.prop('disabled', false);
+            setFormErrorMessage(submitButton, 'Failed to save comment. Please try again.');
+            submitButton.text('Add');
+        },
+        success(data) {
+            if (data.isError) {
+                formObject.find('textarea').prop('disabled', false);
+                setFormErrorMessage(submitButton, data.errorMessage);
+                submitButton.text('Add');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+            } else {
+                // Inject new comment row
+                addFormRow.parent().attr('class', 'list-group');
+                addFormRow.before(data);
+                if ($isOnQuestionsPage == null) {
+                    removeUnwantedVisibilityOptions(commentId);
+                }
+
+                // Reset add comment form
+                formObject.find('textarea').prop('disabled', false);
+                formObject.find('textarea').val('');
+                submitButton.text('Add');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                removeFormErrorMessage(submitButton);
+                addFormRow.prev().show();
+                addFormRow.hide();
+                destroyEditor(`responseCommentAddForm-${responseCommentId}`);
+                if ($isOnQuestionsPage != null && $isOnQuestionsPage) {
+                    const $recipientIndex = responseCommentId.substring(0, 1);
+                    const $giverIndex = responseCommentId.substring(2, 3);
+                    const $questionIndex = responseCommentId.substring(4, 5);
+                    showResponseCommentAddForm($recipientIndex, $giverIndex, $questionIndex);
+                }
+            }
+        },
+    });
+};
+
+const editCommentHandler = (e) => {
+    const submitButton = $(e.currentTarget);
+    const cancelButton = $(e.currentTarget).next("input[value='Cancel']");
+    const formObject = $(e.currentTarget).closest('form');
+    const displayedText = formObject.siblings("div[id^='plainCommentText']").first();
+    const commentBar = displayedText.parent().find('div[id^=commentBar]');
+
+    e.preventDefault();
+
+    const commentTextId = formObject.find('div[id^="responsecommenttext-"]').attr('id');
+    formObject.find('input[name=responsecommenttext]').val(tinymce.get(commentTextId).getContent());
+
+    const formData = formObject.serialize();
+
+    $.ajax({
+        type: 'POST',
+        url: `${submitButton.attr('href')}?${formData}`,
+        beforeSend() {
+            formObject.find('textarea').prop('disabled', true);
+            submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            submitButton.prop('disabled', true);
+            cancelButton.prop('disabled', true);
+        },
+        error() {
+            formObject.find('textarea').prop('disabled', false);
+            setFormErrorMessage(submitButton, 'Failed to save changes. Please try again.');
+            submitButton.text('Save');
+            submitButton.prop('disabled', false);
+            cancelButton.prop('disabled', false);
+        },
+        success(data) {
+            if (data.isError) {
+                formObject.find('textarea').prop('disabled', false);
+                setFormErrorMessage(submitButton, data.errorMessage);
+                submitButton.text('Save');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+            } else {
+                // Update editted comment
+                displayedText.html(data.comment.commentText.value);
+                updateVisibilityOptionsForResponseComment(formObject, data);
+                commentBar.find('span[class="text-muted"]').first().text(data.editedCommentDetails);
+                commentBar.show();
+
+                // Reset edit comment form
+                formObject.find('textarea').prop('disabled', false);
+                formObject.find('textarea').val(data.comment.commentText.value);
+                submitButton.text('Save');
+                submitButton.prop('disabled', false);
+                cancelButton.prop('disabled', false);
+                removeFormErrorMessage(submitButton);
+                formObject.hide();
+                displayedText.show();
+                destroyEditor(commentTextId);
+            }
+        },
+    });
+};
+
+const deleteCommentHandler = (e) => {
+    const submitButton = $(e.currentTarget);
+    e.preventDefault();
+
+    showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
+        const formObject = submitButton.parent();
+        const formData = formObject.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: `${submitButton.attr('href')}?${formData}`,
+            beforeSend() {
+                submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            },
+            error() {
+                showErrorMessage('Failed to delete comment. Please try again.', submitButton);
+            },
+            success(data) {
+                if (data.isError) {
+                    showErrorMessage(data.errorMessage, submitButton);
+                } else {
+                    deleteCommentRow(submitButton);
+                }
+            },
+        });
+    }, null, null, null, StatusType.WARNING);
+};
 
 function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
