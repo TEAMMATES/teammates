@@ -77,12 +77,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_DISPLAY_MAX_OPTIONS_HINT, isMaxOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                            ? Integer.toString(maxOptionsToBeRanked) : "",
+                    ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
                 Slots.RANK_DISPLAY_MIN_OPTIONS_HINT, isMinOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                            ? Integer.toString(minOptionsToBeRanked) : ""
+                    ? Integer.toString(minOptionsToBeRanked) : ""
                 );
     }
 
@@ -125,12 +125,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_DISPLAY_MAX_OPTIONS_HINT, isMaxOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                            ? Integer.toString(maxOptionsToBeRanked) : "",
+                    ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
                 Slots.RANK_DISPLAY_MIN_OPTIONS_HINT, isMinOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                            ? Integer.toString(minOptionsToBeRanked) : ""
+                    ? Integer.toString(minOptionsToBeRanked) : ""
                 );
     }
 
