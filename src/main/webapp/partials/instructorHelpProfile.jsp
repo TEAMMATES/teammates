@@ -124,7 +124,7 @@
             <div class="panel panel-default">
               <div class="panel-body">
                 <span data-toggle="modal" data-target="#studentProfileMoreInfo"
-                  class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                    class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
                 <h5>More Info </h5>
                 <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
                 <p class="text-preserve-space height-fixed-md">Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. Aspiring to become a Software Architect in a well reputed organization.</p>

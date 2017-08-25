@@ -348,7 +348,8 @@
 
               <br>
               <br>See
-              <a href="#sessionTypes">here</a> for more info about session types.</li>
+              <a href="#sessionTypes">here</a> for more info about session types.
+            </li>
 
           </ul>
           <br>
