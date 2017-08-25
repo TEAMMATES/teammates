@@ -599,7 +599,66 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private void testFeedbackResponseCommentActions() throws Exception {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.displayByQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
+
+        ______TS("Failure case: add empty feedback response comment");
+
+        resultsPage.clickCommentModalButton("-2-1-0");
+        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "");
+        resultsPage.verifyCommentFormErrorMessage("-2-1-0", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.closeCommentModal("-2-1-0");
+        resultsPage.waitForModalToDisappear();
+
+        ______TS("Typical case: add new feedback response comments");
+
+        resultsPage.clickCommentModalButton("-2-1-0");
+        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "test comment 1");
+        resultsPage.verifyCommentRowContent("-2-1-0-1", "test comment 1", "Teammates Test");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
+        resultsPage.closeCommentModal("-2-1-0");
+        resultsPage.waitForModalToDisappear();
+
+        resultsPage.clickCommentModalButton("-3-1-0");
+        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-3-1-0", "test comment 2");
+        resultsPage.verifyCommentRowContent("-3-1-0-1", "test comment 2", "Teammates Test");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
+        resultsPage.closeCommentModal("-3-1-0");
+        resultsPage.waitForModalToDisappear();
+        //resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
+
+        ______TS("Typical case: edit existing feedback response comment");
+
+        resultsPage.clickCommentModalButton("-2-1-0");
+        resultsPage.editFeedbackResponseComment("-2-1-0-1", "edited test comment");
+        resultsPage.verifyCommentRowContent("-2-1-0-1", "edited test comment", "Teammates Test");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
+        resultsPage.closeCommentModal("-2-1-0");
+        resultsPage.waitForModalToDisappear();
+        //resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditComment.html");
+
+        ______TS("Typical case: edit comment created by different instructor");
+
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-2", "ajax_auto");
+        resultsPage.clickCommentModalButton("-1-1-0");
+        resultsPage.editFeedbackResponseComment("-1-1-0-1", "Comment edited by different instructor");
+        resultsPage.verifyCommentRowContent("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
+        resultsPage.closeCommentModal("-1-1-0");
+        resultsPage.waitForModalToDisappear();
+        //resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
+
+        ______TS("Typical case: delete existing feedback response comment");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage.displayByQuestion();
+        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
+        resultsPage.clickCommentModalButton("-3-1-0");
+        resultsPage.deleteFeedbackResponseCommentInQuestionsPage("-3-1-0-1");
+        resultsPage.verifyRowMissing("-3-1-0-1");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
+        resultsPage.closeCommentModal("-3-1-0");
+        resultsPage.waitForModalToDisappear();
 
         ______TS("Failure case: add empty feedback response comment");
 
