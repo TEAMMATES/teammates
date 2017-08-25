@@ -599,10 +599,10 @@ public final class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
 
                 if (!student.isValid()) {
-                    invalidityInfo.add(addInvalidStudentInfo(student, sanitizedLine));
+                    invalidityInfo.add(invalidStudentInfo(student, sanitizedLine));
                 }
 
-                int duplicateEmailIndex = getDuplicateIndex(student.email, studentList);
+                int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
                 if (duplicateEmailIndex != -1) {
                     invalidityInfo.add(addDuplicateEmailInfo(sanitizedLine, linesArray, duplicateEmailIndex));
                 }
@@ -624,19 +624,19 @@ public final class StudentsLogic {
         return "Same email address as the student in line \"" + linesArray[duplicateEmailIndex + 1] + "\"";
     }
 
-    private String addInvalidStudentInfo(StudentAttributes student, String sanitizedLine) {
+    private String invalidStudentInfo(StudentAttributes student, String line) {
         String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info);
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info);
     }
 
     /**
      * Returns the index of the first occurrence of the duplicate {@code email} in
      * {@code studentList}, or -1 if {@code email} is not a duplicate in {@code studentList}.
      */
-    private int getDuplicateIndex(String email, List<StudentAttributes> studentList) {
+    private int getDuplicateEmailIndex(String email, List<StudentAttributes> studentList) {
         for (int index = 0; index < studentList.size(); index++) {
-            if (studentList.get(index).email.equalsIgnoreCase(email)) {
+            if (studentList.get(index).email.equals(email)) {
                 return index;
             }
         }
@@ -645,7 +645,7 @@ public final class StudentsLogic {
 
     private boolean isInEnrollList(StudentAttributes student, List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
-            if (studentInfo.email.equals(student.email)) {
+            if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;
             }
         }
