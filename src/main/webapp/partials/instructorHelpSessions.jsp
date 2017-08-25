@@ -302,7 +302,8 @@
                       <div class="row">
                         <div class="col-md-6">
                           <label for="startdate" class="label-control">
-                            Submission opening time</label>
+                            Submission opening time
+                          </label>
                         </div>
                       </div>
                       <div class="row">
@@ -383,7 +384,8 @@
                       <div class="row">
                         <div class="col-md-12">
                           <label for="graceperiod" class="control-label">
-                            Grace period</label>
+                            Grace period
+                          </label>
                         </div>
                       </div>
                       <div class="row">
@@ -411,7 +413,8 @@
                       <div class="row">
                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">
                           <label class="label-control">
-                            Session visible from </label>
+                            Session visible from
+                          </label>
                         </div>
                       </div>
                       <div class="row radio">
@@ -646,7 +649,8 @@
         <div class="col-sm-6">
           <p>There are several question types to choose from.
             <br>See
-            <a href="#fbQuestionTypes">here</a> for more information on each question type.</p>
+            <a href="#fbQuestionTypes">here</a> for more information on each question type.
+          </p>
           <ul>
             <li>
               <a href="#fbEssay">Essay question</a>
@@ -673,15 +677,16 @@
               <a href="#fbRubric">Rubric question</a>
             </li>
             <li>
-            <a href="#fbRankOptions">Rank Options question</a>
+              <a href="#fbRankOptions">Rank Options question</a>
             </li>
             <li>
-            <a href="#fbRankRecipients">Rank Recipients question</a>
+              <a href="#fbRankRecipients">Rank Recipients question</a>
             </li>
           </ul>
           <br>
           <p>After selecting a question type, click
-            <b>Add New Question</b> to add it to the session.</p>
+            <b>Add New Question</b> to add it to the session
+          </p>
         </div>
         <div class="col-sm-6">
           <p>
@@ -708,7 +713,8 @@
         <li>
           <b class="feedback-path-title">Feedback Path</b>
           <span class="text-muted"> - you can select a common feedback path from the dropdown menu, or choose "Other predefined combinations..." to select the Feedback Giver and Recipient separately.</span>
-          <ul><li>
+          <ul>
+            <li>
               <b>Feedback Giver</b>
               <span class="text-muted"> - who gives the response (If you choose a ‘team’ as the giver, any member can submit the response on behalf of the team.)</span>
             </li>
@@ -939,7 +945,7 @@
           <div class="panel panel-primary">
             <div class="panel-heading">Question 1:
               <br>
-              <span >Tutor's comments about the team presentation</span>
+              <span>Tutor's comments about the team presentation</span>
             </div>
             <div class="panel-body">
               <p class="text-muted">Only the following persons can see your responses: </p>
@@ -1113,7 +1119,7 @@
                               <div class="checkbox">
                                 <label class="bold-label">
                                   <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag--1" onchange="toggleMcqOtherOptionEnabled(this, -1)">
-                                    Add 'Other' option (Allows respondents to type in their own answer)
+                                  Add 'Other' option (Allows respondents to type in their own answer)
                                 </label>
                               </div>
                             </div>
@@ -1127,7 +1133,7 @@
                           <label class="bold-label">
                             <span class="inline-block">
                               <input type="checkbox" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)">
-                                Or, generate options from the list of all
+                              Or, generate options from the list of all
                             </span>
                           </label>
                           <select class="form-control width-auto inline" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)" disabled="">
@@ -1272,7 +1278,8 @@
                 </div>
                 <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display:none;">
                   <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                    <tbody><tr>
+                    <tbody>
+                      <tr>
                         <th class="text-center">User/Group</th>
                         <th class="text-center">Can see answer</th>
                         <th class="text-center">Can see giver's name</th>
@@ -1358,7 +1365,8 @@
                           <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" checked="">
                         </td>
                       </tr>
-                    </tbody></table>
+                    </tbody>
+                  </table>
                 </div>
                 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                 <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
@@ -1397,10 +1405,10 @@
       </span>
 
       <p>
-      To see how the session looks like to anyone in the course, we can use the
-      <b>Preview as</b> feature to take a look at how the current session would look like to any student or instructor when they are submitting responses.
-      <br>
-      <br> This allows easy and convenient confirmation that the questions and their settings are correct.
+        To see how the session looks like to anyone in the course, we can use the
+        <b>Preview as</b> feature to take a look at how the current session would look like to any student or instructor when they are submitting responses.
+        <br>
+        <br> This allows easy and convenient confirmation that the questions and their settings are correct.
       </p>
 
       <div class="bs-example" id="preview">
@@ -1457,15 +1465,15 @@
       </span>
 
       <p>
-      You can view results of sessions by clicking the
-      <b>View Results</b> action of a session
-      <br>You can see responses in several different formats using the following controls.
-      <br>
-      <br> There are
-      <b>5</b> different views available, which indicate the order in which responses are grouped. Additionally, there are also options to
-      <b>group the results by team</b> and
-      <b>show/hide statistics</b> (available in some views), as well as options to view responses from a particular section.
-      <br> We can also filter results on the page using the filter function.
+        You can view results of sessions by clicking the
+        <b>View Results</b> action of a session
+        <br>You can see responses in several different formats using the following controls.
+        <br>
+        <br> There are
+        <b>5</b> different views available, which indicate the order in which responses are grouped. Additionally, there are also options to
+        <b>group the results by team</b> and
+        <b>show/hide statistics</b> (available in some views), as well as options to view responses from a particular section.
+        <br> We can also filter results on the page using the filter function.
       </p>
       <div class="bs-example" id="resultsTop">
         <div class="panel panel-info margin-0">
@@ -1855,7 +1863,8 @@
               <div class="display-icon pull-right">
                 <span class="glyphicon pull-right glyphicon-chevron-up"></span>
               </div>
-              Participants who have not responded to any question</div>
+              Participants who have not responded to any question
+            </div>
             <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
               <div class="panel-body padding-0">
                 <table class="table table-striped table-bordered margin-0">
@@ -1938,7 +1947,8 @@
                     <td>
                       <span class="bold">
                         <b>From:</b>
-                      </span> Dr Lee Davis</td>
+                      </span> Dr Lee Davis
+                    </td>
                   </tr>
                   <tr>
                     <td class="multiline">Good presentation.Please keep to the time limit
@@ -2148,15 +2158,22 @@
                       </h5>
                       <div class="col-sm-10">
                         <div id="rich-text-toolbar-q-descr-container-2"></div>
-                        <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-2" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false"><p><br data-mce-bogus="1"></p></div><input type="hidden" name="questiondescription-2">
+                        <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" id="questiondescription-2" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the description of the question." spellcheck="false">
+                          <p><br data-mce-bogus="1"></p>
+                        </div>
+                        <input type="hidden" name="questiondescription-2">
                         <input type="hidden" name="questiondescription" disabled="">
                       </div>
                       <div>
                         <br>
                         <div class="row">
                           <div class="col-xs-12 question-recommended-length">
-                            [Optional] <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The recommended length is shown to the respondent but not enforced" class="tool-tip-decorate">
-                              Recommended length</span> for the response: <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
+                            [Optional]
+                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The recommended length is shown to the respondent but not enforced" class="tool-tip-decorate">
+                              Recommended length
+                            </span>
+                            for the response:
+                            <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
                             words
                           </div>
                         </div>
@@ -2287,7 +2304,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -2373,7 +2391,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -2510,7 +2529,7 @@
                                 <div class="checkbox">
                                   <label class="bold-label">
                                     <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag-6" onchange="toggleMcqOtherOptionEnabled(this, 6)" disabled="">
-                                      Add 'Other' option (Allows respondents to type in their own answer)
+                                    Add 'Other' option (Allows respondents to type in their own answer)
                                   </label>
                                 </div>
                               </div>
@@ -2746,7 +2765,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -2832,7 +2852,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -2931,7 +2952,7 @@
                                 <div class="checkbox" style="display: none;">
                                   <label class="bold-label">
                                     <input type="checkbox" name="mcqOtherOptionFlag" id="mcqOtherOptionFlag-1" onchange="toggleMcqOtherOptionEnabled(this, 1)" disabled="">
-                                      Add 'Other' option (Allows respondents to type in their own answer)
+                                    Add 'Other' option (Allows respondents to type in their own answer)
                                   </label>
                                 </div>
                               </div>
@@ -3167,7 +3188,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -3253,7 +3275,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -3278,11 +3301,12 @@
                   <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <strong>Question 4: </strong>
-                <span >Which team do you think has the best feature?&nbsp;
-                  <span ><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
+                <span>Which team do you think has the best feature?&nbsp;
+                  <span><a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                     <br>
                     <span id="questionAdditionalInfo-4-" style="display:none;">Multiple-choice (single answer) question options:
-                      <br>The options for this question is automatically generated from the list of all teams in this course.</span>
+                      <br>The options for this question is automatically generated from the list of all teams in this course.
+                    </span>
                   </span>
                 </span>
               </div>
@@ -3368,8 +3392,6 @@
                             <span class="icon-sort unsorted"></span>
                           </th>
                         </tr>
-                      </thead>
-                      <thead>
                       </thead>
                       <tbody>
 
@@ -3731,7 +3753,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-6" style="display:none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -3817,7 +3840,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-6">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving instructor can see your response, but not your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -3844,11 +3868,12 @@
                   <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <strong>Question 3: </strong>
-                <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
-                  <span ><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
+                <span>Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
+                  <span><a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                     <br>
                     <span id="questionAdditionalInfo-3-" style="display:none;">Numerical-scale question:
-                      <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
+                      <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.
+                    </span>
                   </span>
                 </span>
               </div>
@@ -3913,8 +3938,6 @@
                             <span class="icon-sort unsorted"></span>
                           </th>
                         </tr>
-                      </thead>
-                      <thead>
                       </thead>
                       <tbody>
 
@@ -4341,7 +4364,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -4427,7 +4451,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -4441,140 +4466,139 @@
               </div>
             </form>
 
-          When viewing results, statistics on the average points for each option are provided.
-          <div class="bs-example">
-            <div class="panel panel-info">
-              <div class="panel-heading" data-target="#panelBodyCollapse-9" style="cursor: pointer;">
-                <div class="display-icon pull-right">
-                  <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                </div>
-                <strong>Question 9: </strong>
-                <span >How important are the following factors to you? Give points accordingly.&nbsp;
-                  <span >
-                    <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
-                    <br>
-                    <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
-                      <ul style="list-style-type: disc;margin-left: 20px;">
-                        <li>Grades</li>
-                        <li>Fun</li>
-                      </ul>Total points: 100</span>
+            When viewing results, statistics on the average points for each option are provided.
+            <div class="bs-example">
+              <div class="panel panel-info">
+                <div class="panel-heading" data-target="#panelBodyCollapse-9" style="cursor: pointer;">
+                  <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                  </div>
+                  <strong>Question 9: </strong>
+                  <span>How important are the following factors to you? Give points accordingly.&nbsp;
+                    <span>
+                      <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
+                      <br>
+                      <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
+                        <ul style="list-style-type: disc;margin-left: 20px;">
+                          <li>Grades</li>
+                          <li>Fun</li>
+                        </ul>Total points: 100
+                      </span>
+                    </span>
                   </span>
-                </span>
-              </div>
-              <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
-                <div class="panel-body padding-0" id="questionBody-8">
+                </div>
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
+                  <div class="panel-body padding-0" id="questionBody-8">
 
-                  <div class="resultStatistics">
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-sm-4 text-color-gray">
-                          <strong>
-                            Response Summary
-                          </strong>
+                    <div class="resultStatistics">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-4">
-                          <table class="table margin-0">
-                            <thead>
-                              <tr>
-                                <td>
-                                  Option
-                                </td>
-                                <td>
-                                  Average Points
-                                </td>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  Grades
-                                </td>
-                                <td>
-                                  32
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  Fun
-                                </td>
-                                <td>
-                                  67
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Option
+                                  </td>
+                                  <td>
+                                    Average Points
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    Grades
+                                  </td>
+                                  <td>
+                                    32
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Fun
+                                  </td>
+                                  <td>
+                                    67
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div class="table-responsive">
+                      <table class="table table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                              Team
+                              <span class="icon-sort unsorted"></span>
+                            </th>
+                            <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                              Giver
+                              <span class="icon-sort unsorted"></span>
+                            </th>
+                            <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                              Team
+                              <span class="icon-sort unsorted"></span>
+                            </th>
+                            <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                              Recipient
+                              <span class="icon-sort unsorted"></span>
+                            </th>
+                            <th id="button_sortFeedback" class="button-sort-none">
+                              Feedback
+                              <span class="icon-sort unsorted"></span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <tr>
+
+                            <td class="middlealign">Team 1</td>
+                            <td class="middlealign">Alice Betsy</td>
+                            <td class="middlealign">Team 1</td>
+                            <td class="middlealign">Alice Betsy</td>
+                            <td class="multiline">
+                              <ul>
+                                <li>Grades: 20</li>
+                                <li>Fun: 80</li>
+                              </ul>
+                            </td>
+                          </tr>
+
+                          <tr>
+
+                            <td class="middlealign">Team 2</td>
+                            <td class="middlealign">Charlie Davis</td>
+                            <td class="middlealign">Team 2</td>
+                            <td class="middlealign">Charlie Davis</td>
+                            <td class="multiline">
+                              <ul>
+                                <li>Grades: 45</li>
+                                <li>Fun: 55</li>
+                              </ul>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+
                   </div>
-                  <div class="table-responsive">
-                    <table class="table table-striped table-bordered dataTable margin-0">
-                      <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                        <tr>
-                          <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
-                            Team
-                            <span class="icon-sort unsorted"></span>
-                          </th>
-                          <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
-                            Giver
-                            <span class="icon-sort unsorted"></span>
-                          </th>
-                          <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
-                            Team
-                            <span class="icon-sort unsorted"></span>
-                          </th>
-                          <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                            Recipient
-                            <span class="icon-sort unsorted"></span>
-                          </th>
-                          <th id="button_sortFeedback" class="button-sort-none">
-                            Feedback
-                            <span class="icon-sort unsorted"></span>
-                          </th>
-                        </tr>
-                      </thead>
-                      <thead>
-                      </thead>
-                      <tbody>
-
-                        <tr>
-
-                          <td class="middlealign">Team 1</td>
-                          <td class="middlealign">Alice Betsy</td>
-                          <td class="middlealign">Team 1</td>
-                          <td class="middlealign">Alice Betsy</td>
-                          <td class="multiline">
-                            <ul>
-                              <li>Grades: 20</li>
-                              <li>Fun: 80</li>
-                            </ul>
-                          </td>
-                        </tr>
-
-                        <tr>
-
-                          <td class="middlealign">Team 2</td>
-                          <td class="middlealign">Charlie Davis</td>
-                          <td class="middlealign">Team 2</td>
-                          <td class="middlealign">Charlie Davis</td>
-                          <td class="multiline">
-                            <ul>
-                              <li>Grades: 45</li>
-                              <li>Fun: 55</li>
-                            </ul>
-                          </td>
-                        </tr>
-
-                      </tbody>
-                    </table>
-                  </div>
-
                 </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
@@ -4951,7 +4975,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -5037,7 +5062,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -5047,6 +5073,7 @@
                       <input id="button_question_submit-10" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
                     </span>
                   </div>
+                </div>
               </div>
             </form>
             Other details are similar to the Distribute points (among recipients) question. See
@@ -5358,7 +5385,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -5444,7 +5472,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTORS" checked="" type="checkbox">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, but not your name.</li><li>Your team members can see your response, but not the name of the recipient, or your name.</li><li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -5468,8 +5497,8 @@
                   <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <strong>Question 1: </strong>
-                <span >Please rate the estimated contribution of your team members and yourself.&nbsp;
-                  <span >
+                <span>Please rate the estimated contribution of your team members and yourself.&nbsp;
+                  <span>
                     <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                     <br>
                     <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
@@ -5710,8 +5739,6 @@
                           </th>
                         </tr>
                       </thead>
-                      <thead>
-                      </thead>
                       <tbody>
 
                         <tr>
@@ -5723,7 +5750,8 @@
                           <td class="multiline">
                             <span class="color_neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]</span>
+                              <span class="color_neutral">Equal Share</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -5780,7 +5808,8 @@
                           <td class="multiline">
                             <span class="color_neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]</span>
+                              <span class="color_neutral">Equal Share</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -5815,7 +5844,8 @@
                           <td class="multiline">
                             <span class="color-negative">Equal Share -16%</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color-negative">Equal Share -18%</span>]</span>
+                              <span class="color-negative">Equal Share -18%</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -5883,7 +5913,8 @@
                           <td class="multiline">
                             <span class="color_neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]</span>
+                              <span class="color_neutral">Equal Share</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -5940,7 +5971,8 @@
                           <td class="multiline">
                             <span class="color_neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]</span>
+                              <span class="color_neutral">Equal Share</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -5964,7 +5996,8 @@
                           <td class="multiline">
                             <span class="color-positive">Equal Share +5%</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color-positive">Equal Share +6%</span>]</span>
+                              <span class="color-positive">Equal Share +6%</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -6021,7 +6054,8 @@
                           <td class="multiline">
                             <span class="color-positive">Equal Share +4%</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color-positive">Equal Share +5%</span>]</span>
+                              <span class="color-positive">Equal Share +5%</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -6078,7 +6112,8 @@
                           <td class="multiline">
                             <span class="color-positive">Equal Share +5%</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color-positive">Equal Share +7%</span>]</span>
+                              <span class="color-positive">Equal Share +7%</span>]
+                            </span>
                           </td>
                         </tr>
 
@@ -6107,7 +6142,7 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">Question 10:
                   <br>
-                  <span >Please answer the following questions.</span>
+                  <span>Please answer the following questions.</span>
                 </div>
                 <div class="panel-body">
                   <p class="text-muted">Only the following persons can see your responses: </p>
@@ -6694,7 +6729,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-1" style="display:none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -6780,7 +6816,8 @@
                               <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS" disabled="" checked="">
                             </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
                     <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
@@ -6907,9 +6944,9 @@
                         <strong>Question</strong>
                         <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
 
-                            <option value="1">
-                              1
-                            </option>
+                          <option value="1">
+                            1
+                          </option>
 
                         </select>
                         &nbsp;Rank (options) question
@@ -7150,7 +7187,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -7261,7 +7299,7 @@
               <input type="hidden" name="user" value="inst@email.com">
             </form>
           </div>
-
+        </div>
       </div>
       <div class="row">
         <div class="col-sm-12">
@@ -7283,9 +7321,9 @@
                         <strong>Question</strong>
                         <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4" disabled="">
 
-                            <option value="1">
-                              1
-                            </option>
+                          <option value="1">
+                            1
+                          </option>
 
                         </select>
                         &nbsp;Rank (recipients) question
@@ -7552,7 +7590,8 @@
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
                       <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
-                        <tbody><tr>
+                        <tbody>
+                          <tr>
                             <th class="text-center">User/Group</th>
                             <th class="text-center">Can see answer</th>
                             <th class="text-center">Can see giver's name</th>
@@ -7693,45 +7732,47 @@
                     </thead>
                     <tbody>
                       <tr>
-              <td>
-                -
-              </td>
-              <td>
-                Team 1
-              </td>
-              <td>
-                1 , 1 , 2
-              </td>
-              <td>
-                1.33
-              </td>
-            </tr><tr>
-              <td>
-                -
-              </td>
-              <td>
-                Team 2
-              </td>
-              <td>
-                1 , 2
-              </td>
-              <td>
-                1.5
-              </td>
-            </tr><tr>
-              <td>
-                -
-              </td>
-              <td>
-                Team 3
-              </td>
-              <td>
-                1 , 2
-              </td>
-              <td>
-                1.5
-              </td>
-            </tr>
+                        <td>
+                          -
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          1 , 1 , 2
+                        </td>
+                        <td>
+                          1.33
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          -
+                        </td>
+                        <td>
+                          Team 2
+                        </td>
+                        <td>
+                          1 , 2
+                        </td>
+                        <td>
+                          1.5
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          -
+                        </td>
+                        <td>
+                          Team 3
+                        </td>
+                        <td>
+                          1 , 2
+                        </td>
+                        <td>
+                          1.5
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -7739,7 +7780,6 @@
             </div>
 
           </div>
-        </div>
         </div>
 
       </div>
