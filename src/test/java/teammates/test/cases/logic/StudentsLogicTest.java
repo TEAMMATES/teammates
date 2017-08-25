@@ -292,7 +292,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         student4InCourse1.email = newEmail;
 
         // create an empty student and then copy course and email attributes
-        StudentAttributes copyOfStudent1 = StudentAttributes.builder(student4InCourse1.course, null, newEmail).build();
+        StudentAttributes copyOfStudent1 = StudentAttributes
+                .builder(student4InCourse1.course, student4InCourse1.name, newEmail)
+                .build();
         student4InCourse1.googleId = "";
         student4InCourse1.section = "None";
 
