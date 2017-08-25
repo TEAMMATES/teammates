@@ -170,6 +170,7 @@ const addCommentHandler = (e) => {
 
     const formData = formObject.serialize();
     const isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
+    restoreInitialVisibilityOfCheckboxes($(formObject), $(addFormRow));
 
     $.ajax({
         type: 'POST',
@@ -198,7 +199,9 @@ const addCommentHandler = (e) => {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
                 addFormRow.before(data);
-                removeUnwantedVisibilityOptions(commentId);
+                if (isOnQuestionsPage == null) {
+                    removeUnwantedVisibilityOptions(commentId);
+                }
 
                 // Reset add comment form
                 formObject.find('textarea').prop('disabled', false);

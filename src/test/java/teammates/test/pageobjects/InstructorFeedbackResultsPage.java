@@ -309,6 +309,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement closeButton = modalFooter.findElement(By.className("commentModalClose"));
         click(closeButton);
     }
+
     /**
      * Makes sure the result panels are indeed all visible.
      */
