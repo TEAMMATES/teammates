@@ -3,7 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <link rel="shortcut icon" href="/favicon.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,21 +13,49 @@
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head>
-<body>
+  </head>
+  <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <t:teammatesLogo/>
-            </div>
+      <div class="container">
+        <div class="navbar-header">
+          <t:teammatesLogo/>
         </div>
+      </div>
     </div>
     <div class="container" id="mainContent">
-        <jsp:doBody />
+      <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+      <jsp:doBody />
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 align-center">
+          <h2>Uh oh! Something went wrong.</h2>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            We are sorry this happened. You can safely ignore this error page in the following cases:
+          </p>
+          <ul>
+            <li>
+              Retrying the same action a few minutes later succeeds (i.e. no more error page).
+            </li>
+            <li>
+              You loaded an outdated page unintentionally. e.g. some browsers auto-load the pages that were loaded in the previous browsing session.
+            </li>
+          </ul>
+          <p>
+            However, if you keep seeing this page on multiple failed attempts when trying to perform some action in TEAMMATES, please help us troubleshoot the problem by providing us some additional details using the form below.
+          </p>
+        </div>
+      </div>
+      <t:errorPageEmailCompose />
     </div>
     <t:bodyFooter />
-</body>
+  </body>
+  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+  <script type="text/javascript" src="/js/errorPageEmailComposer.js"></script>
 </html>
