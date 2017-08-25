@@ -647,8 +647,8 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "true");
-        params.put(PARAM_FROM_SECTION, "false");
+        params.put(PARAM_IN_SECTION, "false");
+        params.put(PARAM_FROM_SECTION, "true");
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
         if (range > 0) {
@@ -859,7 +859,7 @@ public final class FeedbackSessionsLogic {
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
-                    results, entry, isMissingResponsesShown, isStatsShown));
+                    results, entry, isMissingResponsesShown, isStatsShown, section));
         }
 
         return exportBuilder.toString();
@@ -868,7 +868,7 @@ public final class FeedbackSessionsLogic {
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
-            boolean isMissingResponsesShown, boolean isStatsShown) {
+            boolean isMissingResponsesShown, boolean isStatsShown, String section) {
 
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -887,7 +887,7 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(statistics).append(Const.EOL);
         }
 
-        List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
+        List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGiversInSection(question, section);
         List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
 
@@ -1670,7 +1670,7 @@ public final class FeedbackSessionsLogic {
                     role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = "Anonymous";
+                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
 
                 if (responseComments.get(frc.feedbackResponseId) == null) {
@@ -1806,7 +1806,7 @@ public final class FeedbackSessionsLogic {
                         userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
                 if (isVisibleResponseComment) {
                     if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                        frc.giverEmail = "Anonymous";
+                        frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                     }
 
                     List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
