@@ -155,7 +155,8 @@ $(document).ready(() => {
         const courseId = $entry.find('input[name=courseId]').val();
         const studentName = $entry.find('input[name=studentName]').val();
         const sessionStatus = $entry.find('input[name=sessionStatus]').val();
-        const feedbackSessionName = $entry.find('#feedback-session-name').text();
+        const sessionName = $entry.find('#feedback-session-name').text();
+        const sessionNameWithoutDate = sessionName.match(/.+?(?=\[)/);
 
         const relatedLink = encodeURIComponent($entry.find('input[name=relatedLink]').val());
         const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
@@ -184,10 +185,10 @@ $(document).ready(() => {
                     + ' TEAMMATES at the appropriate times. However, we recommend joining the course using your Google'
                     + ' account, because it gives you more convenient access to all your feedback stored in TEAMMATES.';
         } else {
-            subject = `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${courseId}]`;
+            subject = `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${sessionNameWithoutDate}]`;
             bodyContent =
                     `%0D%0A%0D%0AThe following feedback session is ${sessionStatus}.%0D%0A`
-                    + `Course: [${courseId}][${courseName}]%0D%0AFeedback Session Name: ${feedbackSessionName}%0D%0A`
+                    + `Course: [${courseId}][${courseName}]%0D%0AFeedback Session Name: ${sessionName}%0D%0A`
                     + '%0D%0AThe link to the feedback for the above session, please go to this Web'
                     + ` address: ${relatedLink} %0D%0A%0D%0A*${uniqueLinkMessage}`;
         }
