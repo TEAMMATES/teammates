@@ -210,6 +210,6 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
     }
 }

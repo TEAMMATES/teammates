@@ -79,7 +79,6 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {};
         verifyAccessibleForStudents(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
 }

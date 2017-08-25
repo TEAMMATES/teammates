@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditInstructorFeedbackPageAction;
@@ -93,25 +92,6 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
                             + "Session Name: Another feedback session<br>Course ID: IEIFPTCourse|||"
                             + "/page/instructorEditInstructorFeedbackPage";
         AssertHelper.assertLogMessageEquals(logMessage, editInstructorFpAction.getLogMessage());
-
-        ______TS("failure: does not have privilege (helper can't moderate instructor)");
-        gaeSimulation.loginAsInstructor(moderatedInstructor.googleId);
-        feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
-        };
-
-        try {
-            editInstructorFpAction = getAction(submissionParams);
-            editInstructorFpAction.executeAndPostProcess();
-            signalFailureToDetectException();
-        } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible "
-                         + "to instructor [" + moderatedInstructor.email + "] "
-                         + "for privilege [canmodifysession]", e.getMessage());
-        }
 
         ______TS("failure: accessing non-existent moderatedinstructor email");
         gaeSimulation.loginAsInstructor(instructor.googleId);

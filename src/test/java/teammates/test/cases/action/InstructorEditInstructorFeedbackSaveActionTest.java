@@ -35,7 +35,6 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     public void testExecuteAndPostProcess() {
         testModifyResponses();
         testIncorrectParameters();
-        testDifferentPrivileges();
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
     }
@@ -251,7 +250,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
     }
 
-    private void testDifferentPrivileges() {
+    private void testDifferentPrivilegesWithEditedFeedback() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -478,6 +477,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
+        testDifferentPrivilegesWithEditedFeedback();
         InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = moderatedInstructor.courseId;
         String feedbackSessionName = "First feedback session";

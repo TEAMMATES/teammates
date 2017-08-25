@@ -34,13 +34,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        prepareTestData();
-
         testModifyResponses();
 
         testIncorrectParameters();
-
-        testDifferentPrivileges();
 
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
@@ -663,6 +659,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
+        testDifferentPrivileges();
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");
 
         String feedbackSessionName = "First feedback session";
@@ -676,6 +673,6 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
     }
 }

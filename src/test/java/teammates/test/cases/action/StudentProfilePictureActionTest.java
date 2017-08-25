@@ -40,6 +40,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         testActionWithNoParams();
         testActionWithBlobKey();
+        testActionWithEmailAndCourse();
     }
 
     private void testActionWithNoParams() {
@@ -112,8 +113,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithEmailAndCourseSuccessTypical(instructor);
         testActionWithEmailAndCourseNoStudent();
         testActionWithEmailAndCourseForUnregStudent();
-        testActionWithEmailAndCourseUnauthorisedInstructorOrStudent();
-        testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade();
     }
 
     private void testActionWithEmailAndCourseSuccessTypical(AccountAttributes instructor) {
@@ -337,7 +336,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        testActionWithEmailAndCourse();
+        testActionWithEmailAndCourseUnauthorisedInstructorOrStudent();
+        testActionWithEmailAndCourseUnauthorisedInstructorOrStudentMasquerade();
     }
 
 }

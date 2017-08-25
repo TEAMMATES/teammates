@@ -32,7 +32,6 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        prepareTestData();
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
 
@@ -423,6 +422,6 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, "idOfSampleCourse-demo"
         };
 
-        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
+        verifyUnaccessibleWithoutModifySessionPrivilege(params);
     }
 }
