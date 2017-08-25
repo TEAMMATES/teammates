@@ -78,7 +78,7 @@
             <div class="col-md-12">
               <div class="form-control-static">
                 <strong>Possible Labels:</strong>
-                  &nbsp;after, before, receiver, subject, info, version<br>
+                &nbsp;after, before, receiver, subject, info, version<br>
                 <ul>
 
                   <li>E.g. after: 13/03/15</li>
