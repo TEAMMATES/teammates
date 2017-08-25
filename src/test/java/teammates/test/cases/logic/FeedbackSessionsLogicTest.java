@@ -273,7 +273,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (Exception e) {
             assertEquals("\"test %| test\" is not acceptable to TEAMMATES as a/an feedback session name "
-                             + "because it contains invalid characters. All feedback session name "
+                             + "because it contains invalid characters. A/An feedback session name "
                              + "must start with an alphanumeric character, and cannot contain "
                              + "any vertical bar (|) or percent sign (%).",
                          e.getMessage());
@@ -869,7 +869,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         actualStrings.add(nobodyUserName);
 
         // case: Anonymous User
-        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        String anonymousUserName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " " + System.currentTimeMillis();
         anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
         actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
