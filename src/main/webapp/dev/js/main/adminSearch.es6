@@ -148,16 +148,16 @@ $(document).ready(() => {
 
     $('.openEmailApplicationDefaultValues').submit((e) => {
         e.preventDefault();
-        const entry = e.target;
-        const studentEmail = $(entry).parentsUntil('.fslink_student').find('input[name=studentEmail]').val();
-        const subjectType = $(entry).find('input[name=subjectType]').val();
-        const courseName = $(entry).find('input[name=courseName]').val();
-        const courseId = $(entry).find('input[name=courseId]').val();
-        const studentName = $(entry).find('input[name=studentName]').val();
-        const sessionStatus = $(entry).find('input[name=sessionStatus]').val();
-        const feedbackSessionName = $(entry).find('#feedback-session-name').text();
+        const $entry = $(e.target);
+        const studentEmail = $entry.parentsUntil('.fslink_student').find('input[name=studentEmail]').val();
+        const subjectType = $entry.find('input[name=subjectType]').val();
+        const courseName = $entry.find('input[name=courseName]').val();
+        const courseId = $entry.find('input[name=courseId]').val();
+        const studentName = $entry.find('input[name=studentName]').val();
+        const sessionStatus = $entry.find('input[name=sessionStatus]').val();
+        const feedbackSessionName = $entry.find('#feedback-session-name').text();
 
-        const relatedLink = encodeURIComponent($(entry).find('input[name=relatedLink]').val());
+        const relatedLink = encodeURIComponent($entry.find('input[name=relatedLink]').val());
         const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
         const supportEmail = `${ParamsNames.TEAMMATES_EMAIL_ADDRESS}`;
 
