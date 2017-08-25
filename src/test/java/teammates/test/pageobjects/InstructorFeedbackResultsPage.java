@@ -407,7 +407,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         click(okayButton);
-        ThreadHelper.waitFor(1500);
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
