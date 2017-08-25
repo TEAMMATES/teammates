@@ -66,7 +66,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /*
-     * Remove search document for the given comment
+     * Removes search document for the given comment
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         Long id = commentToDelete.getId();
@@ -85,9 +85,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Remove search document for the comment with given id.
+     * Removes search document for the comment with given id.
      *
-     * @param commentId id of comment
+     * @param commentId ID of comment
      */
     public void deleteDocumentByCommentId(long commentId) {
         deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, String.valueOf(commentId));
@@ -347,7 +347,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     /**
      * Removes comment with given id.
      *
-     * @param id id of comment
+     * @param id ID of comment
      */
     public void deleteCommentById(Long id) {
         ofy().delete().keys(getEntityQueryKeys(id)).now();

@@ -24,16 +24,16 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     // Required fields
     public String courseId;
     public String feedbackSessionName;
+    public String giverEmail;
+    public Text commentText;
 
     // Optional fields
-    public String giverEmail;
     public String feedbackResponseId;
     public String feedbackQuestionId;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
     public Date createdAt;
-    public Text commentText;
     public String lastEditorEmail;
     public Date lastEditedAt;
     public Long feedbackResponseCommentId;
@@ -51,13 +51,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
-        return builder(comment.getCourseId(), comment.getFeedbackSessionName())
-                .withGiverEmail(comment.getGiverEmail())
+        return builder(comment.getCourseId(), comment.getFeedbackSessionName(),
+                    comment.getGiverEmail(), comment.getCommentText())
                 .withFeedbackResponseId(comment.getFeedbackResponseId())
                 .withFeedbackQuestionId(comment.getFeedbackQuestionId())
                 .withFeedbackResponseCommentId(comment.getFeedbackResponseCommentId())
                 .withCreatedAt(comment.getCreatedAt())
-                .withCommentText(comment.getCommentText())
                 .withGiverSection(comment.getGiverSection())
                 .withReceiverSection(comment.getReceiverSection())
                 .withLastEditorEmail(comment.getLastEditorEmail())
@@ -81,8 +80,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * <li>{@code commentText = new Text("")}</li>
      * </ul>
      */
-    public static Builder builder(String courseId, String feedbackSessionName) {
-        return new Builder(courseId, feedbackSessionName);
+    public static Builder builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
+        return new Builder(courseId, feedbackSessionName, giverEmail, commentText);
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
@@ -181,21 +180,15 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         private final FeedbackResponseCommentAttributes frca;
 
-        public Builder(String courseId, String feedbackSessionName) {
+        public Builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
             frca = new FeedbackResponseCommentAttributes();
 
-            validateRequiredFields(courseId, feedbackSessionName);
+            validateRequiredFields(courseId, feedbackSessionName, giverEmail, commentText);
 
             frca.courseId = courseId;
             frca.feedbackSessionName = feedbackSessionName;
-        }
-
-        public Builder withGiverEmail(String giverEmail) {
-            if (giverEmail != null) {
-                frca.giverEmail = giverEmail;
-            }
-
-            return this;
+            frca.giverEmail = giverEmail;
+            frca.commentText = commentText;
         }
 
         public Builder withFeedbackResponseId(String feedbackResponseId) {
@@ -235,11 +228,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 frca.createdAt = createdAt;
             }
 
-            return this;
-        }
-
-        public Builder withCommentText(Text commentText) {
-            frca.commentText = commentText == null ? new Text("") : commentText;
             return this;
         }
 

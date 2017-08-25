@@ -18,8 +18,8 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithDefaultValues() {
-        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes.builder("course",
-                "name")
+        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", new Text(""))
                 .build();
 
         // Default values for following fields
@@ -27,15 +27,13 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.showCommentTo, new ArrayList<>());
         assertEquals(feedbackAttributes.showGiverNameTo, new ArrayList<>());
-        assertEquals(feedbackAttributes.commentText, new Text(""));
         assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 
     @Test
     public void testBuilderWithNullValues() {
-        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes.builder("course",
-                "name")
-                .withGiverEmail(null)
+        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", new Text(""))
                 .withFeedbackResponseId(null)
                 .withFeedbackQuestionId(null)
                 .withShowGiverNameTo(null)
@@ -43,7 +41,6 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withLastEditorEmail(null)
                 .withReceiverSection(null)
                 .withGiverSection(null)
-                .withCommentText(null)
                 .withCreatedAt(new Date())
                 .withLastEditedAt(null)
                 .withFeedbackResponseCommentId(null)
@@ -55,7 +52,6 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.lastEditorEmail, feedbackAttributes.giverEmail);
         assertEquals(feedbackAttributes.lastEditedAt, feedbackAttributes.createdAt);
-        assertEquals(feedbackAttributes.commentText, new Text(""));
         assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 

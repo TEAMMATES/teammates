@@ -73,12 +73,10 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
-                .builder(courseId, feedbackSessionName)
-                .withGiverEmail(instructor.email)
+                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
                 .withCreatedAt(new Date())
-                .withCommentText(new Text(commentText))
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
                 .build();
@@ -119,15 +117,21 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + "by: " + feedbackResponseComment.giverEmail + " at "
                            + feedbackResponseComment.createdAt + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
+        }
 
-            data.comment = createdComment;
-            data.commentId = commentId;
+        if (createdComment == null) {
+            data.showCommentToString = "";
+            data.showGiverNameToString = "";
+        } else {
             data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
             data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
-            data.instructorEmailNameTable = bundle.instructorEmailNameTable;
-            data.question = logic.getFeedbackQuestion(feedbackQuestionId);
-            data.sessionTimeZone = session.getTimeZone();
         }
+
+        data.comment = createdComment;
+        data.commentId = commentId;
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.question = logic.getFeedbackQuestion(feedbackQuestionId);
+        data.sessionTimeZone = session.getTimeZone();
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
