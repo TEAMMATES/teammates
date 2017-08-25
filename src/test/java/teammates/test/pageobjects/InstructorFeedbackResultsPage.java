@@ -401,7 +401,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(1500);
     }
 
-    public void deleteFeedbackResponseCommentInQuestionsPage(String commentIdSuffix) {
+    public void deleteFeedbackResponseCommentInQuestionsView(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
