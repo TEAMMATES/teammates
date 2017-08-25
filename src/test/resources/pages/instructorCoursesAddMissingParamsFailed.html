@@ -78,6 +78,11 @@
             <span class="icon-sort unsorted">
             </span>
           </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="button_sortcoursecreateddate">
+            Creation Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
           <th>
             Sections
           </th>
@@ -102,6 +107,9 @@
           </td>
           <td id="coursename2">
             Software Engineering $^&*()
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate2">
+            ${datetime.now.courses}
           </td>
           <td id="course-stats-sectionNum-2">
             <a class="course-stats-link-2" href="/page/courseStatsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" oncontextmenu="return false;">
@@ -148,6 +156,9 @@
           <td id="coursename0">
             Programming Methodology
           </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate0">
+            ${datetime.now.courses}
+          </td>
           <td id="course-stats-sectionNum-0">
             <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" oncontextmenu="return false;">
               Show
@@ -192,6 +203,9 @@
           </td>
           <td id="coursename1">
             Programming Language Concept
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate1">
+            ${datetime.now.courses}
           </td>
           <td id="course-stats-sectionNum-1">
             <a class="course-stats-link-1" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" oncontextmenu="return false;">
