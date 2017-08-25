@@ -8,7 +8,7 @@
 
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
-<c:set var="isRecipientType" value="${questionWithResponses.question.recipientType}"/>
+<c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
@@ -33,9 +33,9 @@
         Evaluee
       </span>
       <c:choose>
-        <c:when test="${isRecipientType == 'STUDENT'}"> (Student)</c:when>
-        <c:when test="${isRecipientType == 'INSTRUCTOR'}"> (Instructor)</c:when>
-        <c:when test="${isRecipientType == 'TEAM'}"> (Team)</c:when>
+        <c:when test="${recipientType == 'STUDENT'}"> (Student)</c:when>
+        <c:when test="${recipientType == 'INSTRUCTOR'}"> (Instructor)</c:when>
+        <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
     </label>
 
