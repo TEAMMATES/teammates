@@ -1815,7 +1815,6 @@ public final class FeedbackSessionsLogic {
         for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
             sortByCreatedDate(responseCommentList);
         }
-
         return responseComments;
     }
 
