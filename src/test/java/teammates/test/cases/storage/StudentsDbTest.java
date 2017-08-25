@@ -62,7 +62,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     public void testCreateStudent() throws Exception {
 
         StudentAttributes s = StudentAttributes
-                .builder(null, "valid student", "valid-fresh@email.com")
+                .builder("course id", "valid student", "valid-fresh@email.com")
                 .withComments("")
                 .withTeam("validTeamName")
                 .withSection("validSectionName")

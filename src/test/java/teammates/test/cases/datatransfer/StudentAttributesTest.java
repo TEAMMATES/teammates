@@ -37,7 +37,7 @@ public class StudentAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithNullValues() {
         StudentAttributes sd = StudentAttributes
-                .builder(null, null, null)
+                .builder("courseID", "name", "email")
                 .withGoogleId(null).withUpdatedAt(null).withCreatedAt(null)
                 .withKey(null).withSection(null).withTeam(null)
                 .withComments(null).withComments(null)
@@ -50,15 +50,17 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals("", sd.googleId);
         assertEquals(Const.DEFAULT_SECTION, sd.section);
         assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);
-        assertEquals("", sd.lastName);
 
         // Nullable fields
-        assertNull(sd.name);
-        assertNull(sd.course);
-        assertNull(sd.email);
         assertNull(sd.key);
         assertNull(sd.team);
         assertNull(sd.comments);
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void testBuilderWithNullValuesForRequiredFields() {
+        StudentAttributes.builder(null, null, null)
+                .build();
     }
 
     @Test

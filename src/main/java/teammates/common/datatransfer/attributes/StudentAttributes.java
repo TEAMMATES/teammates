@@ -21,9 +21,6 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
-
-    // Note: be careful when changing these variables as their names are used in *.json files.
-
     // Required fields
     public String email;
     public String course;
@@ -367,10 +364,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * A Builder class for {@link StudentAttributes}.
      */
     public static class Builder {
+        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
+
         private final StudentAttributes studentAttributes;
 
         public Builder(String courseId, String name, String email) {
             studentAttributes = new StudentAttributes();
+
+            Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, courseId, name, email);
 
             studentAttributes.course = courseId;
             studentAttributes.name = SanitizationHelper.sanitizeName(name);
@@ -410,7 +411,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public Builder withTeam(String team) {
-            studentAttributes.team = team;
+            if (team != null) {
+                studentAttributes.team = team;
+            }
             return this;
         }
 
@@ -420,7 +423,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public Builder withKey(String key) {
-            studentAttributes.key = key;
+            if (key != null) {
+                studentAttributes.key = key;
+            }
             return this;
         }
 
@@ -432,7 +437,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public Builder withCreatedAt(Date createdAt) {
-            Date dateToAdd = (createdAt == null)
+            Date dateToAdd = createdAt == null
                     ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : createdAt;
             studentAttributes.setCreatedAt(dateToAdd);
