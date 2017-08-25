@@ -126,7 +126,7 @@ $(document).ready(() => {
         const courseId = $entry.data('courseid');
         const studentEmail = $entry.data('studentemail');
         const googleId = $entry.data('googleid');
-        submitResetGoogleIdAjaxRequest(courseId, studentEmail, googleId, entry);
+        submitResetGoogleIdAjaxRequest(courseId, studentEmail, googleId, $entry);
     });
 
     $('#btn-disclose-all-instructors').on('click', () => {
