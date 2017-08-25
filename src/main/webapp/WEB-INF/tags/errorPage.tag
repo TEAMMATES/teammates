@@ -26,8 +26,36 @@
       </div>
     </div>
     <div class="container" id="mainContent">
+      <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
       <jsp:doBody />
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 align-center">
+          <h2>Uh oh! Something went wrong.</h2>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            We are sorry this happened. You can safely ignore this error page in the following cases:
+          </p>
+          <ul>
+            <li>
+              Retrying the same action a few minutes later succeeds (i.e. no more error page).
+            </li>
+            <li>
+              You loaded an outdated page unintentionally. e.g. some browsers auto-load the pages that were loaded in the previous browsing session.
+            </li>
+          </ul>
+          <p>
+            However, if you keep seeing this page on multiple failed attempts when trying to perform some action in TEAMMATES, please help us troubleshoot the problem by providing us some additional details using the form below.
+          </p>
+        </div>
+      </div>
+      <t:errorPageEmailCompose />
     </div>
     <t:bodyFooter />
   </body>
+  <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+  <script type="text/javascript" src="/js/errorPageEmailComposer.js"></script>
 </html>

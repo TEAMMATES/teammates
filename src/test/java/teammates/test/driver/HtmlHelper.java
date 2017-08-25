@@ -348,6 +348,7 @@ public final class HtmlHelper {
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                      .replace("${support.email}", Config.SUPPORT_EMAIL)
                       .replace("${version}", TestProperties.TEAMMATES_VERSION)
                       .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
@@ -483,7 +484,8 @@ public final class HtmlHelper {
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**
@@ -493,6 +495,7 @@ public final class HtmlHelper {
         Date now = new Date();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                      .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                       .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
                       .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("<!-- test.student1.truncated -->",
