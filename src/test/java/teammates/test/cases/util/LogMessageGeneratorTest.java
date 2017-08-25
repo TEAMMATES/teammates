@@ -98,8 +98,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                      + "|||Unknown|||student@email|||Join Course|||" + url;
         StudentAttributes student = StudentAttributes
                 .builder("CS2103", "Joe", "student@email")
-                .withSection("section1").withTeam("team1")
-                .withComments("comments").withGoogleId("unknownGoogleId")
+                .withSection("section1")
+                .withTeam("team1")
+                .withComments("comments")
+                .withGoogleId("unknownGoogleId")
                 .build();
 
         // auth success : unregistered student will be passed

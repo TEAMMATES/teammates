@@ -54,7 +54,9 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
 
         inputStudent = StudentAttributes
                 .builder(courseId, name, email)
-                .withSection(section).withTeam(team).withComments(comments)
+                .withSection(section)
+                .withTeam(team)
+                .withComments(comments)
                 .build();
     }
 

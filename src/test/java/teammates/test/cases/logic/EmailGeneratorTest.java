@@ -330,8 +330,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
 
-        StudentAttributes student = StudentAttributes.builder("", "Student Name", "student@email.tmt")
-                .withKey("skxxxxxxxxxks").build();
+        StudentAttributes student = StudentAttributes
+                .builder("", "Student Name", "student@email.tmt")
+                .withKey("skxxxxxxxxxks")
+                .build();
 
         EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());

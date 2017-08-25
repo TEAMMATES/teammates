@@ -88,7 +88,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         StudentAttributes newStudent = StudentAttributes
                 .builder(courseId, "Jean Wong", "jean@email.tmt")
-                .withSection("Section 3").withTeam("Team 1").withComments("Exchange student")
+                .withSection("Section 3")
+                .withTeam("Team 1")
+                .withComments("Exchange student")
                 .withGoogleId("jean")
                 .build();
         newStudent.updateStatus = StudentUpdateStatus.NEW;
@@ -96,7 +98,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         StudentAttributes newStudentWithExtraSpaces = StudentAttributes
                 .builder(courseId, "student with extra spaces", "studentWithExtraSpaces@gmail.tmt")
-                .withSection("Section 3").withTeam("Team 1").withComments("")
+                .withSection("Section 3")
+                .withTeam("Team 1")
+                .withComments("")
                 .withGoogleId("student")
                 .build();
         newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
@@ -158,7 +162,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         StudentAttributes student1 = StudentAttributes
                 .builder(courseId, "Jean Wong", "jean@email.tmt")
-                .withSection("None").withTeam("Team 1").withComments("Exchange student")
+                .withSection("None")
+                .withTeam("Team 1")
+                .withComments("Exchange student")
                 .withGoogleId("jean")
                 .build();
         student1.updateStatus = StudentUpdateStatus.NEW;
@@ -166,7 +172,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         StudentAttributes student2 = StudentAttributes
                 .builder(courseId, "James Tan", "james@email.tmt")
-                .withSection("None").withTeam("Team 2").withComments("")
+                .withSection("None")
+                .withTeam("Team 2")
+                .withComments("")
                 .withGoogleId("james")
                 .build();
         student2.updateStatus = StudentUpdateStatus.NEW;

@@ -178,7 +178,9 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
         StudentAttributes student = StudentAttributes
                 .builder("tmapit.tcs.course", "name of tcs student", "tcsStudent@gmail.tmt")
-                .withSection("section name").withTeam("team name").withComments("")
+                .withSection("section name")
+                .withTeam("team name")
+                .withComments("")
                 .build();
         BackDoor.deleteStudent(student.course, student.email);
         verifyAbsentInDatastore(student);
@@ -193,7 +195,9 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
         StudentAttributes student = StudentAttributes
                 .builder("course1", "name of tgsr student", "tgsr@gmail.tmt")
-                .withSection("sect1").withTeam("t1").withComments("")
+                .withSection("sect1")
+                .withTeam("t1")
+                .withComments("")
                 .build();
 
         BackDoor.createStudent(student);

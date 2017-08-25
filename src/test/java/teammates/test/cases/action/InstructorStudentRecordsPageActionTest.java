@@ -208,7 +208,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = StudentAttributes
                 .builder("idOfCourseNoEvals", "nameOfStudent", "emailTemp@gmail.tmt")
-                .withSection("section").withTeam("team")
+                .withSection("section")
+                .withTeam("team")
                 .withComments("No comment")
                 .build();
 

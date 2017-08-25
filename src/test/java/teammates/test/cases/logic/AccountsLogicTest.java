@@ -177,7 +177,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         // Create correct student with original@email.com
         StudentAttributes studentData = StudentAttributes
                 .builder(courseId, "name", originalEmail)
-                .withSection("sectionName").withTeam("teamName").withComments("")
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
                 .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
@@ -211,7 +213,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = StudentAttributes
                 .builder(courseId, "name", "differentEmail@email.com")
-                .withSection("sectionName").withTeam("teamName").withComments("")
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
                 .withGoogleId(existingId)
                 .build();
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
@@ -276,7 +280,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         originalEmail = "email2@gmail.com";
         studentData = StudentAttributes
                 .builder(courseId, "name", originalEmail)
-                .withSection("sectionName").withTeam("teamName").withComments("")
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
                 .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
@@ -471,7 +477,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
                 .builder(instructor.courseId, instructor.name, "email@com")
-                .withSection("section").withTeam("team").withComments("")
+                .withSection("section")
+                .withTeam("team")
+                .withComments("")
                 .withGoogleId(instructor.googleId)
                 .build();
         studentsLogic.createStudentCascadeWithoutDocument(student);

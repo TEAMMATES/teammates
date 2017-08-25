@@ -50,7 +50,9 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes unregStudent = StudentAttributes
                 .builder("idOfTypicalCourse1", "Unreg Student", "unreg@stud.ent")
-                .withSection("1").withTeam("Team0.1").withComments("asdf")
+                .withSection("1")
+                .withTeam("Team0.1")
+                .withComments("asdf")
                 .build();
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);

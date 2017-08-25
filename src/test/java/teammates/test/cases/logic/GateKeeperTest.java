@@ -41,7 +41,8 @@ public class GateKeeperTest extends BaseLogicTest {
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = StudentAttributes
                 .builder(course.getId(), "Instructor As Student", "instructorasstudent@yahoo.com")
-                .withSection("Section 1").withTeam("Team 1")
+                .withSection("Section 1")
+                .withTeam("Team 1")
                 .withComments("")
                 .build();
         instructorAsStudent.googleId = instructor.googleId;

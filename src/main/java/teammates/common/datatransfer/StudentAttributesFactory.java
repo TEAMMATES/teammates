@@ -111,8 +111,11 @@ public class StudentAttributesFactory {
             paramSection = Const.DEFAULT_SECTION;
         }
 
-        return StudentAttributes.builder(courseId, paramName, paramEmail)
-                .withTeam(paramTeam).withSection(paramSection).withComments(paramComment)
+        return StudentAttributes
+                .builder(courseId, paramName, paramEmail)
+                .withTeam(paramTeam)
+                .withSection(paramSection)
+                .withComments(paramComment)
                 .build();
     }
 

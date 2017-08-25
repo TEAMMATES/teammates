@@ -129,7 +129,9 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1 = StudentAttributes
                 .builder(instructorCourse, "n", "e@g")
-                .withSection("sect 1").withTeam("t1").withComments("c")
+                .withSection("sect 1")
+                .withTeam("t1")
+                .withComments("c")
                 .build();
 
         // check if the course is empty
@@ -153,7 +155,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("add student into non-empty course");
         StudentAttributes student2 = StudentAttributes
                 .builder(instructorCourse, "n2", "e2@g")
-                .withSection("sect 1").withTeam("t1").withComments("c")
+                .withSection("sect 1")
+                .withTeam("t1")
+                .withComments("c")
                 .build();
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
@@ -163,11 +167,15 @@ public class StudentsLogicTest extends BaseLogicTest {
         //  because we can use them for testing cascade logic later in this test case)
         enrollStudent(StudentAttributes
                 .builder(instructorCourse, "n3", "e3@g")
-                .withSection("sect 2").withTeam("t2").withComments("c")
+                .withSection("sect 2")
+                .withTeam("t2")
+                .withComments("c")
                 .build());
         enrollStudent(StudentAttributes
                 .builder(instructorCourse, "n4", "e4@g")
-                .withSection("sect 2").withTeam("t2").withComments("")
+                .withSection("sect 2")
+                .withTeam("t2")
+                .withComments("")
                 .build());
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
@@ -224,12 +232,16 @@ public class StudentsLogicTest extends BaseLogicTest {
         List<StudentAttributes> studentList = new ArrayList<>();
         studentList.add(StudentAttributes
                 .builder(courseId, "New Student", "emailNew@com")
-                .withSection("Section 3").withTeam("Team 1.3").withComments("")
+                .withSection("Section 3")
+                .withTeam("Team 1.3")
+                .withComments("")
                 .build());
         studentList.add(StudentAttributes
-                        .builder(courseId, "student2 In Course1", "student2InCourse1@gmail.tmt")
-                        .withSection("Section 2").withTeam("Team 1.4").withComments("")
-                        .build());
+                .builder(courseId, "student2 In Course1", "student2InCourse1@gmail.tmt")
+                .withSection("Section 2")
+                .withTeam("Team 1.4")
+                .withComments("")
+                .build());
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
@@ -239,7 +251,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         for (int i = 0; i < 100; i++) {
             StudentAttributes addedStudent = StudentAttributes
                     .builder(courseId, "Name " + i, "email@com" + i)
-                    .withSection("Section 1").withTeam("Team " + i).withComments("cmt" + i)
+                    .withSection("Section 1")
+                    .withTeam("Team " + i)
+                    .withComments("cmt" + i)
                     .build();
             studentList.add(addedStudent);
         }
@@ -254,7 +268,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentList = new ArrayList<>();
         studentList.add(StudentAttributes
                 .builder(courseId, "New Student", "newemail@com")
-                .withSection("Section 2").withTeam("Team 1.1").withComments("")
+                .withSection("Section 2")
+                .withTeam("Team 1.1")
+                .withComments("")
                 .build());
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);

@@ -61,7 +61,8 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         String idOfNewStudent = "idOfNewStudent";
         StudentAttributes newStudentData = StudentAttributes
                 .builder(student1InCourse1.course, "nameOfNewStudent", "newStudent@course1.com")
-                .withSection(student1InCourse1.section).withTeam(student1InCourse1.team)
+                .withSection(student1InCourse1.section)
+                .withTeam(student1InCourse1.team)
                 .withComments("This is a new student")
                 .build();
 

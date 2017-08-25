@@ -99,11 +99,15 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         StudentAttributes unregisteredStudent1 = StudentAttributes
                 .builder(courseId, "Unregistered student 1", "unregistered1@email.com")
-                .withSection("Section 1").withTeam("Team Unregistered").withComments("")
+                .withSection("Section 1")
+                .withTeam("Team Unregistered")
+                .withComments("")
                 .build();
         StudentAttributes unregisteredStudent2 = StudentAttributes
                 .builder(courseId, "Unregistered student 2", "unregistered2@email.com")
-                .withSection("Section 1").withTeam("Team Unregistered").withComments("")
+                .withSection("Section 1")
+                .withTeam("Team Unregistered")
+                .withComments("")
                 .build();
         StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
         StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
