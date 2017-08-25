@@ -1,6 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +11,6 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.TimeHelperExtension;
@@ -31,10 +30,15 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         endTime = TimeHelper.combineDateTime("09/05/2017", "1000");
 
         fsa = FeedbackSessionAttributes
-                .builder(null, null, null)
-                .withStartTime(startTime).withEndTime(endTime).withTimeZone(8).withGracePeriod(15)
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD).withOpeningEmailEnabled(false)
-                .withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
+                .builder("", "", "")
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withTimeZone(8)
+                .withGracePeriod(15)
+                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
+                .withOpeningEmailEnabled(false)
+                .withClosingEmailEnabled(false)
+                .withPublishedEmailEnabled(false)
                 .build();
     }
 
@@ -48,38 +52,9 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
+        assertEquals(new Text(""), fsa.getInstructions());
         assertNotNull(fsa.getRespondingInstructorList());
         assertNotNull(fsa.getRespondingStudentList());
-    }
-
-    @Test
-    public void testBuilderWithNullValues() {
-        FeedbackSessionAttributes fsa = FeedbackSessionAttributes
-                .builder(null, null, null)
-                .withInstructions(null)
-                .withCreatedTime(null)
-                .withStartTime(null)
-                .withEndTime(null)
-                .withSessionVisibleFromTime(null)
-                .withResultsVisibleFromTime(null)
-                .withRespondingStudentList(null)
-                .withRespondingInstructorList(null)
-                .build();
-
-        // Not null fields
-        assertNotNull(fsa.getRespondingInstructorList());
-        assertNotNull(fsa.getRespondingStudentList());
-
-        // Nullable fields
-        assertNull(fsa.getFeedbackSessionName());
-        assertNull(fsa.getCourseId());
-        assertNull(fsa.getCreatorEmail());
-        assertNull(fsa.getInstructions());
-        assertNull(fsa.getStartTime());
-        assertNull(fsa.getEndTime());
-        assertNull(fsa.getCreatedTime());
-        assertNull(fsa.getSessionVisibleFromTime());
-        assertNull(fsa.getResultsVisibleFromTime());
     }
 
     @Test
@@ -132,26 +107,30 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @Test
     public void testValidate() {
+        ______TS("invalid parameter error messages");
 
-        ______TS("null parameter error messages");
+        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes
+                .builder("", "", "")
+                .withStartTime(new Date())
+                .withEndTime(new Date())
+                .withCreatedTime(new Date())
+                .withResultsVisibleFromTime(new Date())
+                .withSessionVisibleFromTime(new Date())
+                .build();
+        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
+    }
 
-        List<String> expectedErrorMessage = new ArrayList<>();
-        String[] fieldNames = new String[]{
-                "feedback session name",
-                "course ID",
-                "instructions to students",
-                "time for the session to become visible",
-                "creator's email",
-                "session creation time"};
-        for (String fieldName : fieldNames) {
-            expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName));
-        }
+    private List<String> buildExpectedErrorMessages() {
+        String feedbackSessionNameError = "The field 'feedback session name' is empty. The value of a/an feedback "
+                + "session name should be no longer than 38 characters. It should not be empty.";
+        String courseIdError = "The field 'course ID' is empty. A course ID can contain letters, numbers, fullstops, "
+                + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
+                + "cannot contain spaces.";
+        String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
+                + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
+                + " and cannot contain spaces.";
 
-        //expect all the error messages to be appended together.
-        assertEquals(fsa.getInvalidityInfo(), expectedErrorMessage);
-
-        ______TS("invalid parameters error messages");
-
+        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError);
     }
 
 }

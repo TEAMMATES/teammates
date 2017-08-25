@@ -52,6 +52,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         isPublishedEmailEnabled = true;
         respondingInstructorList = new HashSet<>();
         respondingStudentList = new HashSet<>();
+
+        instructions = new Text("");
     }
 
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
@@ -396,8 +398,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *  {@code false} if not.
      */
     public boolean isPrivateSession() {
-        return sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)
-               || feedbackSessionType.equals(FeedbackSessionType.PRIVATE);
+        return Const.TIME_REPRESENTS_NEVER.equals(sessionVisibleFromTime)
+               || FeedbackSessionType.PRIVATE.equals(feedbackSessionType);
     }
 
     public boolean isCreator(String instructorEmail) {
@@ -694,32 +696,45 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withInstructions(Text instructions) {
-            feedbackSessionAttributes.setInstructions(instructions);
+            Text instructionsToSet = instructions == null
+                    ? new Text("")
+                    : instructions;
+            feedbackSessionAttributes.setInstructions(instructionsToSet);
             return this;
         }
 
         public Builder withCreatedTime(Date createdTime) {
-            feedbackSessionAttributes.setCreatedTime(createdTime);
+            if (createdTime != null) {
+                feedbackSessionAttributes.setCreatedTime(createdTime);
+            }
             return this;
         }
 
         public Builder withStartTime(Date startTime) {
-            feedbackSessionAttributes.setStartTime(startTime);
+            if (startTime != null) {
+                feedbackSessionAttributes.setStartTime(startTime);
+            }
             return this;
         }
 
         public Builder withEndTime(Date endTime) {
-            feedbackSessionAttributes.setEndTime(endTime);
+            if (endTime != null) {
+                feedbackSessionAttributes.setEndTime(endTime);
+            }
             return this;
         }
 
         public Builder withSessionVisibleFromTime(Date sessionVisibleFromTime) {
-            feedbackSessionAttributes.setSessionVisibleFromTime(sessionVisibleFromTime);
+            if (sessionVisibleFromTime != null) {
+                feedbackSessionAttributes.setSessionVisibleFromTime(sessionVisibleFromTime);
+            }
             return this;
         }
 
         public Builder withResultsVisibleFromTime(Date resultsVisibleFromTime) {
-            feedbackSessionAttributes.setResultsVisibleFromTime(resultsVisibleFromTime);
+            if (resultsVisibleFromTime != null) {
+                feedbackSessionAttributes.setResultsVisibleFromTime(resultsVisibleFromTime);
+            }
             return this;
         }
 
@@ -734,7 +749,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
-            feedbackSessionAttributes.setFeedbackSessionType(feedbackSessionType);
+            if (feedbackSessionType != null) {
+                feedbackSessionAttributes.setFeedbackSessionType(feedbackSessionType);
+            }
             return this;
         }
 

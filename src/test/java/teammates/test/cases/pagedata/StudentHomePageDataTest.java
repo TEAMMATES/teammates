@@ -200,7 +200,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
-        return FeedbackSessionAttributes.builder(name, null, null)
+        return FeedbackSessionAttributes.builder(name, "", "")
                 .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetStart))
                 .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetEnd))
                 .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetPublish))
