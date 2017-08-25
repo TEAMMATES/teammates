@@ -39,12 +39,13 @@
 
               <div class="panel panel-info">
                 <div class="panel-heading">Question 3:
-                  <span >Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
-                    <span >
+                  <span>Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;
+                    <span>
                       <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-8" class="color_gray" data-more="[more]" data-less="[less]">[more]</a>
                       <br>
                       <span id="questionAdditionalInfo-3-giver-0-recipient-8" style="display:none;">Numerical-scale question:
-                        <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
+                        <br>Minimum value: 1. Increment: 1.0. Maximum value: 5.
+                      </span>
                     </span>
                   </span>
                 </div>
@@ -52,7 +53,8 @@
                   <div style="clear:both; overflow: hidden">
                     <div class="pull-left">4</div>
                     <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" data-toggle="tooltip" data-placement="top" title="Add comment">
-                      <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                      <span class="glyphicon glyphicon-comment glyphicon-primary">
+                      </span>
                     </button>
                   </div>
 
@@ -87,7 +89,8 @@
                                 <tr id="response-giver-8-0-1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what response giver can view">
-                                      Response Giver</div>
+                                      Response Giver
+                                    </div>
                                   </td>
                                   <td>
                                     <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER" checked="">
@@ -100,7 +103,8 @@
                                 <tr id="response-recipient-8-0-1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what response recipient(s) can view">
-                                      Response Recipient(s)</div>
+                                      Response Recipient(s)
+                                    </div>
                                   </td>
                                   <td>
                                     <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" checked="">
@@ -113,7 +117,8 @@
                                 <tr id="response-instructors-8-0-1">
                                   <td class="text-left">
                                     <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
-                                      Instructors</div>
+                                      Instructors
+                                    </div>
                                   </td>
                                   <td>
                                     <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS" checked="">

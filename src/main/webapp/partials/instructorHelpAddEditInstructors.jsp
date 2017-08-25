@@ -20,9 +20,11 @@
               <div class="pull-right">
 
                 <a href="javascript:;" id="instrEditLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" disabled="">
-                  <span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                  <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
                 <a href="javascript:;" id="instrDeleteLink3" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course" disabled="">
-                  <span class="glyphicon glyphicon-trash"></span> Delete</a>
+                  <span class="glyphicon glyphicon-trash"></span> Delete
+                </a>
               </div>
             </div>
 
@@ -57,7 +59,8 @@
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 control-label">
-                      <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" disabled="" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</label>
+                      <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" disabled="" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:
+                    </label>
                     <div class="col-sm-9">
                       <input class="form-control" type="text" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor" data-toggle="tooltip" data-placement="top" disabled="" title="Specify the role of this instructor in this course as shown to the students">
                     </div>
@@ -70,7 +73,8 @@
                           <span>Co-owner</span>
 
                           <a href="javascript:;">
-                            &nbsp;View Details</a>
+                            &nbsp;View Details
+                          </a>
 
                         </p>
                       </div>
@@ -122,7 +126,8 @@
                   <div id="accessControlEditDivForInstr2">
                     <div class="form-group">
                       <label class="col-sm-3 control-label">
-                        <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</label>
+                        <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:
+                      </label>
                       <div class="col-sm-9">
                         <input class="form-control" type="text" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" data-toggle="tooltip" data-placement="top" title="Specify the role of this instructor in this course as shown to the students">
                       </div>
@@ -134,19 +139,23 @@
                       <div class="col-sm-9">
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Co-owner" checked="">&nbsp;Co-owner: Can do everything
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Manager">&nbsp;Manager: Can do everything except for deleting the course
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Observer">&nbsp;Observer: Can only view information(students, submissions, comments etc.). &nbsp;Cannot edit/delete/submit anything.
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Tutor">&nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Custom">&nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                       </div>
@@ -215,9 +224,11 @@
               <div class="pull-right">
 
                 <a href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit instructor details" style="display: none;">
-                  <span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                  <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
                 <a href="javascript:;" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Delete the instructor from the course">
-                  <span class="glyphicon glyphicon-trash"></span> Delete</a>
+                  <span class="glyphicon glyphicon-trash"></span> Delete
+                </a>
               </div>
             </div>
 
@@ -252,7 +263,8 @@
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 control-label">
-                      <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</label>
+                      <input type="checkbox" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:
+                    </label>
                     <div class="col-sm-9">
                       <input class="form-control" type="text" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor" data-toggle="tooltip" data-placement="top" title="Specify the role of this instructor in this course as shown to the students">
                     </div>
@@ -265,7 +277,8 @@
                           <span>Co-owner</span>
 
                           <a href="javascript:;">
-                            &nbsp;View Details</a>
+                            &nbsp;View Details
+                          </a>
 
                         </p>
                       </div>
@@ -280,19 +293,23 @@
                       <div class="col-sm-9">
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Co-owner"> &nbsp;Co-owner: Can do everything &nbsp;
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Manager"> &nbsp;Manager: Can do everything except for deleting the course &nbsp;
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Observer"> &nbsp;Observer: Can only view information(students, submissions, comments etc.). &nbsp;Cannot edit/delete/submit anything. &nbsp;
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Tutor"> &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions &nbsp;
                         <a href="javascript:;">
-                          View Details</a>
+                          View Details
+                        </a>
                         <br>
                         <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Custom" checked=""> &nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                         <br>
