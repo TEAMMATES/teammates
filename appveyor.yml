@@ -18,9 +18,9 @@ skip_commits:
     - '**/*.gif'
     - LICENSE
     - docs/**/*
+    - .templates/**/*
 
 install:
-  - choco install firefox --version 46.0
   - npm install
 
 build_script:
