@@ -122,10 +122,10 @@ $(document).ready(() => {
 
     $('.resetGoogleIdButton').click((e) => {
         e.stopPropagation();
-         const $entry = $(e.target); 
-         const courseId = $entry.data('courseid'); 
-         const studentEmail = $entry.data('studentemail'); 
-         const googleId = $entry.data('googleid'); 
+        const $entry = $(e.target);
+        const courseId = $entry.data('courseid');
+        const studentEmail = $entry.data('studentemail');
+        const googleId = $entry.data('googleid');
         submitResetGoogleIdAjaxRequest(courseId, studentEmail, googleId, entry);
     });
 
