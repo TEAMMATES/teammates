@@ -10,10 +10,12 @@ public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private String href;
     private InstructorFeedbackSessionActions actions;
 
-    public InstructorHomeFeedbackSessionRow(String name, String tooltip, String status,
-            String startTime, String startTimeToolTip, String startTimeDateStamp, String endTime,
-            String endTimeToolTip, String endTimeDateStamp, String href, InstructorFeedbackSessionActions actions) {
-        super(name, tooltip, status);
+
+    public InstructorHomeFeedbackSessionRow(String name, String submissionsTooltip, String publishedTooltip,
+            String submissionStatus, String publishedStatus, String startTime, String startTimeDateStamp,
+            String startTimeToolTip, String endTime, String endTimeDateStamp, String endTimeToolTip,
+            String href, InstructorFeedbackSessionActions actions) {
+        super(name, submissionsTooltip, publishedTooltip, submissionStatus, publishedStatus);
         this.startTime = startTime;
         this.startTimeToolTip = startTimeToolTip;
         this.startTimeDateStamp = startTimeDateStamp;
