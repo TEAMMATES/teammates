@@ -758,7 +758,7 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": {
-        "value": "Alice is a good girl coder."
+        "value": "Alice is a good coder."
       },
       "giverSection": "Section A",
       "recipientSection": "Section B"
