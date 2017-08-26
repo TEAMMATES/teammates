@@ -1156,6 +1156,7 @@ public final class Const {
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
         public static final String EMAIL_NOT_FOUND = "The requested email was not found";
+        public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
         public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
 
         public static final String NOT_A_RECEIVER_LIST_FILE =

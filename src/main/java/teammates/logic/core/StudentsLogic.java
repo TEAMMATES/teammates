@@ -621,13 +621,13 @@ public final class StudentsLogic {
     }
 
     /**
-     * Returns the formatted string about enrollment problem for invalid using invalidity info of
-     * {@code student} and sanitized enrollment line {@code line}.
+     * Returns a {@code String} containing the invalid information of the {@code student}
+     * and the corresponding sanitized invalid {@code userInput}.
      */
-    private String invalidStudentInfo(StudentAttributes student, String line) {
+    private String invalidStudentInfo(StudentAttributes student, String userInput) {
         String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info);
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
     }
 
     /**
@@ -674,23 +674,22 @@ public final class StudentsLogic {
     }
 
     /**
-     * Returns the formatted string for duplicate email error using {@code linesArray},
-     * the index of the first occurrence of the duplicate {@code isDuplicate}
-     * and sanitized enrollment line {@code line}.
+     * Returns a {@code String} containing the duplicate email information in {@code linesArray} on
+     * the index {@code duplicateEmailIndex} and the corresponding sanitized invalid {@code userInput}.
      */
-    private String duplicateEmailInfo(String line, String[] linesArray, int isDuplicate) {
+    private String duplicateEmailInfo(String userInput, String[] linesArray, int duplicateEmailIndex) {
         String info =
-                "Same email address as the student in line \"" + linesArray[isDuplicate + 1] + "\""
+                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + linesArray[duplicateEmailIndex + 1] + "\""
                 + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info);
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
     }
 
     /**
-     * Returns the formatted string on enrollment exception for using
-     * {@code errorMessage} and sanitized enrollment line {@code line}.
+     * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
+     * and the corresponding sanitized invalid {@code userInput}.
      */
-    private String enrollExceptionInfo(String line, String errorMessage) {
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, errorMessage);
+    private String enrollExceptionInfo(String userInput, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
     }
 
 }
