@@ -207,8 +207,8 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
-    const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
-    commentBar.hide();
+    const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
+    $commentBar.hide();
     $(`#plainCommentText${id}`).hide();
     $(`#responseCommentEditForm${id} > div > textarea`).val($(`#plainCommentText${id}`).text());
     $(`#responseCommentEditForm${id}`).show();
@@ -229,15 +229,15 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
 function toggleVisibilityAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
     const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
-    const visibilityEditForm = $(`#visibility-options${id}`);
-    if (visibilityEditForm.is(':visible')) {
-        visibilityEditForm.hide();
+    const $visibilityEditForm = $(`#visibility-options${id}`);
+    if ($visibilityEditForm.is(':visible')) {
+        $visibilityEditForm.hide();
         $(`#frComment-visibility-options-trigger${id}`)
-            .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+                .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     } else {
-        visibilityEditForm.show();
+        $visibilityEditForm.show();
         $(`#frComment-visibility-options-trigger${id}`)
-            .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+                .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
     }
 }
 
@@ -252,15 +252,15 @@ function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIn
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
-    const visibilityEditForm = $(`#visibility-options${id}`);
-    if (visibilityEditForm.is(':visible')) {
-        visibilityEditForm.hide();
+    const $visibilityEditForm = $(`#visibility-options${id}`);
+    if ($visibilityEditForm.is(':visible')) {
+        $visibilityEditForm.hide();
         $(`#frComment-visibility-options-trigger${id}`)
-            .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+                .html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
     } else {
-        visibilityEditForm.show();
+        $visibilityEditForm.show();
         $(`#frComment-visibility-options-trigger${id}`)
-            .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+                .html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
     }
 }
 
@@ -275,8 +275,8 @@ function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
-    const commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
-    commentBar.show();
+    const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
+    $commentBar.show();
     $(`#plainCommentText${id}`).show();
     restoreInitialVisibilityOfCheckboxes($(`#responseCommentEditForm${id}`), $(`#responseCommentEditForm${id}`));
     $(`#responseCommentEditForm${id}`).hide();
