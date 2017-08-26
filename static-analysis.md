@@ -180,7 +180,7 @@ and [set up project specific settings and dependencies](setting-up.md#step-3-set
 1. Click `OK`.
 1. Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
 
-### blanket.js
+### blanket.js 
 
 [blanket.js](http://blanketjs.org) measures code coverage for JavaScript test run.
 It is immediately enabled for all scripts with the `data-cover` attribute (configured via HTML) in a QUnit test run.
