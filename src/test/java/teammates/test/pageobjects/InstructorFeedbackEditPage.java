@@ -400,8 +400,8 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         WebElement moveColButton = browser.driver.findElement(By.id(elemId));
 
-        if (moveColButton.getAttribute("disabled") == null) {
-            moveColButton.click();
+        if (moveColButton.isEnabled()) {
+            click(moveColButton);
 
             return true;
         }
@@ -457,8 +457,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION
                         + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
 
-        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
-        fillTextBox(subQnBox, description);
+        WebElement descriptionBox = browser.driver.findElement(By.id(elemId));
+        fillTextBox(descriptionBox, description);
     }
 
     public void clickQuestionEditForQuestion(int qnNumber) {
