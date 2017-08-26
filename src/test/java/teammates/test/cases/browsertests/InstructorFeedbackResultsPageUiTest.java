@@ -477,14 +477,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.filterResponsesForSection("Section B");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
 
-        ______TS("Typical case: filter by 'No specific recipient'");
+        ______TS("Typical case: filter by 'No specific section'");
 
-        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_RECIPIENT);
+        resultsPage.filterResponsesForSection(Const.NO_SPECIFIC_SECTION);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
 
-        ______TS("Verify that 'No specific recipient' has a section panel on a non-question view");
+        ______TS("Verify that 'No specific section' has a section panel on a non-question view");
         resultsPage.displayByRecipientGiverQuestion();
-        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_RECIPIENT));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
         assertFalse(resultsPage.isSectionPanelExist("Section A"));
 
         resultsPage.displayByQuestion();
@@ -634,6 +634,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.editFeedbackResponseComment("-1-1-1-1-1", "edited test comment");
         resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditComment.html");
+
+        ______TS("Typical case: edit comment created by different instructor");
+
+        resultsPage.editFeedbackResponseComment("-1-0-1-1-1", "Comment edited by different instructor");
+        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
 
         ______TS("Typical case: delete existing feedback response comment");
 
@@ -695,7 +702,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                               .withUserId("CFResultsUiT.instr");
         browser.driver.get(reportUrl.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
-        assertFalse(reportUrl.equals(afterReportDownloadUrl));
+        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
         // Get an error page due to missing parameters in URL
         // If admin is an instructor, expected url is InstructorHomePage
         //                 otherwise, expected url is unauthorised.jsp

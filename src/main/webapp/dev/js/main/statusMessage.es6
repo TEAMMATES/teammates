@@ -3,11 +3,11 @@ import {
 } from '../common/scrollTo.es6';
 
 $(document).ready(() => {
-    const statusMessage = document.getElementById('statusMessagesToUser');
+    const statusMessage = $('#statusMessagesToUser').get(0);
     let navbarHeight = 0;
     const extraPadding = 15;
 
-    const navbar = document.getElementsByClassName('navbar')[0];
+    const navbar = $('.navbar')[0];
 
     if (navbar !== undefined) {
         navbarHeight = navbar.offsetHeight;
