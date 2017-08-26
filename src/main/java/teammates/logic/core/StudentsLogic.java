@@ -624,6 +624,9 @@ public final class StudentsLogic {
         return "Same email address as the student in line \"" + linesArray[duplicateEmailIndex + 1] + "\"";
     }
 
+    /**
+     * lines is the enrollment lines entered by the instructor.
+     */
     private String invalidStudentInfo(StudentAttributes student, String line) {
         String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
@@ -673,6 +676,9 @@ public final class StudentsLogic {
         return null;
     }
 
+    /**
+     * lines is the enrollment lines entered by the instructor.
+     */
     private String addDuplicateEmailInfo(String sanitizedLine, String[] linesArray, int isDuplicate) {
         String info =
                 getInvalidityInfoInDuplicatedEmail(linesArray, isDuplicate)
@@ -680,8 +686,11 @@ public final class StudentsLogic {
         return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info);
     }
 
-    private String enrollExceptionInfo(String sanitizedLine, String errorMessage) {
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, errorMessage);
+    /**
+     * lines is the enrollment lines entered by the instructor.
+     */
+    private String enrollExceptionInfo(String line, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, errorMessage);
     }
 
 }
