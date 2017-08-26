@@ -50,6 +50,9 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         if (!data.isSessionOpenForSubmission()) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
                                                StatusMessageColor.WARNING));
+        } else {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL,
+                    StatusMessageColor.INFO));
         }
 
         data.init(regKey, email, courseId);
