@@ -604,7 +604,7 @@ public final class StudentsLogic {
 
                 int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
                 if (duplicateEmailIndex != -1) {
-                    invalidityInfo.add(duplicateEmailInfo(sanitizedLine, linesArray, duplicateEmailIndex));
+                    invalidityInfo.add(duplicateEmailInfo(sanitizedLine, linesArray[duplicateEmailIndex + 1]));
                 }
 
                 studentList.add(student);
@@ -674,12 +674,12 @@ public final class StudentsLogic {
     }
 
     /**
-     * Returns a {@code String} containing the duplicate email information in {@code linesArray} on
-     * the index {@code duplicateEmailIndex} and the corresponding sanitized invalid {@code userInput}.
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
+     * the corresponding sanitized invalid {@code userInput}.
      */
-    private String duplicateEmailInfo(String userInput, String[] linesArray, int duplicateEmailIndex) {
+    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
         String info =
-                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + linesArray[duplicateEmailIndex + 1] + "\""
+                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
                 + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
         return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
     }
