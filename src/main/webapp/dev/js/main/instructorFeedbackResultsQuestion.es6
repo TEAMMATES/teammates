@@ -26,6 +26,9 @@ window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
 $(document).ready(() => {
     prepareInstructorPages();
     prepareInstructorFeedbackResultsPage();
+    enableHoverToDisplayEditOptions();
+    registerResponseCommentCheckboxEvent();
+    registerResponseCommentsEvent();
 
     const isPanelSetAsEmptyByBackend = function ($panelBody) {
         return $panelBody.find('.no-response').length !== 0;
@@ -86,9 +89,6 @@ $(document).ready(() => {
                 $(panelHeading).off('click');
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
-                enableHoverToDisplayEditOptions();
-                registerResponseCommentCheckboxEvent();
-                registerResponseCommentsEvent();
 
                 if (isPanelSetAsEmptyByBackend($panelBody)) {
                     displayAsEmptyPanel($panelBody);
