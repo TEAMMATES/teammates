@@ -348,6 +348,7 @@ public final class HtmlHelper {
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                      .replace("${support.email}", Config.SUPPORT_EMAIL)
                       .replace("${version}", TestProperties.TEAMMATES_VERSION)
                       .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
@@ -397,6 +398,8 @@ public final class HtmlHelper {
         String dateTimeNow = sdf.format(now);
         SimpleDateFormat sdfForIso8601 = new SimpleDateFormat("yyyy-MM-dd'T'");
         String dateTimeNowInIso8601 = sdfForIso8601.format(now);
+        SimpleDateFormat sdfForCoursesPage = new SimpleDateFormat("d MMM yyyy");
+        String dateTimeNowInCoursesPageFormat = sdfForCoursesPage.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
                       .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
@@ -431,8 +434,9 @@ public final class HtmlHelper {
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                       // anonymous student identifier on results page
-                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
-                                  "Anonymous $1 \\${participant\\.hash}")
+                      .replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                                  + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT
+                                  + " $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
@@ -450,6 +454,7 @@ public final class HtmlHelper {
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
+                      .replaceAll(dateTimeNowInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -479,7 +484,8 @@ public final class HtmlHelper {
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**
@@ -489,6 +495,7 @@ public final class HtmlHelper {
         Date now = new Date();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                      .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                       .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
                       .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("<!-- test.student1.truncated -->",
@@ -505,7 +512,8 @@ public final class HtmlHelper {
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
-                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now));
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
+                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
     }
 
     private static TimeZone getTimeZone(String content) {

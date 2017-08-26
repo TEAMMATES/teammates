@@ -1538,8 +1538,8 @@
                                             <option value="Tutorial Group 2">
                                             Tutorial Group 2
                                             </option>
-                                            <option value="No specific recipient">
-                                            No specific recipient
+                                            <option value="No specific section">
+                                            No specific section
                                             </option>
                                         </select>
                                     </div>
@@ -1833,7 +1833,7 @@
                                         <div class="panel-heading">Question 2: Comment about 5 other students</div>
                                         <div class="panel-body">
                                             <div style="clear: both; overflow: hidden">
-                                                <div class="pull-left">Alice is a good girl coder.
+                                                <div class="pull-left">Alice is a good coder.
                                                 </div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
