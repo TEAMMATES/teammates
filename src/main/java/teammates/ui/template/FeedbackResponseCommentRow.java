@@ -246,8 +246,8 @@ public class FeedbackResponseCommentRow {
     }
 
     private String getCommentGiverNameFromEmail(String giverEmail) {
-        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(giverEmail)) {
-            return Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT;
+        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
+            return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
         return instructorEmailNameTable.get(giverEmail);
     }
@@ -256,7 +256,7 @@ public class FeedbackResponseCommentRow {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
-        boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT.equals(commentGiverName);
+        boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
                 + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";

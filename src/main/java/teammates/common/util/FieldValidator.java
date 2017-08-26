@@ -131,7 +131,7 @@ public class FieldValidator {
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES =
             "It cannot be longer than ${maxLength} characters, cannot be empty and cannot contain spaces.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
-            "All ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
+            "A/An ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
             + "(|) or percent sign (%).";
 
     // generic (i.e., not specific to any field) error messages
