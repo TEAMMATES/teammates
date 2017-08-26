@@ -10,7 +10,6 @@ public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private String href;
     private InstructorFeedbackSessionActions actions;
 
-
     public InstructorHomeFeedbackSessionRow(String name, String submissionsTooltip, String publishedTooltip,
             String submissionStatus, String publishedStatus, String startTime, String startTimeDateStamp,
             String startTimeToolTip, String endTime, String endTimeDateStamp, String endTimeToolTip,
