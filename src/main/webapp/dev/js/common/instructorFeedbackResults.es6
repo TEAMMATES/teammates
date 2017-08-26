@@ -240,6 +240,19 @@ function getAppendedResponseRateData(data) {
     return appendedResponseStatus;
 }
 
+function showHideSectionDisplayMode() {
+    const selectedView = $('#viewSelect').val();
+    const selectedSection = $('#sectionSelect').val();
+
+    if (selectedView && selectedSection && selectedView === 'question' && selectedSection !== 'All') {
+        $('#sectionDisplayMode').show();
+        $('#sectionDisplayModeLabel').show();
+    } else {
+        $('#sectionDisplayMode').hide();
+        $('#sectionDisplayModeLabel').hide();
+    }
+}
+
 function toggleNoResponsePanel(e) {
     const $targetElement = $(e.target);
     if ($targetElement.is('a') || $targetElement.is('input')) {
@@ -341,6 +354,17 @@ function prepareInstructorFeedbackResultsPage() {
             },
         });
     };
+
+    showHideSectionDisplayMode();
+    $('#viewSelect').change(showHideSectionDisplayMode);
+    $('#sectionSelect').change(showHideSectionDisplayMode);
+
+    $('#editForm').submit(() => {
+        const sectionDisplayModeElement = $('#sectionDisplayMode');
+        if (sectionDisplayModeElement.is(':hidden')) {
+            sectionDisplayModeElement.val('BOTH_IN_SECTION'); // set default value if hidden
+        }
+    });
 
     // ajax-response-submit requires the user to click on it to load the noResponsePanel,
     // ajax-response-auto automatically loads the noResponsePanel when the page is loaded

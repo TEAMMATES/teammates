@@ -7,7 +7,7 @@
 
 <div id="editModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <form method="post" action="${filterPanel.resultsLink}">
+    <form id="editForm" method="post" action="${filterPanel.resultsLink}">
       <div class="modal-content">
         <div class="modal-header alert-info">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -63,7 +63,7 @@
                 </div>
               </c:if>
               <div class="form-group">
-                <label for="sectionDisplayMode" class="control-label">
+                <label id="sectionDisplayModeLabel" for="sectionDisplayMode" class="control-label">
                   Section display mode:
                 </label>
                 <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
