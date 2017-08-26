@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
@@ -16,6 +17,7 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
+import teammates.test.pageobjects.UserErrorReportPage;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -156,6 +158,24 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         url = createUrl(Const.ViewURIs.ENABLE_JS);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/enableJs.html");
+
+        ______TS("user error report form - submit successfully");
+        url = createUrl(Const.ViewURIs.ERROR_PAGE);
+        currentPage.navigateTo(url);
+        UserErrorReportPage errorReportPage = currentPage.changePageType(UserErrorReportPage.class);
+        errorReportPage.verifyErrorReportFormContents();
+        errorReportPage.fillFormAndClickSubmit("This is an error report.");
+        errorReportPage.verifyStatus(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
+
+        ______TS("user error report form - submit failed");
+        logout();
+        url = createUrl(Const.ViewURIs.ERROR_PAGE);
+        errorReportPage.navigateTo(url);
+        errorReportPage.verifyErrorReportFormContents();
+        errorReportPage.fillFormAndClickSubmit("This is an error report.");
+        final String failedStatusMessage = "Failed to record the error message. Please email our support team at "
+                + Config.SUPPORT_EMAIL + ".";
+        errorReportPage.verifyStatus(failedStatusMessage);
     }
 
     private void loginStudent(String userName, String password) {
