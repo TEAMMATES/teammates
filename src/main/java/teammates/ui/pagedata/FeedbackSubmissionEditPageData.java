@@ -355,6 +355,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return frcCommentRowList;
     }
 
+    /*
+     * Filter comments by user, user's team or instructors.
+    */
     private List<FeedbackResponseCommentAttributes> filterFeedbackResponseCommentAttributes(CourseRoster roster,
             List<FeedbackResponseCommentAttributes> frcList) {
         List<FeedbackResponseCommentAttributes> filteredComments = new ArrayList<FeedbackResponseCommentAttributes>();
