@@ -60,7 +60,7 @@
             <option value="">Select a time zone...</option>
           </select>
         </div>
-        <div class="hidden-lg hidden-md hidden-sm col-xs-12"><br/></div>
+        <div class="hidden-lg hidden-md hidden-sm col-xs-12"><br></div>
         <div class="col-xs-12 col-sm-4">
           <input type="button" class="btn btn-primary" id="auto-detect-time-zone" disabled value="Auto-Detect Time Zone">
         </div>
