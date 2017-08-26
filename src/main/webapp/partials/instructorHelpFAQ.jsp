@@ -161,7 +161,7 @@
           <a href="https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true#h.n5u2xs6z9y0g">here</a>.
         </div>
       </li>
-        <br>
+      <br>
       <li>
         <b>
           <a name="faq12" id="question">Is it compulsory for students to use Google accounts?</a>
