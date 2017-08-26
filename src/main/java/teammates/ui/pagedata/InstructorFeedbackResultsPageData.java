@@ -1100,8 +1100,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setCommentsOnResponses(comments);
             }
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-            boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
-                    .isCommentsOnResponsesAllowed();
+            boolean isCommentsOnResponsesAllowed =
+                    question.getQuestionDetails().isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
                         responseVisibilityMap, giverName, recipientName);

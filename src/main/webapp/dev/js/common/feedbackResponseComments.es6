@@ -49,10 +49,9 @@ function restoreInitialVisibilityOfCheckboxes(form, e) {
 }
 
 function removeFormErrorMessage(submitButton) {
-    if (submitButton.next().attr('class') === 'hide-frc-add-form') {
-        if (submitButton.next().next().attr('id') === 'errorMessage') {
-            submitButton.next().next().remove();
-        }
+    if (submitButton.next().attr('class') === 'hide-frc-add-form'
+            && submitButton.next().next().attr('id') === 'errorMessage') {
+        submitButton.next().next().remove();
     }
 
     if (submitButton.next().attr('id') === 'errorMessage') {
@@ -180,7 +179,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         /* eslint-enable camelcase */
     }
     saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
-        $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
+            $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
     $(`#responseCommentAddForm${id}`).focus();
 }
 
@@ -192,7 +191,7 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
         $(`#responseCommentTable${id}`).hide();
     }
     restoreInitialVisibilityOfCheckboxes(
-        $(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
+            $(`#showResponseCommentAddForm${id} > form`), $(`#showResponseCommentAddForm${id}`));
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
@@ -302,7 +301,7 @@ const addCommentHandler = (e) => {
     formObject.find('input[name=responsecommenttext]').val(editor.getContent());
 
     const formData = formObject.serialize();
-    const $isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
+    const isOnQuestionsPage = formObject.find('input[name=isOnQuestionsPage]').val();
     restoreInitialVisibilityOfCheckboxes($(formObject), $(addFormRow));
 
     $.ajax({
@@ -332,7 +331,7 @@ const addCommentHandler = (e) => {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
                 addFormRow.before(data);
-                if ($isOnQuestionsPage == null) {
+                if (isOnQuestionsPage == null) {
                     removeUnwantedVisibilityOptions(commentId);
                 }
 
@@ -346,11 +345,11 @@ const addCommentHandler = (e) => {
                 addFormRow.prev().show();
                 addFormRow.hide();
                 destroyEditor(`responseCommentAddForm-${responseCommentId}`);
-                if ($isOnQuestionsPage != null && $isOnQuestionsPage) {
-                    const $recipientIndex = responseCommentId.substring(0, 1);
-                    const $giverIndex = responseCommentId.substring(2, 3);
-                    const $questionIndex = responseCommentId.substring(4, 5);
-                    showResponseCommentAddForm($recipientIndex, $giverIndex, $questionIndex);
+                if (isOnQuestionsPage != null && isOnQuestionsPage) {
+                    const recipientIndex = responseCommentId.substring(0, 1);
+                    const giverIndex = responseCommentId.substring(2, 3);
+                    const questionIndex = responseCommentId.substring(4, 5);
+                    showResponseCommentAddForm(recipientIndex, giverIndex, questionIndex);
                 }
             }
         },

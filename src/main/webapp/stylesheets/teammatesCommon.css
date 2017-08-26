@@ -1212,3 +1212,9 @@ Prevent Long URL From Breaking Out of Container
 .icon-info:before {
     content: '\e086';
 }
+/*
+To show tooltip in comment modal
+*/
+.tooltip {
+    z-index: 1151 !important;
+}

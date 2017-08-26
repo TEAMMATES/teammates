@@ -93,10 +93,10 @@
       </c:if>
       <c:if test="${not responseRow.rowGrey && responseRow.commentsOnResponsesAllowed}">
         <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;"
-              data-toggle="modal" data-target="#commentModal-${responseRow.responseRecipientIndex}-${responseRow.responseGiverIndex}-${questionIndex}"
-              data-recipientindex="${responseRow.responseRecipientIndex}" data-giverindex="${responseRow.responseGiverIndex}"
-              data-qnindex="${questionIndex}">
-            Add Comment
+            data-toggle="modal" data-target="#commentModal-${responseRow.responseRecipientIndex}-${responseRow.responseGiverIndex}-${questionIndex}"
+            data-recipientindex="${responseRow.responseRecipientIndex}" data-giverindex="${responseRow.responseGiverIndex}"
+            data-qnindex="${questionIndex}">
+          Add Comment
         </button>
         <results:commentModal responseRow="${responseRow}" responseRecipientIndex="${responseRow.responseRecipientIndex}" responseGiverIndex="${responseRow.responseGiverIndex}"
             questionIndex="${questionIndex}" />

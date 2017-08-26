@@ -1799,7 +1799,7 @@ public final class FeedbackSessionsLogic {
                     userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = "Anonymous";
+                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
                 List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
                 if (frcList == null) {
