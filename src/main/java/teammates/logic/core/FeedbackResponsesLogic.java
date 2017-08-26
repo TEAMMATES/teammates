@@ -21,6 +21,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Handles operations related to feedback responses.
@@ -146,11 +147,11 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, SectionDisplayMode sectionDisplayMode) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
-        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
+        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section, sectionDisplayMode);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
@@ -218,27 +219,27 @@ public final class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserRole role, String section) {
+            UserRole role, String section, SectionDisplayMode sectionDisplayMode) {
 
         List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
-        // Add responses that the user submitted himself
-        addNewResponses(
-                viewableResponses,
-                getFeedbackResponsesFromGiverForQuestionInSection(
-                        question.getId(), userEmail, section));
-
-        // Add responses that user is a receiver of when question is visible to
-        // receiver.
-        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-            addNewResponses(
-                    viewableResponses,
-                    getFeedbackResponsesForReceiverForQuestionInSection(
-                            question.getId(), userEmail, section));
-        }
-
         switch (role) {
         case STUDENT:
+            // Add responses that the user submitted himself
+            addNewResponses(
+                    viewableResponses,
+                    getFeedbackResponsesFromGiverForQuestionInSection(
+                            question.getId(), userEmail, section));
+
+            // Add responses that user is a receiver of when question is visible to
+            // receiver.
+            if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+                addNewResponses(
+                        viewableResponses,
+                        getFeedbackResponsesForReceiverForQuestionInSection(
+                                question.getId(), userEmail, section));
+            }
+
             // many queries
             addNewResponses(viewableResponses,
                             getViewableFeedbackResponsesForStudentForQuestion(question, userEmail));
@@ -246,7 +247,8 @@ public final class FeedbackResponsesLogic {
         case INSTRUCTOR:
             if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
                 addNewResponses(viewableResponses,
-                                getFeedbackResponsesForQuestionInSection(question.getId(), section));
+                                getFeedbackResponsesForQuestionInSection(question.getId(),
+                                        section, sectionDisplayMode));
             }
             break;
         default:

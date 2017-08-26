@@ -1647,7 +1647,7 @@ public final class FeedbackSessionsLogic {
             } else {
                 responsesForThisQn = frLogic
                         .getViewableFeedbackResponsesForQuestionInSection(
-                                question, userEmail, role, section);
+                                question, userEmail, role, section, null);
             }
 
             boolean hasResponses = !responsesForThisQn.isEmpty();
@@ -1743,7 +1743,7 @@ public final class FeedbackSessionsLogic {
 
         if (questionId != null) {
             return getFeedbackSessionResultsForQuestionId(feedbackSessionName, courseId, userEmail, role, roster, session,
-                    allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId);
+                    allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId, params);
         }
 
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
@@ -1884,7 +1884,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForQuestionId(String feedbackSessionName,
                 String courseId, String userEmail, UserRole role, CourseRoster roster, FeedbackSessionAttributes session,
                 List<FeedbackQuestionAttributes> allQuestions, Map<String, FeedbackQuestionAttributes> relevantQuestions,
-                boolean isIncludeResponseStatus, String section, String questionId) {
+                boolean isIncludeResponseStatus, String section, String questionId, Map<String, String> params) {
 
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
         Map<String, String> emailNameTable = new HashMap<>();
@@ -1911,8 +1911,9 @@ public final class FeedbackSessionsLogic {
                 if (isPrivateSessionCreatedByThisUser) {
                     responsesForThisQn = frLogic.getFeedbackResponsesForQuestion(question.getId());
                 } else {
-                    responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                                                    question, userEmail, UserRole.INSTRUCTOR, section);
+                    SectionDisplayMode sectionDisplayMode = getSectionDisplayMode(params);
+                    responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(question, userEmail,
+                            UserRole.INSTRUCTOR, section, sectionDisplayMode);
                 }
 
                 boolean hasResponses = !responsesForThisQn.isEmpty();
@@ -1940,6 +1941,21 @@ public final class FeedbackSessionsLogic {
                 session, responses, relevantQuestions, emailNameTable,
                 emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, true);
+    }
+
+    private SectionDisplayMode getSectionDisplayMode(Map<String, String> params) {
+        boolean isToSection = Boolean.parseBoolean(params.get(PARAM_TO_SECTION));
+        boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
+
+        if (isToSection) {
+            return SectionDisplayMode.RECIPIENT_IN_SECTION;
+        }
+
+        if (isFromSection) {
+            return SectionDisplayMode.GIVER_IN_SECTION;
+        }
+
+        return SectionDisplayMode.BOTH_IN_SECTION;
     }
 
     private Map<String, FeedbackQuestionAttributes> getAllQuestions(

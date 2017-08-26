@@ -21,6 +21,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Handles CRUD operations for feedback responses.
@@ -116,11 +117,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, SectionDisplayMode sectionDisplayMode) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
+        List<String> sections = Const.DEFAULT_SECTION.equals(section)
+                ? Arrays.asList(section, null) // null as default section
+                : Arrays.asList(section);
+
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSections(feedbackQuestionId,
+                sections, sectionDisplayMode));
     }
 
     /**
@@ -484,27 +490,31 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .first().now();
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section) {
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSections(
+                String feedbackQuestionId, List<String> sections, SectionDisplayMode sectionDisplayMode) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", section)
-                .list());
+        if (sectionDisplayMode == null || sectionDisplayMode.equals(SectionDisplayMode.BOTH_IN_SECTION)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection in", sections)
+                    .filter("receiverSection in", sections)
+                    .list());
+        }
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", "None")
-                .list());
+        if (SectionDisplayMode.GIVER_IN_SECTION.equals(sectionDisplayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection in", sections)
+                    .list());
+        }
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", "None")
-                .filter("receiverSection =", section)
-                .list());
+        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(sectionDisplayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("receiverSection in", sections)
+                    .list());
+        }
 
         return feedbackResponses;
     }
