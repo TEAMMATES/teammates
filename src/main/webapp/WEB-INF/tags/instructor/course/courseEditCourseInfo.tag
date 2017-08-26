@@ -52,7 +52,7 @@
 
       <div class="form-group">
         <label class="col-xs-12 col-sm-3 control-label">Time Zone:</label>
-        <div class="col-xs-5 col-sm-5">
+        <div class="col-xs-12 col-sm-5">
           <select class="form-control"
               name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>" id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
               data-toggle="tooltip" data-placement="top" title="The time zone for the course, e.g. Asia/Singapore."
@@ -61,7 +61,7 @@
           </select>
         </div>
         <div class="hidden-lg hidden-md hidden-sm col-xs-12"><br/></div>
-        <div class="col-xs-7 col-sm-4">
+        <div class="col-xs-12 col-sm-4">
           <input type="button" class="btn btn-primary" id="auto-detect-time-zone" disabled value="Auto-Detect Time Zone">
         </div>
       </div>
