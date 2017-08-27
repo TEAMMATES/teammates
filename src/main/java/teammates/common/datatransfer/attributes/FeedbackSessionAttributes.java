@@ -96,26 +96,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public FeedbackSessionAttributes getCopy() {
-        return builder(feedbackSessionName, courseId, creatorEmail)
-                .withInstructions(instructions)
-                .withCreatedTime(createdTime)
-                .withStartTime(startTime)
-                .withEndTime(endTime)
-                .withSessionVisibleFromTime(sessionVisibleFromTime)
-                .withResultsVisibleFromTime(resultsVisibleFromTime)
-                .withTimeZone(timeZone)
-                .withGracePeriod(gracePeriod)
-                .withFeedbackSessionType(feedbackSessionType)
-                .withSentOpenEmail(sentOpenEmail)
-                .withSentClosingEmail(sentClosingEmail)
-                .withSentClosedEmail(sentClosedEmail)
-                .withSentPublishedEmail(sentPublishedEmail)
-                .withOpeningEmailEnabled(isOpeningEmailEnabled)
-                .withPublishedEmailEnabled(isPublishedEmailEnabled)
-                .withRespondingInstructorList(respondingInstructorList)
-                .withRespondingStudentList(respondingStudentList)
-                .withClosingEmailEnabled(isClosingEmailEnabled)
-                .build();
+        return valueOf(toEntity());
     }
 
     public String getCourseId() {
