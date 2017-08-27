@@ -3,21 +3,17 @@
 <%@ attribute name="sentEmail" required="true" type="teammates.ui.template.AdminSentEmailRow" %>
 
 <tr id="${sentEmail.emailId}">
-    <td>
-        <a <c:forEach items="${sentEmail.actions.editButton.attributes}" var="attribute">
-               ${attribute.key}="${attribute.value}"
-           </c:forEach>>
-               ${sentEmail.actions.editButton.content}
-        </a>
+  <td>
+    <a ${sentEmail.actions.editButton.attributesToString}>
+      ${sentEmail.actions.editButton.content}
+    </a>
 
-        <a <c:forEach items="${sentEmail.actions.deleteButton.attributes}" var="attribute">
-               ${attribute.key}="${attribute.value}"
-           </c:forEach>>
-               ${sentEmail.actions.deleteButton.content}
-        </a>
-    </td>
-    <td><input value="${sentEmail.addressReceiver}" readonly class="form-control"></td>
-    <td><input value="${sentEmail.groupReceiver}" readonly class="form-control"></td>
-    <td><input value="${sentEmail.subject}" readonly class="form-control"></td>
-    <td>${sentEmail.date}</td>
+    <a ${sentEmail.actions.deleteButton.attributesToString}>
+      ${sentEmail.actions.deleteButton.content}
+    </a>
+  </td>
+  <td><input value="${sentEmail.addressReceiver}" readonly class="form-control"></td>
+  <td><input value="${sentEmail.groupReceiver}" readonly class="form-control"></td>
+  <td><input value="${sentEmail.subject}" readonly class="form-control"></td>
+  <td>${sentEmail.date}</td>
 </tr>
