@@ -478,6 +478,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Test
     protected void testAccessControl() throws Exception {
         testDifferentPrivilegesWithEditedFeedback();
+
         InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = moderatedInstructor.courseId;
         String feedbackSessionName = "First feedback session";

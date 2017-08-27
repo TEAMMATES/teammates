@@ -34,13 +34,14 @@ import teammates.ui.controller.ShowPageResult;
 public abstract class BaseActionTest extends BaseComponentTestCase {
 
     /**
-     * dataBundle is used to store customized data bundle to be used in tests.
+     * {@code dataBundle} is used to store customized data bundle to be used in tests.
      */
     protected DataBundle dataBundle;
 
     /**
-     * typicalBundle contains data from typical data bundle.
-     * and will be used when the specific action does not override prepareTestData.
+     * {@code typicalBundle} contains data from typical data bundle
+     * and is used for access control testing and as the main test data when
+     * the specific action test does not override {@link #prepareTestData}.
      */
     protected DataBundle typicalBundle = getTypicalDataBundle();
 

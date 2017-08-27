@@ -93,6 +93,6 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
-        verifyUnaccessibleWithoutModifyCoursePrivilege(params);
+        verifyUnaccessibleWithoutModifySessionPrivilege(params);
     }
 }

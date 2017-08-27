@@ -660,6 +660,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Test
     protected void testAccessControl() throws Exception {
         testDifferentPrivileges();
+
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");
 
         String feedbackSessionName = "First feedback session";
