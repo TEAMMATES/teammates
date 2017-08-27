@@ -12,6 +12,10 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
+        <button type="button" class="close commentModalClose" data-dismiss="modal" data-recipientindex="${responseRecipientIndex}"
+            data-giverindex="${responseGiverIndex}" data-qnindex="${questionIndex}">
+          &times;
+        </button>
         <h4 class="modal-title">Add Comment:</h4>
       </div>
       <div class="modal-body">
