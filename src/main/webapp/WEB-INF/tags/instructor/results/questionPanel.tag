@@ -87,7 +87,7 @@
               <tbody>
                 <c:forEach items="${questionPanel.responses}" var="responseRow" varStatus="status">
                   <results:responseRow responseRow="${responseRow}" questionIndex="${questionIndex}"
-                  responseIndex="${status.count}"/>
+                      responseIndex="${status.count}"/>
                 </c:forEach>
               </tbody>
             </table>
