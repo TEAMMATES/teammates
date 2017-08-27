@@ -41,24 +41,25 @@
             id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionNumber}" min="1" value="${minOptionsToBeRanked}"/>
         </div>
       </div>
-      <br>
-      <div class="row">
-        <div class="col-sm-9 col-xs-12">
-          <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
-            <label class="bold-label">
-              <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}"
-                  id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}-${questionNumber}" ${isMaxOptionsToBeRankedEnabled}>
-              Maximum number of options a respondent can rank
-            </label>
-          </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-9 col-xs-12">
+        <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
+          <label class="bold-label">
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}"
+                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}-${questionNumber}" ${isMaxOptionsToBeRankedEnabled}>
+            Maximum number of options a respondent can rank
+          </label>
         </div>
-        <div class="col-sm-3 col-xs-12">
-          <div class="pull-right">
-            <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}"
-                id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}-${questionNumber}" min="1" value="${maxOptionsToBeRanked}"/>
-          </div>
+      </div>
+      <div class="col-sm-3 col-xs-12">
+        <div class="pull-right">
+          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}"
+              id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}-${questionNumber}" min="1" value="${maxOptionsToBeRanked}"/>
         </div>
       </div>
     </div>
+  </div>
   <br>
 </div>
