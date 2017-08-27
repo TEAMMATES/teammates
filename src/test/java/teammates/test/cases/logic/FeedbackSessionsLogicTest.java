@@ -998,7 +998,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A", SectionDisplayMode.BOTH_IN_SECTION);
+                session.getCourseId(), instructor.email, "Section A",
+                SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         assertEquals(7, results.responses.size());

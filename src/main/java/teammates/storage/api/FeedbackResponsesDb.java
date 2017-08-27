@@ -516,7 +516,11 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 String feedbackQuestionId, List<String> sections, SectionDisplayMode sectionDisplayMode) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
-        if (sectionDisplayMode == null || sectionDisplayMode.equals(SectionDisplayMode.BOTH_IN_SECTION)) {
+        SectionDisplayMode displayMode = sectionDisplayMode == null
+                ? SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION
+                : sectionDisplayMode;
+
+        if (SectionDisplayMode.BOTH_IN_SECTION.equals(displayMode)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection in", sections)
@@ -524,14 +528,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
         }
 
-        if (SectionDisplayMode.GIVER_IN_SECTION.equals(sectionDisplayMode)) {
+        if (SectionDisplayMode.GIVER_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection in", sections)
                     .list());
         }
 
-        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(sectionDisplayMode)) {
+        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("receiverSection in", sections)
@@ -586,7 +592,11 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             SectionDisplayMode sectionDisplayMode, int range) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
-        if (sectionDisplayMode == null || sectionDisplayMode.equals(SectionDisplayMode.BOTH_IN_SECTION)) {
+        SectionDisplayMode displayMode = sectionDisplayMode == null
+                ? SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION
+                : sectionDisplayMode;
+
+        if (SectionDisplayMode.BOTH_IN_SECTION.equals(displayMode)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackSessionName =", feedbackSessionName)
                     .filter("courseId =", courseId)
@@ -596,7 +606,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
         }
 
-        if (SectionDisplayMode.GIVER_IN_SECTION.equals(sectionDisplayMode)) {
+        if (SectionDisplayMode.GIVER_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackSessionName =", feedbackSessionName)
                     .filter("courseId =", courseId)
@@ -605,7 +616,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
         }
 
-        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(sectionDisplayMode)) {
+        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
             feedbackResponses.addAll(load()
                     .filter("feedbackSessionName =", feedbackSessionName)
                     .filter("courseId =", courseId)

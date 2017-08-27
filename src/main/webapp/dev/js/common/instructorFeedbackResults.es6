@@ -362,7 +362,7 @@ function prepareInstructorFeedbackResultsPage() {
     $('#editForm').submit(() => {
         const sectionDisplayModeElement = $('#sectionDisplayMode');
         if (sectionDisplayModeElement.is(':hidden')) {
-            sectionDisplayModeElement.val('BOTH_IN_SECTION'); // set default value if hidden
+            sectionDisplayModeElement.val('GIVER_OR_RECIPIENT_IN_SECTION'); // set default value if hidden
         }
     });
 
