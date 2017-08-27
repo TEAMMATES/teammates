@@ -124,7 +124,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank : min/max options to be ranked test");
 
-        // Testing question with only min options to be ranked restriction
+        // Question with only min options to be ranked restriction
         int qnNumber = 9;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
@@ -135,7 +135,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
-        // Testing question with only max options to be ranked restriction
+        // Question with only max options to be ranked restriction
         qnNumber = 10;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
@@ -146,7 +146,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
-        // Testing question with both min and max options to be ranked restriction
+        // Question with both min and max options to be ranked restriction
         qnNumber = 11;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
@@ -406,25 +406,31 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         int qNum = 1;
         feedbackEditPage.clickEditQuestionButton(qNum);
 
-        // checking max options to be ranked restriction
+        // ticking "Maximum number of options a respondent must rank" checkbox only,
+        // should enable the maxOptionsToBeRanked input field only, with correct attributes
         feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
         assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        assertFalse(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
-        // checking min options to be ranked restriction
+        // ticking "Minimum number of options a respondent must rank" checkbox only,
+        // should enable the minOptionsToBeRanked input field only, with correct attributes
         feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
         feedbackEditPage.toggleMinOptionsToBeRankedCheckbox(qNum);
         assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
         assertFalse(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
-        // checking max and min options to be ranked restrictions
+        // ticking both "Minimum number of options a respondent must rank" checkbox and
+        // "Maximum number of options a respondent must rank" checkbox must enable both
+        // minOptionsToBeRanked and maxOptionsToBeRanked input fields, with correct attributes
         feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
         assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
         assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
-        // when max = min, decreasing max must decrease min too
+        // when maxOptionsToBeRanked = minOptionsToBeRanked,
+        // decreasing maxOptionsToBeRanked must decrease minOptionsToBeRanked too
         feedbackEditPage.setMaxOptionsToBeRanked(qNum, 3);
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
         feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
@@ -433,7 +439,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(2, feedbackEditPage.getMinOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
-        // when max = min, increasing min must increase max too
+        // when maxOptionsToBeRanked = minOptionsToBeRanked,
+        // increasing minOptionsToBeRanked must increase maxOptionsToBeRanked too
         feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
         feedbackEditPage.setMinOptionsToBeRanked(qNum, 2);
@@ -442,7 +449,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
-        // when max = numOfOptions, removing an option must decrease max too
+        // when maxOptionsToBeRanked = numOfOptions and maxOptionsToBeRanked = minOptionsToBeRanked,
+        // removing an option must decrease maxOptionsToBeRanked and minOptionsToBeRanked
         feedbackEditPage.clickAddMoreRankOptionLink(qNum);
         feedbackEditPage.setMaxOptionsToBeRanked(qNum, 4);
         feedbackEditPage.setMinOptionsToBeRanked(qNum, 4);
