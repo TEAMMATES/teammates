@@ -162,17 +162,19 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickCollapseExpandButtonAndWaitForPanelsToExpand() {
         click(collapseExpandButton);
-        waitForPanelsToExpand();
+
     }
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
             clickCollapseExpandButtonAndWaitForPanelsToExpand();
+            waitForPanelsToExpand();
         }
     }
 
     public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
         clickCollapseExpandButtonAndWaitForPanelsToExpand();
+        waitForPanelsToCollapse();
     }
 
     public void clickShowStats() {
@@ -608,7 +610,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
      */
     public void loadResultQuestionPanel(int questionNumber) {
         String panelId = "panelHeading-" + questionNumber;
-        clickAutoLoadedPanelAndWaitForExpansion(panelId);
+        clickdPanelAndWaitForExpansion(panelId);
     }
 
     /**
@@ -616,24 +618,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
      */
     public void loadResultSectionPanel(int panelNumber, int sectionNumber) {
         String panelId = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
-        clickAutoLoadedPanelAndWaitForExpansion(panelId);
+        clickdPanelAndWaitForExpansion(panelId);
     }
 
     /**
      * Expands a particular panel, causing its results to load.
      * @param panelNumber the position of panel element
      */
-    public void loadResultSubmitPanel(int panelNumber) {
+    public void loadResultLargeScalePanel(int panelNumber) {
         String panelId = "panelHeading-" + panelNumber;
-        clickSubmitLoadedPanelAndWaitForExpansion(panelId);
+        clickLargeScalePanelAndWaitForExpansion(panelId);
     }
 
-    private void clickAutoLoadedPanelAndWaitForExpansion(String panelId) {
+    private void clickdPanelAndWaitForExpansion(String panelId) {
         clickElementById(panelId);
         waitForAjaxLoadedPanelToExpand(panelId, "ajax_auto");
     }
 
-    private void clickSubmitLoadedPanelAndWaitForExpansion(String panelId) {
+    private void clickLargeScalePanelAndWaitForExpansion(String panelId) {
         clickElementById(panelId);
         waitForAjaxLoadedPanelToExpand(panelId, "ajax_submit");
     }
