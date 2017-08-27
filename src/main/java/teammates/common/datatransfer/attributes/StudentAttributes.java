@@ -81,17 +81,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     public StudentAttributes getCopy() {
-        return builder(course, name, email)
-                .withComments(comments)
-                .withCreatedAt(createdAt)
-                .withUpdatedAt(updatedAt)
-                .withGoogleId(googleId)
-                .withKey(key)
-                .withLastName(lastName)
-                .withSection(section)
-                .withTeam(team)
-                .withUpdateStatus(updateStatus)
-                .build();
+        StudentAttributes studentAttributes = valueOf(toEntity());
+
+        studentAttributes.updateStatus = updateStatus;
+        studentAttributes.key = key;
+        studentAttributes.createdAt = createdAt;
+        studentAttributes.updatedAt = updatedAt;
+
+        return studentAttributes;
     }
 
     public String toEnrollmentString() {
