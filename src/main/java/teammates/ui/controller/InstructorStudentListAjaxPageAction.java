@@ -32,6 +32,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
         CourseAttributes course = logic.getCourse(courseId);
 
         gateKeeper.verifyAccessible(instructor, course);
+        gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
 
         List<SectionDetailsBundle> courseSectionDetails = logic.getSectionsForCourse(courseId);
         int courseIndex = Integer.parseInt(courseIndexString);
