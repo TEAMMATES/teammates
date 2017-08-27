@@ -665,8 +665,8 @@ function validateConstSumQuestions() {
  * Binds further changes to show/hide options such that duplicates cannot be selected.
  */
 function formatRecipientLists() {
-    const $this = $(this);
     $('select.participantSelect').each(function () {
+        const $this = $(this);
         if (!$this.hasClass('.newResponse')) {
             // Remove options from existing responses
             const questionNumber = $this.attr('name').split('-')[1];
@@ -685,6 +685,7 @@ function formatRecipientLists() {
         // Save initial data.
         $this.data('previouslySelected', $(this).val());
     }).change(function () {
+        const $this = $(this);
         const questionNumber = $this.attr('name').split('-')[1];
         const lastSelectedOption = $this.data('previouslySelected');
         let curSelectedOption = $this.find('option:selected').val();
@@ -712,6 +713,7 @@ function formatRecipientLists() {
 
     // Auto-select first valid option.
     $('select.participantSelect.newResponse').each(function () {
+        const $this = $(this);
         let firstUnhidden = '';
 
         // select the first valid recipient if the dropdown is hidden from the user,
