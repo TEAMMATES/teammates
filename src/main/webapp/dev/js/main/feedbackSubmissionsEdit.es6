@@ -168,16 +168,17 @@ function prepareMCQQuestions() {
             });
 
             radioButtons[id].click(function (event) {
-                const val = $(this).val();
-                const name = $(this).attr('name');
+                const $this = $(this);
+                const val = $this.val();
+                const name = $this.attr('name');
                 const indexSuffix = name.substring(name.indexOf('-'));
 
                 // toggle the radio button checked state
-                $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
+                $this.attr('checked', radioStates[name][val] = !radioStates[name][val]);
 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') === 'otherOptionText') {
-                    if ($(this).is(':checked')) {
+                if ($this.data('text') === 'otherOptionText') {
+                    if ($this.is(':checked')) {
                         $(`#otherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
                         $(`#mcqIsOtherOptionAnswer${indexSuffix}`).val('1');
                     } else {
@@ -218,10 +219,11 @@ function prepareContribQuestions() {
             $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
 
             $dropdown.on('change', function () {
-                $(this).removeClass('color_neutral');
-                $(this).removeClass('color-positive');
-                $(this).removeClass('color-negative');
-                $(this).addClass(this.options[this.selectedIndex].className);
+                const $this = $(this);
+                $this.removeClass('color_neutral');
+                $this.removeClass('color-positive');
+                $this.removeClass('color-negative');
+                $this.addClass(this.options[this.selectedIndex].className);
             });
         });
     });
@@ -663,11 +665,12 @@ function validateConstSumQuestions() {
  * Binds further changes to show/hide options such that duplicates cannot be selected.
  */
 function formatRecipientLists() {
+    const $this = $(this);
     $('select.participantSelect').each(function () {
-        if (!$(this).hasClass('.newResponse')) {
+        if (!$this.hasClass('.newResponse')) {
             // Remove options from existing responses
-            const questionNumber = $(this).attr('name').split('-')[1];
-            let selectedOption = $(this).find('option:selected').val();
+            const questionNumber = $this.attr('name').split('-')[1];
+            let selectedOption = $this.find('option:selected').val();
 
             if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
@@ -680,11 +683,11 @@ function formatRecipientLists() {
         }
 
         // Save initial data.
-        $(this).data('previouslySelected', $(this).val());
+        $this.data('previouslySelected', $(this).val());
     }).change(function () {
-        const questionNumber = $(this).attr('name').split('-')[1];
-        const lastSelectedOption = $(this).data('previouslySelected');
-        let curSelectedOption = $(this).find('option:selected').val();
+        const questionNumber = $this.attr('name').split('-')[1];
+        const lastSelectedOption = $this.data('previouslySelected');
+        let curSelectedOption = $this.find('option:selected').val();
 
         if (lastSelectedOption !== '') {
             $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
@@ -704,7 +707,7 @@ function formatRecipientLists() {
         }
 
         // Save new data
-        $(this).data('previouslySelected', $(this).val());
+        $this.data('previouslySelected', $this.val());
     });
 
     // Auto-select first valid option.
@@ -714,14 +717,14 @@ function formatRecipientLists() {
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
-            $($(this).children().get().reverse()).each(function () {
-                if (this.style.display !== 'none' && $(this).val() !== '') {
+            $($this.children().get().reverse()).each(function () {
+                if (this.style.display !== 'none' && $this.val() !== '') {
                     firstUnhidden = this;
                 }
             });
         }
 
-        $(this).val($(firstUnhidden).val()).change();
+        $this.val($(firstUnhidden).val()).change();
     });
 }
 
