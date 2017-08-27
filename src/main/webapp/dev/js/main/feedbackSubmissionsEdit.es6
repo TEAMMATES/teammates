@@ -713,20 +713,19 @@ function formatRecipientLists() {
 
     // Auto-select first valid option.
     $('select.participantSelect.newResponse').each(function () {
-        const $this = $(this);
         let firstUnhidden = '';
 
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
-            $($this.children().get().reverse()).each(function () {
-                if (this.style.display !== 'none' && $this.val() !== '') {
+            $($(this).children().get().reverse()).each(function () {
+                if (this.style.display !== 'none' && $(this).val() !== '') {
                     firstUnhidden = this;
                 }
             });
         }
 
-        $this.val($(firstUnhidden).val()).change();
+        $(this).val($(firstUnhidden).val()).change();
     });
 }
 
