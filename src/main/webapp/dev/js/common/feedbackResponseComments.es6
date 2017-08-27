@@ -454,6 +454,10 @@ const deleteCommentHandler = (e) => {
             },
         });
     }, fadeInCommentModalIfPresent, null, null, StatusType.WARNING);
+
+    $('.bootbox-close-button').click(() => {
+        fadeInCommentModalIfPresent();
+    });
 };
 
 function registerResponseCommentsEvent() {
