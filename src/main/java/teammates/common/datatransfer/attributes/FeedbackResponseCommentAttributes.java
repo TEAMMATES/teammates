@@ -46,7 +46,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         showCommentTo = new ArrayList<>();
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
-        commentText = new Text("");
         createdAt = new Date();
     }
 
@@ -77,7 +76,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * <li>{@code showCommentTo = new ArrayList<>()}</li>
      * <li>{@code showGiverNameTo = new ArrayList<>()}</li>
      * <li>{@code isVisibilityFollowingFeedbackQuestion = true}</li>
-     * <li>{@code commentText = new Text("")}</li>
      * </ul>
      */
     public static Builder builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
