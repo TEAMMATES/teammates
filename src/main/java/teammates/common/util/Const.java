@@ -1366,9 +1366,10 @@ public final class Const {
                 "<strong>The feedback session is currently not open for submissions.</strong> "
                 + "You can view the questions and any submitted responses for this feedback session "
                 + "but cannot submit new responses.";
-        public static final String FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL = 
-                "Note that a partially filled form can be saved by using the submit button. "
-                + "You may edit your submission any time between now and the closing time for this session.";
+        public static final String FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL =
+                "Note that you can use the Submit button to save responses already entered, "
+                + "and continue to answer remaining questions after that. "
+                + "You may also edit your submission any number of times before the closing time of this session. ";
 
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW =
                 "You have received feedback from others. Please see below.";
