@@ -346,9 +346,10 @@ const addCommentHandler = (e) => {
                 addFormRow.hide();
                 destroyEditor(`responseCommentAddForm-${responseCommentId}`);
                 if (isOnQuestionsPage != null && isOnQuestionsPage) {
-                    const recipientIndex = responseCommentId.substring(0, 1);
-                    const giverIndex = responseCommentId.substring(2, 3);
-                    const questionIndex = responseCommentId.substring(4, 5);
+                    const indexes = responseCommentId.split('-');
+                    const recipientIndex = indexes[0];
+                    const giverIndex = indexes[1];
+                    const questionIndex = indexes[2];
                     showResponseCommentAddForm(recipientIndex, giverIndex, questionIndex);
                 }
             }
