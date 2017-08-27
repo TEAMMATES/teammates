@@ -34,6 +34,11 @@ public abstract class DataMigrationForFeedbackResponseCommentSearchDocument exte
     private static final Index index = SearchServiceFactory.getSearchService()
             .getIndex(IndexSpec.newBuilder().setName(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT));
 
+    /**
+     * Will not perform updates on the datastore if true.
+     */
+    protected abstract boolean isPreview();
+
     @Override
     protected void doOperation() {
         List<FeedbackResponseCommentAttributes> commentsToFix = analyzeAndGetAffectedComments();
@@ -89,11 +94,6 @@ public abstract class DataMigrationForFeedbackResponseCommentSearchDocument exte
      * Display results of analysis for data migration.
      */
     protected abstract void displayAnalysisResults();
-
-    /**
-     * Will not perform updates on the datastore if true.
-     */
-    protected abstract boolean isPreview();
 
     private Document getDocument(FeedbackResponseCommentAttributes comment) {
         return index.get(comment.getId().toString());

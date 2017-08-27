@@ -34,6 +34,11 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
     private int numberOfDocumentsToUpdate;
     private int numberOfDocumentsInUnrecognizableDateFormat;
 
+    @Override
+    protected boolean isPreview() {
+        return true;
+    }
+
     public static void main(String[] args) throws IOException {
         new DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat().doOperationRemotely();
     }
@@ -75,10 +80,5 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
         println("Number of documents already in new date format: " + numberOfUnaffectedDocuments);
         println("Number of documents in unrecognizable date format: " + numberOfDocumentsInUnrecognizableDateFormat);
         println("Number of documents in old date format: " + numberOfDocumentsToUpdate);
-    }
-
-    @Override
-    protected boolean isPreview() {
-        return true;
     }
 }

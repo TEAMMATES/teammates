@@ -25,6 +25,11 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
     private int numberOfUnaffectedDocuments;
     private int numberOfDocumentsToUpdate;
 
+    @Override
+    protected boolean isPreview() {
+        return true;
+    }
+
     public static void main(String[] args) throws IOException {
         new DataMigrationForFeedbackResponseCommentSearchDocumentParticipantName().doOperationRemotely();
     }
@@ -77,10 +82,5 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
     protected void displayAnalysisResults() {
         println("Number of unaffected documents: " + numberOfUnaffectedDocuments);
         println("Number of documents with invalid response giver or recipient name: " + numberOfDocumentsToUpdate);
-    }
-
-    @Override
-    protected boolean isPreview() {
-        return true;
     }
 }
