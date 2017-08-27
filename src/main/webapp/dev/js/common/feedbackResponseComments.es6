@@ -416,13 +416,25 @@ const editCommentHandler = (e) => {
     });
 };
 
+function fadeOutCommentModalIfPresent() {
+    $('div[id^="commentModal"]').removeClass('in');
+    $('div[id^="commentModal"]').addClass('out');
+}
+
+function fadeInCommentModalIfPresent() {
+    $('div[id^="commentModal"]').removeClass('out');
+    $('div[id^="commentModal"]').addClass('in');
+}
+
 const deleteCommentHandler = (e) => {
     const submitButton = $(e.currentTarget);
     e.preventDefault();
+    fadeOutCommentModalIfPresent();
 
     showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
         const formObject = submitButton.parent();
         const formData = formObject.serialize();
+        fadeInCommentModalIfPresent();
 
         $.ajax({
             type: 'POST',
@@ -441,7 +453,7 @@ const deleteCommentHandler = (e) => {
                 }
             },
         });
-    }, null, null, null, StatusType.WARNING);
+    }, fadeInCommentModalIfPresent, null, null, StatusType.WARNING);
 };
 
 function registerResponseCommentsEvent() {
