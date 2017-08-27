@@ -108,6 +108,16 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
+            String feedbackSessionName, String courseId, String section, SectionDisplayMode displayMode, int range) {
+        if (section == null) {
+            return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
+        }
+
+        return frDb.getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId,
+                section, displayMode, range);
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
             String feedbackSessionName, String courseId, int range) {
         return frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);

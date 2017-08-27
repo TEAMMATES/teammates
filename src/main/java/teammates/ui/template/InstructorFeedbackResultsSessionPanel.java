@@ -14,6 +14,7 @@ public class InstructorFeedbackResultsSessionPanel {
     private String resultsVisibleFrom;
     private FeedbackSessionPublishButton feedbackSessionPublishButton;
     private String selectedSection;
+    private String sectionDisplayMode;
     private boolean isStatsShown;
     private boolean isMissingResponsesShown;
 
@@ -21,6 +22,7 @@ public class InstructorFeedbackResultsSessionPanel {
                                                  String editLink,
                                                  FeedbackSessionPublishButton feedbackSessionPublishButton,
                                                  String selectedSection,
+                                                 String sectionDisplayMode,
                                                  boolean isMissingResponsesShown,
                                                  boolean isStatsShown) {
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
@@ -33,6 +35,7 @@ public class InstructorFeedbackResultsSessionPanel {
         this.selectedSection = selectedSection;
         this.isStatsShown = isStatsShown;
         this.isMissingResponsesShown = isMissingResponsesShown;
+        this.sectionDisplayMode = sectionDisplayMode;
     }
 
     public String getCourseId() {
@@ -65,6 +68,10 @@ public class InstructorFeedbackResultsSessionPanel {
 
     public String getSelectedSection() {
         return selectedSection;
+    }
+
+    public String getSectionDisplayMode() {
+        return sectionDisplayMode;
     }
 
     public boolean getIsStatsShown() {
