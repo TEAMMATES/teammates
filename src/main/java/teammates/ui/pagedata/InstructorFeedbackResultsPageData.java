@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -27,7 +28,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
-import teammates.ui.datatransfer.SectionDisplayMode;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionPublishButton;

@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -49,7 +50,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Provides the business logic for production usage of the system.

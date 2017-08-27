@@ -20,6 +20,7 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -39,7 +40,6 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TimeHelperExtension;
-import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.

@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -8,7 +9,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.ui.datatransfer.SectionDisplayMode;
 
 public class InstructorFeedbackResultsDownloadAction extends Action {
 

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.ui.datatransfer.SectionDisplayMode" %>
+<%@ tag import="teammates.common.datatransfer.SectionDisplayMode" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
 <div id="editModal" class="modal fade" role="dialog">

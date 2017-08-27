@@ -6,14 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -21,7 +24,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Handles CRUD operations for feedback responses.
@@ -544,7 +546,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
         }
 
-        return feedbackResponses;
+        return SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)
+                ? filterDuplicates(feedbackResponses)
+                : feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(String feedbackQuestionId) {
@@ -626,7 +630,24 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
         }
 
-        return feedbackResponses;
+        return SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)
+                ? filterDuplicates(feedbackResponses)
+                : feedbackResponses;
+    }
+
+    private List<FeedbackResponse> filterDuplicates(List<FeedbackResponse> responses) {
+        List<FeedbackResponse> filteredResponses = new ArrayList<>();
+        Set<String> uniqueFeedbackResponsesId = new HashSet<>();
+
+        for (FeedbackResponse response : responses) {
+            boolean isNotYetAdded = !uniqueFeedbackResponsesId.contains(response.getId());
+            if (isNotYetAdded) {
+                uniqueFeedbackResponsesId.add(response.getId());
+                filteredResponses.add(response);
+            }
+        }
+
+        return filteredResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(

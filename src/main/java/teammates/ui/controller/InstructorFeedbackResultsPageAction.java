@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -11,7 +12,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
-import teammates.ui.datatransfer.SectionDisplayMode;
 import teammates.ui.pagedata.InstructorFeedbackResultsPageData;
 
 public class InstructorFeedbackResultsPageAction extends Action {
@@ -210,7 +210,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // bundle for a specific question and a specific section
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionBySection(
                                                 feedbackSessionName, courseId, instructor.email,
-                                                questionId, selectedSection,sectionDisplayMode);
+                                                questionId, selectedSection, sectionDisplayMode);
             }
         }
 

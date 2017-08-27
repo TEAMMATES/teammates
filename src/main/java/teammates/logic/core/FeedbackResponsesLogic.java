@@ -9,6 +9,7 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -21,7 +22,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Handles operations related to feedback responses.

@@ -314,6 +314,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "Section Name,\"Section 1\"",
+                "Section Display Mode,GIVER_OR_RECIPIENT_IN_SECTION",
                 "",
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
@@ -367,6 +368,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "Section Name,\"Section 1\"",
+                "Section Display Mode,GIVER_OR_RECIPIENT_IN_SECTION",
                 "",
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
@@ -380,7 +382,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.equals(StringUtils.join(expected, Const.EOL)));
+        assertEquals(fileContent, StringUtils.join(expected, Const.EOL));
 
     }
 

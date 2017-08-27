@@ -20,6 +20,7 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -41,7 +42,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.ui.datatransfer.SectionDisplayMode;
 
 /**
  * Handles operations related to feedback sessions.
