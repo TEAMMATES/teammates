@@ -74,7 +74,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * <li>{@code updateStatus = StudentUpdateStatus.UNKNOWN}</li>
      * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
      * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
-     * <li>{@code lastName = SanitizationHelper.sanitizeName(StringHelper.splitName(name)[1])}</li>
      * </ul>
      */
     public static Builder builder(String courseId, String name, String email) {
