@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -48,29 +49,6 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData) r.data;
         assertEquals(1, data.getResultsTables().size());
 
-        ______TS("Typical case: instructor cannot view sections");
-
-        instructor = typicalBundle.instructors.get("helperOfCourse1");
-        gaeSimulation.loginAsInstructor(instructor.googleId);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
-        };
-
-        a = getAction(submissionParams);
-        r = getShowPageResult(a);
-
-        assertEquals(
-                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfHelperOfCourse1"),
-                r.getDestinationWithParams());
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
-
-        data = (InstructorStudentRecordsAjaxPageData) r.data;
-        assertEquals(0, data.getResultsTables().size());
-
     }
 
     @Override
@@ -83,13 +61,39 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = typicalBundle.students.get("student2InCourse1");
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+
+        ______TS("Typical case: instructor cannot view sections");
+
+        instructor = typicalBundle.instructors.get("helperOfCourse1");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
+        };
+
+        InstructorStudentRecordsAjaxPageAction a = getAction(submissionParams);
+        ShowPageResult r = getShowPageResult(a);
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, false, "idOfHelperOfCourse1"),
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        assertEquals("", r.getStatusMessage());
+
+        InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData) r.data;
+        assertEquals(0, data.getResultsTables().size());
     }
 
 }
