@@ -142,6 +142,10 @@ class Extractors {
         return $tableCell.find('span').attr('data-original-title');
     }
 
+    static dateStampExtractor($tableCell) {
+        return $tableCell.data('dateStamp');
+    }
+
     static getDefaultExtractor() {
         return Extractors.textExtractor;
     }
