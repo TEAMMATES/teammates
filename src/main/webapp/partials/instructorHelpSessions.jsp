@@ -7031,7 +7031,7 @@
                                                             <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at least the mentioned number of options.">
                                                                 <label class="bold-label">
                                                                     <input type="checkbox" name="minOptionsToBeRankedEnabled"
-                                                                            id="minOptionsToBeRankedEnabled-1" checked disabled>
+                                                                            id="minOptionsToBeRankedEnabled-1" disabled>
                                                                         Minimum number of options a respondent must rank
                                                                 </label>
                                                             </div>
@@ -7039,7 +7039,7 @@
                                                         <div class="col-sm-3 col-xs-12">
                                                             <div class="pull-right">
                                                                 <input type="number" class="form-control" name="minOptionsToBeRanked"
-                                                                        id="minOptionsToBeRanked-1" min="1" value="2" disabled/>
+                                                                        id="minOptionsToBeRanked-1" min="1" value="1" disabled/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -7049,7 +7049,7 @@
                                                             <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
                                                                 <label class="bold-label">
                                                                     <input type="checkbox" name="maxOptionsToBeRankedEnabled"
-                                                                            id="maxOptionsToBeRankedEnabled-1" checked disabled>
+                                                                            id="maxOptionsToBeRankedEnabled-1" disabled>
                                                                         Maximum number of options a respondent can rank
                                                                 </label>
                                                             </div>
@@ -7057,7 +7057,7 @@
                                                         <div class="col-sm-3 col-xs-12">
                                                             <div class="pull-right">
                                                                 <input type="number" class="form-control" name="maxOptionsToBeRanked"
-                                                                        id="maxOptionsToBeRanked-1" min="1" value="3" disabled/>
+                                                                        id="maxOptionsToBeRanked-1" min="1" value="1" disabled/>
                                                             </div>
                                                         </div>
                                                     </div>
