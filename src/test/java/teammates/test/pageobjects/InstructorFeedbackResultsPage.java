@@ -160,20 +160,19 @@ public class InstructorFeedbackResultsPage extends AppPage {
         submitEditForm();
     }
 
-    public void clickCollapseExpandButtonAndWaitForPanelsToExpand() {
+    public void clickCollapseExpandButton() {
         click(collapseExpandButton);
-
     }
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
-            clickCollapseExpandButtonAndWaitForPanelsToExpand();
+            clickCollapseExpandButton();
             waitForPanelsToExpand();
         }
     }
 
     public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
-        clickCollapseExpandButtonAndWaitForPanelsToExpand();
+        clickCollapseExpandButton();
         waitForPanelsToCollapse();
     }
 

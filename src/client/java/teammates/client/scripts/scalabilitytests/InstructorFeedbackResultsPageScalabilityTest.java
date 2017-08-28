@@ -62,7 +62,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseUiTestCase
 
         InstructorFeedbackResultsPage resultsPage =
                 loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
-        resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
+        resultsPage.clickCollapseExpandButton();
         log.info("Time taken: " + stopwatch.getTimeElapsedInSeconds());
 
         return resultsPage;
