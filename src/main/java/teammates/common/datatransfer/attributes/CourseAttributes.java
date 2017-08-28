@@ -10,6 +10,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Course;
 
 /**
@@ -62,6 +63,18 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     public String getTimeZone() {
         return timeZone;
+    }
+
+    public String getCreatedAtDateString() {
+        return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt);
+    }
+
+    public String getCreatedAtDateStamp() {
+        return TimeHelper.formatDateToIso8601Utc(createdAt);
+    }
+
+    public String getCreatedAtFullDateTimeString() {
+        return TimeHelper.formatTime12H(createdAt);
     }
 
     public void setTimeZone(String timeZone) {
