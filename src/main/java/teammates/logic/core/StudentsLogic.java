@@ -624,7 +624,7 @@ public final class StudentsLogic {
      * Returns a {@code String} containing the invalid information of the {@code student}
      * and the corresponding sanitized invalid {@code userInput}.
      */
-    private String invalidStudentInfo( String userInput, StudentAttributes student) {
+    private String invalidStudentInfo(String userInput, StudentAttributes student) {
         String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
@@ -692,4 +692,5 @@ public final class StudentsLogic {
         }
         return null;
     }
+
 }
