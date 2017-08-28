@@ -28,7 +28,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         if (!feedbackSession.isOpened()) {
             statusToUser.add(new StatusMessage(
                     Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN, StatusMessageColor.DANGER));
-            statusToAdmin = "Reminder email could not be sent out as the feedback session is not open for submissions.";
+            statusToAdmin.add("Reminder email could not be sent out as the feedback session is not open for submissions.");
             return createRedirectResult(nextUrl);
         }
 
