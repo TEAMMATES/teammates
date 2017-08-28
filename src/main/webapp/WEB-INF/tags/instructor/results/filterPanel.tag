@@ -46,7 +46,7 @@
                   </c:if>
                 </c:forEach>
                 <c:if test="${filterPanel.noneSectionSelected}">
-                  <%=Const.NO_SPECIFIC_RECIPIENT%>
+                  <%=Const.NO_SPECIFIC_SECTION%>
                 </c:if>
               </div>
             </div>
