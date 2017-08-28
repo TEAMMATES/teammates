@@ -160,19 +160,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         submitEditForm();
     }
 
-    public void clickCollapseExpandButton() {
+    public void clickCollapseExpandButtonAndWaitForPanelsToExpand() {
         click(collapseExpandButton);
+        waitForPanelsToExpand();
     }
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
-            clickCollapseExpandButton();
+            click(collapseExpandButton);
             waitForPanelsToExpand();
         }
     }
 
     public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
-        clickCollapseExpandButton();
+        click(collapseExpandButton);
         waitForPanelsToCollapse();
     }
 
@@ -605,7 +606,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     /**
-     * Expands a particular panel, causing its results to load.
+     * Expands a particular question panel, causing its results to load.
      */
     public void loadResultQuestionPanel(int questionNumber) {
         String panelId = "panelHeading-" + questionNumber;
