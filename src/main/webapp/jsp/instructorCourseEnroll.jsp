@@ -12,7 +12,7 @@
   <%=Const.ParamsNames.SESSION_TOKEN%>
 </c:set>
 
-<ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Enroll Students for ${data.courseId}" jsIncludes="${jsIncludes}">
   <div class="instructionImg">
     <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" >
   </div>

@@ -18,7 +18,7 @@
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
   <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
-<ti:instructorPage title="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Edit Feedback Session" jsIncludes="${jsIncludes}">
 
   <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" fsEnableEdit="${data.shouldLoadInEditMode}"/>
 

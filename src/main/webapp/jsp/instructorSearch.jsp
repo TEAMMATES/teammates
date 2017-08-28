@@ -11,7 +11,7 @@
   <script type="text/javascript" src="/js/instructorSearch.js"></script>
 </c:set>
 
-<ti:instructorPage title="Search" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Search" jsIncludes="${jsIncludes}">
 
   <search:searchPageInput />
   <br>

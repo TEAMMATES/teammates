@@ -2084,7 +2084,7 @@
               target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
           </a>
         </td>
-       </tr>
+      </tr>
         <tr>
           <td>Savin Varshney</td>
           <td>
