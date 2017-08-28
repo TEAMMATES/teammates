@@ -156,7 +156,7 @@ $(document).ready(() => {
         const studentName = $entry.find('input[name=studentName]').val();
         const sessionStatus = $entry.find('input[name=sessionStatus]').val();
         const sessionName = $entry.find('#feedback-session-name').text();
-        const sessionNameWithoutDate = sessionName.match(/.+?(?=\[)/);
+        const sessionNameWithoutDate = sessionName.substring(0, sessionName.lastIndexOf(' ['));
 
         const relatedLink = encodeURIComponent($entry.find('input[name=relatedLink]').val());
         const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
