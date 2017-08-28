@@ -5,25 +5,25 @@
 <%@ attribute name="logs" type="java.util.Collection" required="true" %>
 
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        <strong>Email Log</strong>
-    </div>
+  <div class="panel-heading">
+    <strong>Email Log</strong>
+  </div>
 
-    <div class="table-responsive">
-        <table class="table dataTable" id="email-logs-table">
-            <thead>
-                <tr>
-                    <th><strong>Receiver</strong></th>
-                    <th><strong>Subject</strong></th>
-                    <th><strong>Date</strong></th>
-                </tr>
-            </thead>
+  <div class="table-responsive">
+    <table class="table dataTable" id="email-logs-table">
+      <thead>
+        <tr>
+          <th><strong>Receiver</strong></th>
+          <th><strong>Subject</strong></th>
+          <th><strong>Date</strong></th>
+        </tr>
+      </thead>
 
-            <tbody>
-                <c:forEach items="${logs}" var="log">
-                    <adminEmailLog:emailLogTableRow log="${log}" />
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
+      <tbody>
+        <c:forEach items="${logs}" var="log">
+          <adminEmailLog:emailLogTableRow log="${log}" />
+        </c:forEach>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -74,8 +74,11 @@ import {
 
 import {
     addRankOption,
+    bindRankEvents,
     hideRankOptionTable,
     removeRankOption,
+    toggleMaxOptionsToBeRanked,
+    toggleMinOptionsToBeRanked,
 } from '../common/questionRank.es6';
 
 import {
@@ -527,6 +530,8 @@ function enableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     $(`#button_question_submit-${questionNum}`).show();
+    toggleMaxOptionsToBeRanked(questionNum);
+    toggleMinOptionsToBeRanked(questionNum);
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
@@ -609,6 +614,8 @@ function enableNewQuestion() {
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
     $(`#button_question_submit-${NEW_QUESTION}`).show();
     disableCornerMoveRubricColumnButtons(NEW_QUESTION);
+    toggleMaxOptionsToBeRanked(NEW_QUESTION);
+    toggleMinOptionsToBeRanked(NEW_QUESTION);
 }
 
 /**
@@ -1196,6 +1203,7 @@ function readyFeedbackEditPage() {
 
     bindAssignWeightsCheckboxes();
     bindMoveRubricColButtons();
+    bindRankEvents();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
