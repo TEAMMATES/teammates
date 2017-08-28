@@ -32,6 +32,56 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
             .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date).build();
 
     @Test
+    public void testBuilderWithDefaultValues() {
+        ______TS("valid admin email");
+
+        AdminEmailAttributes attributes = AdminEmailAttributes
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
+                .build();
+
+        ______TS("success: default values for optional params");
+
+        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
+        assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
+        assertTrue("Valid input", attributes.isValid());
+    }
+
+    @Test
+    public void testBuilderWithNullArguments() {
+        AdminEmailAttributes attributes = AdminEmailAttributes
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
+                .withCreateDate(null)
+                .withEmailId(null)
+                .withIsInTrashBin(null)
+                .build();
+
+        ______TS("success: default values for optional params");
+
+        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
+        assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
+        assertTrue("Valid input", attributes.isValid());
+    }
+
+    @Test
+    public void testValueOf() {
+        Long emailId = 123L;
+        AdminEmail adminEmail = new AdminEmail(emailId,
+                groupReceiverListFileKey, addressReceiverListString, subject, content, date);
+
+        AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes.valueOf(adminEmail);
+
+        assertEquals(adminEmail.getEmailId(), adminEmailAttributes.emailId);
+        assertEquals(adminEmail.getGroupReceiver(), adminEmailAttributes.groupReceiver);
+        assertEquals(adminEmail.getAddressReceiver(), adminEmailAttributes.addressReceiver);
+        assertEquals(adminEmail.getSubject(), adminEmailAttributes.subject);
+        assertEquals(adminEmail.getContent(), adminEmailAttributes.content);
+        assertEquals(adminEmail.getSendDate(), adminEmailAttributes.sendDate);
+        assertTrue("Valid input", adminEmailAttributes.isValid());
+    }
+
+    @Test
     public void testValidate() throws Exception {
         ______TS("valid admin email");
 
@@ -238,78 +288,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                     FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
         }
         return "";
-    }
-
-    @Test
-    public void testBuilderWithDefaultValues() {
-        ______TS("valid admin email");
-
-        AdminEmailAttributes attributes = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
-                .build();
-
-        ______TS("success: default values for optional params");
-
-        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
-        assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
-        assertTrue("Valid input", attributes.isValid());
-    }
-
-    @Test
-    public void testBuilderWithNullArguments() {
-        AdminEmailAttributes attributes = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
-                .withCreateDate(null)
-                .withEmailId(null)
-                .withIsInTrashBin(null)
-                .build();
-
-        ______TS("success: default values for optional params");
-
-        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
-        assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
-        assertTrue("Valid input", attributes.isValid());
-    }
-
-    @Test
-    public void testValueOf() {
-        Long emailId = 123L;
-        AdminEmail adminEmail = new AdminEmail(emailId,
-                groupReceiverListFileKey, addressReceiverListString, subject, content, date);
-
-        AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes.valueOf(adminEmail);
-
-        assertEquals(adminEmail.getEmailId(), adminEmailAttributes.emailId);
-        assertEquals(adminEmail.getGroupReceiver(), adminEmailAttributes.groupReceiver);
-        assertEquals(adminEmail.getAddressReceiver(), adminEmailAttributes.addressReceiver);
-        assertEquals(adminEmail.getSubject(), adminEmailAttributes.subject);
-        assertEquals(adminEmail.getContent(), adminEmailAttributes.content);
-        assertEquals(adminEmail.getSendDate(), adminEmailAttributes.sendDate);
-        assertTrue("Valid input", adminEmailAttributes.isValid());
-    }
-
-    /**
-     * This test may be a duplicate of what is already tested in this class.
-     * @see AdminEmailAttributesTest#testGetInvalidityInfoForEmailSubject_null_throwException
-     * @see AdminEmailAttributesTest#testGetInvalidityInfoForEmailContent_null_throwException
-     */
-    @Test(expectedExceptions = AssertionError.class)
-    public void testBuilderWithNullValuesForRequiredFields() {
-        ______TS("failure: subject cannot be null");
-
-        AdminEmailAttributes attributesWithNullSubject = AdminEmailAttributes
-                .builder(null, addressReceiverListString, groupReceiverListFileKey, content, date)
-                .build();
-        assertFalse("Invalid input", attributesWithNullSubject.isValid());
-
-        ______TS("failure: content cannot be null");
-
-        AdminEmailAttributes attributeWithNullContent = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null, date)
-                .build();
-        assertFalse("Invalid input", attributeWithNullContent.isValid());
     }
 
 }
