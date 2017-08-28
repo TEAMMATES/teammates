@@ -52,8 +52,24 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT));
         verifyNoTasksAdded(action);
 
+        ______TS("Unsuccessful case: Feedback session not open, warning message generated");
+
+        fs = dataBundle.feedbackSessions.get("awaiting.session");
+        String[] paramsFeedbackSessionNotOpen = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+        };
+
+        action = getAction(paramsFeedbackSessionNotOpen);
+
+        rr = getRedirectResult(action);
+        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN));
+        verifyNoTasksAdded(action);
+
         ______TS("Successful case: Typical case");
 
+        fs = dataBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsTypical = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
