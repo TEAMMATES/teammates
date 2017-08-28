@@ -56,7 +56,6 @@ import {
     addMcqOption,
     removeMcqOption,
     toggleMcqGeneratedOptions,
-    toggleMcqOtherOptionEnabled,
     changeMcqGenerateFor,
 } from '../common/questionMcq.es6';
 
@@ -64,7 +63,6 @@ import {
     addMsqOption,
     removeMsqOption,
     toggleMsqGeneratedOptions,
-    toggleMsqOtherOptionEnabled,
     changeMsqGenerateFor,
 } from '../common/questionMsq.es6';
 
@@ -1131,7 +1129,7 @@ function readyFeedbackEditPage() {
     });
 
     // Bind submit actions
-    $('form[id|=form_editquestion]').submit(function (event) {
+    $('form[id|=form_editquestion]').submit((event) => {
         const $form = $(event.currentTarget);
 
         prepareDescription($form);
@@ -1248,12 +1246,10 @@ window.removeConstSumOption = removeConstSumOption;
 window.addMcqOption = addMcqOption;
 window.removeMcqOption = removeMcqOption;
 window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;
-window.toggleMcqOtherOptionEnabled = toggleMcqOtherOptionEnabled;
 window.changeMcqGenerateFor = changeMcqGenerateFor;
 window.addMsqOption = addMsqOption;
 window.removeMsqOption = removeMsqOption;
 window.toggleMsqGeneratedOptions = toggleMsqGeneratedOptions;
-window.toggleMsqOtherOptionEnabled = toggleMsqOtherOptionEnabled;
 window.changeMsqGenerateFor = changeMsqGenerateFor;
 window.updateNumScalePossibleValues = updateNumScalePossibleValues;
 window.addRankOption = addRankOption;

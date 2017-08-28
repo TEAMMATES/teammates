@@ -85,8 +85,6 @@ function moveRubricColIfPossible(questionNum, firstColIndex, isMoveLeft) {
     }
 
     swapRubricCol(questionNum, firstColIndex, secondColIndex);
-
-    const $form = $(`#form_editquestion-${questionNum}`);
 }
 
 function disableCornerMoveRubricColumnButtons(questionNum) {
@@ -128,8 +126,6 @@ function disableCornerMoveRubricColumnButtons(questionNum) {
 }
 
 function addRubricRow(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
     const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val(), 10);
 
@@ -177,8 +173,6 @@ function addRubricRow(questionNum) {
 }
 
 function addRubricCol(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const numberOfRows = parseInt($(`#rubricNumRows-${questionNum}`).val(), 10);
     const numberOfCols = parseInt($(`#rubricNumCols-${questionNum}`).val(), 10);
 
@@ -273,8 +267,6 @@ function addRubricCol(questionNum) {
 }
 
 function removeRubricRow(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const $thisRow = $(`#rubricRow-${questionNum}-${index}`);
 
     // count number of table rows from table body
@@ -293,8 +285,6 @@ function removeRubricRow(index, questionNum) {
 }
 
 function removeRubricCol(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const $thisCol = $(`.rubricCol-${questionNum}-${index}`);
 
     // count number of table columns from table body

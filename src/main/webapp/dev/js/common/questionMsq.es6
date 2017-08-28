@@ -3,8 +3,6 @@ import {
 } from './const.es6';
 
 function addMsqOption(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
@@ -31,8 +29,6 @@ function addMsqOption(questionNum) {
 }
 
 function removeMsqOption(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const $thisRow = $(`#msqOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table have and - 1 because of add option button
@@ -62,10 +58,6 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
     }
 }
 
-function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-}
-
 function changeMsqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
@@ -76,5 +68,4 @@ export {
     changeMsqGenerateFor,
     removeMsqOption,
     toggleMsqGeneratedOptions,
-    toggleMsqOtherOptionEnabled,
 };

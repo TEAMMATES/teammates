@@ -15,8 +15,6 @@ function updateConstSumPointsValue(questionNum) {
 }
 
 function addConstSumOption(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
@@ -45,7 +43,6 @@ function hideConstSumOptionTable(questionNum) {
 }
 
 function removeConstSumOption(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
     const $thisRow = $(`#constSumOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table have and - 1 because of add option button
