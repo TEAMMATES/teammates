@@ -821,7 +821,7 @@ public final class FeedbackSessionsLogic {
         if (section != null) {
             exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
                     .append(Const.EOL)
-                    .append(String.format("Section Display Mode,%s", sectionDisplayMode.name()))
+                    .append(String.format("Include responses if,%s", sectionDisplayMode.getDisplayedName()))
                     .append(Const.EOL);
         }
 

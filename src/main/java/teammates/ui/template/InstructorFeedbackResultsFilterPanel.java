@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.SanitizationHelper;
 
@@ -12,7 +13,7 @@ public class InstructorFeedbackResultsFilterPanel {
     private String feedbackSessionName;
     private boolean isAllSectionsSelected;
     private String selectedSection;
-    private String sectionDisplayMode;
+    private SectionDisplayMode sectionDisplayMode;
     private boolean isGroupedByTeam;
     private String sortType;
     private String resultsLink;
@@ -20,8 +21,8 @@ public class InstructorFeedbackResultsFilterPanel {
 
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
-                                    String selectedSection, String sectionDisplayMode, boolean isGroupedByTeam,
-                                    String sortType, String resultsLink, List<String> sections,
+                                    String selectedSection, SectionDisplayMode sectionDisplayMode,
+                                    boolean isGroupedByTeam, String sortType, String resultsLink, List<String> sections,
                                     boolean isMissingResponsesShown) {
         this.isStatsShown = isStatsShown;
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
@@ -64,7 +65,7 @@ public class InstructorFeedbackResultsFilterPanel {
         return selectedSection;
     }
 
-    public String getSectionDisplayMode() {
+    public SectionDisplayMode getSectionDisplayMode() {
         return sectionDisplayMode;
     }
 

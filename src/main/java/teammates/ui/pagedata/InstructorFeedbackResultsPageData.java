@@ -1708,14 +1708,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
                 getInstructorFeedbackSessionPublishAndUnpublishAction(),
-                selectedSection, sectionDisplayMode.name(),
+                selectedSection, sectionDisplayMode,
                 isMissingResponsesShown, isStatsShown());
     }
 
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(),
-                selectedSection, sectionDisplayMode.name(),
+                selectedSection, sectionDisplayMode,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
                 getSections(), isMissingResponsesShown);
     }

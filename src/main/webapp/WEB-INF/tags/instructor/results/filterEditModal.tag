@@ -64,22 +64,22 @@
               </c:if>
               <div class="form-group">
                 <label id="sectionDisplayModeLabel" for="sectionDisplayMode" class="control-label">
-                  Section display mode:
+                  Include responses if:
                 </label>
                 <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
                   <select id="sectionDisplayMode" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SECTION_DISPLAY_MODE%>">
                     <option value="<%=SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION%>"
                         <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_OR_RECIPIENT_IN_SECTION'}"> selected</c:if>>
-                      Giver or Recipient in section
+                      <%= SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.getDisplayedName() %>
                     </option>
                     <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
-                      Both in section
+                      <%= SectionDisplayMode.BOTH_IN_SECTION.getDisplayedName() %>
                     </option>
                     <option value="<%=SectionDisplayMode.GIVER_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}"> selected</c:if>>
-                      Giver in section
+                      <%= SectionDisplayMode.GIVER_IN_SECTION.getDisplayedName() %>
                     </option>
                     <option value="<%=SectionDisplayMode.RECIPIENT_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}"> selected</c:if>>
-                      Recipient in section
+                      <%= SectionDisplayMode.RECIPIENT_IN_SECTION.getDisplayedName() %>
                     </option>
                   </select>
                 </div>

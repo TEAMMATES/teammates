@@ -11,8 +11,8 @@
       <div class="col-md-5">
         <div data-toggle="tooltip" title="View results in different formats">
           <div class="row">
-            <label class="col-md-offset-1 col-md-4">View:</label>
-            <div class="col-md-7">
+            <label class="col-md-offset-1 col-md-5">View:</label>
+            <div class="col-md-6">
               <c:if test="${filterPanel.sortType == 'question'}">
                 Group by - Question
               </c:if>
@@ -35,8 +35,8 @@
           <br>
           <div class="row">
             <div data-toggle="tooltip" title="View results by sections">
-              <label class="col-md-offset-1 col-md-4">Section:</label>
-              <div class="col-md-7">
+              <label class="col-md-offset-1 col-md-5">Section:</label>
+              <div class="col-md-6">
                 <c:if test="${filterPanel.allSectionsSelected}">
                   All
                 </c:if>
@@ -56,20 +56,9 @@
         <c:if test="${filterPanel.sortType == 'question' && !filterPanel.allSectionsSelected}">
           <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
             <div class="row">
-              <label class="col-md-offset-1 col-md-4">Section display mode:</label>
-              <div class="col-md-7">
-                <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_OR_RECIPIENT_IN_SECTION'}">
-                  Giver or Recipient in section
-                </c:if>
-                <c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}">
-                  Both in section
-                </c:if>
-                <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}">
-                  Giver in section
-                </c:if>
-                <c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}">
-                  Recipient in section
-                </c:if>
+              <label class="col-md-offset-1 col-md-5">Include responses if:</label>
+              <div class="col-md-6">
+                <%= filterPanel.getSectionDisplayMode().getDisplayedName() %>
               </div>
             </div>
           </div>
