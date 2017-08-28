@@ -441,8 +441,9 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
      * clicking move column right button for second, third so on upto second-last
      * column. Verifies the rubric question after each move.
      * @param qnNumber question number.
-     * @param colIndexes indexes of the columns.
-     * @param columns column values.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     private void moveSecondRubricColumnToLast(int qnNumber, int[] colIndexes, String[]... columns) {
         Assumption.assertEquals(colIndexes.length, columns.length);
