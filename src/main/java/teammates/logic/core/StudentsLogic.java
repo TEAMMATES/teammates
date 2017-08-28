@@ -599,7 +599,7 @@ public final class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
 
                 if (!student.isValid()) {
-                    invalidityInfo.add(invalidStudentInfo(student, sanitizedLine));
+                    invalidityInfo.add(invalidStudentInfo(sanitizedLine, student));
                 }
 
                 int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
@@ -624,7 +624,7 @@ public final class StudentsLogic {
      * Returns a {@code String} containing the invalid information of the {@code student}
      * and the corresponding sanitized invalid {@code userInput}.
      */
-    private String invalidStudentInfo(StudentAttributes student, String userInput) {
+    private String invalidStudentInfo( String userInput, StudentAttributes student) {
         String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
                 "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
         return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
@@ -643,7 +643,27 @@ public final class StudentsLogic {
         return -1;
     }
 
-    private boolean isInEnrollList(StudentAttributes student, List<StudentAttributes> studentInfoList) {
+    /**
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
+     * the corresponding sanitized invalid {@code userInput}.
+     */
+    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
+        String info =
+                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
+                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
+    }
+
+    /**
+     * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String enrollExceptionInfo(String userInput, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
+    }
+
+    private boolean isInEnrollList(StudentAttributes student,
+            List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.email.equalsIgnoreCase(student.email)) {
                 return true;
@@ -672,24 +692,4 @@ public final class StudentsLogic {
         }
         return null;
     }
-
-    /**
-     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
-     * the corresponding sanitized invalid {@code userInput}.
-     */
-    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
-        String info =
-                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
-                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
-    }
-
-    /**
-     * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
-     * and the corresponding sanitized invalid {@code userInput}.
-     */
-    private String enrollExceptionInfo(String userInput, String errorMessage) {
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
-    }
-
 }
