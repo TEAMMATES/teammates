@@ -5,7 +5,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 public class InstructorFeedbackRemindParticularStudentsAction extends Action {
-    private String status;
+    private String statusMessageToAdmin;
 
     @Override
     protected ActionResult execute() {
@@ -34,12 +34,12 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin.add("Email sent out to the selected user(s): ");
         for (String user : usersToRemind) {
-            status += "<br>" + user;
+            statusMessageToAdmin += "<br>" + user;
         }
-        status += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
+        statusMessageToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
                          + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
 
-        statusToAdmin.add(status);
+        statusToAdmin.add(statusMessageToAdmin);
         return createRedirectResult(nextUrl);
     }
 }

@@ -23,7 +23,7 @@ import teammates.common.util.StatusMessageColor;
  *         that was just uploaded.
  */
 public class StudentProfilePictureUploadAction extends Action {
-    private String status;
+    private String statusMessageToAdmin;
 
     /*
      * This class is not tested in ActionTests as it is difficult to
@@ -63,7 +63,7 @@ public class StudentProfilePictureUploadAction extends Action {
             throw e;
         }
 
-        statusToAdmin.add(status);
+        statusToAdmin.add(statusMessageToAdmin);
         return r;
     }
 
@@ -127,7 +127,7 @@ public class StudentProfilePictureUploadAction extends Action {
         try {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            status += Const.ACTION_RESULT_FAILURE
+            statusMessageToAdmin += Const.ACTION_RESULT_FAILURE
                           + " : Unable to delete profile picture (possible unused picture with key: "
                           + blobKey.getKeyString() + " || Error Message: "
                           + bfe.getMessage() + Const.EOL;
@@ -135,7 +135,7 @@ public class StudentProfilePictureUploadAction extends Action {
     }
 
     private void updateStatusesForBlobstoreFailure() {
-        status += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
+        statusMessageToAdmin += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
                        + account.googleId + ")" + Const.EOL;
         statusToUser.clear();
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN,
