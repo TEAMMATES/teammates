@@ -15,11 +15,6 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
-
-    public static final Date DEFAULT_DATE = new Date();
-    public static final boolean DEFAULT_IS_IN_TRASH_BIN = false;
-    public static final String DEFAULT_EMAIL_ID = Const.ParamsNames.ADMIN_EMAIL_ID;
-
     // Required fields
     public List<String> addressReceiver;
     public List<String> groupReceiver;
@@ -32,30 +27,28 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public String emailId;
     public boolean isInTrashBin;
 
+
+    AdminEmailAttributes() {
+        this.createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
+        this.isInTrashBin = false;
+    }
+
     /**
      * Creates a new AdminEmail with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
      * <ul>
      * <li>{@code false} for {@code isInTrashBin}</li>
-     * <li>{@code new Date()} for {@code createDate}</li>
+     * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} for {@code createDate}</li>
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
      * </ul>
      */
-    AdminEmailAttributes(Builder builder) {
-        this.subject = builder.subject;
-        this.addressReceiver = builder.addressReceiver;
-        this.groupReceiver = builder.groupReceiver;
-        this.content = builder.content;
-        this.sendDate = builder.sendDate;
-
-        this.createDate = builder.createDate;
-        this.emailId = builder.emailId;
-        this.isInTrashBin = builder.isInTrashBin;
-    }
-
-    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver,
-                                  Text content, Date sendDate) {
+    public static Builder builder(String subject,
+                                  List<String> addressReceiver,
+                                  List<String> groupReceiver,
+                                  Text content,
+                                  Date sendDate) {
         return new Builder(subject, addressReceiver, groupReceiver, content, sendDate);
     }
 
@@ -177,54 +170,41 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     }
 
     public static class Builder {
-        // Required fields
-        public List<String> addressReceiver;
-        public List<String> groupReceiver;
-        public String subject;
-        public Date sendDate;
-        public Text content;
-
-        // Optional fields
-        public Date createDate;
-        public String emailId;
-        public boolean isInTrashBin;
+        private final AdminEmailAttributes adminEmailAttributes;
 
         public Builder(String subject, List<String> addressReceiver, List<String> groupReceiver,
                        Text content, Date sendDate) {
-            this.addressReceiver = addressReceiver;
-            this.groupReceiver = groupReceiver;
-            this.subject = subject;
-            this.content = content;
-            this.sendDate = sendDate;
-
-            this.createDate = DEFAULT_DATE;
-            this.emailId = DEFAULT_EMAIL_ID;
-            this.isInTrashBin = DEFAULT_IS_IN_TRASH_BIN;
+            adminEmailAttributes = new AdminEmailAttributes();
+            adminEmailAttributes.addressReceiver = addressReceiver;
+            adminEmailAttributes.groupReceiver = groupReceiver;
+            adminEmailAttributes.subject = subject;
+            adminEmailAttributes.content = content;
+            adminEmailAttributes.sendDate = sendDate;
         }
 
         public Builder withCreateDate(Date createDate) {
             if (createDate != null) {
-                this.createDate = createDate;
+                adminEmailAttributes.createDate = createDate;
             }
             return this;
         }
 
         public Builder withEmailId(String emailId) {
             if (emailId != null) {
-                this.emailId = emailId;
+                adminEmailAttributes.emailId = emailId;
             }
             return this;
         }
 
         public Builder withIsInTrashBin(Boolean isInTrashBin) {
             if (isInTrashBin != null) {
-                this.isInTrashBin = isInTrashBin;
+                adminEmailAttributes.isInTrashBin = isInTrashBin;
             }
             return this;
         }
 
         public AdminEmailAttributes build() {
-            return new AdminEmailAttributes(this);
+            return adminEmailAttributes;
         }
     }
 }
