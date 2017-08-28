@@ -132,6 +132,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
+
         CourseStudent createdStudent = createEntity(student);
         if (hasDocument) {
             putDocument(makeAttributes(createdStudent));
@@ -609,6 +610,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     protected StudentAttributes makeAttributes(CourseStudent entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new StudentAttributes(entity);
+        return StudentAttributes.valueOf(entity);
     }
 }
