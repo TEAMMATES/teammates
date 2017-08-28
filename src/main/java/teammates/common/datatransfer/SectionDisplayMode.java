@@ -16,7 +16,7 @@ public enum SectionDisplayMode {
     }
 
     public static SectionDisplayMode valueOfOrDefault(String displayMode) {
-        return displayMode == null ? GIVER_OR_RECIPIENT_IN_SECTION : SectionDisplayMode.valueOf(displayMode);
+        return displayMode == null ? BOTH_IN_SECTION : SectionDisplayMode.valueOf(displayMode);
     }
 
     public String getDisplayedName() {
