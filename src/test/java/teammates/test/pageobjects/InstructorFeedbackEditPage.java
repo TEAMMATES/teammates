@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -1069,7 +1069,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickRemoveMsqOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
 
-    // <===== ===== ===== ===== ===== MSQ min/max methods START ===== ===== ===== ===== =====>
     private String getMsqMaxSelectableChoicesCheckboxId(int qnNumber) {
         return "msqEnableMaxSelectableChoices-" + qnNumber;
     }
@@ -1146,20 +1145,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
 
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
         String id = inputBox.getAttribute("id");
 
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
     }
 
     public void setMsqMaxSelectableChoices(int qnNumber, int value) {
         assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
 
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
         String id = inputBox.getAttribute("id");
 
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
     }
 
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
@@ -1180,9 +1177,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getValue(WebElement elem) {
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-
-        return (String) exec.executeScript(String.format("return $('#%s').val();", elem.getAttribute("id")));
+        return (String) executeScript(String.format("return $('#%s').val();", elem.getAttribute("id")));
     }
 
     public int getMsqMinSelectableChoices(int qnNumber) {
@@ -1208,31 +1203,23 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public int getNumOfMsqOptions(int qnNumber) {
-        int numOfOptions = 0;
-
         if (isGenerateOptionsForMsqChecked(qnNumber)) {
             String selectedOption = getGenerateOptionsForMsqValue(qnNumber);
 
             switch (selectedOption) {
             case "students":
-                numOfOptions = getNumOfStudentsForFs();
-                break;
+                return getNumOfStudentsForFs();
             case "teams":
-                numOfOptions = getNumOfTeamsForFs();
-                break;
+                return getNumOfTeamsForFs();
             case "instructors":
-                numOfOptions = getNumOfInstructorsForFs();
-                break;
+                return getNumOfInstructorsForFs();
             default:
-                numOfOptions = 0;
-                break;
+                return 0;
             }
         } else {
-            numOfOptions = browser.driver.findElements(
+            return browser.driver.findElements(
                     By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
         }
-
-        return numOfOptions;
     }
 
     public void verifyMsqMinMaxSelectableChoices(int qnNumber) {
@@ -1272,10 +1259,9 @@ public class InstructorFeedbackEditPage extends AppPage {
             int maxValue = getMsqMaxSelectableChoices(qnNumber);
 
             assertTrue(minValue <= maxValue);
-            assertEquals(maxValue, getMaxOfMsqMinSelectableChoices(qnNumber));
+            assertEquals(getMaxOfMsqMinSelectableChoices(qnNumber), maxValue);
         }
     }
-    // <===== ===== ===== ===== ===== MSQ min/max methods END ===== ===== ===== ===== =====>
 
     public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
@@ -1527,7 +1513,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             int upperLimit = getMaxOfMinOptionsToBeSelectedInput(qnNumber);
 
             assertTrue(value <= upperLimit);
-            assertEquals(getMinOfMinOptionsToBeSelectedInput(qnNumber), 1);
+            assertEquals(1, getMinOfMinOptionsToBeSelectedInput(qnNumber));
         }
 
         if (isMaxOptionsEnabled) {
@@ -1535,8 +1521,8 @@ public class InstructorFeedbackEditPage extends AppPage {
             int upperLimit = getMaxOfMaxOptionsToBeSelectedInput(qnNumber);
 
             assertTrue(value <= upperLimit);
-            assertEquals(getMaxOfMaxOptionsToBeSelectedInput(qnNumber), getNumOfOptionsInRankOptions(qnNumber));
-            assertEquals(getMinOfMaxOptionsToBeSelectedInput(qnNumber), 1);
+            assertEquals(getNumOfOptionsInRankOptions(qnNumber), getMaxOfMaxOptionsToBeSelectedInput(qnNumber));
+            assertEquals(1, getMinOfMaxOptionsToBeSelectedInput(qnNumber));
         }
 
         if (isMinOptionsEnabled && isMaxOptionsEnabled) {

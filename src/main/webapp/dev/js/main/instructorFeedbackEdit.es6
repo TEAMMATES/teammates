@@ -1187,18 +1187,6 @@ $(document).ready(() => {
     $(document).on('submit', '.tally-checkboxes', (e) => {
         tallyCheckboxes($(e.target).data('qnnumber'));
     });
-
-    $(document).on('change', 'input[name*="msqEnableMaxSelectableChoices"]', (e) => {
-        const questionNumber = getQuestionNum($(e.target));
-
-        toggleMsqMaxSelectableChoices(questionNumber);
-    });
-
-    $(document).on('change', 'input[name*="msqEnableMinSelectableChoices"]', (e) => {
-        const questionNumber = getQuestionNum($(e.target));
-
-        toggleMsqMinSelectableChoices(questionNumber);
-    });
 });
 
 window.updateConstSumPointsValue = updateConstSumPointsValue;

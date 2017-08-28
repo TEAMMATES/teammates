@@ -522,10 +522,10 @@ public final class Const {
         public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
                 "Minimum selectable choices mentioned exceeds maximum selectable choices for "
                 + Const.FeedbackQuestionTypeNames.MSQ;
-        public static final String MSQ_ERROR_MIN_FOR_MAX_SELCTABLE_CHOICES =
-                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be greater than 1.";
-        public static final String MSQ_ERROR_MIN_FOR_MIN_SELCTABLE_CHOICES =
-                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be greater than 0.";
+        public static final String MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES =
+                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
+        public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
+                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =

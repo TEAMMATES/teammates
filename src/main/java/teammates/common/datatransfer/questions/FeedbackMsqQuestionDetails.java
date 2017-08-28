@@ -174,13 +174,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if (this.minSelectableChoices != Integer.MIN_VALUE && newMsqDetails.minSelectableChoices != Integer.MIN_VALUE
-                && this.minSelectableChoices > newMsqDetails.minSelectableChoices) {
+                && this.minSelectableChoices < newMsqDetails.minSelectableChoices) {
             // A more strict min selectable choices restriction is placed
             return true;
         }
 
         if (this.maxSelectableChoices != Integer.MIN_VALUE && newMsqDetails.maxSelectableChoices != Integer.MIN_VALUE
-                && this.maxSelectableChoices < newMsqDetails.maxSelectableChoices) {
+                && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
             // A more strict max selectable choices restriction is placed
             return true;
         }
@@ -426,7 +426,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
                         isMaxSelectableChoicesDisabled ? "2" : Integer.toString(maxSelectableChoices),
                 Slots.MSQ_MIN_SELECTABLE_CHOICES,
-                                isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices));
+                        isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices));
     }
 
     @Override
@@ -578,12 +578,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 if (msqChoices.size() < maxSelectableChoices) {
                     errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
                 } else if (maxSelectableChoices < 2) {
-                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELCTABLE_CHOICES);
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
                 }
             }
 
             if (isMinSelectableChoicesEnabled && minSelectableChoices < 1) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELCTABLE_CHOICES);
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
             }
 
             if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
