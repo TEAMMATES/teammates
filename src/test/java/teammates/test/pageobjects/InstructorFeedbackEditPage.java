@@ -470,7 +470,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Checks if move right button of rightmost column is disabled.
      * Checks if all other move column buttons are enabled.
      * @param qnNumber question number.
-     * @param colIndexes indexes of the columns.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
      */
     public void verifyRubricColumnsMovability(int qnNumber, int[] colIndexes) {
         int leftMostColIndex = colIndexes[0];
@@ -492,13 +492,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Checks if the values given in <i>columns</i> argument match with the
+     * Checks if the values given in {@code columns} argument match with the
      * actual values displayed. Also checks if move left/right buttons for
      * each column is properly enabled or disabled. Assumes that there are
      * at least 2 columns.
      * @param qnNumber question number.
-     * @param colIndexes indexes of the columns.
-     * @param columns column values.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     public void verifyRubricQuestion(int qnNumber, int[] colIndexes, String[]... columns) {
         // checking rubric column values - choice, weight, descriptions
@@ -528,36 +529,37 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     /**
      * Fills a single rubric column of index given by
-     * <i>choiceIndex</i>, with the values given in <i>values</i>.
+     * {@code choiceIndex}, with the values given in {@code values}.
      * @param qnNumber question number.
-     * @param choiceIndex index of the column.
-     * @param values column values.
+     * @param choiceIndex index of the column as in UI.
+     * @param values {@code String[]} which holds all column values from top to bottom. 
      */
     public void fillRubricColumn(int qnNumber, int choiceIndex, String[] values) {
         fillRubricChoiceBox(values[0], qnNumber, choiceIndex);
 
-        int rubDescIndex = 1;
+        int rubDescriptionIndex = 1;
 
         if (isRubricWeightsEnabled(qnNumber)) {
             fillRubricWeightBox(values[1], qnNumber, choiceIndex);
-            rubDescIndex = 2; // rubric descriptions start from index 2
+            rubDescriptionIndex = 2; // rubric descriptions start from index 2
         }
 
         int subQnIndex = 0;
 
-        while (rubDescIndex < values.length) {
-            fillRubricDescriptionBox(values[rubDescIndex], qnNumber, subQnIndex, choiceIndex);
+        while (rubDescriptionIndex < values.length) {
+            fillRubricDescriptionBox(values[rubDescriptionIndex], qnNumber, subQnIndex, choiceIndex);
             subQnIndex++;
-            rubDescIndex++;
+            rubDescriptionIndex++;
         }
     }
 
     /**
      * Fills all rubric columns with respective indexes given in
-     * {@code colIndexes}, with respective values given in <i>colValues</i>.
+     * {@code colIndexes}, with respective values given in @{code colValues}.
      * @param qnNumber question number.
-     * @param colIndexes indexes of the columns.
-     * @param colValues column values.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param colValues Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     public void fillAllRubricColumns(int qnNumber, int[] colIndexes, String[]... colValues) {
         Assumption.assertEquals(colIndexes.length, colValues.length);
