@@ -532,7 +532,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * {@code choiceIndex}, with the values given in {@code values}.
      * @param qnNumber question number.
      * @param choiceIndex index of the column as in UI.
-     * @param values {@code String[]} which holds all column values from top to bottom. 
+     * @param values {@code String[]} which holds all column values from top to bottom.
      */
     public void fillRubricColumn(int qnNumber, int choiceIndex, String[] values) {
         fillRubricChoiceBox(values[0], qnNumber, choiceIndex);
