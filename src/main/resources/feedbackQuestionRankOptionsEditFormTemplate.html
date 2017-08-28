@@ -11,7 +11,7 @@
         </a>
       </div>
     </div>
-    <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
+    <input type="hidden" class="nonDestructive" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
         id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}"
         value="${numOfRankOptions}">
   </div>
@@ -37,8 +37,8 @@
       </div>
       <div class="col-sm-3 col-xs-12">
         <div class="pull-right">
-          <input type="number" class="nonDestructive" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}"
-            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionNumber}" min="1" value="${minOptionsToBeRanked}"/
+          <input type="number" class="form-control" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}-${questionNumber}" min="1" value="${minOptionsToBeRanked}"/>
         </div>
       </div>
     </div>
