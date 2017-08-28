@@ -275,10 +275,13 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        AdminEmail adminEmail = new AdminEmail(
+        Long emailId = 123L;
+        AdminEmail adminEmail = new AdminEmail(emailId,
                 groupReceiverListFileKey, addressReceiverListString, subject, content, date);
+
         AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes.valueOf(adminEmail);
 
+        assertEquals(adminEmail.getEmailId(), adminEmailAttributes.emailId);
         assertEquals(adminEmail.getGroupReceiver(), adminEmailAttributes.groupReceiver);
         assertEquals(adminEmail.getAddressReceiver(), adminEmailAttributes.addressReceiver);
         assertEquals(adminEmail.getSubject(), adminEmailAttributes.subject);

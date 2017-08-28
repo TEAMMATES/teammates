@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -54,6 +53,19 @@ public class AdminEmail extends BaseEntity {
     public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
                       Text content, Date sendDate) {
         this.emailId = null;
+        this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
+        this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
+        this.subject = subject;
+        this.content = content;
+        this.sendDate = sendDate;
+        this.createDate = new Date();
+        this.isInTrashBin = false;
+    }
+
+    // This constructor is used only for AdminEmailAttributesTest#testValueOf()
+    public AdminEmail(Long emailId, List<String> addressReceiver, List<String> groupReceiver, String subject,
+                      Text content, Date sendDate) {
+        this.emailId = emailId;
         this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
         this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;

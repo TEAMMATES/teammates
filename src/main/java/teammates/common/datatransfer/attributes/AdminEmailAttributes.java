@@ -59,6 +59,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
                 adminEmail.getContent(),
                 adminEmail.getSendDate())
                 .withCreateDate(adminEmail.getCreateDate())
+                .withEmailId(adminEmail.getEmailId())
                 .withIsInTrashBin(adminEmail.getIsInTrashBin())
                 .build();
     }
