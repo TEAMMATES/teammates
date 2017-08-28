@@ -350,7 +350,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         String[] col2 = feedbackEditPage.getRubricColValues(1, 2);
         String[] col3 = feedbackEditPage.getRubricColValues(1, 3);
 
-        feedbackEditPage.verifyRubricQuestion(1, new int[] {0, 1, 2, 3}, col0, col1, col2, col3);
+        feedbackEditPage.verifyRubricColumnsMovability(1, new int[] {0, 1, 2, 3});
         feedbackEditPage.clickAddRubricColLink(1); // new column index 4
 
         String[] col4 = feedbackEditPage.getRubricColValues(1, 4);
@@ -417,8 +417,9 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
      * clicking move column left button for last, second-last upto second column.
      * Verifies the rubric question after each move.
      * @param qnNumber question number.
-     * @param colIndexes indexes of the columns.
-     * @param columns column values.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
     private void moveLastRubricColumnToFirst(int qnNumber, int[] colIndexes, String[]... columns) {
         Assumption.assertEquals(colIndexes.length, columns.length);

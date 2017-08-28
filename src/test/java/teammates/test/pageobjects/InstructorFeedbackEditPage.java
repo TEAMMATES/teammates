@@ -472,7 +472,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      * @param qnNumber question number.
      * @param colIndexes indexes of the columns.
      */
-    private void verifyRubricColumnsMovability(int qnNumber, int[] colIndexes) {
+    public void verifyRubricColumnsMovability(int qnNumber, int[] colIndexes) {
         int leftMostColIndex = colIndexes[0];
         int rightMostColIndex = colIndexes[colIndexes.length - 1];
 
@@ -502,23 +502,23 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public void verifyRubricQuestion(int qnNumber, int[] colIndexes, String[]... columns) {
         // checking rubric column values - choice, weight, descriptions
-        int i = 0;
-        for (int colIndex : colIndexes) {
-            String[] colValues = columns[i++];
-            int rubDescIndex = 1;
+        for (int i = 0; i < colIndexes.length; i++) {
+            int colIndex = colIndexes[i];
+            String[] colValues = columns[i];
+            int rubDescriptionIndex = 1;
 
             assertTrue(getRubricChoice(qnNumber, colIndex).equals(colValues[0]));
 
             if (isRubricWeightsEnabled(qnNumber)) {
                 assertTrue(getRubricWeight(qnNumber, colIndex).equals(colValues[1]));
-                rubDescIndex = 2; // rubric descriptions start from index 2
+                rubDescriptionIndex = 2; // rubric descriptions start from index 2
             }
 
             int subQnIndex = 0;
 
-            while (rubDescIndex < colValues.length) {
-                assertTrue(getRubricDescription(qnNumber, subQnIndex, colIndex).equals(colValues[rubDescIndex]));
-                rubDescIndex++;
+            while (rubDescriptionIndex < colValues.length) {
+                assertTrue(getRubricDescription(qnNumber, subQnIndex, colIndex).equals(colValues[rubDescriptionIndex]));
+                rubDescriptionIndex++;
                 subQnIndex++;
             }
         }
@@ -554,7 +554,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     /**
      * Fills all rubric columns with respective indexes given in
-     * <i>colIndexes</i>, with respective values given in <i>colValues</i>.
+     * {@code colIndexes}, with respective values given in <i>colValues</i>.
      * @param qnNumber question number.
      * @param colIndexes indexes of the columns.
      * @param colValues column values.
