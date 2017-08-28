@@ -80,7 +80,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Return new builder instance with default values for optional fields.
+     * Returns new builder instance with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
      * <ul>
