@@ -289,7 +289,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
                 feedbackSessionClosed.getFeedbackSessionName()));
         homePage.waitForPageToLoad();
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
 
         ______TS("remind particular users action: CLOSED feedback session");
 
@@ -304,7 +304,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForAjaxLoaderGifToDisappear();
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
 
         homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
@@ -313,7 +313,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
 
         ______TS("remind action: PUBLISHED feedback session");
 

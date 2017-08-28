@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -1210,6 +1212,131 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getNumOfOptionsInRankOptionsForNewQuestion() {
         return getNumOfOptionsInRankOptions(NEW_QUESTION_NUM);
+    }
+
+    private WebElement getMinOptionsToBeRankedCheckbox(int qnNumber) {
+        return browser.driver.findElement(By.id("minOptionsToBeRankedEnabled-" + qnNumber));
+    }
+
+    private WebElement getMaxOptionsToBeRankedCheckbox(int qnNumber) {
+        return browser.driver.findElement(By.id("maxOptionsToBeRankedEnabled-" + qnNumber));
+    }
+
+    public void toggleMinOptionsToBeRankedCheckbox(int qnNumber) {
+        click(getMinOptionsToBeRankedCheckbox(qnNumber));
+    }
+
+    public void toggleMaxOptionsToBeRankedCheckbox(int qnNumber) {
+        click(getMaxOptionsToBeRankedCheckbox(qnNumber));
+    }
+
+    private WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
+        return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
+    }
+
+    private WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
+        return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
+    }
+
+    public boolean isMinOptionsToBeRankedEnabled(int qnNumber) {
+        return getMinOptionsToBeRankedCheckbox(qnNumber).isEnabled()
+                && getMinOptionsToBeRankedInputElement(qnNumber).isEnabled();
+    }
+
+    public boolean isMaxOptionsToBeRankedEnabled(int qnNumber) {
+        return getMaxOptionsToBeRankedCheckbox(qnNumber).isEnabled()
+                && getMaxOptionsToBeRankedInputElement(qnNumber).isEnabled();
+    }
+
+    private int getMinOfMinOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMinOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("min"));
+    }
+
+    private int getMinOfMaxOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMaxOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("min"));
+    }
+
+    private int getMaxOfMinOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMinOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("max"));
+    }
+
+    private int getMaxOfMaxOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMaxOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("max"));
+    }
+
+    public int getMinOptionsToBeRanked(int qnNumber) {
+        assertTrue(isMinOptionsToBeRankedEnabled(qnNumber));
+        WebElement elem = getMinOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("value"));
+    }
+
+    public int getMaxOptionsToBeRanked(int qnNumber) {
+        assertTrue(isMaxOptionsToBeRankedEnabled(qnNumber));
+        WebElement elem = getMaxOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("value"));
+    }
+
+    public void setMinOptionsToBeRanked(int qnNumber, int value) {
+        assertTrue(isMinOptionsToBeRankedEnabled(qnNumber));
+
+        WebElement inputBox = getMinOptionsToBeRankedInputElement(qnNumber);
+        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
+        String id = inputBox.getAttribute("id");
+
+        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    }
+
+    public void setMaxOptionsToBeRanked(int qnNumber, int value) {
+        assertTrue(isMaxOptionsToBeRankedEnabled(qnNumber));
+
+        WebElement inputBox = getMaxOptionsToBeRankedInputElement(qnNumber);
+        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
+        String id = inputBox.getAttribute("id");
+
+        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    }
+
+    public void verifyMinMaxOptionsToBeSelectedRestrictions(int qnNumber) {
+        boolean isMinOptionsEnabled = isMinOptionsToBeRankedEnabled(qnNumber);
+        boolean isMaxOptionsEnabled = isMaxOptionsToBeRankedEnabled(qnNumber);
+
+        if (!isMinOptionsEnabled && !isMaxOptionsEnabled) {
+            return;
+        }
+
+        if (isMinOptionsEnabled) {
+            int value = getMinOptionsToBeRanked(qnNumber);
+            int upperLimit = getMaxOfMinOptionsToBeSelectedInput(qnNumber);
+
+            assertTrue(value <= upperLimit);
+            assertEquals(getMinOfMinOptionsToBeSelectedInput(qnNumber), 1);
+        }
+
+        if (isMaxOptionsEnabled) {
+            int value = getMaxOptionsToBeRanked(qnNumber);
+            int upperLimit = getMaxOfMaxOptionsToBeSelectedInput(qnNumber);
+
+            assertTrue(value <= upperLimit);
+            assertEquals(getMaxOfMaxOptionsToBeSelectedInput(qnNumber), getNumOfOptionsInRankOptions(qnNumber));
+            assertEquals(getMinOfMaxOptionsToBeSelectedInput(qnNumber), 1);
+        }
+
+        if (isMinOptionsEnabled && isMaxOptionsEnabled) {
+            int maxValue = getMaxOptionsToBeRanked(qnNumber);
+            int minValue = getMinOptionsToBeRanked(qnNumber);
+
+            assertTrue(minValue <= maxValue);
+        }
     }
 
     public FeedbackSubmitPage clickPreviewAsStudentButton() {

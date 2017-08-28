@@ -6895,6 +6895,8 @@
                     <br>
 
                     <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
+                    <br> You can also configure the minimum and (or) maximum options to be ranked. When the minimum options to be ranked restriction is enabled, it will ensure that the respondent ranks at least the number of options mentioned in the restriction.
+                    <br> Similarly, when maximum options to be ranked restriction is enabled, it will ensure that the respondent ranks at most the number of options mentioned in the restriction.
                     <br>
                     <br>
                     <div class="bs-example">
@@ -7023,8 +7025,43 @@
                                                             Allow response giver to give the same rank to multiple options
                                                         </label>
                                                     </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-sm-9 col-xs-12">
+                                                            <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at least the mentioned number of options.">
+                                                                <label class="bold-label">
+                                                                    <input type="checkbox" name="minOptionsToBeRankedEnabled"
+                                                                            id="minOptionsToBeRankedEnabled-1" disabled>
+                                                                        Minimum number of options a respondent must rank
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 col-xs-12">
+                                                            <div class="pull-right">
+                                                                <input type="number" class="form-control" name="minOptionsToBeRanked"
+                                                                        id="minOptionsToBeRanked-1" min="1" value="1" disabled/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-sm-9 col-xs-12">
+                                                            <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will ensure respondent ranks at most the mentioned number of options.">
+                                                                <label class="bold-label">
+                                                                    <input type="checkbox" name="maxOptionsToBeRankedEnabled"
+                                                                            id="maxOptionsToBeRankedEnabled-1" disabled>
+                                                                        Maximum number of options a respondent can rank
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 col-xs-12">
+                                                            <div class="pull-right">
+                                                                <input type="number" class="form-control" name="maxOptionsToBeRanked"
+                                                                        id="maxOptionsToBeRanked-1" min="1" value="1" disabled/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-
                                                 <br>
                                             </div>
                                         </div>
