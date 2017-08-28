@@ -70,7 +70,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 
-        ______TS("Typical case: instructor cannot view sections");
+        ______TS("Typical case: instructor cannot view sections without View-Student-In-Sections privilege");
 
         instructor = typicalBundle.instructors.get("helperOfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
