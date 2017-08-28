@@ -28,10 +28,6 @@ function addMsqOption(questionNum) {
     `).insertBefore($(`#msqAddOptionRow-${questionNum}`));
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
 }
 
 function removeMsqOption(index, questionNum) {
@@ -46,10 +42,6 @@ function removeMsqOption(index, questionNum) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
-        }
     }
 }
 
@@ -72,10 +64,6 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
 
 function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
 }
 
 function changeMsqGenerateFor(questionNum) {

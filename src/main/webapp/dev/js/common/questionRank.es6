@@ -137,10 +137,6 @@ function addRankOption(questionNum) {
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
-
     adjustMinMaxOptionsToBeRanked(questionNum);
 }
 
@@ -159,10 +155,6 @@ function removeRankOption(index, questionNum) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
-        }
     }
 
     adjustMinMaxOptionsToBeRanked(questionNum);

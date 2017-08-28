@@ -38,10 +38,6 @@ function addConstSumOption(questionNum) {
     `).insertBefore($(`#constSumAddOptionRow-${questionNum}`));
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
 }
 
 function hideConstSumOptionTable(questionNum) {
@@ -59,10 +55,6 @@ function removeConstSumOption(index, questionNum) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
-        }
     }
 }
 

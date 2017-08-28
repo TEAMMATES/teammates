@@ -87,10 +87,6 @@ function moveRubricColIfPossible(questionNum, firstColIndex, isMoveLeft) {
     swapRubricCol(questionNum, firstColIndex, secondColIndex);
 
     const $form = $(`#form_editquestion-${questionNum}`);
-
-    if ($form.attr('editstatus') === 'hasResponses') {
-        $form.attr('editstatus', 'mustDeleteResponses');
-    }
 }
 
 function disableCornerMoveRubricColumnButtons(questionNum) {
@@ -178,10 +174,6 @@ function addRubricRow(questionNum) {
 
     // Increment
     $(`#rubricNumRows-${questionNum}`).val(newRowNumber);
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
 }
 
 function addRubricCol(questionNum) {
@@ -277,10 +269,6 @@ function addRubricCol(questionNum) {
     // Increment
     $(`#rubricNumCols-${questionNum}`).val(newColNumber);
 
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
-
     disableCornerMoveRubricColumnButtons(questionNum);
 }
 
@@ -299,10 +287,6 @@ function removeRubricRow(index, questionNum) {
             $thisRow.find('textarea').val('');
         } else {
             $thisRow.remove();
-
-            if ($(questionId).attr('editStatus') === 'hasResponses') {
-                $(questionId).attr('editStatus', 'mustDeleteResponses');
-            }
         }
     };
     showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
@@ -325,10 +309,6 @@ function removeRubricCol(index, questionNum) {
         } else {
             $thisCol.remove();
             disableCornerMoveRubricColumnButtons(questionNum);
-
-            if ($(questionId).attr('editStatus') === 'hasResponses') {
-                $(questionId).attr('editStatus', 'mustDeleteResponses');
-            }
         }
     };
     showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);

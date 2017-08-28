@@ -396,7 +396,7 @@ function backupQuestion(questionNum) {
 function isQuestionHavingResponses(questionNum) {
     const EDIT_STATUS = $(`#form_editquestion-${questionNum}`).attr('editstatus');
 
-    return EDIT_STATUS === 'hasResponses' || EDIT_STATUS === 'mustDeleteResponses';
+    return EDIT_STATUS === 'hasResponses';
 }
 
 function getDestructiveFields(questionNum) {
@@ -430,27 +430,19 @@ function getDestructiveFields(questionNum) {
  * Returns true if changes were made, else false.
  * @param questionNum
  */
-function isDestructiveFieldsModifed(questionNum) {
+function isDestructiveFieldsModifed($form) {
+    const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
+
+    if (!isQuestionHavingResponses(questionNum)) {
+        // Trivial case, if there are no responses,
+        // then assume no destructive changes were made
+        return false;
+    }
+
     const currFieldsDict = getDestructiveFields(questionNum);
     const prevFieldsDict = destructiveFieldsBackup[questionNum];
 
     return JSON.stringify(currFieldsDict) !== JSON.stringify(prevFieldsDict);
-}
-
-function correctEditStatusIfRequired($form) {
-    const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
-
-    if (!isQuestionHavingResponses(questionNum)) {
-        return;
-    }
-
-    if (!isDestructiveFieldsModifed(questionNum)) {
-        // Destructive changes are same before and after.
-        // The changes cancelled out each other.
-        $(`#form_editquestion-${questionNum}`).attr('editstatus', 'hasResponses');
-    } else {
-        $(`#form_editquestion-${questionNum}`).attr('editstatus', 'mustDeleteResponses');
-    }
 }
 
 /**
@@ -703,12 +695,6 @@ function restoreOriginal(questionNum) {
         $(`#button_question_submit-${questionNum}`).hide();
         $(`#questionnum-${questionNum}`).val(questionNum);
         $(`#questionnum-${questionNum}`).prop('disabled', true);
-
-        const $form = $(`#form_editquestion-${questionNum}`);
-
-        if ($form.attr('editstatus') === 'mustDeleteResponses') {
-            $form.attr('editstatus', 'hasResponses');
-        }
     }
 
     // re-attach events for form elements
@@ -1146,10 +1132,13 @@ function readyFeedbackEditPage() {
 
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function (event) {
-        prepareDescription($(event.currentTarget));
-        correctEditStatusIfRequired($(event.currentTarget));
+        const $form = $(event.currentTarget);
 
-        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
+        prepareDescription($form);
+
+        if (isDestructiveFieldsModifed($form)) {
+            // Changes made to the question will delete
+            // existing responses, hence warn user
             event.preventDefault();
             const okCallback = function () {
                 event.currentTarget.submit();
@@ -1167,15 +1156,6 @@ function readyFeedbackEditPage() {
         }
         return formStatus;
     });
-
-    // Bind destructive changes
-    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').not('.visibilityCheckbox')
-            .change(function () {
-                const editStatus = $(this).parents('form').attr('editStatus');
-                if (editStatus === 'hasResponses') {
-                    $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
-                }
-            });
 
     $('#add-new-question-dropdown > li').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
