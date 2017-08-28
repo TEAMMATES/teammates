@@ -27,7 +27,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public String emailId;
     public boolean isInTrashBin;
 
-
     AdminEmailAttributes() {
         this.createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
@@ -60,7 +59,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
                 adminEmail.getContent(),
                 adminEmail.getSendDate())
                 .withCreateDate(adminEmail.getCreateDate())
-                .withEmailId(adminEmail.getEmailId())
                 .withIsInTrashBin(adminEmail.getIsInTrashBin())
                 .build();
     }
