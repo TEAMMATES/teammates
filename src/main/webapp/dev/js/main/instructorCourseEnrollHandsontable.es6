@@ -1,31 +1,10 @@
 /* global Handsontable:false */
 
-import {
-    ParamsNames,
-} from '../common/const.es6';
-
 /**
  * @Global Variables
  */
 const container = document.getElementById('spreadsheet');
-const columns = ['Section', 'Team', 'Name', 'Email', 'Comments (Optional)'];
-
-/**
- * Validator Function to validation emails
- * @param {string} value
- * @param {function} callback
- *
- * @return {function} true/false
- */
-const emailValidator = (value, callback) => {
-    setTimeout(() => {
-        if (/.+@.+/.test(value)) {
-            callback(true);
-        } else {
-            callback(false);
-        }
-    }, 100);
-};
+let columns = ['Section', 'Team', 'Name', 'Email', 'Comments'];
 
 /**
  * Holds Handsontable settings, reference and other information for Spreadsheet.
@@ -50,33 +29,7 @@ const handsontable = new Handsontable(container, {
         'make_read_only',
         'alignment',
     ],
-    columns: [
-        {
-            type: 'text',
-        }, {
-            type: 'text',
-        }, {
-            type: 'text',
-        }, {
-            validator: emailValidator,
-            allowInvalid: false,
-        }, {
-            type: 'text',
-        },
-    ],
 });
-
-/**
- * Removes ' (Optional)' string from an array of string
- * @param {array of string} columns
- * @return {array of string} columns
- */
-function removeOptionalWord(columnsList) {
-    for (let itr = 0; itr < columnsList.length; itr += 1) {
-        columnsList[itr] = columnsList[itr].replace(' (Optional)', '');
-    }
-    return columnsList;
-}
 
 /**
  * Updates column header order and generates a header string.
@@ -86,11 +39,11 @@ function removeOptionalWord(columnsList) {
  */
 function updateHeaderOrder() {
     let headerString = '';
-    const colHeader = removeOptionalWord(handsontable.getColHeader());
+    const colHeader = handsontable.getColHeader();
     for (let itr = 0; itr < colHeader.length; itr += 1) {
         headerString += colHeader[itr];
         if (itr < colHeader.length - 1) {
-            headerString += ' | ';
+            headerString += '|';
         }
     }
     headerString += '\n';
@@ -119,7 +72,7 @@ function updateDataDump() {
                 countEmptyColumns += 1;
             }
             if (col < spreadsheetData[row].length - 1) {
-                rowData += ' | ';
+                rowData += '|';
             }
         }
         if (countEmptyColumns < spreadsheetData[row].length - 1) {
@@ -157,74 +110,24 @@ function addHandsontableHooks() {
     }
 }
 
-/**
- * Fetch all students enrolled in a particular course
- *
- * @param {string} COURSE_ID
- * @param {string} USER
- *
- * Returns the list of all students data object and push them
- * in the spreadsheet.
- */
-function fetchStudentList() {
-    const $form = $('#enrollSubmitForm');
-    const COURSE_ID = $form.children(`input[name="${ParamsNames.COURSE_ID}"]`).val();
-    const USER = $form.children(`input[name="${ParamsNames.USER_ID}"]`).val();
-
-    $.ajax({
-        type: 'POST',
-        cache: false,
-        url: '/page/instructorCourseStudentList',
-        data: {
-            courseid: COURSE_ID,
-            user: USER,
-        },
-        beforeSend() {
-            $('#statusBox').html('<img src=\'/images/ajax-loader.gif\'/>');
-        },
-        error() {
-            $('#statusBox').html('<button id=\'retryFetchingList\' type=\'button\''
-                                + ' class=\'btn btn-danger btn-xs\'>An Error Occurred, Please Retry</button>');
-        },
-        success(data) {
-            $('#statusBox').hide();
-
-            const objects = data.students;
-            if (objects.length !== 0) {
-                handsontable.updateSettings({
-                    data: data.students,
-                    columns: [
-                        {
-                            data: 'section',
-                            type: 'text',
-                        }, {
-                            data: 'team',
-                            type: 'text',
-                        }, {
-                            data: 'name',
-                            type: 'text',
-                        }, {
-                            data: 'email',
-                            validator: emailValidator,
-                            allowInvalid: false,
-                        }, {
-                            data: 'comments',
-                            type: 'text',
-                        },
-                    ],
-                });
-            }
-        },
-    });
-}
-
 $(document).ready(() => {
-    fetchStudentList();
     addHandsontableHooks();
 
-    $('#statusBox').on('click', '#retryFetchingList', () => {
-        fetchStudentList();
-    });
+    if ($('#enrollstudents').val()) {
+        const data = [];
+        let splitData = $('#enrollstudents').val().split('\n');
+        columns = splitData[0].split('|');
+        splitData = splitData.slice(1, -1);
+        if (splitData.length > 0) {
+            for (let erow = 0; erow < splitData.length; erow += 1) {
+                data.push(splitData[erow].split('|'));
+            }
+            handsontable.loadData(data);
+        }
+        handsontable.updateSettings({
+            colHeaders: columns,
+        });
+    }
 
     $('#addEmptyRows').click(() => {
         const emptyRowsCount = $("input[name='number_of_rows']").val();

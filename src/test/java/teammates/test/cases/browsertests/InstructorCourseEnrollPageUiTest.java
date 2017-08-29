@@ -69,7 +69,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
         String enrollString =
-                "Section | Team | Name | Email | Comments\n"
+                "Section|Team|Name|Email|Comments\n"
                 // Modify team for student within section
                 + "Section 1 | Team 4 | Alice Betsy</textarea><textarea>'\" | alice.b.tmms@gmail.tmt"
                         + " | This comment has been changed\n"
@@ -117,7 +117,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
 
         enrollString =
-                "Section | Team | Name | Email | Comments\n"
+                "Section|Team|Name|Email|Comments\n"
                 + "None | Team 1</option></td></div>'\" | Alice Betsy</option></td></div>'\" |"
                         + " alice.b.tmms@gmail.tmt | This comment has been changed\n"
                 // A student with no comment

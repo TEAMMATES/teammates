@@ -101,10 +101,8 @@
         students.
       </div>
       <br>
-      <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" id="enrollSubmitForm" method="post" role="form">
+      <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" method="post" role="form">
         <input name="token" type="hidden" value="${sessionToken}">
-        <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104">
-        <input name="user" type="hidden" value="CCEnrollUiT.teammates.test">
         <div class="col-md-12">
           <div class="form-group">
             <div id="student-data-spreadsheet">
@@ -114,9 +112,6 @@
                     <strong>
                       Student data
                     </strong>
-                    <span class="pull-right margin-right-10px" id="statusBox" style="display: none;">
-                      <img src="/images/ajax-loader.gif">
-                    </span>
                   </div>
                   <div class="panel-body">
                   </div>
@@ -143,7 +138,6 @@
                 </div>
                 <br>
                 <textarea class="form-control" cols="120" id="enrollstudents" name="enrollstudents" placeholder="Paste student data here ..." rows="6">
-                  Section | Team | Name | Email | Comments Section 1&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | Team 1&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | alice.b.tmms@gmail.tmt | This student's name is Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" Section 1&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | Team 1&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | Benny Charles | benny.c.tmms@gmail.tmt | This student's name is Benny Charles Section 2 | Team 2 | Charlie Davis | charlie.d.tmms@gmail.tmt | This student's name is Charlie Davis Section 2 | Team 2 | Danny Engrid | danny.e.tmms@gmail.tmt | This student's name is Danny Engrid
                 </textarea>
               </div>
             </div>

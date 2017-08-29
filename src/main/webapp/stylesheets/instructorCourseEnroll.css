@@ -29,20 +29,9 @@
     padding: 20px 40px;
 }
 
-.customClass {
-    background-color: lightgreen !important;
-    font-weight: bold;
-    color: #000;
-}
-
 .panel-body {
     padding: 0;
     margin: 0;
-}
-
-#search_field {
-    width: 200px;
-    height: 30px;
 }
 
 .gap-10px {
@@ -50,14 +39,14 @@
     height: 10px;
 }
 
-#enrollstudents {
+/*#enrollstudents {
     max-width: 100%;
     opacity: 0;
     height: 0;
     margin: 0;
     padding: 0;
     outline: 0;
-}
+}*/
 
 input[name='number_of_rows'] {
     width: 60px;

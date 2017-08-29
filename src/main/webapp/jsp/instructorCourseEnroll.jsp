@@ -18,12 +18,6 @@
 <c:set var="SESSION_TOKEN">
   <%=Const.ParamsNames.SESSION_TOKEN%>
 </c:set>
-<c:set var="COURSE_ID">
-  <%=Const.ParamsNames.COURSE_ID%>
-</c:set>
-<c:set var="USER_ID">
-  <%=Const.ParamsNames.USER_ID%>
-</c:set>
 <ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
   <div class="panel panel-primary">
     <div class="panel-body fill-plain">
@@ -31,10 +25,8 @@
         <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
       </div>
       <br>
-      <form id="enrollSubmitForm" action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
+      <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
-        <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
-        <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
           <div class="form-group">
             <div id="student-data-spreadsheet">
@@ -42,7 +34,6 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <strong>Student data</strong>
-                    <span id="statusBox" class="pull-right margin-right-10px"></span>
                   </div>
                   <div class="panel-body">
                     <div id="spreadsheet"></div>
