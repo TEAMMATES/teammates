@@ -83,15 +83,15 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE;
-        } else if (StringHelper.isEmpty(shortName)) {
+        } else if (Strings.isNullOrEmpty(shortName)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
-        } else if (StringHelper.isEmpty(email)) {
+        } else if (Strings.isNullOrEmpty(email)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
-        } else if (StringHelper.isEmpty(pictureKey)) {
+        } else if (Strings.isNullOrEmpty(pictureKey)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
-        } else if (StringHelper.isEmpty(moreInfo)) {
+        } else if (Strings.isNullOrEmpty(moreInfo)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
-        } else if (StringHelper.isEmpty(nationality)) {
+        } else if (Strings.isNullOrEmpty(nationality)) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
         }
         return "";
@@ -111,19 +111,19 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         // accept empty string values as it means the user has not specified anything yet.
 
-        if (!StringHelper.isEmpty(shortName)) {
+        if (!Strings.isNullOrEmpty(shortName)) {
             addNonEmptyError(validator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
-        if (!StringHelper.isEmpty(email)) {
+        if (!Strings.isNullOrEmpty(email)) {
             addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
         }
 
-        if (!StringHelper.isEmpty(institute)) {
+        if (!Strings.isNullOrEmpty(institute)) {
             addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
-        if (!StringHelper.isEmpty(nationality)) {
+        if (!Strings.isNullOrEmpty(nationality)) {
             addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 

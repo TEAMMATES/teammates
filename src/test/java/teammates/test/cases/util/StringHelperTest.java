@@ -25,10 +25,10 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testIsEmpty() {
-        assertTrue(StringHelper.isEmpty(null));
-        assertTrue(StringHelper.isEmpty(""));
-        assertFalse(StringHelper.isEmpty("test"));
-        assertFalse(StringHelper.isEmpty("     "));
+        assertTrue(Strings.isNullOrEmpty(null));
+        assertTrue(Strings.isNullOrEmpty(""));
+        assertFalse(Strings.isNullOrEmpty("test"));
+        assertFalse(Strings.isNullOrEmpty("     "));
     }
 
     @Test
