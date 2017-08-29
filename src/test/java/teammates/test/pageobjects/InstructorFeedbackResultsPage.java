@@ -167,8 +167,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
-            click(collapseExpandButton);
-            waitForPanelsToExpand();
+            clickCollapseExpandButtonAndWaitForPanelsToExpand();
         }
     }
 
@@ -610,7 +609,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
      */
     public void loadResultQuestionPanel(int questionNumber) {
         String panelId = "panelHeading-" + questionNumber;
-        clickdPanelAndWaitForExpansion(panelId);
+        clickPanelAndWaitForExpansion(panelId);
     }
 
     /**
@@ -618,19 +617,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
      */
     public void loadResultSectionPanel(int panelNumber, int sectionNumber) {
         String panelId = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
-        clickdPanelAndWaitForExpansion(panelId);
+        clickPanelAndWaitForExpansion(panelId);
     }
 
     /**
-     * Expands a particular panel, causing its results to load.
-     * @param panelNumber the position of panel element
+     * Expands a particular large scale results panel, causing its results to load.
      */
     public void loadResultLargeScalePanel(int panelNumber) {
         String panelId = "panelHeading-" + panelNumber;
         clickLargeScalePanelAndWaitForExpansion(panelId);
     }
 
-    private void clickdPanelAndWaitForExpansion(String panelId) {
+    private void clickPanelAndWaitForExpansion(String panelId) {
         clickElementById(panelId);
         waitForAjaxLoadedPanelToExpand(panelId, "ajax_auto");
     }
