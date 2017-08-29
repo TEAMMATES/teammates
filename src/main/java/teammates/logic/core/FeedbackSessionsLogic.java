@@ -1496,9 +1496,8 @@ public final class FeedbackSessionsLogic {
             log.warning(TeammatesException.toStringWithStackTrace(e));
         }
 
-        FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
-        sessionToDelete.setFeedbackSessionName(feedbackSessionName);
-        sessionToDelete.setCourseId(courseId);
+        FeedbackSessionAttributes sessionToDelete = FeedbackSessionAttributes
+                .builder(feedbackSessionName, courseId, "").build();
 
         fsDb.deleteEntity(sessionToDelete);
 

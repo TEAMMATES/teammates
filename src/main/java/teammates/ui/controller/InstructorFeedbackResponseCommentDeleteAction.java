@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
@@ -33,14 +32,13 @@ public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFee
         verifyAccessibleForInstructorToFeedbackResponseComment(
                 feedbackResponseCommentId, instructor, session, response);
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
-        feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
+        Long commentId = Long.parseLong(feedbackResponseCommentId);
 
-        logic.deleteDocument(feedbackResponseComment);
-        logic.deleteFeedbackResponseComment(feedbackResponseComment);
+        logic.deleteDocumentByCommentId(commentId);
+        logic.deleteFeedbackResponseCommentById(commentId);
 
         statusMessageToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
-                + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
 
         InstructorFeedbackResponseCommentAjaxPageData data =
