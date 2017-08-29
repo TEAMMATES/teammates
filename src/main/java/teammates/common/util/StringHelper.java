@@ -604,4 +604,21 @@ public final class StringHelper {
         }
         return false;
     }
+
+    /**
+     * Extract data from quoted string.
+     *
+     * @param quotedString string to extract data from
+     * @return string without quotes
+     */
+    public static String extractContentFromQuotedString(String quotedString) {
+        if (quotedString == null) {
+            return null;
+        }
+
+        if (quotedString.matches("^\".*\"$")) {
+            return quotedString.substring(1, quotedString.length() - 1);
+        }
+        return quotedString;
+    }
 }
