@@ -54,7 +54,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
 
         ______TS("Unsuccessful case: Feedback session not open, warning message generated");
 
-        fs = dataBundle.feedbackSessions.get("awaiting.session");
+        fs = typicalBundle.feedbackSessions.get("awaiting.session");
         String[] paramsFeedbackSessionNotOpen = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
@@ -69,7 +69,7 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
 
         ______TS("Successful case: Typical case");
 
-        fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsTypical = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
