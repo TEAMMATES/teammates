@@ -22,7 +22,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
  * Action: Create a new {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentAddAction extends Action {
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -112,12 +112,12 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
         if (!data.isError) {
             statusMessageToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
-                           + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
-                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
-                           + feedbackResponseComment.feedbackSessionName + "<br>"
-                           + "by: " + feedbackResponseComment.giverEmail + " at "
-                           + feedbackResponseComment.createdAt + "<br>"
-                           + "comment text: " + feedbackResponseComment.commentText.getValue();
+                    + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                    + feedbackResponseComment.feedbackSessionName + "<br>"
+                    + "by: " + feedbackResponseComment.giverEmail + " at "
+                    + feedbackResponseComment.createdAt + "<br>"
+                    + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
 
         if (createdComment == null) {

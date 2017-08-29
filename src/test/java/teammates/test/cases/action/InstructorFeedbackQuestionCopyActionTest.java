@@ -33,7 +33,6 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         removeAndRestoreTypicalDataBundle();
     }
 
-    @Override
     @Test
     public void testAccessControl() {
         String[] params = new String[]{

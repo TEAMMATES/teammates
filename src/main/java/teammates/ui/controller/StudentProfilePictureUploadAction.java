@@ -23,7 +23,7 @@ import teammates.common.util.StatusMessageColor;
  *         that was just uploaded.
  */
 public class StudentProfilePictureUploadAction extends Action {
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
 
     /*
      * This class is not tested in ActionTests as it is difficult to
@@ -128,9 +128,9 @@ public class StudentProfilePictureUploadAction extends Action {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
             statusMessageToAdmin += Const.ACTION_RESULT_FAILURE
-                          + " : Unable to delete profile picture (possible unused picture with key: "
-                          + blobKey.getKeyString() + " || Error Message: "
-                          + bfe.getMessage() + Const.EOL;
+                    + " : Unable to delete profile picture (possible unused picture with key: "
+                    + blobKey.getKeyString() + " || Error Message: "
+                    + bfe.getMessage() + Const.EOL;
         }
     }
 

@@ -18,7 +18,7 @@ import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
  * his registration key with another student's google account.
  */
 public class StudentCourseJoinAction extends Action {
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
 
     @Override
     public ActionResult execute() {

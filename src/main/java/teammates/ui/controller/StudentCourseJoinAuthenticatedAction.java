@@ -26,7 +26,7 @@ import teammates.common.util.StatusMessageColor;
 public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
 
     private static final Logger log = Logger.getLogger();
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

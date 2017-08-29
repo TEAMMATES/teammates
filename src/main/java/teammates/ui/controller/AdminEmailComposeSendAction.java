@@ -19,7 +19,7 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSendAction extends Action {
 
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
     private List<String> addressReceiver = new ArrayList<>();
     private List<String> groupReceiver = new ArrayList<>();
 

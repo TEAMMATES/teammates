@@ -1,6 +1,6 @@
 package teammates.test.cases.util;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,8 +77,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         String logMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true|||Unknown|||Unknown"
                             + "|||Unknown|||Unknown|||Not authorized|||/page/instructorHomePage";
 
-        List<String> statusToUser = new ArrayList<String>();
-        statusToUser.add("Not authorized");
+        List<String> statusToUser = Arrays.asList("Not authorized");
 
         String generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, null, null, null, statusToUser);
@@ -109,8 +108,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                 .withGoogleId("unknownGoogleId")
                 .build();
 
-        statusToUser.removeAll(statusToUser);
-        statusToUser.add("Join Course");
+        statusToUser = Arrays.asList("Join Course");
         // auth success : unregistered student will be passed
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, null, null, student, statusToUser);
@@ -127,8 +125,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
                      + "|||googleId|||Unknown|||Try student home|||" + url;
         UserType userType = new UserType("googleId");
 
-        statusToUser.removeAll(statusToUser);
-        statusToUser.add("Try student home");
+        statusToUser = Arrays.asList("Try student home");
         // userType and account will be passed for logged-in user
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, null, null, statusToUser);
@@ -144,8 +141,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         userType.isStudent = true;
         AccountAttributes acc = new AccountAttributes("googleId", "david", false, "david@email.com", "NUS");
 
-        statusToUser.removeAll(statusToUser);
-        statusToUser.add("View Result");
+        statusToUser = Arrays.asList("View Result");
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, statusToUser);
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -200,8 +196,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCoursesPage";
 
-        statusToUser.removeAll(statusToUser);
-        statusToUser.add("View comments");
+        statusToUser = Arrays.asList("View comments");
         // masquerade: userType and account don't have the same google id
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, statusToUser);

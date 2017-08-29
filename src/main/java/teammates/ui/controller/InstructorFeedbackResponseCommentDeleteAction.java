@@ -11,7 +11,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
  * Action: Delete {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFeedbackResponseCommentAbstractAction {
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() {

@@ -20,7 +20,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
-    private String statusMessageToAdmin;
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
