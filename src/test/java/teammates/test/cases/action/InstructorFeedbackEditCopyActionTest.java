@@ -98,44 +98,6 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
 
-        ______TS("Failure case: copying from course with insufficient permission");
-        params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.getId()
-        };
-
-        a = getAction(params);
-
-        try {
-            ajaxResult = getAjaxResult(a);
-            signalFailureToDetectException();
-        } catch (UnauthorizedAccessException uae) {
-            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
-                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
-            assertEquals(expectedString, uae.getMessage());
-        }
-
-        ______TS("Failure case: copying to course with insufficient permission");
-        params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
-        };
-
-        a = getAction(params);
-
-        try {
-            ajaxResult = getAjaxResult(a);
-            signalFailureToDetectException();
-        } catch (UnauthorizedAccessException uae) {
-            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
-                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
-            assertEquals(expectedString, uae.getMessage());
-        }
-
         ______TS("Failure case: copying non-existing fs");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
@@ -423,5 +385,49 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         };
 
         verifyUnaccessibleWithoutModifySessionPrivilege(params);
+
+        InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
+        String instructorId = instructor.googleId;
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("openSession");
+        CourseAttributes course = dataBundle.courses.get("course");
+
+        gaeSimulation.loginAsInstructor(instructorId);
+
+        ______TS("Failure case: copying from course with insufficient permission");
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, course.getId()
+        };
+        InstructorFeedbackEditCopyAction a = getAction(params);
+        String expectedString;
+        try {
+            a.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (UnauthorizedAccessException uae) {
+            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
+            assertEquals(expectedString, uae.getMessage());
+        }
+
+        ______TS("Failure case: copying to course with insufficient permission");
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
+        };
+
+        a = getAction(params);
+
+        try {
+            a.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (UnauthorizedAccessException uae) {
+            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
+            assertEquals(expectedString, uae.getMessage());
+        }
     }
 }
