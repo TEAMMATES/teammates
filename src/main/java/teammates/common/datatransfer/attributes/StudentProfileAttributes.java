@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
+import com.google.common.base.Strings;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;

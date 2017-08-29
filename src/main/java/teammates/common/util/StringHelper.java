@@ -12,6 +12,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.common.base.Strings;
+
 import teammates.common.exception.InvalidParametersException;
 
 /**
@@ -475,7 +477,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (isEmpty(s)) {
+            if (Strings.isNullOrEmpty(s)) {
                 numOfEmptyStrings += 1;
             }
         }

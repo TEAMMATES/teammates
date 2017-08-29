@@ -10,6 +10,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
 
+import com.google.common.base.Strings;
+
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
