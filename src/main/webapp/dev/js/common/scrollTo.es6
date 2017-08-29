@@ -48,9 +48,9 @@ function scrollToElement(element, opts) {
         return;
     }
 
-    const navbar = document.getElementsByClassName('navbar')[0];
+    const navbar = $('.navbar')[0];
     const navbarHeight = navbar ? navbar.offsetHeight : 0;
-    const footer = document.getElementById('footerComponent');
+    const footer = $('#footerComponent')[0];
     const footerHeight = footer ? footer.offsetHeight : 0;
     const windowHeight = window.innerHeight - navbarHeight - footerHeight;
 
