@@ -50,9 +50,10 @@ public final class Const {
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
     public static final String NO_SPECIFIC_RECIPIENT = "No specific recipient";
+    public static final String NO_SPECIFIC_SECTION = "No specific section";
 
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
-    public static final String DISPLAYED_NAME_FOR_ANONYMOUS_COMMENT_PARTICIPANT = "Anonymous";
+    public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static final String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
@@ -97,6 +98,8 @@ public final class Const {
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
     public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+
+    public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
@@ -203,7 +206,8 @@ public final class Const {
                         ActionURIs.STUDENT_COURSE_JOIN_NEW,
                         ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE));
+                        ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+                        ActionURIs.ERROR_FEEDBACK_SUBMIT));
 
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Collections.unmodifiableList(
                 Arrays.asList(
@@ -844,6 +848,11 @@ public final class Const {
 
         public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
+
+        public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
+        public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
+        public static final String ERROR_FEEDBACK_EMAIL_CONTENT = "errorfeedbackemailcontent";
+        public static final String ERROR_FEEDBACK_URL_REQUESTED = "errorfeedbackrequestedurl";
     }
 
     public static class SearchIndex {
@@ -1008,6 +1017,8 @@ public final class Const {
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/auto/feedbackSessionPublishedReminders";
+
+        public static final String ERROR_FEEDBACK_SUBMIT = "/page/errorFeedbackSubmit";
 
         public static final String BACKDOOR = "/backdoor";
 
@@ -1468,6 +1479,9 @@ public final class Const {
         public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
                 "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
                 + "Enrollment for Course <span class=\"bold\">[%s]</span>";
+
+        public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your error report has been recorded. "
+                + "We will follow up with you in due course, usually, within 24 hours.";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

@@ -614,7 +614,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIPIENT
+                                                ? Const.NO_SPECIFIC_SECTION
                                                 : sectionName);
             break;
         case RECIPIENT_GIVER_QUESTION:
@@ -622,7 +622,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIPIENT
+                                                ? Const.NO_SPECIFIC_SECTION
                                                 : sectionName);
             break;
         default:
@@ -701,7 +701,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
+                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
