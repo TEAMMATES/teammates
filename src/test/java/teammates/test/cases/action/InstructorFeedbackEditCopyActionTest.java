@@ -401,12 +401,11 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId()
         };
         InstructorFeedbackEditCopyAction a = getAction(params);
-        String expectedString;
         try {
             a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
-            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
+            String expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
@@ -425,7 +424,7 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
             a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
-            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
+            String expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
