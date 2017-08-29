@@ -374,9 +374,9 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillAllRubricColumns(1, colIndexes, col0, col1, col2, col3, col5);
 
         // move last column to first
-        moveLastRubricColumnToFirst(1, colIndexes, col0, col1, col2, col3, col5);
+        moveRubricColumn(1, colIndexes, 4, 0, col0, col1, col2, col3, col5);
         // move second column to last
-        moveSecondRubricColumnToLast(1, colIndexes, col5, col0, col1, col2, col3);
+        moveRubricColumn(1, colIndexes, 1, 4, col5, col0, col1, col2, col3);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -401,9 +401,9 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyRubricQuestion(-1, new int[] {0, 1, 2, 3, 5}, col0, col1, col2, col3, col5);
 
         // move last column to first
-        moveLastRubricColumnToFirst(-1, colIndexes, col0, col1, col2, col3, col5);
+        moveRubricColumn(-1, colIndexes, 4, 0, col0, col1, col2, col3, col5);
         // move second column to last
-        moveSecondRubricColumnToLast(-1, colIndexes, col5, col0, col1, col2, col3);
+        moveRubricColumn(-1, colIndexes, 1, 4, col5, col0, col1, col2, col3);
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -413,50 +413,41 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     /**
-     * Moves the last rubric column to the first position. Accomplishes this by
-     * clicking move column left button for last, second-last upto second column.
-     * Verifies the rubric question after each move.
+     * Moves a rubric column to the left/right. Accomplishes this by clicking move
+     * column left/right buttons and also verifies the rubric question after each move.
      * @param qnNumber question number.
      * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param from Index of {@code colIndexes} array which corresponds to the column which is to be moved.
+     * @param to Index of {@code colIndexes} array which corresponds to the location to which the column needs to be moved.
      * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
      *         of a rubric column. Column values must be given in the order displayed in the UI.
      */
-    private void moveLastRubricColumnToFirst(int qnNumber, int[] colIndexes, String[]... columns) {
+    private void moveRubricColumn(int qnNumber, int[] colIndexes, int from, int to, String[]... columns) {
         Assumption.assertEquals(colIndexes.length, columns.length);
+        Assumption.assertTrue(from >= 0 && from < colIndexes.length);
+        Assumption.assertTrue(to >= 0 && to < colIndexes.length);
 
-        for (int i = colIndexes.length - 1; i >= 1; i--) {
-            assertTrue(feedbackEditPage.moveRubricColLeft(qnNumber, colIndexes[i]));
+        // This determines which column needs to be swapped and compared with the current column.
+        // Value 1 indicates column needs to be moved right. Swaps and comparisons happen accordingly.
+        // Value -1 indicates column needs to be moved left. Swaps and comparisons happen accordingly.
+        int offset = from < to ? 1 : -1;
+        int i = from;
 
-            // swap i, and i - 1 column
+        while (i != to) {
+            if (offset > 0) {
+                assertTrue(feedbackEditPage.moveRubricColRight(qnNumber, colIndexes[i]));
+            } else {
+                assertTrue(feedbackEditPage.moveRubricColLeft(qnNumber, colIndexes[i]));
+            }
+
+            // swap current column with column
+            // to the left/right depending on offset
             String[] temp = columns[i];
-            columns[i] = columns[i - 1];
-            columns[i - 1] = temp;
+            columns[i] = columns[i + offset];
+            columns[i + offset] = temp;
 
             feedbackEditPage.verifyRubricQuestion(qnNumber, colIndexes, columns);
-        }
-    }
-
-    /**
-     * Moves the second rubric column to the last position. Accomplishes this by
-     * clicking move column right button for second, third so on upto second-last
-     * column. Verifies the rubric question after each move.
-     * @param qnNumber question number.
-     * @param colIndexes An array containing column indexes in the order displayed in the UI.
-     * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
-     *         of a rubric column. Column values must be given in the order displayed in the UI.
-     */
-    private void moveSecondRubricColumnToLast(int qnNumber, int[] colIndexes, String[]... columns) {
-        Assumption.assertEquals(colIndexes.length, columns.length);
-
-        for (int i = 1; i < colIndexes.length - 1; i++) {
-            assertTrue(feedbackEditPage.moveRubricColRight(qnNumber, colIndexes[i]));
-
-            // swap i, and i + 1 column
-            String[] temp = columns[i];
-            columns[i] = columns[i + 1];
-            columns[i + 1] = temp;
-
-            feedbackEditPage.verifyRubricQuestion(qnNumber, colIndexes, columns);
+            i += offset;
         }
     }
 
