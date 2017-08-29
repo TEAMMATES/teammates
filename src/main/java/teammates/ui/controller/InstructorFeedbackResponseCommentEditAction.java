@@ -54,9 +54,13 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
             return createAjaxResult(data);
         }
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
-                courseId, feedbackSessionName, null, instructor.email, null, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .withCreatedAt(new Date())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .build();
+
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings

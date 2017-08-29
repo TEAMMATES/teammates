@@ -6,7 +6,7 @@
   <div id="student-motd-wrapper">
     <input type="hidden" id="motd-url" value="<c:out value="${motdUrl}" />">
     <script type="text/javascript" src="/js/studentMotd.js" defer></script>
-    <div class="container theme-showcase" id="student-motd-container">
+    <div class="theme-showcase" id="student-motd-container">
       <div class="row">
         <div class="col-sm-12">
           <div class="panel panel-default">
