@@ -20,8 +20,8 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 
-    private String instructorCourseId;
-    private String instructorEditFsName;
+    private String courseId;
+    private String feedbackSessionName;
     private String instructorId;
 
     @Override
@@ -30,8 +30,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         removeAndRestoreDataBundle(testData);
 
         instructorId = testData.accounts.get("instructor1").googleId;
-        instructorCourseId = testData.courses.get("course").getId();
-        instructorEditFsName = testData.feedbackSessions.get("edit").getFeedbackSessionName();
+        courseId = testData.courses.get("course").getId();
+        feedbackSessionName = testData.feedbackSessions.get("edit").getFeedbackSessionName();
     }
 
     @Test
@@ -121,6 +121,47 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "student");
         // to verify that the question submit form with existing response works correctly
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageSuccessRank.html");
+
+        ______TS("Rank : min/max options to be ranked test");
+
+        // Question with only min options to be ranked restriction
+        int qnNumber = 9;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "");
+        assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+
+        // Question with only max options to be ranked restriction
+        qnNumber = 10;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
+        assertEquals("Rank no more than 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+
+        // Question with both min and max options to be ranked restriction
+        qnNumber = 11;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 4, "4");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
+        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "5");
+        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
+        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "");
+        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
         ______TS("Rank : student results");
 
@@ -270,7 +311,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     public void testAddQuestionAction() throws Exception {
         ______TS("Rank edit: add rank option question action success");
 
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
@@ -299,7 +340,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
 
@@ -307,7 +348,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
 
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(0);
         feedbackEditPage.verifyRankOptionIsHiddenForNewQuestion(1);
@@ -316,7 +357,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionAddSuccess.html");
     }
@@ -359,6 +400,68 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertTrue(feedbackEditPage.isRankDuplicatesAllowedChecked(2));
+
+        ______TS("Rank options: test min/max restrictions");
+
+        int qNum = 1;
+        feedbackEditPage.clickEditQuestionButton(qNum);
+
+        // ticking "Maximum number of options a respondent must rank" checkbox only,
+        // should enable the maxOptionsToBeRanked input field only, with correct attributes
+        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
+        assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        assertFalse(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // ticking "Minimum number of options a respondent must rank" checkbox only,
+        // should enable the minOptionsToBeRanked input field only, with correct attributes
+        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
+        feedbackEditPage.toggleMinOptionsToBeRankedCheckbox(qNum);
+        assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
+        assertFalse(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // ticking both "Minimum number of options a respondent must rank" checkbox and
+        // "Maximum number of options a respondent must rank" checkbox must enable both
+        // minOptionsToBeRanked and maxOptionsToBeRanked input fields, with correct attributes
+        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
+        assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
+        assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // when maxOptionsToBeRanked = minOptionsToBeRanked,
+        // decreasing maxOptionsToBeRanked must decrease minOptionsToBeRanked too
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
+        assertEquals(2, feedbackEditPage.getMinOptionsToBeRanked(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // when maxOptionsToBeRanked = minOptionsToBeRanked,
+        // increasing minOptionsToBeRanked must increase maxOptionsToBeRanked too
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
+        assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        // when maxOptionsToBeRanked = numOfOptions and maxOptionsToBeRanked = minOptionsToBeRanked,
+        // removing an option must decrease maxOptionsToBeRanked and minOptionsToBeRanked
+        feedbackEditPage.clickAddMoreRankOptionLink(qNum);
+        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 4);
+        feedbackEditPage.setMinOptionsToBeRanked(qNum, 4);
+        feedbackEditPage.clickRemoveRankOptionLink(qNum, 3);
+        assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
+        assertEquals(3, feedbackEditPage.getMinOptionsToBeRanked(qNum));
+        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(qNum);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankMinMaxChoicesSuccess.html");
     }
 
     @Override
@@ -368,19 +471,19 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-        assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                         .withUserId(instructorId)
-                        .withCourseId(instructorCourseId)
-                        .withSessionName(instructorEditFsName)
+                        .withCourseId(courseId)
+                        .withSessionName(feedbackSessionName)
                         .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }

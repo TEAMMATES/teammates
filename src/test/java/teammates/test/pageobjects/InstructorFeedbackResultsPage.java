@@ -77,7 +77,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void displayEditSettingsWindow() {
         WebElement editBtn = browser.driver.findElement(By.id("editBtn"));
-        editBtn.click();
+        click(editBtn);
         waitForElementVisibility(By.id("editModal"));
     }
 
@@ -178,13 +178,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickShowStats() {
         displayEditSettingsWindow();
-        showStatsCheckbox.click();
+        click(showStatsCheckbox);
         submitEditForm();
     }
 
     public void clickIndicateMissingResponses() {
         displayEditSettingsWindow();
-        indicateMissingResponsesCheckbox.click();
+        click(indicateMissingResponsesCheckbox);
         submitEditForm();
     }
 
@@ -402,7 +402,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String popoverSelector = panelBodySelector + " .popover-content";
         String clickSelector = panelBodySelector + " .profile-pic-icon-click a";
 
-        waitForElementPresence(By.cssSelector(clickSelector)).click();
+        moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
 
         verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
@@ -414,7 +414,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String hoverSelector = headingSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
         verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
                 "Hover and verify student photo on heading");
@@ -441,7 +441,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String hoverSelector = cellSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
         verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
                 "Hover and verify photo on table cell");
@@ -482,7 +482,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
             @Override
             public void beforeRetry() {
-                waitForElementPresence(By.cssSelector(clickSelector)).click();
+                moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
             }
         }, WebDriverException.class);
     }
@@ -586,12 +586,21 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void moveToElement(By by) {
-        WebElement element = browser.driver.findElement(by);
+        moveToElement(browser.driver.findElement(by));
+    }
+
+    private void moveToElement(WebElement element) {
         new Actions(browser.driver).moveToElement(element).perform();
     }
 
     private void focusViaClickAction(WebElement element) {
         new Actions(browser.driver).moveToElement(element).click().perform();
+    }
+
+    private void moveToElementAndClickAfterWaitForPresence(By by) {
+        WebElement element = waitForElementPresence(by);
+        moveToElement(element);
+        click(element);
     }
 
     private String getElementSrcWithRetryAfterWaitForPresence(By by) {

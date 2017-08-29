@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -614,7 +616,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIPIENT
+                                                ? Const.NO_SPECIFIC_SECTION
                                                 : sectionName);
             break;
         case RECIPIENT_GIVER_QUESTION:
@@ -622,7 +624,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             sectionPanel.setSectionName(sectionName);
             sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION)
-                                                ? Const.NO_SPECIFIC_RECIPIENT
+                                                ? Const.NO_SPECIFIC_SECTION
                                                 : sectionName);
             break;
         default:
@@ -701,7 +703,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels = new LinkedHashMap<>();
 
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_RECIPIENT, true);
+                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
 
         for (String section : sections) {
@@ -1458,9 +1460,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {
-        FeedbackResponseCommentAttributes frca =
-                new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
-                                                      question.getFeedbackQuestionId(), response.getId());
+        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
+                .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
+                .withFeedbackResponseId(response.getId())
+                .withFeedbackQuestionId(question.getId())
+                .build();
 
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,
