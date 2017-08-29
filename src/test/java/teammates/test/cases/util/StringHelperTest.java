@@ -10,8 +10,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
 
-import com.google.common.base.Strings;
-
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -24,14 +22,6 @@ import teammates.test.driver.StringHelperExtension;
  * SUT: {@link StringHelper}.
  */
 public class StringHelperTest extends BaseTestCase {
-
-    @Test
-    public void testIsEmpty() {
-        assertTrue(Strings.isNullOrEmpty(null));
-        assertTrue(Strings.isNullOrEmpty(""));
-        assertFalse(Strings.isNullOrEmpty("test"));
-        assertFalse(Strings.isNullOrEmpty("     "));
-    }
 
     @Test
     public void testGenerateStringOfLength() {
