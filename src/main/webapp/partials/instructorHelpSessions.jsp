@@ -6931,9 +6931,12 @@
           Rank options questions are question where the students rank options that are created by you.
           <br>
 
-          <br> To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
-                    <br> You can also configure the minimum and (or) maximum options to be ranked. When the minimum options to be ranked restriction is enabled, it will ensure that the respondent ranks at least the number of options mentioned in the restriction.
-                    <br> Similarly, when maximum options to be ranked restriction is enabled, it will ensure that the respondent ranks at most the number of options mentioned in the restriction.
+          <br>
+          To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
+          <br>
+          You can also configure the minimum and (or) maximum options to be ranked. When the minimum options to be ranked restriction is enabled, it will ensure that the respondent ranks at least the number of options mentioned in the restriction.
+          <br>
+          Similarly, when maximum options to be ranked restriction is enabled, it will ensure that the respondent ranks at most the number of options mentioned in the restriction.
           <br>
           <br>
           <div class="bs-example">
