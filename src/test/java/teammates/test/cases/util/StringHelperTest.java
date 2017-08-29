@@ -463,4 +463,11 @@ public class StringHelperTest extends BaseTestCase {
                 StringHelper.isTextContainingAny(text));
     }
 
+    @Test
+    public void testExtractContentFromQuotedString() {
+        assertEquals(StringHelper.extractContentFromQuotedString("\"data\""), "data");
+        assertEquals(StringHelper.extractContentFromQuotedString("data without quotes"), "data without quotes");
+        assertEquals(StringHelper.extractContentFromQuotedString(null), null);
+        assertEquals(StringHelper.extractContentFromQuotedString(""), "");
+    }
 }

@@ -21,7 +21,7 @@
                 <div class="dropdown courses-table-dropdown">
                   <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                     ${button.content}
-                    <span class="caret"></span>
+                    <span class="caret dropdown-toggle"></span>
                   </button>
                   <ul class="dropdown-menu">
                     <c:forEach items="${button.nestedElements}" var="menuItem">
