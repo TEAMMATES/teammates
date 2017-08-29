@@ -1370,10 +1370,10 @@ Default to alert color for visibility titles used within an alert context.
 Prevent Long URL From Breaking Out of Container
 */
 .emailLog-text {
-    -ms-word-break: break-all;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
+    -ms-word-break: break-all;
     /* Be VERY careful with this, breaks normal words wh_erever */
     word-break: break-all;
     /* Non standard for webkit */
