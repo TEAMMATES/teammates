@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -90,8 +92,11 @@ public class Logic {
             studentProfile = StudentProfileAttributes.builder().build();
             studentProfile.googleId = googleId;
         }
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,
-                                                               studentProfile);
+        AccountAttributes accountToAdd = new AccountAttributesBuilder(
+                googleId, name, email, institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
     }
@@ -223,7 +228,10 @@ public class Logic {
         Assumption.assertNotNull(institute);
 
         if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = new AccountAttributes(googleId, name, true, email, institute);
+            AccountAttributes account = new AccountAttributesBuilder(
+                    googleId, name, email, institute)
+                    .withIsInstructor(true)
+                    .build();
             accountsLogic.createAccount(account);
         }
 

@@ -1,6 +1,10 @@
 package teammates.test.cases.datatransfer;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+import static teammates.common.datatransfer.attributes.AccountAttributes.valueOf;
 import static teammates.common.util.Const.EOL;
+
+import java.util.Date;
 
 import org.testng.annotations.Test;
 
@@ -18,6 +22,85 @@ import teammates.test.driver.StringHelperExtension;
 public class AccountAttributesTest extends BaseAttributesTest {
 
     //TODO: test toString() method
+
+    private static final Date DEFAULT_DATE = AccountAttributes.DEFAULT_DATE;
+    private static final StudentProfileAttributes DEFAULT_STUDENT_PROFILE_ATTRIBUTES =
+            AccountAttributes.DEFAULT_STUDENT_PROFILE_ATTRIBUTES;
+
+    private static final String VALID_GOOGLE_ID = "valid.google.id";
+    private static final String VALID_NAME = "valid name";
+    private static final String VALID_EMAIL = "valid@email.com";
+    private static final String VALID_INSTITUTE = "valid institute";
+
+    @Test
+    public void testBuilderWithRequiredValues() {
+
+        AccountAttributes accountAttributes = new AccountAttributesBuilder(
+                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+                .build();
+
+        assertEquals(VALID_GOOGLE_ID, accountAttributes.googleId);
+        assertEquals(VALID_NAME, accountAttributes.name);
+        assertEquals(VALID_EMAIL, accountAttributes.email);
+        assertEquals(VALID_INSTITUTE, accountAttributes.institute);
+
+        assertEquals(VALID_GOOGLE_ID, accountAttributes.studentProfile.googleId);
+
+    }
+
+    @Test
+    public void testBuilderWithDefaultOptionalValues() {
+
+        AccountAttributes accountAttributes = new AccountAttributesBuilder(
+                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+                .build();
+
+        assertEquals(DEFAULT_DATE, accountAttributes.createdAt);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributes.studentProfile);
+        assertTrue(accountAttributes.isInstructor);
+
+        assertEquals(accountAttributes.googleId, accountAttributes.studentProfile.googleId);
+    }
+
+    @Test
+    public void testBuilderWithNullArguments() {
+        AccountAttributes accountAttributesWithNullValues = new AccountAttributesBuilder(
+                null, null, null, null)
+                .withIsInstructor(null)
+                .withStudentProfileAttributes(null)
+                .withCreatedAt(null)
+                .build();
+        // No default values for required params
+        assertNull(accountAttributesWithNullValues.googleId);
+        assertNull(accountAttributesWithNullValues.name);
+        assertNull(accountAttributesWithNullValues.email);
+        assertNull(accountAttributesWithNullValues.institute);
+
+        // Check default values for optional params
+        assertEquals(DEFAULT_DATE, accountAttributesWithNullValues.createdAt);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, accountAttributesWithNullValues.studentProfile);
+        assertTrue(accountAttributesWithNullValues.isInstructor);
+    }
+
+    @Test
+    public void testBuilderCopy() {
+        AccountAttributes account = new AccountAttributesBuilder(
+                VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+                .build();
+
+        AccountAttributes accountCopy = new AccountAttributesBuilder(
+                account.googleId, account.name, account.email, account.institute)
+                .build();
+
+        assertEquals(account.googleId, accountCopy.googleId);
+        assertEquals(account.name, accountCopy.name);
+        assertEquals(account.email, accountCopy.email);
+        assertEquals(account.institute, accountCopy.institute);
+        assertEquals(account.createdAt, accountCopy.createdAt);
+        assertEquals(account.studentProfile, accountCopy.studentProfile);
+        assertEquals(account.isInstructor, accountCopy.isInstructor);
+        assertEquals(account.studentProfile.googleId, accountCopy.studentProfile.googleId);
+    }
 
     @Test
     public void testGetInvalidStateInfo() throws Exception {
@@ -74,7 +157,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
                 account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
 
-        Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
+        Account actualAccount = valueOf(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
@@ -122,14 +205,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
         a.setStudentProfile(null);
 
-        AccountAttributes attr = new AccountAttributes(a);
+        AccountAttributes attr = valueOf(a);
 
         assertEquals(a.getGoogleId(), attr.googleId);
         assertEquals(a.getEmail(), attr.email);
         assertEquals(a.getInstitute(), attr.institute);
         assertEquals(a.getName(), attr.name);
         assertEquals(null, a.getStudentProfile());
-        assertEquals(null, attr.studentProfile);
+        assertEquals(DEFAULT_STUDENT_PROFILE_ATTRIBUTES, attr.studentProfile);
 
     }
 
@@ -142,30 +225,28 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
-        return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
+        return new AccountAttributesBuilder(googleId, name, email, institute)
+                                            .withIsInstructor(isInstructor)
+                                            .withStudentProfileAttributes(studentProfile)
+                                            .build();
     }
 
     private AccountAttributes createValidAccountAttributesObject() {
-
-        String googleId = "valid.google.id";
-        String name = "valid name";
-        boolean isInstructor = false;
-        String email = "valid@email.com";
-        String institute = "valid institute name";
-
-        return new AccountAttributes(googleId, name, isInstructor, email, institute);
+        return new AccountAttributesBuilder(VALID_GOOGLE_ID, VALID_NAME, VALID_EMAIL, VALID_INSTITUTE)
+                                            .withIsInstructor(false)
+                                            .build();
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
 
-        AccountAttributes account = new AccountAttributes();
+        // AccountAttributes
+        String googleId = "googleId@gmail.com";
+        String name = "'name'";
+        String institute = "\\/";
+        String email = "&<email>&";
+        boolean isInstructor = true;
 
-        account.googleId = "googleId@gmail.com";
-        account.name = "'name'";
-        account.institute = "\\/";
-        account.email = "&<email>&";
-        account.isInstructor = true;
-
+        // StudentAttributes
         String shortName = "<name>";
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
@@ -174,8 +255,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        account.studentProfile = StudentProfileAttributes.builder()
-                .withGoogleId(account.googleId)
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(googleId)
                 .withShortName(shortName)
                 .withEmail(personalEmail)
                 .withInstitute(profileInstitute)
@@ -185,7 +266,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withPictureKey(pictureKey)
                 .build();
 
-        return account;
+        return new AccountAttributesBuilder(googleId, name, email, institute)
+                                            .withIsInstructor(isInstructor)
+                                            .withStudentProfileAttributes(studentProfile)
+                                            .build();
 
     }
 

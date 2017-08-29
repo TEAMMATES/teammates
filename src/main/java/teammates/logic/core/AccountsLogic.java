@@ -1,5 +1,7 @@
 package teammates.logic.core;
 
+import static teammates.common.datatransfer.attributes.AccountAttributes.AccountAttributesBuilder;
+
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -164,11 +166,12 @@ public final class AccountsLogic {
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
 
         if (account == null) {
-            createAccount(new AccountAttributes(googleId,
-                                                instructor.name,
-                                                true,
-                                                instructor.email,
-                                                instituteToSave));
+            createAccount(new AccountAttributesBuilder(googleId,
+                                                       instructor.name,
+                                                       instructor.email,
+                                                       instituteToSave)
+                                                       .withIsInstructor(true)
+                                                       .build());
         } else {
             makeAccountInstructor(googleId);
         }
@@ -331,16 +334,16 @@ public final class AccountsLogic {
 
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = student.googleId;
-        account.email = student.email;
-        account.name = student.name;
-        account.isInstructor = false;
-        account.institute = getCourseInstitute(student.course);
 
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = student.googleId;
-        spa.institute = account.institute;
+        spa.institute = getCourseInstitute(student.course);
+
+        AccountAttributes account = new AccountAttributes.AccountAttributesBuilder(
+                student.googleId, student.name, student.email, getCourseInstitute(student.course))
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(spa)
+                .build();
         account.studentProfile = spa;
         accountsDb.createAccount(account);
     }
