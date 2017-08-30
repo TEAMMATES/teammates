@@ -8,7 +8,6 @@
 
 <c:set var="cssIncludes">
   <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS %>" type="text/css">
-  <link rel="stylesheet" href="/stylesheets/instructorCourseEnroll.css" type="text/css">
 </c:set>
 <c:set var="jsIncludes">
   <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE %>"></script>
@@ -19,6 +18,7 @@
   <%=Const.ParamsNames.SESSION_TOKEN%>
 </c:set>
 <ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+
   <div class="panel panel-primary">
     <div class="panel-body fill-plain">
       <div class="text-muted padding-15px">
