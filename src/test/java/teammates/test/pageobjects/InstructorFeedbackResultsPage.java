@@ -160,15 +160,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         submitEditForm();
     }
 
-    public void clickCollapseExpandButton() {
+    public void clickCollapseExpandButtonAndWaitForPanelsToExpand() {
         click(collapseExpandButton);
+        waitForPanelsToExpand();
     }
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
-            clickCollapseExpandButton();
-            waitForPanelsToExpand();
+            clickCollapseExpandButtonAndWaitForPanelsToExpand();
         }
+    }
+
+    public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
+        click(collapseExpandButton);
+        waitForPanelsToCollapse();
     }
 
     public void clickShowStats() {
@@ -647,6 +652,40 @@ public class InstructorFeedbackResultsPage extends AppPage {
             // Element changed (e.g. loading gif changed to actual image)
             return waitForElementPresence(by).getAttribute("src");
         }
+    }
+
+    /**
+     * Expands a particular question panel, causing its results to load.
+     */
+    public void loadResultQuestionPanel(int questionNumber) {
+        String panelId = "panelHeading-" + questionNumber;
+        clickPanelAndWaitForExpansion(panelId);
+    }
+
+    /**
+     * Expands a particular section panel, causing its results to load.
+     */
+    public void loadResultSectionPanel(int panelNumber, int sectionNumber) {
+        String panelId = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
+        clickPanelAndWaitForExpansion(panelId);
+    }
+
+    /**
+     * Expands a particular large scale results panel, causing its results to load.
+     */
+    public void loadResultLargeScalePanel(int panelNumber) {
+        String panelId = "panelHeading-" + panelNumber;
+        clickLargeScalePanelAndWaitForExpansion(panelId);
+    }
+
+    private void clickPanelAndWaitForExpansion(String panelId) {
+        clickElementById(panelId);
+        waitForAjaxLoadedPanelToExpand(panelId, "ajax_auto");
+    }
+
+    private void clickLargeScalePanelAndWaitForExpansion(String panelId) {
+        clickElementById(panelId);
+        waitForAjaxLoadedPanelToExpand(panelId, "ajax_submit");
     }
 
 }
