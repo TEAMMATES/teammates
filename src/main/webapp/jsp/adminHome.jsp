@@ -18,7 +18,7 @@
       <strong>Result</strong>
     </div>
     <div class="table-responsive">
-      <table class="table table-striped table-hover" id="addInstructorResultTable">
+      <table class="table table-striped table-hover" id="addInstructorResultTable" style="table-layout:fixed">
         <thead>
           <tr>
             <th>Short Name</th>
