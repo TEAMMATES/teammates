@@ -585,7 +585,6 @@ public final class StudentsLogic {
     public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<>();
         String[] linesArray = lines.split(Const.EOL);
-        ArrayList<String> studentEmailList = new ArrayList<>();
         List<StudentAttributes> studentList = new ArrayList<>();
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
@@ -593,31 +592,24 @@ public final class StudentsLogic {
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
+            if (StringHelper.isWhiteSpace(line)) {
+                continue;
+            }
             try {
-                if (StringHelper.isWhiteSpace(line)) {
-                    continue;
-                }
                 StudentAttributes student = saf.makeStudent(line, courseId);
 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
-                                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                    invalidityInfo.add(invalidStudentInfo(sanitizedLine, student));
                 }
 
-                if (isStudentEmailDuplicated(student.email, studentEmailList)) {
-                    String info =
-                            StringHelper.toString(
-                                    getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
-                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
+                if (duplicateEmailIndex != -1) {
+                    invalidityInfo.add(duplicateEmailInfo(sanitizedLine, linesArray[duplicateEmailIndex + 1]));
                 }
 
-                studentEmailList.add(student.email);
                 studentList.add(student);
             } catch (EnrollException e) {
-                String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
-                invalidityInfo.add(info);
+                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, e.getMessage()));
             }
         }
 
@@ -628,16 +620,46 @@ public final class StudentsLogic {
         return studentList;
     }
 
-    private List<String> getInvalidityInfoInDuplicatedEmail(String email,
-            List<String> studentEmailList, String[] linesArray) {
-        List<String> info = new ArrayList<>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1] + "\"");
-        return info;
+    /**
+     * Returns a {@code String} containing the invalid information of the {@code student}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String invalidStudentInfo(String userInput, StudentAttributes student) {
+        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
+                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
     }
 
-    private boolean isStudentEmailDuplicated(String email,
-            List<String> studentEmailList) {
-        return studentEmailList.contains(email);
+    /**
+     * Returns the index of the first occurrence of the duplicate {@code email} in
+     * {@code studentList}, or -1 if {@code email} is not a duplicate in {@code studentList}.
+     */
+    private int getDuplicateEmailIndex(String email, List<StudentAttributes> studentList) {
+        for (int index = 0; index < studentList.size(); index++) {
+            if (studentList.get(index).email.equals(email)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
+     * the corresponding sanitized invalid {@code userInput}.
+     */
+    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
+        String info =
+                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
+                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
+    }
+
+    /**
+     * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String enrollExceptionInfo(String userInput, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
     }
 
     private boolean isInEnrollList(StudentAttributes student,

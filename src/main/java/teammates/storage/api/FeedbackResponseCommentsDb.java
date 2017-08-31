@@ -66,7 +66,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /*
-     * Remove search document for the given comment
+     * Removes search document for the given comment
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         Long id = commentToDelete.getId();
@@ -82,6 +82,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
 
         deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, id.toString());
+    }
+
+    /**
+     * Removes search document for the comment with given id.
+     *
+     * @param commentId ID of comment
+     */
+    public void deleteDocumentByCommentId(long commentId) {
+        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, String.valueOf(commentId));
     }
 
     /**
@@ -335,6 +344,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return makeAttributes(load().list());
     }
 
+    /**
+     * Removes comment with given id.
+     *
+     * @param id ID of comment
+     */
+    public void deleteCommentById(Long id) {
+        ofy().delete().keys(getEntityQueryKeys(id)).now();
+    }
+
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
@@ -442,23 +460,25 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     protected QueryKeys<FeedbackResponseComment> getEntityQueryKeys(FeedbackResponseCommentAttributes attributes) {
         Long id = attributes.getId();
 
-        Query<FeedbackResponseComment> query;
-        if (id == null) {
-            query = load()
-                    .filter("courseId =", attributes.courseId)
-                    .filter("createdAt =", attributes.createdAt)
-                    .filter("giverEmail =", attributes.giverEmail);
-        } else {
-            query = load().filterKey(Key.create(FeedbackResponseComment.class, id));
+        if (id != null) {
+            return getEntityQueryKeys(id);
         }
 
-        return query.keys();
+        return load()
+                .filter("courseId =", attributes.courseId)
+                .filter("createdAt =", attributes.createdAt)
+                .filter("giverEmail =", attributes.giverEmail)
+                .keys();
+    }
+
+    private QueryKeys<FeedbackResponseComment> getEntityQueryKeys(long commentId) {
+        return load().filterKey(Key.create(FeedbackResponseComment.class, commentId)).keys();
     }
 
     @Override
     protected FeedbackResponseCommentAttributes makeAttributes(FeedbackResponseComment entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new FeedbackResponseCommentAttributes(entity);
+        return FeedbackResponseCommentAttributes.valueOf(entity);
     }
 }

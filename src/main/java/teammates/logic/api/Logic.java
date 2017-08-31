@@ -1981,6 +1981,15 @@ public class Logic {
     }
 
     /**
+     * Removes document for the comment by given id.
+     *
+     * @see FeedbackResponseCommentsLogic#deleteDocumentByCommentId(long)
+     */
+    public void deleteDocumentByCommentId(long commentId) {
+        feedbackResponseCommentsLogic.deleteDocumentByCommentId(commentId);
+    }
+
+    /**
      * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
@@ -2013,6 +2022,15 @@ public class Logic {
     public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
         Assumption.assertNotNull(feedbackResponseComment);
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * Id of comment is not null.
+     */
+    public void deleteFeedbackResponseCommentById(Long commentId) {
+        Assumption.assertNotNull(commentId);
+        feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
     }
 
     /**

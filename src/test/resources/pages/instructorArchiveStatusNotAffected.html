@@ -73,6 +73,11 @@
             <span class="icon-sort unsorted">
             </span>
           </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="button_sortcoursecreateddate">
+            Creation Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
           <th>
             Sections
           </th>
@@ -97,6 +102,9 @@
           </td>
           <td id="coursename0">
             Programming Methodology
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate0">
+            ${datetime.now.courses}
           </td>
           <td id="course-stats-sectionNum-0">
             <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instr3" oncontextmenu="return false;">
