@@ -169,7 +169,7 @@ class Instructor {
  */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
     return `
-    <tr class="${isSuccess ? 'success' : 'danger'}">
+    <tr class="${isSuccess ? 'success' : 'danger'}" style="word-wrap: break-word;">
         <td>${encodeHtmlString(shortName)}</td>
         <td>${encodeHtmlString(name)}</td>
         <td>${encodeHtmlString(email)}</td>
