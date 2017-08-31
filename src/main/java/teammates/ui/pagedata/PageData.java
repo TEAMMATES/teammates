@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -883,7 +885,7 @@ public class PageData {
             String giverName, String recipientName, boolean isInstructor, double timeZone) {
 
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
-                .builder(question.courseId, question.feedbackSessionName, "", null)
+                .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
                 .withFeedbackQuestionId(question.getFeedbackQuestionId())
                 .withFeedbackResponseId(responseId)
                 .build();

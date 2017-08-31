@@ -46,7 +46,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         receiverSection = Const.DEFAULT_SECTION;
         showCommentTo = new ArrayList<>();
         showGiverNameTo = new ArrayList<>();
-        isVisibilityFollowingFeedbackQuestion = true;
+        isVisibilityFollowingFeedbackQuestion = false;
         createdAt = new Date();
     }
 
