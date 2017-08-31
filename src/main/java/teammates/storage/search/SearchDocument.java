@@ -44,13 +44,6 @@ public abstract class SearchDocument {
 
     protected abstract Document toDocument();
 
-    protected static String extractContentFromQuotedString(String quotedString) {
-        if (quotedString.matches("^\".*\"$")) {
-            return quotedString.substring(1, quotedString.length() - 1);
-        }
-        return quotedString;
-    }
-
     /**
      * This method must be called to filter out the search result for course Id.
      */

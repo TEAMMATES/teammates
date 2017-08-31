@@ -2,6 +2,8 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -291,11 +293,11 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
-        FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes();
-        comment.courseId = fs.getCourseId();
-        comment.feedbackSessionName = fs.getFeedbackSessionName();
-        comment.feedbackQuestionId = question.getId();
-        comment.feedbackResponseId = response.getId();
+        FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
+                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, new Text(""))
+                .withFeedbackQuestionId(question.getId())
+                .withFeedbackResponseId(response.getId())
+                .build();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, comment.courseId,

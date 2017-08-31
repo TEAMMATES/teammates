@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -25,9 +24,9 @@ public class StudentFeedbackResponseCommentDeleteAction extends FeedbackResponse
     }
 
     @Override
-    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+    protected void appendToStatusToAdmin(Long commentId) {
         statusToAdmin += "StudentFeedbackResponseCommentDeleteAction:<br>"
-                + "Deleting feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
     }
 }

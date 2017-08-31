@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -37,13 +36,12 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
 
         verifyAccessibleForSpecificUser(session, response);
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
-        feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
+        Long commentId = Long.parseLong(feedbackResponseCommentId);
 
-        logic.deleteDocument(feedbackResponseComment);
-        logic.deleteFeedbackResponseComment(feedbackResponseComment);
+        logic.deleteDocumentByCommentId(commentId);
+        logic.deleteFeedbackResponseCommentById(commentId);
 
-        appendToStatusToAdmin(feedbackResponseComment);
+        appendToStatusToAdmin(commentId);
 
         FeedbackResponseCommentAjaxPageData data =
                 new FeedbackResponseCommentAjaxPageData(account, sessionToken);
@@ -54,5 +52,5 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
     protected abstract void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa,
             FeedbackResponseAttributes response);
 
-    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+    protected abstract void appendToStatusToAdmin(Long commentId);
 }

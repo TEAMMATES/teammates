@@ -881,9 +881,12 @@ public class PageData {
     public FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
             String responseId, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
             String giverName, String recipientName, boolean isInstructor, double timeZone) {
-        FeedbackResponseCommentAttributes frca =
-                new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
-                        question.getFeedbackQuestionId(), responseId);
+
+        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
+                .builder(question.courseId, question.feedbackSessionName, "", null)
+                .withFeedbackQuestionId(question.getFeedbackQuestionId())
+                .withFeedbackResponseId(responseId)
+                .build();
         frca.showCommentTo = new ArrayList<>();
         frca.showGiverNameTo = new ArrayList<>();
         if (isInstructor) {
@@ -942,6 +945,7 @@ public class PageData {
         return responseVisibilities;
     }
 
+    //TODO investigate and fix the differences between question.isResponseVisibleTo and this method
     private boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
         switch (participantType) {
         case GIVER:

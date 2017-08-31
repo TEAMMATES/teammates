@@ -353,20 +353,27 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndx);
             String commentId = commentToUpdateId.get(commentIndx);
             String updatedCommentText = commentToUpdateText.get(commentIndx);
+            String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_ROLE + commentIndx);
             FeedbackResponseAttributes responseToEditComment =
                     logic.getFeedbackResponse(questionIdsForComment.get(commentIndx),
                             responseGiverMapForComments.get(commentIndx), responseRecipientMapForComments.get(commentIndx));
 
-            updateResponseComment(showCommentTo, showGiverNameTo, commentId, responseToEditComment, updatedCommentText);
+            updateResponseComment(
+                    giverRole, showCommentTo, showGiverNameTo, commentId, responseToEditComment, updatedCommentText);
         }
     }
 
-    private void updateResponseComment(String showCommentTo,
+    private void updateResponseComment(String giverRole, String showCommentTo,
             String showGiverNameTo, String feedbackResponseCommentId,
             FeedbackResponseAttributes response, String commentText) throws EntityDoesNotExistException {
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
-                courseId, feedbackSessionName, null, response.giver, null, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection, "test");
+
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, response.giver, new Text(commentText))
+                .withCreatedAt(new Date())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .withGiverRole(giverRole)
+                .build();
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings
@@ -575,9 +582,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String commentText, String giverRole, String showCommentTo,
             String showGiverNameTo) throws EntityDoesNotExistException {
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
-                feedbackSessionName, questionId, userEmailForCourse, response.getId(), new Date(),
-                new Text(commentText), giverRole, response.giverSection, response.recipientSection);
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, userEmailForCourse, new Text(commentText))
+                .withFeedbackResponseId(response.getId())
+                .withFeedbackQuestionId(questionId)
+                .withCreatedAt(new Date())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .withGiverRole(giverRole)
+                .build();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {
@@ -592,7 +605,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
 
-        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
+        FeedbackResponseCommentAttributes createdComment = null;
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             logic.putDocument(createdComment);

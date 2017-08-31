@@ -81,9 +81,15 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
             return createAjaxResult(data);
         }
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
-                feedbackSessionName, feedbackQuestionId, userEmailForCourse, feedbackResponseId, new Date(),
-                new Text(commentText), giverRole, response.giverSection, response.recipientSection);
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, userEmailForCourse, new Text(commentText))
+                .withFeedbackQuestionId(feedbackQuestionId)
+                .withFeedbackResponseId(feedbackResponseId)
+                .withCreatedAt(new Date())
+                .withGiverRole(giverRole)
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .build();
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
@@ -102,7 +108,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
+        FeedbackResponseCommentAttributes createdComment = null;
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             logic.putDocument(createdComment);
@@ -114,6 +120,14 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
 
         if (!data.isError) {
             appendToStatusToAdmin(feedbackResponseComment);
+        }
+
+        if (createdComment == null) {
+            data.showCommentToString = "";
+            data.showGiverNameToString = "";
+        } else {
+            data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
+            data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
         }
 
         data.comment = createdComment;
