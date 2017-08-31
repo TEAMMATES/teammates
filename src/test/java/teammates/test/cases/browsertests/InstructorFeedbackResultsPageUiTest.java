@@ -602,7 +602,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
+        resultsPage.loadResultQuestionPanel(1);
 
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "");
@@ -641,7 +641,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-2", "ajax_auto");
+        resultsPage.loadResultQuestionPanel(2);
         resultsPage.clickCommentModalButton("-1-1-0");
         resultsPage.editFeedbackResponseComment("-1-1-0-1", "Comment edited by different instructor");
         resultsPage.verifyCommentRowContent("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
@@ -655,7 +655,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
 
-        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
+        resultsPage.loadResultQuestionPanel(1);
         resultsPage.clickCommentModalButton("-3-1-0");
         resultsPage.deleteFeedbackResponseCommentInQuestionsView("-3-1-0-1");
         resultsPage.verifyRowMissing("-3-1-0-1");
@@ -673,7 +673,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        clickAjaxLoadedPanelAndWaitForExpansion("panelHeading-1", "ajax_auto");
+        resultsPage.loadResultQuestionPanel(1);
 
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0",
@@ -691,6 +691,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: add empty feedback response comment");
 
+        resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
