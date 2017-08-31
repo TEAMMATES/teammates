@@ -27,7 +27,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.showCommentTo, new ArrayList<>());
         assertEquals(feedbackAttributes.showGiverNameTo, new ArrayList<>());
-        assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
+        assertFalse(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 
     @Test
