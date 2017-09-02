@@ -96,9 +96,9 @@
           <li class="list-group-item list-group-item-warning">
             <search:emailFormFields linkTitle="${session.fsName}"
                                     relatedLink="${session.link}"
-                                      subjectType="Feedback session now open"
-                                      sessionStatus="Open"
-                                      student="${student}"/>
+                                    subjectType="Feedback session now open"
+                                    sessionStatus="Open"
+                                    student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
@@ -110,8 +110,8 @@
             <search:emailFormFields linkTitle="${session.fsName}"
                                     relatedLink="${session.link}"
                                     subjectType="Feedback session now closed"
-                                      sessionStatus="Closed"
-                                      student="${student}"/>
+                                    sessionStatus="Closed"
+                                    student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
@@ -122,9 +122,9 @@
           <li class="list-group-item list-group-item-success">
             <search:emailFormFields linkTitle="${session.fsName}"
                                     relatedLink="${session.link}"
-                                      subjectType="Feedback session results published"
-                                      sessionStatus="Published"
-                                      student="${student}"/>
+                                    subjectType="Feedback session results published"
+                                    sessionStatus="Published"
+                                    student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
