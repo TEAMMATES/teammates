@@ -1,15 +1,15 @@
 <p class="text-muted" ${displayMaxSelectableChoicesHint}>
-    Maximum selectable choices for this question is ${msqMaxSelectableChoices}.
+  Maximum selectable choices for this question is ${msqMaxSelectableChoices}.
 </p>
 <p class="text-muted" ${displayMinSelectableChoicesHint}>
-    Minimum selectable choices for this question is ${msqMinSelectableChoices}.
+  Minimum selectable choices for this question is ${msqMinSelectableChoices}.
 </p>
 <table>
   ${msqSubmissionFormOptionFragments}
 </table>
 <input type="hidden" ${isMaxSelectableChoicesEnabled}
-        name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}-${questionIndex}"
-        value="${msqMaxSelectableChoices}" >
+    name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}-${questionIndex}"
+    value="${msqMaxSelectableChoices}" >
 <input type="hidden" ${isMinSelectableChoicesEnabled}
-        name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}-${questionIndex}"
-        value="${msqMinSelectableChoices}" >
+    name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}-${questionIndex}"
+    value="${msqMinSelectableChoices}" >

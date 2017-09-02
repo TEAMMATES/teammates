@@ -101,10 +101,8 @@ function adjustMinSelectableChoices(questionNum) {
         return;
     }
 
-    let upperLimit = getMaxSelectableChoicesValue(questionNum);
     const currentVal = getMinSelectableChoicesValue(questionNum);
-
-    upperLimit = Math.min(upperLimit, isGenerateOptionsEnabled(questionNum)
+    const upperLimit = Math.min(getMaxSelectableChoicesValue(questionNum), isGenerateOptionsEnabled(questionNum)
             ? getTotalOptionsForSelectedGenerateOptionsType(questionNum) : getNumOfMsqOptions(questionNum));
 
     setUpperLimitForMinSelectableChoices(questionNum, upperLimit);
@@ -231,13 +229,11 @@ function bindMsqEvents() {
 
     $(document).on('change', 'input[name*="msqEnableMaxSelectableChoices"]', (e) => {
         const questionNumber = $(e.target).closest('form').attr('data-qnnumber');
-
         toggleMsqMaxSelectableChoices(questionNumber);
     });
 
     $(document).on('change', 'input[name*="msqEnableMinSelectableChoices"]', (e) => {
         const questionNumber = $(e.target).closest('form').attr('data-qnnumber');
-
         toggleMsqMinSelectableChoices(questionNumber);
     });
 }

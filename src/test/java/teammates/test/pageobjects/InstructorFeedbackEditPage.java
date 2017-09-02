@@ -1374,10 +1374,10 @@ public class InstructorFeedbackEditPage extends AppPage {
             default:
                 return 0;
             }
-        } else {
-            return browser.driver.findElements(
-                    By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
         }
+
+        return browser.driver.findElements(
+                By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
     }
 
     public void verifyMsqMinMaxSelectableChoices(int qnNumber) {

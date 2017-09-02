@@ -629,13 +629,11 @@ function updateConstSumMessages() {
 
 function getMaxSelectableMsqChoices(qNum) {
     const $input = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
-
     return $input.prop('disabled') ? Number.MAX_SAFE_INTEGER : $input.val();
 }
 
 function getMinSelectableMsqChoices(qNum) {
     const $input = $(`input[name="msqMinSelectableChoices-${qNum}"]`);
-
     return $input.prop('disabled') ? 0 : $input.val();
 }
 
@@ -654,8 +652,7 @@ function validateMsqQuestions() {
 
             if (numOfSelectedChoices === 1
                     && $(`input[name="responsetext-${qNum}-${recipientIndex}"][value=""]`).prop('checked')) {
-                // Selecting "None of the above" as
-                // the only option is a valid response
+                // Selecting "None of the above" as the only option is a valid response
                 recipientIndex += 1;
                 continue;
             }
