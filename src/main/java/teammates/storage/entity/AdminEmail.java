@@ -62,19 +62,6 @@ public class AdminEmail extends BaseEntity {
         this.isInTrashBin = false;
     }
 
-    // This constructor is used only for AdminEmailAttributesTest#testValueOf()
-    public AdminEmail(Long emailId, List<String> addressReceiver, List<String> groupReceiver, String subject,
-                      Text content, Date sendDate) {
-        this.emailId = emailId;
-        this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
-        this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
-        this.subject = subject;
-        this.content = content;
-        this.sendDate = sendDate;
-        this.createDate = new Date();
-        this.isInTrashBin = false;
-    }
-
     public void setAddressReceiver(List<String> receiver) {
         this.addressReceiver = receiver;
     }
@@ -100,7 +87,7 @@ public class AdminEmail extends BaseEntity {
     }
 
     public String getEmailId() {
-        return Key.create(AdminEmail.class, this.emailId).toWebSafeString();
+        return emailId == null ? null : Key.create(AdminEmail.class, this.emailId).toWebSafeString();
     }
 
     public List<String> getAddressReceiver() {
