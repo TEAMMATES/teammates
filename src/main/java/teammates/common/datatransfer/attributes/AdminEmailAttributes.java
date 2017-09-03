@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -175,6 +176,8 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             adminEmailAttributes.groupReceiver = groupReceiver;
             adminEmailAttributes.subject = subject;
             adminEmailAttributes.content = content;
+            Assumption.assertNotNull("Required arguments", adminEmailAttributes.addressReceiver,
+                    adminEmailAttributes.groupReceiver, adminEmailAttributes.subject, adminEmailAttributes.content);
         }
 
         public Builder withSendDate(Date sendDate) {

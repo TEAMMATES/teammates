@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -22,7 +23,6 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
-    private FieldValidator fieldValidator = new FieldValidator();
     private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
     private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
     private String subject = "subject of email";
@@ -52,6 +52,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testBuilderWithNullArguments() {
         AdminEmailAttributes attributes = AdminEmailAttributes
                 .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
+                .withSendDate(null)
                 .withCreateDate(null)
                 .withEmailId(null)
                 .withIsInTrashBin(null)
@@ -62,6 +63,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
         assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getSendDate());
         assertTrue("Valid input", attributes.isValid());
     }
 
@@ -152,32 +154,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals("Invalid subject input should return appropriate error string", expectedSubjectWithPercentError,
                 StringHelper.toString(attributes.getInvalidityInfo()));
         assertFalse("Invalid input", attributes.isValid());
-    }
-
-    @Test
-    public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
-                .build();
-        try {
-            fieldValidator.getInvalidityInfoForEmailContent(adminEmailAttributes.content);
-            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Content");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
-    }
-
-    @Test
-    public void testGetInvalidityInfoForEmailSubject_null_throwException() {
-        AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes
-                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
-                .build();
-        try {
-            fieldValidator.getInvalidityInfoForEmailSubject(adminEmailAttributes.subject);
-            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Subject");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
     }
 
     @Test
