@@ -70,8 +70,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testBuilderWithNullRequiredArguments() {
         try {
             AdminEmailAttributes attributes = AdminEmailAttributes
-                .builder(null, null, null, null)
-                .build();
+                        .builder(null, null, null, null)
+                        .build();
 
             attributes.isValid();
             signalFailureToDetectException(" - AssertionError");
