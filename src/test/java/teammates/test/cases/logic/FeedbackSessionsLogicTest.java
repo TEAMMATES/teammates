@@ -273,7 +273,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (Exception e) {
             assertEquals("\"test %| test\" is not acceptable to TEAMMATES as a/an feedback session name "
-                             + "because it contains invalid characters. All feedback session name "
+                             + "because it contains invalid characters. A/An feedback session name "
                              + "must start with an alphanumeric character, and cannot contain "
                              + "any vertical bar (|) or percent sign (%).",
                          e.getMessage());
@@ -869,7 +869,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         actualStrings.add(nobodyUserName);
 
         // case: Anonymous User
-        String anonymousUserName = "Anonymous " + System.currentTimeMillis();
+        String anonymousUserName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " " + System.currentTimeMillis();
         anonymousUserName = results.appendTeamNameToName(anonymousUserName, someTeamName);
         actualStrings.add(anonymousUserName);
         Collections.addAll(expectedStrings,
@@ -1946,9 +1946,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
 
         ______TS("failure 2: non-existent session name");
-        FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.setFeedbackSessionName("asdf_randomName1423");
-        fsa.setCourseId("idOfTypicalCourse1");
+        FeedbackSessionAttributes fsa = FeedbackSessionAttributes
+                .builder("asdf_randomName1423", "idOfTypicalCourse1", "")
+                .build();
 
         try {
             fsLogic.updateFeedbackSession(fsa);
@@ -2094,20 +2094,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
-        FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
-        fsa.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        fsa.setFeedbackSessionName("fsTest1");
-        fsa.setCourseId("testCourse");
-        fsa.setCreatorEmail("valid@email.tmt");
-        fsa.setCreatedTime(new Date());
-        fsa.setStartTime(new Date());
-        fsa.setEndTime(new Date());
-        fsa.setSessionVisibleFromTime(new Date());
-        fsa.setResultsVisibleFromTime(new Date());
-        fsa.setGracePeriod(5);
-        fsa.setSentOpenEmail(true);
-        fsa.setInstructions(new Text("Give feedback."));
-        return fsa;
+        return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
+                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
+                .withCreatedTime(new Date())
+                .withStartTime(new Date())
+                .withEndTime(new Date())
+                .withSessionVisibleFromTime(new Date())
+                .withResultsVisibleFromTime(new Date())
+                .withGracePeriod(5)
+                .withSentOpenEmail(true)
+                .withSentPublishedEmail(true)
+                .withInstructions(new Text("Give feedback."))
+                .build();
     }
 
     private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
