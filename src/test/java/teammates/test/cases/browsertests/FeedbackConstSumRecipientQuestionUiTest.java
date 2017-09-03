@@ -148,6 +148,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        ______TS("CONST SUM: testing changing giver");
         // change giver, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -164,6 +165,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         FeedbackConstantSumQuestionDetails csQuestion = (FeedbackConstantSumQuestionDetails) question.getQuestionDetails();
         int points = csQuestion.getPoints();
 
+        ______TS("CONST SUM: testing changing const sum points");
         // change const sum points, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);

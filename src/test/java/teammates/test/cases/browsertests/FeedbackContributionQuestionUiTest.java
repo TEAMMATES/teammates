@@ -143,12 +143,13 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.reloadPage();
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("contrib: saving just after edit");
+        ______TS("Contrib destructive changes: saving just after edit");
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        ______TS("Contrib destructive changes: testing \"not sure\" answer option");
         // change "not sure" answer option, must display modal
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.toggleNotSureCheck(1);

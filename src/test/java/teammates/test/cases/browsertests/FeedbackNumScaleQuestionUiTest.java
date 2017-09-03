@@ -192,7 +192,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         FeedbackNumericalScaleQuestionDetails nsQuestion =
                 (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetails();
 
-        ______TS("num scale: change min value box");
+        ______TS("Num scale destructive changes: change min value box");
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillMinNumScaleBox(nsQuestion.getMinScale() + 1, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -205,7 +205,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("num scale: change step value box");
+        ______TS("Num scale destructive changes: change step value box");
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillStepNumScaleBox(nsQuestion.getStep() + 0.1, 1);
@@ -218,7 +218,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("num scale: change max value box");
+        ______TS("Num scale destructive changes: change max value box");
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillMaxNumScaleBox(nsQuestion.getMaxScale() + 1, 1);

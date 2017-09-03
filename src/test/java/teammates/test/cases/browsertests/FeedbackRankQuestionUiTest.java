@@ -382,7 +382,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.reloadPage();
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("rank: testing destructive changes");
+        ______TS("Rank (options) destructive changes: checking \"same rank\" checkbox");
         // check "same rank" checkbox, must display modal
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.tickDuplicatesAllowedCheckbox(1);
@@ -395,6 +395,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        ______TS("Rank (options) destructive changes: adding rank option");
         // add rank option, must display modal
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreRankOptionLink(1);
@@ -427,6 +428,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.reloadPage();
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2);
 
+        ______TS("Rank (recipients) destructive changes: checking \"same rank\" checkbox");
         // uncheck "same rank" checkbox, must display modal
         feedbackEditPage.clickEditQuestionButton(2);
         feedbackEditPage.untickDuplicatesAllowedCheckbox(2);

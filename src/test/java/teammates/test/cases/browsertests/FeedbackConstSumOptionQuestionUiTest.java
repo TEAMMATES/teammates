@@ -187,7 +187,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         FeedbackConstantSumQuestionDetails csQuestion = (FeedbackConstantSumQuestionDetails) question.getQuestionDetails();
         String prevVal = csQuestion.getConstSumOptions().get(0);
 
-        ______TS("CONST SUM: testing changes to const sum option");
+        ______TS("CONST SUM destructive changes: testing changes to const sum option");
         // make changes to option title, must display modal
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillConstSumOption(0, "modified const sum option", 1);
@@ -200,7 +200,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("CONST SUM: testing adding a const sum option");
+        ______TS("CONST SUM destructive changes: testing adding a const sum option");
         // add an option, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -215,7 +215,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("CONST SUM: testing deleting a const sum option");
+        ______TS("CONST SUM destructive changes: testing deleting a const sum option");
         // delete last option, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -224,7 +224,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.clickDiscardChangesLink(1);
 
-        ______TS("CONST SUM: testing changing recipient");
+        ______TS("CONST SUM destructive changes: testing changing recipient");
         // change recipient, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -238,7 +238,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("CONST SUM: testing changing giver");
+        ______TS("CONST SUM destructive changes: testing changing giver");
         // change giver, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -254,7 +254,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         int points = csQuestion.getPoints();
 
-        ______TS("CONST SUM: testing changing const sum points");
+        ______TS("CONST SUM destructive changes: testing changing const sum points");
         // change const sum points, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
@@ -268,7 +268,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("CONST SUM: testing changing points distribution scheme");
+        ______TS("CONST SUM destructive changes: testing changing points distribution scheme");
         // change const sum points, must display modal
         feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);

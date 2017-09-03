@@ -177,7 +177,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.reloadPage();
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
-        ______TS("msq: change generate options selection");
+        ______TS("MSQ destructive changes: change generate options selection");
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.selectMsqGenerateOptionsFor("teams", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -204,6 +204,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.reloadPage();
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        ______TS("MSQ destructive changes: adding a new option");
         // add a new option, must display modal
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreMsqOptionLink(1);
@@ -217,6 +218,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
+        ______TS("MSQ destructive changes: removing an option");
         // remove an option, must display modal
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveMsqOptionLink(1, 1);
