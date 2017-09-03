@@ -8,7 +8,6 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.datatransfer.attributes.AdminEmailAttributes.AdminEmailAttributesBuilder;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -75,8 +74,8 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributesBuilder(
-                    subject, addressReceiver, groupReceiver, new Text(emailContent), null)
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent), null)
                     .withEmailId(emailId)
                     .build();
 
@@ -92,8 +91,8 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributesBuilder(
-                    subject, addressReceiver, groupReceiver, new Text(emailContent), null)
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent), null)
                     .withEmailId(emailId)
                     .build();
         }
@@ -143,8 +142,8 @@ public class AdminEmailComposeSendAction extends Action {
                                     List<String> groupReceiver,
                                     String content) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributesBuilder(
-                subject, addressReceiver, groupReceiver, new Text(content), new Date())
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content), new Date())
                 .build();
         try {
             Date createDate = logic.createAdminEmail(newDraft);
@@ -166,8 +165,8 @@ public class AdminEmailComposeSendAction extends Action {
                                         List<String> groupReceiver,
                                         String content) {
 
-        AdminEmailAttributes finalisedEmail = new AdminEmailAttributesBuilder(
-                subject, addressReceiver, groupReceiver, new Text(content), new Date())
+        AdminEmailAttributes finalisedEmail = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content), new Date())
                 .build();
 
         try {
