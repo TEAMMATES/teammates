@@ -217,7 +217,6 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         ______TS("CONST SUM destructive changes: testing deleting a const sum option");
         // delete last option, must display modal
-        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);

@@ -280,6 +280,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("RUBRIC destructive changes: add col");
+        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddRubricColLink(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -291,6 +292,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("RUBRIC destructive changes: add row");
+        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddRubricRowLink(1);
         feedbackEditPage.fillRubricSubQuestionBox("Sub question 3", 1, 3);
@@ -303,6 +305,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("RUBRIC destructive changes: remove col");
+        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
@@ -316,12 +319,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
 
         ______TS("RUBRIC destructive changes: remove row");
+        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 2);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
 
         feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);

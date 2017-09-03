@@ -397,9 +397,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank (options) destructive changes: adding rank option");
         // add rank option, must display modal
+        feedbackEditPage.reloadPage();
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreRankOptionLink(1);
-        feedbackEditPage.fillRankOption(1, 2, "Dummy option");
+        feedbackEditPage.fillRankOption(1, 3, "Dummy option");
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
 
