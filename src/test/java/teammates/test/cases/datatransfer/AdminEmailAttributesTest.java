@@ -48,7 +48,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testBuilderWithNullArguments() {
+    public void testBuilderWithNullOptionalArguments() {
         AdminEmailAttributes attributes = AdminEmailAttributes
                 .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
                 .withSendDate(null)
