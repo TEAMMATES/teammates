@@ -367,10 +367,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     @Override
     protected void testDestructiveChanges() {
         // Create a dummy response
-        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 1);
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
         FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
-                                                instructorEditFsName,
-                                                instructorCourseId,
+                                                feedbackSessionName,
+                                                courseId,
                                                 question.getId(),
                                                 question.getQuestionType(),
                                                 "tmms.test@gmail.tmt",
@@ -412,10 +412,10 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
 
         // Create dummy response for question 2, Rank recipients question
-        question = BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFsName, 2);
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2);
         fra = new FeedbackResponseAttributes(
-                                                instructorEditFsName,
-                                                instructorCourseId,
+                                                feedbackSessionName,
+                                                courseId,
                                                 question.getId(),
                                                 question.getQuestionType(),
                                                 "tmms.test@gmail.tmt",
