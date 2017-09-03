@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -65,6 +64,20 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getSendDate());
         assertTrue("Valid input", attributes.isValid());
+    }
+
+    @Test
+    public void testBuilderWithNullRequiredArguments() {
+        try {
+            AdminEmailAttributes attributes = AdminEmailAttributes
+                .builder(null, null, null, null)
+                .build();
+
+            attributes.isValid();
+            signalFailureToDetectException(" - AssertionError");
+        } catch (AssertionError ae) {
+            assertEquals("Non-null value expected for required AdminEmailAttributes", ae.getMessage());
+        }
     }
 
     @Test

@@ -176,8 +176,10 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             adminEmailAttributes.groupReceiver = groupReceiver;
             adminEmailAttributes.subject = subject;
             adminEmailAttributes.content = content;
-            Assumption.assertNotNull("Required arguments", adminEmailAttributes.addressReceiver,
-                    adminEmailAttributes.groupReceiver, adminEmailAttributes.subject, adminEmailAttributes.content);
+            Assumption.assertNotNull("Non-null value expected for required AdminEmailAttributes",
+                    adminEmailAttributes.addressReceiver, adminEmailAttributes.groupReceiver,
+                    adminEmailAttributes.subject, adminEmailAttributes.content);
+
         }
 
         public Builder withSendDate(Date sendDate) {
