@@ -96,10 +96,10 @@ function filterSection() {
  */
 function filterTeam() {
     $('input[id^="team_check"]').each(function () {
-        const $this = $(this);
-        const courseIdx = $this.attr('id').split('-')[1];
-        const sectionIdx = $this.attr('id').split('-')[2];
-        const teamIdx = $this.attr('id').split('-')[3];
+        const $thisAttr = $(this).attr('id').split('-');
+        const courseIdx = $thisAttr[1];
+        const sectionIdx = $thisAttr[2];
+        const teamIdx = $thisAttr[3];
         if (this.checked) {
             $(`#studentteam-c${courseIdx}\\.${sectionIdx}\\.${teamIdx}`).parent().show();
         } else {
