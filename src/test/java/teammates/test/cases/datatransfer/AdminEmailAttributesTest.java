@@ -29,7 +29,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private Text content = new Text("valid email content");
     private Date date = new Date();
     private AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes
-            .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date).build();
+            .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
+            .build();
 
     @Test
     public void testBuilderWithDefaultValues() {
@@ -202,12 +203,9 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("valid sanitation of admin email");
 
         AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes
-                .builder(subjectWithWhitespaces,
-                        addressReceiverListString,
-                        groupReceiverListFileKey,
-                        contentWithWhitespaces,
-                        date)
-                        .build();
+                .builder(subjectWithWhitespaces, addressReceiverListString, groupReceiverListFileKey,
+                contentWithWhitespaces, date)
+                .build();
 
         ______TS("success: sanitized whitespace");
 

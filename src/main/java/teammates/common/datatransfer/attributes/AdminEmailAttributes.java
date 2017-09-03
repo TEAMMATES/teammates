@@ -28,9 +28,9 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public boolean isInTrashBin;
 
     AdminEmailAttributes() {
-        this.createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        this.emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
-        this.isInTrashBin = false;
+        createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
+        isInTrashBin = false;
     }
 
     /**
@@ -43,11 +43,8 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
      * </ul>
      */
-    public static Builder builder(String subject,
-                                  List<String> addressReceiver,
-                                  List<String> groupReceiver,
-                                  Text content,
-                                  Date sendDate) {
+    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver,
+                                  Text content, Date sendDate) {
         return new Builder(subject, addressReceiver, groupReceiver, content, sendDate);
     }
 
