@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -59,6 +58,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
                 Slots.RANK_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
@@ -70,7 +72,17 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(0),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed())
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
+                Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_DISPLAY_MAX_OPTIONS_HINT, isMaxOptionsToBeRankedEnabled ? "" : "hidden",
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
+                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_DISPLAY_MIN_OPTIONS_HINT, isMinOptionsToBeRankedEnabled ? "" : "hidden",
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
+                        ? Integer.toString(minOptionsToBeRanked) : ""
                 );
     }
 
@@ -94,6 +106,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.RANK_OPTION_VALUE, "");
         optionListHtml.append(optionFragment).append(Const.EOL);
 
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
                 Slots.RANK_SUBMISSION_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
@@ -105,7 +120,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(0),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()));
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
+                Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_DISPLAY_MAX_OPTIONS_HINT, isMaxOptionsToBeRankedEnabled ? "" : "hidden",
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
+                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_DISPLAY_MIN_OPTIONS_HINT, isMinOptionsToBeRankedEnabled ? "" : "hidden",
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
+                        ? Integer.toString(minOptionsToBeRanked) : ""
+                );
     }
 
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {
@@ -179,19 +205,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses, question);
-        String fragmentTemplateToUse = "";
-        String templateToUse = "";
-        Map<String, Integer> recipientSelfRanks = new HashMap<>();
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
-        if (shouldSelfBeExcludedFromRankings(question)) {
-            fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT_EXCLUDING_SELF_RESPONSE;
-            templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS_EXCLUDING_SELF_RESPONSE;
-            recipientSelfRanks = generateSelfRankForEachRecipient(responses);
-        } else {
-            fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
-            templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
-        }
+        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
+        String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
+
         DecimalFormat df = new DecimalFormat("#.##");
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
@@ -236,14 +255,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses, question);
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        Map<String, Integer> recipientSelfRanks = new HashMap<>();
-
-        if (shouldSelfBeExcludedFromRankings(question)) {
-            recipientSelfRanks = generateSelfRankForEachRecipient(responses);
-        }
 
         for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
 
@@ -263,19 +278,13 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             fragments.append(option);
             fragments.append(',').append(selfRank);
             fragments.append(',').append(df.format(average));
-
-            if (shouldSelfBeExcludedFromRankings(question)) {
-                fragments.append(',').append(userAverageExcludingSelfText);
-            }
+            fragments.append(',').append(userAverageExcludingSelfText);
             fragments.append(',');
             fragments.append(StringHelper.join(",", ranks));
             fragments.append(Const.EOL);
         }
-        String rankQuestionHeaderSelf = shouldSelfBeExcludedFromRankings(question)
-                ? ", Average Rank Excluding Self"
-                : "";
 
-        return "Team, Recipient, Self Rank, Average Rank" + rankQuestionHeaderSelf + ", Ranks Received" + Const.EOL
+        return "Team, Recipient, Self Rank, Average Rank, Average Rank Excluding Self, Ranks Received" + Const.EOL
                 + fragments + Const.EOL;
     }
 
@@ -384,24 +393,14 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
-     * Returns map of recipient ranks excluding self if self ranks are to be excluded otherwise return an empty map.
+     * Returns map of recipient ranks excluding self.
      *
      * @param responses list of all the responses for a question
-     * @param question question related to responses
      * @return map of recipient ranks excluding self responses
      */
-    private Map<String, List<Integer>> getRecipientRanksExcludingSelf(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question) {
-        if (shouldSelfBeExcludedFromRankings(question)) {
-            List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
-            return generateOptionRanksMapping(responsesExcludingSelf);
-        }
-        return new HashMap<>();
-    }
-
-    private boolean shouldSelfBeExcludedFromRankings(FeedbackQuestionAttributes question) {
-        return question.recipientType != FeedbackParticipantType.NONE
-                && question.recipientType != FeedbackParticipantType.SELF;
+    private Map<String, List<Integer>> getRecipientRanksExcludingSelf(List<FeedbackResponseAttributes> responses) {
+        List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
+        return generateOptionRanksMapping(responsesExcludingSelf);
     }
 
     @Override

@@ -468,6 +468,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     protected FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new FeedbackSessionAttributes(entity);
+        return FeedbackSessionAttributes.valueOf(entity);
     }
 }

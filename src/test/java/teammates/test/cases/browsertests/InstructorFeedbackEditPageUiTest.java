@@ -68,7 +68,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception {
         testContent();
 
-        testEditSessionLink();
         testEditSessionAction();
 
         testGeneralQuestionOperations();
@@ -118,6 +117,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // This is the full HTML verification for Instructor Feedback Edit Page, the rest can all be verifyMainHtml
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
+        assertTrue(feedbackEditPage.verifyEditSessionBoxIsEnabled());
 
     }
 
@@ -181,6 +181,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
         // TODO: to implement a more sophisticated method to wait for the persistence of data
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        testEditSessionLink();
 
         // test expanded uncommon settings section
         feedbackEditPage.reloadPage();
@@ -189,7 +190,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.isElementVisible("sendEmailsForPanel");
 
         // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.toggleClosingSessionEmailReminderCheckbox();
         feedbackEditPage.clickSaveSessionButton();
@@ -208,7 +208,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditManuallyPublished.html");
 
         // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
 
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
@@ -903,8 +902,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
+        expectedRedirectUrl.withParam(Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED,
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT);
 
-        assertEquals(expectedRedirectUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
+        assertTrue(browser.driver.getCurrentUrl().contains(expectedRedirectUrl.toAbsoluteString()));
 
         // Restore feedbackEditPage
         feedbackEditPage = getFeedbackEditPage();
@@ -1079,7 +1080,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
-                                    .withSessionName(feedbackSessionName);
+                                    .withSessionName(feedbackSessionName)
+                                    .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1091,7 +1093,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
-                                    .withSessionName(sessionWithoutQuestions);
+                                    .withSessionName(sessionWithoutQuestions)
+                                    .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

@@ -1,9 +1,7 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.datatransfer.attributes.AdminEmailAttributes.AdminEmailAttributesBuilder;
-
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,127 +12,130 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
-import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link AdminEmailAttributes}.
  */
-public class AdminEmailAttributesTest extends BaseTestCase {
+public class AdminEmailAttributesTest extends BaseAttributesTest {
 
-    private static final Date DEFAULT_DATE = AdminEmailAttributes.DEFAULT_DATE;
-    private static final boolean DEFAULT_IS_IN_TRASH_BIN = AdminEmailAttributes.DEFAULT_IS_IN_TRASH_BIN;
-    private static final String DEFAULT_EMAIL_ID = AdminEmailAttributes.DEFAULT_EMAIL_ID;
-    private String subject = Const.ParamsNames.ADMIN_EMAIL_SUBJECT;
-    private Text content = new Text(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
-    private Date sendDate = new Date();
+    private FieldValidator fieldValidator = new FieldValidator();
     private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
-    private List<String> groupReceiverListFileKey =
-            Collections.singletonList(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
+    private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
+    private String subject = "subject of email";
+    private Text content = new Text("valid email content");
+    private Date date = new Date();
+    private AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+            subject, addressReceiverListString, groupReceiverListFileKey, content, date);
 
     @Test
     public void testValidate() throws Exception {
-        AdminEmailAttributes validAttributes = createValidAdminEmailAttributesObject();
-        assertTrue("valid value", validAttributes.isValid());
+        ______TS("valid admin email");
 
-        AdminEmailAttributes invalidAttributes = createInvalidAdminEmailAttributesObject();
+        assertTrue("Valid input", adminEmailAttributes.isValid());
+        List<String> errorList = adminEmailAttributes.getInvalidityInfo();
+        assertTrue("Valid input should return an empty list of errors", errorList.isEmpty());
 
-        String expectedError =
-                getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributes.getContentValue(),
-                        FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY) + Const.EOL
-                + getPopulatedErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidAttributes.getSubject(),
-                        FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                        FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        ______TS("success: subject max length");
 
-        assertFalse("all valid values", invalidAttributes.isValid());
-        assertEquals("all valid values", expectedError,
-                StringHelper.toString(invalidAttributes.getInvalidityInfo()));
+        String subjectMaxLenString = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        AdminEmailAttributes validAttributesSubjectLength = new AdminEmailAttributes(
+                subjectMaxLenString, addressReceiverListString, groupReceiverListFileKey, content, date);
 
+        assertTrue("Valid input", validAttributesSubjectLength.isValid());
+        List<String> emailErrorList = validAttributesSubjectLength.getInvalidityInfo();
+        assertTrue("Valid input should return an empty list of errors", emailErrorList.isEmpty());
+
+        ______TS("failure: content cannot be empty");
+
+        AdminEmailAttributes invalidAttributesContentEmpty = new AdminEmailAttributes(
+                subject, addressReceiverListString, groupReceiverListFileKey, new Text(""), date);
+        String expectedContentEmptyError = getPopulatedErrorMessage(
+                FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributesContentEmpty.getContentValue(),
+                FieldValidator.EMAIL_CONTENT_FIELD_NAME, FieldValidator.REASON_EMPTY, 0);
+        assertEquals("Invalid content input should return appropriate error string", expectedContentEmptyError,
+                StringHelper.toString(invalidAttributesContentEmpty.getInvalidityInfo()));
+        assertFalse("Invalid input", invalidAttributesContentEmpty.isValid());
+
+        ______TS("failure: subject cannot exceeds max length");
+
+        AdminEmailAttributes attributes = adminEmailAttributes;
+
+        attributes.subject = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
+        assertEquals(attributes.subject.length(), 201);
+        String expectedEmptySubjectLengthError = getInvalidityInfoForSubject(attributes.subject);
+
+        assertEquals("Invalid subject input should return appropriate error string",
+                expectedEmptySubjectLengthError, StringHelper.toString(attributes.getInvalidityInfo()));
+        assertFalse("Invalid input", attributes.isValid());
+
+        ______TS("failure: subject must start with alphanumeric character");
+
+        attributes.subject = "_InvalidSubject";
+        assertTrue(attributes.subject.startsWith("_"));
+        String expectedSubjectCharsError = getInvalidityInfoForSubject(attributes.subject);
+
+        assertEquals("Invalid subject input should return appropriate error string",
+                expectedSubjectCharsError, StringHelper.toString(attributes.getInvalidityInfo()));
+        assertFalse("Invalid input", attributes.isValid());
+
+        ______TS("failure: subject cannot contain vertical bar (|)");
+
+        attributes.subject = "Invalid|Subject";
+        assertTrue(attributes.subject.contains("|"));
+        String expectedSubjectWithBarError = getInvalidityInfoForSubject(attributes.subject);
+
+        assertEquals("Invalid subject input should return appropriate error string",
+                expectedSubjectWithBarError, StringHelper.toString(attributes.getInvalidityInfo()));
+        assertFalse("Invalid input", attributes.isValid());
+
+        ______TS("failure: subject cannot contain percent sign(%)");
+
+        attributes.subject = "Invalid%Subject";
+        assertTrue(attributes.subject.contains("%"));
+        String expectedSubjectWithPercentError = getInvalidityInfoForSubject(attributes.subject);
+
+        assertEquals("Invalid subject input should return appropriate error string", expectedSubjectWithPercentError,
+                StringHelper.toString(attributes.getInvalidityInfo()));
+        assertFalse("Invalid input", attributes.isValid());
     }
 
     @Test
-    public void testBuilderWithRequiredValues() {
-        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .build();
-        assertEquals(subject, attributes.getSubject());
-        assertEquals(addressReceiverListString, attributes.getAddressReceiver());
-        assertEquals(groupReceiverListFileKey, attributes.getGroupReceiver());
-        assertEquals(content, attributes.content);
-        assertEquals(sendDate, attributes.getSendDate());
+    public void testGetInvalidityInfoForEmailContent_null_throwException() {
+        AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+                subject, addressReceiverListString, groupReceiverListFileKey, null, date);
+        try {
+            fieldValidator.getInvalidityInfoForEmailContent(adminEmailAttributes.content);
+            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Content");
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
     }
 
     @Test
-    public void testBuilderWithDefaultOptionalValues() {
-        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .build();
-        assertEquals(DEFAULT_EMAIL_ID, attributes.getEmailId());
-        assertEquals(DEFAULT_IS_IN_TRASH_BIN, attributes.getIsInTrashBin());
-        assertEquals(DEFAULT_DATE, attributes.getCreateDate());
-    }
-
-    @Test
-    public void testBuilderWithNullArguments() {
-        AdminEmailAttributes attributes = new AdminEmailAttributesBuilder(
-                null, null, null, null, null)
-                .withCreateDate(null)
-                .withEmailId(null)
-                .withIsInTrashBin(null)
-                .build();
-        // No default values for required params
-        assertNull(attributes.getSubject());
-        assertNull(attributes.getAddressReceiver());
-        assertNull(attributes.getGroupReceiver());
-        assertNull(attributes.content);
-        assertNull(attributes.getSendDate());
-
-        // Check default values for optional params
-        assertEquals(DEFAULT_EMAIL_ID, attributes.getEmailId());
-        assertEquals(DEFAULT_IS_IN_TRASH_BIN, attributes.getIsInTrashBin());
-        assertEquals(DEFAULT_DATE, attributes.getCreateDate());
+    public void testGetInvalidityInfoForEmailSubject_null_throwException() {
+        AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+                null, addressReceiverListString, groupReceiverListFileKey, content, date);
+        try {
+            fieldValidator.getInvalidityInfoForEmailSubject(adminEmailAttributes.subject);
+            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Subject");
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
     }
 
     @Test
     public void testGetIdentificationString() {
-        AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals(this.sendDate + "/" + this.subject, adminEmail.getIdentificationString());
-    }
-
-    @Test
-    public void testGetEntityTypeAsString() {
-        AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals("Admin Email", adminEmail.getEntityTypeAsString());
-    }
-
-    @Test
-    public void testGetBackupIdentifier() {
-        AdminEmailAttributes adminEmail = createValidAdminEmailAttributesObject();
-        assertEquals("Admin Email", adminEmail.getBackupIdentifier());
-    }
-
-    @Test
-    public void testSanitizeForSaving() {
-        AdminEmailAttributes actualAdminEmail = createValidAdminEmailAttributesObject();
-        AdminEmailAttributes expectedAdminEmail = createValidAdminEmailAttributesObject();
-        actualAdminEmail.sanitizeForSaving();
-
-        assertEquals(SanitizationHelper.sanitizeTextField(expectedAdminEmail.subject), actualAdminEmail.subject);
-        assertEquals(SanitizationHelper.sanitizeForRichText(expectedAdminEmail.content), actualAdminEmail.content);
+        assertEquals(date + "/" + subject, adminEmailAttributes.getIdentificationString());
     }
 
     @Test
     public void testToEntity() {
-        AdminEmailAttributes adminEmailAttributes = createValidAdminEmailAttributesObject();
         AdminEmail adminEmail = adminEmailAttributes.toEntity();
-
-        // AdminEmailAttributes attributes = AdminEmailAttributes.valueOf(adminEmail); // fails with a NPE for emailId
-
+        assertEquals(adminEmailAttributes.subject, adminEmail.getSubject());
         assertEquals(adminEmailAttributes.addressReceiver, adminEmail.getAddressReceiver());
         assertEquals(adminEmailAttributes.groupReceiver, adminEmail.getGroupReceiver());
         assertEquals(adminEmailAttributes.content, adminEmail.getContent());
@@ -142,26 +143,92 @@ public class AdminEmailAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetValidityInfo() {
-        //already tested in testValidate() above
+    public void testSanitizeForSaving() {
+        String subjectWithWhitespaces = " subject to be sanitized by removing leading/trailing whitespace ";
+        Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
+
+        ______TS("valid sanitation of admin email");
+
+        AdminEmailAttributes adminEmailAttributes = new AdminEmailAttributes(
+                subjectWithWhitespaces, addressReceiverListString, groupReceiverListFileKey, contentWithWhitespaces, date);
+
+        ______TS("success: sanitized whitespace");
+
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("subject to be sanitized by removing leading/trailing whitespace",
+                adminEmailAttributes.getSubject());
+        assertEquals("content to be sanitized by removing leading/trailing whitespace",
+                adminEmailAttributes.getContentValue());
+
+        ______TS("success: sanitized code block");
+
+        adminEmailAttributes.content = new Text("<code>System.out.println(\"Hello World\");</code>");
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("<code>System.out.println(&#34;Hello World&#34;);</code>", adminEmailAttributes.getContentValue());
+
+        ______TS("success: sanitized superscript");
+
+        adminEmailAttributes.content = new Text("f(x) = x<sup>2</sup>");
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("f(x) &#61; x<sup>2</sup>", adminEmailAttributes.getContentValue());
+
+        ______TS("success: sanitized chemical formula");
+
+        adminEmailAttributes.content = new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>");
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>",
+                adminEmailAttributes.getContentValue());
+
+        ______TS("success: sanitized invalid closing tag");
+
+        adminEmailAttributes.content = new Text("</td></option></div> invalid closing tags");
+        adminEmailAttributes.sanitizeForSaving();
+        assertEquals(" invalid closing tags", adminEmailAttributes.getContentValue());
     }
 
-    private AdminEmailAttributes createInvalidAdminEmailAttributesObject() {
-        String veryLongSubj = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH + 1);
-        Text emptyContent = new Text("");
-
-        return new AdminEmailAttributesBuilder(
-                veryLongSubj, addressReceiverListString, groupReceiverListFileKey, emptyContent, new Date())
-                .build();
+    @Test
+    public void testSendDateForDisplay() {
+        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.sendDate);
+        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        String actualDate = adminEmailAttributes.getSendDateForDisplay();
+        assertEquals(expectedDate, actualDate);
     }
 
-    private AdminEmailAttributes createValidAdminEmailAttributesObject() {
-        return new AdminEmailAttributesBuilder(
-                subject, addressReceiverListString, groupReceiverListFileKey, content, sendDate)
-                .withCreateDate(DEFAULT_DATE)
-                .withEmailId(DEFAULT_EMAIL_ID)
-                .withIsInTrashBin(DEFAULT_IS_IN_TRASH_BIN)
-                .build();
+    @Test
+    public void testCreateDateForDisplay() {
+        adminEmailAttributes.createDate = new Date();
+        Calendar calendar = formatDateForAdminEmailAttributesTest(adminEmailAttributes.createDate);
+        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        String actualDate = adminEmailAttributes.getCreateDateForDisplay();
+        assertEquals(expectedDate, actualDate);
+    }
+
+    private Calendar formatDateForAdminEmailAttributesTest(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+    }
+
+    private String getInvalidityInfoForSubject(String emailSubject) throws Exception {
+        if (!Character.isLetterOrDigit(emailSubject.codePointAt(0))) {
+            return getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, emailSubject,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        }
+        if (!StringHelper.isMatching(emailSubject, FieldValidator.REGEX_NAME)) {
+            return getPopulatedErrorMessage(
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, emailSubject,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        }
+        if (emailSubject.length() > FieldValidator.EMAIL_SUBJECT_MAX_LENGTH) {
+            return getPopulatedErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, emailSubject,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
+        }
+        return "";
     }
 
 }

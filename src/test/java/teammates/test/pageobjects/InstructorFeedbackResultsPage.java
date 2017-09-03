@@ -75,65 +75,117 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
 
+    public void displayEditSettingsWindow() {
+        WebElement editBtn = browser.driver.findElement(By.id("editBtn"));
+        click(editBtn);
+        waitForElementVisibility(By.id("editModal"));
+    }
+
+    public void submitEditForm() {
+        WebElement submitBtn = browser.driver.findElement(By.id("submitBtn"));
+        submitBtn.submit();
+    }
+
     public void displayByGiverRecipientQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Recipient > Question");
+
+        submitEditForm();
     }
 
     public void displayByRecipientGiverQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Giver > Question");
+
+        submitEditForm();
     }
 
     public void displayByGiverQuestionRecipient() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Giver > Question > Recipient");
+
+        submitEditForm();
     }
 
     public void displayByRecipientQuestionGiver() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Recipient > Question > Giver");
+
+        submitEditForm();
     }
 
     public void filterResponsesForSection(String section) {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText(section);
+
+        submitEditForm();
     }
 
     public void filterResponsesForAllSections() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION))
                                                  .get(1));
         select.selectByVisibleText("All");
+
+        submitEditForm();
     }
 
     public void displayByQuestion() {
+        displayEditSettingsWindow();
+
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
         select.selectByVisibleText("Group by - Question");
+
+        submitEditForm();
     }
 
     public void clickGroupByTeam() {
+        displayEditSettingsWindow();
+
         WebElement button = browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM));
         click(button);
+
+        submitEditForm();
     }
 
-    public void clickCollapseExpandButton() {
+    public void clickCollapseExpandButtonAndWaitForPanelsToExpand() {
         click(collapseExpandButton);
+        waitForPanelsToExpand();
     }
 
     public void expandPanels() {
         if (isElementPresent("collapse-panels-button")) {
-            clickCollapseExpandButton();
-            waitForPanelsToExpand();
+            clickCollapseExpandButtonAndWaitForPanelsToExpand();
         }
     }
 
+    public void clickCollapseExpandButtonAndWaitForPanelsToCollapse() {
+        click(collapseExpandButton);
+        waitForPanelsToCollapse();
+    }
+
     public void clickShowStats() {
+        displayEditSettingsWindow();
         click(showStatsCheckbox);
+        submitEditForm();
     }
 
     public void clickIndicateMissingResponses() {
+        displayEditSettingsWindow();
         click(indicateMissingResponsesCheckbox);
+        submitEditForm();
     }
 
     public void clickRemindAllButtonAndWaitForFormToLoad() {
@@ -350,7 +402,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String popoverSelector = panelBodySelector + " .popover-content";
         String clickSelector = panelBodySelector + " .profile-pic-icon-click a";
 
-        waitForElementPresence(By.cssSelector(clickSelector)).click();
+        moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
 
         verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
@@ -362,7 +414,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String hoverSelector = headingSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
         verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
                 "Hover and verify student photo on heading");
@@ -389,7 +441,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String hoverSelector = cellSelector + " .profile-pic-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        waitForElementPresence(By.cssSelector(popoverSelector + " > a")).click();
+        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
 
         verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
                 "Hover and verify photo on table cell");
@@ -430,7 +482,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
             @Override
             public void beforeRetry() {
-                waitForElementPresence(By.cssSelector(clickSelector)).click();
+                moveToElementAndClickAfterWaitForPresence(By.cssSelector(clickSelector));
             }
         }, WebDriverException.class);
     }
@@ -534,12 +586,21 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void moveToElement(By by) {
-        WebElement element = browser.driver.findElement(by);
+        moveToElement(browser.driver.findElement(by));
+    }
+
+    private void moveToElement(WebElement element) {
         new Actions(browser.driver).moveToElement(element).perform();
     }
 
     private void focusViaClickAction(WebElement element) {
         new Actions(browser.driver).moveToElement(element).click().perform();
+    }
+
+    private void moveToElementAndClickAfterWaitForPresence(By by) {
+        WebElement element = waitForElementPresence(by);
+        moveToElement(element);
+        click(element);
     }
 
     private String getElementSrcWithRetryAfterWaitForPresence(By by) {
@@ -550,6 +611,40 @@ public class InstructorFeedbackResultsPage extends AppPage {
             // Element changed (e.g. loading gif changed to actual image)
             return waitForElementPresence(by).getAttribute("src");
         }
+    }
+
+    /**
+     * Expands a particular question panel, causing its results to load.
+     */
+    public void loadResultQuestionPanel(int questionNumber) {
+        String panelId = "panelHeading-" + questionNumber;
+        clickPanelAndWaitForExpansion(panelId);
+    }
+
+    /**
+     * Expands a particular section panel, causing its results to load.
+     */
+    public void loadResultSectionPanel(int panelNumber, int sectionNumber) {
+        String panelId = "panelHeading-section-" + panelNumber + "-" + sectionNumber;
+        clickPanelAndWaitForExpansion(panelId);
+    }
+
+    /**
+     * Expands a particular large scale results panel, causing its results to load.
+     */
+    public void loadResultLargeScalePanel(int panelNumber) {
+        String panelId = "panelHeading-" + panelNumber;
+        clickLargeScalePanelAndWaitForExpansion(panelId);
+    }
+
+    private void clickPanelAndWaitForExpansion(String panelId) {
+        clickElementById(panelId);
+        waitForAjaxLoadedPanelToExpand(panelId, "ajax_auto");
+    }
+
+    private void clickLargeScalePanelAndWaitForExpansion(String panelId) {
+        clickElementById(panelId);
+        waitForAjaxLoadedPanelToExpand(panelId, "ajax_submit");
     }
 
 }

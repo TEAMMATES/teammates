@@ -9,7 +9,7 @@
 </c:set>
 
 <ta:adminPage title="Add New Instructor" jsIncludes="${jsIncludes}">
-  <adminHome:adminCreateInstructorAccountWithOneBoxForm instructorDetailsSingleLine="${data.instructorDetailsSingleLine}"/>
+  <adminHome:adminCreateInstructorAccountWithOneBoxForm/>
   <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}"
       instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
 

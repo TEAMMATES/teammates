@@ -74,14 +74,19 @@ import {
 
 import {
     addRankOption,
+    bindRankEvents,
     hideRankOptionTable,
     removeRankOption,
+    toggleMaxOptionsToBeRanked,
+    toggleMinOptionsToBeRanked,
 } from '../common/questionRank.es6';
 
 import {
     addRubricCol,
     addRubricRow,
     bindAssignWeightsCheckboxes,
+    bindMoveRubricColButtons,
+    disableCornerMoveRubricColumnButtons,
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
@@ -456,9 +461,12 @@ function enableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     $(`#button_question_submit-${questionNum}`).show();
+    toggleMaxOptionsToBeRanked(questionNum);
+    toggleMinOptionsToBeRanked(questionNum);
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
+    disableCornerMoveRubricColumnButtons(questionNum);
 }
 
 /**
@@ -502,7 +510,15 @@ function enableNewQuestion() {
 
     $newQuestionTable.find(`#rubricAddChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`#rubricAddSubQuestionLink-${NEW_QUESTION}`).show();
-    $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+
+    // If instructor had assigned rubric weights before,
+    // then display the weights row, otherwise hide it.
+    if (hasAssignedWeights(NEW_QUESTION)) {
+        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).show();
+    } else {
+        $newQuestionTable.find(`#rubricWeights-${NEW_QUESTION}`).hide();
+    }
+
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
@@ -524,6 +540,9 @@ function enableNewQuestion() {
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
     $(`#button_question_submit-${NEW_QUESTION}`).show();
+    disableCornerMoveRubricColumnButtons(NEW_QUESTION);
+    toggleMaxOptionsToBeRanked(NEW_QUESTION);
+    toggleMinOptionsToBeRanked(NEW_QUESTION);
 }
 
 /**
@@ -1087,7 +1106,11 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.
-    disableEditFS();
+    if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
+        enableEditFS();
+    } else {
+        disableEditFS();
+    }
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     formatNumberBoxes();
@@ -1098,6 +1121,8 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMoveRubricColButtons();
+    bindRankEvents();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
@@ -1117,15 +1142,6 @@ $(document).ready(() => {
     prepareInstructorPages();
 
     prepareDatepickers();
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor('#instructions', {
-            inline: true,
-            readonly: true,
-        });
-        /* eslint-enable camelcase */
-    }
 
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();

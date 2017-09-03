@@ -132,7 +132,6 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         String courseId = "tmapitt.tcc.course";
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
-        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = InstructorAttributes.builder(instructorId, courseId, name, email)
                 .build();
 
@@ -177,9 +176,12 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         // only minimal testing because this is a wrapper method for
         // another well-tested method.
 
-        StudentAttributes student = new StudentAttributes(
-                "section name", "team name", "name of tcs student", "tcsStudent@gmail.tmt", "",
-                "tmapit.tcs.course");
+        StudentAttributes student = StudentAttributes
+                .builder("tmapit.tcs.course", "name of tcs student", "tcsStudent@gmail.tmt")
+                .withSection("section name")
+                .withTeam("team name")
+                .withComments("")
+                .build();
         BackDoor.deleteStudent(student.course, student.email);
         verifyAbsentInDatastore(student);
         BackDoor.createStudent(student);
@@ -191,8 +193,13 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
     @Test
     public void testGetEncryptedKeyForStudent() {
 
-        StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student",
-                                                          "tgsr@gmail.tmt", "", "course1");
+        StudentAttributes student = StudentAttributes
+                .builder("course1", "name of tgsr student", "tgsr@gmail.tmt")
+                .withSection("sect1")
+                .withTeam("t1")
+                .withComments("")
+                .build();
+
         BackDoor.createStudent(student);
         String key = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
         int retryLimit = 5;

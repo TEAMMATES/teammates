@@ -237,6 +237,11 @@ public abstract class AppPage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void waitForElementVisibility(By by) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+
     public void waitForElementToBeClickable(WebElement element) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -513,6 +518,11 @@ public abstract class AppPage {
 
     protected String getTextBoxValue(WebElement textBox) {
         return textBox.getAttribute("value");
+    }
+
+    protected boolean checkEmptyTextBoxValue(WebElement textBox) {
+        String textInsideInputBox = textBox.getAttribute("value");
+        return textInsideInputBox.isEmpty();
     }
 
     /**
