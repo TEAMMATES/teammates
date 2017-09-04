@@ -28,8 +28,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
+        gaeSimulation.loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
@@ -155,7 +155,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
 

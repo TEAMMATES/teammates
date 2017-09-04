@@ -26,6 +26,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -73,6 +74,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 addedEmailSet.add(ins.email);
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
             }
+        } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS) {
+            responseGiverName = relatedResponse.giver;
         } else {
             StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
@@ -84,24 +87,33 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
         }
 
-        if (relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+        switch (relatedQuestion.recipientType) {
+        case INSTRUCTORS:
             InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
             if (ins != null && !addedEmailSet.contains(ins.email)) {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
                 responseRecipientName = ins.name + " (" + ins.displayedName + ")";
             }
-        } else if (relatedQuestion.recipientType == FeedbackParticipantType.SELF) {
+            break;
+        case SELF:
             responseRecipientName = responseGiverName;
-        } else if (relatedQuestion.recipientType == FeedbackParticipantType.NONE) {
+            break;
+        case NONE:
             responseRecipientName = Const.USER_NOBODY_TEXT;
-        } else {
+            break;
+        case TEAMS:
+            responseRecipientName = relatedResponse.recipient;
+            break;
+        default:
             StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.recipient);
+
             if (stu != null && !addedEmailSet.contains(stu.email)) {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
                 responseRecipientName = stu.name + " (" + stu.team + ")";
             }
+
             List<StudentAttributes> team = studentsDb.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
             if (team != null) {
                 responseRecipientName = relatedResponse.recipient; // it's actually a team name here
@@ -112,9 +124,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     }
                 }
             }
+
             if (stu == null || team == null) {
                 responseRecipientName = Const.USER_UNKNOWN_TEXT;
             }
+            break;
         }
     }
 
@@ -308,17 +322,17 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
 
             // get giver and recipient names
-            String responseGiverName = extractContentFromQuotedString(
+            String responseGiverName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
             bundle.responseGiverTable.put(response.getId(),
                     getFilteredGiverName(bundle, instructorCourseIdList, response, responseGiverName));
 
-            String responseRecipientName = extractContentFromQuotedString(
+            String responseRecipientName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
             bundle.responseRecipientTable.put(response.getId(),
                     getFilteredRecipientName(bundle, instructorCourseIdList, response, responseRecipientName));
 
-            String commentGiverName = extractContentFromQuotedString(
+            String commentGiverName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
