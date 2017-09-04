@@ -105,9 +105,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
         } else {
-            String courseId =
-                    HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                           Const.ParamsNames.COURSE_ID);
+            String courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
             setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions), courseId);
         }
         return true;
@@ -375,17 +373,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
 
-        if (generateOptionsFor == FeedbackParticipantType.NONE) {
-            String optionFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
-            for (int i = 0; i < numOfMsqChoices; i++) {
-                String optionFragment =
-                        Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.ITERATOR, Integer.toString(i),
-                                Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
-                                Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
+        String optionFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
+        for (int i = 0; i < msqChoices.size(); i++) {
+            String optionFragment =
+                    Templates.populateTemplate(optionFragmentTemplate,
+                            Slots.ITERATOR, Integer.toString(i),
+                            Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
+                            Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
-                optionListHtml.append(optionFragment).append(Const.EOL);
-            }
+            optionListHtml.append(optionFragment).append(Const.EOL);
         }
 
         boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;

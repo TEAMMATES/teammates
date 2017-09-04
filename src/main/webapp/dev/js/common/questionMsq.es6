@@ -72,15 +72,8 @@ function setUpperLimitForMinSelectableChoices(questionNum, upperLimit) {
  * Assumes that 'generateOptions' checkbox is checked.
  */
 function getTotalOptionsForSelectedGenerateOptionsType(questionNum) {
-    const category = $(`#msqGenerateForSelect-${questionNum}`).prop('value');
-
-    if (category === 'STUDENTS') {
-        return $('#num-students').val();
-    } else if (category === 'TEAMS') {
-        return $('#num-teams').val();
-    }
-
-    return $('#num-instructors').val();
+    const category = $(`#msqGenerateForSelect-${questionNum}`).prop('value').toLowerCase();
+    return $(`#num-${category}`).val();
 }
 
 function adjustMaxSelectableChoices(questionNum) {
