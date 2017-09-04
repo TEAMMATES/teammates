@@ -75,8 +75,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
-                    .withSendDate(null)
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent), null)
                     .withEmailId(emailId)
                     .build();
 
@@ -93,8 +92,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
-                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
-                    .withSendDate(null)
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent), null)
                     .withEmailId(emailId)
                     .build();
         }
@@ -145,8 +143,7 @@ public class AdminEmailComposeSendAction extends Action {
                                     String content) {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(new Date())
+                .builder(subject, addressReceiver, groupReceiver, new Text(content), new Date())
                 .build();
         try {
             Date createDate = logic.createAdminEmail(newDraft);
@@ -169,8 +166,7 @@ public class AdminEmailComposeSendAction extends Action {
                                         String content) {
 
         AdminEmailAttributes finalisedEmail = AdminEmailAttributes
-                .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(new Date())
+                .builder(subject, addressReceiver, groupReceiver, new Text(content), new Date())
                 .build();
 
         try {
