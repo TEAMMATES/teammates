@@ -27,7 +27,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;
 
@@ -243,7 +243,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
