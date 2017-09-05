@@ -72,10 +72,6 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementPresent("mcqChoiceTable--1"));
     }
 
-    private void verifyNewMcqQuestionUi() {
-
-    }
-
     @Override
     public void testInputValidation() {
 
