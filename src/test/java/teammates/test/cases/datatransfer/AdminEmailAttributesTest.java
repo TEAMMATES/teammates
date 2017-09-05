@@ -28,7 +28,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private Text content = new Text("valid email content");
     private Date date = new Date();
     private AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes
-            .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
+            .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
+            .withSendDate(date)
             .build();
 
     @Test
@@ -36,7 +37,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("valid admin email");
 
         AdminEmailAttributes attributes = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
+                .withSendDate(date)
                 .build();
 
         ______TS("success: default values for optional params");
@@ -50,7 +52,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testBuilderWithNullOptionalArguments() {
         AdminEmailAttributes attributes = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content, date)
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
+                .withSendDate(date)
                 .withCreateDate(null)
                 .withEmailId(null)
                 .withIsInTrashBin(null)
@@ -68,7 +71,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testBuilderWithNullRequiredArguments() {
         try {
             AdminEmailAttributes attributes = AdminEmailAttributes
-                        .builder(null, null, null, null, null)
+                        .builder(null, null, null, null)
+                        .withSendDate(null)
                         .build();
 
             attributes.isValid();
@@ -105,7 +109,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         String subjectMaxLenString = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_SUBJECT_MAX_LENGTH);
         AdminEmailAttributes validAttributesSubjectLength = AdminEmailAttributes
-                .builder(subjectMaxLenString, addressReceiverListString, groupReceiverListFileKey, content, date)
+                .builder(subjectMaxLenString, addressReceiverListString, groupReceiverListFileKey, content)
+                .withSendDate(date)
                 .build();
 
         assertTrue("Valid input", validAttributesSubjectLength.isValid());
@@ -115,7 +120,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("failure: content cannot be empty");
 
         AdminEmailAttributes invalidAttributesContentEmpty = AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, new Text(""), date)
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, new Text(""))
+                .withSendDate(date)
                 .build();
         String expectedContentEmptyError = getPopulatedErrorMessage(
                 FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE, invalidAttributesContentEmpty.getContentValue(),
@@ -191,8 +197,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("valid sanitation of admin email");
 
         AdminEmailAttributes adminEmailAttributes = AdminEmailAttributes
-                .builder(subjectWithWhitespaces, addressReceiverListString, groupReceiverListFileKey,
-                        contentWithWhitespaces, date)
+                .builder(subjectWithWhitespaces, addressReceiverListString, groupReceiverListFileKey, contentWithWhitespaces)
+                .withSendDate(date)
                 .build();
 
         ______TS("success: sanitized whitespace");
