@@ -6,15 +6,15 @@
 <%@ attribute name="sessionStatus" %>
 
 <form class="openEmailApplicationDefaultValues">
-    <strong id="feedback-session-name">${linkTitle}</strong>
-    <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
-        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-        Send Mail
-    </button>
-    <input type="hidden" name="courseName" value="${student.courseName}">
-    <input type="hidden" name="courseId" value="${student.courseId}">
-    <input type="hidden" name="studentName" value="${student.name}">
-    <input type="hidden" name="subjectType" value="${subjectType}">
-    <input type="hidden" name="sessionStatus" value="${sessionStatus}">
-    <input name="relatedLink" value="${relatedLink}" readonly class="form-control">
+  <strong id="feedback-session-name">${linkTitle}</strong>
+  <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
+    <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+    Send Mail
+  </button>
+  <input type="hidden" name="courseName" value="${student.courseName}">
+  <input type="hidden" name="courseId" value="${student.courseId}">
+  <input type="hidden" name="studentName" value="${student.name}">
+  <input type="hidden" name="subjectType" value="${subjectType}">
+  <input type="hidden" name="sessionStatus" value="${sessionStatus}">
+  <input name="relatedLink" value="${relatedLink}" readonly class="form-control">
 </form>

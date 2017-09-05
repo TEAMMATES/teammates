@@ -58,7 +58,6 @@ const ParamsNames = {
     FEEDBACK_QUESTION_DISCARDCHANGES: 'questiondiscardchanges',
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
     FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
-    TEAMMATES_EMAIL_ADDRESS: 'teammates@comp.nus.edu.sg',
 };
 
 const Const = {
@@ -78,6 +77,7 @@ const Const = {
         INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
 
     },
+    TEAMMATES_EMAIL_ADDRESS: 'teammates@comp.nus.edu.sg',
 
 };
 

@@ -84,21 +84,23 @@
 
       <%-- Course join link --%>
       <li class="list-group-item list-group-item-info">
-        <search:emailFormFields linkTitle="Course Join Link"
-                                relatedLink="${student.links.courseJoinLink}"
-                                subjectType="Invitation to join course"
-                                student="${student}"/>
+        <search:emailFormFields
+            linkTitle="Course Join Link"
+            relatedLink="${student.links.courseJoinLink}"
+            subjectType="Invitation to join course"
+            student="${student}"/>
       </li>
 
       <%-- Open feedback sessions --%>
       <c:if test="${not empty student.openFeedbackSessions}">
         <c:forEach items="${student.openFeedbackSessions}" var="session">
           <li class="list-group-item list-group-item-warning">
-            <search:emailFormFields linkTitle="${session.fsName}"
-                                    relatedLink="${session.link}"
-                                    subjectType="Feedback session now open"
-                                    sessionStatus="Open"
-                                    student="${student}"/>
+            <search:emailFormFields
+                linkTitle="${session.fsName}"
+                relatedLink="${session.link}"
+                subjectType="Feedback session now open"
+                sessionStatus="Open"
+                student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
@@ -107,11 +109,12 @@
       <c:if test="${not empty student.closedFeedbackSessions}">
         <c:forEach items="${student.closedFeedbackSessions}" var="session">
           <li class="list-group-item list-group-item-danger">
-            <search:emailFormFields linkTitle="${session.fsName}"
-                                    relatedLink="${session.link}"
-                                    subjectType="Feedback session now closed"
-                                    sessionStatus="Closed"
-                                    student="${student}"/>
+            <search:emailFormFields
+                linkTitle="${session.fsName}"
+                relatedLink="${session.link}"
+                subjectType="Feedback session now closed"
+                sessionStatus="Closed"
+                student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
@@ -120,11 +123,12 @@
       <c:if test="${not empty student.publishedFeedbackSessions}">
         <c:forEach items="${student.publishedFeedbackSessions}" var="session">
           <li class="list-group-item list-group-item-success">
-            <search:emailFormFields linkTitle="${session.fsName}"
-                                    relatedLink="${session.link}"
-                                    subjectType="Feedback session results published"
-                                    sessionStatus="Published"
-                                    student="${student}"/>
+            <search:emailFormFields
+                linkTitle="${session.fsName}"
+                relatedLink="${session.link}"
+                subjectType="Feedback session results published"
+                sessionStatus="Published"
+                student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
