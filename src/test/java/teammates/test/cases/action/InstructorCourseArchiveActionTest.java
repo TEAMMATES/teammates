@@ -23,7 +23,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() {
         String[] submissionParams = new String[]{};
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
         gaeSimulation.loginAsInstructor(instructorId);
@@ -195,7 +195,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
         };
 

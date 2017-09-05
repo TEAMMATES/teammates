@@ -25,6 +25,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -34,7 +35,6 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     public void testExecuteAndPostProcess() {
         testModifyResponses();
         testIncorrectParameters();
-        testDifferentPrivileges();
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
     }
@@ -250,7 +250,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
     }
 
-    private void testDifferentPrivileges() {
+    private void testDifferentPrivilegesWithEditedFeedback() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -477,6 +477,19 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        testDifferentPrivilegesWithEditedFeedback();
+
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
+        String courseId = moderatedInstructor.courseId;
+        String feedbackSessionName = "First feedback session";
+        String moderatedInstructorEmail = "helper@course1.tmt";
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

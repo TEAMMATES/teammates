@@ -267,6 +267,21 @@ public final class TimeHelper {
     }
 
     /**
+     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
+     */
+    public static String formatDateTimeForInstructorCoursesPage(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
+        c.setTime(date);
+        sdf = new SimpleDateFormat("d MMM yyyy");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(date);
+    }
+
+    /**
      * Formats {@code dateInUtc} according to the ISO8601 format.
      */
     public static String formatDateToIso8601Utc(Date dateInUtc) {

@@ -786,6 +786,30 @@ function validateAllAnswersHaveRecipient() {
     return isAllAnswersToMissingRecipientEmpty;
 }
 
+function isMinOptionsToBeRankedEnabled(qnNum) {
+    return !$(`#minOptionsToBeRanked-${qnNum}`).prop('disabled');
+}
+
+function isMaxOptionsToBeRankedEnabled(qnNum) {
+    return !$(`#maxOptionsToBeRanked-${qnNum}`).prop('disabled');
+}
+
+function getMinOptionsToBeRanked(qnNum) {
+    if (isMinOptionsToBeRankedEnabled(qnNum)) {
+        return parseInt($(`#minOptionsToBeRanked-${qnNum}`).val(), 10);
+    }
+
+    return Number.MAX_SAFE_INTEGER;
+}
+
+function getMaxOptionsToBeRanked(qnNum) {
+    if (isMaxOptionsToBeRankedEnabled(qnNum)) {
+        return parseInt($(`#maxOptionsToBeRanked-${qnNum}`).val(), 10);
+    }
+
+    return Number.MAX_SAFE_INTEGER;
+}
+
 function updateRankMessageQn(qnNum) {
     const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
     const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
@@ -797,11 +821,46 @@ function updateRankMessageQn(qnNum) {
     let areAllAnswersUnique;
     let allocatedRanks;
     let isAllOptionsRanked;
+    let isMinOptionsToBeRankedViolated;
+    let isMaxOptionsToBeRankedViolated;
+    let isMinOrMaxOptionsToBeRankedEnabled;
 
     function resetState() {
         allocatedRanks = {};
         areAllAnswersUnique = true;
         isAllOptionsRanked = true;
+        isMinOptionsToBeRankedViolated = false;
+        isMaxOptionsToBeRankedViolated = false;
+        isMinOrMaxOptionsToBeRankedEnabled = false;
+    }
+
+    function checkMinMaxRestrictions(questionNumber, recipientIndex) {
+        const rankedOptions = $(`select[name="responsetext-${questionNumber}-${recipientIndex}"]`)
+                              .filter(function () {
+                                  return $(this).val() !== '';
+                              }).length;
+
+        if (rankedOptions === 0) {
+            return;
+        }
+
+        if (isMinOptionsToBeRankedEnabled(qnNum)) {
+            isMinOrMaxOptionsToBeRankedEnabled = true;
+            const min = getMinOptionsToBeRanked(qnNum);
+
+            if (rankedOptions < min) {
+                isMinOptionsToBeRankedViolated = true;
+            }
+        }
+
+        if (isMaxOptionsToBeRankedEnabled(qnNum)) {
+            isMinOrMaxOptionsToBeRankedEnabled = true;
+            const max = getMaxOptionsToBeRanked(qnNum);
+
+            if (max < rankedOptions) {
+                isMaxOptionsToBeRankedViolated = true;
+            }
+        }
     }
 
     function updateRankMessagesInUpdatingRankMessageQn($messageElement) {
@@ -812,7 +871,15 @@ function updateRankMessageQn(qnNum) {
         if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
             message += ' The same rank should not be given multiple times. ';
             $messageElement.addClass('text-color-red');
-        } else if (!isAllOptionsRanked) {
+        } else if (isMinOptionsToBeRankedViolated) {
+            const min = getMinOptionsToBeRanked(qnNum);
+            message += ` You need to rank at least ${min} options. `;
+            $messageElement.addClass('text-color-red');
+        } else if (isMaxOptionsToBeRankedViolated) {
+            const max = getMaxOptionsToBeRanked(qnNum);
+            message += ` Rank no more than ${max} options. `;
+            $messageElement.addClass('text-color-red');
+        } else if (!isAllOptionsRanked && !isMinOrMaxOptionsToBeRankedEnabled) {
             message = `Please rank the above ${isDistributingToRecipients ? 'recipients. '
                                                                              : 'options. '}`;
             $messageElement.addClass('text-color-blue');
@@ -848,6 +915,8 @@ function updateRankMessageQn(qnNum) {
                 $(this).removeClass('color_neutral');
             }
         });
+
+        checkMinMaxRestrictions(questionNumber, recipientIndex);
     }
 
     if (isDistributingToRecipients) {
@@ -1024,10 +1093,13 @@ $(document).ready(() => {
     if (typeof richTextEditorBuilder !== 'undefined') {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
+            const isSessionOpenData = $(textField).data('isSessionOpen');
+            const isSessionOpen = typeof (isSessionOpenData) === 'boolean' ? isSessionOpenData : true;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
                 inline: true,
+                readonly: !isSessionOpen,
                 setup(ed) {
                     ed.on('keyup', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
@@ -1065,7 +1137,7 @@ $(document).ready(() => {
 
             // disable button to prevent user from clicking submission button again
             const $submissionButton = $('#response_submit_button');
-            addLoadingIndicator($submissionButton, '');
+            addLoadingIndicator($submissionButton, 'Submitting ');
         }
     });
 

@@ -2,6 +2,8 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -33,7 +35,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         int questionNumber = 1;
         FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
@@ -44,7 +46,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackResponseAttributes response = feedbackResponsesDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Unsuccessful case: not enough parameters");
@@ -273,18 +275,18 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
-        FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes();
-        comment.courseId = fs.getCourseId();
-        comment.feedbackSessionName = fs.getFeedbackSessionName();
-        comment.feedbackQuestionId = question.getId();
-        comment.feedbackResponseId = response.getId();
+        FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
+                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, new Text(""))
+                .withFeedbackQuestionId(question.getId())
+                .withFeedbackResponseId(response.getId())
+                .build();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, comment.courseId,
