@@ -59,7 +59,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
-        feedbackEditPage.clickGenerateMcqOptionsCheckbox(1);
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(-1);
         assertFalse(feedbackEditPage.isElementPresent("mcqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
