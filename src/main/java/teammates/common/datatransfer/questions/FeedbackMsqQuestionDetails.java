@@ -219,20 +219,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
 
-        // additional checkbox for user to submit a blank response ("None of the above")
-        String optionFragment =
-                Templates.populateTemplate(optionFragmentTemplate,
-                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
-                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Slots.MSQ_CHOICE_VALUE, "",
-                        Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
+
+        if (!isMinSelectableChoicesEnabled) {
+            // additional checkbox for user to submit a blank response ("None of the above")
+            String optionFragment =
+                    Templates.populateTemplate(optionFragmentTemplate,
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Slots.CHECKED, existingMsqResponse.contains("") ? "checked" : "",
+                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Slots.MSQ_CHOICE_VALUE, "",
+                            Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+            optionListHtml.append(optionFragment).append(Const.EOL);
+        }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
-        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.MSQ_SUBMISSION_FORM,
@@ -288,20 +291,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
 
-        // additional checkbox for user to submit a blank response ("None of the above")
-        String optionFragment =
-                Templates.populateTemplate(optionFragmentTemplate,
-                        Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                        Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                        Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                        Slots.CHECKED, "",
-                        Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        Slots.MSQ_CHOICE_VALUE, "",
-                        Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
+
+        if (!isMinSelectableChoicesEnabled) {
+            // additional checkbox for user to submit a blank response ("None of the above")
+            String optionFragment =
+                    Templates.populateTemplate(optionFragmentTemplate,
+                            Slots.QUESTION_INDEX, Integer.toString(qnIdx),
+                            Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                            Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                            Slots.CHECKED, "",
+                            Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            Slots.MSQ_CHOICE_VALUE, "",
+                            Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+            optionListHtml.append(optionFragment).append(Const.EOL);
+        }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
-        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.MSQ_SUBMISSION_FORM,
