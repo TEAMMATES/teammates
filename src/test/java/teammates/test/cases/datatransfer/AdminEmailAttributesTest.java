@@ -22,6 +22,7 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class AdminEmailAttributesTest extends BaseAttributesTest {
 
+    private FieldValidator fieldValidator = new FieldValidator();
     private List<String> addressReceiverListString = Arrays.asList("example1@test.com", "example2@test.com");
     private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
     private String subject = "subject of email";
@@ -36,24 +37,23 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     public void testBuilderWithDefaultValues() {
         ______TS("valid admin email");
 
-        AdminEmailAttributes attributes = AdminEmailAttributes
+        AdminEmailAttributes attributesWithDefaultValues = AdminEmailAttributes
                 .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
-                .withSendDate(date)
                 .build();
 
         ______TS("success: default values for optional params");
 
-        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
-        assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
-        assertTrue("Valid input", attributes.isValid());
+        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithDefaultValues.getEmailId());
+        assertFalse("Default false for isInTrashBin", attributesWithDefaultValues.isInTrashBin);
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithDefaultValues.getCreateDate());
+        assertTrue("Valid input", attributesWithDefaultValues.isValid());
     }
 
     @Test
     public void testBuilderWithNullOptionalArguments() {
-        AdminEmailAttributes attributes = AdminEmailAttributes
+        AdminEmailAttributes attributesWithNullOptionalArguments = AdminEmailAttributes
                 .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
-                .withSendDate(date)
+                .withSendDate(null)
                 .withCreateDate(null)
                 .withEmailId(null)
                 .withIsInTrashBin(null)
@@ -61,21 +61,24 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         ______TS("success: default values for optional params");
 
-        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributes.getEmailId());
-        assertFalse("Default false for isInTrashBin", attributes.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributes.getCreateDate());
-        assertTrue("Valid input", attributes.isValid());
+        assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithNullOptionalArguments.getEmailId());
+        assertFalse("Default false for isInTrashBin", attributesWithNullOptionalArguments.isInTrashBin);
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithNullOptionalArguments.getCreateDate());
+        assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
+
+        ______TS("valid admin email");
+
+        assertTrue("Valid input", attributesWithNullOptionalArguments.isValid());
     }
 
     @Test
     public void testBuilderWithNullRequiredArguments() {
         try {
-            AdminEmailAttributes attributes = AdminEmailAttributes
+            AdminEmailAttributes attributesWithNullRequiredArguments = AdminEmailAttributes
                         .builder(null, null, null, null)
-                        .withSendDate(null)
                         .build();
 
-            attributes.isValid();
+            attributesWithNullRequiredArguments.isValid();
             signalFailureToDetectException(" - AssertionError");
         } catch (AssertionError ae) {
             assertEquals("Non-null value expected for required AdminEmailAttributes", ae.getMessage());
@@ -171,6 +174,36 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals("Invalid subject input should return appropriate error string", expectedSubjectWithPercentError,
                 StringHelper.toString(attributes.getInvalidityInfo()));
         assertFalse("Invalid input", attributes.isValid());
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEmailContent_null_throwException() {
+        try {
+            AdminEmailAttributes attributesWithNullContent = AdminEmailAttributes
+                    .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
+                    .build();
+
+            attributesWithNullContent.isValid();
+            fieldValidator.getInvalidityInfoForEmailContent(attributesWithNullContent.content);
+            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Content");
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEmailSubject_null_throwException() {
+        try {
+            AdminEmailAttributes attributesWithNullSubject = AdminEmailAttributes
+                    .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
+                    .build();
+
+            attributesWithNullSubject.isValid();
+            fieldValidator.getInvalidityInfoForEmailSubject(attributesWithNullSubject.subject);
+            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Subject");
+        } catch (AssertionError e) {
+            ignoreExpectedException();
+        }
     }
 
     @Test
