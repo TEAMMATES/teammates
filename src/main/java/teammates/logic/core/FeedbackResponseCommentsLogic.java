@@ -172,11 +172,22 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.deleteEntity(feedbackResponseComment);
     }
 
+    public void deleteFeedbackResponseCommentById(Long commentId) {
+        frcDb.deleteCommentById(commentId);
+    }
+
     /**
      * Removes document for the given comment.
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         frcDb.deleteDocument(commentToDelete);
+    }
+
+    /**
+     * Removes document for the comment with given id.
+     */
+    public void deleteDocumentByCommentId(long commentId) {
+        frcDb.deleteDocumentByCommentId(commentId);
     }
 
     /**
