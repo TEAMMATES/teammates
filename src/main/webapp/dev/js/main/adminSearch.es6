@@ -164,9 +164,9 @@ $(document).ready(() => {
 
         const bodyHeader = `Hello ${studentName},`;
         const bodyFooter =
-                        '%0D%0A%0D%0AIf you encounter any problems when using the system,'
-                        + ` you can email TEAMMATES support team at ${supportEmail}.`
-                        + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
+                    '%0D%0A%0D%0AIf you encounter any problems when using the system,'
+                    + ` you can email TEAMMATES support team at ${supportEmail}.`
+                    + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
 
         const uniqueLinkMessage = 'The above link is unique to you. Please do not share it with your classmates.';
 
