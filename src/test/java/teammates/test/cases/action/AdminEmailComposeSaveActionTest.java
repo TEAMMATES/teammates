@@ -43,7 +43,6 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
-
         ______TS("save new email : typical values given : success");
         String subject = "New Email Subject";
         String content = "<p>Email Content</p>";
