@@ -63,7 +63,6 @@ public class AdminEmailComposeSaveAction extends Action {
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
                     .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
-                    .withSendDate(null)
                     .withEmailId(emailId)
                     .build();
         } else {
@@ -84,7 +83,6 @@ public class AdminEmailComposeSaveAction extends Action {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
                 .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(null)
                 .build();
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
@@ -102,7 +100,6 @@ public class AdminEmailComposeSaveAction extends Action {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
                 .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(null)
                 .build();
         try {
             logic.createAdminEmail(newDraft);

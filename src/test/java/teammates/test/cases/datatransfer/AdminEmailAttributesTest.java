@@ -81,7 +81,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
             attributesWithNullRequiredArguments.isValid();
             signalFailureToDetectException(" - AssertionError");
         } catch (AssertionError ae) {
-            assertEquals("Non-null value expected for required AdminEmailAttributes", ae.getMessage());
+            assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
         }
     }
 
@@ -176,40 +176,23 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertFalse("Invalid input", attributes.isValid());
     }
 
-    @Test
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
     public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        try {
-            AdminEmailAttributes attributesWithNullContent = AdminEmailAttributes
-                    .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
-                    .build();
-
-            attributesWithNullContent.isValid();
-            fieldValidator.getInvalidityInfoForEmailContent(attributesWithNullContent.content);
-            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Content");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        AdminEmailAttributes
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
+                .build();
     }
 
-    @Test
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
     public void testGetInvalidityInfoForEmailSubject_null_throwException() {
-        try {
-            AdminEmailAttributes attributesWithNullSubject = AdminEmailAttributes
-                    .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
-                    .build();
-
-            attributesWithNullSubject.isValid();
-            fieldValidator.getInvalidityInfoForEmailSubject(attributesWithNullSubject.subject);
-            signalFailureToDetectException("Did not throw the expected AssertionError for null Email Subject");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
+        AdminEmailAttributes
+                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
+                .build();
     }
 
     @Test
     public void testGetIdentificationString() {
-        assertEquals(
-                date + "/" + subject, adminEmailAttributes.getIdentificationString());
+        assertEquals(date + "/" + subject, adminEmailAttributes.getIdentificationString());
     }
 
     @Test

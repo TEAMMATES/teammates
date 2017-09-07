@@ -29,7 +29,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public boolean isInTrashBin;
 
     AdminEmailAttributes() {
-        sendDate = null;
         createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
         isInTrashBin = false;
@@ -41,13 +40,11 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      * <p>Following default values are set to corresponding attributes:
      * <ul>
      * <li>{@code false} for {@code isInTrashBin}</li>
-     * <li>{@code null} for {@code sendDate}</li>
      * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} for {@code createDate}</li>
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
      * </ul>
      */
-    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver,
-                                  Text content) {
+    public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver, Text content) {
         return new Builder(subject, addressReceiver, groupReceiver, content);
     }
 
@@ -172,15 +169,17 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         private final AdminEmailAttributes adminEmailAttributes;
 
         public Builder(String subject, List<String> addressReceiver, List<String> groupReceiver, Text content) {
+
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, subject);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, addressReceiver);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, groupReceiver);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, content);
+
             adminEmailAttributes = new AdminEmailAttributes();
             adminEmailAttributes.addressReceiver = addressReceiver;
             adminEmailAttributes.groupReceiver = groupReceiver;
             adminEmailAttributes.subject = subject;
             adminEmailAttributes.content = content;
-
-            Assumption.assertNotNull("Non-null value expected for required AdminEmailAttributes",
-                    adminEmailAttributes.addressReceiver, adminEmailAttributes.groupReceiver,
-                    adminEmailAttributes.subject, adminEmailAttributes.content);
         }
 
         public Builder withSendDate(Date sendDate) {
