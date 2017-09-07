@@ -36,12 +36,13 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         return (AdminEmailComposeSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
-    // @see AdminEmailAttributes#Builder Assumption.assertNotEmpty("Subject empty", subject);
     @Override
-    @Test(expectedExceptions = AssertionError.class)
+    @Test
     public void testExecuteAndPostProcess() throws Exception {
+
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
+
 
         ______TS("save new email : typical values given : success");
         String subject = "New Email Subject";
@@ -254,27 +255,34 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(receiver, StringHelper.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
 
         ______TS("save non-existing email : invalid subject : failure");
-        emailId = "nonExisitingId";
-        content = "valid content";
-        subject = ""; // empty subject throws Assumption.assertNotEmpty("Subject empty", subject); in AdminEmailAttributes
-        receiver = "test@example.tmt";
-        action = getAction(
-                Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
-                Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
-                Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
-                Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
-        pageResult = getShowPageResult(action);
-        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
-                pageResult.getDestinationWithParams());
 
-        expectedLogSegment = Const.ACTION_RESULT_FAILURE;
-        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        try {
+            emailId = "nonExisitingId";
+            content = "valid content";
+            subject = "";
+            receiver = "test@example.tmt";
+            action = getAction(
+                    Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
+                    Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
+                    Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
+                    Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
 
-        expectedStatus = "The field 'email subject' is empty.";
-        AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
+            pageResult = getShowPageResult(action);
+            assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
+                    pageResult.getDestinationWithParams());
 
-        data = (AdminEmailComposePageData) pageResult.data;
-        assertEquals(subject, data.emailToEdit.subject);
+            expectedLogSegment = Const.ACTION_RESULT_FAILURE;
+            AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+
+            expectedStatus = "The field 'email subject' is empty.";
+            AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
+
+            data = (AdminEmailComposePageData) pageResult.data;
+            assertEquals(subject, data.emailToEdit.subject);
+
+        } catch (AssertionError ae) {
+            assertEquals("Subject empty", ae.getMessage());
+        }
 
         ______TS("save non-existing email : invalid content : failure");
         emailId = "nonExisitingId";
