@@ -76,7 +76,6 @@ public class AdminEmailComposeSendAction extends Action {
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
                     .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
-                    .withSendDate(null)
                     .withEmailId(emailId)
                     .build();
 
@@ -94,7 +93,6 @@ public class AdminEmailComposeSendAction extends Action {
         if (isError) {
             data.emailToEdit = AdminEmailAttributes
                     .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
-                    .withSendDate(null)
                     .withEmailId(emailId)
                     .build();
         }
