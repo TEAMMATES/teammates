@@ -611,7 +611,7 @@
       </div>
 
       <div class="bs-example" id="addQuestion">
-        <div class="well well-plain inputTable" id="addNewQuestionTable">
+        <div class="well well-plain" id="addNewQuestionTable">
           <div class="row">
             <div class="col-sm-12 row">
               <div class="col-sm-offset-3 col-sm-9">
@@ -1412,7 +1412,7 @@
       </p>
 
       <div class="bs-example" id="preview">
-        <div class="well well-plain inputTable" id="questionPreviewTable">
+        <div class="well well-plain" id="questionPreviewTable">
           <div class="row">
             <form class="form-horizontal">
               <label class="control-label col-sm-2 text-right">
