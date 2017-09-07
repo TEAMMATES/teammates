@@ -517,6 +517,15 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
+        public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
+                "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
+                "Minimum selectable choices exceeds maximum selectable choices for "
+                + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES =
+                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
+        public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
+                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -719,6 +728,10 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER = "msqIsOtherOptionAnswer";
+        public static final String FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES = "msqMaxSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES = "msqMinSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES = "msqEnableMaxSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES = "msqEnableMinSelectableChoices";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
@@ -1365,6 +1378,8 @@ public final class Const {
         public static final String FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE =
                 "Incorrect question type for response in question %s.";
         public static final String FEEDBACK_RESPONSES_INVALID_ID = "You are modifying an invalid response in question %s";
+        public static final String FEEDBACK_RESPONSES_MSQ_MIN_CHECK = "Minimum selectable choices for question %d is %d.";
+        public static final String FEEDBACK_RESPONSES_MSQ_MAX_CHECK = "Maximum selectable choices for question %d is %d.";
 
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT =

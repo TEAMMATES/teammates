@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -61,8 +62,10 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
 
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
+        CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, true);
+        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor,
+                true, instructorList.size(), courseDetails);
 
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
@@ -214,8 +217,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         studentList = new ArrayList<>();
         instructorList = new ArrayList<>();
         instructor = getInstructorFromBundle("instructor1OfCourse1");
+        courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, true);
+        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, true,
+                instructorList.size(), courseDetails);
+
         fsForm = data.getFsForm();
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
                            .withUserId(instructor.googleId).toString(),
