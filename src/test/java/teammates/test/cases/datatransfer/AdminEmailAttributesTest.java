@@ -58,16 +58,16 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 .withIsInTrashBin(null)
                 .build();
 
+        ______TS("valid admin email");
+
+        assertTrue("Valid input", attributesWithNullOptionalArguments.isValid());
+
         ______TS("success: default values for optional params");
 
         assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithNullOptionalArguments.getEmailId());
         assertFalse("Default false for isInTrashBin", attributesWithNullOptionalArguments.isInTrashBin);
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithNullOptionalArguments.getCreateDate());
         assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
-
-        ______TS("valid admin email");
-
-        assertTrue("Valid input", attributesWithNullOptionalArguments.isValid());
     }
 
     @Test
