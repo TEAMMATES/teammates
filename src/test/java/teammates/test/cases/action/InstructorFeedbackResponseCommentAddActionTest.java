@@ -17,7 +17,7 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
 import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * SUT: {@link InstructorFeedbackResponseCommentAddAction}.
@@ -71,13 +71,14 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        FeedbackResponseCommentAjaxPageData data =
+                (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -91,12 +92,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -109,12 +111,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -126,12 +129,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -143,12 +147,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -160,12 +165,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -177,12 +183,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -194,12 +201,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -211,12 +219,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -232,12 +241,13 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         result = getShowPageResult(action);
-        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        data = (FeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -250,13 +260,14 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 
         action = getAction(submissionParams);
         AjaxResult ajaxResult = getAjaxResult(action);
         assertEquals("", ajaxResult.getStatusMessage());
-        data = (InstructorFeedbackResponseCommentAjaxPageData) ajaxResult.data;
+        data = (FeedbackResponseCommentAjaxPageData) ajaxResult.data;
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
 
@@ -295,6 +306,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
+                Const.ParamsNames.COMMENT_GIVER_ROLE, "Instructor",
                 Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
 

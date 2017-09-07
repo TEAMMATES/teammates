@@ -15,7 +15,7 @@ import teammates.ui.template.FeedbackResponseCommentRow;
 /*
  * PageData: to be used for {@link FeedbackResponseCommentAttributes} in Ajax operations
  */
-public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
+public class FeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentAttributes comment;
     public String commentId;
     public String giverName;
@@ -24,12 +24,15 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String showGiverNameToString;
     public String errorMessage;
     public String editedCommentDetails;
-    public Map<String, String> instructorEmailNameTable;
+    public String giverRole;
     public boolean isError;
     public FeedbackQuestionAttributes question;
+    public Map<String, String> commentGiverNameEmailTable;
+    public String moderatedPersonEmail;
+    public boolean moderation;
     public double sessionTimeZone;
 
-    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
+    public FeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
     }
 
@@ -37,7 +40,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities(), instructorEmailNameTable, sessionTimeZone);
+                                               getResponseVisibilities(), commentGiverNameEmailTable, sessionTimeZone);
         frc.enableEditDelete();
 
         return frc;
@@ -89,6 +92,30 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
             Assumption.fail("Invalid participant type");
             return false;
         }
+    }
+
+    public String getGiverRole() {
+        return giverRole;
+    }
+
+    public void setGiverRole(String giverRole) {
+        this.giverRole = giverRole;
+    }
+
+    public String getModeratedPersonEmail() {
+        return moderatedPersonEmail;
+    }
+
+    public void setModeratedPersonEmail(String moderatedPersonEmail) {
+        this.moderatedPersonEmail = moderatedPersonEmail;
+    }
+
+    public boolean isModeration() {
+        return moderation;
+    }
+
+    public void setModeration(boolean moderation) {
+        this.moderation = moderation;
     }
 
     public String createEditedCommentDetails(String giverName, String editorName) {

@@ -27,7 +27,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(feedbackAttributes.receiverSection, "None");
         assertEquals(feedbackAttributes.showCommentTo, new ArrayList<>());
         assertEquals(feedbackAttributes.showGiverNameTo, new ArrayList<>());
-        assertTrue(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
+        assertFalse(feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
     }
 
     @Test
@@ -40,6 +40,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withShowCommentTo(null)
                 .withLastEditorEmail(null)
                 .withReceiverSection(null)
+                .withGiverRole(null)
                 .withGiverSection(null)
                 .withCreatedAt(new Date())
                 .withLastEditedAt(null)
@@ -59,7 +60,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     public void testValueOf() {
         FeedbackResponseComment responseComment = new FeedbackResponseComment("course", "name",
                 "question", "giver", "response", new Date(),
-                new Text("comment"), "giverSection", "receiverSection",
+                new Text("comment"), "giverRole", "giverSection", "receiverSection",
                 null, null, null, null);
 
         FeedbackResponseCommentAttributes feedbackAttributes =
@@ -81,6 +82,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(responseComment.getCommentText(), feedbackAttributes.commentText);
         assertEquals(responseComment.getLastEditorEmail(), feedbackAttributes.lastEditorEmail);
         assertEquals(responseComment.getLastEditedAt(), feedbackAttributes.lastEditedAt);
+        assertEquals(responseComment.getGiverRole(), feedbackAttributes.giverRole);
         assertEquals(responseComment.getGiverSection(), feedbackAttributes.giverSection);
         assertEquals(responseComment.getReceiverSection(), feedbackAttributes.receiverSection);
         assertEquals(responseComment.getFeedbackResponseCommentId(), feedbackAttributes.feedbackResponseCommentId);

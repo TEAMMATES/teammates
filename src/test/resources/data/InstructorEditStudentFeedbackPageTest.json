@@ -398,6 +398,152 @@
         "RECEIVER"
       ]
     },
+    "qn6InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 6,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn7InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"rubricSubQuestions\":[\"This instructor has done a good job.\",\"This instructor has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"Most of the time\",\"Less than half the time\"],[\"Most of the time\",\"Less than half the time\"]]}"
+      },
+      "questionNumber": 7,
+      "questionType": "RUBRIC",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn8InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who are the best students?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 8,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn9InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"As a team, rank them\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 9,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 8,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn10InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Timeliness\"]}"
+      },
+      "questionNumber": 10,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn11InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+      },
+      "questionNumber": 11,
+      "questionType": "CONSTSUM",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",

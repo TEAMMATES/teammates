@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -28,7 +30,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testClosedSessionSubmitAction();
+        testAddCommentsWithoutResponses();
         testSubmitAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testModifyData();
         // No links to test
         testQuestionTypesSubmitAction();
@@ -81,6 +87,47 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
     }
 
+    private void testAddCommentsWithoutResponses() {
+        ______TS("add comments on questions without responses: no effect");
+
+        logout();
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-22", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-7", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-8", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-8", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-8", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-10", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-12", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-16", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-21", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-13", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-14", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-14", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-14", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-17", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-18", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-18", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-18", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-19", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-19", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-19", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-20", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-20", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-20", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-23", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-23", "Comment without response");
+        submitPage.addFeedbackResponseComment("-2-1-23", "Comment without response");
+        submitPage.addFeedbackResponseComment("-3-1-23", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-24", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
     private void testSubmitAction() throws Exception {
         ______TS("create new responses");
 
@@ -106,6 +153,13 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(17, 0, 0, "90");
         submitPage.fillResponseTextBox(17, 0, 1, "10");
 
+        submitPage.clickRubricRadio(22, 0, 0, 0);
+        submitPage.selectResponseTextDropdown(23, 0, 0, "1");
+        submitPage.selectResponseTextDropdown(23, 1, 0, "2");
+        submitPage.selectResponseTextDropdown(23, 2, 0, "3");
+        submitPage.selectResponseTextDropdown(23, 3, 0, "4");
+        submitPage.selectResponseTextDropdown(24, 0, 0, "1");
+
         // Just check that some of the responses persisted.
         FeedbackQuestionAttributes fq =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 2);
@@ -121,6 +175,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 19);
         FeedbackQuestionAttributes fqConstSum2 =
                 BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 20);
+        FeedbackQuestionAttributes fqRubric =
+                BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 25);
+        FeedbackQuestionAttributes fqRank =
+                BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 26);
+        FeedbackQuestionAttributes fqRankOptions =
+                BackDoor.getFeedbackQuestion("IFSubmitUiT.CS2104", "First Session", 27);
 
         assertNull(BackDoor.getFeedbackResponse(
                                fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -134,6 +194,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                fqNumscale.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(
                                fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(
+                fqRubric.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(
+                fqRank.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr2@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(
+                fqRankOptions.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
 
@@ -151,6 +217,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                    fqNumscale.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(
+                fqRubric.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePartiallyFilled.html");
@@ -297,6 +365,186 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
+    }
+
+    private void testAddCommentsToResponses() throws IOException {
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
+
+        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-6", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-2-1-6", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-0-1-9", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-11", "New MCQ Comment 5");
+        submitPage.addFeedbackResponseComment("-0-1-15", "New MCQ Comment 6");
+        submitPage.addFeedbackResponseComment("-0-1-22", "New Rubric Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-7", "New MSQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-8", "New MSQ Comment 2");
+        submitPage.addFeedbackResponseComment("-1-1-8", "New MSQ Comment 3");
+        submitPage.addFeedbackResponseComment("-2-1-8", "New MSQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-10", "New MSQ Comment 5");
+        submitPage.addFeedbackResponseComment("-0-1-12", "New MSQ Comment 6");
+        submitPage.addFeedbackResponseComment("-0-1-16", "New MSQ Comment 7");
+        submitPage.addFeedbackResponseComment("-0-1-21", "New MSQ Comment 8");
+        submitPage.addFeedbackResponseComment("-0-1-13", "New Numscale Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-14", "New Numscale Comment 2");
+        submitPage.addFeedbackResponseComment("-1-1-14", "New Numscale Comment 3");
+        submitPage.addFeedbackResponseComment("-2-1-14", "New Numscale Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-17", "New Constsum Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-18", "New Constsum Comment 2");
+        submitPage.addFeedbackResponseComment("-1-1-18", "New Constsum Comment 3");
+        submitPage.addFeedbackResponseComment("-2-1-18", "New Constsum Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-19", "New Constsum Comment 5");
+        submitPage.addFeedbackResponseComment("-1-1-19", "New Constsum Comment 6");
+        submitPage.addFeedbackResponseComment("-2-1-19", "New Constsum Comment 7");
+        submitPage.addFeedbackResponseComment("-0-1-20", "New Constsum Comment 8");
+        submitPage.addFeedbackResponseComment("-1-1-20", "New Constsum Comment 9");
+        submitPage.addFeedbackResponseComment("-2-1-20", "New Constsum Comment 10");
+        submitPage.addFeedbackResponseComment("-0-1-23", "New Rank(Recipients) Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-23", "New Rank(Recipients) Comment 2");
+        submitPage.addFeedbackResponseComment("-2-1-23", "New Rank(Recipients) Comment 3");
+        submitPage.addFeedbackResponseComment("-3-1-23", "New Rank(Recipients) Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-24", "New Rank(Options) Comment 1");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
+        ______TS("edit comments on responses and verify added comments action");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddedCommentOnResponses.html");
+
+        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-6-1", "Edited MCQ Comment 2");
+        submitPage.editFeedbackResponseComment("-2-1-6-1", "Edited MCQ Comment 3");
+        submitPage.editFeedbackResponseComment("-0-1-9-1", "Edited MCQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-11-1", "Edited MCQ Comment 5");
+        submitPage.editFeedbackResponseComment("-0-1-15-1", "Edited MCQ Comment 6");
+        submitPage.editFeedbackResponseComment("-0-1-22-1", "Edited Rubric Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-7-1", "Edited MSQ Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-8-1", "Edited MSQ Comment 2");
+        submitPage.editFeedbackResponseComment("-1-1-8-1", "Edited MSQ Comment 3");
+        submitPage.editFeedbackResponseComment("-2-1-8-1", "Edited MSQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MSQ Comment 5");
+        submitPage.editFeedbackResponseComment("-0-1-12-1", "Edited MSQ Comment 6");
+        submitPage.editFeedbackResponseComment("-0-1-16-1", "Edited MSQ Comment 7");
+        submitPage.editFeedbackResponseComment("-0-1-21-1", "Edited MSQ Comment 8");
+        submitPage.editFeedbackResponseComment("-0-1-13-1", "Edited Numscale Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-14-1", "Edited Numscale Comment 2");
+        submitPage.editFeedbackResponseComment("-1-1-14-1", "Edited Numscale Comment 3");
+        submitPage.editFeedbackResponseComment("-2-1-14-1", "Edited Numscale Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-17-1", "Edited Constsum Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-18-1", "Edited Constsum Comment 2");
+        submitPage.editFeedbackResponseComment("-1-1-18-1", "Edited Constsum Comment 3");
+        submitPage.editFeedbackResponseComment("-2-1-18-1", "Edited Constsum Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-19-1", "Edited Constsum Comment 5");
+        submitPage.editFeedbackResponseComment("-1-1-19-1", "Edited Constsum Comment 6");
+        submitPage.editFeedbackResponseComment("-2-1-19-1", "Edited Constsum Comment 7");
+        submitPage.editFeedbackResponseComment("-0-1-20-1", "Edited Constsum Comment 8");
+        submitPage.editFeedbackResponseComment("-1-1-20-1", "Edited Constsum Comment 9");
+        submitPage.editFeedbackResponseComment("-2-1-20-1", "Edited Constsum Comment 10");
+        submitPage.editFeedbackResponseComment("-0-1-23-1", "Edited Rank(Recipients) Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-23-1", "Edited Rank(Recipients) Comment 2");
+        submitPage.editFeedbackResponseComment("-2-1-23-1", "Edited Rank(Recipients) Comment 3");
+        submitPage.editFeedbackResponseComment("-3-1-23-1", "Edited Rank(Recipients) Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-24-1", "Edited Rank(Options) Comment 1");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
+        ______TS("delete comments on responses and verify edited comments action");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
+
+        // mcq questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
+        submitPage.verifyRowMissing("-0-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-6-1");
+        submitPage.verifyRowMissing("-1-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-6-1");
+        submitPage.verifyRowMissing("-2-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-9-1");
+        submitPage.verifyRowMissing("-0-1-9-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-11-1");
+        submitPage.verifyRowMissing("-0-1-11-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-15-1");
+        submitPage.verifyRowMissing("-0-1-15-1");
+
+        // rubric questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-22-1");
+        submitPage.verifyRowMissing("-0-1-22-1");
+
+        // msq questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-7-1");
+        submitPage.verifyRowMissing("-0-1-7-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-8-1");
+        submitPage.verifyRowMissing("-0-1-8-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-8-1");
+        submitPage.verifyRowMissing("-1-1-8-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-8-1");
+        submitPage.verifyRowMissing("-2-1-8-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-10-1");
+        submitPage.verifyRowMissing("-0-1-10-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
+        submitPage.verifyRowMissing("-0-1-12-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-16-1");
+        submitPage.verifyRowMissing("-0-1-16-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-21-1");
+        submitPage.verifyRowMissing("-0-1-21-1");
+
+        // numscale questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-13-1");
+        submitPage.verifyRowMissing("-0-1-13-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-14-1");
+        submitPage.verifyRowMissing("-0-1-14-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-14-1");
+        submitPage.verifyRowMissing("-1-1-14-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-14-1");
+        submitPage.verifyRowMissing("-2-1-14-1");
+
+        // constsum questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-17-1");
+        submitPage.verifyRowMissing("-0-1-17-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-18-1");
+        submitPage.verifyRowMissing("-0-1-18-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-18-1");
+        submitPage.verifyRowMissing("-1-1-18-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-18-1");
+        submitPage.verifyRowMissing("-2-1-18-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-19-1");
+        submitPage.verifyRowMissing("-0-1-19-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-19-1");
+        submitPage.verifyRowMissing("-1-1-19-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-19-1");
+        submitPage.verifyRowMissing("-2-1-19-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-20-1");
+        submitPage.verifyRowMissing("-0-1-20-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-20-1");
+        submitPage.verifyRowMissing("-1-1-20-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-20-1");
+        submitPage.verifyRowMissing("-2-1-20-1");
+
+        // rank questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-23-1");
+        submitPage.verifyRowMissing("-0-1-23-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-23-1");
+        submitPage.verifyRowMissing("-1-1-23-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-23-1");
+        submitPage.verifyRowMissing("-2-1-23-1");
+        submitPage.deleteFeedbackResponseComment("-3-1-23-1");
+        submitPage.verifyRowMissing("-3-1-23-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-24-1");
+        submitPage.verifyRowMissing("-0-1-24-1");
     }
 
     /**

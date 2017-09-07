@@ -274,7 +274,7 @@
   "students": {
     "teammates.test@ISR.CS2104": {
       "googleId": "ISR.teammates.test",
-      "email": "teammates.test@gmail.tmt",
+      "email": "teammates.test.student@gmail.tmt",
       "course": "ISR.CS2104",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",
@@ -314,7 +314,7 @@
     },
     "teammates.test@ISR.CS1101": {
       "googleId": "ISR.teammates.test",
-      "email": "teammates.test@gmail.tmt",
+      "email": "teammates.test.student@gmail.tmt",
       "course": "ISR.CS1101",
       "name": "Teammates Test",
       "comments": "This student's name is Teammates Test",

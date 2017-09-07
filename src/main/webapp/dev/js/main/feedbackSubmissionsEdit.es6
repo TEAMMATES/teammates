@@ -37,6 +37,12 @@ import {
     disallowNonNumericEntries,
 } from '../common/ui.es6';
 
+import {
+    enableHoverToDisplayEditOptions,
+    registerResponseCommentCheckboxEventForFeedbackPage,
+    registerResponseCommentsEventForFeedbackPage,
+} from '../common/feedbackResponseComments.es6';
+
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -1087,6 +1093,37 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
+function getNewResponseCommentsText() {
+    const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
+    $.each($responseCommentTables, (i, responseCommentTable) => {
+        const responseCommentTableId = $(responseCommentTable).attr('id');
+        const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
+        const editor = tinymce.get(`responseCommentAddForm-${responseCommentId}`);
+        if (editor !== null) {
+            const responseCommentTextId = `responsecommenttext-${responseCommentId}`;
+            $(`input[name=${responseCommentTextId}]`).val(editor.getContent());
+        }
+    });
+}
+
+function updateResponseCommentsText() {
+    const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
+    $.each($responseCommentTables, (i, responseCommentTable) => {
+        const responseCommentTableId = $(responseCommentTable).attr('id');
+        const responseCommentId = responseCommentTableId.substring('responseCommentTable-'.length);
+        const $responseCommentRows = $(`li[id^=responseCommentRow-${responseCommentId}]`);
+        $.each($responseCommentRows, (j, responseCommentRow) => {
+            const responseCommentRowId = $(responseCommentRow).attr('id');
+            const responseCommentRowIdIndx = responseCommentRowId.substring('responseCommentRow-'.length);
+            const editor = tinymce.get(`responsecommenttext-${responseCommentRowIdIndx}`);
+            if (editor !== null) {
+                const responseCommentTextId = `responsecommenttext-${responseCommentRowIdIndx}`;
+                $(`input[name=${responseCommentTextId}]`).val(editor.getContent());
+            }
+        });
+    });
+}
+
 $(document).ready(() => {
     const textFields = $('div[id^="responsetext-"]');
 
@@ -1128,6 +1165,8 @@ $(document).ready(() => {
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
+        getNewResponseCommentsText();
+        updateResponseCommentsText();
 
         if (!validationStatus) {
             e.preventDefault();
@@ -1199,6 +1238,9 @@ $(document).ready(() => {
     showModalSuccessIfResponsesSubmitted();
 
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
+    registerResponseCommentsEventForFeedbackPage();
+    registerResponseCommentCheckboxEventForFeedbackPage();
+    enableHoverToDisplayEditOptions();
 });
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;
