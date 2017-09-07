@@ -36,8 +36,9 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         return (AdminEmailComposeSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    // @see AdminEmailAttributes#Builder Assumption.assertNotEmpty("Subject empty", subject);
     @Override
-    @Test
+    @Test(expectedExceptions = AssertionError.class)
     public void testExecuteAndPostProcess() throws Exception {
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -255,7 +256,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         ______TS("save non-existing email : invalid subject : failure");
         emailId = "nonExisitingId";
         content = "valid content";
-        subject = "";
+        subject = ""; // empty subject throws Assumption.assertNotEmpty("Subject empty", subject); in AdminEmailAttributes
         receiver = "test@example.tmt";
         action = getAction(
                 Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
