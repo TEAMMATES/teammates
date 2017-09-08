@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <head>
     <link href="/favicon.png" rel="shortcut icon" />
-    <meta content="IE=8" http-equiv="X-UA-Compatible" />
+    
     <title>TEAMMATES - Instructor</title>
     <link type="text/css" href="/stylesheets/main.css" rel="stylesheet" />
     <link type="text/css" href="/stylesheets/evaluation.css" rel="stylesheet" />
@@ -11,7 +11,7 @@
         <script src="/js/helper.js" language="JavaScript"></script>
     <script src="/js/constants.js" language="JavaScript"></script>
     <script src="/js/common.js" language="JavaScript"></script>
-    
+
     <script src="/js/instructorCoursePageNew.js" language="JavaScript"></script>
     <script src="/js/instructor.js" language="JavaScript"></script>
 </head>
@@ -19,10 +19,10 @@
 <body>
     <noscript>{*}</noscript>
     <div id="dhtmltooltip"></div>
-    
+
 
     <div id="frameTop">
-        
+
 
 
         <div id="frameTopWrapper">
@@ -30,7 +30,7 @@
                 <a href="/index.jsp">
                 <img width="150px" height="47px" src="/images/teammateslogo.jpg" alt="TEAMMATES" />
                 </a>
-            </div>            
+            </div>
             <div id="contentLinks">
                 <ul id="navbar">
                     <li><a href="instructorHome.jsp" class='nav home' data-link="instructorHome">Home</a></li>
@@ -73,9 +73,9 @@
                 </form>
             </div>
             <br>
-            
+
             <div style="display: none" id="statusMessage"></div>
-            
+
             <div id="instructorCourseTable">
                 <br>
                 <br>
@@ -90,7 +90,7 @@
                         <th class="align-center">TOTAL UNREGISTERED</th>
                         <th class="align-center">ACTION(S)</th>
                     </tr>
-                    
+
                         <tr>
                             <td id="courseID0">CS1101-TESTING</td>
                             <td id="courseName0">Programming Methodology</td>
@@ -103,7 +103,7 @@
                                 <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and sessions")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS1101-TESTING");' href="instructorCourseDelete.jsp?courseid=CS1101-TESTING&amp;next=instructorCourse.jsp" class="t_course_delete">Delete</a>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td id="courseID1">CS2104-TESTING</td>
                             <td id="courseName1">Programming Language Concepts</td>
@@ -116,23 +116,23 @@
                                 <a onmouseout="hideddrivetip()" onmouseover='ddrivetip("Delete the course and its corresponding students and sessions")' onclick='hideddrivetip(); return toggleDeleteCourseConfirmation("CS2104-TESTING");' href="instructorCourseDelete.jsp?courseid=CS2104-TESTING&amp;next=instructorCourse.jsp" class="t_course_delete">Delete</a>
                             </td>
                         </tr>
-                    
+
                 </tbody></table>
                 <br>
                 <br>
                 <br>
-                
+
             </div>
         </div>
     </div>
 
     <div id="frameBottom">
-        
+
 <div id="contentFooter">
     <span class="floatleft">[TEAMMATES <span class="color_white">V${version}</span>]</span>
     [for <span class="color_white">TEAMMATES Test Institute 1</span>]
     <span class="floatright">[Send <span class="color_white"><a href="/contact.jsp" target="_blank">Feedback</a></span>]</span>
 </div>
-    
+
 
 </body></html>
