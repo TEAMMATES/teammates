@@ -25,16 +25,16 @@ $(document).ready(() => {
     prepareInstructorFeedbackResultsPage();
 
     const seeMoreRequest = function (e) {
-        const panelHeading = $(this);
+        const $panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
-            $(panelHeading).find('[id^="showStats-"]').val('on');
+            $panelHeading.find('[id^="showStats-"]').val('on');
         } else {
-            $(panelHeading).find('[id^="showStats-"]').val('off');
+            $panelHeading.find('[id^="showStats-"]').val('off');
         }
 
-        const displayIcon = $(this).find('.display-icon');
-        const formObject = $(this).children('form');
-        const panelCollapse = $(this).parent().children('.panel-collapse');
+        const displayIcon = $panelHeading.find('.display-icon');
+        const formObject = $panelHeading.children('form');
+        const panelCollapse = $panelHeading.parent().children('.panel-collapse');
         const panelBody = $(panelCollapse[0]).children('.panel-body');
         const formData = formObject.serialize();
         e.preventDefault();
@@ -56,7 +56,7 @@ $(document).ready(() => {
                                       + 'Please choose to view the results by questions or download the results.');
                 } else {
                     const $appendedSection = $(data).find('#sectionBody-0');
-                    const sectionId = $(panelHeading).attr('id').match(/section-(\d+)/)[1];
+                    const sectionId = $panelHeading.attr('id').match(/section-(\d+)/)[1];
 
                     if (isEmptySection($appendedSection)) {
                         if (parseInt(sectionId, 10) === 0) {
@@ -81,14 +81,14 @@ $(document).ready(() => {
                 // bind the show picture onhover events
                 bindStudentPhotoHoverLink($sectionBody.find('.profile-pic-icon-hover'));
 
-                $(panelHeading).removeClass('ajax_auto');
-                $(panelHeading).off('click');
+                $panelHeading.removeClass('ajax_auto');
+                $panelHeading.off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
                 const childrenPanels = $sectionBody.find('div.panel');
                 bindCollapseEvents(childrenPanels, 0);
 
-                $(panelHeading).click(toggleSingleCollapse);
-                $(panelHeading).trigger('click');
+                $panelHeading.click(toggleSingleCollapse);
+                $panelHeading.trigger('click');
                 showHideStats();
             },
         });
