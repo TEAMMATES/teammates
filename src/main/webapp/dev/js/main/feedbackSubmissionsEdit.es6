@@ -168,17 +168,16 @@ function prepareMCQQuestions() {
             });
 
             radioButtons[id].click(function (event) {
-                const $self = $(this);
-                const val = $self.val();
-                const name = $self.attr('name');
+                const val = $(this).val();
+                const name = $(this).attr('name');
                 const indexSuffix = name.substring(name.indexOf('-'));
 
                 // toggle the radio button checked state
-                $self.attr('checked', radioStates[name][val] = !radioStates[name][val]);
+                $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($self.data('text') === 'otherOptionText') {
-                    if ($self.is(':checked')) {
+                if ($(this).data('text') === 'otherOptionText') {
+                    if ($(this).is(':checked')) {
                         $(`#otherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
                         $(`#mcqIsOtherOptionAnswer${indexSuffix}`).val('1');
                     } else {
@@ -219,11 +218,10 @@ function prepareContribQuestions() {
             $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
 
             $dropdown.on('change', function () {
-                const $self = $(this);
-                $self.removeClass('color_neutral');
-                $self.removeClass('color-positive');
-                $self.removeClass('color-negative');
-                $self.addClass(this.options[this.selectedIndex].className);
+                $(this).removeClass('color_neutral');
+                $(this).removeClass('color-positive');
+                $(this).removeClass('color-negative');
+                $(this).addClass(this.options[this.selectedIndex].className);
             });
         });
     });
@@ -272,17 +270,16 @@ function prepareMSQQuestions() {
                         + `input[name^="responsetext-${qnNum}-"][data-text]`); // includes 'other'
 
         $options.click(function () {
-            const $self = $(this);
-            noneOfTheAboveOption = $self.closest('table').find(
+            noneOfTheAboveOption = $(this).closest('table').find(
                                            'input[name^="responsetext-"][value=""]:not([data-text])');
-            const name = $self.attr('name');
+            const name = $(this).attr('name');
             const indexSuffix = name.substring(name.indexOf('-'));
 
             noneOfTheAboveOption.prop('checked', false);
 
             // 'other' option is clicked
-            if ($self.attr('data-text') !== undefined) {
-                updateOtherOptionAttributes($self, indexSuffix);
+            if ($(this).attr('data-text') !== undefined) {
+                updateOtherOptionAttributes($(this), indexSuffix);
             }
         });
     });
@@ -722,11 +719,10 @@ function validateConstSumQuestions() {
  */
 function formatRecipientLists() {
     $('select.participantSelect').each(function () {
-        const $self = $(this);
-        if (!$self.hasClass('.newResponse')) {
+        if (!$(this).hasClass('.newResponse')) {
             // Remove options from existing responses
-            const questionNumber = $self.attr('name').split('-')[1];
-            let selectedOption = $self.find('option:selected').val();
+            const questionNumber = $(this).attr('name').split('-')[1];
+            let selectedOption = $(this).find('option:selected').val();
 
             if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
@@ -739,12 +735,11 @@ function formatRecipientLists() {
         }
 
         // Save initial data.
-        $self.data('previouslySelected', $(this).val());
+        $(this).data('previouslySelected', $(this).val());
     }).change(function () {
-        const $self = $(this);
-        const questionNumber = $self.attr('name').split('-')[1];
-        const lastSelectedOption = $self.data('previouslySelected');
-        let curSelectedOption = $self.find('option:selected').val();
+        const questionNumber = $(this).attr('name').split('-')[1];
+        const lastSelectedOption = $(this).data('previouslySelected');
+        let curSelectedOption = $(this).find('option:selected').val();
 
         if (lastSelectedOption !== '') {
             $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
@@ -764,7 +759,7 @@ function formatRecipientLists() {
         }
 
         // Save new data
-        $self.data('previouslySelected', $self.val());
+        $(this).data('previouslySelected', $(this).val());
     });
 
     // Auto-select first valid option.
