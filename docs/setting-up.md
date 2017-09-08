@@ -75,4 +75,5 @@ We currently support two IDEs: Eclipse IDE (full support) and IntelliJ IDEA (exp
 Support requests related to other IDEs will not be entertained.
 
 Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
-If you do not wish to set up an IDE then you may proceed to the development routine as lined out in [this document](development.md).
+
+If you do not wish to set up an IDE, then you may proceed to the development routine as lined out in [this document](development.md).
