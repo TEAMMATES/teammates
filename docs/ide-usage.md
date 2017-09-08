@@ -78,7 +78,6 @@ The following plugins are needed:
    ![setupguide-6.png](images/setupguide-6.png)
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
-1. To start developing, refer to [this document](development.md)
 
 ## IntelliJ IDEA
 
