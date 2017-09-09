@@ -59,10 +59,10 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
-        if (!feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox-1")) {
+        if (!feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox--1")) {
             feedbackEditPage.clickGenerateMcqOptionsCheckbox(-1);
         }
-        assertFalse(feedbackEditPage.isElementPresent("mcqChoiceTable--1"));
+        assertFalse(feedbackEditPage.isElementVisible("mcqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
 
@@ -71,7 +71,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
-        assertFalse(feedbackEditPage.isElementPresent("mcqChoiceTable--1"));
+        assertFalse(feedbackEditPage.isElementVisible("mcqChoiceTable--1"));
     }
 
     @Override

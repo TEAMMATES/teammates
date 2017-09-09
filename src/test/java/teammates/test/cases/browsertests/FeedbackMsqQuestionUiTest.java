@@ -59,10 +59,10 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
-        if (!feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1")) {
+        if (!feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox--1")) {
             feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1);
         }
-        assertFalse(feedbackEditPage.isElementPresent("msqChoiceTable--1"));
+        assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
 
