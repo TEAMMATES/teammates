@@ -409,6 +409,52 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
 
+        ______TS("MSQ: min/max selectable choices test");
+        int qnNumber = 22;
+
+        // Submit response with 1 option checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Charlie Davis (Team 2)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MIN_CHECK, qnNumber, 2));
+
+        // Submit response with 2 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Drop out (Team 2)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit response with 3 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Emily (Team 3)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit response with 4 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Extra guy (Team 2)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MAX_CHECK, qnNumber, 3));
+
+        // Uncheck an option so that response is valid
+        submitPage.toggleMsqOption(qnNumber, 0, "Extra guy (Team 2)");
+
+        qnNumber = 23;
+        // Submit response for 1st recipient with 2 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "B");
+        submitPage.toggleMsqOption(qnNumber, 0, "C");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MIN_CHECK, qnNumber, 3));
+
+        // Submit response for 1st recipient with 3 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "E");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit response for 1st recipient with 4 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "A");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MAX_CHECK, qnNumber, 3));
+
         ______TS("create new response for unreg student");
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
