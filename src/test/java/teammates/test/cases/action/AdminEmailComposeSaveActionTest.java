@@ -255,33 +255,28 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
 
         ______TS("save non-existing email : invalid subject : failure");
 
-        try {
-            emailId = "nonExisitingId";
-            content = "valid content";
-            subject = "";
-            receiver = "test@example.tmt";
-            action = getAction(
-                    Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
-                    Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
-                    Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
-                    Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
+        emailId = "nonExisitingId";
+        content = "valid content";
+        subject = "";
+        receiver = "test@example.tmt";
+        action = getAction(
+                Const.ParamsNames.ADMIN_EMAIL_CONTENT, content,
+                Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
+                Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
+                Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
 
-            pageResult = getShowPageResult(action);
-            assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
-                    pageResult.getDestinationWithParams());
+        pageResult = getShowPageResult(action);
+        assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
+                pageResult.getDestinationWithParams());
 
-            expectedLogSegment = Const.ACTION_RESULT_FAILURE;
-            AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
+        expectedLogSegment = Const.ACTION_RESULT_FAILURE;
+        AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
-            expectedStatus = "The field 'email subject' is empty.";
-            AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
+        expectedStatus = "The field 'email subject' is empty.";
+        AssertHelper.assertContains(expectedStatus, pageResult.getStatusMessage());
 
-            data = (AdminEmailComposePageData) pageResult.data;
-            assertEquals(subject, data.emailToEdit.subject);
-
-        } catch (AssertionError ae) {
-            assertEquals("Subject empty", ae.getMessage());
-        }
+        data = (AdminEmailComposePageData) pageResult.data;
+        assertEquals(subject, data.emailToEdit.subject);
 
         ______TS("save non-existing email : invalid content : failure");
         emailId = "nonExisitingId";

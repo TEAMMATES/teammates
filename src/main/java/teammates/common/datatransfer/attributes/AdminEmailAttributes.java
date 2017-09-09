@@ -175,10 +175,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, groupReceiver);
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, content);
 
-            // @see AdminEmailComposeSaveActionTest#testExecuteAndPostProcess() subject = "";
-            Assumption.assertNotEmpty("Subject empty", subject);
-            Assumption.assertNotEmpty("Content empty", content.toString());
-
             adminEmailAttributes = new AdminEmailAttributes();
             adminEmailAttributes.addressReceiver = addressReceiver;
             adminEmailAttributes.groupReceiver = groupReceiver;

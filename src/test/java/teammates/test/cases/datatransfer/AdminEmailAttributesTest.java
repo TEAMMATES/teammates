@@ -70,18 +70,11 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
     }
 
-    @Test
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
     public void testBuilderWithNullRequiredArguments() {
-        try {
-            AdminEmailAttributes attributesWithNullRequiredArguments = AdminEmailAttributes
-                        .builder(null, null, null, null)
-                        .build();
-
-            attributesWithNullRequiredArguments.isValid();
-            signalFailureToDetectException(" - AssertionError");
-        } catch (AssertionError ae) {
-            assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
-        }
+        AdminEmailAttributes
+                .builder(null, null, null, null)
+                .build();
     }
 
     @Test
