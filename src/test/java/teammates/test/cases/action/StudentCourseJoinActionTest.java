@@ -44,7 +44,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         RedirectResult redirectResult;
         String[] submissionParams;
 
-        StudentAttributes student1InCourse1 = dataBundle.students
+        StudentAttributes student1InCourse1 = typicalBundle.students
                 .get("student1InCourse1");
         StudentsDb studentsDb = new StudentsDb();
         student1InCourse1 = studentsDb.getStudentForGoogleId(
@@ -59,11 +59,13 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         ______TS("typical case");
 
         String idOfNewStudent = "idOfNewStudent";
-        StudentAttributes newStudentData = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNewStudent", "newStudent@course1.com",
-                "This is a new student", student1InCourse1.course);
+        StudentAttributes newStudentData = StudentAttributes
+                .builder(student1InCourse1.course, "nameOfNewStudent", "newStudent@course1.com")
+                .withSection(student1InCourse1.section)
+                .withTeam(student1InCourse1.team)
+                .withComments("This is a new student")
+                .build();
+
         studentsDb.createEntity(newStudentData);
 
         gaeSimulation.loginUser(idOfNewStudent);
@@ -182,11 +184,11 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").getId()
+                Const.ParamsNames.COURSE_ID, typicalBundle.courses.get("typicalCourse1").getId()
         };
         verifyAccessibleWithoutLogin(submissionParams);
 
-        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        StudentAttributes unregStudent1 = typicalBundle.students.get("student1InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(key),

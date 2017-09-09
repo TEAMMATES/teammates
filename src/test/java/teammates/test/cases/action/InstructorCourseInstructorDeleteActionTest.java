@@ -24,7 +24,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes loginInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;
         String adminUserId = "admin.user";
@@ -33,7 +33,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         ______TS("Typical case: Delete other instructor successfully, redirect back to edit page");
 
-        InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructor2OfCourse1");
         String instructorEmailToDelete = instructorToDelete.email;
 
         String[] submissionParams = new String[]{
@@ -86,7 +86,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode: delete instructor failed due to last instructor in course");
 
-        instructorToDelete = dataBundle.instructors.get("instructor4");
+        instructorToDelete = typicalBundle.instructors.get("instructor4");
         instructorEmailToDelete = instructorToDelete.email;
         courseId = instructorToDelete.courseId;
 
@@ -134,7 +134,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email

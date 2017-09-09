@@ -12,14 +12,20 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
+    protected int minOptionsToBeRanked;
+    protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
+        minOptionsToBeRanked = Integer.MIN_VALUE;
+        maxOptionsToBeRanked = Integer.MIN_VALUE;
     }
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
+        minOptionsToBeRanked = Integer.MIN_VALUE;
+        maxOptionsToBeRanked = Integer.MIN_VALUE;
     }
 
     @Override
@@ -30,8 +36,21 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
+        String minOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED);
+        String maxOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED);
 
         this.areDuplicatesAllowed = areDuplicatesAllowed;
+
+        if (minOptionsToBeRanked != null) {
+            this.minOptionsToBeRanked = Integer.parseInt(minOptionsToBeRanked);
+        }
+
+        if (maxOptionsToBeRanked != null) {
+            this.maxOptionsToBeRanked = Integer.parseInt(maxOptionsToBeRanked);
+        }
+
         return true;
     }
 

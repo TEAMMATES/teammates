@@ -23,9 +23,9 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes studentNotSubmitFeedback = dataBundle.students.get("student5InCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student5InCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -52,8 +52,24 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT));
         verifyNoTasksAdded(action);
 
+        ______TS("Unsuccessful case: Feedback session not open, warning message generated");
+
+        fs = typicalBundle.feedbackSessions.get("awaiting.session");
+        String[] paramsFeedbackSessionNotOpen = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+        };
+
+        action = getAction(paramsFeedbackSessionNotOpen);
+
+        rr = getRedirectResult(action);
+        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN));
+        verifyNoTasksAdded(action);
+
         ______TS("Successful case: Typical case");
 
+        fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsTypical = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
@@ -75,8 +91,18 @@ public class InstructorFeedbackRemindParticularStudentsActionTest extends BaseAc
         return (InstructorFeedbackRemindParticularStudentsAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student5InCourse1");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }
