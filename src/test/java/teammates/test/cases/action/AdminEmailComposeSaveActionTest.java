@@ -39,7 +39,6 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
@@ -254,7 +253,6 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         assertEquals(receiver, StringHelper.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
 
         ______TS("save non-existing email : invalid subject : failure");
-
         emailId = "nonExisitingId";
         content = "valid content";
         subject = "";
@@ -264,11 +262,9 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.ADMIN_EMAIL_SUBJECT, subject,
                 Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, receiver,
                 Const.ParamsNames.ADMIN_EMAIL_ID, emailId);
-
         pageResult = getShowPageResult(action);
         assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
                 pageResult.getDestinationWithParams());
-
         expectedLogSegment = Const.ACTION_RESULT_FAILURE;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 
