@@ -72,6 +72,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
     public void testBuilderWithNullRequiredArguments() {
+        ______TS("Failure case: null parameters");
+
         AdminEmailAttributes
                 .builder(null, null, null, null)
                 .build();
