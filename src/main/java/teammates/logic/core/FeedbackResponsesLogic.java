@@ -85,30 +85,6 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, String section) {
-        if (section == null) {
-            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
-        }
-        return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSection(
-            String feedbackSessionName, String courseId, String section) {
-        if (section == null) {
-            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
-        }
-        return frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSection(
-            String feedbackSessionName, String courseId, String section) {
-        if (section == null) {
-            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
-        }
-        return frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
             String feedbackSessionName, String courseId, String section, SectionDisplayMode displayMode, int range) {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
@@ -121,30 +97,6 @@ public final class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionWithinRange(
             String feedbackSessionName, String courseId, int range) {
         return frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
-            String feedbackSessionName, String courseId, String section, int range) {
-        if (section == null) {
-            return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
-        }
-        return frDb.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName, courseId, section, range);
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String section, int range) {
-        if (section == null) {
-            return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
-        }
-        return frDb.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName, courseId, section, range);
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
-            String feedbackSessionName, String courseId, String section, int range) {
-        if (section == null) {
-            return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
-        }
-        return frDb.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName, courseId, section, range);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
