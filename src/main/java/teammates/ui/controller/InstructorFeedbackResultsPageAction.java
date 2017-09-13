@@ -197,9 +197,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 bundle.isComplete = true;
             } else {
                 // bundle for all questions, with a selected section
-                bundle = logic.getFeedbackSessionResultsForInstructorBySection(feedbackSessionName, courseId,
-                                                                                    instructor.email,
-                                                                                    selectedSection, sectionDisplayMode);
+                bundle = logic.getFeedbackSessionResultsForInstructorBySection(
+                        feedbackSessionName, courseId, instructor.email, selectedSection, sectionDisplayMode);
             }
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {

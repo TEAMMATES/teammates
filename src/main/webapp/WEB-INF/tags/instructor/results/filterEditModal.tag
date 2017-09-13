@@ -22,19 +22,24 @@
                 </label>
                 <div data-toggle="tooltip" title="View results in different formats">
                   <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>">
-                    <option value="<%=Const.FeedbackSessionResults.QUESTION_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.QUESTION_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
                       Group by - Question
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.GRQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.GRQ_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
                       Group by - Giver > Recipient > Question
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.RGQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.RGQ_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
                       Group by - Recipient > Giver > Question
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.GQR_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.GQR_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
                       Group by - Giver > Question > Recipient
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.RQG_SORT_TYPE%>"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.RQG_SORT_TYPE%>"
+                        <c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
                       Group by - Recipient > Question > Giver
                     </option>
                   </select>
@@ -47,15 +52,18 @@
                       Section:
                     </label>
                     <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>">
-                      <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected</c:if>>
+                      <option value="All"
+                          <c:if test="${filterPanel.allSectionsSelected}"> selected</c:if>>
                         All
                       </option>
                       <c:forEach items="${filterPanel.sections}" var="section">
-                        <option value="${fn:escapeXml(section)}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
+                        <option value="${fn:escapeXml(section)}"
+                            <c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
                           ${fn:escapeXml(section)}
                         </option>
                       </c:forEach>
-                      <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
+                      <option value="None"
+                          <c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
                         <%=Const.NO_SPECIFIC_SECTION%>
                       </option>
                     </select>
@@ -72,13 +80,16 @@
                         <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_OR_RECIPIENT_IN_SECTION'}"> selected</c:if>>
                       <%= SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.getDisplayedName() %>
                     </option>
-                    <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
+                    <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
                       <%= SectionDisplayMode.BOTH_IN_SECTION.getDisplayedName() %>
                     </option>
-                    <option value="<%=SectionDisplayMode.GIVER_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}"> selected</c:if>>
+                    <option value="<%=SectionDisplayMode.GIVER_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}"> selected</c:if>>
                       <%= SectionDisplayMode.GIVER_IN_SECTION.getDisplayedName() %>
                     </option>
-                    <option value="<%=SectionDisplayMode.RECIPIENT_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}"> selected</c:if>>
+                    <option value="<%=SectionDisplayMode.RECIPIENT_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}"> selected</c:if>>
                       <%= SectionDisplayMode.RECIPIENT_IN_SECTION.getDisplayedName() %>
                     </option>
                   </select>

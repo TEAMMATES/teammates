@@ -4,10 +4,10 @@ package teammates.common.datatransfer;
  * Enum that defines supported displaying modes for section.
  */
 public enum SectionDisplayMode {
-    GIVER_IN_SECTION("As long as giver is in section"),
-    RECIPIENT_IN_SECTION("As long as recipient is in section"),
-    BOTH_IN_SECTION("Both giver AND recipient are in section"),
-    GIVER_OR_RECIPIENT_IN_SECTION("Either giver OR recipient is in section");
+    GIVER_IN_SECTION("As long as the giver is in section"),
+    RECIPIENT_IN_SECTION("As long as the recipient is in section"),
+    BOTH_IN_SECTION("Both the giver AND the recipient are in section"),
+    GIVER_OR_RECIPIENT_IN_SECTION("Either the giver OR the recipient is in section");
 
     private String displayedName;
 
