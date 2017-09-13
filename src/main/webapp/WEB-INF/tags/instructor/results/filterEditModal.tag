@@ -68,12 +68,12 @@
                 </label>
                 <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
                   <select id="sectionDisplayMode" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SECTION_DISPLAY_MODE%>">
-                    <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
-                      <%= SectionDisplayMode.BOTH_IN_SECTION.getDisplayedName() %>
-                    </option>
                     <option value="<%=SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION%>"
                         <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_OR_RECIPIENT_IN_SECTION'}"> selected</c:if>>
                       <%= SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.getDisplayedName() %>
+                    </option>
+                    <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
+                      <%= SectionDisplayMode.BOTH_IN_SECTION.getDisplayedName() %>
                     </option>
                     <option value="<%=SectionDisplayMode.GIVER_IN_SECTION%>"<c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}"> selected</c:if>>
                       <%= SectionDisplayMode.GIVER_IN_SECTION.getDisplayedName() %>

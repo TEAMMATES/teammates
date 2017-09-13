@@ -519,7 +519,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
         SectionDisplayMode displayMode = sectionDisplayMode == null
-                ? SectionDisplayMode.BOTH_IN_SECTION
+                ? SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION
                 : sectionDisplayMode;
 
         if (SectionDisplayMode.BOTH_IN_SECTION.equals(displayMode)) {
@@ -597,7 +597,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
         SectionDisplayMode displayMode = sectionDisplayMode == null
-                ? SectionDisplayMode.BOTH_IN_SECTION
+                ? SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION
                 : sectionDisplayMode;
 
         if (SectionDisplayMode.BOTH_IN_SECTION.equals(displayMode)) {
