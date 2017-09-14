@@ -212,6 +212,11 @@ public final class FeedbackResponsesLogic {
                                 getFeedbackResponsesForQuestionInSection(question.getId(),
                                         section, sectionDisplayMode));
             }
+
+            if (!question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+                viewableResponses = excludeResponsesWithReceiverEmail(viewableResponses, userEmail);
+            }
+
             break;
         default:
             Assumption.fail("The role of the requesting use has to be Student or Instructor");
@@ -219,6 +224,19 @@ public final class FeedbackResponsesLogic {
         }
 
         return viewableResponses;
+    }
+
+    private List<FeedbackResponseAttributes> excludeResponsesWithReceiverEmail(
+            List<FeedbackResponseAttributes> allResponses, String userEmail) {
+        List<FeedbackResponseAttributes> visibleResponses = new ArrayList<>();
+
+        for (FeedbackResponseAttributes response : allResponses) {
+            if (!userEmail.equals(response.recipient)) {
+                visibleResponses.add(response);
+            }
+        }
+
+        return visibleResponses;
     }
 
     public boolean isNameVisibleToUser(
