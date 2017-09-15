@@ -11,7 +11,30 @@ function isMaxOptionsToBeRankedEnabled(qnNumber) {
 }
 
 function getNumOfRankOptions(qnNumber) {
-    return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
+    if ($(`#form_editquestion-${qnNumber}`).children('input[name="questiontype"]').val() === 'RANK_OPTIONS') {
+        // for rank options question, return number of options
+        return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
+    }
+
+    // for rank recipients question, compute the number of recipients
+    const recipient = $(`#recipienttype-${qnNumber}`).val();
+
+    if (recipient === 'STUDENTS') {
+        return $('#num-students').val();
+    } else if (recipient === 'INSTRUCTORS') {
+        return $('#num-instructors').val();
+    } else if (recipient === 'TEAMS') {
+        return $('#num-teams').val();
+    } else if (recipient === 'OWN_TEAM_MEMBERS') {
+        // returning infinite as this is dependent on team size
+        return Number.MAX_SAFE_INTEGER;
+    } else if (recipient === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+        // returning infinite as this is dependent on team size
+        return Number.MAX_SAFE_INTEGER;
+    }
+
+    // other recipient types like NONE, SELF have only 1 recipient
+    return 1;
 }
 
 function getMinOptionsToBeRankedBox(qnNumber) {

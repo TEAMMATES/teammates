@@ -895,10 +895,19 @@ function updateRankMessageQn(qnNum) {
     }
 
     function checkMinMaxRestrictions(questionNumber, recipientIndex) {
-        const rankedOptions = $(`select[name="responsetext-${questionNumber}-${recipientIndex}"]`)
+        let rankedOptions = 0;
+
+        if ($(`#rankToRecipients-${questionNumber}`).val() === 'true') {
+            rankedOptions = $(`select[name^="responsetext-${questionNumber}-"]`)
                               .filter(function () {
                                   return $(this).val() !== '';
                               }).length;
+        } else {
+            rankedOptions = $(`select[name="responsetext-${questionNumber}-${recipientIndex}"]`)
+                              .filter(function () {
+                                  return $(this).val() !== '';
+                              }).length;
+        }
 
         if (rankedOptions === 0) {
             return;

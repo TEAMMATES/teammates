@@ -77,12 +77,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_DISPLAY_MAX_OPTIONS_HINT, isMaxOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                        ? Integer.toString(Math.min(maxOptionsToBeRanked, totalNumRecipients)) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
                 Slots.RANK_DISPLAY_MIN_OPTIONS_HINT, isMinOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : ""
+                        ? Integer.toString(Math.min(minOptionsToBeRanked, totalNumRecipients)) : ""
                 );
     }
 
@@ -125,12 +125,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_DISPLAY_MAX_OPTIONS_HINT, isMaxOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                        ? Integer.toString(Math.min(maxOptionsToBeRanked, totalNumRecipients)) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
                 Slots.RANK_DISPLAY_MIN_OPTIONS_HINT, isMinOptionsToBeRankedEnabled ? "" : "hidden",
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : ""
+                        ? Integer.toString(Math.min(minOptionsToBeRanked, totalNumRecipients)) : ""
                 );
     }
 
@@ -157,13 +157,26 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
 
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "recipient",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "",
+                Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
+                Slots.RANK_PARAM_MIN_OPTIONS_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED,
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
+                        ? Integer.toString(minOptionsToBeRanked) : "1",
+                Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
+                Slots.RANK_PARAM_MAX_OPTIONS_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED,
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
+                        ? Integer.toString(maxOptionsToBeRanked) : "1");
 
     }
 
