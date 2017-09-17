@@ -1063,6 +1063,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                         question, possibleReceiversWithoutResponsesForGiver, prevGiver,
                                         bundle.getNameForEmail(prevGiver),
+                                        bundle.getDisplayableEmail(prevGiver),
                                         bundle.getTeamNameForEmail(prevGiver)));
                 }
                 String giverIdentifier = response.giver;
@@ -1078,8 +1079,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                 question, response);
             InstructorFeedbackResultsResponseRow responseRow = new InstructorFeedbackResultsResponseRow(
                                                                        bundle.getGiverNameForResponse(response),
+                                                                       bundle.getDisplayableEmail(true, response),
                                                                        bundle.getTeamNameForEmail(response.giver),
                                                                        bundle.getRecipientNameForResponse(response),
+                                                                       bundle.getDisplayableEmail(false, response),
                                                                        bundle.getTeamNameForEmail(response.recipient),
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
@@ -1136,8 +1139,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponseRow responseRow =
                     new InstructorFeedbackResultsResponseRow(
                             bundle.getGiverNameForResponse(response),
+                            bundle.getDisplayableEmail(true, response),
                             bundle.getTeamNameForEmail(response.giver),
                             bundle.getRecipientNameForResponse(response),
+                            bundle.getDisplayableEmail(false, response),
                             bundle.getTeamNameForEmail(response.recipient),
                             bundle.getResponseAnswerHtml(response, question), moderationButton);
 
@@ -1153,6 +1158,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 question, possibleParticipantsWithoutResponses,
                                                 participantIdentifier,
                                                 bundle.getNameForEmail(participantIdentifier),
+                                                bundle.getDisplayableEmail(participantIdentifier),
                                                 bundle.getTeamNameForEmail(participantIdentifier)));
             } else {
                 responseRows.addAll(
@@ -1160,20 +1166,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 question, possibleParticipantsWithoutResponses,
                                                 participantIdentifier,
                                                 bundle.getNameForEmail(participantIdentifier),
+                                                bundle.getDisplayableEmail(participantIdentifier),
                                                 bundle.getTeamNameForEmail(participantIdentifier)));
             }
         }
 
         return responseRows;
     }
-
+    
     private void configureResponseRow(String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
         switch (viewType) {
         case QUESTION:
             responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
-            responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
-
+            responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));       
             responseRow.setActionsDisplayed(true);
             break;
         case GIVER_QUESTION_RECIPIENT:
@@ -1214,7 +1220,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                     FeedbackQuestionAttributes question,
                                                                     List<String> possibleReceivers,
                                                                     String giverIdentifier,
-                                                                    String giverName, String giverTeam) {
+                                                                    String giverName, String giverEmail, String giverTeam) {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<>();
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
 
@@ -1223,6 +1229,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 String textToDisplay = questionDetails.getNoResponseTextInHtml(
                                                giverIdentifier, possibleRecipient, bundle, question);
                 String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
+                String possibleRecipientEmail = bundle.getDisplayableEmailFromRoster(possibleRecipient);
                 String possibleRecipientTeam = bundle.getTeamNameFromRoster(possibleRecipient);
 
                 InstructorFeedbackResultsModerationButton moderationButton =
@@ -1230,7 +1237,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                       MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse =
                         new InstructorFeedbackResultsResponseRow(
-                                giverName, giverTeam, possibleRecipientName, possibleRecipientTeam,
+                                giverName, giverEmail, giverTeam, possibleRecipientName, possibleRecipientEmail, possibleRecipientTeam,
                                 textToDisplay, moderationButton, true);
 
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
@@ -1249,12 +1256,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorFeedbackResultsResponseRow> buildMissingResponseRowsBetweenRecipientAndPossibleGivers(
                                     FeedbackQuestionAttributes question,
                                     List<String> possibleGivers, String recipientIdentifier,
-                                    String recipientName, String recipientTeam) {
+                                    String recipientName, String recipientEmail, String recipientTeam) {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<>();
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
 
         for (String possibleGiver : possibleGivers) {
             String possibleGiverName = bundle.getFullNameFromRoster(possibleGiver);
+            String possibleGiverEmail = bundle.getDisplayableEmailFromRoster(possibleGiver);
             String possibleGiverTeam = bundle.getTeamNameFromRoster(possibleGiver);
 
             String textToDisplay = questionDetails.getNoResponseTextInHtml(recipientIdentifier, possibleGiver,
@@ -1266,8 +1274,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                  "btn btn-default btn-xs",
                                                                                  MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse = new InstructorFeedbackResultsResponseRow(
-                                                                                    possibleGiverName, possibleGiverTeam,
-                                                                                    recipientName, recipientTeam,
+                                                                                    possibleGiverName, possibleGiverEmail, possibleGiverTeam,
+                                                                                    recipientName, recipientEmail, recipientTeam,
                                                                                     textToDisplay, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
                 configureResponseRow(possibleGiver, recipientIdentifier, missingResponse);
@@ -1296,6 +1304,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                             question, possibleRecipientsForGiver,
                                             prevGiver, bundle.getNameForEmail(prevGiver),
+                                            bundle.getDisplayableEmail(prevGiver),
                                             bundle.getTeamNameForEmail(prevGiver)));
         }
 
@@ -1315,6 +1324,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     possibleRecipientsForRemainingGiver,
                                     possibleGiverWithNoResponses,
                                     bundle.getFullNameFromRoster(possibleGiverWithNoResponses),
+                                    bundle.getDisplayableEmailFromRoster(possibleGiverWithNoResponses),
                                     bundle.getTeamNameFromRoster(possibleGiverWithNoResponses)));
             }
         }
@@ -1595,8 +1605,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     @Override
-    public String getStudentProfilePictureLink(String studentEmail, String courseId) {
-        if (!profilePictureLinks.containsKey(studentEmail)) {
+    public String getStudentProfilePictureLink(String studentEmail, String courseId) {   	
+    	 if (!profilePictureLinks.containsKey(studentEmail)) {
             profilePictureLinks.put(studentEmail,
                                     super.getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
                                                                        StringHelper.encrypt(courseId)));

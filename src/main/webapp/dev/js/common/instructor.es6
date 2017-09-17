@@ -205,7 +205,7 @@ function loadProfilePictureForHoverEvent(obj) {
 
     const $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
 
-    // load the pictures in all similar links
+    // load the pictures in all similar links 
     obj.children('img').load(function () {
         const actualLink = $(this).parent().attr('data-link');
         const resolvedLink = $(this).attr('src');
@@ -268,12 +268,28 @@ function bindStudentPhotoHoverLink(elements) {
         placement: 'top',
         content() {
             $('body').on('click', '.cursor-pointer', (event) => {
-                const toLoad = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
                 loadProfilePictureForHoverEvent(toLoad);
             });
-            return '<a class="cursor-pointer">View Photo</a>';
+            $('body')
+            	//.on('click', '.cursor-pointer', (event) => {
+                //const toLoad = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
+                //loadProfilePictureForHoverEvent(toLoad);
+            .on('click', '.email-cursor-pointer', (event) => {           	
+            	const obj = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');      
+        			 	obj.popover('destroy').popover({
+        				html: true,
+		   				trigger: 'manual',
+        				placement: 'top',
+        				content() {      				
+        				var parameter = obj.attr('data-hidden-parameter');		        			
+            			return  parameter;
+        			},       			
+        		});       		
+        		obj.popover('show');         
+            	});          
+            return '<a class="email-cursor-pointer">View Email</a>';                      
         },
-    });
+    });    
 }
 
 function bindDeleteButtons() {

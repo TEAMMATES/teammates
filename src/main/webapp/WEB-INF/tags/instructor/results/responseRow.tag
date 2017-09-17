@@ -34,7 +34,7 @@
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
     <c:choose>
       <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
-        <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
+        <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}" data-hidden-parameter="${response.giverEmail}">
           ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
           <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
         </div>
@@ -71,7 +71,7 @@
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
       <c:choose>
         <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
-          <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
+          <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}" data-hidden-parameter="${responseRow.recipientEmail}">
             ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
           </div>

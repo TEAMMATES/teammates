@@ -1563,6 +1563,13 @@ public class FeedbackSessionResultsBundle {
         }
         return Const.USER_NOBODY_TEXT;
     }
+    
+    public String getDisplayableEmail(String email)
+    {
+    	String participantIdentifier = email;  	
+    	if (isEmailOfPerson(participantIdentifier)); 
+            return participantIdentifier;
+    }
 
     /**
      * Returns displayable email if the email of a recipient in the course

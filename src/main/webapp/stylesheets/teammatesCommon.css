@@ -131,6 +131,10 @@ Apply to alert to override Bootstrap's default 3d alerts
     padding-right: 15px;
 }
 
+.email-cursor-pointer {
+	cursor: pointer;
+}
+
 .ordered-table {
     counter-reset: rownumber;
 }

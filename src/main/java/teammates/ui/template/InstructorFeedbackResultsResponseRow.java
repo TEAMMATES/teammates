@@ -18,34 +18,38 @@ public class InstructorFeedbackResultsResponseRow {
     private String giverTeam;
 
     private boolean isGiverProfilePictureAColumn;
-    private String giverProfilePictureLink;
+    private String giverProfilePictureLink;    
+    private String giverEmail;
 
     private boolean isRecipientDisplayed = true;
     private String recipientDisplayableIdentifier;
     private String recipientTeam;
 
     private boolean isRecipientProfilePictureAColumn;
-    private String recipientProfilePictureLink;
+    private String recipientProfilePictureLink;  
+    private String recipientEmail;
 
     private boolean isActionsDisplayed;
 
     private String displayableResponse;
     private InstructorFeedbackResultsModerationButton moderationButton;
 
-    public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
-                                        String recipientDisplayableIdentifier, String recipientTeam,
+    public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverEmail, String giverTeam,
+                                        String recipientDisplayableIdentifier, String recipientEmail, String recipientTeam,
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton) {
-        this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
+        this(giverDisplayableIdentifier, giverEmail, giverTeam, recipientDisplayableIdentifier, recipientEmail, recipientTeam,
              displayableResponse, moderationButton, false);
     }
 
-    public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
-                                        String recipientDisplayableIdentifier, String recipientTeam,
+    public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverEmail, String giverTeam,
+                                        String recipientDisplayableIdentifier, String recipientEmail, String recipientTeam,
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
+        this.giverEmail = giverEmail;
         this.giverTeam = giverTeam;
+        
 
         this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
         this.recipientTeam = recipientTeam;
@@ -165,5 +169,14 @@ public class InstructorFeedbackResultsResponseRow {
         });
         return responseRows;
     }
+
+	public String getGiverEmail() {
+		return giverEmail;
+	}
+
+	public String getRecipientEmail() {
+		return recipientEmail;
+	}
+
 
 }
