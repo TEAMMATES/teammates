@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -25,6 +26,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -35,8 +37,6 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         testModifyResponses();
 
         testIncorrectParameters();
-
-        testDifferentPrivileges();
 
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
@@ -659,6 +659,21 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        testDifferentPrivileges();
+
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+
+        String feedbackSessionName = "First feedback session";
+        String courseId = student.course;
+        String moderatedStudentEmail = student.email;
+
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
     }
 }

@@ -661,10 +661,6 @@ input.inline {
     line-height: 1.5;
 }
 
-.inputTable {
-    width: 600px;
-}
-
 /* DatePicker Container */
 .ui-datepicker {
     -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
