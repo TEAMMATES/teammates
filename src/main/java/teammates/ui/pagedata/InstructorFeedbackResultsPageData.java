@@ -1279,8 +1279,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                     possibleGiverEmail, 
                                                                                     possibleGiverTeam, recipientName, 
                                                                                     recipientEmail, recipientTeam,
+                                                                                    textToDisplay, moderationButton, true);
 
-                                                                                                                                                                        textToDisplay, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
                 configureResponseRow(possibleGiver, recipientIdentifier, missingResponse);
 
