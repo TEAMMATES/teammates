@@ -65,6 +65,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("mcqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         ______TS("MCQ: verify UI after cancelling");
 

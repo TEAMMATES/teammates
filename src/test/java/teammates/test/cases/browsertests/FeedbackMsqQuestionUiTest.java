@@ -65,6 +65,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         ______TS("MSQ: verify UI after cancelling");
 
