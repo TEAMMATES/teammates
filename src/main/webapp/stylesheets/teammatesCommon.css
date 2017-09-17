@@ -132,7 +132,7 @@ Apply to alert to override Bootstrap's default 3d alerts
 }
 
 .email-cursor-pointer {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .ordered-table {

@@ -18,7 +18,7 @@ public class InstructorFeedbackResultsResponseRow {
     private String giverTeam;
 
     private boolean isGiverProfilePictureAColumn;
-    private String giverProfilePictureLink;    
+    private String giverProfilePictureLink;
     private String giverEmail;
 
     private boolean isRecipientDisplayed = true;
@@ -26,7 +26,7 @@ public class InstructorFeedbackResultsResponseRow {
     private String recipientTeam;
 
     private boolean isRecipientProfilePictureAColumn;
-    private String recipientProfilePictureLink;  
+    private String recipientProfilePictureLink;
     private String recipientEmail;
 
     private boolean isActionsDisplayed;
@@ -38,8 +38,8 @@ public class InstructorFeedbackResultsResponseRow {
                                         String recipientDisplayableIdentifier, String recipientEmail, String recipientTeam,
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton) {
-        this(giverDisplayableIdentifier, giverEmail, giverTeam, recipientDisplayableIdentifier, recipientEmail, 
-        		recipientTeam, displayableResponse, moderationButton, false);
+        this(giverDisplayableIdentifier, giverEmail, giverTeam, recipientDisplayableIdentifier, recipientEmail,
+        recipientTeam, displayableResponse, moderationButton, false);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverEmail, String giverTeam,
@@ -49,7 +49,6 @@ public class InstructorFeedbackResultsResponseRow {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverEmail = giverEmail;
         this.giverTeam = giverTeam;
-        
 
         this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
         this.recipientEmail = recipientEmail;
@@ -178,6 +177,5 @@ public class InstructorFeedbackResultsResponseRow {
     public String getRecipientEmail() {
         return recipientEmail;
     }
-
 
 }

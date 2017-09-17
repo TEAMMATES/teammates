@@ -1173,13 +1173,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         return responseRows;
     }
-    
+
     private void configureResponseRow(String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
         switch (viewType) {
         case QUESTION:
             responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
-            responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));       
+            responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
+
             responseRow.setActionsDisplayed(true);
             break;
         case GIVER_QUESTION_RECIPIENT:
@@ -1237,7 +1238,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                       MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse =
                         new InstructorFeedbackResultsResponseRow(
-                                giverName, giverEmail, giverTeam, possibleRecipientName, 
+                                giverName, giverEmail, giverTeam, possibleRecipientName,
                                 possibleRecipientEmail, possibleRecipientTeam,
                                 textToDisplay, moderationButton, true);
 
@@ -1276,8 +1277,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                  MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse = new InstructorFeedbackResultsResponseRow(
                                                                                     possibleGiverName,
-                                                                                    possibleGiverEmail, 
-                                                                                    possibleGiverTeam, recipientName, 
+                                                                                    possibleGiverEmail,
+                                                                                    possibleGiverTeam, recipientName,
                                                                                     recipientEmail, recipientTeam,
                                                                                     textToDisplay, moderationButton, true);
 
@@ -1609,8 +1610,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     @Override
-    public String getStudentProfilePictureLink(String studentEmail, String courseId) {   	
-    	if (!profilePictureLinks.containsKey(studentEmail)) {
+    public String getStudentProfilePictureLink(String studentEmail, String courseId) {
+        if (!profilePictureLinks.containsKey(studentEmail)) {
             profilePictureLinks.put(studentEmail,
                                     super.getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
                                                                        StringHelper.encrypt(courseId)));
