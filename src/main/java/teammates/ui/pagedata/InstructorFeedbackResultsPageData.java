@@ -1237,7 +1237,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                       MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse =
                         new InstructorFeedbackResultsResponseRow(
-                                giverName, giverEmail, giverTeam, possibleRecipientName, possibleRecipientEmail, possibleRecipientTeam,
+                                giverName, giverEmail, giverTeam, possibleRecipientName, 
+                                possibleRecipientEmail, possibleRecipientTeam,
                                 textToDisplay, moderationButton, true);
 
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
@@ -1274,9 +1275,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                  "btn btn-default btn-xs",
                                                                                  MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse = new InstructorFeedbackResultsResponseRow(
-                                                                                    possibleGiverName, possibleGiverEmail, possibleGiverTeam,
-                                                                                    recipientName, recipientEmail, recipientTeam,
-                                                                                    textToDisplay, moderationButton, true);
+                                                                                    possibleGiverName,
+                                                                                    possibleGiverEmail, 
+                                                                                    possibleGiverTeam, recipientName, 
+                                                                                    recipientEmail, recipientTeam,
+
+                                                                                                                                                                        textToDisplay, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
                 configureResponseRow(possibleGiver, recipientIdentifier, missingResponse);
 
@@ -1606,7 +1610,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Override
     public String getStudentProfilePictureLink(String studentEmail, String courseId) {   	
-    	 if (!profilePictureLinks.containsKey(studentEmail)) {
+    	if (!profilePictureLinks.containsKey(studentEmail)) {
             profilePictureLinks.put(studentEmail,
                                     super.getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
                                                                        StringHelper.encrypt(courseId)));

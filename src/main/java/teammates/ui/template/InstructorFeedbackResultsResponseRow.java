@@ -38,8 +38,8 @@ public class InstructorFeedbackResultsResponseRow {
                                         String recipientDisplayableIdentifier, String recipientEmail, String recipientTeam,
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton) {
-        this(giverDisplayableIdentifier, giverEmail, giverTeam, recipientDisplayableIdentifier, recipientEmail, recipientTeam,
-             displayableResponse, moderationButton, false);
+        this(giverDisplayableIdentifier, giverEmail, giverTeam, recipientDisplayableIdentifier, recipientEmail, 
+        		recipientTeam, displayableResponse, moderationButton, false);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverEmail, String giverTeam,
@@ -171,13 +171,13 @@ public class InstructorFeedbackResultsResponseRow {
         return responseRows;
     }
 
-	public String getGiverEmail() {
-		return giverEmail;
-	}
+    public String getGiverEmail() {
+        return giverEmail;
+    }
 
-	public String getRecipientEmail() {
-		return recipientEmail;
-	}
+    public String getRecipientEmail() {
+        return recipientEmail;
+    }
 
 
 }
