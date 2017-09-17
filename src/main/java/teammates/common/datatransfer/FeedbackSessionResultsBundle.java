@@ -1564,11 +1564,17 @@ public class FeedbackSessionResultsBundle {
         return Const.USER_NOBODY_TEXT;
     }
     
-    public String getDisplayableEmail(String email)
-    {
-    	String participantIdentifier = email;  	
-    	if (isEmailOfPerson(participantIdentifier)); 
+    /**
+     * Returns displayable email if the email is of a giver/recipient is in the course
+     *  Returns Const.USER_NOBODY_TEXT otherwise.
+     */
+    
+    public String getDisplayableEmail(String email) {
+        String participantIdentifier = email;
+        if (isEmailOfPerson(participantIdentifier)) {
             return participantIdentifier;
+    	}
+        return Const.USER_NOBODY_TEXT;
     }
 
     /**
