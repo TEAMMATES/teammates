@@ -52,6 +52,7 @@ public class InstructorFeedbackResultsResponseRow {
         
 
         this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
+        this.recipientEmail = recipientEmail;
         this.recipientTeam = recipientTeam;
 
         this.displayableResponse = displayableResponse;

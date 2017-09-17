@@ -195,48 +195,6 @@ function bindStudentPhotoLink(elements) {
 }
 
 /**
- * completes the loading cycle for showing profile picture
- * for a onhover event
- * @param link
- * @param resolvedLink
- */
-function loadProfilePictureForHoverEvent(obj) {
-    obj.children('img')[0].src = obj.attr('data-link');
-
-    const $loadingImage = $('<img>').attr('src', '/images/ajax-loader.gif');
-
-    // load the pictures in all similar links 
-    obj.children('img').load(function () {
-        const actualLink = $(this).parent().attr('data-link');
-        const resolvedLink = $(this).attr('src');
-
-        $loadingImage.remove();
-
-        updateHoverShowPictureEvents(actualLink, resolvedLink);
-
-        // this is to show the picture immediately for the one
-        // the user just clicked on
-        $(this).parent()
-            .popover('show')
-            // this is to handle the manual hide action of the popover
-            .siblings('.popover')
-            .on('mouseleave', function () {
-                $(this).siblings('.profile-pic-icon-hover').popover('hide');
-            });
-    });
-
-    obj.popover('destroy').popover({
-        html: true,
-        trigger: 'manual',
-        placement: 'top',
-        content() {
-            return $loadingImage.get(0).outerHTML;
-        },
-    });
-    obj.popover('show');
-}
-
-/**
  * @param elements:
  * identifier that points to elements with
  * class: profile-pic-icon-hover
@@ -267,29 +225,22 @@ function bindStudentPhotoHoverLink(elements) {
         trigger: 'manual',
         placement: 'top',
         content() {
-            $('body').on('click', '.cursor-pointer', (event) => {
-                loadProfilePictureForHoverEvent(toLoad);
+            $('body').on('click', '.email-cursor-pointer', (event) => {
+                const obj = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
+                obj.popover('destroy').popover({
+                    html: true,
+                    trigger: 'manual',
+                    placement: 'top',
+                    content() {
+                        const parameter = obj.attr('data-hidden-parameter');
+                        return parameter;
+                    },
+                });
+                obj.popover('show');
             });
-            $('body')
-            	//.on('click', '.cursor-pointer', (event) => {
-                //const toLoad = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
-                //loadProfilePictureForHoverEvent(toLoad);
-            .on('click', '.email-cursor-pointer', (event) => {           	
-            	const obj = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');      
-        			 	obj.popover('destroy').popover({
-        				html: true,
-		   				trigger: 'manual',
-        				placement: 'top',
-        				content() {      				
-        				var parameter = obj.attr('data-hidden-parameter');		        			
-            			return  parameter;
-        			},       			
-        		});       		
-        		obj.popover('show');         
-            	});          
-            return '<a class="email-cursor-pointer">View Email</a>';                      
+            return '<a class="email-cursor-pointer">View Email</a>';
         },
-    });    
+    });
 }
 
 function bindDeleteButtons() {
