@@ -1004,12 +1004,17 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.id("msqGenerateForSelect-" + questionNumber)),
                 generateFor);
     }
-
+    /** DOCUMENTATION FOR THE METHOD 'selectConstSumPointsOptionsForNewQuestion()' GIVEN BELOW ----->>>>
+    * Selects the points distribution scheme for a const sum question.
+    * pointsOption Value of "Total" will select total number of points for all options points distribution scheme,
+    * or "PerOption" will select number of points per option points distribution scheme.
+    * questionNumber is the question number of the const sum question.
+    **/
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
         markRadioButtonAsChecked(
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
     }
-
+    
     public void selectConstSumPointsOptionsForNewQuestion(String pointsOption) {
         selectConstSumPointsOptions(pointsOption, NEW_QUESTION_NUM);
     }
