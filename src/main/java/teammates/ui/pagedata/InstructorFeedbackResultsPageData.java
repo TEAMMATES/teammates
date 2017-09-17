@@ -17,6 +17,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -62,6 +63,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorAttributes instructor;
     private List<String> sections;
     private String selectedSection;
+    private SectionDisplayMode sectionDisplayMode;
     private String sortType;
     private String groupByTeam;
     private String showStats;
@@ -101,11 +103,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
-                                      String selectedSection, String showStats,
+                                      String selectedSection, SectionDisplayMode sectionDisplayMode, String showStats,
                                       String groupByTeam, boolean isMissingResponsesShown) {
         this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
         this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
+        initCommonVariables(instructor, selectedSection, sectionDisplayMode, showStats,
+                groupByTeam, isMissingResponsesShown);
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap =
                 bundle.getQuestionResponseMap();
@@ -134,11 +137,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
-                                    String showStats, String groupByTeam, boolean isMissingResponsesShown) {
+                                     SectionDisplayMode sectionDisplayMode, String showStats,
+                                     String groupByTeam, boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
 
         this.instructor = instructor;
         this.selectedSection = selectedSection;
+        this.sectionDisplayMode = sectionDisplayMode;
         this.showStats = showStats;
         this.groupByTeam = groupByTeam;
         this.isMissingResponsesShown = isMissingResponsesShown;
@@ -177,13 +182,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * TODO: simplify the logic in this method
      */
     public void initForSectionPanelViews(InstructorAttributes instructor,
-                                    String selectedSection, String showStats,
+                                    String selectedSection, SectionDisplayMode sectionDisplayMode, String showStats,
                                     String groupByTeam, InstructorFeedbackResultsPageViewType view,
                                     boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
         this.sortType = view.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam,
+        initCommonVariables(instructor, selectedSection, sectionDisplayMode, showStats, groupByTeam,
                             isMissingResponsesShown);
 
         // results page to be loaded by ajax
@@ -1622,6 +1627,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return sections;
     }
 
+    public SectionDisplayMode getSectionDisplayMode() {
+        return sectionDisplayMode;
+    }
+
     public String getSelectedSection() {
         return selectedSection;
     }
@@ -1702,13 +1711,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection,
+                getInstructorFeedbackSessionPublishAndUnpublishAction(),
+                selectedSection, sectionDisplayMode,
                 isMissingResponsesShown, isStatsShown());
     }
 
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
-                isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
+                isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(),
+                selectedSection, sectionDisplayMode,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
                 getSections(), isMissingResponsesShown);
     }

@@ -6,14 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -116,11 +119,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, SectionDisplayMode sectionDisplayMode) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
+        List<String> sections = Const.DEFAULT_SECTION.equals(section)
+                ? Arrays.asList(section, null) // null as default section
+                : Arrays.asList(section);
+
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSections(feedbackQuestionId,
+                sections, sectionDisplayMode));
     }
 
     /**
@@ -185,6 +193,28 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
         return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return An empty list if no such responses are found.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponseEntitiesForSessionInSection(
+            String feedbackSessionName, String courseId, String section,
+            SectionDisplayMode sectionDisplayMode, int range) {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionDisplayMode);
+
+        List<String> sections = Const.DEFAULT_SECTION.equals(section)
+                ? Arrays.asList(section, null) // null as default section
+                : Arrays.asList(section);
+
+        return makeAttributes(getFeedbackResponseEntitiesForSessionInSections(feedbackSessionName, courseId, sections,
+                sectionDisplayMode, range));
     }
 
     /**
@@ -484,29 +514,41 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .first().now();
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section) {
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSections(
+                String feedbackQuestionId, List<String> sections, SectionDisplayMode sectionDisplayMode) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", section)
-                .list());
+        SectionDisplayMode displayMode = sectionDisplayMode == null
+                ? SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION
+                : sectionDisplayMode;
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", "None")
-                .list());
+        if (SectionDisplayMode.BOTH_IN_SECTION.equals(displayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection in", sections)
+                    .filter("receiverSection in", sections)
+                    .list());
+        }
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", "None")
-                .filter("receiverSection =", section)
-                .list());
+        if (SectionDisplayMode.GIVER_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection in", sections)
+                    .list());
+        }
 
-        return feedbackResponses;
+        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("receiverSection in", sections)
+                    .list());
+        }
+
+        return SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)
+                ? filterDuplicates(feedbackResponses)
+                : feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(String feedbackQuestionId) {
@@ -547,6 +589,65 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         }
 
         return feedbackResponses.values();
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSections(
+            String feedbackSessionName, String courseId, List<String> sections,
+            SectionDisplayMode sectionDisplayMode, int range) {
+        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+
+        SectionDisplayMode displayMode = sectionDisplayMode == null
+                ? SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION
+                : sectionDisplayMode;
+
+        if (SectionDisplayMode.BOTH_IN_SECTION.equals(displayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("giverSection in", sections)
+                    .filter("receiverSection in", sections)
+                    .limit(range + 1)
+                    .list());
+        }
+
+        if (SectionDisplayMode.GIVER_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("giverSection in", sections)
+                    .limit(range + 1)
+                    .list());
+        }
+
+        if (SectionDisplayMode.RECIPIENT_IN_SECTION.equals(displayMode)
+                || SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackSessionName =", feedbackSessionName)
+                    .filter("courseId =", courseId)
+                    .filter("receiverSection in", sections)
+                    .limit(range + 1)
+                    .list());
+        }
+
+        return SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.equals(displayMode)
+                ? filterDuplicates(feedbackResponses)
+                : feedbackResponses;
+    }
+
+    private List<FeedbackResponse> filterDuplicates(List<FeedbackResponse> responses) {
+        List<FeedbackResponse> filteredResponses = new ArrayList<>();
+        Set<String> uniqueFeedbackResponsesId = new HashSet<>();
+
+        for (FeedbackResponse response : responses) {
+            boolean isNotYetAdded = !uniqueFeedbackResponsesId.contains(response.getId());
+            if (isNotYetAdded) {
+                uniqueFeedbackResponsesId.add(response.getId());
+                filteredResponses.add(response);
+            }
+        }
+
+        return filteredResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(

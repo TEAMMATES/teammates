@@ -68,6 +68,7 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="true">
                 </form>
@@ -148,10 +149,10 @@
         <div class="col-md-5">
           <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
             <div class="row">
-              <label class="col-md-offset-1 col-md-3">
+              <label class="col-md-offset-1 col-md-4">
                 View:
               </label>
-              <div class="col-md-8">
+              <div class="col-md-7">
                 Group by - Question
               </div>
             </div>
@@ -159,14 +160,15 @@
           <br>
           <div class="row">
             <div data-original-title="View results by sections" data-toggle="tooltip" title="">
-              <label class="col-md-offset-1 col-md-3">
+              <label class="col-md-offset-1 col-md-4">
                 Section:
               </label>
-              <div class="col-md-8">
+              <div class="col-md-7">
                 All
               </div>
             </div>
           </div>
+          <br>
         </div>
         <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
           <label>
@@ -207,7 +209,7 @@
     </div>
     <div class="modal fade" id="editModal" role="dialog">
       <div class="modal-dialog">
-        <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.helper2" method="post">
+        <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.helper2" id="editForm" method="post">
           <div class="modal-content">
             <div class="modal-header alert-info">
               <button class="close" data-dismiss="modal" type="button">
@@ -261,6 +263,27 @@
                         </option>
                         <option value="None">
                           No specific section
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="sectionDisplayMode" id="sectionDisplayModeLabel" style="display: none;">
+                      Section display mode:
+                    </label>
+                    <div data-original-title="Specifies which responses should be marked as related to section" data-toggle="tooltip" title="">
+                      <select class="form-control" id="sectionDisplayMode" name="frsectiondisplaymode" style="display: none;">
+                        <option selected="" value="GIVER_OR_RECIPIENT_IN_SECTION">
+                          Giver or Recipient in section
+                        </option>
+                        <option value="BOTH_IN_SECTION">
+                          Both in section
+                        </option>
+                        <option value="GIVER_IN_SECTION">
+                          Giver in section
+                        </option>
+                        <option value="RECIPIENT_IN_SECTION">
+                          Recipient in section
                         </option>
                       </select>
                     </div>
@@ -346,6 +369,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -683,6 +707,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -729,6 +754,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -775,6 +801,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -821,6 +848,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -867,6 +895,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -913,6 +942,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -982,6 +1012,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1051,6 +1082,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1108,6 +1140,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1165,6 +1198,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="frsectiondisplaymode" type="hidden" value="GIVER_OR_RECIPIENT_IN_SECTION">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="true">
         <input name="questionid" type="hidden" value="${question.id}">

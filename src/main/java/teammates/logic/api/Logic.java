@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -1326,7 +1327,8 @@ public class Logic {
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, SectionDisplayMode sectionDisplayMode, String questionId,
+            boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(courseId);
@@ -1334,7 +1336,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, instructorEmail, section,
+                feedbackSessionName, courseId, instructorEmail, section, sectionDisplayMode,
                 questionId, isMissingResponsesShown, isStatsShown);
     }
 
@@ -1664,25 +1666,6 @@ public class Logic {
 
     /**
      * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session in a section within the given range
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-        Assumption.assertNotNull(viewType);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-                                        feedbackSessionName, courseId, userEmail, section, range, viewType);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session from a section within the given range
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1744,18 +1727,18 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionBySection(
                                     String feedbackSessionName, String courseId, String userEmail,
-                                    String questionId, String selectedSection)
+                                    String questionId, String selectedSection, SectionDisplayMode sectionDisplayMode)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(userEmail);
 
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionBySection(
                                             feedbackSessionName, courseId, userEmail,
-                                            questionId, selectedSection);
+                                            questionId, selectedSection, sectionDisplayMode);
     }
 
     /**
@@ -1781,11 +1764,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(String feedbackSessionName,
-                                                                                        String courseId,
-                                                                                        String userEmail,
-                                                                                        String section)
-            throws EntityDoesNotExistException {
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorBySection(
+            String feedbackSessionName, String courseId, String userEmail,
+            String section, SectionDisplayMode sectionDisplayMode) throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
@@ -1793,7 +1774,8 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                     userEmail, section);
+                                                                                     userEmail, section,
+                                                                                     sectionDisplayMode);
     }
 
     /**

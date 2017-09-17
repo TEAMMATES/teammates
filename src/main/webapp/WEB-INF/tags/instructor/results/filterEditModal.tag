@@ -2,11 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.datatransfer.SectionDisplayMode" %>
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
 <div id="editModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <form method="post" action="${filterPanel.resultsLink}">
+    <form id="editForm" method="post" action="${filterPanel.resultsLink}">
       <div class="modal-content">
         <div class="modal-header alert-info">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -21,19 +22,24 @@
                 </label>
                 <div data-toggle="tooltip" title="View results in different formats">
                   <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>">
-                    <option value="<%=Const.FeedbackSessionResults.QUESTION_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.QUESTION_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
                       Group by - Question
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.GRQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.GRQ_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
                       Group by - Giver > Recipient > Question
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.RGQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.RGQ_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
                       Group by - Recipient > Giver > Question
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.GQR_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.GQR_SORT_TYPE%>"
+                        <c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
                       Group by - Giver > Question > Recipient
                     </option>
-                    <option value="<%=Const.FeedbackSessionResults.RQG_SORT_TYPE%>"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
+                    <option value="<%=Const.FeedbackSessionResults.RQG_SORT_TYPE%>"
+                        <c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
                       Group by - Recipient > Question > Giver
                     </option>
                   </select>
@@ -46,21 +52,49 @@
                       Section:
                     </label>
                     <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>">
-                      <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected</c:if>>
+                      <option value="All"
+                          <c:if test="${filterPanel.allSectionsSelected}"> selected</c:if>>
                         All
                       </option>
                       <c:forEach items="${filterPanel.sections}" var="section">
-                        <option value="${fn:escapeXml(section)}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
+                        <option value="${fn:escapeXml(section)}"
+                            <c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
                           ${fn:escapeXml(section)}
                         </option>
                       </c:forEach>
-                      <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
+                      <option value="None"
+                          <c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
                         <%=Const.NO_SPECIFIC_SECTION%>
                       </option>
                     </select>
                   </div>
                 </div>
               </c:if>
+              <div class="form-group">
+                <label id="sectionDisplayModeLabel" for="sectionDisplayMode" class="control-label">
+                  Include responses if:
+                </label>
+                <div data-toggle="tooltip" title="Specifies which responses should be marked as related to section">
+                  <select id="sectionDisplayMode" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SECTION_DISPLAY_MODE%>">
+                    <option value="<%=SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_OR_RECIPIENT_IN_SECTION'}"> selected</c:if>>
+                      <%= SectionDisplayMode.GIVER_OR_RECIPIENT_IN_SECTION.getDisplayedName() %>
+                    </option>
+                    <option value="<%=SectionDisplayMode.BOTH_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'BOTH_IN_SECTION'}"> selected</c:if>>
+                      <%= SectionDisplayMode.BOTH_IN_SECTION.getDisplayedName() %>
+                    </option>
+                    <option value="<%=SectionDisplayMode.GIVER_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'GIVER_IN_SECTION'}"> selected</c:if>>
+                      <%= SectionDisplayMode.GIVER_IN_SECTION.getDisplayedName() %>
+                    </option>
+                    <option value="<%=SectionDisplayMode.RECIPIENT_IN_SECTION%>"
+                        <c:if test="${filterPanel.sectionDisplayMode == 'RECIPIENT_IN_SECTION'}"> selected</c:if>>
+                      <%= SectionDisplayMode.RECIPIENT_IN_SECTION.getDisplayedName() %>
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
             <div class="col-md-5">
               <label class="control-label">

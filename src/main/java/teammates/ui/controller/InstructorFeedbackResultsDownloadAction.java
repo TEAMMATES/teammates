@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -29,6 +30,9 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = true;
 
+        String sectionDisplayModeParam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_DISPLAY_MODE);
+        SectionDisplayMode sectionDisplayMode = SectionDisplayMode.valueOfOrDefault(sectionDisplayModeParam);
+
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
         String fileContent;
@@ -50,7 +54,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                        courseId, feedbackSessionName, instructor.email, section,
+                        courseId, feedbackSessionName, instructor.email, section, sectionDisplayMode,
                         questionId, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName

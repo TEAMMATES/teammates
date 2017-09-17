@@ -1008,6 +1008,7 @@ public class FeedbackSessionResultsBundle {
     public String getSectionFromRoster(String participantIdentifier) {
         boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);
         boolean isInstructor = isParticipantIdentifierInstructor(participantIdentifier);
+        boolean isTeam = rosterTeamNameMembersTable.containsKey(participantIdentifier);
         boolean participantIsGeneral = participantIdentifier.equals(Const.GENERAL_QUESTION);
 
         if (isStudent) {
@@ -1015,9 +1016,21 @@ public class FeedbackSessionResultsBundle {
                          .section;
         } else if (isInstructor || participantIsGeneral) {
             return Const.NO_SPECIFIC_RECIPIENT;
+        } else if (isTeam) {
+            return getTeamSectionFromRoster(participantIdentifier);
         } else {
             return "";
         }
+    }
+
+    private String getTeamSectionFromRoster(String team) {
+        for (Map.Entry<String, Set<String>> entry : sectionTeamNameTable.entrySet()) {
+            if (entry.getValue().contains(team)) {
+                return entry.getKey();
+            }
+        }
+
+        return "";
     }
 
     /**

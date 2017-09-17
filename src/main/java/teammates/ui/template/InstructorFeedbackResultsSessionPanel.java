@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import teammates.common.datatransfer.SectionDisplayMode;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -14,6 +15,7 @@ public class InstructorFeedbackResultsSessionPanel {
     private String resultsVisibleFrom;
     private FeedbackSessionPublishButton feedbackSessionPublishButton;
     private String selectedSection;
+    private SectionDisplayMode sectionDisplayMode;
     private boolean isStatsShown;
     private boolean isMissingResponsesShown;
 
@@ -21,6 +23,7 @@ public class InstructorFeedbackResultsSessionPanel {
                                                  String editLink,
                                                  FeedbackSessionPublishButton feedbackSessionPublishButton,
                                                  String selectedSection,
+                                                 SectionDisplayMode sectionDisplayMode,
                                                  boolean isMissingResponsesShown,
                                                  boolean isStatsShown) {
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
@@ -33,6 +36,7 @@ public class InstructorFeedbackResultsSessionPanel {
         this.selectedSection = selectedSection;
         this.isStatsShown = isStatsShown;
         this.isMissingResponsesShown = isMissingResponsesShown;
+        this.sectionDisplayMode = sectionDisplayMode;
     }
 
     public String getCourseId() {
@@ -65,6 +69,10 @@ public class InstructorFeedbackResultsSessionPanel {
 
     public String getSelectedSection() {
         return selectedSection;
+    }
+
+    public SectionDisplayMode getSectionDisplayMode() {
+        return sectionDisplayMode;
     }
 
     public boolean getIsStatsShown() {
