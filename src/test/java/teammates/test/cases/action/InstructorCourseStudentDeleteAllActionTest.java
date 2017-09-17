@@ -22,7 +22,7 @@ public class InstructorCourseStudentDeleteAllActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() {
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("success: delete all students");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
@@ -54,7 +54,7 @@ public class InstructorCourseStudentDeleteAllActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,

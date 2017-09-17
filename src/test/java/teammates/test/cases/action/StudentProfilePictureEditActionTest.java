@@ -22,7 +22,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() {
 
-        AccountAttributes student = dataBundle.accounts.get("student2InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student2InCourse1");
         gaeSimulation.loginAsStudent(student.googleId);
 
         testActionForEmptyLeftX(student);

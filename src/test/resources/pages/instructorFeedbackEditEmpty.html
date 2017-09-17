@@ -874,8 +874,11 @@
   <br>
   <br>
   <input id="num-questions" type="hidden" value="0">
+  <input id="num-students" type="hidden" value="2">
+  <input id="num-teams" type="hidden" value="1">
+  <input id="num-instructors" type="hidden" value="2">
   <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
-    <div class="well well-plain inputTable" id="addNewQuestionTable">
+    <div class="well well-plain" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-offset-3 col-sm-9">
           <div class="btn-group">
@@ -1157,7 +1160,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 margin-bottom-7px">
                     <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
                       <option value="STUDENTS">
                         students
@@ -1169,6 +1172,28 @@
                         instructors
                       </option>
                     </select>
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMaxSelectableChoices--1" name="msqEnableMaxSelectableChoices" type="checkbox">
+                        Maximum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMaxSelectableChoices--1" min="2" name="msqMaxSelectableChoices" type="number" value="2">
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMinSelectableChoices--1" name="msqEnableMinSelectableChoices" type="checkbox">
+                        Minimum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" type="number" value="1">
                   </div>
                   <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
                 </div>
@@ -2015,7 +2040,7 @@
   </div>
   <br>
   <br>
-  <div class="well well-plain inputTable" id="questionPreviewTable">
+  <div class="well well-plain" id="questionPreviewTable">
     <div class="row">
       <form class="form-horizontal">
         <label class="control-label col-xs-6 col-md-2 tablet-align-left text-right">

@@ -28,10 +28,10 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
     @BeforeMethod
     public void refreshTestData() {
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreTypicalDataBundle();
+        super.prepareTestData();
     }
 
+    @Override
     @Test
     public void testAccessControl() {
 
@@ -50,7 +50,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
         String teammatesLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"

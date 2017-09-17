@@ -26,7 +26,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 
         String[] submissionParams = new String[] {
@@ -57,7 +57,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         ______TS("No courses");
 
-        instructorId = dataBundle.accounts.get("instructorWithoutCourses").googleId;
+        instructorId = typicalBundle.accounts.get("instructorWithoutCourses").googleId;
 
         gaeSimulation.loginAsInstructor(instructorId);
         a = getAction(submissionParams);
@@ -78,7 +78,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                            + "|||/page/instructorStudentListPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
-        instructor = dataBundle.instructors.get("instructorOfArchivedCourse");
+        instructor = typicalBundle.instructors.get("instructorOfArchivedCourse");
         instructorId = instructor.googleId;
 
         ______TS("Archived course, not displayed");
