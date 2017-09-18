@@ -31,7 +31,6 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     AdminEmailAttributes() {
         createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
-        isInTrashBin = false;
     }
 
     /**
