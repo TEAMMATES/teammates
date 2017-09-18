@@ -52,7 +52,8 @@ before_script:
 install: true
 script:
   - npm run build
-  - ./gradlew appengineRun ciTests
+  - ./gradlew appengineStart
+  - ./gradlew ciTests
 
 after_failure:
   - gem install gist
