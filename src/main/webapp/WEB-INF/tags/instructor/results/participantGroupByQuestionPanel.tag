@@ -14,11 +14,10 @@
     ${groupByQuestionPanel.giver? 'From:' : 'To:'}
     <c:choose>
       <c:when test="${groupByQuestionPanel.emailValid}">
-        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
+       <div class="student-email-icon-hover" data-hidden-parameter="${groupByQuestionPanel.participantIdentifier}">
           <strong>${fn:escapeXml(groupByQuestionPanel.name)}</strong>
-          <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
           <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailto:${groupByQuestionPanel.participantIdentifier}">[${groupByQuestionPanel.participantIdentifier}]</a>
-        </div>
+       </div>
       </c:when>
       <c:otherwise>
         <div class="inline panel-heading-text">

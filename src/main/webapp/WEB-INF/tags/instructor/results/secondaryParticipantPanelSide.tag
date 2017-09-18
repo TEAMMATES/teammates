@@ -15,9 +15,8 @@
 
     <c:choose>
       <c:when test="${not empty secondaryParticipantPanelBody.profilePictureLink}">
-        <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="${secondaryParticipantPanelBody.profilePictureLink}">
-          <strong>${fn:escapeXml(secondaryParticipantPanelBody.secondaryParticipantDisplayableName)}</strong>
-          <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+        <div class="student-email-icon-hover" data-hidden-parameter="${secondaryParticipantPanelBody.secondaryParticipantIdentifier}">
+         <strong>${fn:escapeXml(secondaryParticipantPanelBody.secondaryParticipantDisplayableName)}</strong>
         </div>
       </c:when>
       <c:otherwise>
@@ -31,9 +30,8 @@
     ${primaryParticipantPanel.giver ? 'From' : 'To' }:
     <c:choose>
       <c:when test="${primaryParticipantPanel.emailValid}">
-        <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="${primaryParticipantPanel.profilePictureLink}">
-          ${fn:escapeXml(primaryParticipantPanel.name)}
-          <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+        <div class="student-email-icon-hover" data-hidden-parameter="${primaryParticipantPanel.participantIdentifier}">
+         ${fn:escapeXml(primaryParticipantPanel.name)}
         </div>
       </c:when>
       <c:otherwise>

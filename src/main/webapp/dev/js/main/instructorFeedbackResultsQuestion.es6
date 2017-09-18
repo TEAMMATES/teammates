@@ -1,5 +1,5 @@
 import {
-    bindStudentPhotoHoverLink,
+    bindStudentEmailHover,
     bindStudentPhotoLink,
     prepareInstructorPages,
 } from '../common/instructor.es6';
@@ -70,8 +70,8 @@ $(document).ready(() => {
 
                 // bind the show picture onclick events
                 bindStudentPhotoLink($panelBody.find('.profile-pic-icon-click > .student-profile-pic-view-link'));
-                // bind the show picture onhover events
-                bindStudentPhotoHoverLink($panelBody.find('.profile-pic-icon-hover'));
+                // bind the show email onhover events
+                bindStudentEmailHover($panelBody.find('.student-email-icon-hover'));
 
                 $panelHeading.removeClass('ajax_submit ajax_auto');
 

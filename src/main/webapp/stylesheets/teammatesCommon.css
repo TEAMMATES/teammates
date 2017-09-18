@@ -1104,13 +1104,11 @@ Default to alert color for visibility titles used within an alert context.
 }
 
 /* used on the div/td that contains the img */
-.profile-pic-icon-hover,
 .profile-pic-icon-click {
     cursor: default;
     overflow: hidden;
 }
 
-.profile-pic-icon-hover > img,
 .profile-pic-icon-click > img {
     height: 40px;
     width: 40px;
@@ -1189,6 +1187,16 @@ Default to alert color for visibility titles used within an alert context.
 
 .cursor-default {
     cursor: default;
+}
+
+.student-email-icon-hover {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.student-email-icon-hover > img {
+    height: 40px;
+    width: 40px;
 }
 
 .student-profile-pic-view-link {

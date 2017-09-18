@@ -197,43 +197,42 @@ function bindStudentPhotoLink(elements) {
 /**
  * @param elements:
  * identifier that points to elements with
- * class: profile-pic-icon-hover
+ * class: student-email-icon-hover
  */
-function bindStudentPhotoHoverLink(elements) {
+function bindStudentEmailHover(elements) {
     $(elements)
         .mouseenter(function () {
             $(this).popover('show');
             $(this).siblings('.popover').on('mouseleave', function () {
-                $(this).siblings('.profile-pic-icon-hover').popover('hide');
+                $(this).siblings('.student-email-icon-hover').popover('hide');
             });
         })
         .mouseleave(function () {
             // this is so that the user can hover over the
             // pop-over without accidentally hiding the 'view photo' link
             setTimeout((obj) => {
-                if ($(obj).siblings('.popover').find('.profile-pic').length !== 0
-                    || $(obj).siblings('.popover').find(':hover').length === 0) {
+                if ($(obj).siblings('.popover').find(':hover').length === 0) {
                     $(obj).popover('hide');
                 }
             }, 200, this);
         });
 
     // bind the default popover event for the
-    // show picture onhover events
+    // show email onhover events
     $(elements).popover({
         html: true,
         trigger: 'manual',
         placement: 'top',
         content() {
             $('body').on('click', '.email-cursor-pointer', (event) => {
-                const obj = $(event.currentTarget).closest('.popover').siblings('.profile-pic-icon-hover');
+                const obj = $(event.currentTarget).closest('.popover').siblings('.student-email-icon-hover');
                 obj.popover('destroy').popover({
                     html: true,
                     trigger: 'manual',
                     placement: 'top',
                     content() {
-                        const parameter = obj.attr('data-hidden-parameter');
-                        return parameter;
+                        const email = obj.attr('data-hidden-parameter');
+                        return email;
                     },
                 });
                 obj.popover('show');
@@ -445,7 +444,7 @@ function prepareInstructorPages() {
     bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
 
     // bind the show picture onhover events
-    bindStudentPhotoHoverLink('.profile-pic-icon-hover');
+    bindStudentEmailHover('.student-email-icon-hover');
 
     // bind the event handler to show confirmation modal
     bindCourseDeleteLinks();
@@ -458,7 +457,7 @@ export {
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
-    bindStudentPhotoHoverLink,
+    bindStudentEmailHover,
     bindStudentPhotoLink,
     bindUnpublishButtons,
     executeCopyCommand,

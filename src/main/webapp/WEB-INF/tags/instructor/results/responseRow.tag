@@ -33,10 +33,9 @@
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
     <c:choose>
-      <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
-        <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}" data-hidden-parameter="${response.giverEmail}">
-          ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
-          <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+      <c:when test="${not empty responseRow.giverEmail}">
+        <div class="student-email-icon-hover" data-hidden-parameter="${responseRow.giverEmail}">
+         ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
         </div>
       </c:when>
       <c:otherwise>
@@ -70,10 +69,9 @@
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
     <td class="word-wrap-break middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
       <c:choose>
-        <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
-          <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}" data-hidden-parameter="${responseRow.recipientEmail}">
-            ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
-            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+        <c:when test="${not empty responseRow.recipientEmail}">
+          <div class="student-email-icon-hover" data-hidden-parameter="${responseRow.recipientEmail}">
+           ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
           </div>
         </c:when>
         <c:otherwise>
