@@ -34,8 +34,6 @@ buildscript {
 
 configurations {
     staticAnalysis
-    exclude
-    testExclude
 }
 
 configurations.all {
@@ -56,7 +54,6 @@ dependencies {
                     "de.andrena.tools.macker:macker:1.0.1"
 
     compile         "com.google.appengine.tools:appengine-gcs-client:0.6",
-                    "com.google.appengine:appengine-api-labs:${appengineVersion}",
                     "com.google.code.gson:gson:2.8.0",
                     "com.googlecode.objectify:objectify:5.1.17",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
@@ -69,13 +66,7 @@ dependencies {
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:${jsoupVersion}"
 
-    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
-                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "net.sf.jsr107cache:jsr107cache:1.1"
-
-    runtime         configurations.exclude
+    runtime         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
@@ -90,10 +81,6 @@ dependencies {
                     "com.google.oauth-client:google-oauth-client-jetty:1.22.0",
                     // For using Gmail API
                     "com.google.apis:google-api-services-gmail:v1-rev67-1.22.0"
-
-    testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
-
-    testRuntime     configurations.testExclude
 
 }
 
