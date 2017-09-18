@@ -8,26 +8,27 @@ apply plugin: "war"
 if (System.properties['ide'] == 'idea') {
     buildDir = new File(projectDir, 'buildIdea')
 }
-apply plugin: "appengine"
+// apply plugin: "com.google.cloud.tools.appengine"
+// see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
+project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
+def appengineVersion = "1.9.56"
+def jsoupVersion = "1.10.2"
+def checkstyleVersion = "8.0"
+def pmdVersion = "5.5.4"
+def findbugsVersion = "3.0.1"
+
 buildscript {
-    ext {
-        appengineVersion = "1.9.54"
-        jsoupVersion = "1.10.2"
-        checkstyleVersion = "8.0"
-        pmdVersion = "5.5.4"
-        findbugsVersion = "3.0.1"
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "com.google.appengine:gradle-appengine-plugin:${appengineVersion}"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.3"
     }
 }
 
@@ -53,8 +54,6 @@ dependencies {
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
                     "com.google.code.findbugs:findbugs:${findbugsVersion}",
                     "de.andrena.tools.macker:macker:1.0.1"
-
-    appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
     compile         "com.google.appengine.tools:appengine-gcs-client:0.6",
                     "com.google.appengine:appengine-api-labs:${appengineVersion}",
