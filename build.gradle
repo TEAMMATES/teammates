@@ -124,6 +124,7 @@ sourceSets {
 
 // SETUP TASKS
 
+/*
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
 eclipse {
@@ -172,6 +173,7 @@ eclipseClasspath {
         !(new File(".classpath")).exists()
     }
 }
+*/
 
 task createConfigs {
     description "Sets up the project by obtaining necessary files and configurations points."
@@ -193,6 +195,7 @@ task createConfigs {
     }
 }
 
+/*
 task createEclipseLaunches {
     doLast {
         def templatesToCopy = [
@@ -343,6 +346,7 @@ task setupEclipse {
     group "Setup"
     dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
 }
+*/
 
 // RUN SERVER TASKS
 
