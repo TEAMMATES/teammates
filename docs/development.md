@@ -316,12 +316,15 @@ therefore delivery of emails is not tested when testing against the dev server.
 
 > Client scripts are scripts that remotely manipulate data on GAE via its Remote API. They are run as standard Java applications.
 
-Most of developers may not need to write and/or run client scripts but if you are to do so *in a production environment*, additional steps are required:
+Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-1. Download and install Google Cloud SDK from [here](https://cloud.google.com/sdk/downloads).
-1. Run `gcloud auth login` and choose your Google account for authentication.
+* In order to run any script *in a production environment*, you need to authorize your account for [Application Default Credentials](https://developers.google.com/identity/protocols/application-default-credentials).
+  ```sh
+  gcloud auth application-default login
+  ```
+  Follow the steps until you see `Credentials saved to file: [...].` printed on the console.
 
-You are now ready to run your scripts.
+* It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
 ## Config points
 
