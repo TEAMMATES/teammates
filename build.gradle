@@ -361,6 +361,13 @@ appengine {
                 "-Ddatastore.backing_store=appengine-generated/local_db.bin",
                 "-Dblobstore.backing_store=appengine-generated"]
     }
+    deploy {
+        Node appengineWebXml = new XmlParser().parse('src/main/webapp/WEB-INF/appengine-web.xml')
+        project = appengineWebXml.application.text()
+        version = appengineWebXml.version.text()
+        stopPreviousVersion = false
+        promote = false
+    }
 }
 
 // STATIC ANALYSIS TASKS

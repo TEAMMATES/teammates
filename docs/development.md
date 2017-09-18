@@ -245,6 +245,12 @@ This instruction set assumes that the app identifier is `teammates-john`.
    Suggested app identifier: `teammates-yourname` (e.g `teammates-john`).<br>
    The URL of the app will be like this: `https://teammates-john.appspot.com`.
 
+1. [Authorize your Google account to be used by the Google Cloud SDK](https://cloud.google.com/sdk/docs/authorizing) if you have not done so.
+   ```sh
+   gcloud auth login
+   ```
+   Follow the steps until you see `You are now logged in as [...]` on the console.
+
 1. Modify configuration files.
    * `src/main/resources/build.properties`<br>
      Edit the file as instructed in its comments.
@@ -256,9 +262,9 @@ This instruction set assumes that the app identifier is `teammates-john`.
      * Run the following command:
 
        ```sh
-       ./gradlew appengineUpdate
+       ./gradlew appengineDeploy
        ```
-     * Follow the steps and wait until the command ends with a `BUILD SUCCESSFUL`.
+     * Wait until you see `Deployed service [default] to [https://4-18-dot-teammates-john.appspot.com]` or similar on the console.
    * With Eclipse
      * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
      * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
