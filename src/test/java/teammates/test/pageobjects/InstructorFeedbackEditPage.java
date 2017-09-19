@@ -1554,12 +1554,38 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
 
+    public String getQuestionType(int qnNumber) {
+        return browser.driver.findElement(By.cssSelector("#form_editquestion-" + qnNumber + " input[name='questiontype']"))
+                .getAttribute("value").toString();
+    }
+
     public int getNumOfOptionsInRankOptions(int qnIndex) {
-        WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
-        List<WebElement> optionInputFields = rankOptionsTable
-                                                .findElements(
-                                                     By.cssSelector("input[id^='rankOption-']"));
-        return optionInputFields.size();
+        if ("RANK_OPTIONS".equals(getQuestionType(qnIndex))) {
+            WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
+            List<WebElement> optionInputFields = rankOptionsTable
+                                                    .findElements(
+                                                         By.cssSelector("input[id^='rankOption-']"));
+            return optionInputFields.size();
+        }
+
+        // For rank recipients
+        String recipient = getRecipientTypeForQuestion(qnIndex);
+
+        switch (recipient) {
+        case "STUDENTS":
+            return Integer.parseInt(browser.driver.findElement(By.id("num-students")).getAttribute("value").toString());
+        case "INSTRUCTORS":
+            return Integer.parseInt(browser.driver.findElement(By.id("num-instructors")).getAttribute("value").toString());
+        case "TEAMS":
+            return Integer.parseInt(browser.driver.findElement(By.id("num-teams")).getAttribute("value").toString());
+        case "OWN_TEAM_MEMBERS":
+            return Integer.MAX_VALUE;
+        case "OWN_TEAM_MEMBERS_INCLUDING_SELF":
+            return Integer.MAX_VALUE;
+        default:
+            // For SELF, OWN_TEAM, NONE
+            return 1;
+        }
     }
 
     public int getNumOfOptionsInRankOptionsForNewQuestion() {
@@ -1567,11 +1593,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private WebElement getMinOptionsToBeRankedCheckbox(int qnNumber) {
-        return browser.driver.findElement(By.id("minOptionsToBeRankedEnabled-" + qnNumber));
+        if ("RANK_OPTIONS".equals(getQuestionType(qnNumber))) {
+            return browser.driver.findElement(By.id("minOptionsToBeRankedEnabled-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("minRecipientsToBeRankedEnabled-" + qnNumber));
     }
 
     private WebElement getMaxOptionsToBeRankedCheckbox(int qnNumber) {
-        return browser.driver.findElement(By.id("maxOptionsToBeRankedEnabled-" + qnNumber));
+        if ("RANK_OPTIONS".equals(getQuestionType(qnNumber))) {
+            return browser.driver.findElement(By.id("maxOptionsToBeRankedEnabled-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("maxRecipientsToBeRankedEnabled-" + qnNumber));
     }
 
     public void toggleMinOptionsToBeRankedCheckbox(int qnNumber) {
@@ -1583,11 +1617,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
-        return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
+        if ("RANK_OPTIONS".equals(getQuestionType(qnNumber))) {
+            return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("minRecipientsToBeRanked-" + qnNumber));
     }
 
     private WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
-        return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
+        if ("RANK_OPTIONS".equals(getQuestionType(qnNumber))) {
+            return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("maxRecipientsToBeRanked-" + qnNumber));
     }
 
     public boolean isMinOptionsToBeRankedEnabled(int qnNumber) {
