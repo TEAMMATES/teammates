@@ -382,12 +382,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickElementById("panelHeading-12");
         resultsPage.waitForAjaxErrorOnNoResponsePanel();
 
-        ______TS("Typical case: test view photo for view by questions");
+        ______TS("Typical case: test view Email for view by questions");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(
-                0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+        resultsPage.hoverClickAndViewGiverEmailOnTableCell(0, 0);
+        resultsPage.hoverClickAndViewRecipientEmailOnTableCell(0, 0);
 
         ______TS("Typical case: ajax for view by question for helper 1");
 
@@ -414,11 +413,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
-                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
-                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+        resultsPage.hoverClickAndViewStudentEmailOnHeading("1-1");
+        resultsPage.hoverClickAndViewStudentEmailOnBody("1-1");
+        resultsPage.hoverClickAndViewStudentEmailOnHeading("1-2");
 
         ______TS("Typical case: ajax for view by giver > question > recipient");
 
@@ -430,8 +427,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by giver > question > recipient");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
-                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentEmailOnHeading("1-1");
         resultsPage.clickViewPhotoLink("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
@@ -444,8 +440,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
-                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewStudentEmailOnHeading("1-1");
         resultsPage.clickViewPhotoLink("1-2", "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
 
         ______TS("Typical case: ajax for view by recipient > giver > question");
@@ -458,11 +453,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
-                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
-                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+        resultsPage.hoverClickAndViewStudentEmailOnHeading("1-1");
+        resultsPage.hoverClickAndViewStudentEmailOnBody("1-1");
+        resultsPage.hoverClickAndViewStudentEmailOnHeading("1-2");
     }
 
     private void testFilterAction() throws Exception {

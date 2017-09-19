@@ -407,65 +407,39 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyPopoverImageUrlWithClickRetry(popoverSelector, clickSelector, urlRegex, "Click and verify photo");
     }
 
-    public void hoverClickAndViewStudentPhotoOnHeading(String panelHeadingIndex, String urlRegex)
+    public void hoverClickAndViewStudentEmailOnHeading(String panelHeadingIndex)
             throws MaximumRetriesExceededException {
         String headingSelector = "#panelHeading-" + panelHeadingIndex;
         String popoverSelector = headingSelector + " .popover-content";
-        String hoverSelector = headingSelector + " .profile-pic-icon-hover";
+        String hoverSelector = headingSelector + " .student-email-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
+        click(waitForElementPresence(By.cssSelector(popoverSelector)));
 
-        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
-                "Hover and verify student photo on heading");
     }
 
-    public void hoverAndViewStudentPhotoOnBody(String panelBodyIndex, String urlRegex)
+    public void hoverClickAndViewStudentEmailOnBody(String panelBodyIndex)
             throws MaximumRetriesExceededException {
         String bodyRowSelector = "#panelBodyCollapse-" + panelBodyIndex + " > .panel-body > .row";
         String popoverSelector = bodyRowSelector + " .popover-content";
-        String hoverSelector = bodyRowSelector + " .profile-pic-icon-hover";
+        String hoverSelector = bodyRowSelector + " .student-email-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
+        click(waitForElementPresence(By.cssSelector(popoverSelector)));
 
-        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
-                "Hover and verify student photo on body");
     }
 
-    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex)
+    public void hoverClickAndViewEmailOnTableCell(int questionBodyIndex, int tableRow, int tableCol)
             throws MaximumRetriesExceededException {
         String cellSelector = "#questionBody-" + questionBodyIndex + " .dataTable tbody"
                               + " tr:nth-child(" + (tableRow + 1) + ")"
                               + " td:nth-child(" + (tableCol + 1) + ")";
         String popoverSelector = cellSelector + " .popover-content";
-        String hoverSelector = cellSelector + " .profile-pic-icon-hover";
+        String hoverSelector = cellSelector + " .student-email-icon-hover";
 
         moveToElement(By.cssSelector(hoverSelector));
-        click(waitForElementPresence(By.cssSelector(popoverSelector + " > a")));
+        click(waitForElementPresence(By.cssSelector(popoverSelector)));
 
-        verifyPopoverImageUrlWithHoverRetry(popoverSelector, hoverSelector, urlRegex,
-                "Hover and verify photo on table cell");
-    }
-
-    /**
-     * Popovers triggered by hover actions sometimes fail to appear, resulting in a {@link WebDriverException}.
-     * Popover image verifications that depend on hover actions should therefore be retried several times,
-     * with the hover action triggered before each retry.
-     */
-    private void verifyPopoverImageUrlWithHoverRetry(
-            final String popoverSelector, final String hoverSelector, final String urlRegex, String taskName)
-            throws MaximumRetriesExceededException {
-        uiRetryManager.runUntilNoRecognizedException(new RetryableTask(taskName) {
-            @Override
-            public void run() {
-                verifyPopoverImageUrl(popoverSelector, urlRegex);
-            }
-
-            @Override
-            public void beforeRetry() {
-                moveToElement(By.cssSelector(hoverSelector));
-            }
-        }, WebDriverException.class);
     }
 
     /**
@@ -492,14 +466,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyImageUrl(urlRegex, imgSrc);
     }
 
-    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex)
+    public void hoverClickAndViewGiverEmailOnTableCell(int questionBodyIndex, int tableRow)
             throws MaximumRetriesExceededException {
-        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
+        hoverClickAndViewEmailOnTableCell(questionBodyIndex, tableRow, 1);
     }
 
-    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex)
+    public void hoverClickAndViewRecipientEmailOnTableCell(int questionBodyIndex, int tableRow)
             throws MaximumRetriesExceededException {
-        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
+        hoverClickAndViewEmailOnTableCell(questionBodyIndex, tableRow, 3);
     }
 
     public void removeNavBar() {
