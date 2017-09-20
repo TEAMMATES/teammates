@@ -265,6 +265,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(action);
         assertEquals(getPageResultDestination(Const.ViewURIs.ADMIN_EMAIL, true, "admin.user"),
                 pageResult.getDestinationWithParams());
+
         expectedLogSegment = Const.ACTION_RESULT_FAILURE;
         AssertHelper.assertContains(expectedLogSegment, action.getLogMessage());
 

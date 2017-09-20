@@ -71,10 +71,28 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
     public void testBuilderWithNullRequiredArguments() {
-        ______TS("Failure case: null parameters");
+        ______TS("failure: subject cannot be null)");
 
         AdminEmailAttributes
-                .builder(null, null, null, null)
+                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
+                .build();
+
+        ______TS("failure: addressReceiverListString cannot be null)");
+
+        AdminEmailAttributes
+                .builder(subject, null, groupReceiverListFileKey, content)
+                .build();
+
+        ______TS("failure: groupReceiverListFileKey cannot be null)");
+
+        AdminEmailAttributes
+                .builder(subject, addressReceiverListString, null, content)
+                .build();
+
+        ______TS("failure: content cannot be null)");
+
+        AdminEmailAttributes
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
                 .build();
     }
 
@@ -167,20 +185,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         assertEquals("Invalid subject input should return appropriate error string", expectedSubjectWithPercentError,
                 StringHelper.toString(attributes.getInvalidityInfo()));
         assertFalse("Invalid input", attributes.isValid());
-    }
-
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
-    public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
-                .build();
-    }
-
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
-    public void testGetInvalidityInfoForEmailSubject_null_throwException() {
-        AdminEmailAttributes
-                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
-                .build();
     }
 
     @Test
