@@ -55,7 +55,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 .withSendDate(null)
                 .withCreateDate(null)
                 .withEmailId(null)
-                .withIsInTrashBin(null)
                 .build();
 
         ______TS("valid admin email");

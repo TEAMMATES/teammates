@@ -199,10 +199,8 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             return this;
         }
 
-        public Builder withIsInTrashBin(Boolean isInTrashBin) {
-            if (isInTrashBin != null) {
-                adminEmailAttributes.isInTrashBin = isInTrashBin;
-            }
+        public Builder withIsInTrashBin(boolean isInTrashBin) {
+            adminEmailAttributes.isInTrashBin = isInTrashBin;
             return this;
         }
 
