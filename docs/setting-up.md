@@ -66,7 +66,6 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 If you followed every step correctly, you should have successfully set up the development environment.
 
-
 ## Step 4: (Optional but recommended) Set up an IDE
 
 You are encouraged, but not required, to use an IDE to assist many development tasks.
@@ -76,4 +75,4 @@ Support requests related to other IDEs will not be entertained.
 
 Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
 
-If you do not wish to set up an IDE, then you may proceed to the development routine as lined out in [this document](development.md).
+If you do not wish to set up an IDE, then you may proceed to the development routine as outlined in [this document](development.md).

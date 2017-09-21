@@ -78,14 +78,10 @@ The following plugins are needed:
    ![setupguide-6.png](images/setupguide-6.png)
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
-<<<<<<< HEAD
 
 1. To move on to the development phase, refer to [this document](development.md)
-||||||| merged common ancestors
-1. To start development phase, refer to [this document](development.md)
-=======
-1. To move on to development phase, refer to [this document](development.md).
->>>>>>> origin
+
+
 
 ## IntelliJ IDEA
 
@@ -139,14 +135,9 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
-<<<<<<< HEAD
-1. To move on to the development phase, refer to [this document](development.md)
-||||||| merged common ancestors
-1. To start development phase, refer to [this document](development.md)
-=======
-1. To move on to development phase, refer to [this document](development.md).
+1. To move on to the development phase, refer to [this document](development.md).
 
->>>>>>> origin
+
 **NOTE**
 >The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#project-setup-behavior).
 
@@ -206,11 +197,6 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    ```
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
-<<<<<<< HEAD
 
-1. To move on to the development phase, refer to [this document](development.md)
-||||||| merged common ancestors
-1. To start development phase, refer to [this document](development.md)
-=======
-1. To move on to development phase, refer to [this document](development.md).
->>>>>>> origin
+1. To move on to the development phase, refer to [this document](development.md).
+
