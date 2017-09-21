@@ -96,6 +96,42 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 .build();
     }
 
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    public void testBuilderWithNullRequiredSubjectParam() {
+        ______TS("failure: subject cannot be null)");
+
+        AdminEmailAttributes
+                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
+                .build();
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    public void testBuilderWithNullRequiredAddressReceiverParam() {
+        ______TS("failure: addressReceiverListString cannot be null)");
+
+        AdminEmailAttributes
+                .builder(subject, null, groupReceiverListFileKey, content)
+                .build();
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    public void testBuilderWithNullRequiredGroupReceiverParam() {
+        ______TS("failure: groupReceiverListFileKey cannot be null)");
+
+        AdminEmailAttributes
+                .builder(subject, addressReceiverListString, null, content)
+                .build();
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
+    public void testBuilderWithNullRequiredContentParam() {
+        ______TS("failure: content cannot be null)");
+
+        AdminEmailAttributes
+                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
+                .build();
+    }
+
     @Test
     public void testValueOf() {
         AdminEmail adminEmail = new AdminEmail(
