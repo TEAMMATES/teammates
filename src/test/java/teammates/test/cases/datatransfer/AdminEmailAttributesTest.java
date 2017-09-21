@@ -70,33 +70,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
-    public void testBuilderWithNullRequiredArguments() {
-        ______TS("failure: subject cannot be null)");
-
-        AdminEmailAttributes
-                .builder(null, addressReceiverListString, groupReceiverListFileKey, content)
-                .build();
-
-        ______TS("failure: addressReceiverListString cannot be null)");
-
-        AdminEmailAttributes
-                .builder(subject, null, groupReceiverListFileKey, content)
-                .build();
-
-        ______TS("failure: groupReceiverListFileKey cannot be null)");
-
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, null, content)
-                .build();
-
-        ______TS("failure: content cannot be null)");
-
-        AdminEmailAttributes
-                .builder(subject, addressReceiverListString, groupReceiverListFileKey, null)
-                .build();
-    }
-
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = Const.StatusCodes.NULL_PARAMETER)
     public void testBuilderWithNullRequiredSubjectParam() {
         ______TS("failure: subject cannot be null)");
 
