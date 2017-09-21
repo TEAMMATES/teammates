@@ -29,7 +29,6 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private Date date = new Date();
     private AdminEmailAttributes validAdminEmailAttributesObject = AdminEmailAttributes
             .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
-            .withSendDate(date)
             .build();
 
     @Test
@@ -198,7 +197,8 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testGetIdentificationString() {
-        assertEquals(date + "/" + subject, validAdminEmailAttributesObject.getIdentificationString());
+        assertEquals(validAdminEmailAttributesObject.sendDate + "/" + validAdminEmailAttributesObject.subject,
+                validAdminEmailAttributesObject.getIdentificationString());
     }
 
     @Test
@@ -275,6 +275,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     private Calendar formatDateForAdminEmailAttributesTest(Date date) {
+        validAdminEmailAttributesObject.sendDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
