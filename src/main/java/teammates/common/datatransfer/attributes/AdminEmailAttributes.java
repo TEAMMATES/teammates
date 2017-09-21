@@ -34,7 +34,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     }
 
     /**
-     * Creates a new AdminEmail with default values for optional fields.
+     * Creates a new AdminEmailAttributes with default values for optional fields.
      *
      * <p>Following default values are set to corresponding attributes:
      * <ul>
