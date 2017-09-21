@@ -136,10 +136,10 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.log-entry', (e) => {
-        const entry = e.target;
-        const logTime = $(entry).data('logtime');
-        const googleId = $(entry).data('googleid');
-        const displayedRole = $(entry).data('displayedrole');
-        submitLocalTimeAjaxRequest(logTime, googleId, displayedRole, entry);
+        const $entry = $(e.target);
+        const logTime = $entry.data('logtime');
+        const googleId = $entry.data('googleid');
+        const displayedRole = $entry.data('displayedrole');
+        submitLocalTimeAjaxRequest(logTime, googleId, displayedRole, $entry);
     });
 });

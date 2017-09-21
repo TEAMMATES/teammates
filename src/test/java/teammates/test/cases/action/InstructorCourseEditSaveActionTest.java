@@ -22,7 +22,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
         String courseName = CoursesLogic.inst().getCourse(courseId).getName();
@@ -175,6 +175,17 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor.courseId;
+        String courseName = "Typical Course 1 with 2 Evals";
+        String courseTimeZone = "UTC";
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
 }
