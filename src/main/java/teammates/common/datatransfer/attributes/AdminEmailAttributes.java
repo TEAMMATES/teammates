@@ -38,9 +38,10 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      *
      * <p>Following default values are set to corresponding attributes:
      * <ul>
-     * <li>{@code false} for {@code isInTrashBin}</li>
+     * <li>{@code null} for {@code sendDate}</li>
      * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} for {@code createDate}</li>
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
+     * <li>{@code false} for {@code isInTrashBin}</li>
      * </ul>
      */
     public static Builder builder(String subject, List<String> addressReceiver, List<String> groupReceiver, Text content) {
