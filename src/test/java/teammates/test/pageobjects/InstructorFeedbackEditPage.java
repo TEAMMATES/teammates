@@ -1007,7 +1007,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     /**
      * Selects the points distribution scheme for a const sum question.
-     * 
+     *
      * @param pointsOption Value of "Total" will select total number of points for all options points distribution scheme,
      *                     or "PerOption" will select number of points per option points distribution scheme.
      * @param questionNumber question number of the const sum question.
