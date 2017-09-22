@@ -415,6 +415,7 @@ public final class Templates {
             public static final String RANK_ARE_DUPLICATES_ALLOWED_CHECKED = "${areDuplicatesAllowedChecked}";
             public static final String RANK_SUBMISSION_FORM_OPTION_FRAGMENTS = "${rankSubmissionFormOptionFragments}";
             public static final String RANK_OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
+            public static final String RANK_OPTIONS_OR_RECIPIENTS = "${optionsOrRecipients}";
             public static final String RANK_MIN_OPTIONS_TO_BE_RANKED = "${minOptionsToBeRanked}";
             public static final String RANK_MAX_OPTIONS_TO_BE_RANKED = "${maxOptionsToBeRanked}";
             public static final String RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED = "${isMinOptionsToBeRankedEnabled}";

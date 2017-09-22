@@ -942,11 +942,13 @@ function updateRankMessageQn(qnNum) {
             $messageElement.addClass('text-color-red');
         } else if (isMinOptionsToBeRankedViolated) {
             const min = getMinOptionsToBeRanked(qnNum);
-            message += ` You need to rank at least ${min} options. `;
+
+            message += ` You need to rank at least ${min} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
             $messageElement.addClass('text-color-red');
         } else if (isMaxOptionsToBeRankedViolated) {
             const max = getMaxOptionsToBeRanked(qnNum);
-            message += ` Rank no more than ${max} options. `;
+
+            message += ` Rank no more than ${max} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked && !isMinOrMaxOptionsToBeRankedEnabled) {
             message = `Please rank the above ${isDistributingToRecipients ? 'recipients. '
