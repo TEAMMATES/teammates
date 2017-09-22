@@ -85,8 +85,9 @@
                 </tr>
               </thead>
               <tbody>
-                <c:forEach items="${questionPanel.responses}" var="responseRow">
-                  <results:responseRow responseRow="${responseRow}"/>
+                <c:forEach items="${questionPanel.responses}" var="responseRow" varStatus="status">
+                  <results:responseRow responseRow="${responseRow}" questionIndex="${questionIndex}"
+                      responseIndex="${status.count}"/>
                 </c:forEach>
               </tbody>
             </table>
