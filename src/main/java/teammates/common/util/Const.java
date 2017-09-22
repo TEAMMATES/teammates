@@ -264,6 +264,7 @@ public final class Const {
                 + "using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, "
                 + "but a joined student can access extra features e.g. set up a user profile";
 
+        public static final String EVALUEE_DESCRIPTION = "The party being evaluated or given feedback to";
         public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT =
                 "If this is unselected, the instructor will be completely invisible to students."
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
@@ -1402,7 +1403,7 @@ public final class Const {
                 "This session seems to have a large number of responses. "
                 + "It is recommended to view the results one question/section at a time. "
                 + "To view responses for a particular question, click on the question below. "
-                + "To view response for a particular section, choose the section from the drop-down box above.";
+                + "To view response for a particular section, click the 'Edit View' button above and choose a section.";
         public static final String FEEDBACK_RESULTS_QUESTIONVIEWWARNING =
                 "This session seems to have a large number of responses. "
                 + "It is recommended to view the results for one question at a time. "
