@@ -73,6 +73,8 @@ Support requests related to other IDEs will not be entertained.
 
 Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
 
-## Step 5: Start Developing
+## Step 5: Start developing
 
-If you followed every step correctly, you should have successfully set up the development environment.Proceed to the development routine as outlined in [this document](development.md).
+If you followed every step correctly, you should have successfully set up the development environment.
+
+Proceed to the development routine as outlined in [this document](development.md).
