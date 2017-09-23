@@ -247,10 +247,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement saveButton = addResponseCommentForm
                 .findElement(By.className("col-sm-offset-5"))
                 .findElement(By.tagName("a"));
-        if ("chrome".equals(TestProperties.BROWSER)) {
-            // Focus on save button to fire events triggered when the editor loses focus
-            focusViaClickAction(saveButton);
-        }
         click(saveButton);
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
@@ -297,10 +293,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement saveButton = addResponseCommentForm
                 .findElement(By.className("col-sm-offset-5"))
                 .findElement(By.tagName("a"));
-        if ("chrome".equals(TestProperties.BROWSER)) {
-            // Focus on save button to fire events triggered when the editor loses focus
-            focusViaClickAction(saveButton);
-        }
         click(saveButton);
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
@@ -632,10 +624,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void moveToElement(WebElement element) {
         new Actions(browser.driver).moveToElement(element).perform();
-    }
-
-    private void focusViaClickAction(WebElement element) {
-        new Actions(browser.driver).moveToElement(element).click().perform();
     }
 
     private void moveToElementAndClickAfterWaitForPresence(By by) {
