@@ -1008,8 +1008,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     /**
      * Selects the points distribution scheme for a const sum question.
      *
-     * @param pointsOption Value of "Total" will select <i>Total number of points for all options</i> points distribution scheme,
-     *                     or "PerOption" will select <i>Number of points per option</i> points distribution scheme.
+     * @param pointsOption Value of "Total" will select <i>Total number of points for all options</i> points distribution
+     *                     scheme, or "PerOption" will select <i>Number of points per option</i> points distribution scheme.
      * @param questionNumber question number of the const sum question.
      */
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
