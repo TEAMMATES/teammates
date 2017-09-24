@@ -262,11 +262,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
 
             String currentTeam = getCurrentTeam(bundle, primaryParticipantIdentifier);
-
+            boolean isInstructor = bundle.isParticipantIdentifierInstructor(primaryParticipantIdentifier);
             boolean isStudent = bundle.isParticipantIdentifierStudent(primaryParticipantIdentifier);
             String participantSection = bundle.getSectionFromRoster(primaryParticipantIdentifier);
 
-            if (isStudent && !participantSection.equals(section)) {
+            if (isStudent && !isInstructor && !participantSection.equals(section)) {
                 continue;
             }
 
@@ -339,10 +339,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             primaryParticipantIndex += 1;
             String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
 
+            boolean isInstructor = bundle.isParticipantIdentifierInstructor(primaryParticipantIdentifier);
             boolean isStudent = bundle.isParticipantIdentifierStudent(primaryParticipantIdentifier);
             String participantSection = bundle.getSectionFromRoster(primaryParticipantIdentifier);
 
-            if (isStudent && !participantSection.equals(section)) {
+            if (isStudent && !isInstructor && !participantSection.equals(section)) {
                 continue;
             }
 
