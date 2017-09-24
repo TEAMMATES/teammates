@@ -23,10 +23,10 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
         testActionSuccess(student, "Typical case");
         testActionInMasquerade(student);
-        student = dataBundle.accounts.get("student1InTestingSanitizationCourse");
+        student = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
         // simulate sanitization that occurs before persistence
         student.sanitizeForSaving();
         testActionSuccess(student, "Typical case: attempted script injection");

@@ -23,10 +23,10 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends Ba
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
-        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         gaeSimulation.loginAsInstructor(instructorId);
 
@@ -69,8 +69,15 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends Ba
         return (InstructorFeedbackRemindParticularStudentsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

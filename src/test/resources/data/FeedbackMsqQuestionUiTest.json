@@ -55,6 +55,54 @@
       "name": "Alice Betsy</td></div>'\"",
       "comments": "This student's name is Alice Betsy</td></div>'\"",
       "team": "Team </option><option value=\"dump\">1'"
+    },
+    "benny.tmms@FMsqQnUiT.CS2104": {
+      "googleId": "FMsqQnUiT.benny.tmms",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "FMsqQnUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles</td></div>'\"",
+      "team": "Team </option><option value=\"dump\">1'"
+    },
+    "charlie.tmms@FMsqQnUiT.CS2104": {
+      "googleId": "FMsqQnUiT.charlie.tmms",
+      "email": "charlie.d.tmms@gmail.tmt",
+      "course": "FMsqQnUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis</td></div>'\"",
+      "team": "Team 1"
+    },
+    "danny.tmms@FMsqQnUiT.CS2104": {
+      "googleId": "FMsqQnUiT.danny.tmms",
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "FMsqQnUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid</td></div>'\"",
+      "team": "Team 1"
+    },
+    "francis.tmms@FMsqQnUiT.CS2104": {
+      "googleId": "FMsqQnUiT.francis.tmms",
+      "email": "francis.g.tmms@gmail.tmt",
+      "course": "FMsqQnUiT.CS2104",
+      "name": "Francis Gabriel",
+      "comments": "This student's name is Francis Gabriel</td></div>'\"",
+      "team": "Team 2"
+    },
+    "gene.tmms@FMsqQnUiT.CS2104": {
+      "googleId": "FMsqQnUiT.gene.tmms",
+      "email": "gene.h.tmms@gmail.tmt",
+      "course": "FMsqQnUiT.CS2104",
+      "name": "Gene Hudson",
+      "comments": "This student's name is Gene Hudson</td></div>'\"",
+      "team": "Team 3"
+    },
+    "hugh.tmms@FMsqQnUiT.CS2104": {
+      "googleId": "FMsqQnUiT.gene.tmms",
+      "email": "hugh.i.tmms@gmail.tmt",
+      "course": "FMsqQnUiT.CS2104",
+      "name": "Hugh Ivanov",
+      "comments": "This student's name is Hugh Ivanov</td></div>'\"",
+      "team": "Team 3"
     }
   },
   "feedbackSessions": {

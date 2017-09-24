@@ -285,7 +285,11 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED =
                 "<br>The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED =
-                "<br>The responses for the session can now be viewed.";
+                "The responses for the session have been published and can now be viewed.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED =
+                "The responses for the session have not yet been published and cannot be viewed.";
+        public static final String STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
+                "The instructor has set the results for this feedback session to not be published.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
@@ -353,7 +357,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
         public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
-        public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br>The responses for this session are visible";
+        public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = "The responses for this session are visible.";
+        public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
+        public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
+                "This feedback session is not published as it is private and only visible to you.";
+        public static final String FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
+                "The responses for this feedback session have been set to never get published.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
                 "You should not need to change this as your timezone is auto-detected. <br><br>"
@@ -511,6 +520,15 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
+        public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
+                "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
+                "Minimum selectable choices exceeds maximum selectable choices for "
+                + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES =
+                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
+        public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
+                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -713,6 +731,10 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER = "msqIsOtherOptionAnswer";
+        public static final String FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES = "msqMaxSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES = "msqMinSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES = "msqEnableMaxSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES = "msqEnableMinSelectableChoices";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
@@ -753,6 +775,10 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
         public static final String FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED = "rankAreDuplicatesAllowed";
+        public static final String FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED = "minOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED = "minOptionsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED = "maxOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED = "maxOptionsToBeRanked";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
@@ -1170,6 +1196,7 @@ public final class Const {
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
         public static final String EMAIL_NOT_FOUND = "The requested email was not found";
+        public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
         public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
 
         public static final String NOT_A_RECEIVER_LIST_FILE =
@@ -1328,6 +1355,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
+                "The feedback session is not open for submissions. "
+                + "You cannot send reminders for a session that is not open.";
         public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
         public static final String FEEDBACK_SESSION_EXISTS =
                 "A feedback session by this name already exists under this course";
@@ -1351,6 +1381,8 @@ public final class Const {
         public static final String FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE =
                 "Incorrect question type for response in question %s.";
         public static final String FEEDBACK_RESPONSES_INVALID_ID = "You are modifying an invalid response in question %s";
+        public static final String FEEDBACK_RESPONSES_MSQ_MIN_CHECK = "Minimum selectable choices for question %d is %d.";
+        public static final String FEEDBACK_RESPONSES_MSQ_MAX_CHECK = "Maximum selectable choices for question %d is %d.";
 
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_INVALID_RECIPIENT =

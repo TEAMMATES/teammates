@@ -62,8 +62,11 @@ import {
 
 import {
     addMsqOption,
+    bindMsqEvents,
     removeMsqOption,
     toggleMsqGeneratedOptions,
+    toggleMsqMaxSelectableChoices,
+    toggleMsqMinSelectableChoices,
     toggleMsqOtherOptionEnabled,
     changeMsqGenerateFor,
 } from '../common/questionMsq.es6';
@@ -74,8 +77,11 @@ import {
 
 import {
     addRankOption,
+    bindRankEvents,
     hideRankOptionTable,
     removeRankOption,
+    toggleMaxOptionsToBeRanked,
+    toggleMinOptionsToBeRanked,
 } from '../common/questionRank.es6';
 
 import {
@@ -437,6 +443,8 @@ function enableQuestion(questionNum) {
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
     }
 
+    toggleMsqMaxSelectableChoices(questionNum);
+    toggleMsqMinSelectableChoices(questionNum);
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {
         $(`#constSumOptionTable-${questionNum}`).hide();
         $(`#constSumOption_Option-${questionNum}`).hide();
@@ -458,6 +466,8 @@ function enableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     $(`#button_question_submit-${questionNum}`).show();
+    toggleMaxOptionsToBeRanked(questionNum);
+    toggleMinOptionsToBeRanked(questionNum);
 
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
@@ -531,11 +541,15 @@ function enableNewQuestion() {
         $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
+    toggleMsqMaxSelectableChoices(NEW_QUESTION);
+    toggleMsqMinSelectableChoices(NEW_QUESTION);
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${NEW_QUESTION}`).hide();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
     $(`#button_question_submit-${NEW_QUESTION}`).show();
     disableCornerMoveRubricColumnButtons(NEW_QUESTION);
+    toggleMaxOptionsToBeRanked(NEW_QUESTION);
+    toggleMinOptionsToBeRanked(NEW_QUESTION);
 }
 
 /**
@@ -1114,7 +1128,9 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMsqEvents();
     bindMoveRubricColButtons();
+    bindRankEvents();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();

@@ -96,9 +96,10 @@ function filterSection() {
  */
 function filterTeam() {
     $('input[id^="team_check"]').each(function () {
-        const courseIdx = $(this).attr('id').split('-')[1];
-        const sectionIdx = $(this).attr('id').split('-')[2];
-        const teamIdx = $(this).attr('id').split('-')[3];
+        const idContents = $(this).attr('id').split('-');
+        const courseIdx = idContents[1];
+        const sectionIdx = idContents[2];
+        const teamIdx = idContents[3];
         if (this.checked) {
             $(`#studentteam-c${courseIdx}\\.${sectionIdx}\\.${teamIdx}`).parent().show();
         } else {
@@ -250,16 +251,16 @@ function removeDataToBeTransported() {
 }
 
 const seeMoreRequest = function (e) {
-    const panelHeading = $(this);
-    const panelCollapse = $(this).parent().children('.panel-collapse');
-    const toggleChevron = $(this).parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    const $panelHeading = $(this);
+    const panelCollapse = $panelHeading.parent().children('.panel-collapse');
+    const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
     const panelBody = $(panelCollapse[0]).children('.panel-body');
-    const displayIcon = $(this).children('.display-icon');
+    const displayIcon = $panelHeading.children('.display-icon');
     const courseIndex = $(panelCollapse[0]).attr('id').split('-')[1];
     const courseCheck = $(`#course_check-${courseIndex}`);
     let courseNumStudents = parseInt($(`#numStudents-${courseIndex}`).val(), 10);
 
-    if ($(panelHeading).attr('class').indexOf('ajax_submit') === -1) {
+    if ($panelHeading.attr('class').indexOf('ajax_submit') === -1) {
         clearStatusMessages();
         if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
             $(panelCollapse).collapse('show');
@@ -267,7 +268,7 @@ const seeMoreRequest = function (e) {
             $(courseCheck).prop('checked', true);
         } else {
             $(panelCollapse[0]).collapse('hide');
-            $(panelHeading).addClass('ajax_submit');
+            $panelHeading.addClass('ajax_submit');
             $(panelBody[0]).html('');
             $(panelCollapse[0]).removeClass('checked');
             $(courseCheck).prop('checked', false);
@@ -276,7 +277,7 @@ const seeMoreRequest = function (e) {
         checkCourseBinding(courseCheck);
     } else if (numStudents < STUDENT_LIMIT) {
         clearStatusMessages();
-        const formObject = $(this).children('form');
+        const formObject = $panelHeading.children('form');
         const courseIdx = $(formObject[0]).attr('class').split('-')[1];
         const formData = formObject.serialize();
         e.preventDefault();
@@ -315,10 +316,10 @@ const seeMoreRequest = function (e) {
                     transportEmailChoices();
                     bindPhotos(courseIdx);
 
-                    $(panelHeading).removeClass('ajax_submit');
+                    $panelHeading.removeClass('ajax_submit');
                     displayIcon.html('');
                     if ($(panelCollapse[0]).attr('class').indexOf('in') === -1) {
-                        $(panelHeading).trigger('click');
+                        $panelHeading.trigger('click');
                     }
                 },
             });

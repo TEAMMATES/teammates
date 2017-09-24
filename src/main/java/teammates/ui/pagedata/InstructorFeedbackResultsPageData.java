@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -1478,9 +1480,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
                         String giverName, String recipientName) {
-        FeedbackResponseCommentAttributes frca =
-                new FeedbackResponseCommentAttributes(question.courseId, question.feedbackSessionName,
-                                                      question.getFeedbackQuestionId(), response.getId());
+        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
+                .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
+                .withFeedbackResponseId(response.getId())
+                .withFeedbackQuestionId(question.getId())
+                .build();
 
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,

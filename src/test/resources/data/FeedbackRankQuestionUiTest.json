@@ -794,6 +794,81 @@
         "RECEIVER",
         "INSTRUCTORS"
       ]
+    },
+    "studentQuestions10": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2, \"questionText\":\"Rank atleast 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}"
+      },
+      "questionNumber": 10,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions11": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2, \"questionText\":\"Rank at most 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}"
+      },
+      "questionNumber": 11,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions12": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 options based on popularity.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"C\",\"C++\",\"Java\",\"C#\",\"Python\"]}"
+      },
+      "questionNumber": 12,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {

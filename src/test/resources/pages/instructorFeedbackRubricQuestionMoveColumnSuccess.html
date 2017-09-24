@@ -794,6 +794,9 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
+  <input id="num-students" type="hidden" value="3">
+  <input id="num-teams" type="hidden" value="2">
+  <input id="num-instructors" type="hidden" value="1">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
@@ -880,19 +883,19 @@
                         </span>
                       </th>
                       <th class="rubricCol-1-0">
-                        <input class="form-control" disabled="" id="rubricChoice-1-0" name="rubricChoice-0" type="text" value="New Col 5 choice">
+                        <input class="form-control" disabled="" id="rubricChoice-1-0" name="rubricChoice-0" type="text" value="Col 5 Choice">
                       </th>
                       <th class="rubricCol-1-1">
-                        <input class="form-control" disabled="" id="rubricChoice-1-1" name="rubricChoice-1" type="text" value="Agree">
+                        <input class="form-control" disabled="" id="rubricChoice-1-1" name="rubricChoice-1" type="text" value="Col 1 Choice">
                       </th>
                       <th class="rubricCol-1-2">
-                        <input class="form-control" disabled="" id="rubricChoice-1-2" name="rubricChoice-2" type="text" value="Strongly Agree">
+                        <input class="form-control" disabled="" id="rubricChoice-1-2" name="rubricChoice-2" type="text" value="Col 2 Choice">
                       </th>
                       <th class="rubricCol-1-3">
-                        <input class="form-control" disabled="" id="rubricChoice-1-3" name="rubricChoice-3" type="text" value="New(2) choice">
+                        <input class="form-control" disabled="" id="rubricChoice-1-3" name="rubricChoice-3" type="text" value="Col 3 Choice">
                       </th>
                       <th class="rubricCol-1-4">
-                        <input class="form-control" disabled="" id="rubricChoice-1-4" name="rubricChoice-4" type="text" value="Disagree">
+                        <input class="form-control" disabled="" id="rubricChoice-1-4" name="rubricChoice-4" type="text" value="Col 0 Choice">
                       </th>
                     </tr>
                     <tr id="rubricWeights-1">
@@ -905,19 +908,19 @@
                         </span>
                       </th>
                       <th class="rubricCol-1-0">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" type="number" value="0.3">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" type="number" value="0.5">
                       </th>
                       <th class="rubricCol-1-1">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" type="number" value="0">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" type="number" value="0.2">
                       </th>
                       <th class="rubricCol-1-2">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-2" name="rubricWeight-2" step="0.01" type="number" value="0">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-2" name="rubricWeight-2" step="0.01" type="number" value="0.3">
                       </th>
                       <th class="rubricCol-1-3">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-3" name="rubricWeight-3" step="0.01" type="number" value="0">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-3" name="rubricWeight-3" step="0.01" type="number" value="0.4">
                       </th>
                       <th class="rubricCol-1-4">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-4" name="rubricWeight-4" step="0.01" type="number" value="2.25">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-4" name="rubricWeight-4" step="0.01" type="number" value="0.1">
                       </th>
                     </tr>
                   </thead>
@@ -936,24 +939,27 @@
                       </td>
                       <td class="align-center rubricCol-1-0">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-0" name="rubricDesc-0-0" rows="3">
-                          New Row 0, Col 5 Text
+                          Col 5, SubQn 0
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-1">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-1" name="rubricDesc-0-1" rows="3">
+                          Col 1, SubQn 0
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-2">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-2" name="rubricDesc-0-2" rows="3">
+                          Col 2, SubQn 0
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-3">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-3" name="rubricDesc-0-3" rows="3">
+                          Col 3, SubQn 0
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-4">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-4" name="rubricDesc-0-4" rows="3">
-                          New(0) description
+                          Col 0, SubQn 0
                         </textarea>
                       </td>
                     </tr>
@@ -971,24 +977,27 @@
                       </td>
                       <td class="align-center rubricCol-1-0">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-0" name="rubricDesc-1-0" rows="3">
-                          New Row 1, Col 5 Text
+                          Col 5, SubQn 1
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-1">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-1" name="rubricDesc-1-1" rows="3">
+                          Col 1, SubQn 1
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-2">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-2" name="rubricDesc-1-2" rows="3">
+                          Col 2, SubQn 1
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-3">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-3" name="rubricDesc-1-3" rows="3">
+                          Col 3, SubQn 1
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-4">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-4" name="rubricDesc-1-4" rows="3">
-                          New(1) description
+                          Col 0, SubQn 1
                         </textarea>
                       </td>
                     </tr>
@@ -1000,33 +1009,33 @@
                             </span>
                           </span>
                           <textarea class="form-control" disabled="" id="rubricSubQn-1-2" name="rubricSubQn-2" required="" rows="3">
-                            New subquestion 2
+                            SubQn 2
                           </textarea>
                         </div>
                       </td>
                       <td class="align-center rubricCol-1-0">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-2-0" name="rubricDesc-2-0" rows="3">
-                          New Row 2, Col 5 Text
+                          Col 5, SubQn 2
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-1">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-2-1" name="rubricDesc-2-1" rows="3">
-                          New Row 2, Col 1 Text
+                          Col 1, SubQn 2
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-2">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-2-2" name="rubricDesc-2-2" rows="3">
-                          New Row 2, Col 2 Text
+                          Col 2, SubQn 2
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-3">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-2-3" name="rubricDesc-2-3" rows="3">
-                          New Row 2, Col 3 Text
+                          Col 3, SubQn 2
                         </textarea>
                       </td>
                       <td class="align-center rubricCol-1-4">
                         <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-2-4" name="rubricDesc-2-4" rows="3">
-                          New Row 2, Col 0 Text
+                          Col 0, SubQn 2
                         </textarea>
                       </td>
                     </tr>
@@ -1487,7 +1496,7 @@
   <br>
   <br>
   <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
-    <div class="well well-plain inputTable" id="addNewQuestionTable">
+    <div class="well well-plain" id="addNewQuestionTable">
       <div class="row">
         <div class="col-sm-offset-3 col-sm-9">
           <div class="btn-group">
@@ -1772,7 +1781,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 margin-bottom-7px">
                     <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
                       <option value="STUDENTS">
                         students
@@ -1784,6 +1793,28 @@
                         instructors
                       </option>
                     </select>
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMaxSelectableChoices--1" name="msqEnableMaxSelectableChoices" type="checkbox">
+                        Maximum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMaxSelectableChoices--1" min="2" name="msqMaxSelectableChoices" type="number" value="2">
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMinSelectableChoices--1" name="msqEnableMinSelectableChoices" type="checkbox">
+                        Minimum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" type="number" value="1">
                   </div>
                   <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
                 </div>
@@ -2199,6 +2230,38 @@
                       Allow response giver to give the same rank to multiple options
                     </label>
                   </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-9 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input id="minOptionsToBeRankedEnabled--1" name="minOptionsToBeRankedEnabled" type="checkbox">
+                          Minimum number of options a respondent must rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                      <div class="pull-right">
+                        <input class="form-control" id="minOptionsToBeRanked--1" min="1" name="minOptionsToBeRanked" type="number" value="1">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-9 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input id="maxOptionsToBeRankedEnabled--1" name="maxOptionsToBeRankedEnabled" type="checkbox">
+                          Maximum number of options a respondent can rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                      <div class="pull-right">
+                        <input class="form-control" id="maxOptionsToBeRanked--1" min="1" name="maxOptionsToBeRanked" type="number" value="1">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <br>
               </div>
@@ -2598,7 +2661,7 @@
   </div>
   <br>
   <br>
-  <div class="well well-plain inputTable" id="questionPreviewTable">
+  <div class="well well-plain" id="questionPreviewTable">
     <div class="row">
       <form class="form-horizontal">
         <label class="control-label col-xs-6 col-md-2 tablet-align-left text-right">

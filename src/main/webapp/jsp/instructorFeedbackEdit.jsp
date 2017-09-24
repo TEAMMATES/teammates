@@ -10,9 +10,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
-<c:set var="cssIncludes">
-  <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
-</c:set>
 <c:set var="jsIncludes">
   <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
   <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
@@ -21,7 +18,7 @@
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
   <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
-<ti:instructorPage title="Edit Feedback Session" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="Edit Feedback Session" jsIncludes="${jsIncludes}">
 
   <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" fsEnableEdit="${data.shouldLoadInEditMode}"/>
 
@@ -36,6 +33,9 @@
   </c:if>
    <br>
   <input type="hidden" id="num-questions" value="${fn:length(data.qnForms)}">
+  <input type="hidden" id="num-students" value="${data.courseDetails.stats.studentsTotal}">
+  <input type="hidden" id="num-teams" value="${data.courseDetails.stats.teamsTotal}">
+  <input type="hidden" id="num-instructors" value="${data.numOfInstructors}">
   <c:forEach items="${data.qnForms}" var="question">
     <feedbackEdit:questionEditForm fqForm="${question}" />
   </c:forEach>

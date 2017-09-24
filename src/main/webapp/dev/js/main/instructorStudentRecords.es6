@@ -39,12 +39,12 @@ $(document).ready(() => {
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
     $('.load-feedback-session').on('click', (e) => {
-        const entry = e.target;
-        const courseId = $(entry).data('courseid');
-        const studentEmail = $(entry).data('studentemail');
-        const googleId = $(entry).data('googleid');
-        const fsName = $(entry).data('fsname');
-        loadFeedbackSession(courseId, studentEmail, googleId, fsName, entry);
+        const $entry = $(e.target);
+        const courseId = $entry.data('courseid');
+        const studentEmail = $entry.data('studentemail');
+        const googleId = $entry.data('googleid');
+        const fsName = $entry.data('fsname');
+        loadFeedbackSession(courseId, studentEmail, googleId, fsName, $entry);
     });
 
     // Auto-loading for feedback responses
