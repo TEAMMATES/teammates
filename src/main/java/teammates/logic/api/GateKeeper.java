@@ -311,16 +311,11 @@ public class GateKeeper {
     }
 
     private boolean isInstructor() {
-        User user = userService.getCurrentUser();
-        Assumption.assertNotNull(user);
-        return accountsLogic.isAccountAnInstructor(user.getNickname());
+        return accountsLogic.isAccountAnInstructor(userService.getCurrentUser());
     }
 
     private boolean isStudent() {
-        User user = userService.getCurrentUser();
-        Assumption.assertNotNull(user);
-
-        return studentsLogic.isStudentInAnyCourse(user.getNickname());
+        return studentsLogic.isStudentInAnyCourse(userService.getCurrentUser());
     }
 
     public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,

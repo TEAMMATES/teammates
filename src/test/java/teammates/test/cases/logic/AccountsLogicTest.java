@@ -97,7 +97,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
 
         ______TS("test isAccountAnInstructor");
-
         assertTrue(accountsLogic.isAccountAnInstructor("idOfInstructor1OfCourse1"));
 
         assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));

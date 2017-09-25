@@ -2,6 +2,8 @@ package teammates.logic.core;
 
 import java.util.List;
 
+import com.google.appengine.api.users.User;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -11,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -43,6 +46,13 @@ public final class AccountsLogic {
         return instance;
     }
 
+    private void checkNotNull(Object object, String typeName) {
+        if (object == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName
+                                                      + " entity");
+        }
+    }
+
     public void createAccount(AccountAttributes accountData)
                     throws InvalidParametersException {
 
@@ -66,6 +76,12 @@ public final class AccountsLogic {
 
     public boolean isAccountPresent(String googleId) {
         return accountsDb.getAccount(googleId) != null;
+    }
+
+    public boolean isAccountAnInstructor(User user) {
+        checkNotNull(user, "User");
+        AccountAttributes a = accountsDb.getAccount(user.getNickname());
+        return a != null && a.isInstructor;
     }
 
     public boolean isAccountAnInstructor(String googleId) {
