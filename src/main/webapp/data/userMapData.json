@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "End of June 2017",
+  "lastUpdated": "End of July 2017",
   "institutes": {
      "Argentina": [
        "Southworks",
@@ -48,6 +48,7 @@
       "RMIT University",
       "St Catherine's Catholic College",
       "St Ives High School",
+      "St Paul's Anglican Grammar School",
       "St. Scholastica's College",
       "Star of the Sea Catholic College",
       "Suzanne Cory High School",
@@ -142,6 +143,7 @@
       "UniFOA",
       "Universidade Católica de Brasília",
       "Universidade de São Paulo",
+      "Universidade Estadual de Maringá",
       "Universidade Federal do Rio de Janeiro"
     ],
     "Brunei Darussalam": [
@@ -271,6 +273,7 @@
     "Denmark": [
       "Aarhus University",
       "Birkerød Gymnasium",
+      "Danish Hydraulic Institute",
       "Erhvervsakademiet Lillebælt",
       "Hans Christian Ørsted Gymnasium",
       "Lyngby Private School",
@@ -290,6 +293,9 @@
       "South Valley University",
       "Summits International School",
       "The International School of Elite Education"
+    ],
+    "El Salvador": [
+      "Escuela Superior de Economía y Negocios"
     ],
     "Estonia": [
       "University of Tartu",
@@ -340,6 +346,7 @@
       "Refugee Innovation Challenge",
       "Rheinische Fachhochschule Köln",
       "SHIFTSCHOOL",
+      "Stuttgart Media University",
       "Technical University of Munich ",
       "TU Dresden",
       "Uni Hamburg",
@@ -403,6 +410,7 @@
       "IMT Ghaziabad",
       "Indian Institute of Technology",
       "Jadavpur University",
+      "Karmaveer Bhaurao Patil College Of Engineering, Satara",
       "Keshav Memorial Institute of Technology",
       "Maharaja's College Ernakulam",
       "MakerWala",
@@ -478,6 +486,9 @@
       "AdRoll",
       "Showa Women's University"
     ],
+    "Kazakhstan": [
+      "Method Coding School"
+    ],
     "Kenya": [
       "Spire"
     ],
@@ -539,6 +550,7 @@
       "Instituto Tecnologico de Estudios Superiores",
       "Latin American School",
       "Lemon Three",
+      "National Autonomous University of Mexico",
       "Peterson Schools",
       "Universidad Autónoma de Baja California",
       "Universidad de Celaya",
@@ -627,6 +639,7 @@
       "NTNU"
     ],
     "Pakistan": [
+      "Aga Khan University Hospital",
       "Institute of Business Management",
       "National University of Computer And Emerging Sciences",
       "National University of Sciences and Technology",
@@ -680,6 +693,7 @@
       "Universidade do Minho"
     ],
     "Puerto Rico": [
+      "Carlos Albizu University",
       "Universidad del Este",
       "University of Coimbra"
     ],
@@ -711,6 +725,7 @@
       "University of Belgrade"
     ],
     "Singapore": [
+      "Australian International School Singapore",
       "Bedok Green Secondary",
       "Changkat Changi Secondary School",
       "Civil Service College",
@@ -740,6 +755,7 @@
       "Raffles College of Higher Education",
       "Raffles Junior College",
       "Republic Polytechnic",
+      "River Valley High School",
       "Rosyth School",
       "Sengkang Secondary School",
       "Serangoon Junior College",
@@ -749,6 +765,7 @@
       "Singapore Institute of Technology",
       "Singapore Management University",
       "Singapore Polytechnic",
+      "Singapore Sports Institute",
       "Singapore University of Technology and Design",
       "St. Gabriels' Secondary",
       "St. Joseph's Institution",
@@ -789,6 +806,7 @@
       "Cooke e-learning",
       "Escola Martí",
       "Escola Oficial d'Idiomes Sant Feliu de Guíxols",
+      "Geneva Business School Barcelona Campus",
       "IE Business School",
       "IESE Business School",
       "INS Bernat el Ferrer",
@@ -832,6 +850,7 @@
       "Ching Cheng High School",
       "Chung-Yuan Christian University",
       "National Central University",
+      "National Kaohsiung First University of Science and Technology",
       "National Taiwan Normal University",
       "National Taiwan University",
       "National University of Kaohsiung",
@@ -893,6 +912,7 @@
       "Imperial College London",
       "Kingston University London",
       "Leeds Trinity University",
+      "Liverpool John Moores University",
       "London School of Economics and Political Science",
       "Manchester Metropolitan University",
       "Middlesex University",
@@ -957,6 +977,7 @@
       "Allen High School",
       "Allen University",
       "Amargosa Creek Middle School",
+      "Amazon",
       "Andrews University",
       "Anne Arundel Community College",
       "Arcadia University",
@@ -1027,6 +1048,7 @@
       "California State University, Stanislaus",
       "Calvin College",
       "Camden Middle School",
+      "Carly Thompson Temp University",
       "Carnegie Mellon Tepper School",
       "Carnegie Mellon University",
       "Carrington College",
@@ -1054,6 +1076,7 @@
       "Christian Brothers High School",
       "Christopher Newport University",
       "City University of New York",
+      "Claremont Colleges",
       "Clark State Community College",
       "Clark University",
       "Clarkson University",
@@ -1077,6 +1100,7 @@
       "Connally High School",
       "CONNSTEP",
       "Cornell University",
+      "Cotton Creek Elementary",
       "Creighton University",
       "Crooms Academy of Information Technology",
       "CSU Chico",
@@ -1091,6 +1115,7 @@
       "Dartmouth College",
       "Davis Senior High School",
       "Dawson High School",
+      "Dayton Regional STEM School",
       "Delaware Technical Community College",
       "DePaul University",
       "Des Moines Area Community College",
@@ -1215,6 +1240,7 @@
       "Ithaca College",
       "ITT Technical Institute",
       "IU-PUI",
+      "Jacksonville Christian Academy",
       "Jacksonville State University",
       "James Madison University",
       "Jenae Leles Softball Academy",
@@ -1229,7 +1255,9 @@
       "Kansas University Medical Center",
       "Kaplan University",
       "Kean University",
+      "Keiser University",
       "Kenan-Flagler Business School",
+      "Kendall College of Art and Design",
       "Kendall College School of Education",
       "Kennesaw State University",
       "Kent State University",
@@ -1237,6 +1265,7 @@
       "KIPP Ujima Village Academy",
       "Kit Carson World School",
       "Knox High School",
+      "Lake Sumter State College",
       "Lakeridge Junior High",
       "Lamar Consolidated Independent School District",
       "Lamar State College-Orange",
@@ -1286,10 +1315,10 @@
       "Metropolitan Community College",
       "MGH Institute of Health Professions",
       "Mid Pacific Institute",
+      "Middle Creek High School",
       "Miami Dade College",
       "Miami International University of Art and Design",
       "Miami University",
-      "Miami University of Ohio",
       "Miami University Regionals",
       "Michigan State University",
       "Michigan Technological University",
@@ -1454,9 +1483,11 @@
       "Southeast Missouri State University",
       "Southern California University of Health Sciences",
       "Southern College of Optometry",
+      "Southern Connecticut State University",
       "Southern Illinois University",
       "Southern Illinois University Edwardsville",
       "Southern Methodist University",
+      "Southern Oregon University",
       "Southern Wesleyan University",
       "Southwest Tech",
       "Southwestern Law School",
@@ -1469,6 +1500,7 @@
       "St. John's Christian Academy",
       "St. Joseph's Academy",
       "St. Louis University",
+      "St. Margaret's School",
       "St. Mark's School",
       "St. Olaf College",
       "St. Philip's College",
@@ -1644,10 +1676,12 @@
       "Utah Valley University",
       "Valley View Junior High School",
       "Valparaiso University",
+      "Van Buren Elementary",
       "Vandegrift HS, Leander ISD",
       "Virginia Commonwealth University",
       "Virginia State University",
       "Virginia Tech",
+      "Volusia Online Learning",
       "Wahlert Catholic High School",
       "Walden University",
       "Walnut Hills High School",
@@ -1661,6 +1695,7 @@
       "Waubun-Ogema-White Earth Community Schools",
       "Weber State University",
       "Webster University",
+      "Wellesley College",
       "Wells College",
       "Wesleyan University",
       "West Boca Raton High School",
