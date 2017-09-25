@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;

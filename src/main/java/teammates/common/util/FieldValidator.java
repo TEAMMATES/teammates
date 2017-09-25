@@ -251,15 +251,18 @@ public class FieldValidator {
                     new String[] {"sections?", "sect?", "courses?\\s+sec(tion)?s?"}));
     public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
             Arrays.asList(
-                    new String[] {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?",
-                                  "courses?\\s+teams?"}));
+                    new String[] {
+                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?"
+                    }));
     public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
     public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
             Arrays.asList(
-                    new String[] {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                                  "e-mails?\\s+address(es)?", "contacts?"}));
+                    new String[] {
+                            "emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
+                            "e-mails?\\s+address(es)?", "contacts?"
+                    }));
     public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));

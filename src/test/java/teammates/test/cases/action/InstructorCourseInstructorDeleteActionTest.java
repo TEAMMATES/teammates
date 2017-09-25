@@ -36,7 +36,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructor2OfCourse1");
         String instructorEmailToDelete = instructorToDelete.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
@@ -64,7 +64,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         instructorEmailToDelete = loginInstructor.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
@@ -92,7 +92,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
@@ -135,7 +135,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
         };

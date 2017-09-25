@@ -96,11 +96,13 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
 
         ______TS("test case when current instructor has no privilege");
 
-        String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
+        String[] privileges = {
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+        };
 
         for (String privilege : privileges) {
             currentInstructor.privileges.updatePrivilege(privilege, false);
