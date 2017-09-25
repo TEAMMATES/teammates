@@ -74,12 +74,11 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
+
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
 
@@ -92,12 +91,10 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
         }
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
@@ -145,11 +142,10 @@ public class AdminEmailComposeSendAction extends Action {
                                     List<String> groupReceiver,
                                     String content) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 new Date());
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .withSendDate(new Date())
+                .build();
         try {
             Date createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
@@ -170,11 +166,10 @@ public class AdminEmailComposeSendAction extends Action {
                                         List<String> groupReceiver,
                                         String content) {
 
-        AdminEmailAttributes finalisedEmail = new AdminEmailAttributes(subject,
-                                            addressReceiver,
-                                            groupReceiver,
-                                            new Text(content),
-                                            new Date());
+        AdminEmailAttributes finalisedEmail = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .withSendDate(new Date())
+                .build();
 
         try {
             logic.updateAdminEmailById(finalisedEmail, emailId);
