@@ -27,7 +27,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
         String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
@@ -88,7 +88,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         ______TS("Failure: the current key has been registered by another account");
 
-        InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes instructor2 = typicalBundle.instructors.get("instructor2OfCourse1");
         instructor2 = instrDb.getInstructorForGoogleId(instructor2.courseId, instructor2.googleId);
 
         submissionParams = new String[] {

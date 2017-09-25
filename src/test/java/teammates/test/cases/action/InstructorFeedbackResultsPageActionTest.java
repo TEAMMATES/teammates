@@ -22,8 +22,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
+        gaeSimulation.loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsWithoutSortType = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
@@ -313,7 +313,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         ______TS("Typical case: filtering of feedbackResponses for access control");
         // accessControl--filtering of the result is tested in FeedbackSessionsLogicTest,
         // so the test here about filtering is not rigorous
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("helperOfCourse1").googleId);
+        gaeSimulation.loginAsInstructor(typicalBundle.accounts.get("helperOfCourse1").googleId);
         action = getAction(paramsWithSortTypeQuestion);
         result = getShowPageResult(action);
         InstructorFeedbackResultsPageData pageData = (InstructorFeedbackResultsPageData) result.data;
@@ -329,7 +329,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),

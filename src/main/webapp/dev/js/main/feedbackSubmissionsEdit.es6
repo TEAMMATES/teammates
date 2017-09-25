@@ -168,16 +168,17 @@ function prepareMCQQuestions() {
             });
 
             radioButtons[id].click(function (event) {
-                const val = $(this).val();
-                const name = $(this).attr('name');
+                const $self = $(this);
+                const val = $self.val();
+                const name = $self.attr('name');
                 const indexSuffix = name.substring(name.indexOf('-'));
 
                 // toggle the radio button checked state
-                $(this).attr('checked', radioStates[name][val] = !radioStates[name][val]);
+                $self.attr('checked', radioStates[name][val] = !radioStates[name][val]);
 
                 // If the radio button corresponding to 'Other' is clicked
-                if ($(this).data('text') === 'otherOptionText') {
-                    if ($(this).is(':checked')) {
+                if ($self.data('text') === 'otherOptionText') {
+                    if ($self.is(':checked')) {
                         $(`#otherOptionText${indexSuffix}`).prop('disabled', false); // enable textbox
                         $(`#mcqIsOtherOptionAnswer${indexSuffix}`).val('1');
                     } else {
@@ -218,10 +219,11 @@ function prepareContribQuestions() {
             $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
 
             $dropdown.on('change', function () {
-                $(this).removeClass('color_neutral');
-                $(this).removeClass('color-positive');
-                $(this).removeClass('color-negative');
-                $(this).addClass(this.options[this.selectedIndex].className);
+                const $self = $(this);
+                $self.removeClass('color_neutral');
+                $self.removeClass('color-positive');
+                $self.removeClass('color-negative');
+                $self.addClass(this.options[this.selectedIndex].className);
             });
         });
     });
@@ -270,16 +272,17 @@ function prepareMSQQuestions() {
                         + `input[name^="responsetext-${qnNum}-"][data-text]`); // includes 'other'
 
         $options.click(function () {
-            noneOfTheAboveOption = $(this).closest('table').find(
+            const $self = $(this);
+            noneOfTheAboveOption = $self.closest('table').find(
                                            'input[name^="responsetext-"][value=""]:not([data-text])');
-            const name = $(this).attr('name');
+            const name = $self.attr('name');
             const indexSuffix = name.substring(name.indexOf('-'));
 
             noneOfTheAboveOption.prop('checked', false);
 
             // 'other' option is clicked
-            if ($(this).attr('data-text') !== undefined) {
-                updateOtherOptionAttributes($(this), indexSuffix);
+            if ($self.attr('data-text') !== undefined) {
+                updateOtherOptionAttributes($self, indexSuffix);
             }
         });
     });
@@ -627,6 +630,61 @@ function updateConstSumMessages() {
     }
 }
 
+function getMaxSelectableMsqChoices(qNum) {
+    const $input = $(`input[name="msqMaxSelectableChoices-${qNum}"]`);
+    return $input.prop('disabled') ? Number.MAX_SAFE_INTEGER : $input.val();
+}
+
+function getMinSelectableMsqChoices(qNum) {
+    const $input = $(`input[name="msqMinSelectableChoices-${qNum}"]`);
+    return $input.prop('disabled') ? 0 : $input.val();
+}
+
+function validateMsqQuestions() {
+    const msqQuestionNums = getQuestionTypeNumbers('MSQ');
+
+    // validate min/max selectable choices restrictions
+    for (let i = 0; i < msqQuestionNums.length; i += 1) {
+        const qNum = msqQuestionNums[i];
+        let recipientIndex = 0;
+        const maxSelectableChoices = getMaxSelectableMsqChoices(qNum);
+        const minSelectableChoices = getMinSelectableMsqChoices(qNum);
+
+        while ($(`input[name="responsetext-${qNum}-${recipientIndex}"]`).length !== 0) {
+            const numOfSelectedChoices = $(`input[name="responsetext-${qNum}-${recipientIndex}"]:checked`).length;
+
+            if (numOfSelectedChoices === 1
+                    && $(`input[name="responsetext-${qNum}-${recipientIndex}"][value=""]`).prop('checked')) {
+                // Selecting "None of the above" as the only option is a valid response
+                recipientIndex += 1;
+                continue;
+            }
+
+            if (numOfSelectedChoices === 0) {
+                // student is allowed to skip/ignore question
+                recipientIndex += 1;
+                continue;
+            }
+
+            if (numOfSelectedChoices < minSelectableChoices) {
+                setStatusMessage(`Minimum selectable choices for question ${qNum} is ${minSelectableChoices}.`,
+                        StatusType.DANGER);
+                return false;
+            }
+
+            if (numOfSelectedChoices > maxSelectableChoices) {
+                setStatusMessage(`Maximum selectable choices for question ${qNum} is ${maxSelectableChoices}.`,
+                        StatusType.DANGER);
+                return false;
+            }
+
+            recipientIndex += 1;
+        }
+    }
+
+    return true;
+}
+
 function validateConstSumQuestions() {
     updateConstSumMessages();
 
@@ -664,10 +722,11 @@ function validateConstSumQuestions() {
  */
 function formatRecipientLists() {
     $('select.participantSelect').each(function () {
-        if (!$(this).hasClass('.newResponse')) {
+        const $self = $(this);
+        if (!$self.hasClass('.newResponse')) {
             // Remove options from existing responses
-            const questionNumber = $(this).attr('name').split('-')[1];
-            let selectedOption = $(this).find('option:selected').val();
+            const questionNumber = $self.attr('name').split('-')[1];
+            let selectedOption = $self.find('option:selected').val();
 
             if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
@@ -680,11 +739,12 @@ function formatRecipientLists() {
         }
 
         // Save initial data.
-        $(this).data('previouslySelected', $(this).val());
+        $self.data('previouslySelected', $(this).val());
     }).change(function () {
-        const questionNumber = $(this).attr('name').split('-')[1];
-        const lastSelectedOption = $(this).data('previouslySelected');
-        let curSelectedOption = $(this).find('option:selected').val();
+        const $self = $(this);
+        const questionNumber = $self.attr('name').split('-')[1];
+        const lastSelectedOption = $self.data('previouslySelected');
+        let curSelectedOption = $self.find('option:selected').val();
 
         if (lastSelectedOption !== '') {
             $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
@@ -704,7 +764,7 @@ function formatRecipientLists() {
         }
 
         // Save new data
-        $(this).data('previouslySelected', $(this).val());
+        $self.data('previouslySelected', $self.val());
     });
 
     // Auto-select first valid option.
@@ -1124,7 +1184,8 @@ $(document).ready(() => {
 
         const validationStatus = validateConstSumQuestions()
                                  && validateRankQuestions()
-                                 && validateAllAnswersHaveRecipient();
+                                 && validateAllAnswersHaveRecipient()
+                                 && validateMsqQuestions();
 
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();

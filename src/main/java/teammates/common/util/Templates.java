@@ -294,6 +294,24 @@ public final class Templates {
             public static final String MSQ_NUMBER_OF_CHOICES = "${numOfMsqChoices}";
             public static final String MSQ_CHECKED_GENERATED_OPTIONS = "${checkedGeneratedOptions}";
             public static final String MSQ_ADDITIONAL_INFO_FRAGMENTS = "${msqAdditionalInfoFragments}";
+            public static final String MSQ_MAX_SELECTABLE_CHOICES = "${msqMaxSelectableChoices}";
+            public static final String MSQ_MIN_SELECTABLE_CHOICES = "${msqMinSelectableChoices}";
+            public static final String MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED =
+                    "${isMaxSelectableChoicesEnabled}";
+            public static final String MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED =
+                    "${isMinSelectableChoicesEnabled}";
+            public static final String MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT =
+                    "${displayMaxSelectableChoicesHint}";
+            public static final String MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT =
+                    "${displayMinSelectableChoicesHint}";
+            public static final String MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_ENABLED_MIN_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_MAX_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_MIN_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}";
             public static final String MSQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}";
             public static final String MSQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}";
             public static final String MSQ_PARAM_OTHER_OPTION_FLAG =

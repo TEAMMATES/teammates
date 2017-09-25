@@ -279,6 +279,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
+    public boolean isRecipientInstructor() {
+        return recipientType == FeedbackParticipantType.INSTRUCTORS;
+    }
+
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }

@@ -26,7 +26,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 =
-                dataBundle.instructors.get("instructor1OfCourse1");
+                typicalBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
         String teammatesLog = "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
@@ -233,7 +233,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor1ofCourse1 =
-                dataBundle.instructors.get("instructor1OfCourse1");
+                typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] params =
                 createParamsForTypicalFeedbackSession(

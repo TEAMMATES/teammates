@@ -27,8 +27,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        gaeSimulation.loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
@@ -74,7 +74,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         student1InCourse1.name = "new name {new last name}";
         StudentsLogic studentsLogic = StudentsLogic.inst();
         studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
@@ -153,7 +153,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         ______TS("Typical case: results downloadable by question");
 
-        final int questionNum2 = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        final int questionNum2 = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
         final String question2Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum2).getId();
         String[] paramsQuestion2 = {
@@ -177,7 +177,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         ______TS("Typical case: results within section downloadable by question");
 
-        final int questionNum1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
+        final int questionNum1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
         final String question1Id = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum1).getId();
 
@@ -343,9 +343,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "",
                 "Question 2,\"Rate 1 other student's product\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback Question 2\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
                 "",
                 "",
@@ -392,7 +392,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),

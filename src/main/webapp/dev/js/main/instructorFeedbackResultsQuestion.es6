@@ -1,4 +1,10 @@
 import {
+    enableHoverToDisplayEditOptions,
+    registerResponseCommentCheckboxEvent,
+    registerResponseCommentsEvent,
+} from '../common/feedbackResponseComments.es6';
+
+import {
     bindStudentPhotoHoverLink,
     bindStudentPhotoLink,
     prepareInstructorPages,
@@ -20,6 +26,9 @@ window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
 $(document).ready(() => {
     prepareInstructorPages();
     prepareInstructorFeedbackResultsPage();
+    enableHoverToDisplayEditOptions();
+    registerResponseCommentCheckboxEvent();
+    registerResponseCommentsEvent();
 
     const isPanelSetAsEmptyByBackend = function ($panelBody) {
         return $panelBody.find('.no-response').length !== 0;
@@ -30,16 +39,16 @@ $(document).ready(() => {
     };
 
     const seeMoreRequest = function (e) {
-        const panelHeading = $(this);
+        const $panelHeading = $(this);
         if ($('#show-stats-checkbox').is(':checked')) {
-            $(panelHeading).find('[id^="showStats-"]').val('on');
+            $panelHeading.find('[id^="showStats-"]').val('on');
         } else {
-            $(panelHeading).find('[id^="showStats-"]').val('off');
+            $panelHeading.find('[id^="showStats-"]').val('off');
         }
 
-        const displayIcon = $(this).find('.display-icon');
-        const formObject = $(this).children('form');
-        const panelCollapse = $(this).parent().children('.panel-collapse');
+        const displayIcon = $panelHeading.find('.display-icon');
+        const formObject = $panelHeading.children('form');
+        const panelCollapse = $panelHeading.parent().children('.panel-collapse');
         const panelBody = $(panelCollapse[0]).children('.panel-body');
         const formData = formObject.serialize();
         e.preventDefault();
@@ -73,13 +82,13 @@ $(document).ready(() => {
                 // bind the show picture onhover events
                 bindStudentPhotoHoverLink($panelBody.find('.profile-pic-icon-hover'));
 
-                $(panelHeading).removeClass('ajax_submit ajax_auto');
+                $panelHeading.removeClass('ajax_submit ajax_auto');
 
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
 
-                $(panelHeading).off('click');
-                $(panelHeading).click(toggleSingleCollapse);
-                $(panelHeading).trigger('click');
+                $panelHeading.off('click');
+                $panelHeading.click(toggleSingleCollapse);
+                $panelHeading.trigger('click');
 
                 if (isPanelSetAsEmptyByBackend($panelBody)) {
                     displayAsEmptyPanel($panelBody);
