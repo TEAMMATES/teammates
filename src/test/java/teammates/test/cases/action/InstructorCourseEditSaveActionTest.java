@@ -179,7 +179,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         String courseId = instructor.courseId;
         String courseName = "Typical Course 1 with 2 Evals";
         String courseTimeZone = "UTC";
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
                 Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone

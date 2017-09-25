@@ -19,7 +19,7 @@ buildscript {
     ext {
         appengineVersion = "1.9.54"
         jsoupVersion = "1.10.2"
-        checkstyleVersion = "6.19"
+        checkstyleVersion = "8.0"
         pmdVersion = "5.5.4"
         findbugsVersion = "3.0.1"
     }

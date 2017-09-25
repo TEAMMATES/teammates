@@ -203,7 +203,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private String[] createInvalidParamsForProfileWithScriptInjection() {
-        return new String[]{
+        return new String[] {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short%<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",

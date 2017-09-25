@@ -35,7 +35,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         String studentId = student1InCourse1.googleId;
         String adminUserId = "admin.user";
 
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
 
         ______TS("unregistered student");
 
@@ -125,8 +125,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
 
         ______TS("New student with no existing course, course join affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
-                                        "idOfTypicalCourse1"};
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"
+        };
         studentId = "newStudent";
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
@@ -136,8 +137,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals("idOfTypicalCourse1", data.getCourseTables().get(0).getCourseId());
 
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
-                                        "idOfTypicalCourse2"};
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse2"
+        };
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
@@ -148,8 +150,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals("idOfTypicalCourse2", data.getCourseTables().get(1).getCourseId());
 
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
-                                        "idOfTypicalCourse1"};
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"
+        };
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
@@ -170,7 +173,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
 
         // check for persistence issue

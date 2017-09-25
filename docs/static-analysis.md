@@ -14,10 +14,10 @@ This document will cover an overview of these tools and how to run them in local
 
 The version number of all the tool stacks are declared in `build.gradle` or `package.json`.
 
-When downloading the plugin for Eclipse, find the plugin version that uses the correct version of the tool, e.g if CheckStyle 6.19 is used find an Eclipse plugin that uses CheckStyle 6.19 as well.
+When downloading the plugin for Eclipse/IntelliJ, find the plugin version that uses the correct version of the tool, e.g if CheckStyle 8.0 is used find an Eclipse/IntelliJ plugin that uses CheckStyle 8.0 as well.
 If the exact version of the plugin cannot be found, using the latest version is allowed, however there is no guarantee that there will be no backward-incompatible changes.
 
-Conversely, when updating any tool, ensure that the tool version is supported by the Eclipse plugin, e.g when upgrading CheckStyle to 6.19 ensure that there is an Eclipse plugin which supports that version as well.
+Conversely, when updating any tool, ensure that the tool version is supported by the Eclipse/IntelliJ plugin, e.g when upgrading CheckStyle to 8.0 ensure that there is an Eclipse/IntelliJ plugin which supports that version as well.
 
 ## Tool stack
 
