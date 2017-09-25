@@ -61,12 +61,10 @@ public class AdminEmailComposeSaveAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
         } else {
             statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
                     + "Subject: " + SanitizationHelper.sanitizeForHtml(subject);
@@ -83,11 +81,9 @@ public class AdminEmailComposeSaveAction extends Action {
                                           String content
                                           ) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 null);
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .build();
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
@@ -102,11 +98,9 @@ public class AdminEmailComposeSaveAction extends Action {
                                        List<String> groupReceiver,
                                        String content) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 null);
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .build();
         try {
             logic.createAdminEmail(newDraft);
         } catch (InvalidParametersException e) {

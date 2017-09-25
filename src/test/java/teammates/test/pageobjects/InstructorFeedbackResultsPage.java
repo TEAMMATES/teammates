@@ -247,10 +247,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement saveButton = addResponseCommentForm
                 .findElement(By.className("col-sm-offset-5"))
                 .findElement(By.tagName("a"));
-        if ("chrome".equals(TestProperties.BROWSER)) {
-            // Focus on save button to fire events triggered when the editor loses focus
-            focusViaClickAction(saveButton);
-        }
         click(saveButton);
         if (commentText.isEmpty()) {
             // empty comment: wait until the textarea is clickable again
@@ -280,6 +276,35 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox));
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
         ThreadHelper.waitFor(1000);
+    }
+
+    public void clickCommentModalButton(String commentId) {
+        WebElement commentModal = browser.driver.findElement(By.id("commentModal" + commentId));
+        WebElement parentTable = commentModal.findElement(By.xpath("../.."));
+        WebElement commentButton = parentTable.findElement(By.className("comment-button"));
+        click(commentButton);
+    }
+
+    public void addFeedbackResponseCommentInCommentModal(String commentId, String commentText) {
+        WebElement addResponseCommentForm = browser.driver.findElement(By.id(commentId));
+        WebElement editorElement = waitForElementPresence(By.cssSelector("#" + commentId + " .mce-content-body"));
+        waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
+        fillRichTextEditor(editorElement.getAttribute("id"), commentText);
+        WebElement saveButton = addResponseCommentForm
+                .findElement(By.className("col-sm-offset-5"))
+                .findElement(By.tagName("a"));
+        click(saveButton);
+        if (commentText.isEmpty()) {
+            // empty comment: wait until the textarea is clickable again
+            waitForElementToBeClickable(editorElement);
+        }
+    }
+
+    public void closeCommentModal(String commentId) {
+        WebElement commentModal = browser.driver.findElement(By.id("commentModal" + commentId));
+        WebElement modalFooter = commentModal.findElement(By.className("modal-footer"));
+        WebElement closeButton = modalFooter.findElement(By.className("commentModalClose"));
+        click(closeButton);
     }
 
     /**
@@ -368,9 +393,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")));
+        click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
         waitForConfirmationModalAndClickOk();
         ThreadHelper.waitFor(1500);
+    }
+
+    public void deleteFeedbackResponseCommentInQuestionsView(String commentIdSuffix) {
+        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
+        click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
+        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        waitForElementToBeClickable(okayButton);
+        click(okayButton);
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
@@ -591,10 +624,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void moveToElement(WebElement element) {
         new Actions(browser.driver).moveToElement(element).perform();
-    }
-
-    private void focusViaClickAction(WebElement element) {
-        new Actions(browser.driver).moveToElement(element).click().perform();
     }
 
     private void moveToElementAndClickAfterWaitForPresence(By by) {
