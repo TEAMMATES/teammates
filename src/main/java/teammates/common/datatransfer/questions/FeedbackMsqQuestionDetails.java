@@ -134,6 +134,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return Const.FeedbackQuestionTypeNames.MSQ;
     }
 
+    @Override
+    public List<String> getInstructions() {
+        return null;
+    }
+
     public boolean getOtherEnabled() {
         return otherEnabled;
     }
