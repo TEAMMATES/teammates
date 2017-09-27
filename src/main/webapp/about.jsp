@@ -2346,7 +2346,7 @@
           <td>bug reporting/fixing, enhancements</td>
         </tr>
         <tr>
-          <td>varshav21</td>
+          <td>Varsha Venkatesh</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Avarshav21"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
@@ -2370,7 +2370,7 @@
           </td>
         </tr>
         <tr>
-          <td>Viraj</td>
+          <td>Viraj Shah</td>
           <td>
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Aviraj071"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
