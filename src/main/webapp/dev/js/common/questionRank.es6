@@ -25,22 +25,19 @@ function getNumOfRankOptions(qnNumber) {
     // for rank recipients question, compute the number of recipients
     const recipient = $(`#recipienttype-${qnNumber}`).val();
 
-    if (recipient === 'STUDENTS') {
-        return $('#num-students').val();
-    } else if (recipient === 'INSTRUCTORS') {
-        return $('#num-instructors').val();
-    } else if (recipient === 'TEAMS') {
-        return $('#num-teams').val();
-    } else if (recipient === 'OWN_TEAM_MEMBERS') {
+    switch (recipient) {
+    case 'STUDENTS':
+    case 'INSTRUCTORS':
+    case 'TEAMS':
+        return $(`#num-${recipient.toLowerCase()}`).val();
+    case 'OWN_TEAM_MEMBERS':
+    case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
         // returning infinite as this is dependent on team size
         return Number.MAX_SAFE_INTEGER;
-    } else if (recipient === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
-        // returning infinite as this is dependent on team size
-        return Number.MAX_SAFE_INTEGER;
+    default:
+        // other recipient types like NONE, SELF have only 1 recipient
+        return 1;
     }
-
-    // other recipient types like NONE, SELF have only 1 recipient
-    return 1;
 }
 
 function getMinOptionsToBeRankedBox(qnNumber) {

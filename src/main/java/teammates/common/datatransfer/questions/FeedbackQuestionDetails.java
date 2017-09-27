@@ -112,7 +112,6 @@ public abstract class FeedbackQuestionDetails {
 
     /**
      * Returns a list of strings where each string is an instruction to answer the question.
-     * This will be displayed in the submission page just above the responses.
      *
      * @return List of strings containing instructions.
      */

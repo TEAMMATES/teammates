@@ -888,19 +888,10 @@ function updateRankMessageQn(qnNum) {
     }
 
     function checkMinMaxRestrictions(questionNumber, recipientIndex) {
-        let rankedOptions = 0;
-
-        if ($(`#rankToRecipients-${questionNumber}`).val() === 'true') {
-            rankedOptions = $(`select[name^="responsetext-${questionNumber}-"]`)
-                              .filter(function () {
-                                  return $(this).val() !== '';
-                              }).length;
-        } else {
-            rankedOptions = $(`select[name="responsetext-${questionNumber}-${recipientIndex}"]`)
-                              .filter(function () {
-                                  return $(this).val() !== '';
-                              }).length;
-        }
+        const selector = $(`#rankToRecipients-${questionNumber}`).val() === 'true' ?
+                `select[name^="responsetext-${questionNumber}-"]`
+                : `select[name="responsetext-${questionNumber}-${recipientIndex}"]`;
+        const rankedOptions = $(selector).filter(function () { return $(this).val() !== ''; }).length;
 
         if (rankedOptions === 0) {
             return;

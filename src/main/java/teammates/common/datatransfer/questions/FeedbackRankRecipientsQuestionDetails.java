@@ -182,20 +182,20 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "",
-                Slots.RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MIN_RECIPIENTS_CHECKBOX,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISMINRECIPIENTSTOBERANKEDENABLED,
                 Slots.RANK_PARAM_MIN_RECIPIENTS_TO_BE_RANKED,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED,
                 Slots.RANK_MIN_RECIPIENTS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
                         ? Integer.toString(minOptionsToBeRanked) : "1",
-                Slots.RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
+                Slots.RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MAX_RECIPIENTS_CHECKBOX,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISMAXRECIPIENTSTOBERANKEDENABLED,
                 Slots.RANK_PARAM_MAX_RECIPIENTS_TO_BE_RANKED,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED,
                 Slots.RANK_MAX_RECIPIENTS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "1");
+                        ? Integer.toString(maxOptionsToBeRanked) : "1",
+                Slots.RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "");
 
     }
 
