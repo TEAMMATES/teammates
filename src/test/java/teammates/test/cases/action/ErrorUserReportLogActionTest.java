@@ -29,7 +29,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 

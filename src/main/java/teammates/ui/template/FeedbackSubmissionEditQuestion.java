@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.util.RecipientType;
 
 public class FeedbackSubmissionEditQuestion {
     private String courseId;
@@ -22,7 +23,7 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
     private boolean isGiverTeam;
-    private boolean isRecipientTeam;
+    private RecipientType recipientType;
 
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -40,7 +41,13 @@ public class FeedbackSubmissionEditQuestion {
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
         isGiverTeam = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
-        isRecipientTeam = questionAttributes.recipientType.isTeam();
+        if (questionAttributes.recipientType.isTeam()) {
+            recipientType = RecipientType.TEAM;
+        } else if (questionAttributes.isRecipientAStudent()) {
+            recipientType = RecipientType.STUDENT;
+        } else if (questionAttributes.isRecipientInstructor()) {
+            recipientType = RecipientType.INSTRUCTOR;
+        }
 
         setMessageToDisplayIfNoRecipientAvailable(questionAttributes);
 
@@ -118,7 +125,7 @@ public class FeedbackSubmissionEditQuestion {
         return isGiverTeam;
     }
 
-    public boolean isRecipientTeam() {
-        return isRecipientTeam;
+    public RecipientType getRecipientType() {
+        return recipientType;
     }
 }

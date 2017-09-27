@@ -851,6 +851,56 @@
         "STUDENTS"
       ]
     },
+    "qn23InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Nominate and rank at least 2 students for prizes.\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"minSelectableChoices\":2,\"maxSelectableChoices\":3,\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 23,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
+    },
+    "qn24InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[\"A\",\"B\",\"C\",\"D\",\"E\"],\"questionText\":\"Rank exactly 3 options.\",\"questionType\":\"MSQ\",\"minSelectableChoices\":3,\"maxSelectableChoices\":3,\"numOfMsqChoices\":5,\"otherEnabled\":false}"
+      },
+      "questionNumber": 24,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 7,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
+    },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "SFSubmitUiT.CS2104",

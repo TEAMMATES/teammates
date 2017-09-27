@@ -61,9 +61,12 @@ import {
 
 import {
     addMsqOption,
+    bindMsqEvents,
+    changeMsqGenerateFor,
     removeMsqOption,
     toggleMsqGeneratedOptions,
-    changeMsqGenerateFor,
+    toggleMsqMaxSelectableChoices,
+    toggleMsqMinSelectableChoices,
 } from '../common/questionMsq.es6';
 
 import {
@@ -499,6 +502,8 @@ function enableQuestion(questionNum) {
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
     }
 
+    toggleMsqMaxSelectableChoices(questionNum);
+    toggleMsqMinSelectableChoices(questionNum);
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {
         $(`#constSumOptionTable-${questionNum}`).hide();
         $(`#constSumOption_Option-${questionNum}`).hide();
@@ -599,6 +604,8 @@ function enableNewQuestion() {
         $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
+    toggleMsqMaxSelectableChoices(NEW_QUESTION);
+    toggleMsqMinSelectableChoices(NEW_QUESTION);
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${NEW_QUESTION}`).hide();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${NEW_QUESTION}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${NEW_QUESTION}`).val('edit');
@@ -1180,6 +1187,7 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
 
