@@ -175,7 +175,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("MSQ destructive changes: change generate options selection");
         feedbackEditPage.clickEditQuestionButton(1);
@@ -187,22 +187,37 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectMsqGenerateOptionsFor("students", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
-        // save MSQ with custom options, needed for further tests
-        feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(1);
-        feedbackEditPage.clickAddMoreMsqOptionLink(1);
-        feedbackEditPage.clickAddMoreMsqOptionLink(1);
-        feedbackEditPage.fillMsqOption(1, 0, "A");
-        feedbackEditPage.fillMsqOption(1, 1, "B");
-        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        // Create new MSQ with custom options, needed for further tests
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
 
-        // previous action deletes responses, create a response again
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("test msq question");
+        feedbackEditPage.fillMsqOption(-1, 0, "A");
+        feedbackEditPage.fillMsqOption(-1, 1, "B");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // create a response again
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        fra = new FeedbackResponseAttributes(feedbackSessionName,
+                                             courseId,
+                                             question.getId(),
+                                             question.getQuestionType(),
+                                             "tmms.test@gmail.tmt",
+                                             null,
+                                             "alice.b.tmms@gmail.tmt",
+                                             null,
+                                             null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("MSQ destructive changes: adding a new option");
         // add a new option, must display modal
@@ -216,7 +231,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("MSQ destructive changes: removing an option");
         // remove an option, must display modal

@@ -265,7 +265,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("RUBRIC destructive changes: move col");
         feedbackEditPage.clickEditQuestionButton(1);
@@ -277,7 +277,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.moveRubricColLeft(1, 4);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("RUBRIC destructive changes: add col");
         feedbackEditPage.reloadPage();
@@ -289,7 +289,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 5);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("RUBRIC destructive changes: add row");
         feedbackEditPage.reloadPage();
@@ -302,7 +302,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 3);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("RUBRIC destructive changes: remove col");
         feedbackEditPage.reloadPage();
@@ -316,7 +316,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("RUBRIC destructive changes: remove row");
         feedbackEditPage.reloadPage();
@@ -330,7 +330,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();

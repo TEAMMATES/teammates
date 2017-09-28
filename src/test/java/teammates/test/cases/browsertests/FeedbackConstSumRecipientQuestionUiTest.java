@@ -133,7 +133,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("CONST SUM: testing changing recipient");
         // change recipient, must display modal
@@ -146,7 +146,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.STUDENTS, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("CONST SUM: testing changing giver");
         // change giver, must display modal
@@ -160,7 +160,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.selectGiverToBe(FeedbackParticipantType.SELF, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         FeedbackConstantSumQuestionDetails csQuestion = (FeedbackConstantSumQuestionDetails) question.getQuestionDetails();
         int points = csQuestion.getPoints();
@@ -177,7 +177,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillConstSumPointsBox(Integer.toString(points), 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();

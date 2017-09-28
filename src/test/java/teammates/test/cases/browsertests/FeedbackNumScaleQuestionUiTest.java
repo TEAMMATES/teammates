@@ -188,7 +188,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
         FeedbackNumericalScaleQuestionDetails nsQuestion =
                 (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetails();
 
@@ -203,7 +203,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMaxNumScaleBox(nsQuestion.getMaxScale(), 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("Num scale destructive changes: change step value box");
         feedbackEditPage.reloadPage();
@@ -216,7 +216,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillStepNumScaleBox(nsQuestion.getStep(), 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("Num scale destructive changes: change max value box");
         feedbackEditPage.reloadPage();
@@ -229,7 +229,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMaxNumScaleBox(nsQuestion.getMaxScale(), 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();

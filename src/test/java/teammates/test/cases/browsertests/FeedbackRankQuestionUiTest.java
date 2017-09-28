@@ -380,7 +380,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("Rank (options) destructive changes: checking \"same rank\" checkbox");
         // check "same rank" checkbox, must display modal
@@ -393,7 +393,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.untickDuplicatesAllowedCheckbox(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("Rank (options) destructive changes: adding rank option");
         // add rank option, must display modal
@@ -408,7 +408,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveRankOptionLink(1, 3);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         // delete response for question 1 (Rank options question)
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
@@ -427,7 +427,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2));
 
         ______TS("Rank (recipients) destructive changes: checking \"same rank\" checkbox");
         // uncheck "same rank" checkbox, must display modal
@@ -440,7 +440,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.tickDuplicatesAllowedCheckbox(2);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2));
 
         BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
         feedbackEditPage.reloadPage();

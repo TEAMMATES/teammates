@@ -181,7 +181,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                                                 null);
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("MCQ destructive changes: change generate options selection");
         feedbackEditPage.clickEditQuestionButton(1);
@@ -193,7 +193,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectMcqGenerateOptionsFor("students", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         // save MCQ with custom options, needed for further tests
         feedbackEditPage.clickEditQuestionButton(1);
@@ -208,7 +208,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         // previous action deletes responses, create a response again
         BackDoor.createFeedbackResponse(fra);
         feedbackEditPage.reloadPage();
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("MCQ destructive changes: adding a new option");
         // add a new option, must display modal
@@ -222,7 +222,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-        feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
 
         ______TS("MCQ destructive changes: removing an option");
         // remove an option, must display modal
