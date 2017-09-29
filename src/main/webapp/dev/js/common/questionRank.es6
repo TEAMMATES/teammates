@@ -211,15 +211,13 @@ function bindRankEvents() {
         'input[name="minOptionsToBeRankedEnabled"],input[name="minRecipientsToBeRankedEnabled"]', (e) => {
             const questionNum = $(e.target).closest('form').attr('data-qnnumber');
             toggleMinOptionsToBeRanked(questionNum);
-        },
-    );
+        });
 
     $(document).on('change',
         'input[name="maxOptionsToBeRankedEnabled"],input[name="maxRecipientsToBeRankedEnabled"]', (e) => {
             const questionNum = $(e.target).closest('form').attr('data-qnnumber');
             toggleMaxOptionsToBeRanked(questionNum);
-        },
-    );
+        });
 }
 
 export {

@@ -888,8 +888,8 @@ function updateRankMessageQn(qnNum) {
     }
 
     function checkMinMaxRestrictions(questionNumber, recipientIndex) {
-        const selector = $(`#rankToRecipients-${questionNumber}`).val() === 'true' ?
-                `select[name^="responsetext-${questionNumber}-"]`
+        const selector = $(`#rankToRecipients-${questionNumber}`).val() === 'true'
+                ? `select[name^="responsetext-${questionNumber}-"]`
                 : `select[name="responsetext-${questionNumber}-${recipientIndex}"]`;
         const rankedOptions = $(selector).filter(function () { return $(this).val() !== ''; }).length;
 
