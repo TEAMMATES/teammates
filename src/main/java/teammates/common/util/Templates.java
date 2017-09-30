@@ -419,8 +419,6 @@ public final class Templates {
             public static final String RANK_MAX_OPTIONS_TO_BE_RANKED = "${maxOptionsToBeRanked}";
             public static final String RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED = "${isMinOptionsToBeRankedEnabled}";
             public static final String RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED = "${isMaxOptionsToBeRankedEnabled}";
-            public static final String RANK_DISPLAY_MIN_OPTIONS_HINT = "${displayMinOptionsHint}";
-            public static final String RANK_DISPLAY_MAX_OPTIONS_HINT = "${displayMaxOptionsHint}";
             public static final String RANK_MIN_RECIPIENTS_TO_BE_RANKED = "${minRecipientsToBeRanked}";
             public static final String RANK_MAX_RECIPIENTS_TO_BE_RANKED = "${maxRecipientsToBeRanked}";
             public static final String RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED = "${isMinRecipientsToBeRankedEnabled}";
