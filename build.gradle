@@ -329,12 +329,6 @@ task resetEclipseDeps {
     }
     finalizedBy eclipseClasspath, copyDepsToWebInfLib
 }
-
-task printUserHomeDir {
-    doLast {
-        println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
-    }
-}
 */
 
 task setupEclipse {
