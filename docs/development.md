@@ -42,13 +42,13 @@ In addition, the command will also *minify* the JavaScript files to reduce the s
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
 ```sh
-./gradlew appengineRun
+./gradlew appengineStart
 ```
 
 To start the server in the foreground (e.g. if you want the console output to be visible),
 run the following command instead:
 ```sh
-./gradlew appengineRun -Pdisable_daemon
+./gradlew appengineRun
 ```
 
 The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
@@ -60,7 +60,7 @@ If you started the server in the background, run the following command to stop i
 ./gradlew appengineStop
 ```
 
-If the server is running in the foreground, press `Ctrl + C` to stop it.
+If the server is running in the foreground, press `Ctrl + C` to stop it or run the above command in a new console.
 
 ### With Eclipse
 
@@ -245,6 +245,12 @@ This instruction set assumes that the app identifier is `teammates-john`.
    Suggested app identifier: `teammates-yourname` (e.g `teammates-john`).<br>
    The URL of the app will be like this: `https://teammates-john.appspot.com`.
 
+1. [Authorize your Google account to be used by the Google Cloud SDK](https://cloud.google.com/sdk/docs/authorizing) if you have not done so.
+   ```sh
+   gcloud auth login
+   ```
+   Follow the steps until you see `You are now logged in as [...]` on the console.
+
 1. Modify configuration files.
    * `src/main/resources/build.properties`<br>
      Edit the file as instructed in its comments.
@@ -256,9 +262,9 @@ This instruction set assumes that the app identifier is `teammates-john`.
      * Run the following command:
 
        ```sh
-       ./gradlew appengineUpdate
+       ./gradlew appengineDeploy
        ```
-     * Follow the steps and wait until the command ends with a `BUILD SUCCESSFUL`.
+     * Wait until you see `Deployed service [default] to [https://6-0-0-dot-teammates-john.appspot.com]` or similar on the console.
    * With Eclipse
      * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
      * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
@@ -310,12 +316,15 @@ therefore delivery of emails is not tested when testing against the dev server.
 
 > Client scripts are scripts that remotely manipulate data on GAE via its Remote API. They are run as standard Java applications.
 
-Most of developers may not need to write and/or run client scripts but if you are to do so *in a production environment*, additional steps are required:
+Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
-1. Download and install Google Cloud SDK from [here](https://cloud.google.com/sdk/downloads).
-1. Run `gcloud auth login` and choose your Google account for authentication.
+* In order to run any script *in a production environment*, you need to authorize your account for [Application Default Credentials](https://developers.google.com/identity/protocols/application-default-credentials).
+  ```sh
+  gcloud auth application-default login
+  ```
+  Follow the steps until you see `Credentials saved to file: [...].` printed on the console.
 
-You are now ready to run your scripts.
+* It is not encouraged to compile and run any script via command line; use any of the supported IDEs to significantly ease this task.
 
 ## Config points
 

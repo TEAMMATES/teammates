@@ -15,6 +15,13 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 ### Common setup errors and solutions
 
+* **ERROR**: After downloading and installing Google Cloud SDK, running any `gcloud` command results in `gcloud: command not found` or alike.
+
+  **REASON**: You did not choose to update the `PATH` variable when installing the SDK.
+
+  **SOLUTION**: You can re-run the install command again without any side effect. Make sure to choose to update the `PATH` variable this time. Alternatively, you can use other appropriate methods to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder.<br>
+  To verify this, try running any `gcloud` command and it should now give you access to the SDK.
+
 * **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
 
   **REASON**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK).

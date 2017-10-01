@@ -33,8 +33,15 @@ before_install:
 before_script:
   - export DISPLAY=:99.0
   - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
-  - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
-  - export PATH="./node_modules/.bin":$PATH
+  - export PATH=$TRAVIS_BUILD_DIR/firefox:./node_modules/.bin:$HOME/google-cloud-sdk/bin:$PATH
+
+  - curl -fsS -o $HOME/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-179.0.0-linux-x86_64.tar.gz
+  - cd $HOME
+  - tar -xzf google-cloud-sdk.tar.gz
+  - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
+  - cd $TRAVIS_BUILD_DIR
+  - gcloud -q components install app-engine-java
+
   - ./gradlew createConfigs testClasses
   - ./gradlew downloadStaticAnalysisTools
   - ./gradlew lint --continue
@@ -44,7 +51,8 @@ before_script:
 install: true
 script:
   - npm run build
-  - ./gradlew appengineRun ciTests
+  - ./gradlew appengineStart
+  - ./gradlew ciTests
 
 after_failure:
   - gem install gist
