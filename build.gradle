@@ -8,33 +8,32 @@ apply plugin: "war"
 if (System.properties['ide'] == 'idea') {
     buildDir = new File(projectDir, 'buildIdea')
 }
-apply plugin: "appengine"
+// apply plugin: "com.google.cloud.tools.appengine"
+// see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
+project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
+def appengineVersion = "1.9.59"
+def jsoupVersion = "1.10.2"
+def checkstyleVersion = "6.19"
+def pmdVersion = "5.5.4"
+def findbugsVersion = "3.0.1"
+
 buildscript {
-    ext {
-        appengineVersion = "1.9.54"
-        jsoupVersion = "1.10.2"
-        checkstyleVersion = "6.19"
-        pmdVersion = "5.5.4"
-        findbugsVersion = "3.0.1"
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "com.google.appengine:gradle-appengine-plugin:${appengineVersion}"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.4"
     }
 }
 
 configurations {
     staticAnalysis
-    exclude
-    testExclude
 }
 
 configurations.all {
@@ -54,10 +53,8 @@ dependencies {
                     "com.google.code.findbugs:findbugs:${findbugsVersion}",
                     "de.andrena.tools.macker:macker:1.0.1"
 
-    appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
-
-    compile         "com.google.appengine.tools:appengine-gcs-client:0.6",
-                    "com.google.appengine:appengine-api-labs:${appengineVersion}",
+    compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+                    "com.google.appengine.tools:appengine-gcs-client:0.6",
                     "com.google.code.gson:gson:2.8.0",
                     "com.googlecode.objectify:objectify:5.1.17",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
@@ -69,14 +66,6 @@ dependencies {
                     "joda-time:joda-time:2.9.7",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:${jsoupVersion}"
-
-    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
-                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "net.sf.jsr107cache:jsr107cache:1.1"
-
-    runtime         configurations.exclude
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
@@ -91,10 +80,6 @@ dependencies {
                     "com.google.oauth-client:google-oauth-client-jetty:1.22.0",
                     // For using Gmail API
                     "com.google.apis:google-api-services-gmail:v1-rev67-1.22.0"
-
-    testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
-
-    testRuntime     configurations.testExclude
 
 }
 
@@ -124,6 +109,7 @@ sourceSets {
 
 // SETUP TASKS
 
+/*
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
 eclipse {
@@ -172,6 +158,7 @@ eclipseClasspath {
         !(new File(".classpath")).exists()
     }
 }
+*/
 
 task createConfigs {
     description "Sets up the project by obtaining necessary files and configurations points."
@@ -193,6 +180,7 @@ task createConfigs {
     }
 }
 
+/*
 task createEclipseLaunches {
     doLast {
         def templatesToCopy = [
@@ -343,6 +331,7 @@ task setupEclipse {
     group "Setup"
     dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
 }
+*/
 
 // RUN SERVER TASKS
 
@@ -350,34 +339,22 @@ compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 appengine {
-    httpPort = 8888
-    downloadSdk = true
-    jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
-                // absolute paths are not supported, the following is relative to the exploded war directory
-                // this only specifies the datastore path, but the indexes are still generated in
-                // WEB-INF/appengine-generated.
-                "-Ddatastore.backing_store=../../local_db.bin"]
-    appcfg {
-        oauth2 = true
+    run {
+        port = 8888
+        jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
+                // Absolute paths are not supported, the following is relative to the project directory
+                // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
+                "-Ddatastore.backing_store=appengine-generated/local_db.bin",
+                "-Dblobstore.backing_store=appengine-generated"]
+    }
+    deploy {
+        Node appengineWebXml = new XmlParser().parse('src/main/webapp/WEB-INF/appengine-web.xml')
+        project = appengineWebXml.application.text()
+        version = appengineWebXml.version.text()
+        stopPreviousVersion = false
+        promote = false
     }
 }
-
-appengineRun {
-    if (project.hasProperty("disable_daemon")) {
-        daemon = false
-    } else {
-        daemon = true
-    }
-}
-
-task removeDuplicateLibs(type: Delete) {
-    delete  "${buildDir}/exploded-app/WEB-INF/lib/datanucleus-appengine-1.0.10.final.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints-deps.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
-}
-
-appengineExplodeApp.finalizedBy removeDuplicateLibs
 
 // STATIC ANALYSIS TASKS
 

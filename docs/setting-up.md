@@ -14,6 +14,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 1. Install Source Tree or other similar Git Client, or at least Git.
 1. Install JDK 1.8.
+1. Install Python 2.7.
 1. Install Node.js (minimum version 4.x).
 
 ## Step 2: Obtain your own repository copy
@@ -40,11 +41,23 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 3: Set up project-specific settings and dependencies
 
-1. Run this command to download the correct version Google App Engine SDK as used in the project:
+1. Install Google Cloud SDK version 179.0.0. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
+   Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
-   ./gradlew appengineDownloadSdk
+   # This command is to be run at the Google Cloud SDK directory
+
+   # Linux/OS X
+   ./install.sh --path-update true
+   # Windows
+   install.bat --path-update true
    ```
-   **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named appengine-sdk` should be present.
+   **Verification**: Run a `gcloud` command (e.g. `gcloud version`) in order to verify that you can access the SDK from the command line.
+
+1. Run this command to install App Engine Java SDK bundled with the Cloud SDK:
+   ```sh
+   gcloud -q components install app-engine-java
+   ```
+   **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
 
 1. Run this command to download the necessary tools for JavaScript development:
    ```sh
