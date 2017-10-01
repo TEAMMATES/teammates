@@ -111,7 +111,28 @@ sourceSets {
 
 // SETUP TASKS
 
-/*
+task createConfigs {
+    description "Sets up the project by obtaining necessary files and configurations points."
+    group "Setup"
+    doLast {
+        def templatesToCopy = [
+            "gradle.template.properties",
+            "src/main/resources/build.template.properties",
+            "src/test/resources/test.template.properties",
+            "src/main/webapp/WEB-INF/appengine-web.template.xml"
+        ]
+        templatesToCopy.findAll {
+            !(new File(it.replace(".template", ""))).exists()
+        }.each {
+            filename -> copy {
+                from filename
+                into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
+                rename '(.*).template(.*)', '$1$2'
+            }
+        }
+    }
+}
+
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
 eclipse {
@@ -145,18 +166,6 @@ eclipse {
     }
 }
 
-idea {
-    module {
-        // Removes the source directories added by the appengine plugin
-        testSourceDirs -= sourceSets.functionalTest.allSource.srcDirs
-    }
-}
-
-// removes unused sourceSets from the appengine plugin
-// the appengine plugin also adds source directories to the IDEA plugin, which are removed from the idea block above
-sourceSets.remove(sourceSets.functionalTest)
-sourceSets.remove(sourceSets.endpointsSrc)
-
 eclipseProject {
     onlyIf {
         !(new File(".project")).exists()
@@ -168,31 +177,7 @@ eclipseClasspath {
         !(new File(".classpath")).exists()
     }
 }
-*/
 
-task createConfigs {
-    description "Sets up the project by obtaining necessary files and configurations points."
-    group "Setup"
-    doLast {
-        def templatesToCopy = [
-            "gradle.template.properties",
-            "src/main/resources/build.template.properties",
-            "src/test/resources/test.template.properties",
-            "src/main/webapp/WEB-INF/appengine-web.template.xml"
-        ]
-        templatesToCopy.findAll {
-            !(new File(it.replace(".template", ""))).exists()
-        }.each {
-            filename -> copy {
-                from filename
-                into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
-                rename '(.*).template(.*)', '$1$2'
-            }
-        }
-    }
-}
-
-/*
 task createEclipseLaunches {
     doLast {
         def templatesToCopy = [
@@ -216,6 +201,25 @@ task createEclipseLaunches {
         }
     }
 }
+
+task setupEclipse {
+    description "Sets up the Eclipse-specific configurations for the project."
+    group "Setup"
+    dependsOn createEclipseLaunches
+}
+
+/*
+idea {
+    module {
+        // Removes the source directories added by the appengine plugin
+        testSourceDirs -= sourceSets.functionalTest.allSource.srcDirs
+    }
+}
+
+// removes unused sourceSets from the appengine plugin
+// the appengine plugin also adds source directories to the IDEA plugin, which are removed from the idea block above
+sourceSets.remove(sourceSets.functionalTest)
+sourceSets.remove(sourceSets.endpointsSrc)
 
 String intellijSetupGroup = 'IntelliJ IDEA Setup'
 
@@ -313,12 +317,6 @@ task setupIntellijStaticAnalysis {
     finalizedBy copyStylelintConfiguration
 }
 */
-
-task setupEclipse {
-    description "Sets up the Eclipse-specific configurations for the project."
-    group "Setup"
-    dependsOn createEclipseLaunches
-}
 
 // RUN SERVER TASKS
 
