@@ -1,4 +1,5 @@
 apply plugin: "eclipse"
+apply plugin: "eclipse-wtp"
 apply plugin: 'idea'
 
 apply plugin: "war"
@@ -119,18 +120,27 @@ eclipse {
         buildCommand "org.eclipse.jdt.core.javabuilder"
         buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
+        buildCommand "com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb"
     }
     classpath {
-        containers "org.eclipse.buildship.core.gradleclasspathcontainer"
+        containers "org.eclipse.buildship.core.gradleclasspathcontainer",
+                   "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
-        sourceSets = [sourceSets.main, sourceSets.test]
-        minusConfigurations = [configurations.exclude, configurations.testExclude]
         file {
             whenMerged { cp ->
                 cp.entries.findAll {
                     it instanceof SourceFolder && !it.path.startsWith("src/main/")
                 }*.output = "target/test-classes"
             }
+        }
+    }
+    wtp {
+        facet {
+            facets = []
+            facet name: "jst.web", version: "3.1"
+            facet name: "jst.java", version: "1.8"
+            facet name: "wst.jsdt.web", version: "1.0"
+            facet name: "com.google.cloud.tools.eclipse.appengine.facets.standard", version: "JRE8"
         }
     }
 }
