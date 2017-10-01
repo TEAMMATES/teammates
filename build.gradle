@@ -125,12 +125,12 @@ eclipse {
     classpath {
         containers "org.eclipse.buildship.core.gradleclasspathcontainer",
                    "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
-        defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
+        defaultOutputDir = file("build-eclipse/classes")
         file {
             whenMerged { cp ->
                 cp.entries.findAll {
                     it instanceof SourceFolder && !it.path.startsWith("src/main/")
-                }*.output = "target/test-classes"
+                }*.output = "build-eclipse/test-classes"
             }
         }
     }
