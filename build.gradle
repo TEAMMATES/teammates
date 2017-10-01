@@ -115,14 +115,13 @@ import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
 eclipse {
     project {
-        natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
+        natures "org.eclipse.jdt.core.javanature", "org.eclipse.buildship.core.gradleprojectnature", "org.eclipse.wst.jsdt.core.jsNature"
         buildCommand "org.eclipse.jdt.core.javabuilder"
-        buildCommand "com.google.gdt.eclipse.core.webAppProjectValidator"
-        buildCommand "com.google.appengine.eclipse.core.projectValidator"
+        buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
     }
     classpath {
-        containers "com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-${appengineVersion}"
+        containers "org.eclipse.buildship.core.gradleclasspathcontainer"
         defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
         sourceSets = [sourceSets.main, sourceSets.test]
         minusConfigurations = [configurations.exclude, configurations.testExclude]
@@ -326,13 +325,13 @@ task printUserHomeDir {
         println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
     }
 }
+*/
 
 task setupEclipse {
     description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
-    dependsOn eclipseProject, createEclipseLaunches, resetEclipseDeps
+    dependsOn createEclipseLaunches
 }
-*/
 
 // RUN SERVER TASKS
 
@@ -349,9 +348,10 @@ appengine {
                 "-Dblobstore.backing_store=appengine-generated"]
     }
     deploy {
-        Node appengineWebXml = new XmlParser().parse('src/main/webapp/WEB-INF/appengine-web.xml')
-        project = appengineWebXml.application.text()
-        version = appengineWebXml.version.text()
+        String appengineWebXmlPath = "${projectDir}/src/main/webapp/WEB-INF/appengine-web.xml"
+        Node appengineWebXml = new File(appengineWebXmlPath).exists() ? new XmlParser().parse(appengineWebXmlPath) : null
+        project = appengineWebXml == null ? null : appengineWebXml.application.text()
+        version = appengineWebXml == null ? null : appengineWebXml.version.text()
         stopPreviousVersion = false
         promote = false
     }

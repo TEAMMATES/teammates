@@ -11,6 +11,7 @@
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Luna, Mars, or Neon](http://www.eclipse.org/downloads/).
 
 The following plugins are needed:
+* [Buildship Gradle Integration](https://marketplace.eclipse.org/content/buildship-gradle-integration)
 * [Google Plugin for Eclipse](https://developers.google.com/eclipse/docs/download): the correct version for your Eclipse IDE.
 * [TestNG Eclipse plugin](http://testng.org/doc/download.html): latest stable.
 
@@ -22,7 +23,7 @@ The following plugins are needed:
    ./gradlew setupEclipse
    ```
 
-   **Verification:** The files `.project` and `.classpath` should be added to the project root directory.
+   **Verification:** The folder `.launches` should be added to the project root directory.
 
 1. Start Eclipse and do the following works before importing the project:
    * Google App Engine: Go to `Eclipse → Preferences → Google → App Engine`, click the `Add` button, and point it to where Gradle keeps the downloaded SDK.<br>
@@ -39,9 +40,12 @@ The following plugins are needed:
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
-   * Select `Existing Projects into Workspace` under `General`.
-   * Set the `root directory` to the location where the repo is cloned.
-   * Click `Finish`.
+   * Select `Existing Gradle Project` under `Gradle`. Click `Next >`.
+   * Set the `Project root directory` to the location where the repo is cloned. Click `Next >`.
+   * If necessary, tick `Override workspace settings` and choose `Gradle wrapper`. Click `Finish`.
+
+   After importing the project, you may see many errors/warnings on your marker tab.
+   You need not be alarmed as these will be resolved in the next step.
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
