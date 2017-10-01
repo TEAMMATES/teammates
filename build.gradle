@@ -173,19 +173,21 @@ eclipseClasspath {
 task createConfigs {
     description "Sets up the project by obtaining necessary files and configurations points."
     group "Setup"
-    def templatesToCopy = [
-        "gradle.template.properties",
-        "src/main/resources/build.template.properties",
-        "src/test/resources/test.template.properties",
-        "src/main/webapp/WEB-INF/appengine-web.template.xml"
-    ]
-    templatesToCopy.findAll {
-        !(new File(it.replace(".template", ""))).exists()
-    }.each {
-        filename -> copy {
-            from filename
-            into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
-            rename '(.*).template(.*)', '$1$2'
+    doLast {
+        def templatesToCopy = [
+            "gradle.template.properties",
+            "src/main/resources/build.template.properties",
+            "src/test/resources/test.template.properties",
+            "src/main/webapp/WEB-INF/appengine-web.template.xml"
+        ]
+        templatesToCopy.findAll {
+            !(new File(it.replace(".template", ""))).exists()
+        }.each {
+            filename -> copy {
+                from filename
+                into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
+                rename '(.*).template(.*)', '$1$2'
+            }
         }
     }
 }
@@ -309,25 +311,6 @@ task setupIntellijStaticAnalysis {
     description 'Sets up the static analysis plugins in the IntelliJ project'
     dependsOn copyIntelliJProjectPluginsSettings
     finalizedBy copyStylelintConfiguration
-}
-
-task copyDepsToWebInfLib(type: Copy) {
-    from configurations.runtime
-    into "src/main/webapp/WEB-INF/lib/"
-    rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
-    rename("appengine-endpoints-deps-${appengineVersion}.jar", "appengine-endpoints-deps.jar")
-    rename("appengine-endpoints-${appengineVersion}.jar", "appengine-endpoints.jar")
-    rename("appengine-api-labs-${appengineVersion}.jar", "appengine-api-labs.jar")
-}
-
-task resetEclipseDeps {
-    description "Updates the project's dependencies to be used by Eclipse configurations"
-    group "Setup"
-    doFirst {
-        delete  ".classpath",
-                "src/main/webapp/WEB-INF/lib"
-    }
-    finalizedBy eclipseClasspath, copyDepsToWebInfLib
 }
 */
 
