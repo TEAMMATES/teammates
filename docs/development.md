@@ -66,7 +66,7 @@ If the server is running in the foreground, press `Ctrl + C` to stop it or run t
 
 #### Starting the dev server
 
-Right-click on the project folder and choose `Run As → Web Application`.<br>
+Right-click on the project folder and choose `Run As → App Engine`.<br>
 After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
 The dev server URL will be given at the console output, e.g `http://localhost:8888`.
 
@@ -266,8 +266,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
        ```
      * Wait until you see `Deployed service [default] to [https://4-18-dot-teammates-john.appspot.com]` or similar on the console.
    * With Eclipse
-     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
-     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+     * Refer to [this guide](https://cloud.google.com/eclipse/docs/deploying) to deploy your application.
    * With IntelliJ
      * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
 
