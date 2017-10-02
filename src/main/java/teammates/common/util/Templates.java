@@ -423,8 +423,6 @@ public final class Templates {
             public static final String RANK_MAX_RECIPIENTS_TO_BE_RANKED = "${maxRecipientsToBeRanked}";
             public static final String RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED = "${isMinRecipientsToBeRankedEnabled}";
             public static final String RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED = "${isMaxRecipientsToBeRankedEnabled}";
-            public static final String RANK_DISPLAY_MIN_RECIPIENTS_HINT = "${displayMinRecipientsHint}";
-            public static final String RANK_DISPLAY_MAX_RECIPIENTS_HINT = "${displayMaxRecipientsHint}";
             public static final String RANK_PARAM_TO_RECIPIENT = "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}";
             public static final String RANK_PARAM_NUM_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}";
