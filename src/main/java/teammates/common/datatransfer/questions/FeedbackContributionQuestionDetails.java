@@ -57,6 +57,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public List<String> getInstructions() {
+        return null;
+    }
+
+    @Override
     public String getQuestionTypeDisplayName() {
         return Const.FeedbackQuestionTypeNames.CONTRIB;
     }
