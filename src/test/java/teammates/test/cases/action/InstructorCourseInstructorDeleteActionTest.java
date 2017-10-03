@@ -126,8 +126,8 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }
 

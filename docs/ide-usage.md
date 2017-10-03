@@ -31,7 +31,7 @@ The following plugins are needed:
 
      ![setupguide-2.png](images/setupguide-2.png)
 
-   * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a **JDK 1.7** (not JRE, not JDK 1.8) entry exists.
+   * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a **JDK 1.8** (not JRE) entry exists.
 
      ![setupguide-3.png](images/setupguide-3.png)
 
@@ -52,11 +52,11 @@ The following plugins are needed:
      * Disable Datanucleus: `App Engine` → uncheck `Use Datanucleus JDO/JPA to access the datastore`.
      * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
      * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
-   * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 7.
+   * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
 
        ![setupguide-7.png](images/setupguide-7.png)
 
-   * Compiler compliance: `Java Compiler` → tick `Use compliance from execution environment 'JavaSE-1.7' on the 'Java Build Path'`.
+   * Compiler compliance: `Java Compiler` → untick `Use compliance from execution environment 'JavaSE-1.8' on the 'Java Build Path'`, select `1.7` for `Compiler compliance level`, and tick `Use default compliance settings`.
 
        ![setupguide-8.png](images/setupguide-8.png)
 
