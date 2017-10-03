@@ -86,7 +86,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      ```sh
      git checkout master
      git pull
-     git checkout -b 3942-remove-unnecessary-println
+     git checkout 3942-remove-unnecessary-println
      ```
    * Option 1: merge those updates to the branch you are working on.
 
