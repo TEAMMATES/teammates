@@ -56,7 +56,11 @@ The following plugins are needed:
 
        ![setupguide-7.png](images/setupguide-7.png)
 
+<<<<<<< HEAD
    * Compiler compliance: `Java Compiler` → tick `Use compliance from execution environment 'JavaSE-1.8' on the 'Java Build Path'`.
+=======
+   * Compiler compliance: `Java Compiler` → untick `Use compliance from execution environment 'JavaSE-1.8' on the 'Java Build Path'`, select `1.7` for `Compiler compliance level`, and tick `Use default compliance settings`.
+>>>>>>> 7609-upgrade-jdk8
 
        ![setupguide-8.png](images/setupguide-8.png)
 
