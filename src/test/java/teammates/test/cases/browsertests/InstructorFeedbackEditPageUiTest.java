@@ -49,10 +49,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         editedSession = testData.feedbackSessions.get("openSession");
         editedSession.setGracePeriod(30);
-        editedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        editedSession.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        editedSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_LATER);
         editedSession.setInstructions(new Text("Please fill in the edited feedback session."));
-        editedSession.setEndTime(TimeHelper.convertToDate("2026-05-01 10:00 PM UTC"));
+        editedSession.setEndTimeUtc(TimeHelper.convertToDate("2026-05-01 10:00 PM UTC"));
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
@@ -137,7 +137,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
 
-        feedbackEditPage.editFeedbackSession(editedSession.getStartTime(), editedSession.getEndTime(),
+        feedbackEditPage.editFeedbackSession(editedSession.getStartTimeUtc(), editedSession.getEndTimeUtc(),
                 editedSession.getInstructions(), editedSession.getGracePeriod());
 
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
@@ -198,7 +198,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test edit page not changed after manual publish");
 
         // Do a backdoor 'manual' publish.
-        editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NOW);
+        editedSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NOW);
         String status = BackDoor.editFeedbackSession(editedSession);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
@@ -216,7 +216,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test end time earlier than start time");
         feedbackEditPage.clickEditSessionButton();
         editedSession.setInstructions(new Text("Made some changes"));
-        feedbackEditPage.editFeedbackSession(editedSession.getEndTime(), editedSession.getStartTime(),
+        feedbackEditPage.editFeedbackSession(editedSession.getEndTimeUtc(), editedSession.getStartTimeUtc(),
                                         editedSession.getInstructions(), editedSession.getGracePeriod());
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";

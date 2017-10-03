@@ -81,10 +81,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     "Copying to multiple feedback sessions.<br>"
                     + "New Feedback Session <span class=\"bold\">(" + fs.getFeedbackSessionName() + ")</span> "
                     + "for Courses: <br>" + commaSeparatedListOfCourses + "<br>"
-                    + "<span class=\"bold\">From:</span> " + fs.getStartTime()
-                    + "<span class=\"bold\"> to</span> " + fs.getEndTime() + "<br>"
-                    + "<span class=\"bold\">Session visible from:</span> " + fs.getSessionVisibleFromTime() + "<br>"
-                    + "<span class=\"bold\">Results visible from:</span> " + fs.getResultsVisibleFromTime() + "<br><br>"
+                    + "<span class=\"bold\">From:</span> " + fs.getStartTimeUtc()
+                    + "<span class=\"bold\"> to</span> " + fs.getEndTimeUtc() + "<br>"
+                    + "<span class=\"bold\">Session visible from:</span> " + fs.getSessionVisibleFromTimeUtc() + "<br>"
+                    + "<span class=\"bold\">Results visible from:</span> " + fs.getResultsVisibleFromTimeUtc() + "<br><br>"
                     + "<span class=\"bold\">Instructions:</span> " + fs.getInstructions() + "<br>"
                     + "Copied from <span class=\"bold\">(" + originalFeedbackSessionName + ")</span> for Course "
                     + "<span class=\"bold\">[" + originalCourseId + "]</span> created.<br>";

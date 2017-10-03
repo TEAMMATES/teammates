@@ -156,7 +156,7 @@ public class EmailGenerator {
             linksFragmentValue.append(Templates.populateTemplate(
                     EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", TimeHelper.formatTime12H(fsa.getEndTime()) + (fsa.isClosed() ? " (Passed)" : ""),
+                    "${deadline}", TimeHelper.formatTime12H(fsa.getEndTimeUtc()) + (fsa.isClosed() ? " (Passed)" : ""),
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
@@ -232,7 +232,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTimeUtc())),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(time.getTime())),
                 "${additionalContactInformation}", additionalContactInformation);
@@ -263,7 +263,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTimeUtc())),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -431,7 +431,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTimeUtc())),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -471,7 +471,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTimeUtc())),
                 "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",

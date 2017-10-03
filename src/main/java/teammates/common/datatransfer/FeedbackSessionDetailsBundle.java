@@ -31,8 +31,8 @@ public class FeedbackSessionDetailsBundle {
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> sessions) {
         sessions.sort(Comparator.comparing((FeedbackSessionDetailsBundle fsd) -> fsd.feedbackSession.getCourseId())
                 .thenComparing(fsd -> fsd.feedbackSession.getCreatedTime())
-                .thenComparing(fsd -> fsd.feedbackSession.getEndTime())
-                .thenComparing(fsd -> fsd.feedbackSession.getStartTime())
+                .thenComparing(fsd -> fsd.feedbackSession.getEndTimeUtc())
+                .thenComparing(fsd -> fsd.feedbackSession.getStartTimeUtc())
                 .thenComparing(fsd -> fsd.feedbackSession.getFeedbackSessionName()));
     }
 

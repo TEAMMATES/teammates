@@ -39,7 +39,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        gracedFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        gracedFeedbackSession.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(0));
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 

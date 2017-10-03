@@ -1041,7 +1041,7 @@ public final class FeedbackSessionsLogic {
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (session.isPublished() && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+            if (session.isPublished() && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTimeUtc())) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1133,20 +1133,20 @@ public final class FeedbackSessionsLogic {
         if (newSession.getInstructions() == null) {
             newSession.setInstructions(oldSession.getInstructions());
         }
-        if (newSession.getStartTime() == null) {
-            newSession.setStartTime(oldSession.getStartTime());
+        if (newSession.getStartTimeUtc() == null) {
+            newSession.setStartTimeUtc(oldSession.getStartTimeUtc());
         }
-        if (newSession.getEndTime() == null) {
-            newSession.setEndTime(oldSession.getEndTime());
+        if (newSession.getEndTimeUtc() == null) {
+            newSession.setEndTimeUtc(oldSession.getEndTimeUtc());
         }
         if (newSession.getFeedbackSessionType() == null) {
             newSession.setFeedbackSessionType(oldSession.getFeedbackSessionType());
         }
-        if (newSession.getSessionVisibleFromTime() == null) {
-            newSession.setSessionVisibleFromTime(oldSession.getSessionVisibleFromTime());
+        if (newSession.getSessionVisibleFromTimeUtc() == null) {
+            newSession.setSessionVisibleFromTimeUtc(oldSession.getSessionVisibleFromTimeUtc());
         }
-        if (newSession.getResultsVisibleFromTime() == null) {
-            newSession.setResultsVisibleFromTime(oldSession.getResultsVisibleFromTime());
+        if (newSession.getResultsVisibleFromTimeUtc() == null) {
+            newSession.setResultsVisibleFromTimeUtc(oldSession.getResultsVisibleFromTimeUtc());
         }
 
         makeEmailStateConsistent(oldSession, newSession);
@@ -1379,7 +1379,7 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
-        sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
+        sessionToPublish.setResultsVisibleFromTimeUtc(currentDateTime(sessionToPublish));
         updateFeedbackSession(sessionToPublish);
     }
 
@@ -1403,7 +1403,7 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
         }
 
-        sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        sessionToUnpublish.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_LATER);
         updateFeedbackSession(sessionToUnpublish);
     }
 

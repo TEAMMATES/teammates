@@ -69,9 +69,9 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
 
             boolean isStartTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTime(), true, false);
+                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTimeUtc(), true, false);
             boolean isEndTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getEndTime(), false, true);
+                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getEndTimeUtc(), false, true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
@@ -159,10 +159,10 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         fs.setInstructions(newAttributes.getInstructions());
-        fs.setStartTimeUtc(newAttributes.getStartTime());
-        fs.setEndTimeUtc(newAttributes.getEndTime());
-        fs.setSessionVisibleFromTimeUtc(newAttributes.getSessionVisibleFromTime());
-        fs.setResultsVisibleFromTimeUtc(newAttributes.getResultsVisibleFromTime());
+        fs.setStartTimeUtc(newAttributes.getStartTimeUtc());
+        fs.setEndTimeUtc(newAttributes.getEndTimeUtc());
+        fs.setSessionVisibleFromTimeUtc(newAttributes.getSessionVisibleFromTimeUtc());
+        fs.setResultsVisibleFromTimeUtc(newAttributes.getResultsVisibleFromTimeUtc());
         fs.setTimeZone(newAttributes.getTimeZone());
         fs.setGracePeriod(newAttributes.getGracePeriod());
         fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());

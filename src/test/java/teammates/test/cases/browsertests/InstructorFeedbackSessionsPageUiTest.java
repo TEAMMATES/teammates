@@ -187,14 +187,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getEndTime(), newSession.getStartTime(), null, null,
+                newSession.getEndTimeUtc(), newSession.getStartTimeUtc(), null, null,
                 instructions, newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
         assertEquals("<p>" + instructions.getValue() + "</p>", feedbackPage.getInstructions());
 
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, null,
                 instructions, newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
 
@@ -221,7 +221,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String templateSessionName = "Team Peer Evaluation Session";
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 templateSessionName, newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackTeamPeerEvalTemplateAddSuccess.html");
@@ -237,7 +237,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 
@@ -254,9 +254,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("private session of characters1234567 #");
         newSession.setCourseId("CFeedbackUiT.CS2104");
-        newSession.setEndTime(null);
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setEndTimeUtc(null);
+        newSession.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
+        newSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
 
         newSession.setClosingEmailEnabled(false);
         newSession.setPublishedEmailEnabled(true);
@@ -279,7 +279,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         // start time and time zone are autodetected and set by the browser
         // since they vary from system to system, we do not test for their values
-        newSession.setStartTime(savedSession.getStartTime());
+        newSession.setStartTimeUtc(savedSession.getStartTimeUtc());
         newSession.setTimeZone(savedSession.getTimeZone());
 
         assertEquals(newSession.toString(), savedSession.toString());
@@ -297,12 +297,12 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setCourseId("CFeedbackUiT.CS1101");
         newSession.setTimeZone(-4.5);
 
-        newSession.setStartTime(TimeHelper.convertToDate("2004-05-01 8:00 AM UTC"));
-        newSession.setEndTime(newSession.getStartTime());
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2004-05-01 8:00 AM UTC"));
+        newSession.setEndTimeUtc(newSession.getStartTimeUtc());
         newSession.setGracePeriod(30);
 
-        newSession.setSessionVisibleFromTime(TimeHelper.convertToDate("2004-03-01 5:00 PM UTC"));
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+        newSession.setSessionVisibleFromTimeUtc(TimeHelper.convertToDate("2004-03-01 5:00 PM UTC"));
+        newSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
 
         newSession.setInstructions(new Text(""));
@@ -316,7 +316,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSessionWithTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), newSession.getSessionVisibleFromTime(), null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), newSession.getSessionVisibleFromTimeUtc(), null,
                 newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
@@ -335,10 +335,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
-        newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 4:00 AM UTC"));
-        newSession.setEndTime(TimeHelper.convertToDate("2017-31-12 11:59 PM UTC"));
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 4:00 AM UTC"));
+        newSession.setEndTimeUtc(TimeHelper.convertToDate("2017-31-12 11:59 PM UTC"));
+        newSession.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
         newSession.setGracePeriod(25);
         newSession.setInstructions(instructions);
         newSession.setTimeZone(-2);
@@ -350,7 +350,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSessionWithTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
@@ -369,11 +369,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
         newSession.setFeedbackSessionName("Long Instruction Test ##");
         newSession.setTimeZone(0);
-        newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 8:00 AM UTC"));
-        newSession.setEndTime(TimeHelper.convertToDate("2012-09-01 11:00 PM UTC"));
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 8:00 AM UTC"));
+        newSession.setEndTimeUtc(TimeHelper.convertToDate("2012-09-01 11:00 PM UTC"));
+        newSession.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         // visible from time is in future, hence the year.
-        newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2035-09-01 11:00 PM UTC"));
+        newSession.setResultsVisibleFromTimeUtc(TimeHelper.convertToDate("2035-09-01 11:00 PM UTC"));
         newSession.setGracePeriod(5);
 
         newSession.setInstructions(new Text(StringHelperExtension.generateStringOfLength(3000)));
@@ -382,7 +382,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSessionWithTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, newSession.getResultsVisibleFromTime(),
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, newSession.getResultsVisibleFromTimeUtc(),
                 newSession.getInstructions(), newSession.getGracePeriod(), newSession.getTimeZone());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
@@ -399,18 +399,18 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
 
         newSession.setFeedbackSessionName("invalid publish time #");
-        newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 8:00 PM UTC"));
-        newSession.setEndTime(TimeHelper.convertToDate("2012-05-01 4:00 PM UTC"));
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 8:00 PM UTC"));
+        newSession.setEndTimeUtc(TimeHelper.convertToDate("2012-05-01 4:00 PM UTC"));
 
-        newSession.setSessionVisibleFromTime(TimeHelper.convertToDate("2012-05-01 10:00 PM UTC"));
-        newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2012-05-01 7:00 AM UTC"));
+        newSession.setSessionVisibleFromTimeUtc(TimeHelper.convertToDate("2012-05-01 10:00 PM UTC"));
+        newSession.setResultsVisibleFromTimeUtc(TimeHelper.convertToDate("2012-05-01 7:00 AM UTC"));
         newSession.setGracePeriod(30);
         newSession.setInstructions(new Text("Test instructions"));
 
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(),
-                newSession.getSessionVisibleFromTime(), newSession.getResultsVisibleFromTime(),
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(),
+                newSession.getSessionVisibleFromTimeUtc(), newSession.getResultsVisibleFromTimeUtc(),
                 newSession.getInstructions(), newSession.getGracePeriod());
 
         List<String> expectedStatusStrings = new ArrayList<>();
@@ -436,10 +436,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         //feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
         newSession.setFeedbackSessionName("bad name %% #");
-        newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
+        newSession.setEndTimeUtc(Const.TIME_REPRESENTS_LATER);
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
                                                            FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
@@ -956,12 +956,12 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
         newSession.setFeedbackSessionName("");
-        newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
+        newSession.setEndTimeUtc(Const.TIME_REPRESENTS_LATER);
         feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickNeverPublishTimeButton();
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTime(), newSession.getEndTime(), null, null,
+                newSession.getStartTimeUtc(), newSession.getEndTimeUtc(), null, null,
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
         feedbackPage.verifyStatus(getPopulatedEmptyStringErrorMessage(

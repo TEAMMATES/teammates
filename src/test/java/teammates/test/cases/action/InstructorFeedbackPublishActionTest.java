@@ -123,14 +123,14 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
 
-        session.setStartTime(startTime);
-        session.setEndTime(endTime);
+        session.setStartTimeUtc(startTime);
+        session.setEndTimeUtc(endTime);
 
         if (isPublished) {
-            session.setResultsVisibleFromTime(resultsVisibleFromTimeForPublishedSession);
+            session.setResultsVisibleFromTimeUtc(resultsVisibleFromTimeForPublishedSession);
             assertTrue(session.isPublished());
         } else {
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+            session.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_LATER);
             assertFalse(session.isPublished());
         }
 

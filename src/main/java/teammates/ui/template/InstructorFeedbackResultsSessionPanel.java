@@ -26,8 +26,8 @@ public class InstructorFeedbackResultsSessionPanel {
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
         this.feedbackSessionName = SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName());
         this.editLink = editLink;
-        this.startTime = TimeHelper.formatTime12H(session.getStartTime());
-        this.endTime = TimeHelper.formatTime12H(session.getEndTime());
+        this.startTime = TimeHelper.formatTime12H(session.getStartTimeUtc());
+        this.endTime = TimeHelper.formatTime12H(session.getEndTimeUtc());
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
@@ -76,20 +76,20 @@ public class InstructorFeedbackResultsSessionPanel {
     }
 
     private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
-        if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-                return TimeHelper.formatTime12H(feedbackSession.getStartTime());
-            } else if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+        if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            if (feedbackSession.getSessionVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+                return TimeHelper.formatTime12H(feedbackSession.getStartTimeUtc());
+            } else if (feedbackSession.getSessionVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_NEVER)) {
                 return "Never";
             } else {
-                return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTime());
+                return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTimeUtc());
             }
-        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_LATER)) {
+        } else if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_LATER)) {
             return "I want to manually publish the results.";
-        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+        } else if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "Never";
         } else {
-            return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTime());
+            return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTimeUtc());
         }
     }
 }

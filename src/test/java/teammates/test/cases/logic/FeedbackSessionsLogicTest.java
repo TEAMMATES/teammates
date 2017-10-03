@@ -140,9 +140,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setStartTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
 
@@ -179,9 +179,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setStartTimeUtc(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
+        session.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
@@ -201,7 +201,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 closed session with mail unsent");
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-1));
         fsLogic.updateFeedbackSession(session);
 
         sessionList = fsLogic
@@ -226,9 +226,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("case : 1 published session with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         session.setTimeZone(0);
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setStartTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setResultsVisibleFromTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-1));
 
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
@@ -424,8 +424,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("change private session to non-private");
         FeedbackSessionAttributes privateSession =
                 newDataBundle.feedbackSessions.get("private.session");
-        privateSession.setSessionVisibleFromTime(privateSession.getStartTime());
-        privateSession.setEndTime(TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"));
+        privateSession.setSessionVisibleFromTimeUtc(privateSession.getStartTimeUtc());
+        privateSession.setEndTimeUtc(TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"));
         privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         fsLogic.updateFeedbackSession(privateSession);
 
@@ -1962,11 +1962,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("success 1: all changeable values sent are null");
         fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         fsa.setInstructions(null);
-        fsa.setStartTime(null);
-        fsa.setEndTime(null);
+        fsa.setStartTimeUtc(null);
+        fsa.setEndTimeUtc(null);
         fsa.setFeedbackSessionType(null);
-        fsa.setSessionVisibleFromTime(null);
-        fsa.setResultsVisibleFromTime(null);
+        fsa.setSessionVisibleFromTimeUtc(null);
+        fsa.setResultsVisibleFromTimeUtc(null);
 
         fsLogic.updateFeedbackSession(fsa);
 
@@ -1980,7 +1980,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // set as manual publish
 
-        sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        sessionUnderTest.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_LATER);
         fsLogic.updateFeedbackSession(sessionUnderTest);
 
         fsLogic.publishFeedbackSession(sessionUnderTest);
@@ -1988,7 +1988,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Set real time of publishing
         FeedbackSessionAttributes sessionPublished =
                 fsLogic.getFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
-        sessionUnderTest.setResultsVisibleFromTime(sessionPublished.getResultsVisibleFromTime());
+        sessionUnderTest.setResultsVisibleFromTimeUtc(sessionPublished.getResultsVisibleFromTimeUtc());
 
         assertEquals(sessionUnderTest.toString(), sessionPublished.toString());
 
@@ -2006,7 +2006,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         fsLogic.unpublishFeedbackSession(sessionUnderTest);
 
-        sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        sessionUnderTest.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_LATER);
 
         assertEquals(
                 sessionUnderTest.toString(),

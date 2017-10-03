@@ -127,9 +127,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     getInstructorPublishedTooltipForFeedbackSession(session),
                     getInstructorSubmissionStatusForFeedbackSession(session),
                     getInstructorPublishedStatusForFeedbackSession(session),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTime()),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTimeUtc()),
                     session.getStartTimeString(),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTimeUtc()),
                     session.getEndTimeString(),
                     getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName()),
                     getInstructorFeedbackSessionActions(
