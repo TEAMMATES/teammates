@@ -30,7 +30,7 @@ public class AdminSearchPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
 

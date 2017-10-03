@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.security.SecureRandom;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;

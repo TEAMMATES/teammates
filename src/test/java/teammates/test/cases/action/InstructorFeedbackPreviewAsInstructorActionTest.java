@@ -39,7 +39,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         String courseId = "idOfTypicalCourse1";
         String previewAsEmail = instructor2.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -71,7 +71,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         courseId = "idOfTypicalCourse1";
         previewAsEmail = instructor1.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -103,7 +103,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         courseId = "idOfTypicalCourse1";
         previewAsEmail = instructor2.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -123,7 +123,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
 
         previewAsEmail = "non-existentEmail@course13212.tmt";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -150,7 +150,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.PREVIEWAS, instructor.email
