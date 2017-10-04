@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -1379,13 +1378,8 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
-        sessionToPublish.setResultsVisibleFromTimeUtc(currentDateTime(sessionToPublish));
+        sessionToPublish.setResultsVisibleFromTimeUtc(new Date());
         updateFeedbackSession(sessionToPublish);
-    }
-
-    private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
-        Calendar now = TimeHelper.now(sessionToPublish.getTimeZone());
-        return now.getTime();
     }
 
     /**
