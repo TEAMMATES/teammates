@@ -33,6 +33,30 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        Date localStart = TimeHelper.convertLocalDateToUtc(start, zone);
+        Date localEnd = TimeHelper.convertLocalDateToUtc(end, zone);
+
+        List<FeedbackSession> sessionsWithStartWithinRange = load()
+                .filter("startTimeUtc >=", localStart)
+                .filter("startTimeUtc <", localEnd)
+                .list();
+
+        List<FeedbackSession> sessionsWithEndWithinRange = load()
+                .filter("endTimeUtc >", localStart)
+                .filter("endTimeUtc <=", localEnd)
+                .list();
+
+        sessionsWithEndWithinRange.removeAll(sessionsWithStartWithinRange);
+        sessionsWithStartWithinRange.removeAll(sessionsWithEndWithinRange);
+        sessionsWithEndWithinRange.addAll(sessionsWithStartWithinRange);
+
+        List<FeedbackSessionAttributes> list = makeAttributes(sessionsWithEndWithinRange);
+        list.addAll(getAllOpenFeedbackSessionsLegacy(start, end, zone));
+        return list;
+    }
+
+    @Deprecated
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessionsLegacy(Date start, Date end, double zone) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
 
         Calendar startCal = Calendar.getInstance();
@@ -60,13 +84,11 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
-        for (FeedbackSession feedbackSession : endTimeEntities) {
-            startCal.setTime(start);
-            endCal.setTime(end);
-            FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
+        Date standardStart = TimeHelper.convertLocalDateToUtc(start, zone);
+        Date standardEnd = TimeHelper.convertLocalDateToUtc(end, zone);
 
-            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.getTimeZone() - zone).getTime();
-            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
+        for (FeedbackSession feedbackSession : endTimeEntities) {
+            FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
 
             boolean isStartTimeWithinRange =
                     TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTimeUtc(), true, false);
@@ -442,6 +464,16 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
+        List<FeedbackSession> list = load()
+                .filter("startTimeUtc >", TimeHelper.getDateOffsetToCurrentTime(-1))
+                .filter("sentOpenEmail =", false)
+                .list();
+        list.addAll(getFeedbackSessionEntitiesPossiblyNeedingOpenEmailLegacy());
+        return list;
+    }
+
+    @Deprecated
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmailLegacy() {
         return load()
                 .filter("startTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
                 .filter("sentOpenEmail =", false)
@@ -449,6 +481,17 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
+        List<FeedbackSession> list = load()
+                .filter("endTimeUtc >", TimeHelper.getDateOffsetToCurrentTime(-1))
+                .filter("sentClosingEmail =", false)
+                .filter("isClosingEmailEnabled =", true)
+                .list();
+        list.addAll(getFeedbackSessionEntitiesPossiblyNeedingClosingEmailLegacy());
+        return list;
+    }
+
+    @Deprecated
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmailLegacy() {
         return load()
                 .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
                 .filter("sentClosingEmail =", false)
@@ -457,6 +500,17 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
+        List<FeedbackSession> list = load()
+                .filter("endTimeUtc >", TimeHelper.getDateOffsetToCurrentTime(-1))
+                .filter("sentClosedEmail =", false)
+                .filter("isClosingEmailEnabled =", true)
+                .list();
+        list.addAll(getFeedbackSessionEntitiesPossiblyNeedingClosedEmailLegacy());
+        return list;
+    }
+
+    @Deprecated
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmailLegacy() {
         return load()
                 .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
                 .filter("sentClosedEmail =", false)
