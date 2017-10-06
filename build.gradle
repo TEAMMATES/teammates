@@ -325,7 +325,7 @@ compileTestJava.options.encoding = "UTF-8"
 
 appengine {
     run {
-        port = 8888
+        port = 8080
         jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
                 // Absolute paths are not supported, the following is relative to the project directory
                 // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
