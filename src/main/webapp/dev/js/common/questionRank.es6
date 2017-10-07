@@ -220,10 +220,18 @@ function bindRankEvents() {
         });
 }
 
+function removeInvalidFeedbackPathsForRankRecipientQuestions() {
+    $('[data-recipient-type="NONE"],[data-recipient-type="SELF"]').hide();
+    $('select[name="recipienttype"]').each(function () {
+        $(this).children('option[value="SELF"],option[value="NONE"],option[value="OWN_TEAM"]').hide();
+    });
+}
+
 export {
     addRankOption,
     bindRankEvents,
     hideRankOptionTable,
+    removeInvalidFeedbackPathsForRankRecipientQuestions,
     removeRankOption,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,

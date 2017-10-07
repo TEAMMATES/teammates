@@ -79,6 +79,7 @@ import {
     addRankOption,
     bindRankEvents,
     hideRankOptionTable,
+    removeInvalidFeedbackPathsForRankRecipientQuestions,
     removeRankOption,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
@@ -1134,6 +1135,8 @@ function readyFeedbackEditPage() {
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
+
+    removeInvalidFeedbackPathsForRankRecipientQuestions();
 }
 
 /**
