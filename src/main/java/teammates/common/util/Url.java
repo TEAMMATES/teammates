@@ -33,7 +33,7 @@ public class Url {
       * authority (host name + port number if specified) but before the query.<br>
       * Example:
       * <ul>
-      * <li><code>new Url("http://localhost:8888/index.jsp").getRelativeUrl()</code>
+      * <li><code>new Url("http://localhost:8080/index.jsp").getRelativeUrl()</code>
       * returns <code>/index.jsp</code></li>
       * <li><code>new Url("http://google.com").getRelativeUrl()</code>
       * returns <i>[empty string]</i></li>
@@ -50,8 +50,8 @@ public class Url {
       * authority (host name + port number if specified) but not the path.<br>
       * Example:
       * <ul>
-      * <li><code>new Url("http://localhost:8888/index.jsp").getBaseUrl()</code>
-      * returns <code>http://localhost:8888</code></li>
+      * <li><code>new Url("http://localhost:8080/index.jsp").getBaseUrl()</code>
+      * returns <code>http://localhost:8080</code></li>
       * <li><code>new Url("https://teammatesv4.appspot.com/index.jsp").getBaseUrl()</code>
       * returns <code>https://teammatesv4.appspot.com</code></li>
       * </ul>

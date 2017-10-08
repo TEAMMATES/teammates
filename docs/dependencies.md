@@ -22,14 +22,8 @@ Add the library based on the name listed in [Maven Central](http://search.maven.
 
 To update a library's version, simply change the version number declared in `build.gradle` file.
 
-If you are using Eclipse, you need to do a manual update to your Eclipse configuration to reflect the above changes.
-You will do so by running the following command:
-
-```sh
-./gradlew resetEclipseDeps
-```
-
-Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse should fix that.
+- If you are using command line, your next build will automatically reflect the change.
+- If you are using Eclipse, right click on the project in the Project Explorer and select `Gradle → Refresh Gradle Project` for the changes to be reflected.
 
 # Managing Client-Side Dependencies
 
