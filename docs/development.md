@@ -51,7 +51,7 @@ run the following command instead:
 ./gradlew appengineRun
 ```
 
-The dev server URL will be `http://localhost:8888` as specified in `build.gradle`.
+The dev server URL will be `http://localhost:8080` as specified in `build.gradle`.
 
 #### Stopping the dev server
 
@@ -66,9 +66,9 @@ If the server is running in the foreground, press `Ctrl + C` to stop it or run t
 
 #### Starting the dev server
 
-Right-click on the project folder and choose `Run As → Web Application`.<br>
+Right-click on the project folder and choose `Run As → App Engine`.<br>
 After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-The dev server URL will be given at the console output, e.g `http://localhost:8888`.
+The dev server URL will be given at the console output, e.g `http://localhost:8080`.
 
 #### Stopping the dev server
 
@@ -100,7 +100,7 @@ Click the "Terminate" icon on the Eclipse console.
 1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
 1. Check in `JRE:` that the SDK used is the default of `1.7`.\
    Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).
-1. Set the `Port:` to `8888`.
+1. Set the `Port:` to `8080`.
 1. Click `OK`.
 
 #### Starting the dev server
@@ -114,8 +114,8 @@ Go to `Run → Stop`.
 ## Logging in to a TEAMMATES instance
 
 This instruction set applies for both dev server and production server, with slight differences explained where applicable.
-- The local dev server is assumed to be accessible at `http://localhost:8888`.
-- If a URL is given as relative, prepend the server URL to access the page, e.g `/page/somePage` is accessible in dev server at `http://localhost:8888/page/somePage`.
+- The local dev server is assumed to be accessible at `http://localhost:8080`.
+- If a URL is given as relative, prepend the server URL to access the page, e.g `/page/somePage` is accessible in dev server at `http://localhost:8080/page/somePage`.
 
 ### As administrator
 
@@ -123,7 +123,7 @@ This instruction set applies for both dev server and production server, with sli
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
 1. On the production server, you will be granted the access only if your account has administrator permission to the application.
 1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
- e.g `http://localhost:8888/page/studentHomePage?user=johnKent`.
+ e.g `http://localhost:8080/page/studentHomePage?user=johnKent`.
 
 ### As instructor
 
@@ -139,7 +139,7 @@ You need an instructor account which can be created by administrators.
    On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.<br>
    Remember to change the base URL of the link if necessary, but keep the parameters,<br>
    e.g change **`https://teammates-john.appspot.com`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`<br>
-   to **`http://localhost:8888`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
+   to **`http://localhost:8080`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
 
 ### As student
 
@@ -147,9 +147,9 @@ You need a student account which can be created by instructors.
 
 1. Log in as an instructor. Add a course for yourself and then add the students for the course.
 1. The system will send an email containing the join link to each added student. Again, this will not happen on the dev server, so additional steps are required.
-1. Log out and log in to `http://localhost:8888/admin/adminSearchPage` as administrator.
+1. Log out and log in to `http://localhost:8080/admin/adminSearchPage` as administrator.
 1. Search for the student you added in as instructor. From the search results, click anywhere on the desired row (except on the student name) to get the course join link for that student.
-1. Log out and use that join link (again, change the base URL to `http://localhost:8888` if necessary) to log in as a student.
+1. Log out and use that join link (again, change the base URL to `http://localhost:8080` if necessary) to log in as a student.
 
 **Alternative**: Run the test cases, they create several student and instructor accounts in the datastore. Use one of them to log in.
 
@@ -266,8 +266,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
        ```
      * Wait until you see `Deployed service [default] to [https://6-0-0-dot-teammates-john.appspot.com]` or similar on the console.
    * With Eclipse
-     * Choose `Deploy to App Engine...` from Eclipse (under the `Google` menu item) and follow the steps.
-     * Wait until you see this message (or similar) in Eclipse console: `Deployment completed successfully`.
+     * Refer to [this guide](https://cloud.google.com/eclipse/docs/deploying) to deploy your application.
    * With IntelliJ
      * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
 

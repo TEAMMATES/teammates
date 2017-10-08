@@ -9,7 +9,6 @@ gradle.properties
 build.properties
 test.properties
 report
-target
 appengine-generated
 *.ext
 appengine-web.xml
@@ -47,9 +46,11 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
+build-eclipse/
 .checkstyle
 .pmd
 .ruleset
+.tern-project
 
 ### IntelliJ ###
 # Ignore the folder where project settings are stored as IDE is not assumed

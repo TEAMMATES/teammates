@@ -8,13 +8,31 @@
 > - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
-Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Luna, Mars, or Neon](http://www.eclipse.org/downloads/).
+Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or Oxygen](http://www.eclipse.org/downloads/).
 
-The following plugins are needed:
-* [Google Plugin for Eclipse](https://developers.google.com/eclipse/docs/download): the correct version for your Eclipse IDE.
-* [TestNG Eclipse plugin](http://testng.org/doc/download.html): latest stable.
+### Prerequisites
 
-![setupguide-1.png](images/setupguide-1.png)
+1. You need the following plugins:
+   * [Buildship Gradle Integration](https://marketplace.eclipse.org/content/buildship-gradle-integration)
+   * [Google Cloud Tools for Eclipse](http://marketplace.eclipse.org/content/google-cloud-tools-eclipse)
+   * [TestNG for Eclipse](https://marketplace.eclipse.org/content/testng-eclipse)
+
+   ![eclipsesetupguide-1.png](images/eclipsesetupguide-1.png)
+
+   ![eclipsesetupguide-2.png](images/eclipsesetupguide-2.png)
+
+1. In Eclipse, do the following works before importing the project:
+   * Google Cloud Tools: Go to `Eclipse → Preferences → Google Cloud Tools` and fill the `SDK location` box with the directory of your installed Google Cloud SDK.
+
+     ![eclipsesetupguide-3.png](images/eclipsesetupguide-3.png)
+
+   * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a **JDK 1.8** (not JRE) entry exists.
+
+     ![eclipsesetupguide-4.png](images/eclipsesetupguide-4.png)
+
+     Note that the JDK to be used is not required to be the `default`.
+
+### Project Setup
 
 1. Run this command to get necessary configuration files for Eclipse:
 
@@ -22,43 +40,29 @@ The following plugins are needed:
    ./gradlew setupEclipse
    ```
 
-   **Verification:** The files `.project` and `.classpath` should be added to the project root directory.
-
-1. Start Eclipse and do the following works before importing the project:
-   * Google App Engine: Go to `Eclipse → Preferences → Google → App Engine`, click the `Add` button, and point it to where Gradle keeps the downloaded SDK.<br>
-     This directory can be found by running the command `./gradlew printUserHomeDir`.<br>
-     Further instructions for installing can be found [here](https://developers.google.com/eclipse/docs/using_sdks).
-
-     ![setupguide-2.png](images/setupguide-2.png)
-
-   * JRE: Go to `Eclipse → Preferences → Java → Installed JRE` and ensure a **JDK 1.8** (not JRE) entry exists.
-
-     ![setupguide-3.png](images/setupguide-3.png)
-
-   Note that none of the App Engine SDK or JDK to be used are required to be the `default`.
+   **Verification:** The folder `.launches` should be added to the project root directory.
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
-   * Select `Existing Projects into Workspace` under `General`.
-   * Set the `root directory` to the location where the repo is cloned.
-   * Click `Finish`.
+   * Select `Existing Gradle Project` under `Gradle`. Click `Next >`.
+   * Set the `Project root directory` to the location where the repo is cloned. Click `Next >`.
+   * If necessary, tick `Override workspace settings` and choose `Gradle wrapper`. Click `Finish`.
+
+   After importing the project, you may see many errors/warnings on your marker tab.
+   You need not be alarmed as these will be resolved in the next step.
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
    * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
 
-     ![setupguide-4.png](images/setupguide-4.png)
+     ![eclipsesetupguide-5.png](images/eclipsesetupguide-5.png)
 
-   * Google App Engine: set up the following by going to `Google → ...`:
-     * Disable Datanucleus: `App Engine` → uncheck `Use Datanucleus JDO/JPA to access the datastore`.
-     * Validation exclusion: `App Engine → Validation` → add two entries: `src/test/java` and `src/client/java`.
-     * WAR directory: `Web Application` → tick both `This project has a WAR directory` and `Launch and deploy from this directory`, and enter `src/main/webapp` as `WAR directory`.
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
 
-       ![setupguide-7.png](images/setupguide-7.png)
+     ![eclipsesetupguide-6.png](images/eclipsesetupguide-6.png)
 
    * Compiler compliance: `Java Compiler` → tick `Use compliance from execution environment 'JavaSE-1.8' on the 'Java Build Path'`.
 
-       ![setupguide-8.png](images/setupguide-8.png)
+     ![eclipsesetupguide-7.png](images/eclipsesetupguide-7.png)
 
    * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
      Configure for all the languages used in TEAMMATES:
@@ -69,18 +73,21 @@ The following plugins are needed:
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
-   * Validation:
-     * We do not validate HTML, JSP, and XML. `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
-     * Disable JavaScript validation for `node_modules` folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
-	 * Disable JSON validation for `node_modules` folder. `Validation` → click the `...` settings button for `JSON Validator` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
+   * Validation: Go to `Validation → ...`
+     * Disable validation for HTML, JSP, and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, `XML Schema Validator`, and `XML Validator`.
+     * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. Similarly for `JSON Validator`.
 
 1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
-   ![setupguide-6.png](images/setupguide-6.png)
+   ![eclipsesetupguide-8.png](images/eclipsesetupguide-8.png)
+
+   > If you are using Eclipse Neon, you will find that all declarations of `import` and `export` in JavaScript files are marked as errors. This is fine and is not a cause of concern.
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
 1. To move on to the development phase, refer to [this document](development.md)
+
+> Note: It is not encouraged to run Gradle tasks via Eclipse.
 
 ## IntelliJ IDEA
 
