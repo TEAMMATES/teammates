@@ -2132,7 +2132,7 @@
             <a href="https://github.com/TEAMMATES/teammates/issues?q=involves%3Asaitj99"
                 target="_blank" rel="noopener noreferrer">bug reporting/fixing, enhancements
             </a>
-         </td>
+          </td>
         </tr>
         <tr>
           <td>Sandeep Choudhary</td>
