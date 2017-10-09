@@ -160,17 +160,10 @@ public class FeedbackSession extends BaseEntity {
             return;
         }
 
-        startTimeUtc = convertToUtcUnlessSpecial(startTime);
-        endTimeUtc = convertToUtcUnlessSpecial(endTime);
-        sessionVisibleFromTimeUtc = convertToUtcUnlessSpecial(sessionVisibleFromTimeUtc);
-        resultsVisibleFromTimeUtc = convertToUtcUnlessSpecial(resultsVisibleFromTimeUtc);
-    }
-
-    private Date convertToUtcUnlessSpecial(Date localDate) {
-        if (localDate == null) {
-            return null;
-        }
-        return TimeHelper.isSpecialTime(localDate) ? localDate : TimeHelper.convertLocalDateToUtc(localDate, timeZoneDouble);
+        startTimeUtc = TimeHelper.convertLocalDateToUtc(startTime, timeZoneDouble);
+        endTimeUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZoneDouble);
+        sessionVisibleFromTimeUtc = TimeHelper.convertLocalDateToUtc(sessionVisibleFromTimeUtc, timeZoneDouble);
+        resultsVisibleFromTimeUtc = TimeHelper.convertLocalDateToUtc(resultsVisibleFromTimeUtc, timeZoneDouble);
     }
 
     public String getFeedbackSessionName() {
