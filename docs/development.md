@@ -132,7 +132,8 @@ You need an instructor account which can be created by administrators.
 1. Log in to `/admin/adminHomePage` as an administrator.
 1. Enter credentials for an instructor, e.g<br>
    Short Name: `Instructor`<br>
-   Name: `John Dorian`<br> 
+   Name: `John Dorian`<br>
+   Email: `teammates.instructor@university.edu`<br>
    Institution: `National University of Singapore`<br>
 1. The system will send an email containing the join link to the added instructor.<br>
    On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.<br>
