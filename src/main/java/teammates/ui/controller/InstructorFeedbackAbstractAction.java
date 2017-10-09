@@ -42,12 +42,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR))
                 .build();
 
-        attributes.setStartTimeUtc(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
-        attributes.setEndTimeUtc(TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
@@ -56,6 +50,14 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
         }
+        Date startTimeLocal = TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
+        Date endTimeLocal = TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
+        attributes.setStartTimeUtc(TimeHelper.convertLocalDateToUtc(startTimeLocal, attributes.getTimeZone()));
+        attributes.setEndTimeUtc(TimeHelper.convertLocalDateToUtc(endTimeLocal, attributes.getTimeZone()));
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
@@ -76,9 +78,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            attributes.setResultsVisibleFromTimeUtc(TimeHelper.combineDateTime(
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
+            Date publishTimeLocal = TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
+            attributes.setResultsVisibleFromTimeUtc(
+                    TimeHelper.convertLocalDateToUtc(publishTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             attributes.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
@@ -99,9 +103,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            attributes.setSessionVisibleFromTimeUtc(TimeHelper.combineDateTime(
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
+            Date visibleTimeLocal = TimeHelper.combineDateTime(
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+            attributes.setSessionVisibleFromTimeUtc(
+                    TimeHelper.convertLocalDateToUtc(visibleTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
