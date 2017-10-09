@@ -868,7 +868,7 @@
                                     <span class="text-muted">
                                       From: Teammates Test2 [Tue, 03 Apr 2012, 07:59 AM UTC+0800] (last edited by Teammates Test at ${datetime.now} UTC+0800)
                                     </span>
-                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, response recipient, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
+                                    <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, other students in this course, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
                                     </span>
                                   </div>
                                   <div class="col-xs-2">
@@ -939,7 +939,7 @@
                                             <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-0-1-1-1">
@@ -1004,8 +1004,8 @@
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
                                   <input name="user" type="hidden" value="CFResultsUiT.instr">
-                                  <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
-                                  <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                                  <input name="showresponsecommentsto" type="hidden" value="GIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
+                                  <input name="showresponsegiverto" type="hidden" value="OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS">
                                   <input name="token" type="hidden" value="${sessionToken}">
                                 </form>
                               </li>

@@ -36,20 +36,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
-        String minOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED);
-        String maxOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED);
 
         this.areDuplicatesAllowed = areDuplicatesAllowed;
-
-        if (minOptionsToBeRanked != null) {
-            this.minOptionsToBeRanked = Integer.parseInt(minOptionsToBeRanked);
-        }
-
-        if (maxOptionsToBeRanked != null) {
-            this.maxOptionsToBeRanked = Integer.parseInt(maxOptionsToBeRanked);
-        }
 
         return true;
     }

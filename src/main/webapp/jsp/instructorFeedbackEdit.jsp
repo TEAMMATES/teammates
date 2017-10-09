@@ -31,7 +31,7 @@
     <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
     <br>
   </c:if>
-   <br>
+  <br>
   <input type="hidden" id="num-questions" value="${fn:length(data.qnForms)}">
   <input type="hidden" id="num-students" value="${data.courseDetails.stats.studentsTotal}">
   <input type="hidden" id="num-teams" value="${data.courseDetails.stats.teamsTotal}">

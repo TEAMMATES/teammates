@@ -869,6 +869,81 @@
         "RECEIVER",
         "INSTRUCTORS"
       ]
+    },
+    "studentQuestions13": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2,\"questionText\":\"Rank atleast 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 13,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions14": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2,\"questionText\":\"Rank atmost 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 14,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions15": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 15,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {

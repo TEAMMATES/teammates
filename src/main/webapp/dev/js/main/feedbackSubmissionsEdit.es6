@@ -653,13 +653,6 @@ function validateMsqQuestions() {
         while ($(`input[name="responsetext-${qNum}-${recipientIndex}"]`).length !== 0) {
             const numOfSelectedChoices = $(`input[name="responsetext-${qNum}-${recipientIndex}"]:checked`).length;
 
-            if (numOfSelectedChoices === 1
-                    && $(`input[name="responsetext-${qNum}-${recipientIndex}"][value=""]`).prop('checked')) {
-                // Selecting "None of the above" as the only option is a valid response
-                recipientIndex += 1;
-                continue;
-            }
-
             if (numOfSelectedChoices === 0) {
                 // student is allowed to skip/ignore question
                 recipientIndex += 1;
@@ -895,10 +888,10 @@ function updateRankMessageQn(qnNum) {
     }
 
     function checkMinMaxRestrictions(questionNumber, recipientIndex) {
-        const rankedOptions = $(`select[name="responsetext-${questionNumber}-${recipientIndex}"]`)
-                              .filter(function () {
-                                  return $(this).val() !== '';
-                              }).length;
+        const selector = $(`#rankToRecipients-${questionNumber}`).val() === 'true'
+                ? `select[name^="responsetext-${questionNumber}-"]`
+                : `select[name="responsetext-${questionNumber}-${recipientIndex}"]`;
+        const rankedOptions = $(selector).filter(function () { return $(this).val() !== ''; }).length;
 
         if (rankedOptions === 0) {
             return;
@@ -933,11 +926,13 @@ function updateRankMessageQn(qnNum) {
             $messageElement.addClass('text-color-red');
         } else if (isMinOptionsToBeRankedViolated) {
             const min = getMinOptionsToBeRanked(qnNum);
-            message += ` You need to rank at least ${min} options. `;
+
+            message += ` You need to rank at least ${min} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
             $messageElement.addClass('text-color-red');
         } else if (isMaxOptionsToBeRankedViolated) {
             const max = getMaxOptionsToBeRanked(qnNum);
-            message += ` Rank no more than ${max} options. `;
+
+            message += ` Rank no more than ${max} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked && !isMinOrMaxOptionsToBeRankedEnabled) {
             message = `Please rank the above ${isDistributingToRecipients ? 'recipients. '

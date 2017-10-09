@@ -111,6 +111,13 @@ public abstract class FeedbackQuestionDetails {
     }
 
     /**
+     * Returns a list of strings where each string is an instruction to answer the question.
+     *
+     * @return List of strings containing instructions.
+     */
+    public abstract List<String> getInstructions();
+
+    /**
      * Returns a HTML option for selecting question type.
      * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
      */
