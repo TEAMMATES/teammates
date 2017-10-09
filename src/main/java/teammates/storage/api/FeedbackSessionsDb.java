@@ -32,18 +32,15 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
-        Date localStart = TimeHelper.convertLocalDateToUtc(start, zone);
-        Date localEnd = TimeHelper.convertLocalDateToUtc(end, zone);
-
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
         List<FeedbackSession> sessionsWithStartWithinRange = load()
-                .filter("startTimeUtc >=", localStart)
-                .filter("startTimeUtc <", localEnd)
+                .filter("startTimeUtc >=", startUtc)
+                .filter("startTimeUtc <", endUtc)
                 .list();
 
         List<FeedbackSession> sessionsWithEndWithinRange = load()
-                .filter("endTimeUtc >", localStart)
-                .filter("endTimeUtc <=", localEnd)
+                .filter("endTimeUtc >", startUtc)
+                .filter("endTimeUtc <=", endUtc)
                 .list();
 
         sessionsWithEndWithinRange.removeAll(sessionsWithStartWithinRange);
@@ -51,18 +48,18 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         sessionsWithEndWithinRange.addAll(sessionsWithStartWithinRange);
 
         List<FeedbackSessionAttributes> list = makeAttributes(sessionsWithEndWithinRange);
-        list.addAll(getAllOpenFeedbackSessionsLegacy(start, end, zone));
+        list.addAll(getAllOpenFeedbackSessionsLegacy(startUtc, endUtc));
         return list;
     }
 
     @Deprecated
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessionsLegacy(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessionsLegacy(Date startUtc, Date endUtc) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
 
         Calendar startCal = Calendar.getInstance();
-        startCal.setTime(start);
+        startCal.setTime(startUtc);
         Calendar endCal = Calendar.getInstance();
-        endCal.setTime(end);
+        endCal.setTime(endUtc);
 
         Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
         Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
@@ -84,16 +81,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
-        Date standardStart = TimeHelper.convertLocalDateToUtc(start, zone);
-        Date standardEnd = TimeHelper.convertLocalDateToUtc(end, zone);
-
         for (FeedbackSession feedbackSession : endTimeEntities) {
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
 
             boolean isStartTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTimeUtc(), true, false);
+                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getStartTimeUtc(), true, false);
             boolean isEndTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getEndTimeUtc(), false, true);
+                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getEndTimeUtc(), false, true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
