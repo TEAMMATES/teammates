@@ -45,11 +45,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
-    @Override
-    public List<String> getInstructions() {
-        return null;
-    }
-
     public int getNumOfMcqChoices() {
         return numOfMcqChoices;
     }

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
     <title>Table Sorting Test Page - TEAMMATES</title>
     <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
     <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">

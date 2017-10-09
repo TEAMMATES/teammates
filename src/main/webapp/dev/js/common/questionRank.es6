@@ -2,52 +2,24 @@ import {
     ParamsNames,
 } from './const.es6';
 
-function isRankOptionsQuestion(qnNumber) {
-    return $(`#form_editquestion-${qnNumber}`).children('input[name="questiontype"]').val() === 'RANK_OPTIONS';
-}
-
 function isMinOptionsToBeRankedEnabled(qnNumber) {
-    return isRankOptionsQuestion(qnNumber) ? $(`#minOptionsToBeRankedEnabled-${qnNumber}`).prop('checked')
-            : $(`#minRecipientsToBeRankedEnabled-${qnNumber}`).prop('checked');
+    return $(`#minOptionsToBeRankedEnabled-${qnNumber}`).prop('checked');
 }
 
 function isMaxOptionsToBeRankedEnabled(qnNumber) {
-    return isRankOptionsQuestion(qnNumber) ? $(`#maxOptionsToBeRankedEnabled-${qnNumber}`).prop('checked')
-            : $(`#maxRecipientsToBeRankedEnabled-${qnNumber}`).prop('checked');
+    return $(`#maxOptionsToBeRankedEnabled-${qnNumber}`).prop('checked');
 }
 
 function getNumOfRankOptions(qnNumber) {
-    if (isRankOptionsQuestion(qnNumber)) {
-        // for rank options question, return number of options
-        return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
-    }
-
-    // for rank recipients question, compute the number of recipients
-    const recipient = $(`#recipienttype-${qnNumber}`).val();
-
-    switch (recipient) {
-    case 'STUDENTS':
-    case 'INSTRUCTORS':
-    case 'TEAMS':
-        return $(`#num-${recipient.toLowerCase()}`).val();
-    case 'OWN_TEAM_MEMBERS':
-    case 'OWN_TEAM_MEMBERS_INCLUDING_SELF':
-        // returning infinite as this is dependent on team size
-        return Number.MAX_SAFE_INTEGER;
-    default:
-        // other recipient types like NONE, SELF have only 1 recipient
-        return 1;
-    }
+    return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
 }
 
 function getMinOptionsToBeRankedBox(qnNumber) {
-    return isRankOptionsQuestion(qnNumber) ? $(`#minOptionsToBeRanked-${qnNumber}`)
-            : $(`#minRecipientsToBeRanked-${qnNumber}`);
+    return $(`#minOptionsToBeRanked-${qnNumber}`);
 }
 
 function getMaxOptionsToBeRankedBox(qnNumber) {
-    return isRankOptionsQuestion(qnNumber) ? $(`#maxOptionsToBeRanked-${qnNumber}`)
-            : $(`#maxRecipientsToBeRanked-${qnNumber}`);
+    return $(`#maxOptionsToBeRanked-${qnNumber}`);
 }
 
 function setUpperLimitForMinOptionsToBeRanked(qnNumber, upperLimit) {
@@ -197,27 +169,25 @@ function removeRankOption(index, questionNum) {
 }
 
 function bindRankEvents() {
-    $(document).on('change', 'input[name="minOptionsToBeRanked"],input[name="minRecipientsToBeRanked"]', (e) => {
+    $(document).on('change', 'input[name="minOptionsToBeRanked"]', (e) => {
         const questionNum = $(e.target).closest('form').attr('data-qnnumber');
         adjustMinOptionsToBeRanked(questionNum);
     });
 
-    $(document).on('change', 'input[name="maxOptionsToBeRanked"],input[name="maxRecipientsToBeRanked"]', (e) => {
+    $(document).on('change', 'input[name="maxOptionsToBeRanked"]', (e) => {
         const questionNum = $(e.target).closest('form').attr('data-qnnumber');
         adjustMaxOptionsToBeRanked(questionNum);
     });
 
-    $(document).on('change',
-        'input[name="minOptionsToBeRankedEnabled"],input[name="minRecipientsToBeRankedEnabled"]', (e) => {
-            const questionNum = $(e.target).closest('form').attr('data-qnnumber');
-            toggleMinOptionsToBeRanked(questionNum);
-        });
+    $(document).on('change', 'input[name="minOptionsToBeRankedEnabled"]', (e) => {
+        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        toggleMinOptionsToBeRanked(questionNum);
+    });
 
-    $(document).on('change',
-        'input[name="maxOptionsToBeRankedEnabled"],input[name="maxRecipientsToBeRankedEnabled"]', (e) => {
-            const questionNum = $(e.target).closest('form').attr('data-qnnumber');
-            toggleMaxOptionsToBeRanked(questionNum);
-        });
+    $(document).on('change', 'input[name="maxOptionsToBeRankedEnabled"]', (e) => {
+        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        toggleMaxOptionsToBeRanked(questionNum);
+    });
 }
 
 export {

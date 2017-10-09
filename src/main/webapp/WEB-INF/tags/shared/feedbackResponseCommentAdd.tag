@@ -8,7 +8,6 @@
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
-<%@ attribute name="isOnQuestionsPage" %>
 
 <c:choose>
   <c:when test="${not empty fourthIndex}">
@@ -31,6 +30,5 @@
       formType="Add"
       textAreaId="responseCommentAddForm"
       submitLink="${submitLink}"
-      buttonText="Add"
-      isOnQuestionsPage="${isOnQuestionsPage}" />
+      buttonText="Add" />
 </li>

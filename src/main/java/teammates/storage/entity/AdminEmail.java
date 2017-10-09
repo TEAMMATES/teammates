@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -87,7 +88,7 @@ public class AdminEmail extends BaseEntity {
     }
 
     public String getEmailId() {
-        return emailId == null ? null : Key.create(AdminEmail.class, this.emailId).toWebSafeString();
+        return Key.create(AdminEmail.class, this.emailId).toWebSafeString();
     }
 
     public List<String> getAddressReceiver() {

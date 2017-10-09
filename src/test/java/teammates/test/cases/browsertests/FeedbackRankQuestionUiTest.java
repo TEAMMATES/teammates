@@ -3,7 +3,6 @@ package teammates.test.cases.browsertests;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.util.AppUrl;
@@ -163,43 +162,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
-
-        ______TS("Rank : min/max recipients to be ranked test");
-
-        // Question with only min recipients to be ranked restriction
-        qnNumber = 12;
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertEquals("You need to rank at least 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "");
-        assertEquals("You need to rank at least 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-
-        // Question with only max recipients to be ranked restriction
-        qnNumber = 13;
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
-        assertEquals("Rank no more than 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-
-        // Question with both min and max options to be ranked restriction
-        qnNumber = 14;
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertEquals("You need to rank at least 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
-        assertEquals("You need to rank at least 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "3");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "4");
-        assertEquals("Rank no more than 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
 
         ______TS("Rank : student results");
 
@@ -495,52 +457,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveRankOptionLink(qNum, 3);
         assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
         assertEquals(3, feedbackEditPage.getMinOptionsToBeRanked(qNum));
-        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-
-        feedbackEditPage.clickSaveExistingQuestionButton(qNum);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-
-        ______TS("Rank recipients: test min/max restrictions");
-        qNum = 2;
-
-        feedbackEditPage.clickEditQuestionButton(qNum);
-        feedbackEditPage.enableOtherFeedbackPathOptions(qNum);
-        feedbackEditPage.selectGiverToBe(FeedbackParticipantType.STUDENTS, qNum);
-        feedbackEditPage.selectRecipientToBe(FeedbackParticipantType.INSTRUCTORS, qNum); // There are 2 instructors
-
-        // ticking "Maximum number of options a respondent must rank" checkbox only,
-        // should enable the maxOptionsToBeRanked input field only, with correct attributes
-        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
-        assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
-        assertFalse(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
-        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-
-        // ticking "Minimum number of options a respondent must rank" checkbox only,
-        // should enable the minOptionsToBeRanked input field only, with correct attributes
-        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
-        feedbackEditPage.toggleMinOptionsToBeRankedCheckbox(qNum);
-        assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
-        assertFalse(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
-        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-
-        // ticking both "Minimum number of options a respondent must rank" checkbox and
-        // "Maximum number of options a respondent must rank" checkbox must enable both
-        // minOptionsToBeRanked and maxOptionsToBeRanked input fields, with correct attributes
-        feedbackEditPage.toggleMaxOptionsToBeRankedCheckbox(qNum);
-        assertTrue(feedbackEditPage.isMinOptionsToBeRankedEnabled(qNum));
-        assertTrue(feedbackEditPage.isMaxOptionsToBeRankedEnabled(qNum));
-        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-
-        // when maxOptionsToBeRanked = minOptionsToBeRanked,
-        // increasing minOptionsToBeRanked must increase maxOptionsToBeRanked too
-        feedbackEditPage.setMinOptionsToBeRanked(qNum, 2);
-        assertEquals(2, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
-        feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-
-        // when maxOptionsToBeRanked = minOptionsToBeRanked,
-        // decreasing maxOptionsToBeRanked must decrease minOptionsToBeRanked too
-        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 1);
-        assertEquals(1, feedbackEditPage.getMinOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
         feedbackEditPage.clickSaveExistingQuestionButton(qNum);

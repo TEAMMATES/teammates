@@ -23,7 +23,7 @@
             <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>"
                 data-toggle="tooltip" data-placement="top">Response Rate</span>
           </th>
-          <th class="col-lg-4 no-print">Action(s)</th>
+          <th class="no-print">Action(s)</th>
         </tr>
       </thead>
       <c:if test="${empty sessionRows}">

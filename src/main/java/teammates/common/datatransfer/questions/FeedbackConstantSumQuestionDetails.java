@@ -156,11 +156,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
-    public List<String> getInstructions() {
-        return null;
-    }
-
-    @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             int totalNumRecipients,
