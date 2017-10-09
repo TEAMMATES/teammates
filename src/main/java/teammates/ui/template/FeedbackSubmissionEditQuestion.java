@@ -16,6 +16,7 @@ public class FeedbackSubmissionEditQuestion {
     private String questionId;
     private String questionText;
     private String questionDescription;
+    private List<String> instructions;
     private String messageToDisplayIfNoRecipientAvailable;
     private List<String> visibilityMessages;
     private FeedbackQuestionType questionType;
@@ -35,6 +36,7 @@ public class FeedbackSubmissionEditQuestion {
         questionText = questionAttributes.getQuestionDetails().getQuestionText();
         Text description = questionAttributes.getQuestionDescription();
         questionDescription = description == null ? null : description.getValue();
+        instructions = questionAttributes.getQuestionDetails().getInstructions();
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
@@ -95,6 +97,10 @@ public class FeedbackSubmissionEditQuestion {
 
     public String getQuestionDescription() {
         return questionDescription;
+    }
+
+    public List<String> getInstructions() {
+        return instructions;
     }
 
     public List<String> getVisibilityMessages() {

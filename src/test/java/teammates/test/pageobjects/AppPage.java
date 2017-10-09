@@ -496,6 +496,7 @@ public abstract class AppPage {
         String preparedContent = content.replace("\n", "<br>");
         executeScript("  if (typeof tinyMCE !== 'undefined') {"
                       + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
+                      + "    tinyMCE.get('" + id + "').focus();" // for consistent HTML verification across browsers
                       + "}");
     }
 

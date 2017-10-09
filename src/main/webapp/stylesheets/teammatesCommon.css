@@ -173,6 +173,13 @@ which usually match 2 classes (eg .btn.disabled)
 }
 
 /*
+To show tooltip in comment modal
+*/
+.tooltip {
+    z-index: 1151 !important;
+}
+
+/*
 Apply to thead to make headers not bold.
 */
 .font-weight-normal,

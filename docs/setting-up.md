@@ -64,14 +64,17 @@ More information can be found at [this documentation](https://help.github.com/ar
       This value must be a valid **JDK 1.7** directory.
       **Windows users** should use a **forward slash**(`/`) instead of the Windows default **backward slash**(`\`) while specifying the path.
 
-If you followed every step correctly, you should have successfully set up the development environment.
-You may proceed to the development routine as lined out in [this document](development.md).
-
 ## Step 4: (Optional but recommended) Set up an IDE
 
 You are encouraged, but not required, to use an IDE to assist many development tasks.
 
-We currently support two IDEs: Eclipse IDE (full support) and IntelliJ IDEA (experimental; limited support).
+We currently support two IDEs: Eclipse IDE and IntelliJ IDEA.
 Support requests related to other IDEs will not be entertained.
 
 Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
+
+## Step 5: Start developing
+
+If you followed every step correctly, you should have successfully set up the development environment.
+
+Proceed to the development routine as outlined in [this document](development.md).

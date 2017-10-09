@@ -63,8 +63,13 @@ public final class FrontEndLibrary {
     }
 
     private static String getLibrarySource(String libraryNameInNpm, String fileDir) {
-        return "https://unpkg.com/" + libraryNameInNpm + "@"
+        return getCdnBaseUrlForLibrary(libraryNameInNpm) + libraryNameInNpm + "@"
                 + DEPENDENCIES_CONFIG.get(libraryNameInNpm).getAsString() + "/" + fileDir;
+    }
+
+    private static String getCdnBaseUrlForLibrary(String libraryNameInNpm) {
+        // jsDelivr is more reliable than unpkg, but doesn't host required large files from the datamaps library
+        return "datamaps".equals(libraryNameInNpm) ? "https://unpkg.com/" : "https://cdn.jsdelivr.net/npm/";
     }
 
 }
