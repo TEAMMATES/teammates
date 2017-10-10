@@ -481,12 +481,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return startTimeUtc;
     }
 
+    public Date getStartTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(startTimeUtc, timeZone);
+    }
+
     public void setStartTimeUtc(Date startTimeUtc) {
         this.startTimeUtc = startTimeUtc;
     }
 
     public Date getEndTimeUtc() {
         return endTimeUtc;
+    }
+
+    public Date getEndTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(endTimeUtc, timeZone);
     }
 
     public void setEndTimeUtc(Date endTimeUtc) {
@@ -497,12 +505,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return sessionVisibleFromTimeUtc;
     }
 
+    public Date getSessionVisibleFromTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(sessionVisibleFromTimeUtc, timeZone);
+    }
+
     public void setSessionVisibleFromTimeUtc(Date sessionVisibleFromTimeUtc) {
         this.sessionVisibleFromTimeUtc = sessionVisibleFromTimeUtc;
     }
 
     public Date getResultsVisibleFromTimeUtc() {
         return resultsVisibleFromTimeUtc;
+    }
+
+    public Date getResultsVisibleFromTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(resultsVisibleFromTimeUtc, timeZone);
     }
 
     public void setResultsVisibleFromTimeUtc(Date resultsVisibleFromTimeUtc) {
