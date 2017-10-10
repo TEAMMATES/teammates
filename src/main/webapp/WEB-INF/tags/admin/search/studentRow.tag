@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="search" %>
+<%@ tag import="teammates.common.util.Config" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="student" type="teammates.ui.template.AdminSearchStudentRow" required="true" %>
 
@@ -78,6 +79,7 @@
       <c:if test="${not empty student.email}">
         <li class="list-group-item list-group-item-success has-success">
           <strong>Email</strong>
+          <input type="hidden" name="supportEmail" value=<%= Config.SUPPORT_EMAIL %>>
           <input name="studentEmail" value="${student.email}" readonly class="form-control">
         </li>
       </c:if>

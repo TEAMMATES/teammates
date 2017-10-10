@@ -5,7 +5,7 @@
 <%@ attribute name="relatedLink" required="true" %>
 <%@ attribute name="sessionStatus" %>
 
-<form class="openEmailApplicationDefaultValues">
+<form class="open-email-application-default-values">
   <strong id="feedback-session-name">${linkTitle}</strong>
   <button type="submit" class="btn btn-xs btn-primary margin-left-7px margin-bottom-7px">
     <span class="glyphicon glyphicon-send" aria-hidden="true"></span>

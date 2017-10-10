@@ -1,5 +1,4 @@
 import {
-    Const,
     StatusType,
 } from '../common/const.es6';
 
@@ -146,10 +145,12 @@ $(document).ready(() => {
         adminSearchCollapseAllStudents();
     });
 
-    $('.openEmailApplicationDefaultValues').submit((e) => {
+    $('.open-email-application-default-values').submit((e) => {
         e.preventDefault();
         const $entry = $(e.target);
+        const crlf = encodeURIComponent('\r\n');
         const studentEmail = $entry.parentsUntil('.fslink_student').find('input[name=studentEmail]').val();
+        const supportEmail = $entry.parentsUntil('.fslink_student').find('input[name=supportEmail]').val();
         const subjectType = $entry.find('input[name=subjectType]').val();
         const courseName = $entry.find('input[name=courseName]').val();
         const courseId = $entry.find('input[name=courseId]').val();
@@ -160,13 +161,12 @@ $(document).ready(() => {
 
         const relatedLink = encodeURIComponent($entry.find('input[name=relatedLink]').val());
         const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
-        const supportEmail = `${Const.TEAMMATES_EMAIL_ADDRESS}`;
 
         const bodyHeader = `Hello ${studentName},`;
         const bodyFooter =
-                '%0D%0A%0D%0AIf you encounter any problems when using the system,'
+                `${crlf}${crlf}If you encounter any problems when using the system,`
                 + ` you can email TEAMMATES support team at ${supportEmail}.`
-                + '%0D%0A%0D%0ARegards,%0D%0ATEAMMATES Team.';
+                + `${crlf}${crlf}Regards,%0D%0ATEAMMATES Team.`;
 
         const uniqueLinkMessage = 'The above link is unique to you. Please do not share it with your classmates.';
 
@@ -176,11 +176,11 @@ $(document).ready(() => {
         if (subjectType === 'Invitation to join course') {
             subject = `TEAMMATES: ${subjectType} [${courseName}][Course ID: ${courseId}]`;
             bodyContent =
-                    `%0D%0A%0D%0AThe course ${courseName} is using the TEAMMATES System to collect feedback.`
-                    + ` %0D%0A%0D%0ATo "join" the course, please go to this Web address: ${relatedLink}`
-                    + ' %0D%0A%0D%0A*If prompted to log in, use your Google account to log in. If you do not have'
+                    `${crlf}${crlf}The course ${courseName} is using the TEAMMATES System to collect feedback.`
+                    + ` ${crlf}${crlf}To "join" the course, please go to this Web address: ${relatedLink}`
+                    + ` ${crlf}${crlf}*If prompted to log in, use your Google account to log in. If you do not have`
                     + ` a Google account, please create one from the Google Accounts page: ${googleSignup}`
-                    + ` %0D%0A*${uniqueLinkMessage} %0D%0A%0D%0ANote that If you wish to access TEAMMATES`
+                    + ` ${crlf}*${uniqueLinkMessage} ${crlf}${crlf}Note that If you wish to access TEAMMATES`
                     + ' without using your Google account, you do not need to ‘join’ the course as instructed above.'
                     + ' You will still be able to submit/view feedback by following the instructions sent to you by'
                     + ' TEAMMATES at the appropriate times. However, we recommend joining the course using your Google'
@@ -188,9 +188,9 @@ $(document).ready(() => {
         } else {
             subject = `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${sessionNameWithoutDate}]`;
             bodyContent =
-                    `%0D%0A%0D%0AThe following feedback session is ${sessionStatus}.%0D%0A`
-                    + `Course: [${courseId}][${courseName}]%0D%0AFeedback Session Name: ${sessionName}%0D%0A`
-                    + '%0D%0AThe link to the feedback for the above session, please go to this Web'
+                    `${crlf}${crlf}The following feedback session is ${sessionStatus}.${crlf}`
+                    + `Course: [${courseId}][${courseName}]${crlf}Feedback Session Name: ${sessionName}${crlf}`
+                    + `${crlf}The link to the feedback for the above session, please go to this Web`
                     + ` address: ${relatedLink} %0D%0A%0D%0A*${uniqueLinkMessage}`;
         }
 
