@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.annotations.SerializedName;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
@@ -26,9 +27,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     // Optional fields
     private Text instructions;
     private Date createdTime;
+    @SerializedName("startTime")
     private Date startTimeUtc;
+    @SerializedName("endTime")
     private Date endTimeUtc;
+    @SerializedName("sessionVisibleFromTime")
     private Date sessionVisibleFromTimeUtc;
+    @SerializedName("resultsVisibleFromTime")
     private Date resultsVisibleFromTimeUtc;
     private double timeZone;
     private int gracePeriod;
@@ -264,6 +269,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
+        if (endTimeUtc == null) {
+            return false;
+        }
+
         Date now = new Date();
         Date end = new Date(endTimeUtc.getTime() + gracePeriod * 60000L);
 
@@ -274,6 +283,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is currently open and accepting responses.
      */
     public boolean isOpened() {
+        if (startTimeUtc == null || endTimeUtc == null) {
+            return false;
+        }
+
         Date now = new Date();
 
         return now.after(startTimeUtc) && now.before(endTimeUtc);
@@ -283,6 +296,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
+        if (endTimeUtc == null) {
+            return false;
+        }
+
         Date now = new Date();
         Date gracedEnd = new Date(endTimeUtc.getTime() + gracePeriod * 60000L);
 
@@ -294,6 +311,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
+        if (startTimeUtc == null) {
+            return false;
+        }
+
         Date now = new Date();
 
         return now.before(startTimeUtc);
