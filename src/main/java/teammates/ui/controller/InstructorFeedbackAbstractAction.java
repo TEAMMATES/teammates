@@ -117,9 +117,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             // Overwrite if private
             attributes.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
             attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-            if (!isCreatingNewSession) {
-                attributes.setEndTimeUtc(null);
-            }
             break;
         default:
             log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
