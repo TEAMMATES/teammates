@@ -56,19 +56,17 @@ import {
     addMcqOption,
     removeMcqOption,
     toggleMcqGeneratedOptions,
-    toggleMcqOtherOptionEnabled,
     changeMcqGenerateFor,
 } from '../common/questionMcq.es6';
 
 import {
     addMsqOption,
     bindMsqEvents,
+    changeMsqGenerateFor,
     removeMsqOption,
     toggleMsqGeneratedOptions,
     toggleMsqMaxSelectableChoices,
     toggleMsqMinSelectableChoices,
-    toggleMsqOtherOptionEnabled,
-    changeMsqGenerateFor,
 } from '../common/questionMsq.es6';
 
 import {
@@ -165,6 +163,7 @@ const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible d
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
 const questionsBeforeEdit = [];
+const destructiveFieldsBackup = [];
 
 function getCustomDateTimeFields() {
     return $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`)
@@ -395,6 +394,66 @@ function backupQuestion(questionNum) {
                                        || $(`#questionTable-${questionNum} > .panel-body`).html();
 }
 
+function isQuestionHavingResponses(questionNum) {
+    const EDIT_STATUS = $(`#form_editquestion-${questionNum}`).attr('editstatus');
+
+    return EDIT_STATUS === 'hasResponses';
+}
+
+function getDestructiveFields(questionNum) {
+    const $fields = $(`#form_editquestion-${questionNum}`)
+                     .find(':input:enabled')
+                     .not('button')
+                     .not('.nonDestructive')
+                     .not('input[name^="questiondescription"]')
+                     .not('.visibilityCheckbox');
+
+    const fieldsDict = {};
+
+    for (let i = 0; i < $fields.length; i += 1) {
+        // .get(i) returns a JS object
+        const element = $fields.get(i);
+
+        if (element.type === 'radio') {
+            fieldsDict[element.name] = $(`#form_editquestion-${questionNum} input[name="${element.name}"]:checked`).val();
+        } else if (element.type === 'checkbox') {
+            fieldsDict[element.name] = $(element).is(':checked');
+        } else {
+            fieldsDict[element.name] = element.value;
+        }
+    }
+
+    return fieldsDict;
+}
+
+/**
+ * Checks if any changes were made to the destructive fields.
+ * Returns true if changes were made, else false.
+ * @param questionNum
+ */
+function isDestructiveFieldsModifed($form) {
+    const questionNum = extractQuestionNumFromEditFormId($form.attr('id'));
+
+    if (!isQuestionHavingResponses(questionNum)) {
+        // Trivial case, if there are no responses,
+        // then assume no destructive changes were made
+        return false;
+    }
+
+    const currFieldsDict = getDestructiveFields(questionNum);
+    const prevFieldsDict = destructiveFieldsBackup[questionNum];
+
+    return JSON.stringify(currFieldsDict) !== JSON.stringify(prevFieldsDict);
+}
+
+/**
+ * Creates a copy of all the destructive fields.
+ * @param questionNum
+ */
+function backupDestructiveFields(questionNum) {
+    destructiveFieldsBackup[questionNum] = destructiveFieldsBackup[questionNum] || getDestructiveFields(questionNum);
+}
+
 /**
  * Enables question fields and "save changes" button for the given question number,
  * and hides the edit link.
@@ -485,6 +544,10 @@ function enableEdit(questionNum, maxQuestions) {
         if (questionNum === i) {
             backupQuestion(i);
             enableQuestion(i);
+
+            if (isQuestionHavingResponses(questionNum)) {
+                backupDestructiveFields(i);
+            }
         } else {
             disableQuestion(i);
         }
@@ -1073,9 +1136,14 @@ function readyFeedbackEditPage() {
     });
 
     // Bind submit actions
-    $('form[id|=form_editquestion]').submit(function (event) {
-        prepareDescription($(event.currentTarget));
-        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
+    $('form[id|=form_editquestion]').submit((event) => {
+        const $form = $(event.currentTarget);
+
+        prepareDescription($form);
+
+        if (isDestructiveFieldsModifed($form)) {
+            // Changes made to the question will delete
+            // existing responses, hence warn user
             event.preventDefault();
             const okCallback = function () {
                 event.currentTarget.submit();
@@ -1093,15 +1161,6 @@ function readyFeedbackEditPage() {
         }
         return formStatus;
     });
-
-    // Bind destructive changes
-    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').not('.visibilityCheckbox')
-            .change(function () {
-                const editStatus = $(this).parents('form').attr('editStatus');
-                if (editStatus === 'hasResponses') {
-                    $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
-                }
-            });
 
     $('#add-new-question-dropdown > li').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
@@ -1195,12 +1254,10 @@ window.removeConstSumOption = removeConstSumOption;
 window.addMcqOption = addMcqOption;
 window.removeMcqOption = removeMcqOption;
 window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;
-window.toggleMcqOtherOptionEnabled = toggleMcqOtherOptionEnabled;
 window.changeMcqGenerateFor = changeMcqGenerateFor;
 window.addMsqOption = addMsqOption;
 window.removeMsqOption = removeMsqOption;
 window.toggleMsqGeneratedOptions = toggleMsqGeneratedOptions;
-window.toggleMsqOtherOptionEnabled = toggleMsqOtherOptionEnabled;
 window.changeMsqGenerateFor = changeMsqGenerateFor;
 window.updateNumScalePossibleValues = updateNumScalePossibleValues;
 window.addRankOption = addRankOption;

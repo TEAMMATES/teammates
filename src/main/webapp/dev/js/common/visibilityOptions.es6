@@ -155,7 +155,7 @@ function tallyCheckboxes(questionNum) {
         $(`#form_editquestion-${questionNum}`).find(`${className}:checked`).each(function () {
             checked.push($(this).val());
         });
-        $(`[name=${checkboxType}]`).val(checked.toString());
+        $(`#form_editquestion-${questionNum} input[name=${checkboxType}]`).val(checked.toString());
     });
 }
 

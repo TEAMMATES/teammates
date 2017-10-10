@@ -4,6 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -48,6 +50,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
     }
 
@@ -160,6 +163,76 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
+    }
+
+    @Override
+    protected void testDestructiveChanges() {
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("MCQ destructive changes: change generate options selection");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.selectMcqGenerateOptionsFor("teams", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.selectMcqGenerateOptionsFor("students", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        // save MCQ with custom options, needed for further tests
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 0, "A");
+        feedbackEditPage.fillMcqOption(1, 1, "B");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        // previous action deletes responses, create a response again
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("MCQ destructive changes: adding a new option");
+        // add a new option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 2, "C");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // remove the new option, must not display modal
+        feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("MCQ destructive changes: removing an option");
+        // remove an option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMcqOptionLink(1, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override

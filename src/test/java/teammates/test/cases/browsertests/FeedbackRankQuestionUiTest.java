@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -306,6 +307,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
     }
 
@@ -398,6 +400,88 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRankQuestionAddSuccess.html");
+    }
+
+    @Override
+    protected void testDestructiveChanges() {
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("Rank (options) destructive changes: checking \"same rank\" checkbox");
+        // check "same rank" checkbox, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.tickDuplicatesAllowedCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // uncheck "same rank" checkbox, must not display modal
+        feedbackEditPage.untickDuplicatesAllowedCheckbox(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("Rank (options) destructive changes: adding rank option");
+        // add rank option, must display modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreRankOptionLink(1);
+        feedbackEditPage.fillRankOption(1, 3, "Dummy option");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // remove newly added option, must not display modal
+        feedbackEditPage.clickRemoveRankOptionLink(1, 3);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        // delete response for question 1 (Rank options question)
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+
+        // Create dummy response for question 2, Rank recipients question
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2);
+        fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2));
+
+        ______TS("Rank (recipients) destructive changes: checking \"same rank\" checkbox");
+        // uncheck "same rank" checkbox, must display modal
+        feedbackEditPage.clickEditQuestionButton(2);
+        feedbackEditPage.untickDuplicatesAllowedCheckbox(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // check "same rank" checkbox, must not display modal
+        feedbackEditPage.tickDuplicatesAllowedCheckbox(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(2));
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override

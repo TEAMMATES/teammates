@@ -3,8 +3,6 @@ import {
 } from './const.es6';
 
 function addMcqOption(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
@@ -28,15 +26,9 @@ function addMcqOption(questionNum) {
     `).insertBefore($(`#mcqAddOptionRow-${questionNum}`));
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
 }
 
 function removeMcqOption(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const $thisRow = $(`#mcqOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table have and - 1 because of add option button
@@ -46,10 +38,6 @@ function removeMcqOption(index, questionNum) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
-        }
     }
 }
 
@@ -70,14 +58,6 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
     }
 }
 
-function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
-}
-
 function changeMcqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
@@ -88,5 +68,4 @@ export {
     changeMcqGenerateFor,
     removeMcqOption,
     toggleMcqGeneratedOptions,
-    toggleMcqOtherOptionEnabled,
 };

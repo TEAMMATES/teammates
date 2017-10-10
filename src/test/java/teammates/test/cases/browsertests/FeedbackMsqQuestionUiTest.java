@@ -4,6 +4,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -48,6 +50,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
     }
 
@@ -154,6 +157,91 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
+    }
+
+    @Override
+    protected void testDestructiveChanges() {
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("MSQ destructive changes: change generate options selection");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.selectMsqGenerateOptionsFor("teams", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.selectMsqGenerateOptionsFor("students", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        // Create new MSQ with custom options, needed for further tests
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("test msq question");
+        feedbackEditPage.fillMsqOption(-1, 0, "A");
+        feedbackEditPage.fillMsqOption(-1, 1, "B");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // create a response again
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        fra = new FeedbackResponseAttributes(feedbackSessionName,
+                                             courseId,
+                                             question.getId(),
+                                             question.getQuestionType(),
+                                             "tmms.test@gmail.tmt",
+                                             null,
+                                             "alice.b.tmms@gmail.tmt",
+                                             null,
+                                             null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("MSQ destructive changes: adding a new option");
+        // add a new option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 2, "C");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // remove the new option, must not display modal
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("MSQ destructive changes: removing an option");
+        // remove an option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMsqOptionLink(1, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override

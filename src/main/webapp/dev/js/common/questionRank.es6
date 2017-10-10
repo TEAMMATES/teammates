@@ -142,8 +142,6 @@ function toggleMaxOptionsToBeRanked(qnNumber) {
 }
 
 function addRankOption(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
@@ -165,10 +163,6 @@ function addRankOption(questionNum) {
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
-
     adjustMinMaxOptionsToBeRanked(questionNum);
 }
 
@@ -177,7 +171,6 @@ function hideRankOptionTable(questionNum) {
 }
 
 function removeRankOption(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
     const $thisRow = $(`#rankOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table have and - 1 because of 'add option' button
@@ -187,10 +180,6 @@ function removeRankOption(index, questionNum) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
-        }
     }
 
     adjustMinMaxOptionsToBeRanked(questionNum);

@@ -3,6 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -47,6 +49,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
         testCopyOptions();
     }
@@ -120,6 +123,47 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
+    }
+
+    @Override
+    protected void testDestructiveChanges() {
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                "alice.b.tmms@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("Contrib destructive changes: saving just after edit");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("Contrib destructive changes: testing \"not sure\" answer option");
+        // change "not sure" answer option, must display modal
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.toggleNotSureCheck(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.toggleNotSureCheck(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override

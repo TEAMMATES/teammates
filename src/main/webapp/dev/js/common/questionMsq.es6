@@ -108,8 +108,6 @@ function adjustMinMaxSelectableChoices(questionNum) {
 }
 
 function addMsqOption(questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
 
@@ -134,16 +132,14 @@ function addMsqOption(questionNum) {
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
+    if ($(questionNum).attr('editStatus') === 'hasResponses') {
+        $(questionNum).attr('editStatus', 'mustDeleteResponses');
     }
 
     adjustMinMaxSelectableChoices(questionNum);
 }
 
 function removeMsqOption(index, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
     const $thisRow = $(`#msqOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table have and - 1 because of add option button
@@ -153,10 +149,6 @@ function removeMsqOption(index, questionNum) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();
-
-        if ($(questionId).attr('editStatus') === 'hasResponses') {
-            $(questionId).attr('editStatus', 'mustDeleteResponses');
-        }
     }
 
     adjustMinMaxSelectableChoices(questionNum);
@@ -195,14 +187,6 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
     adjustMinMaxSelectableChoices(questionNum);
 }
 
-function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
-}
-
 function changeMsqGenerateFor(questionNum) {
     $(`#generatedOptions-${questionNum}`).attr('value',
                                                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
@@ -237,7 +221,6 @@ export {
     changeMsqGenerateFor,
     removeMsqOption,
     toggleMsqGeneratedOptions,
-    toggleMsqOtherOptionEnabled,
     toggleMsqMaxSelectableChoices,
     toggleMsqMinSelectableChoices,
 };

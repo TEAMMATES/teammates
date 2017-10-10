@@ -1030,7 +1030,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return hasAssignedWeights;
     }
 
-    List<Double> getRubricWeights() {
+    public List<Double> getRubricWeights() {
         return new ArrayList<>(rubricWeights);
     }
 

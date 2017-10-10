@@ -3,6 +3,8 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -176,6 +178,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testDestructiveChanges();
         testDeleteQuestionAction();
         testInputJsValidationForRubricQuestion();
     }
@@ -244,6 +247,93 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
+    }
+
+    @Override
+    protected void testDestructiveChanges() {
+        // Create a dummy response
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
+                                                feedbackSessionName,
+                                                courseId,
+                                                question.getId(),
+                                                question.getQuestionType(),
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                "tmms.test@gmail.tmt",
+                                                null,
+                                                null);
+        BackDoor.createFeedbackResponse(fra);
+        feedbackEditPage.reloadPage();
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("RUBRIC destructive changes: move col");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.moveRubricColLeft(1, 4);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        // revert changes, must not display modal
+        feedbackEditPage.moveRubricColLeft(1, 4);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("RUBRIC destructive changes: add col");
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddRubricColLink(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 5);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("RUBRIC destructive changes: add row");
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("Sub question 3", 1, 3);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 3);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("RUBRIC destructive changes: remove col");
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        ______TS("RUBRIC destructive changes: remove row");
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 2);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+
+        feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        assertTrue(feedbackEditPage.isAlertClassEnabledForVisibilityOptions(1));
+
+        BackDoor.deleteFeedbackResponse(question.getId(), fra.giver, fra.recipient);
+        feedbackEditPage.reloadPage();
     }
 
     @Override
