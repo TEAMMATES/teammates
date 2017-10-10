@@ -1793,7 +1793,7 @@
       "lastEditorEmail": "CFResultsUiT.instr@gmail.tmt",
       "lastEditedAt": "2026-03-02 11:59 PM UTC"
     },
-  "comment2ToBeEditedByDifferentInstructor": {
+    "comment2ToBeEditedByDifferentInstructor": {
       "courseId": "CFResultsUiT.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "2",
@@ -1814,7 +1814,7 @@
         "OWN_TEAM_MEMBERS",
         "STUDENTS",
         "INSTRUCTORS"
-        ],
+      ],
       "isVisibilityFollowingFeedbackQuestion": false,
       "createdAt": "2012-04-02 11:59 PM UTC",
       "commentText": {
