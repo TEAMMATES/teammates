@@ -148,12 +148,12 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isResponseVisibleDateChecked = hasResultVisibleDate;
 
         additionalSettings.responseVisibleDateValue = hasResultVisibleDate
-                                                    ? TimeHelper.formatDate(feedbackSession.getResultsVisibleFromTimeUtc())
+                                                    ? TimeHelper.formatDate(feedbackSession.getResultsVisibleFromTimeLocal())
                                                     : "";
         additionalSettings.responseVisibleTimeOptions =
                                         PageData.getTimeOptionsAsElementTags(
                                                   hasResultVisibleDate
-                                                ? feedbackSession.getResultsVisibleFromTimeUtc()
+                                                ? feedbackSession.getResultsVisibleFromTimeLocal()
                                                 : null);
         additionalSettings.isResponseVisibleDateDisabled = !hasResultVisibleDate;
 
@@ -182,12 +182,12 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
 
         additionalSettings.isSessionVisibleDateButtonChecked = hasSessionVisibleDate;
         additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate
-                                                   ? TimeHelper.formatDate(feedbackSession.getSessionVisibleFromTimeUtc())
+                                                   ? TimeHelper.formatDate(feedbackSession.getSessionVisibleFromTimeLocal())
                                                    : "";
         additionalSettings.isSessionVisibleDateDisabled = !hasSessionVisibleDate;
         additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(
                                                             hasSessionVisibleDate
-                                                            ? feedbackSession.getSessionVisibleFromTimeUtc()
+                                                            ? feedbackSession.getSessionVisibleFromTimeLocal()
                                                             : null);
     }
 

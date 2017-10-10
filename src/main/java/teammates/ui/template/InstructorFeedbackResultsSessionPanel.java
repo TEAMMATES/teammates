@@ -26,8 +26,8 @@ public class InstructorFeedbackResultsSessionPanel {
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
         this.feedbackSessionName = SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName());
         this.editLink = editLink;
-        this.startTime = TimeHelper.formatTime12H(session.getStartTimeUtc());
-        this.endTime = TimeHelper.formatTime12H(session.getEndTimeUtc());
+        this.startTime = TimeHelper.formatTime12H(session.getStartTimeLocal());
+        this.endTime = TimeHelper.formatTime12H(session.getEndTimeLocal());
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
@@ -78,18 +78,18 @@ public class InstructorFeedbackResultsSessionPanel {
     private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
         if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             if (feedbackSession.getSessionVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-                return TimeHelper.formatTime12H(feedbackSession.getStartTimeUtc());
+                return TimeHelper.formatTime12H(feedbackSession.getStartTimeLocal());
             } else if (feedbackSession.getSessionVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_NEVER)) {
                 return "Never";
             } else {
-                return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTimeUtc());
+                return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTimeLocal());
             }
         } else if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_LATER)) {
             return "I want to manually publish the results.";
         } else if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "Never";
         } else {
-            return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTimeUtc());
+            return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTimeLocal());
         }
     }
 }
