@@ -180,7 +180,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         session.setSessionVisibleFromTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setStartTimeUtc(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
+        session.setStartTimeUtc(TimeHelperExtension.getHoursOffsetToCurrentTime(-23));
         session.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
@@ -201,7 +201,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 closed session with mail unsent");
-        session.setEndTimeUtc(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setEndTimeUtc(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
         fsLogic.updateFeedbackSession(session);
 
         sessionList = fsLogic
