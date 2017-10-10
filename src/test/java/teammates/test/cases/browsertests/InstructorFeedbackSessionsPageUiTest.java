@@ -41,8 +41,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     protected void prepareTestData() {
         newSession = FeedbackSessionAttributes
                 .builder("New Session ##", "CFeedbackUiT.CS1101", "teammates.test1@gmail.tmt")
-                .withStartTime(TimeHelper.convertToDate("2035-04-01 11:59 PM UTC"))
-                .withEndTime(TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"))
+                .withStartTime(TimeHelper.convertToDate("2035-04-01 3:59 PM UTC"))
+                .withEndTime(TimeHelper.convertToDate("2035-04-30 2:00 PM UTC"))
                 .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
@@ -297,11 +297,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setCourseId("CFeedbackUiT.CS1101");
         newSession.setTimeZone(-4.5);
 
-        newSession.setStartTimeUtc(TimeHelper.convertToDate("2004-05-01 8:00 AM UTC"));
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2004-05-01 12:30 PM UTC"));
         newSession.setEndTimeUtc(newSession.getStartTimeUtc());
         newSession.setGracePeriod(30);
 
-        newSession.setSessionVisibleFromTimeUtc(TimeHelper.convertToDate("2004-03-01 5:00 PM UTC"));
+        newSession.setSessionVisibleFromTimeUtc(TimeHelper.convertToDate("2004-03-01 9:30 PM UTC"));
         newSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
 
@@ -336,8 +336,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
-        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 4:00 AM UTC"));
-        newSession.setEndTimeUtc(TimeHelper.convertToDate("2017-31-12 11:59 PM UTC"));
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 6:00 AM UTC"));
+        newSession.setEndTimeUtc(TimeHelper.convertToDate("2018-01-01 1:59 AM UTC"));
         newSession.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
         newSession.setGracePeriod(25);
@@ -401,11 +401,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
 
         newSession.setFeedbackSessionName("invalid publish time #");
-        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 8:00 PM UTC"));
-        newSession.setEndTimeUtc(TimeHelper.convertToDate("2012-05-01 4:00 PM UTC"));
+        newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 12:00 PM UTC"));
+        newSession.setEndTimeUtc(TimeHelper.convertToDate("2012-05-01 8:00 AM UTC"));
 
-        newSession.setSessionVisibleFromTimeUtc(TimeHelper.convertToDate("2012-05-01 10:00 PM UTC"));
-        newSession.setResultsVisibleFromTimeUtc(TimeHelper.convertToDate("2012-05-01 7:00 AM UTC"));
+        newSession.setSessionVisibleFromTimeUtc(TimeHelper.convertToDate("2012-05-01 2:00 PM UTC"));
+        newSession.setResultsVisibleFromTimeUtc(TimeHelper.convertToDate("2012-04-30 11:00 PM UTC"));
         newSession.setGracePeriod(30);
         newSession.setInstructions(new Text("Test instructions"));
 

@@ -425,7 +425,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes privateSession =
                 newDataBundle.feedbackSessions.get("private.session");
         privateSession.setSessionVisibleFromTimeUtc(privateSession.getStartTimeUtc());
-        privateSession.setEndTimeUtc(TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"));
+        privateSession.setEndTimeUtc(TimeHelper.convertToDate("2015-04-01 2:00 PM UTC"));
         privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         fsLogic.updateFeedbackSession(privateSession);
 
