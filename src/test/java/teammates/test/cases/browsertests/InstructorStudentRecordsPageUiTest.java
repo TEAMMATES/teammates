@@ -133,12 +133,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         viewPage = getStudentRecordsPage();
 
-        ______TS("Typical Case: Edit and add empty comment");
-
-        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-2", "");
-        viewPage.verifyCommentFormErrorMessage(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
-        viewPage.closeEditFeedbackResponseCommentForm("-RGQ-1-1-1-2");
-
         ______TS("Typical Case: Edit comment created by different instructor");
 
         viewPage.editFeedbackResponseComment("-RGQ-1-1-1-1",
@@ -155,6 +149,12 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.verifyCommentRowContent("-RGQ-1-1-1-2", "Instructor second edited comment to Alice about feedback to Benny",
                 "Teammates Test");
         viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageEditedComment.html");
+
+        ______TS("Typical Case: Edit and add empty comment");
+
+        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-2", "");
+        viewPage.verifyCommentFormErrorMessage(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        viewPage.closeEditFeedbackResponseCommentForm("-RGQ-1-1-1-2");
 
         ______TS("Typical Case: Delete comment");
 
