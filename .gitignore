@@ -56,9 +56,7 @@ build-eclipse/
 # IntelliJ sometimes places module iml on project root so they  also need to be ignored
 # Only ignore the root imls so the template imls can be checked in
 /*.iml
-# if the user uses the default compile output path 
 /out/
-# if the user uses the automated setup compiled output path
 /build-idea/
 
 ### Stylelint ###
