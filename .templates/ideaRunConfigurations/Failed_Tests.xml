@@ -3,7 +3,7 @@
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
     <module name="" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="ALTERNATIVE_JRE_PATH" value="1.7" />
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
     <option name="SUITE_NAME" value="$PROJECT_DIR$/test-output/testng-failed.xml" />
     <option name="PACKAGE_NAME" value="" />
     <option name="MAIN_CLASS_NAME" value="" />
