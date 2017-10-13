@@ -59,7 +59,7 @@ build-eclipse/
 # if the user uses the default compile output path 
 /out/
 # if the user uses the automated setup compiled output path
-/buildIdea/
+/build-idea/
 
 ### Stylelint ###
 /.stylelintrc.yml

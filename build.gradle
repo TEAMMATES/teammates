@@ -7,7 +7,7 @@ apply plugin: "war"
 // Must be done before applying the appengine plugin as a discovery-docs folder
 // is added to WEB-INF which is added to the build
 if (System.properties['ide'] == 'idea') {
-    buildDir = new File(projectDir, 'buildIdea')
+    buildDir = new File(projectDir, 'build-idea')
 }
 // apply plugin: "com.google.cloud.tools.appengine"
 // see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
