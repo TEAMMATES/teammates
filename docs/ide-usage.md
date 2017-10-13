@@ -88,21 +88,14 @@ The following plugins are needed:
 Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work with Google App Engine).
 You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
 
-**NOTE**
-> If you are migrating from Eclipse, you should delete `.project`, `.classpath`, `.launches`,
-> `src/main/webapp/WEB-INF/classes`, `src/main/webapp/WEB-INF/lib` and `src/main/webapp/WEB-INF/appengine-generated`.\
-> You can also copy `local_db.bin` from `src/main/webapp/WEB-INF/appengine-generated` to the location your dev server in
-> IntelliJ reads the datastore from after your IntelliJ setup. See [dev server setup](development.md#with-intellij) for
-> more details.
-
 ### Prerequisites
-1. You need a Java 7 SDK with the name `1.7` defined in IntelliJ IDEA as follows:
+1. You need a Java 8 SDK with the name `1.8` defined in IntelliJ IDEA as follows:
 
     1. If you have no current projects open, click `Configure → Project Defaults → Project Structure`.\
        **OR**\
        If you currently have projects open, click `File → Project Structure`.
-    1. Select SDKs in Platform Settings and check if there is a SDK named `1.7` with a JDK home path pointing to a
-       JDK 7 path. Otherwise add a new SDK using JDK 7 with a name of `1.7`.
+    1. Select SDKs in Platform Settings and check if there is a SDK named `1.8` with a JDK home path pointing to a
+       JDK 8 path. Otherwise add a new SDK using JDK 8 with a name of `1.8`.
 
 1. You need the system property `ide=idea` for `Gradle VM options:` under `Global Gradle settings` as follows:
 
@@ -112,35 +105,24 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
     1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under `Global Gradle settings`,
        add `-Dide=idea` to `Gradle VM options:`.
 
-1. You need to have an application server named `AppEngine Dev <version>` pointing to the SDK you downloaded previously as follows: 
-    
+1. You need the `Google Cloud Tools` plugin installed and configured:
+
+    1. If you have no current projects open, click `Configure → Plugins`.\
+       **OR**\
+       If you currently have projects open, click `File → Settings → Plugins` or `IntelliJ IDEA → Preferences → Plugins`.
+    1. Click on `Browse repositories...`. Select `Google Cloud Tools` and click `Install`.
+    1. During installation, you may encounter two prompts: one to install the `Google Account` plugin dependency and
+       another to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes` to both prompts.
+    1. Restart IntelliJ IDEA.
     1. If you have no current projects open, click `Configure → Settings/Preferences`.\
        **OR**\
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
+    1. Go to `Other Settings → Google → Cloud SDK` and select your Google Cloud SDK directory.
     1. Go to `Build, Execution, Deployment → Application Servers`.
-    1. Click `+ → Google App Engine Dev Server → ... `. Select the App Engine SDK (`appengine-java-sdk-<version>` sub-folder)
-       you downloaded in Step 3 of the [Setting up a development environment](setting-up.md) guide.
-    1. Ensure the `Name:` is of `AppEngine Dev <version>`.
+    1. Click `+ → Google App Engine Dev Server`. Verify that the path to your Google Cloud SDK directory is correct,
+       then click `OK`.
 
-### Automated Setup
-
-If you do not wish to use the automated setup, you can follow the [manual setup](#manual-setup) below.
-
-1. Run this command to create a pre-configured IntelliJ IDEA project:
-   ```sh
-   ./gradlew setupIntellijProject
-   ```
-
-1. You can now open the project in IntelliJ IDEA.
-
-1. To set up some static analysis tools, refer to [this document](static-analysis.md).
-
-1. To move on to the development phase, refer to [this document](development.md).
-
-**NOTE**
->The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#project-setup-behavior).
-
-### Manual Setup
+### Project Setup
 
 1. Import the project as a Gradle project as follows:
    1. If you have no current projects open, click `Import Project`.\
@@ -152,7 +134,7 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    1. Check `Use auto-import` and uncheck `Create separate module per source set`.
    1. Ensure `Create directories for empty content root automatically` is unchecked.
    1. Ensure `Use default gradle wrapper` is selected.
-   1. Ensure for `Gradle JVM:` that a JDK 7 with a name of `1.7` is selected.
+   1. Ensure for `Gradle JVM:` that a JDK 8 with a name of `1.8` is selected.
    1. Click `Finish`.
    1. Create a `build` folder in your project root if it does not exist while waiting for IntelliJ to finish indexing.
    1. If you used a different project root directory other than `teammates`, you will receive a dialog box with the
@@ -160,11 +142,8 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
       You should see a module with your project root directory name being checked. Click `OK`.
    1. Go to `File → Project Structure... → Modules`.
       Click on the `teammates` module, then under `Sources`, click on the `build` folder and click `Excluded` and then `OK`.
-   1. You should see a dialog box with the message:\
-      `Frameworks detected: Google App Engine, Web, JPA frameworks are detected in the project`.\
-      **OR**\
-      `Frameworks detected: OSGi, Google App Engine, Web, JPA frameworks are detected in the project`.\
-      Click `Configure` and ensure that only `Google App Engine` and `JPA` frameworks are shown, otherwise make
+   1. You should see a dialog box with the message: `Framework detected: Google App Engine Standard framework is detected.`.\
+      Click `Configure` and ensure that only the `Google App Engine Standard` framework is shown, otherwise make
       sure you have excluded the `build` folder in your `teammates` module. Then click `OK`.
 	  > If you missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the dialog box, click `Configure` and then `OK`.
