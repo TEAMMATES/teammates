@@ -282,7 +282,7 @@ task copyIntelliJProjectSettings(type: Copy) {
 
 task setupIntellijRunConfigs(type: Copy) {
     group intellijSetupGroup
-    from '.templates/.idea/runConfigurations'
+    from '.templates/ideaRunConfigurations'
     into '.idea/runConfigurations'
 }
 
