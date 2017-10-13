@@ -222,8 +222,18 @@ idea {
 
 task setupIntellijRunConfigs(type: Copy) {
     group intellijSetupGroup
+    doFirst {
+        if (!file('.idea').exists()) {
+            throw new GradleException('Please import the project into IntelliJ first.')
+        }
+    }
     from '.templates/ideaRunConfigurations'
     into '.idea/runConfigurations'
+}
+
+task setupIntellij {
+    group intellijSetupGroup
+    dependsOn setupIntellijRunConfigs
 }
 
 // IntelliJ project static analysis plugins setup
