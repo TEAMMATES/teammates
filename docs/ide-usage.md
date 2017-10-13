@@ -97,14 +97,6 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
     1. Select SDKs in Platform Settings and check if there is a SDK named `1.8` with a JDK home path pointing to a
        JDK 8 path. Otherwise add a new SDK using JDK 8 with a name of `1.8`.
 
-1. You need the system property `ide=idea` for `Gradle VM options:` under `Global Gradle settings` as follows:
-
-    1. If you have no current projects open, click `Configure → Settings/Preferences`.\
-       **OR**\
-       If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
-    1. Go to `Build, Execution, Deployment → Build Tools → Gradle`. Under `Global Gradle settings`,
-       add `-Dide=idea` to `Gradle VM options:`.
-
 1. You need the `Google Cloud Tools` plugin installed and configured:
 
     1. If you have no current projects open, click `Configure → Plugins`.\
@@ -132,17 +124,14 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    1. Ensure `Create directories for empty content root automatically` is unchecked.
    1. Ensure `Use default gradle wrapper` is selected.
    1. Ensure for `Gradle JVM:` that a JDK 8 with a name of `1.8` is selected.
-   1. Click `Finish`.
-   1. Create a `build` folder in your project root if it does not exist while waiting for IntelliJ to finish indexing.
-   1. If you used a different project root directory other than `teammates`, you will receive a dialog box with the
-      message `The modules below are not imported from Gradle anymore. Check those to be removed from the ide project too:`.\
-      You should see a module with your project root directory name being checked. Click `OK`.
-   1. Go to `File → Project Structure... → Modules`.
-      Click on the `teammates` module, then under `Sources`, click on the `build` folder and click `Excluded` and then `OK`.
-   1. You should see a dialog box with the message: `Framework detected: Google App Engine Standard framework is detected.`.\
-      Click `Configure` and ensure that only the `Google App Engine Standard` framework is shown, otherwise make
-      sure you have excluded the `build` folder in your `teammates` module. Then click `OK`.
-	  > If you missed the dialog box, go to `View → Tool Windows → Event Log`.
+   1. Click `Finish`. Wait for the indexing process to complete.
+   1. You should see a dialog box with the message:\
+      `Framework detected: Google App Engine Standard framework is detected.`.\
+      **OR**\
+      `Frameworks detected: Web, Google App Engine Standard frameworks are detected`.\
+      Click `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
+      If there are frameworks shown, click `Cancel` and wait until indexing completes.
+      > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the dialog box, click `Configure` and then `OK`.
 
 1. Configure the project settings as follows:

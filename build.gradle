@@ -1,13 +1,9 @@
 apply plugin: "eclipse"
 apply plugin: "eclipse-wtp"
 
+apply plugin: "idea"
+
 apply plugin: "war"
-// Use a different buildDir for IntelliJ builds so they do not conflict with building with Gradle
-// Must be done before applying the appengine plugin as a discovery-docs folder
-// is added to WEB-INF which is added to the build
-if (System.properties['ide'] == 'idea') {
-    buildDir = new File(projectDir, 'build-idea')
-}
 // apply plugin: "com.google.cloud.tools.appengine"
 // see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
 project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
@@ -210,6 +206,19 @@ task setupEclipse {
 String intellijSetupGroup = 'IntelliJ IDEA Setup'
 
 // IntelliJ Project Setup
+
+// Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds
+if (System.getProperty('idea.executable') != null) {
+    // Nest the buildDir inside IntelliJ's default project compiler output directory
+    buildDir = new File(projectDir, 'out/build')
+}
+
+idea {
+    module {
+        // Exclude the CLI build directory
+        excludeDirs += file('build')
+    }
+}
 
 task setupIntellijRunConfigs(type: Copy) {
     group intellijSetupGroup
