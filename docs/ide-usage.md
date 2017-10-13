@@ -118,9 +118,6 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
        **OR**\
        If you currently have projects open, click `File → Settings` or `IntelliJ IDEA → Preferences`.
     1. Go to `Other Settings → Google → Cloud SDK` and select your Google Cloud SDK directory.
-    1. Go to `Build, Execution, Deployment → Application Servers`.
-    1. Click `+ → Google App Engine Dev Server`. Verify that the path to your Google Cloud SDK directory is correct,
-       then click `OK`.
 
 ### Project Setup
 

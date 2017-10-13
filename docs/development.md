@@ -241,7 +241,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
    * With Eclipse
      * Refer to [this guide](https://cloud.google.com/eclipse/docs/deploying) to deploy your application.
    * With IntelliJ
-     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
+     * Refer to [this guide](https://cloud.google.com/tools/intellij/docs/deploy-std#deploying_to_the_standard_environment) to deploy your application.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
