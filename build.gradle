@@ -221,6 +221,7 @@ idea {
 }
 
 task setupIntellijRunConfigs(type: Copy) {
+    description 'Sets up the run configurations in the IntelliJ project.'
     group intellijSetupGroup
     doFirst {
         if (!file('.idea').exists()) {
@@ -232,6 +233,7 @@ task setupIntellijRunConfigs(type: Copy) {
 }
 
 task setupIntellij {
+    description 'Sets up the IntelliJ-specific configurations for the project.'
     group intellijSetupGroup
     dependsOn setupIntellijRunConfigs
 }
@@ -254,7 +256,7 @@ task copyStylelintConfiguration(type: Copy) {
 }
 
 task setupIntellijStaticAnalysis {
-    description 'Sets up the static analysis plugins in the IntelliJ project'
+    description 'Sets up the static analysis plugins in the IntelliJ project.'
     dependsOn copyIntelliJProjectPluginsSettings
     finalizedBy copyStylelintConfiguration
 }
