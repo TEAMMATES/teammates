@@ -215,8 +215,8 @@ if (System.getProperty('idea.executable') != null) {
 
 idea {
     module {
-        // Exclude the CLI build directory
-        excludeDirs += file('build')
+        // Exclude the CLI and Eclipse build directories
+        excludeDirs += [file('build'), file('build-eclipse')]
     }
 }
 
