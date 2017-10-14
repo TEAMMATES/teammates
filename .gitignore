@@ -53,9 +53,8 @@ build-eclipse/
 ### IntelliJ ###
 # Ignore the folder where project settings are stored as IDE is not assumed
 /.idea/
-# IntelliJ sometimes places module iml on project root so they  also need to be ignored
-# Only ignore the root imls so the template imls can be checked in
-/*.iml
+# IntelliJ sometimes places module iml on project root so they also need to be ignored
+*.iml
 /out/
 
 ### Stylelint ###
