@@ -257,8 +257,7 @@ task copyStylelintConfiguration(type: Copy) {
 
 task setupIntellijStaticAnalysis {
     description 'Sets up the static analysis plugins in the IntelliJ project.'
-    dependsOn copyIntelliJProjectPluginsSettings
-    finalizedBy copyStylelintConfiguration
+    dependsOn copyIntelliJProjectPluginsSettings, copyStylelintConfiguration
 }
 
 // RUN SERVER TASKS
