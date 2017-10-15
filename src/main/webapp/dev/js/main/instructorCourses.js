@@ -76,7 +76,7 @@ $(document).ready(() => {
             url: `${$(this).attr('action')}?${formData}`,
             beforeSend() {
                 $('#coursesList').html(
-                    '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>',
+                    '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
                 );
                 isFetchingCourses = true;
             },

@@ -7,7 +7,17 @@ env:
 extends:
     - airbnb-base
 
+parserOptions:
+    ecmaVersion: 2015
+
 rules:
+    comma-dangle: ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore", # not supported in ES2015
+    }]
     func-names: "off"
     indent: ["error", 4]
     linebreak-style: "off"

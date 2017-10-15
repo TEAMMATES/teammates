@@ -49,7 +49,7 @@ function setupFsCopyModal() {
                                             $('#fscopy_submit').prop('disabled', true);
                                             e.preventDefault();
                                             $('#fscopy_submit').closest('form').submit();
-                                        },
+                                        }
                                     );
                 $('#fscopy_submit').prop('disabled', false);
             },
@@ -87,7 +87,7 @@ function setupFsCopyModal() {
                     }
                 },
             });
-        },
+        }
     );
 }
 
