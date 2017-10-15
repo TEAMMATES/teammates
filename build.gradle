@@ -242,12 +242,17 @@ task setupIntellij {
 
 // IntelliJ project static analysis plugins setup
 
-task copyStylelintConfiguration(type: Copy) {
+task copyStylelintConfiguration() {
+    // Cannot use copy task directly when copying to project root on Windows due to
+    // the file-locking mechanism (see https://issues.gradle.org/browse/GRADLE-3002).
+    // We use the copy method instead, which seems to work fine.
     group intellijSetupGroup
-    from 'static-analysis/teammates-stylelint.yml'
-    into projectDir
-    rename {
-        '.stylelintrc.yml'
+    doLast {
+        copy {
+            from 'static-analysis/teammates-stylelint.yml'
+            into projectDir
+            rename { '.stylelintrc.yml' }
+        }
     }
 }
 
