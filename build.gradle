@@ -242,10 +242,12 @@ task setupIntellij {
 
 // IntelliJ project static analysis plugins setup
 
-task copyStylelintConfiguration() {
-    // Cannot use copy task directly when copying to project root on Windows due to
-    // the file-locking mechanism (see https://issues.gradle.org/browse/GRADLE-3002).
-    // We use the copy method instead, which seems to work fine.
+task copyStylelintConfiguration {
+    // Cannot use copy task directly when copying to project root on Windows due to the
+    // file-locking mechanism interfering with the way inputs and outputs are monitored
+    // (see https://issues.gradle.org/browse/GRADLE-3002).
+    // We use the copy method instead, which works because it does not do incremental
+    // building (inputs and outputs are not monitored).
     group intellijSetupGroup
     doLast {
         copy {
