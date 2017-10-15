@@ -28,7 +28,20 @@ The syntax for the pre-configured settings found below are as follows:
 | `Treat Checkstyle errors as warnings` | `entry[@key='suppress-errors']`      | `false`             |
 | `Use a local Checkstyle file`  `Store relative to project location`  | `entry[@key='location-1']` | `Git`           |
 
-## Inspections
+## Inspection Profile To Use
+
+| Settings Info |                                            |
+|---------------|--------------------------------------------|
+| File name     | `inspectionProfiles/profiles_settings.xml` |
+| Settings      | `Editor → Inspections`                     |
+
+**Parent Node:** `/component/settings/option`
+
+| IntelliJ Setting | Node                                                       | Value       |
+|------------------|------------------------------------------------------------|-------------|
+| `Profile:`       | `[@name='projectProfile']` and `[@name='PROJECT_PROFILE']` | `teammates` |
+
+## Inspection Profile
 
 | Settings Info |                                    |
 |---------------|------------------------------------|
@@ -37,9 +50,9 @@ The syntax for the pre-configured settings found below are as follows:
 
 **Parent Node:** `/component/profile`
 
-| IntelliJ Setting | Node                    | Value       |
-|------------------|-------------------------|-------------|
-| Profile Name     | `option[@name='myName'` | `teammates` |
+| IntelliJ Setting | Node                     | Value       |
+|------------------|--------------------------|-------------|
+| Profile Name     | `option[@name='myName']` | `teammates` |
 
 ### ESLint
 
@@ -59,7 +72,7 @@ The syntax for the pre-configured settings found below are as follows:
 |---------------------------|-------------------------------------------------|--------|
 | Whether ESLint is enabled | `inspection_tool[@class='Stylelint'][@enabled]` | `true` |
 
-## ESLint Inspection Setting
+## ESLint Inspection Settings
 
 | Settings Info |                                                                     |
 |---------------|---------------------------------------------------------------------|
