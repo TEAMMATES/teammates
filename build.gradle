@@ -242,12 +242,6 @@ task setupIntellij {
 
 // IntelliJ project static analysis plugins setup
 
-task copyIntelliJProjectPluginsSettings(type: Copy) {
-    group intellijSetupGroup
-    from '.templates/ideaPlugins'
-    into '.idea'
-}
-
 task copyStylelintConfiguration(type: Copy) {
     group intellijSetupGroup
     from 'static-analysis/teammates-stylelint.yml'
@@ -257,9 +251,16 @@ task copyStylelintConfiguration(type: Copy) {
     }
 }
 
+task copyIntelliJProjectPluginsSettings(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/ideaPlugins'
+    into '.idea'
+    mustRunAfter copyStylelintConfiguration
+}
+
 task setupIntellijStaticAnalysis {
     description 'Sets up the static analysis plugins in the IntelliJ project.'
-    dependsOn copyIntelliJProjectPluginsSettings, copyStylelintConfiguration
+    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
 }
 
 // RUN SERVER TASKS
