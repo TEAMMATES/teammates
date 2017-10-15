@@ -125,7 +125,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
       **OR**\
       `Frameworks detected: Web, Google App Engine Standard frameworks are detected`.\
       Click `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
-      If there are other frameworks shown, click `Cancel` and wait until indexing completes.
+      If there are other frameworks shown, click `Cancel` and wait until indexing completes, then try again.
       > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the dialog box, click `Configure` and then `OK`.
 
