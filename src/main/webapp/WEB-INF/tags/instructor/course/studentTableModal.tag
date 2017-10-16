@@ -4,8 +4,9 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <span class="pull-left help-block">
-          Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+        <span class="help-block">
+          Tips: After Selecting the table, <kbd>Ctrl + C</kbd> or <kbd>&#8984; + C</kbd> to COPY and
+          <kbd>Ctrl + V</kbd> or <kbd>&#8984; + V</kbd> to PASTE to your Excel Workbook.
         </span>
 
         <button type="button" class="btn btn-default" data-dismiss="modal">
