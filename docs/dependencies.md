@@ -20,6 +20,7 @@ To update a library's version, simply change the version number declared in `bui
 
 - If you are using command line, your next build will automatically reflect the change.
 - If you are using Eclipse, right click on the project in the Project Explorer and select `Gradle → Refresh Gradle Project` for the changes to be reflected.
+- If you are using IntelliJ, dependencies are automatically refreshed as soon as changes to the file are detected (assuming auto-import is enabled).
 
 # Managing Client-Side Dependencies
 
