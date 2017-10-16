@@ -595,7 +595,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.tmt"));
 
         assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.tmt"));
-        
     }
 
     private void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
