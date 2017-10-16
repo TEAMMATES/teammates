@@ -191,10 +191,12 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
 [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea),
 [NodeJS](https://plugins.jetbrains.com/plugin/6098-nodejs) (Optional)
 
-2. Run the command to setup the settings for the various plugins:
+1. Run the command to setup the settings for the various plugins:
    ```sh
    ./gradlew setupIntellijStaticAnalysis
    ```
+
+1. Restart IntelliJ IDEA.
 
 **NOTE**
 >The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#static-analysis-tools-setup-behavior).

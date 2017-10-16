@@ -1,14 +1,9 @@
 apply plugin: "eclipse"
 apply plugin: "eclipse-wtp"
-apply plugin: 'idea'
+
+apply plugin: "idea"
 
 apply plugin: "war"
-// Use a different buildDir for IntelliJ builds so they do not conflict with building with Gradle
-// Must be done before applying the appengine plugin as a discovery-docs folder
-// is added to WEB-INF which is added to the build
-if (System.properties['ide'] == 'idea') {
-    buildDir = new File(projectDir, 'buildIdea')
-}
 // apply plugin: "com.google.cloud.tools.appengine"
 // see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
 project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
@@ -208,115 +203,72 @@ task setupEclipse {
     dependsOn createEclipseLaunches
 }
 
-/*
-idea {
-    module {
-        // Removes the source directories added by the appengine plugin
-        testSourceDirs -= sourceSets.functionalTest.allSource.srcDirs
-    }
-}
-
-// removes unused sourceSets from the appengine plugin
-// the appengine plugin also adds source directories to the IDEA plugin, which are removed from the idea block above
-sourceSets.remove(sourceSets.functionalTest)
-sourceSets.remove(sourceSets.endpointsSrc)
-
 String intellijSetupGroup = 'IntelliJ IDEA Setup'
 
 // IntelliJ Project Setup
-import groovy.xml.StreamingMarkupBuilder
 
-task addAppEngineSdkHomePath(dependsOn: appengineDownloadSdk) {
-    group intellijSetupGroup
-    doLast {
-        String moduleXmlFilePath = '.idea/modules/teammates.iml'
-        Node moduleXml = new XmlParser().parse(moduleXmlFilePath)
-        Node facetComponent = (Node) (moduleXml.component.find { it.@name == 'FacetManager' })
-        Node googleAppEngineFacet = (Node) (facetComponent.find { it.@type == 'google-app-engine' })
-        Node configuration = googleAppEngineFacet.configuration[0]
-
-        NodeList sdkHomePathList = configuration.'sdk-home-path'
-        if (sdkHomePathList.size() > 1) {
-            throw new GradleException('More than one sdk-home-path found in Google App Engine Facet')
-        } else if (sdkHomePathList.size() == 1) {
-            configuration.'sdk-home-path'[0].value = System.properties['appengine.sdk.root']
-        } else {
-            List configurationChildren = configuration.children()
-            configurationChildren.add(0, new Node(null, 'sdk-home-path', null, System.properties['appengine.sdk.root']))
-        }
-
-        new File(moduleXmlFilePath).withWriter('UTF-8') { out ->
-            out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
-            def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
-            xmlNodePrinter.preserveWhitespace = true
-            xmlNodePrinter.print(moduleXml)
-        }
-    }
+// Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
+// IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
+// Note that this property is not documented and may change anytime.
+if (System.getProperty('idea.paths.selector') != null) {
+    // Nest the buildDir inside IntelliJ's default project compiler output directory
+    buildDir = new File(projectDir, 'out/build')
 }
 
-task deleteIdeaFolder(type: Delete) {
-    delete '.idea'
-}
-
-task copyIntelliJProjectSettings(type: Copy) {
-    group intellijSetupGroup
-    if (file('.idea').exists()) {
-        if (!file('.idea').isDirectory()) {
-            throw new GradleException('Found file with name .idea where it should be a folder.' +
-                    'Please rename or delete it otherwise setup cannot proceed.')
-        }
-
-        if (project.hasProperty('delete_previous_idea')) {
-            println 'Your previous project will be overwritten.'
-            dependsOn deleteIdeaFolder
-        } else {
-            doLast {
-                throw new GradleException('A project folder is found, you can delete it manually or ' +
-                        'call the setup again with the property -Pdelete_previous_idea')
-            }
-        }
+idea {
+    module {
+        // Exclude the CLI and Eclipse build directories
+        excludeDirs += [file('build'), file('build-eclipse')]
     }
-    from '.templates/.idea'
-    into '.idea'
 }
 
 task setupIntellijRunConfigs(type: Copy) {
+    description 'Sets up the run configurations in the IntelliJ project.'
     group intellijSetupGroup
-    from '.templates/.idea/runConfigurations'
+    doFirst {
+        if (!file('.idea').exists()) {
+            throw new GradleException('Please import the project into IntelliJ first.')
+        }
+    }
+    from '.templates/ideaRunConfigurations'
     into '.idea/runConfigurations'
 }
 
-task setupIntellijProject {
-    description 'Sets up an IntelliJ project'
+task setupIntellij {
+    description 'Sets up the IntelliJ-specific configurations for the project.'
     group intellijSetupGroup
-
-    dependsOn copyIntelliJProjectSettings
-    finalizedBy addAppEngineSdkHomePath
+    dependsOn setupIntellijRunConfigs
 }
 
 // IntelliJ project static analysis plugins setup
+
+task copyStylelintConfiguration {
+    // Cannot use copy task directly when copying to project root on Windows due to the
+    // file-locking mechanism interfering with the way inputs and outputs are monitored
+    // (see https://issues.gradle.org/browse/GRADLE-3002).
+    // We use the copy method instead, which works because it does not do incremental
+    // building (inputs and outputs are not monitored).
+    group intellijSetupGroup
+    doLast {
+        copy {
+            from 'static-analysis/teammates-stylelint.yml'
+            into projectDir
+            rename { '.stylelintrc.yml' }
+        }
+    }
+}
 
 task copyIntelliJProjectPluginsSettings(type: Copy) {
     group intellijSetupGroup
     from '.templates/ideaPlugins'
     into '.idea'
-}
-
-task copyStylelintConfiguration(type: Copy) {
-    group intellijSetupGroup
-    from 'static-analysis/teammates-stylelint.yml'
-    into projectDir
-    rename {
-        '.stylelintrc.yml'
-    }
+    mustRunAfter copyStylelintConfiguration
 }
 
 task setupIntellijStaticAnalysis {
-    description 'Sets up the static analysis plugins in the IntelliJ project'
-    dependsOn copyIntelliJProjectPluginsSettings
-    finalizedBy copyStylelintConfiguration
+    description 'Sets up the static analysis plugins in the IntelliJ project.'
+    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
 }
-*/
 
 // RUN SERVER TASKS
 

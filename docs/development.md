@@ -76,40 +76,13 @@ Click the "Terminate" icon on the Eclipse console.
 
 ### With IntelliJ
 
-> If this is your first time running the dev server, you will need to set up the required `Run Configuration`.
-
-#### Set up the Run Configuration
-
-1. Go to `File → Project Structure...`.
-1. Under `Artifacts → Gradle : <your-project-name>.war (exploded)`, check `Include in project build`.
-1. Click `OK`.
-1. Go to `Run → Edit Configurations...`.
-1. Click `+ → Google AppEngine Dev Server`.
-1. Set the `Name:` to `Dev Server`.
-1. Ensure the `Application server:` selected is of the name `AppEngine Dev <version>`.\
-   If you do not have an application server named `AppEngine Dev <version>`, make sure you have
-   [setup IntelliJ IDEA](ide-usage.md#prerequisites) correctly.
-1. You can optionally choose to add `-Ddatastore.backing_store=../../../../local_db.bin` to `VM options:`.\
-   This will place your local datastore on your project root, and if you delete your `buildIdea` folder your local
-   datastore will still be preserved. Note that IntelliJ IDEA does not delete the whole `buildIdea` folder on rebuild so
-   your datastore will not be wiped on rebuild.
-1. If you have a previous datastore file `local_db.bin` that you would like to use, you can copy it to the project root 
-   if you have changed the datastore path in the previous step. Otherwise, you would need to check the `Output directory:`
-   of `Gradle : teammates.war (exploded)` from `File → Project Structure... → Artifacts`, copy `local_db.bin` into
-   `<OutputDirYouFound>/WEB-INF/appengine-generated` (create the folder if it does not exist).
-1. If you do not want the app to auto launch on the browser, under `Open browser`, uncheck `After launch`.
-1. Check in `JRE:` that the SDK used is the default of `1.7`.\
-   Otherwise your project might not have been configured correctly, please [check your setup](ide-usage.md#prerequisites).
-1. Set the `Port:` to `8080`.
-1. Click `OK`.
-
 #### Starting the dev server
 
-Go to `Run → Run...` and select `Dev Server` in the pop-up box.
+Go to `Run → Run...` and select `Google App Engine Standard Local Server` in the pop-up box.
 
 #### Stopping the dev server
 
-Go to `Run → Stop`.
+Go to `Run → Stop 'Google App Engine Standard Local Server'`.
 
 ## Logging in to a TEAMMATES instance
 
@@ -268,7 +241,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
    * With Eclipse
      * Refer to [this guide](https://cloud.google.com/eclipse/docs/deploying) to deploy your application.
    * With IntelliJ
-     * Refer to [this guide](https://www.jetbrains.com/help/idea/2016.3/getting-started-with-google-app-engine.html#deploy_googleapp_via_runConfig) to deploy your application.
+     * Refer to [this guide](https://cloud.google.com/tools/intellij/docs/deploy-std#deploying_to_the_standard_environment) to deploy your application.
 
 1. (Optional) Set the version you deployed as the "default":
    * Go to App Engine dashboard: `https://console.cloud.google.com/appengine?project=teammates-john`.
