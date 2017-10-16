@@ -69,7 +69,7 @@ public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticate
         }
 
         addStatusMessageToUser();
-        sendCourseRegisteredEmail(student.course);
+        sendCourseRegisteredEmail(student.name, student.email, false, student.course);
 
         return response;
     }
