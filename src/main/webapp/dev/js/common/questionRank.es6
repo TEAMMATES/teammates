@@ -220,21 +220,34 @@ function bindRankEvents() {
         });
 }
 
-function removeInvalidFeedbackPathsForRankRecipientQuestions() {
-    $('input[name="questiontype"][value="RANK_RECIPIENTS"]').each(function () {
-        const $form = $(this).closest('form');
+function showInvalidRankRecipientFeedbackPaths($form) {
+    $form.find('[data-recipient-type="NONE"],[data-recipient-type="SELF"]').show();
+    $form.find('select[name="recipienttype"]')
+             .children('option[value="SELF"],option[value="NONE"],option[value="OWN_TEAM"]').show();
+}
 
-        $form.find('[data-recipient-type="NONE"],[data-recipient-type="SELF"]').hide();
-        $form.find('select[name="recipienttype"]')
-                 .children('option[value="SELF"],option[value="NONE"],option[value="OWN_TEAM"]').hide();
-    });
+function hideInvalidRankRecipientFeedbackPaths($form) {
+    $form.find('[data-recipient-type="NONE"],[data-recipient-type="SELF"]').hide();
+    $form.find('select[name="recipienttype"]')
+             .children('option[value="SELF"],option[value="NONE"],option[value="OWN_TEAM"]').hide();
+}
+
+function adjustInvalidRankRecipientFeedbackPaths(qNum) {
+    const $form = $(`#form_editquestion-${qNum}`);
+    const qType = $form.find('[name="questiontype"]').val();
+
+    if (qType === 'RANK_RECIPIENTS') {
+        hideInvalidRankRecipientFeedbackPaths($form);
+    } else {
+        showInvalidRankRecipientFeedbackPaths($form);
+    }
 }
 
 export {
     addRankOption,
+    adjustInvalidRankRecipientFeedbackPaths,
     bindRankEvents,
     hideRankOptionTable,
-    removeInvalidFeedbackPathsForRankRecipientQuestions,
     removeRankOption,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
