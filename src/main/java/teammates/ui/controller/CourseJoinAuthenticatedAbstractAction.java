@@ -13,7 +13,7 @@ public abstract class CourseJoinAuthenticatedAbstractAction extends Action {
 
     protected void sendCourseRegisteredEmail(String name, String emailAddress, boolean isInstructor, String courseId) {
         CourseAttributes course = logic.getCourse(courseId);
-        EmailWrapper email = new EmailGenerator().generateUserCourseRegisterEmail(
+        EmailWrapper email = new EmailGenerator().generateUserCourseRegisteredEmail(
                 name, emailAddress, account.googleId, isInstructor, course);
         try {
             emailSender.sendEmail(email);

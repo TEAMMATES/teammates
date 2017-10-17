@@ -399,7 +399,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String googleId = "user.googleid";
 
         EmailWrapper email =
-                new EmailGenerator().generateUserCourseRegisterEmail(name, emailAddress, googleId, false, course);
+                new EmailGenerator().generateUserCourseRegisteredEmail(name, emailAddress, googleId, false, course);
         String subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                 course.getName(), course.getId());
 
@@ -407,7 +407,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course register email");
 
-        email = new EmailGenerator().generateUserCourseRegisterEmail(name, emailAddress, googleId, true, course);
+        email = new EmailGenerator().generateUserCourseRegisteredEmail(name, emailAddress, googleId, true, course);
         subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                 course.getName(), course.getId());
 

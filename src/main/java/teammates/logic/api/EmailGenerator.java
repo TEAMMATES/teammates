@@ -579,7 +579,7 @@ public class EmailGenerator {
     /**
      * Generates the course registered email for the user with the given details in {@code course}.
      */
-    public EmailWrapper generateUserCourseRegisterEmail(
+    public EmailWrapper generateUserCourseRegisteredEmail(
             String name, String emailAddress, String googleId, boolean isInstructor, CourseAttributes course) {
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_COURSE_REGISTER,
                 "${userName}", SanitizationHelper.sanitizeForHtml(name),
