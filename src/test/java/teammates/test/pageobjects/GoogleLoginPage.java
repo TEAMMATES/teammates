@@ -88,7 +88,7 @@ public class GoogleLoginPage extends LoginPage {
         waitForRedirectIfAny();
         boolean isPageRequestingAccessApproval = getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
         if (isPageRequestingAccessApproval) {
-            click(By.id("persist_checkbox"));
+            markCheckBoxAsChecked(browser.driver.findElement(By.id("persist_checkbox")));
             click(By.id("approve_button"));
             waitForPageToLoad();
         }
