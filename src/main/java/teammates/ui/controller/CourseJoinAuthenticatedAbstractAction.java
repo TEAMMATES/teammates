@@ -11,10 +11,10 @@ public abstract class CourseJoinAuthenticatedAbstractAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
-    protected void sendCourseRegisteredEmail(String courseId) {
+    protected void sendCourseRegisteredEmail(String name, String emailAddress, boolean isInstructor, String courseId) {
         CourseAttributes course = logic.getCourse(courseId);
-        EmailWrapper email = new EmailGenerator().generateUserCourseRegisterEmail(
-                logic.getAccount(account.googleId), course);
+        EmailWrapper email = new EmailGenerator().generateUserCourseRegisteredEmail(
+                name, emailAddress, account.googleId, isInstructor, course);
         try {
             emailSender.sendEmail(email);
         } catch (EmailSendingException e) {

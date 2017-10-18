@@ -577,18 +577,19 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates the course register email for the given {@code user} in {@code course}.
+     * Generates the course registered email for the user with the given details in {@code course}.
      */
-    public EmailWrapper generateUserCourseRegisterEmail(AccountAttributes user, CourseAttributes course) {
+    public EmailWrapper generateUserCourseRegisteredEmail(
+            String name, String emailAddress, String googleId, boolean isInstructor, CourseAttributes course) {
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_COURSE_REGISTER,
-                "${userName}", SanitizationHelper.sanitizeForHtml(user.getName()),
-                "${userType}", user.isInstructor() ? "an instructor" : "a student",
+                "${userName}", SanitizationHelper.sanitizeForHtml(name),
+                "${userType}", isInstructor ? "an instructor" : "a student",
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${googleId}", SanitizationHelper.sanitizeForHtml(user.getGoogleId()),
+                "${googleId}", SanitizationHelper.sanitizeForHtml(googleId),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(user.getEmail());
+        EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
         email.setSubject(String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                 course.getName(), course.getId()));
         email.setContent(emailBody);
