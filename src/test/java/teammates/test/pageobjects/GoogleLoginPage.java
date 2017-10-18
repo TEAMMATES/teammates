@@ -117,8 +117,17 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void completeFillIdentifierSteps(String identifier) {
+        By oldUiSignInWithDifferentAccountBy = By.id("account-chooser-link");
+        By oldUiAddAccountBy = By.id("account-chooser-add-account");
         By switchAccountButtonBy = By.cssSelector("*[aria-label='Switch account']");
         By useAnotherAccountButtonBy = By.id("identifierLink");
+
+        if (isElementPresent(oldUiSignInWithDifferentAccountBy)) {
+            click(oldUiSignInWithDifferentAccountBy);
+            waitForPageToLoad();
+            click(waitForElementPresence(oldUiAddAccountBy));
+            waitForPageToLoad();
+        }
 
         if (isElementPresent(switchAccountButtonBy)) {
             click(switchAccountButtonBy);
