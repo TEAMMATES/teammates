@@ -51,6 +51,7 @@ dependencies {
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.2",
+                    "com.google.guava:guava:20.0",
                     "com.googlecode.objectify:objectify:5.1.21",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20171016.1",
                     "com.mailjet:mailjet-client:4.1.1",
