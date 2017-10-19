@@ -49,7 +49,6 @@ public final class Const {
 
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String NO_SPECIFIC_RECIPIENT = "No specific recipient";
     public static final String NO_SPECIFIC_SECTION = "No specific section";
 
     public static final String DISPLAYED_NAME_FOR_SELF_IN_COMMENTS = "You";
@@ -100,6 +99,9 @@ public final class Const {
     public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
+
+    public static final String RECEIVER_SECTION_FIELD_NAME = "receiverSection";
+    public static final String GIVER_SECTION_FIELD_NAME = "giverSection";
 
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");

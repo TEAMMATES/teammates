@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -88,6 +90,12 @@ public final class FeedbackResponsesLogic {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
+
+        if (Const.DEFAULT_SECTION.equals(section)) {
+            return frDb.getFeedbackResponsesWithGiverOrRecipientInSections(feedbackSessionName, courseId,
+                    Arrays.asList(section, null), -1);
+        }
+
         return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
     }
 
@@ -96,6 +104,12 @@ public final class FeedbackResponsesLogic {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
+
+        if (Const.DEFAULT_SECTION.equals(section)) {
+            return frDb.getFeedbackResponsesInSections(feedbackSessionName, courseId, Const.GIVER_SECTION_FIELD_NAME,
+                    Arrays.asList(section, null), -1);
+        }
+
         return frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
     }
 
@@ -104,6 +118,12 @@ public final class FeedbackResponsesLogic {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
+
+        if (Const.DEFAULT_SECTION.equals(section)) {
+            return frDb.getFeedbackResponsesInSections(feedbackSessionName, courseId, Const.RECEIVER_SECTION_FIELD_NAME,
+                    Arrays.asList(section, null), -1);
+        }
+
         return frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
     }
 
@@ -117,6 +137,12 @@ public final class FeedbackResponsesLogic {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
+
+        if (Const.DEFAULT_SECTION.equals(section)) {
+            return frDb.getFeedbackResponsesWithGiverOrRecipientInSections(feedbackSessionName, courseId,
+                    Arrays.asList(section, null), range);
+        }
+
         return frDb.getFeedbackResponsesForSessionInSectionWithinRange(feedbackSessionName, courseId, section, range);
     }
 
@@ -125,6 +151,12 @@ public final class FeedbackResponsesLogic {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
+
+        if (Const.DEFAULT_SECTION.equals(section)) {
+            return frDb.getFeedbackResponsesInSections(feedbackSessionName, courseId, Const.GIVER_SECTION_FIELD_NAME,
+                    Arrays.asList(section, null), range);
+        }
+
         return frDb.getFeedbackResponsesForSessionFromSectionWithinRange(feedbackSessionName, courseId, section, range);
     }
 
@@ -133,6 +165,12 @@ public final class FeedbackResponsesLogic {
         if (section == null) {
             return getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, range);
         }
+
+        if (Const.DEFAULT_SECTION.equals(section)) {
+            return frDb.getFeedbackResponsesInSections(feedbackSessionName, courseId, Const.RECEIVER_SECTION_FIELD_NAME,
+                    Arrays.asList(section, null), range);
+        }
+
         return frDb.getFeedbackResponsesForSessionToSectionWithinRange(feedbackSessionName, courseId, section, range);
     }
 

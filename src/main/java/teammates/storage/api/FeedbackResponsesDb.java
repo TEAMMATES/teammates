@@ -252,6 +252,38 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return An empty list if no such responses are found.
      */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesInSections(
+            String feedbackSessionName, String courseId, String filterField, List<String> sections, int range) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sections);
+
+        return makeAttributes(
+                getFeedbackResponseEntitiesInSections(feedbackSessionName, courseId, filterField, sections, range));
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return An empty list if no such responses are found.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesWithGiverOrRecipientInSections(
+            String feedbackSessionName, String courseId, List<String> sections, int range) {
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+
+        responses.addAll(makeAttributes(getFeedbackResponseEntitiesInSections(feedbackSessionName, courseId,
+                Const.GIVER_SECTION_FIELD_NAME, sections, range)));
+        responses.addAll(makeAttributes(getFeedbackResponseEntitiesInSections(feedbackSessionName, courseId,
+                Const.RECEIVER_SECTION_FIELD_NAME, sections, range)));
+
+        return responses;
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return An empty list if no such responses are found.
+     */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionToSectionWithinRange(
             String feedbackSessionName, String courseId, String section, int range) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
@@ -591,6 +623,15 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("receiverSection =", section)
+                .limit(range + 1).list();
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesInSections(
+            String feedbackSessionName, String courseId, String filterField, List<String> sections, int range) {
+        return load()
+                .filter("feedbackSessionName =", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .filter(filterField + " in", sections)
                 .limit(range + 1).list();
     }
 

@@ -1006,18 +1006,21 @@ public class FeedbackSessionResultsBundle {
      * <p>If the email of an instructor or "%GENERAL%" is passed in, "No specific recipient" is returned.
      */
     public String getSectionFromRoster(String participantIdentifier) {
-        boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);
         boolean isInstructor = isParticipantIdentifierInstructor(participantIdentifier);
         boolean participantIsGeneral = participantIdentifier.equals(Const.GENERAL_QUESTION);
+
+        if (isInstructor || participantIsGeneral) {
+            return Const.NO_SPECIFIC_SECTION;
+        }
+
+        boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);
 
         if (isStudent) {
             return roster.getStudentForEmail(participantIdentifier)
                          .section;
-        } else if (isInstructor || participantIsGeneral) {
-            return Const.NO_SPECIFIC_RECIPIENT;
-        } else {
-            return "";
         }
+
+        return "";
     }
 
     /**

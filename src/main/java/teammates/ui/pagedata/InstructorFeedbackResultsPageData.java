@@ -262,11 +262,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
 
             String currentTeam = getCurrentTeam(bundle, primaryParticipantIdentifier);
-
+            boolean isInstructor = bundle.isParticipantIdentifierInstructor(primaryParticipantIdentifier);
             boolean isStudent = bundle.isParticipantIdentifierStudent(primaryParticipantIdentifier);
             String participantSection = bundle.getSectionFromRoster(primaryParticipantIdentifier);
 
-            if (isStudent && !participantSection.equals(section)) {
+            if (isStudent && !isInstructor && !participantSection.equals(section)) {
                 continue;
             }
 
@@ -339,10 +339,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             primaryParticipantIndex += 1;
             String primaryParticipantIdentifier = primaryToSecondaryParticipantToResponsesMap.getKey();
 
+            boolean isInstructor = bundle.isParticipantIdentifierInstructor(primaryParticipantIdentifier);
             boolean isStudent = bundle.isParticipantIdentifierStudent(primaryParticipantIdentifier);
             String participantSection = bundle.getSectionFromRoster(primaryParticipantIdentifier);
 
-            if (isStudent && !participantSection.equals(section)) {
+            if (isStudent && !isInstructor && !participantSection.equals(section)) {
                 continue;
             }
 
@@ -701,15 +702,35 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
         sectionPanels = new LinkedHashMap<>();
+        InstructorFeedbackResultsSectionPanel sectionPanel;
 
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
-        sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        if (isSectionHavingResponses(Const.DEFAULT_SECTION)) {
+            sectionPanel = new InstructorFeedbackResultsSectionPanel(
+                    Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
+            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        }
 
         for (String section : sections) {
             sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
+    }
+
+    private boolean isSectionHavingResponses(String section) {
+        for (FeedbackResponseAttributes response : bundle.getResponses()) {
+            String sectionOfResponse = isRecipientPrimaryParticipant() ? response.recipientSection : response.giverSection;
+
+            if (section.equals(sectionOfResponse)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isRecipientPrimaryParticipant() {
+        return viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER
+                || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION;
     }
 
     private int getSectionPosition(String name) {

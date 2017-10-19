@@ -228,12 +228,6 @@ function isEmptySection(content) {
     return panelsInSection.length === 0;
 }
 
-function removeSection(id) {
-    const $heading = $(`[id^=panelHeading-section-${id}]`);
-
-    $heading.parent().remove();
-}
-
 function getAppendedResponseRateData(data) {
     const appendedResponseStatus = $(data).find('#responseStatus').html();
     $(data).remove();
@@ -365,6 +359,5 @@ export {
     displayAjaxRetryMessageForPanelHeading,
     isEmptySection,
     prepareInstructorFeedbackResultsPage,
-    removeSection,
     showHideStats,
 };
