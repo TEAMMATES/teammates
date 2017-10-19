@@ -529,15 +529,19 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    if ($(`#generateOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+    if ($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
         $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
         $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
     } else {
         $(`#mcqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
         $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
+    }
+
+    if ($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
+        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
+    } else {
+        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
         $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
