@@ -77,6 +77,7 @@ import {
 
 import {
     addRankOption,
+    adjustInvalidRankRecipientFeedbackPaths,
     bindRankEvents,
     hideRankOptionTable,
     removeRankOption,
@@ -341,6 +342,7 @@ function disableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
     $(`#button_question_submit-${questionNum}`).hide();
+    adjustInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -472,6 +474,7 @@ function enableQuestion(questionNum) {
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
+    adjustInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -550,6 +553,7 @@ function enableNewQuestion() {
     disableCornerMoveRubricColumnButtons(NEW_QUESTION);
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
+    adjustInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
 /**
