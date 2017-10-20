@@ -144,7 +144,7 @@ and [set up project specific settings and dependencies](setting-up.md#step-3-set
 1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
    `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
 1. Point `Configuration file:` to the location of `teammates-eslint.yml`.
-1. Under 'Extra eslint options:', add `--ext .es6 --ignore-pattern '**/*.js'`.
+1. Under 'Extra eslint options:', add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
 1. Click `OK`.
 
 ##### Suppressing ESLint warnings
