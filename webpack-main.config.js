@@ -10,20 +10,20 @@ const entry = {};
 const SECONDARY_JS_FILES = ['googleAnalytics', 'index', 'statusMessage', 'studentMotd', 'userMap'];
 
 fs.readdirSync(MAIN_JS_FOLDER).forEach((fileName) => {
-    if (fileName.endsWith('.es6')) {
-        const fileNameWithoutExt = fileName.replace('.es6', '');
+    if (fileName.endsWith('.js')) {
+        const fileNameWithoutExt = fileName.replace('.js', '');
         const filesToBundle = [
             `${MAIN_JS_FOLDER}/${fileName}`,
         ];
         if (SECONDARY_JS_FILES.indexOf(fileNameWithoutExt) === -1) {
-            filesToBundle.push(`${COMMON_JS_FOLDER}/onStart.es6`);
+            filesToBundle.push(`${COMMON_JS_FOLDER}/onStart.js`);
         }
         entry[fileNameWithoutExt] = filesToBundle;
     }
 });
 
 const babel = {
-    test: /\.(?:js|es6)$/,
+    test: /\.js$/,
     exclude: /(node_modules|bower_components)/,
     use: {
         loader: 'babel-loader',
