@@ -128,16 +128,16 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
         const key = event.which;
         // Allow: backspace, delete, tab, escape, enter
         if ([46, 8, 9, 27, 13].indexOf(key) !== -1
-            // Allow: Ctrl+A
-            || (key === 65 && event.ctrlKey)
-             // Allow: home, end, left, right
-            || (key >= 35 && key <= 39)
-             // Allow dot if decimal point is allowed
-            || (decimalPointAllowed && key === 190)
-             // Allow hyphen if negative is allowed
-             // Code differs by browser (FF/Opera:109, IE/Chrome:189)
-             // see http://www.javascripter.net/faq/keycodes.htm
-            || (negativeAllowed && (key === 189 || key === 109))) {
+                // Allow: Ctrl+A
+                || (key === 65 && event.ctrlKey)
+                // Allow: home, end, left, right
+                || (key >= 35 && key <= 39)
+                // Allow dot if decimal point is allowed
+                || (decimalPointAllowed && key === 190)
+                // Allow hyphen if negative is allowed
+                // Code differs by browser (FF/Opera:109, IE/Chrome:189)
+                // see http://www.javascripter.net/faq/keycodes.htm
+                || (negativeAllowed && (key === 189 || key === 109))) {
             // let it happen, don't do anything
             return;
         }

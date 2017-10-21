@@ -20,7 +20,21 @@ rules:
     }]
     func-names: "off"
     function-paren-newline: "off"
-    indent: ["error", 4]
+    indent: ["error", 4, {
+        "MemberExpression": 2,
+        "FunctionDeclaration": {
+            "parameters": 2,
+        },
+        "FunctionExpression": {
+            "parameters": 2,
+        },
+        "CallExpression": {
+            "arguments": 2,
+        },
+        "ignoredNodes": [
+            "ConditionalExpression",
+        ],
+    }]
     linebreak-style: "off"
     max-len: ["error", 125]
     no-continue: "off"

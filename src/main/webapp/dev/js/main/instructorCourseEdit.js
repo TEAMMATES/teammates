@@ -55,18 +55,18 @@ function hideNewInstructorForm() {
 function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSessionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`)
-        .html('Give different permissions for sessions in this section');
+            .html('Give different permissions for sessions in this section');
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).removeClass('hide-tune-session-permissions');
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).addClass('show-tune-session-permissions');
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'false');
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`
+            + ` input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'false');
 }
 
 function setAddSectionLevelLink(instrNum) {
     let foundNewLink = false;
-    const allSectionSelects = $(`#tunePermissionsDivForInstructor${instrNum
-                               } div[id^='tuneSectionPermissionsDiv']`).find('input[type=hidden]')
-                                                                        .not("[name*='sessions']");
+    const allSectionSelects = $(`#tunePermissionsDivForInstructor${instrNum} div[id^='tuneSectionPermissionsDiv']`)
+            .find('input[type=hidden]')
+            .not("[name*='sessions']");
     for (let idx = 0; idx < allSectionSelects.length; idx += 1) {
         const item = $(allSectionSelects[idx]);
         if (item.attr('value') === 'false') {
@@ -85,8 +85,8 @@ function setAddSectionLevelLink(instrNum) {
 
 function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).hide();
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}set']`).attr('value', 'false');
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`
+            + ` input[name='issectiongroup${sectionNum}set']`).attr('value', 'false');
     $(`#addSectionLevelForInstructor${instrNum}`).show();
     setAddSectionLevelLink(instrNum);
 }
@@ -103,14 +103,14 @@ function hideAllTunePermissionsDivs(instrNum) {
 function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
     $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`).show();
     const numberOfSections = $(`select#section${sectionNum}forinstructor${instrNum} option`).length;
-    const numOfVisibleSections = $(`#tunePermissionsDivForInstructor${1
-                                  } div[id^='tuneSectionPermissionsDiv']`).filter(':visible').length;
+    const numOfVisibleSections =
+            $(`#tunePermissionsDivForInstructor${1} div[id^='tuneSectionPermissionsDiv']`).filter(':visible').length;
 
     if (numOfVisibleSections === numberOfSections) {
         $(`#addSectionLevelForInstructor${instrNum}`).hide();
     }
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}set']`).attr('value', 'true');
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`
+            + ` input[name='issectiongroup${sectionNum}set']`).attr('value', 'true');
     setAddSectionLevelLink(instrNum);
 }
 
@@ -123,8 +123,8 @@ function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).html('Hide session-level permissions');
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).removeClass('show-tune-session-permissions');
     $(`#toggleSessionLevelInSection${sectionNum}ForInstructor${instrNum}`).addClass('hide-tune-session-permissions');
-    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum
-         } input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'true');
+    $(`#tuneSectionPermissionsDiv${sectionNum}ForInstructor${instrNum}`
+            + ` input[name='issectiongroup${sectionNum}sessionsset']`).attr('value', 'true');
 }
 
 function showAllSpecialSectionAndSessionPermissionsDivs(instrNum) {
@@ -206,8 +206,8 @@ function checkPrivilegesOfCoownerForInstructor(instrNum) {
     hideTunePermissionDiv(instrNum);
 
     for (let i = 0; i < instructorPrivilegeValues.length; i += 1) {
-        $(`#tunePermissionsDivForInstructor${instrNum
-           } input[name='${instructorPrivilegeValues[i]}']`).prop('checked', true);
+        $(`#tunePermissionsDivForInstructor${instrNum}`
+                + ` input[name='${instructorPrivilegeValues[i]}']`).prop('checked', true);
     }
 }
 
@@ -223,8 +223,7 @@ function checkPrivilegesOfObserverForInstructor(instrNum) {
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifysession']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifystudent']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='cansubmitsessioninsection']`).prop('checked', false);
-    $(`#tunePermissionsDivForInstructor${instrNum
-       } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
+    $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifysessioncommentinsection']`).prop('checked', false);
 }
 
 function checkPrivilegesOfTutorForInstructor(instrNum) {
@@ -233,8 +232,7 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifyinstructor']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifysession']`).prop('checked', false);
     $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifystudent']`).prop('checked', false);
-    $(`#tunePermissionsDivForInstructor${instrNum
-       } input[name='canmodifysessioncommentinsection']`).prop('checked', false);
+    $(`#tunePermissionsDivForInstructor${instrNum} input[name='canmodifysessioncommentinsection']`).prop('checked', false);
 }
 
 function checkPrivilegesOfCustomForInstructor(instrNum) {
@@ -248,8 +246,7 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
             for (let i = 0; i < instructorPrivilegeValues.length; i += 1) {
                 const privilege = instructorPrivilegeValues[i];
                 const valueToSet = instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][privilege];
-                $(`#tunePermissionsDivForInstructor${instrNum
-                   } input[name='${privilege}']`).prop('checked', valueToSet);
+                $(`#tunePermissionsDivForInstructor${instrNum} input[name='${privilege}']`).prop('checked', valueToSet);
             }
         } else {
             // 'Not Custom' => 'Custom'
@@ -259,8 +256,8 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
         // New Instructor?
         // Custom role's privilege will be empty
         for (let j = 0; j < instructorPrivilegeValues.length; j += 1) {
-            $(`#tunePermissionsDivForInstructor${instrNum
-               } input[name='${instructorPrivilegeValues[j]}']`).prop('checked', false);
+            $(`#tunePermissionsDivForInstructor${instrNum} input[name='${instructorPrivilegeValues[j]}']`)
+                    .prop('checked', false);
         }
     }
     showTunePermissionsDiv(instrNum);
@@ -289,8 +286,8 @@ function checkTheRoleThatApplies(instrNum) {
         // Save original values of Custom Role
         instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = {};
         for (let i = 0; i < instructorPrivilegeValues.length; i += 1) {
-            const checkValue = $(`#tunePermissionsDivForInstructor${instrNum
-                                } input[name='${instructorPrivilegeValues[i]}']`).prop('checked');
+            const checkValue = $(`#tunePermissionsDivForInstructor${instrNum}`
+                    + ` input[name='${instructorPrivilegeValues[i]}']`).prop('checked');
             instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
         }
 
@@ -366,12 +363,13 @@ function bindDeleteInstructorLink() {
         const $clickedLink = $(event.target);
 
         const messageText = $clickedLink.data('isDeleteSelf')
-                          ? `Are you sure you want to delete your instructor role from the course <strong>${
-                               $clickedLink.data('courseId')}</strong>? `
-                              + 'You will not be able to access the course anymore.'
-                          : `Are you sure you want to delete the instructor <strong>${$clickedLink.data('instructorName')
-                               }</strong> from the course <strong>${$clickedLink.data('courseId')}</strong>? `
-                              + 'He/she will not be able to access the course anymore.';
+                ? 'Are you sure you want to delete your instructor role from the course '
+                        + `<strong>${$clickedLink.data('courseId')}</strong>? `
+                        + 'You will not be able to access the course anymore.'
+                : 'Are you sure you want to delete the instructor '
+                        + `<strong>${$clickedLink.data('instructorName')}</strong> `
+                        + `from the course <strong>${$clickedLink.data('courseId')}</strong>? `
+                        + 'He/she will not be able to access the course anymore.';
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
@@ -386,9 +384,9 @@ function bindRemindInstructorLink() {
         event.preventDefault();
         const $clickedLink = $(event.target);
 
-        const messageText = `Do you wish to re-send the invitation email to instructor <strong>${
-                           $clickedLink.data('instructorName')}</strong> from course <strong>${
-                           $clickedLink.data('courseId')}</strong>`;
+        const messageText = 'Do you wish to re-send the invitation email to instructor '
+                + `<strong>${$clickedLink.data('instructorName')}</strong> from course `
+                + `<strong>${$clickedLink.data('courseId')}</strong>`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };

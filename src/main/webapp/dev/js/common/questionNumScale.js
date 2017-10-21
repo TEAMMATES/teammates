@@ -30,8 +30,8 @@ function updateNumScalePossibleValues(questionNum) {
         if (Number.isNaN(min) || Number.isNaN(max) || Number.isNaN(step)) {
             possibleValuesString = '[Please enter valid numbers for all the options.]';
         } else {
-            possibleValuesString = `[The interval ${min.toString()} - ${max.toString()
-                                  } is not divisible by the specified increment.]`;
+            possibleValuesString = `[The interval ${min.toString()} - ${max.toString()}`
+                    + ' is not divisible by the specified increment.]';
         }
 
         $numScalePossibleValues.text(possibleValuesString);

@@ -11,12 +11,12 @@ function linkAjaxForResponseRate() {
             },
             error() {
                 parentOfHyperlinkObject.html('Failed. ')
-                                       .append(hyperlinkObject);
+                        .append(hyperlinkObject);
                 hyperlinkObject.attr('data-toggle', 'tooltip')
-                               .attr('data-placement', 'top')
-                               .prop('title', 'Error occured while trying to fetch response rate. Click to retry.')
-                               .html('Try again?')
-                               .click(responseRateClickHandler);
+                        .attr('data-placement', 'top')
+                        .prop('title', 'Error occured while trying to fetch response rate. Click to retry.')
+                        .html('Try again?')
+                        .click(responseRateClickHandler);
             },
             success(data) {
                 setTimeout(() => {

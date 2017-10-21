@@ -105,29 +105,29 @@ function removeUnwantedVisibilityOptions(commentId) {
 
 function updateVisibilityOptionsForResponseComment(formObject, data) {
     formObject.find("input[class*='answerCheckbox'][value='GIVER']")
-              .prop('checked', data.comment.showCommentTo.indexOf('GIVER') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('GIVER') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='GIVER']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('GIVER') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('GIVER') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='RECEIVER']")
-              .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='RECEIVER']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='STUDENTS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('STUDENTS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('STUDENTS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='STUDENTS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('STUDENTS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('STUDENTS') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('INSTRUCTORS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('INSTRUCTORS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
 }
 
 function deleteCommentRow(submitButton) {
@@ -462,36 +462,36 @@ const deleteCommentHandler = (e) => {
 
 function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
-                 addCommentHandler);
+            addCommentHandler);
     $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]',
-                 editCommentHandler);
+            editCommentHandler);
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
 
     const clickHandlerMap = new Map();
     clickHandlerMap.set(
             '.show-frc-add-form', [showResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.show-frc-edit-form', [showResponseCommentEditForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(
             '.comment-button', [showResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.hide-frc-add-form', [hideResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.commentModalClose', [hideResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.hide-frc-edit-form', [hideResponseCommentEditForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(
             '.toggle-visib-add-form', [toggleVisibilityAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.toggle-visib-edit-form', [toggleVisibilityEditForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
 
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandlerAndParams] of clickHandlerMap) {
