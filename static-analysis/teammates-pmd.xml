@@ -19,6 +19,7 @@
         <exclude name="ImmutableField"/>
 
         <!-- Not worth the added safety -->
+        <exclude name="AccessorMethodGeneration"/>
         <exclude name="ConstructorCallsOverridableMethod"/>
         <exclude name="SimpleDateFormatNeedsLocale"/>
         <exclude name="UseLocaleWithCaseConversions"/>
@@ -62,6 +63,9 @@
     <rule ref="rulesets/java/strings.xml">
         <!-- Very difficult to enforce -->
         <exclude name="AvoidDuplicateLiterals"/>
+
+        <!-- Not worth the optimization -->
+        <exclude name="InefficientEmptyStringCheck"/>
     </rule>
 
     <rule ref="rulesets/java/unnecessary.xml"/>
