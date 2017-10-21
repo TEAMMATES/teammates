@@ -8,7 +8,8 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-json": "1.2.0",
     "lintspaces-cli": "0.6.0",
-    "stylelint": "7.9.0",
+    "stylelint": "8.2.0",
+    "stylelint-config-standard": "17.0.0",
     "webpack": "3.8.1"
   },
   "babel": {
