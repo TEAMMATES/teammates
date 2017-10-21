@@ -48,8 +48,7 @@ gradle-app.setting
 
 build-eclipse/
 .checkstyle
-.pmd
-.ruleset
+.eclipse-pmd
 .tern-project
 
 ### IntelliJ ###

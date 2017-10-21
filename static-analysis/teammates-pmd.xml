@@ -6,7 +6,10 @@
     <description>
         This is the PMD ruleset for all TEAMMATES Java code.
     </description>
-
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
     <rule ref="rulesets/java/basic.xml"/>
 
     <rule ref="rulesets/java/design.xml">

@@ -76,12 +76,14 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring PMD Eclipse plugin
 
-The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
+The plugin for Eclipse can be found [here](http://www.acanda.ch/eclipse-pmd/release/latest).
 
 1. In `Project > Properties`, go to the `PMD` tab.
-2. Check `Enable PMD`.
-3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,
-   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
+1. Check `Enable PMD for this project`.
+1. Click `Add`, select `Project` and click `Next >`.
+1. Click `Browse` next to the `Location` bar, navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`.
+1. Enter any name you wish for the ruleset. Click `OK`.
+1. Repeat the last two steps for `teammates-pmdMain.xml`.
 
 ##### Configuring PMD for IntelliJ
 
