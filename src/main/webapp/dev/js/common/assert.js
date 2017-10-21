@@ -8,7 +8,7 @@ function assert(condition, message) {
 }
 
 function assertDefined(expr, message) {
-    assert(expr !== undefined && expr != null, message);
+    assert(expr !== undefined && expr !== null, message);
 }
 
 export {

@@ -297,8 +297,8 @@ function toggleSort($button, comparatorStringOrNull, extractorStringOrNull) {
 
     const $table = TableButtonHelpers.getEnclosingTable($button);
     const colIdx = TableButtonHelpers.getColumnPositionOfButton($button, 1);
-    const comparatorOrNull = !isDefined(comparatorStringOrNull) ? null : Comparators[comparatorStringOrNull];
-    const extractorOrNull = !isDefined(extractorStringOrNull) ? null : Extractors[extractorStringOrNull];
+    const comparatorOrNull = isDefined(comparatorStringOrNull) ? Comparators[comparatorStringOrNull] : null;
+    const extractorOrNull = isDefined(extractorStringOrNull) ? Extractors[extractorStringOrNull] : null;
     const shouldSortAscending = !isSortedAscending;
     const rowToStartSortingFrom = 1; // <th> occupies row 0
 

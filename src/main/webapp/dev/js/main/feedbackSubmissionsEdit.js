@@ -1148,7 +1148,7 @@ $(document).ready(() => {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
             const isSessionOpenData = $(textField).data('isSessionOpen');
-            const isSessionOpen = typeof (isSessionOpenData) === 'boolean' ? isSessionOpenData : true;
+            const isSessionOpen = typeof isSessionOpenData === 'boolean' ? isSessionOpenData : true;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
@@ -1184,15 +1184,15 @@ $(document).ready(() => {
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
 
-        if (!validationStatus) {
-            e.preventDefault();
-            e.stopPropagation();
-        } else {
+        if (validationStatus) {
             reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
 
             // disable button to prevent user from clicking submission button again
             const $submissionButton = $('#response_submit_button');
             addLoadingIndicator($submissionButton, 'Submitting ');
+        } else {
+            e.preventDefault();
+            e.stopPropagation();
         }
     });
 

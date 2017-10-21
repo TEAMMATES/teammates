@@ -161,7 +161,7 @@ function enableHoverToDisplayEditOptions() {
 }
 
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     $(`#responseCommentTable${id}`).show();
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
@@ -184,7 +184,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 }
 
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
         $(`#responseCommentTable${id}`).css('margin-top', '0');
@@ -199,12 +199,12 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== 'undefined') {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else {
+    } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
@@ -227,7 +227,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
 }
 
 function toggleVisibilityAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     const $visibilityEditForm = $(`#visibility-options${id}`);
     if ($visibilityEditForm.is(':visible')) {
@@ -244,12 +244,12 @@ function toggleVisibilityAddForm(recipientIndex, giverIndex, qnIndex, sectionInd
 function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== 'undefined') {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else {
+    } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const $visibilityEditForm = $(`#visibility-options${id}`);
@@ -267,12 +267,12 @@ function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIn
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== 'undefined') {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else {
+    } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
@@ -331,7 +331,7 @@ const addCommentHandler = (e) => {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
                 addFormRow.before(data);
-                if (isOnQuestionsPage == null) {
+                if (!isOnQuestionsPage) {
                     removeUnwantedVisibilityOptions(commentId);
                 }
 
@@ -345,7 +345,7 @@ const addCommentHandler = (e) => {
                 addFormRow.prev().show();
                 addFormRow.hide();
                 destroyEditor(`responseCommentAddForm-${responseCommentId}`);
-                if (isOnQuestionsPage != null && isOnQuestionsPage) {
+                if (isOnQuestionsPage) {
                     const indexes = responseCommentId.split('-');
                     const recipientIndex = indexes[0];
                     const giverIndex = indexes[1];
