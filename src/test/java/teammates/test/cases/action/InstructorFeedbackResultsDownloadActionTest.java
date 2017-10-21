@@ -380,7 +380,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.equals(StringUtils.join(expected, Const.EOL)));
+        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
 
     }
 

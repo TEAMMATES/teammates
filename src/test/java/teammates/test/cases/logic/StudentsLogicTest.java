@@ -105,7 +105,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
         team = StudentsLogic.inst().getTeamDetailsForStudent(student);
 
-        assertEquals(null, team);
+        assertNull(team);
 
     }
 
@@ -429,7 +429,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(null, responseAfter);
+        assertNull(responseAfter);
 
     }
 
@@ -823,7 +823,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String nonExistStudentEmail = "nonExist@google.tmt";
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        assertEquals(null, studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
+        assertNull(studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
 
         ______TS("typical case");
 
@@ -846,7 +846,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("non-exist student");
 
         String nonExistStudentKey = StringHelper.encrypt("nonExistKey");
-        assertEquals(null, studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
+        assertNull(studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
 
         ______TS("typical case");
 
@@ -953,7 +953,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("student in zero courses");
 
-        assertEquals(null, studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
+        assertNull(studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
                 "random-google-id"));
 
         ______TS("null parameters");

@@ -51,7 +51,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
-        assertEquals(null, pageData.getNewFsForm().getCourseId());
+        assertNull(pageData.getNewFsForm().getCourseId());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackSessionsPage|||instructorFeedbackSessionsPage|||"

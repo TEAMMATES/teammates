@@ -58,7 +58,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
+        assertNull(pageData.getEnrollStudents());
 
         String expectedLogSegment = String.format(
                 Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
@@ -86,7 +86,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
+        assertNull(pageData.getEnrollStudents());
 
         String expectedLogSegment = String.format(
                 Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
@@ -117,7 +117,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
+        assertNull(pageData.getEnrollStudents());
 
         String expectedLogSegment = String.format(
                 Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);

@@ -128,8 +128,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(a.getEmail(), attr.email);
         assertEquals(a.getInstitute(), attr.institute);
         assertEquals(a.getName(), attr.name);
-        assertEquals(null, a.getStudentProfile());
-        assertEquals(null, attr.studentProfile);
+        assertNull(a.getStudentProfile());
+        assertNull(attr.studentProfile);
 
     }
 

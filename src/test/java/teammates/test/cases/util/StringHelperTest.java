@@ -263,7 +263,7 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testRemoveExtraSpace() {
 
-        assertEquals(null, StringHelper.removeExtraSpace((String) null));
+        assertNull(StringHelper.removeExtraSpace((String) null));
 
         String str = "";
         assertEquals("", StringHelper.removeExtraSpace(str));
@@ -285,7 +285,7 @@ public class StringHelperTest extends BaseTestCase {
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
 
-        assertEquals(null, StringHelper.replaceIllegalChars(null, regex, '_'));
+        assertNull(StringHelper.replaceIllegalChars(null, regex, '_'));
 
         String str = "";
         assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
@@ -361,7 +361,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
 
         // input null, expected null
-        assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
+        assertNull(StringHelper.removeEnclosingSquareBrackets(null));
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, List<String> regexList, boolean expectedResult) {
