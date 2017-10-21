@@ -125,7 +125,7 @@ function initializeMap(err, countryCoordinates, userData) {
 
     map.addPlugin('pins', function (layer, data, options) {
         const self = this;
-        const svg = this.svg;
+        const { svg } = this;
 
         function datumHasCoords(datum) {
             return datum && datum.latitude && datum.longitude;

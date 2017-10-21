@@ -443,7 +443,7 @@ function bindUnpublishButtons() {
  * @param {HTML DOM Object} elementNode The element to select contents from.
  */
 function selectElementContents(elementNode) {
-    const body = document.body;
+    const { body } = document;
     let range;
     if (document.createRange && window.getSelection) {
         range = document.createRange();
