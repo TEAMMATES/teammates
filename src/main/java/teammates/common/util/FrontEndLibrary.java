@@ -54,7 +54,7 @@ public final class FrontEndLibrary {
         JQUERY_PRINTTHIS = getLibrarySource("printthis", "printThis.js");
         JQUERY_UI = getLibrarySource("jquery-ui-dist", "jquery-ui.min.js");
         MOMENT = getLibrarySource("moment", "min/moment.min.js");
-        MOMENT_TIMEZONE = getLibrarySource("moment-timezone", "builds/moment-timezone-with-data-2010-2020.min.js");
+        MOMENT_TIMEZONE = getLibrarySource("moment-timezone", "builds/moment-timezone-with-data-2012-2022.min.js");
         QUNIT_CSS = getLibrarySource("qunitjs", "qunit/qunit.css");
         QUNIT = getLibrarySource("qunitjs", "qunit/qunit.js");
         TINYMCE = getLibrarySource("tinymce", "tinymce.min.js");
