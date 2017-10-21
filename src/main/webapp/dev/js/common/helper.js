@@ -11,7 +11,7 @@
  * @returns boolean
  */
 function isDate(date) {
-    return !isNaN(Date.parse(date));
+    return !Number.isNaN(Date.parse(date));
 }
 
 /**
@@ -20,7 +20,7 @@ function isDate(date) {
 * @returns boolean
 */
 function isNumber(num) {
-    return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
+    return (typeof num === 'string' || typeof num === 'number') && !Number.isNaN(num - 0) && num !== '';
 }
 
 /**

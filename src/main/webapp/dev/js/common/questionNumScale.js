@@ -18,7 +18,7 @@ function updateNumScalePossibleValues(questionNum) {
     }
 
     const $stepBox = $(`#stepBox-${questionNum}`);
-    $stepBox.val(isNaN(step) ? '' : step);
+    $stepBox.val(Number.isNaN(step) ? '' : step);
 
     const possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     const largestValueInRange = min + (possibleValuesCount - 1) * step;
@@ -27,7 +27,7 @@ function updateNumScalePossibleValues(questionNum) {
     if (roundToThreeDp(largestValueInRange) !== max) {
         $numScalePossibleValues.css('color', 'red');
 
-        if (isNaN(min) || isNaN(max) || isNaN(step)) {
+        if (Number.isNaN(min) || Number.isNaN(max) || Number.isNaN(step)) {
             possibleValuesString = '[Please enter valid numbers for all the options.]';
         } else {
             possibleValuesString = `[The interval ${min.toString()} - ${max.toString()

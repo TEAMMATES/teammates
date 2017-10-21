@@ -510,7 +510,7 @@ function updateConstSumMessageQn(qnNum) {
     let answerSet = {};
 
     function fillWithZeroIfEmpty(inputFieldElement) {
-        if (isNaN(parseInt(inputFieldElement.val(), 10))) {
+        if (Number.isNaN(parseInt(inputFieldElement.val(), 10))) {
             inputFieldElement.val(0);
         }
     }
