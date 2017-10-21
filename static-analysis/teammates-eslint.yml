@@ -19,6 +19,7 @@ rules:
         "functions": "ignore", # not supported in ES2015
     }]
     func-names: "off"
+    function-paren-newline: "off"
     indent: ["error", 4]
     linebreak-style: "off"
     max-len: ["error", 125]
