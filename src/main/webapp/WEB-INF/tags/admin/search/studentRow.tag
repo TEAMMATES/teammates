@@ -79,7 +79,7 @@
       <c:if test="${not empty student.email}">
         <li class="list-group-item list-group-item-success has-success">
           <strong>Email</strong>
-          <input type="hidden" name="supportEmail" value=<%= Config.SUPPORT_EMAIL %>>
+          <input type="hidden" name="supportEmail" value="<%= Config.SUPPORT_EMAIL %>">
           <input name="studentEmail" value="${student.email}" readonly class="form-control">
         </li>
       </c:if>

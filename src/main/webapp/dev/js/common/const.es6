@@ -77,7 +77,6 @@ const Const = {
         INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
 
     },
-    TEAMMATES_EMAIL_ADDRESS: 'teammates@comp.nus.edu.sg',
 
 };
 

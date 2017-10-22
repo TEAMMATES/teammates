@@ -166,7 +166,7 @@ $(document).ready(() => {
         const bodyFooter =
                 `${crlf}${crlf}If you encounter any problems when using the system,`
                 + ` you can email TEAMMATES support team at ${supportEmail}.`
-                + `${crlf}${crlf}Regards,%0D%0ATEAMMATES Team.`;
+                + `${crlf}${crlf}Regards,${crlf}TEAMMATES Team.`;
 
         const uniqueLinkMessage = 'The above link is unique to you. Please do not share it with your classmates.';
 
@@ -181,7 +181,7 @@ $(document).ready(() => {
                     + ` ${crlf}${crlf}*If prompted to log in, use your Google account to log in. If you do not have`
                     + ` a Google account, please create one from the Google Accounts page: ${googleSignup}`
                     + ` ${crlf}*${uniqueLinkMessage} ${crlf}${crlf}Note that If you wish to access TEAMMATES`
-                    + ' without using your Google account, you do not need to ‘join’ the course as instructed above.'
+                    + ' without using your Google account, you do not need to \'join\' the course as instructed above.'
                     + ' You will still be able to submit/view feedback by following the instructions sent to you by'
                     + ' TEAMMATES at the appropriate times. However, we recommend joining the course using your Google'
                     + ' account, because it gives you more convenient access to all your feedback stored in TEAMMATES.';
@@ -191,10 +191,11 @@ $(document).ready(() => {
                     `${crlf}${crlf}The following feedback session is ${sessionStatus}.${crlf}`
                     + `Course: [${courseId}][${courseName}]${crlf}Feedback Session Name: ${sessionName}${crlf}`
                     + `${crlf}The link to the feedback for the above session, please go to this Web`
-                    + ` address: ${relatedLink} %0D%0A%0D%0A*${uniqueLinkMessage}`;
+                    + ` address: ${relatedLink} ${crlf}${crlf}*${uniqueLinkMessage}`;
         }
 
-        const emailWrapper = `mailto:${studentEmail}?Subject=${subject}&body=${bodyHeader}${bodyContent}${bodyFooter}`;
+        const emailWrapper =
+                    encodeURI(`mailto:${studentEmail}?Subject=${subject}&body=${bodyHeader}${bodyContent}${bodyFooter}`);
         window.location.href = emailWrapper;
     });
 });
