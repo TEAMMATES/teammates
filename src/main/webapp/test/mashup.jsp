@@ -8,8 +8,7 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    
+  <head>  
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Webpage Compilation - TEAMMATES</title>
