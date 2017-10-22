@@ -25,7 +25,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
 
         gaeSimulation.loginAsInstructor(instructorId);
@@ -118,7 +118,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
         CoursesLogic.inst().createCourseAndInstructor(
-                dataBundle.instructors.get("instructor1OfCourse1").googleId,
+                typicalBundle.instructors.get("instructor1OfCourse1").googleId,
                 "icdat.owncourse", "New course", "UTC");
 
         String[] submissionParams = new String[]{
@@ -137,7 +137,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
         /* Test access for admin in masquerade mode */
         CoursesLogic.inst().createCourseAndInstructor(
-                dataBundle.instructors.get("instructor1OfCourse1").googleId,
+                typicalBundle.instructors.get("instructor1OfCourse1").googleId,
                 "icdat.owncourse", "New course", "UTC");
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }

@@ -72,12 +72,15 @@ The following plugins are needed:
    * Validation:
      * We do not validate HTML, JSP, and XML. `Validation` → uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, and `XML Validator`.
      * Disable JavaScript validation for `node_modules` folder. `Validation` → click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
+	 * Disable JSON validation for `node_modules` folder. `Validation` → click the `...` settings button for `JSON Validator` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`.
 
 1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![setupguide-6.png](images/setupguide-6.png)
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
+
+1. To move on to the development phase, refer to [this document](development.md)
 
 ## IntelliJ IDEA
 
@@ -130,6 +133,8 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
 1. You can now open the project in IntelliJ IDEA.
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
+
+1. To move on to the development phase, refer to [this document](development.md).
 
 **NOTE**
 >The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#project-setup-behavior).
@@ -190,3 +195,5 @@ If you do not wish to use the automated setup, you can follow the [manual setup]
    ```
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
+
+1. To move on to the development phase, refer to [this document](development.md).

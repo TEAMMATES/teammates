@@ -654,8 +654,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -668,8 +667,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
     private void testGracePeriodAccessControlForInstructors() throws Exception {
 
-        dataBundle = getTypicalDataBundle();
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
 
         closeSession(fs);
 

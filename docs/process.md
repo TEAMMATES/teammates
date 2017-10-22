@@ -86,7 +86,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      ```sh
      git checkout master
      git pull
-     git checkout -b 3942-remove-unnecessary-println
+     git checkout 3942-remove-unnecessary-println
      ```
    * Option 1: merge those updates to the branch you are working on.
 
@@ -106,7 +106,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * The code base passes **static analysis** (i.e. code quality check):
 
      ```sh
-     ./gradlew staticAnalysis
+     ./gradlew lint
      ```
    * **Dev green**, i.e. all *local tests* are passing on your dev server.<br>
      You are more than welcome to also ensure all *CI tests* are passing on your dev server.
