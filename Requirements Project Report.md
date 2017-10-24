@@ -1,7 +1,7 @@
 **REQUIREMENTS PROJECT REPORT - TEAM MAVERICKS**
 ================================================
 
-**LIST OF FINAL ASSURANCE CLAIMS
+**LIST OF FINAL ASSURANCE CLAIMS**
 
 * Feedback session module of TeamMates is acceptably secure to HTTP response splitting Weaknesses
 * Login Module of TeamMates is acceptably secure to brute force attack
@@ -9,16 +9,16 @@
 * Teammates acceptably preserves the privacy of user feedbacks.
 * Feedback Module of TeamMates is acceptably secure to exploitable XSS weaknesses.
 
-**SECURITY REQUIREMENTS OF THE PROJECT CAPTURED USING MIS-USE CASE DIAGRAM
+**SECURITY REQUIREMENTS OF THE PROJECT CAPTURED USING MIS-USE CASE DIAGRAM**
   
   + LucidChart Link to Misuse Cases. Please click the [link](https://www.lucidchart.com/documents/edit/ae54e2f8-8f75-4d7f-b591-1a4fc93d6dab/0).
 
-**OSS PROJECT DOCUMENTATION FOR ALIGNMENT OF SECURITY FEATURES
+**OSS PROJECT DOCUMENTATION FOR ALIGNMENT OF SECURITY FEATURES**
 
 1. As per the design documentation of TeamMates it follows secure input validation methods.The User Inputs are sanitized so that 
   they conform to the data format required by TeamMates which provides security against HTTP Response Splitting Attack.
   
-  **Observations From the Code
+  **Observations From the Code**
   
    The Http responses for the FeedbackSession Module are properly sanitized in TeamMates using the SanitizationHelper class. This class:
    
