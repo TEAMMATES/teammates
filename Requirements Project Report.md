@@ -13,9 +13,9 @@
 **2. SECURITY REQUIREMENTS OF THE PROJECT CAPTURED USING MIS-USE CASE DIAGRAM**
 --------------------------------------------------------------------------------
  
-  * TeamMates needs to ensure proper sanitization practices which includes filtering and encoding the user inputs to prevent injection of any malicious characters into a feedback session module by a malicious user.
+  * TeamMates needs to ensure proper sanitization practices which includes filtering and encoding the user inputs to prevent injection of any malicious characters through HTTP Response splitting attack into a feedback session module by a malicious user.
   
-  * TeamMates needs to ensure proper access control rights to prevent unauthorized access to the TeamMates Login Module.
+  * TeamMates needs to ensure proper access control rights to prevent unauthorized access to exploit the TeamMates Login Module through brute force attack.
  
   ### LucidChart Link
   + LucidChart Link to Misuse Cases. Please click the [link](https://www.lucidchart.com/documents/edit/ae54e2f8-8f75-4d7f-b591-1a4fc93d6dab/0).
