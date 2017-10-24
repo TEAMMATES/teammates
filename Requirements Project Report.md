@@ -23,10 +23,9 @@
 **3. REVIEW OSS PROJECT DOCUMENTATION FOR ALIGNMENT OF SECURITY FEATURES**
 -------------------------------------------------------------------
 
-1. As per the design documentation of TeamMates it follows secure input validation methods.The User Inputs are sanitized so that 
-  they conform to the data format required by TeamMates which provides security against HTTP Response Splitting Attack.
+1. As per the design documentation of TeamMates the Logic component which includes the FeedbackSessionLogic sanitizes input values received from the UI component to conform to the data format required by TeamMates.This feature of TeamMates provides a certain level of security against HTTP Response Splitting Attack.
   
-   **Observations From the Code**
+   **Few Observations From the Code**
   
    The Http responses for the FeedbackSession Module are properly sanitized in TeamMates using the SanitizationHelper class. This class:
    
@@ -37,11 +36,9 @@
    * Sanitizes Strings containing java scripts by escaping some of the malicious special characters e.g. str.replace("\\", "\\\\") that     prevents any CRLF attacks 
 
 
-2. As per the design documentation of TeamMates the Login Module enforces secure access control rights and uses Google App Engine i.e third-party server
+2. As per the design documentation of TeamMates,it provides a mechanism for checking access control rights which in turn provides protection against any brute force attack staged by a malicious user.Also the documentation mentions TeamMates runs on GoogleAppEngine. So, to login a user needs to have a google account. Account creation in TeamMates follows similar secure practices as google. Detailed practices are not mentioned in the document as GAE is a third-party server.
  
-   **Observations From the Code**
- 
-   * As per the documentation TeamMates runs on GoogleAppEngine. So, to login a user needs to have a google account. Account creation in TeamMates follows similar secure practices as google. Detailed practices are not mentioned in the document as GAE is a third-party server.
+   **Few Other Observations From the Code**
    
    * TeamMates enforces secure access control rights during user Login by using a GateKeeper class which is accessed by the LoginServlet to check the access control. The GateKeeper class checks if the user account details are present in the datastore. After which the privileges are assigned to the user based on its role. This prevents unauthorized users to access and exploit the teammates modules.
    
