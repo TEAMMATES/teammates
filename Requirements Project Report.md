@@ -17,7 +17,7 @@
   
   * TeamMates needs to ensure proper access control rights to prevent unauthorized access to the TeamMates Login Module.
  
- ### LucidChart Link
+  ### LucidChart Link
   + LucidChart Link to Misuse Cases. Please click the [link](https://www.lucidchart.com/documents/edit/ae54e2f8-8f75-4d7f-b591-1a4fc93d6dab/0).
 
 **3. OSS PROJECT DOCUMENTATION FOR ALIGNMENT OF SECURITY FEATURES**
