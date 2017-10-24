@@ -54,11 +54,11 @@
 **4. REVIEW OSS PROJECT DOCUMENTATION FOR SECURITY RELATED CONFIGURATION AND INSTALLATION ISSUES**
 --------------------------------------------------------------------------------------------------
 
-+ Index.jsp in the teammates webapp module has enforced secure practices for all the links where target="_blank" is mentioned by adding rel="noopener noreferrer" with it as mentioned below and this prevents reverse tab nabbing 
++ Index.jsp in the teammates webapp module has enforced secure practices for all the links where target="_blank" is mentioned by adding      rel="noopener noreferrer" with it as mentioned below and this prevents reverse tab nabbing 
 "http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="_blank" rel="noopener noreferrer"
 
-Whereas for the below link although target="_blank" is mentioned but rel="noopener noreferrer" is not added
-"https://developers.google.com/open-source/gsoc/" target="_blank".
+ Whereas for the below link although target="_blank" is mentioned but rel="noopener noreferrer" is not added
+ "https://developers.google.com/open-source/gsoc/" target="_blank".
 
 + After the installation process was done in the local server adding a new instructor in the adminhome page did not work as the button was blocked and no instructions were given in the TeamMates documentation on how to resolve it. The solution was to add “npm run build” first then try to add the instructor in the dev server from the Admin Home page. This detail needs to be added to the Development Guidelines of the TeamMates project documentation under “As Instructor” so that new users don’t face any issue while testing for adding new instructors in the dev server. 
 
