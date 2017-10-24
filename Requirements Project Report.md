@@ -51,7 +51,7 @@
 **4. REVIEW OSS PROJECT DOCUMENTATION FOR SECURITY RELATED CONFIGURATION AND INSTALLATION ISSUES**
 --------------------------------------------------------------------------------------------------
 
-+ Index.jsp in the teammates webapp module has enforced secure practices for all the links where target="_blank" is mentioned by adding       rel="noopener noreferrer" with it as mentioned in the link "http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="_blank" rel="noopener noreferrer" and this prevents reverse tab nabbing  Whereas for the link
++ Index.jsp in the teammates webapp module has enforced secure practices for all the links where target="_blank" is mentioned by adding       rel="noopener noreferrer" with it as mentioned in the link "http://conferences.computer.org/cseet/2011/CSEET_2011/Index.html" target="_blank" rel="noopener noreferrer" and this prevents any type of phishing attack. Whereas for the link
 "https://developers.google.com/open-source/gsoc/" target="_blank" although target="_blank" is mentioned but rel="noopener noreferrer" is not added
 
 
