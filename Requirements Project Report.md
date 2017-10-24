@@ -2,6 +2,7 @@
 ================================================
 
 **1. LIST OF FINAL ASSURANCE CLAIMS**
+-------------------------------------
 
 * Feedback session module of TeamMates is acceptably secure to HTTP response splitting Weaknesses
 * Login Module of TeamMates is acceptably secure to brute force attack
@@ -10,10 +11,17 @@
 * Feedback Module of TeamMates is acceptably secure to exploitable XSS weaknesses.
 
 **2. SECURITY REQUIREMENTS OF THE PROJECT CAPTURED USING MIS-USE CASE DIAGRAM**
+--------------------------------------------------------------------------------
+ 
+  * TeamMates needs to ensure proper sanitization practices which includes filtering and encoding the user inputs to prevent injection of any malicious characters into a feedback session module by a malicious user.
   
+  * TeamMates needs to ensure proper access control rights to prevent unauthorized access to the TeamMates Login Module.
+ 
+ ### LucidChart Link
   + LucidChart Link to Misuse Cases. Please click the [link](https://www.lucidchart.com/documents/edit/ae54e2f8-8f75-4d7f-b591-1a4fc93d6dab/0).
 
 **3. OSS PROJECT DOCUMENTATION FOR ALIGNMENT OF SECURITY FEATURES**
+-------------------------------------------------------------------
 
 1. As per the design documentation of TeamMates it follows secure input validation methods.The User Inputs are sanitized so that 
   they conform to the data format required by TeamMates which provides security against HTTP Response Splitting Attack.
