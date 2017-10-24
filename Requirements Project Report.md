@@ -58,7 +58,7 @@
 "https://developers.google.com/open-source/gsoc/" target="_blank" although target="_blank" is mentioned but rel="noopener noreferrer" is not added
 
 
-+ After the installation process was done in the local server adding a new instructor in the adminhome page did not work as the button was blocked and no instructions were given in the TeamMates documentation on how to resolve it. The solution was to add “npm run build” first then try to add the instructor in the dev server from the Admin Home page. This detail needs to be added to the Development Guidelines of the TeamMates project documentation under “As Instructor” so that new users don’t face any issue while testing for adding new instructors in the dev server. 
++ After the installation process was done in the local server, adding a new instructor in the adminhome page did not work as the button was blocked and no instructions were given in the TeamMates documentation on how to resolve it. The solution was to add “npm run build” first then try to add the instructor in the dev server from the Admin Home page. This detail needs to be added to the Development Guidelines of the TeamMates project documentation under “As Instructor” so that new users don’t face any issue while testing for adding new instructors in the dev server. 
 
 
 
