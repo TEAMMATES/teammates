@@ -60,9 +60,9 @@
 
 5. Based on the design documentation of teammates, for strong encryption policies against XSS attacks while proving feedback the logic components use Fieldvalidator and sanitizationHelper packages to sanitize the data received from the users browser. 
 
-  **Few Observations from Code**
+   **Few Observations from Code**
    
-  * The Http responses for the FeedbackSession Module are properly sanitized in TeamMates using the SanitizationHelper class. This class contains methods to sanitize user provided parameters so that they conform to given data format and possible threats can be removed first as well as methods to revert sanitized text back to its previous unsanitized state.
+   * The Http responses for the FeedbackSession Module are properly sanitized in TeamMates using the SanitizationHelper class. This class contains methods to sanitize user provided parameters so that they conform to given data format and possible threats can be removed first as well as methods to revert sanitized text back to its previous unsanitized state.
 The class CryptoHelper Ensures the encryption policies required for the feedback session. 
 
 
