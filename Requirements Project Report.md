@@ -16,6 +16,14 @@
   * TeamMates needs to ensure proper sanitization practices which includes filtering and encoding the user inputs to prevent injection of any malicious characters through HTTP Response splitting attack into a feedback session module by a malicious user.
   
   * TeamMates needs to ensure proper access control rights to prevent unauthorized access to exploit the TeamMates Login Module through brute force attack.
+  
+  * As TeamMates uses a NoSQL database it needs to ensure secure coding and sanitization practices before storing the course details in the GAE datastore.
+  
+  * TeamMates needs to ensure proper privacy policies and role based login to not only prevent unauthorized access to user feedbacks but also to preserve the privacy of the user feedbacks. 
+  
+  * TeamMates needs to ensure secure encryption practices, secure sanitization practices as well as proper session management to prevent unauthorizeds user from injecting any malicious scripts through XSS attack.
+  
+  
  
   ### LucidChart Link
   + LucidChart Link to Misuse Cases. Please click the [link](https://www.lucidchart.com/documents/edit/ae54e2f8-8f75-4d7f-b591-1a4fc93d6dab/0).
@@ -44,9 +52,19 @@
    
 3.
 
-4.
+4. Based on the design documentation of TeamMates, the logic to ensure privacy comes from implementing role based login. Role-based login ensures restricted access to authorized users by providing clear access levels. 
 
-5.
+   **Few Observations from Code**
+
+   * The user roles are specified with the UserRole package with three roles ADMIN, INSTRUCTOR, STUDENT declared as constants, enums. The userRole variable stores the role, and assertEquals function validates for user role and to ensure their respective actions
+
+5. Based on the design documentation of teammates, for strong encryption policies against XSS attacks while proving feedback the logic components use Fieldvalidator and sanitizationHelper packages to sanitize the data received from the users browser. 
+
+  **Few Observations from Code**
+   
+  * The Http responses for the FeedbackSession Module are properly sanitized in TeamMates using the SanitizationHelper class. This class contains methods to sanitize user provided parameters so that they conform to given data format and possible threats can be removed first as well as methods to revert sanitized text back to its previous unsanitized state.
+The class CryptoHelper Ensures the encryption policies required for the feedback session. 
+
 
 **4. REVIEW OSS PROJECT DOCUMENTATION FOR SECURITY RELATED CONFIGURATION AND INSTALLATION ISSUES**
 --------------------------------------------------------------------------------------------------
