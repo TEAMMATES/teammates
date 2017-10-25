@@ -50,7 +50,11 @@
    
    * TeamMates enforces secure access control rights during user Login by using a GateKeeper class which is accessed by the LoginServlet to check the access control. The GateKeeper class checks if the user account details are present in the datastore. After which the privileges are assigned to the user based on its role. This prevents unauthorized users to access and exploit the teammates modules.
    
-3.
+3.As per the design documentation of TeamMates, it uses Google Datastore which is NoSql database. TeamMates ensures secure coding practices before storing the course details in the GAE datastore to minimize vulnerabilities related to Javascript injection and Json hijacking.
+
+   **Observations from the code:**
+
+   * TeamMates restricts sending sensitive data in a JSON array by enforcing secure coding standards. It also uses strong sanitization practices before storing course details in the database.All the inputs fields such as CourseId, CourseName are sanitized before storing into the datastore. 
 
 4. Based on the design documentation of TeamMates, the logic to ensure privacy comes from implementing role based login. Role-based login ensures restricted access to authorized users by providing clear access levels. 
 
