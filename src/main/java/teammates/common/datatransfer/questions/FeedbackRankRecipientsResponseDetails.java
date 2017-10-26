@@ -26,7 +26,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-    	return Integer.toString(answer);
+        return Integer.toString(answer);
     }
 
     private void setRankResponseDetails(int answer) {
