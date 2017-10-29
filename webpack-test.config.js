@@ -6,13 +6,13 @@ const COMMON_JS_FOLDER = path.resolve(__dirname, 'src/main/webapp/dev/js/common'
 const OUTPUT_JS_FOLDER = path.resolve(__dirname, 'src/main/webapp/test');
 
 const entry = {};
-entry.tableSort = [`${COMMON_JS_FOLDER}/onStart.es6`];
+entry.tableSort = [`${COMMON_JS_FOLDER}/onStart.js`];
 entry.jsUnitTests = fs.readdirSync(TEST_JS_FOLDER)
-        .filter(fileName => fileName.endsWith('.es6'))
+        .filter(fileName => fileName.endsWith('.js'))
         .map(fileName => `${TEST_JS_FOLDER}/${fileName}`);
 
 const babel = {
-    test: /\.(?:js|es6)$/,
+    test: /\.js$/,
     exclude: /(node_modules|bower_components)/,
     use: {
         loader: 'babel-loader',
