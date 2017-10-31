@@ -289,7 +289,8 @@ function prepareInstructorFeedbackResultsPage() {
     // Show/Hide statistics
     showHideStats();
     $('#show-stats-checkbox').change(showHideStats);
-
+    
+    
     const panels = $('div.panel');
     bindCollapseEvents(panels, 0);
 
