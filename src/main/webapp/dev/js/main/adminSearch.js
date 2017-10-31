@@ -162,11 +162,11 @@ $(document).ready(() => {
         const relatedLink = encodeURIComponent($entry.find('input[name=relatedLink]').val());
         const googleSignup = encodeURIComponent('https://accounts.google.com/NewAccount');
 
-        const bodyHeader = encodeURI(`Hello ${studentName},`);
+        const bodyHeader = `Hello ${studentName},`;
         const bodyFooter =
-                encodeURI(`${crlf}${crlf}If you encounter any problems when using the system,`
+                `${crlf}${crlf}If you encounter any problems when using the system,`
                 + ` you can email TEAMMATES support team at ${supportEmail}.`
-                + `${crlf}${crlf}Regards,${crlf}TEAMMATES Team.`);
+                + `${crlf}${crlf}Regards,${crlf}TEAMMATES Team.`;
 
         const uniqueLinkMessage = 'The above link is unique to you. Please do not share it with your classmates.';
 
@@ -174,9 +174,8 @@ $(document).ready(() => {
         let bodyContent = '';
 
         if (subjectType === 'Invitation to join course') {
-            subject = encodeURI(`TEAMMATES: ${subjectType} [${courseName}][Course ID: ${courseId}]`);
-            bodyContent = encodeURI(
-                    `${crlf}${crlf}The course ${courseName} is using the TEAMMATES System to collect feedback.`
+            subject = `TEAMMATES: ${subjectType} [${courseName}][Course ID: ${courseId}]`;
+            bodyContent = `${crlf}${crlf}The course ${courseName} is using the TEAMMATES System to collect feedback.`
                     + ` ${crlf}${crlf}To 'join' the course, please go to this Web address: ${relatedLink}`
                     + ` ${crlf}${crlf}*If prompted to log in, use your Google account to log in. If you do not have`
                     + ` a Google account, please create one from the Google Accounts page: ${googleSignup}`
@@ -184,20 +183,19 @@ $(document).ready(() => {
                     + ' without using your Google account, you do not need to \'join\' the course as instructed above.'
                     + ' You will still be able to submit/view feedback by following the instructions sent to you by'
                     + ' TEAMMATES at the appropriate times. However, we recommend joining the course using your Google'
-                    + ' account, because it gives you more convenient access to all your feedback stored in TEAMMATES.');
+                    + ' account, because it gives you more convenient access to all your feedback stored in TEAMMATES.';
         } else {
-            subject =
-                    encodeURI(
-                        `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${sessionNameWithoutDate}]`
-                        );
+            subject = `TEAMMATES: ${subjectType} [Course: ${courseName}][Feedback Session: ${sessionNameWithoutDate}]`;
             bodyContent =
-                    encodeURI(`${crlf}${crlf}The following feedback session is ${sessionStatus}.${crlf}`
+                    `${crlf}${crlf}The following feedback session is ${sessionStatus}.${crlf}`
                     + `Course: [${courseId}][${courseName}]${crlf}Feedback Session Name: ${sessionName}${crlf}`
                     + `${crlf}The link to the feedback for the above session, please go to this Web`
-                    + ` address: ${relatedLink} ${crlf}${crlf}*${uniqueLinkMessage}`);
+                    + ` address: ${relatedLink} ${crlf}${crlf}*${uniqueLinkMessage}`;
         }
 
-        const emailWrapper = `mailto:${studentEmail}?Subject=${subject}&body=${bodyHeader}${bodyContent}${bodyFooter}`;
+        const emailWrapper = `mailto:${studentEmail}`
+                           + `?Subject=${encodeURI(subject)}`
+                           + `&body=${encodeURI(bodyHeader + bodyContent + bodyFooter)}`;
         window.location.href = emailWrapper;
     });
 });
