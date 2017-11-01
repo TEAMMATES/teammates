@@ -1,6 +1,8 @@
 <%@ tag description="studentResultsTable.tag - student results row" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="search" %>
+<%@ tag import="teammates.common.util.Config" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="student" type="teammates.ui.template.AdminSearchStudentRow" required="true" %>
 
@@ -77,22 +79,30 @@
       <c:if test="${not empty student.email}">
         <li class="list-group-item list-group-item-success has-success">
           <strong>Email</strong>
-          <input value="${student.email}" readonly class="form-control">
+          <input type="hidden" name="supportEmail" value="<%= Config.SUPPORT_EMAIL %>">
+          <input name="studentEmail" value="${student.email}" readonly class="form-control">
         </li>
       </c:if>
 
       <%-- Course join link --%>
       <li class="list-group-item list-group-item-info">
-        <strong>Course Join Link</strong>
-        <input value="${student.links.courseJoinLink}" readonly class="form-control">
+        <search:emailFormFields
+            linkTitle="Course Join Link"
+            relatedLink="${student.links.courseJoinLink}"
+            subjectType="Invitation to join course"
+            student="${student}"/>
       </li>
 
       <%-- Open feedback sessions --%>
       <c:if test="${not empty student.openFeedbackSessions}">
         <c:forEach items="${student.openFeedbackSessions}" var="session">
           <li class="list-group-item list-group-item-warning">
-            <strong>${session.fsName}</strong>
-            <input value="${session.link}" readonly class="form-control">
+            <search:emailFormFields
+                linkTitle="${session.fsName}"
+                relatedLink="${session.link}"
+                subjectType="Feedback session now open"
+                sessionStatus="Open"
+                student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
@@ -101,8 +111,12 @@
       <c:if test="${not empty student.closedFeedbackSessions}">
         <c:forEach items="${student.closedFeedbackSessions}" var="session">
           <li class="list-group-item list-group-item-danger">
-            <strong>${session.fsName}</strong>
-            <input value="${session.link}" readonly class="form-control">
+            <search:emailFormFields
+                linkTitle="${session.fsName}"
+                relatedLink="${session.link}"
+                subjectType="Feedback session now closed"
+                sessionStatus="Closed"
+                student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
@@ -111,8 +125,12 @@
       <c:if test="${not empty student.publishedFeedbackSessions}">
         <c:forEach items="${student.publishedFeedbackSessions}" var="session">
           <li class="list-group-item list-group-item-success">
-            <strong>${session.fsName}</strong>
-            <input value="${session.link}" readonly class="form-control">
+            <search:emailFormFields
+                linkTitle="${session.fsName}"
+                relatedLink="${session.link}"
+                subjectType="Feedback session results published"
+                sessionStatus="Published"
+                student="${student}"/>
           </li>
         </c:forEach>
       </c:if>
