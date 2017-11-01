@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="ci-tests">
+<suite name="staging-tests">
     <listeners>
         <listener class-name="teammates.test.driver.PriorityInterceptor" />
     </listeners>
@@ -8,10 +8,4 @@
     <suite-files>
         <suite-file path="testng-common.xml" />
     </suite-files>
-    <!-- These tests are only required to run during CI. -->
-    <test name="rare-tests" parallel="classes" thread-count="2">
-        <classes>
-            <class name="teammates.test.cases.testdriver.BackDoorTest" />
-        </classes>
-    </test>
 </suite>

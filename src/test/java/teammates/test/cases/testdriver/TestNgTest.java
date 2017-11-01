@@ -1,126 +1,130 @@
 package teammates.test.cases.testdriver;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.testng.ITestNGMethod;
+import org.testng.SuiteRunner;
+import org.testng.TestNG;
+import org.testng.TestRunner;
 import org.testng.annotations.Test;
+import org.testng.internal.Configuration;
+import org.testng.xml.Parser;
+import org.testng.xml.XmlSuite;
+import org.testng.xml.XmlTest;
+import org.xml.sax.SAXException;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.ClassPath;
 
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.FileHelper;
 
 /**
- * Verifies that the TestNG configuration files contains all the test cases in the project.
+ * Verifies that the TestNG suite files contains all the test cases in the project.
  */
 public class TestNgTest extends BaseTestCase {
 
     @Test
-    public void checkTestsInTestNg() throws IOException {
-        String testNgXml = FileHelper.readFile("./src/test/testng-ci.xml")
-                           + FileHelper.readFile("./src/test/testng-local.xml");
-        // <class name, package name>
-        HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
+    public void allTestsIncludedInSuites() throws IOException, ParserConfigurationException, SAXException {
+        final List<String> fullyQualifiedMethodNamesWithTestAnnotation =
+                getFullyQualifiedMethodNamesWithAnnotation(Test.class);
 
-        testFiles = excludeFilesNotInTestNg(testFiles,
+        // `testng-all.xml` is expected to contain all tests used in the project
+        String suitePath = "src/test/testng-all.xml";
+        final List<String> fullyQualifiedMethodNamesInSuites = getFullyQualifiedMethodNamesFromSuitePath(suitePath);
 
-                                            // Base*TestCase are base classes to be extended by the actual tests
-                                            "BaseUiTestCase",
+        Collections.sort(fullyQualifiedMethodNamesWithTestAnnotation);
+        Collections.sort(fullyQualifiedMethodNamesInSuites);
 
-                                            // Base class for all Feedback*QuestionUiTest (different question types)
-                                            "FeedbackQuestionUiTest",
-
-                                            // Needs to be run only when changes are made to GodMode
-                                            "GodModeTest"
-                                            );
-
-        for (Entry<String, String> testFileName : testFiles.entrySet()) {
-            assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
-        }
+        assertEquals(fullyQualifiedMethodNamesWithTestAnnotation, fullyQualifiedMethodNamesInSuites);
     }
 
-    /**
-     * Files to be checked in testng.xml are added to testFiles.
-     *
-     * @param testNgXml    Contents of testng.xml
-     * @param rootPath     Root path of test files
-     * @return             HashMap containing {@code <class name, package name>}
-     */
-    private HashMap<String, String> getTestFiles(String testNgXml, String rootPath) {
-        // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because
-        // base classes are extended by the actual tests
+    private List<String> getFullyQualifiedMethodNamesWithAnnotation(Class<? extends Annotation> annotationClass)
+            throws IOException {
+        List<String> fullyQualifiedMethodNamesWithAnnotation = new ArrayList<>();
 
-        return addFilesToTestsRecursively(rootPath, true, "teammates.test.cases", testNgXml);
-    }
+        final ClassPath classPath = ClassPath.from(ClassLoader.getSystemClassLoader());
+        final ImmutableSet<ClassPath.ClassInfo> classInfos = classPath.getTopLevelClassesRecursive(
+                "teammates.test.cases");
+        for (ClassPath.ClassInfo classInfo : classInfos) {
+            // GodModeTest needs to only run when there are changes made to GodMode
+            if (classInfo.getName().equals("teammates.test.cases.browsertests.GodModeTest")) {
+                continue;
+            }
 
-    /**
-     * Excludes files which do not have tests in TestNG.
-     *
-     * @param testFiles                  Files to be checked before excluding tests
-     * @param filesExcludedFromTestNg    Files to be excluded
-     * @return                           Files to be checked after excluding tests
-     */
-    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles,
-                                                            String... filesExcludedFromTestNg) {
-        for (String test : filesExcludedFromTestNg) {
-            testFiles.remove(test);
-        }
-
-        return testFiles;
-    }
-
-    private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
-        return testNgXml.contains("<class name=\"" + packageName + "." + testClassName + "\" />");
-    }
-
-    /**
-     * Recursively adds files from testng.xml which are to be checked.
-     *
-     * @param path                            Check files and directories in the current path
-     *
-     * @param areFilesInCurrentDirExcluded    If true, files in the current path are not
-     *                                        added to tests but sub-directories are still checked
-     *
-     * @param packageName                     Package name of the current file
-     * @param testNgXml                       Contents of testng.xml
-     *
-     * @return                                HashMap containing {@code <class name, package name>} including
-     *                                        current file or tests in the current directory
-     */
-    private HashMap<String, String> addFilesToTestsRecursively(String path,
-                                                               boolean areFilesInCurrentDirExcluded,
-                                                               String packageName, String testNgXml) {
-
-        HashMap<String, String> testFiles = new HashMap<>();
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        if (listOfFiles == null) {
-            return testFiles;
-        }
-
-        for (File file : listOfFiles) {
-            String name = file.getName();
-
-            if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
-                    && !areFilesInCurrentDirExcluded) {
-                testFiles.put(name.replace(".java", ""), packageName);
-
-            } else if (file.isDirectory()) {
-                // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
-                // then files in the current directory are excluded because the whole package would be tested by TestNG.
-
-                testFiles.putAll(
-                        addFilesToTestsRecursively(path + "/" + name,
-                                                   isPackageNameInTestNg(packageName + "." + name, testNgXml),
-                                                   packageName + "." + name, testNgXml));
+            List<Method> methodsWithTestAnnotation = getMethodsWithAnnotation(classInfo.load(), annotationClass);
+            for (Method method : methodsWithTestAnnotation) {
+                fullyQualifiedMethodNamesWithAnnotation.add(
+                        getFullyQualifiedMethodName(classInfo.getName(), method.getName()));
             }
         }
 
-        return testFiles;
+        return fullyQualifiedMethodNamesWithAnnotation;
     }
 
-    private boolean isPackageNameInTestNg(String packageName, String testNgXml) {
-        return testNgXml.contains("<package name=\"" + packageName + "\" />");
+    private static List<Method> getMethodsWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotationClass) {
+        final List<Method> methods = new ArrayList<>();
+
+        final Method[] classMethods = clazz.getDeclaredMethods();
+        for (final Method method : classMethods) {
+            if (method.isAnnotationPresent(annotationClass)) {
+                methods.add(method);
+            }
+        }
+        return methods;
     }
 
+    private String getFullyQualifiedMethodName(String parentClassName, String methodName) {
+        return parentClassName + "#" + methodName;
+    }
+
+    private List<String> getFullyQualifiedMethodNamesFromSuitePath(String suitePath)
+            throws IOException, SAXException, ParserConfigurationException {
+        Collection<XmlSuite> xmlSuites = new Parser(suitePath).parse();
+        return getFullyQualifiedMethodNamesFromXmlSuites(xmlSuites);
+    }
+
+    private List<String> getFullyQualifiedMethodNamesFromXmlSuites(Collection<XmlSuite> xmlSuites) {
+        List<String> methodNames = new ArrayList<>();
+        for (XmlSuite xmlSuite : xmlSuites) {
+            // we add the method names from the child suites before adding the method names from the current suite
+
+            methodNames.addAll(getFullyQualifiedMethodNamesFromXmlSuites(xmlSuite.getChildSuites()));
+            methodNames.addAll(getMethodNamesFromXmlSuite(xmlSuite));
+        }
+        return methodNames;
+    }
+
+    private List<String> getMethodNamesFromXmlSuite(XmlSuite xmlSuite) {
+        List<String> methodNames = new ArrayList<>();
+
+        final Configuration configuration = new Configuration();
+        SuiteRunner suiteRunner = new SuiteRunner(configuration, xmlSuite, TestNG.DEFAULT_OUTPUTDIR);
+        for (XmlTest test : xmlSuite.getTests()) {
+            TestRunner testRunner = new TestRunner(configuration, suiteRunner, test, false,
+                    null);
+            methodNames.addAll(getMethodNamesFromTestRunner(testRunner));
+        }
+
+        return methodNames;
+    }
+
+    private List<String> getMethodNamesFromTestRunner(TestRunner testRunner) {
+        List<String> methodNames = new ArrayList<>();
+        for (ITestNGMethod testMethod : testRunner.getAllTestMethods()) {
+            final String className = testMethod.getConstructorOrMethod().getDeclaringClass().getName();
+            final String methodName = testMethod.getMethodName();
+            final String fullyQualifiedMethodName = getFullyQualifiedMethodName(className, methodName);
+
+            methodNames.add(fullyQualifiedMethodName);
+        }
+        return methodNames;
+    }
 }
