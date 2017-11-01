@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +27,8 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
@@ -275,6 +278,25 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
 
     private void deleteResponses(List<FeedbackResponseAttributes> responsesToDelete) {
+        if (responsesToDelete.isEmpty()) {
+            return;
+        }
+
+        Map<String, FeedbackResponseAttributes> existingResponses = new HashMap<>();
+        for (List<FeedbackResponseAttributes> questionResponses : data.bundle.questionResponseBundle.values()) {
+            for (FeedbackResponseAttributes response : questionResponses) {
+                existingResponses.put(response.getId(), response);
+            }
+        }
+        List<FeedbackResponseAttributes> existingResponsesToDelete = new ArrayList<>();
+        for (FeedbackResponseAttributes response : responsesToDelete) {
+            existingResponsesToDelete.add(existingResponses.get(response.getId()));
+        }
+
+        log.severe("Encountered empty responses in submission that were filled in a previous submission!"
+                + "\n\nParameters: " + HttpRequestHelper.printRequestParameters(request)
+                + "\n\nDeleting existing responses: " + JsonUtils.toJson(existingResponsesToDelete) + "\n");
+
         for (FeedbackResponseAttributes response : responsesToDelete) {
             logic.deleteFeedbackResponse(response);
         }
