@@ -6,7 +6,6 @@ branches:
   only:
     - master
     - release
-    - teammatesv6
 
 notifications:
   email: false
@@ -58,3 +57,7 @@ script:
 after_failure:
   - gem install gist
   - ./gradlew generateFailedCmd
+
+after_success:
+  - ./gradlew jacocoReport
+  - bash <(curl -s https://codecov.io/bash)
