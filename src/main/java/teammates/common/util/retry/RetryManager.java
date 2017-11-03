@@ -114,7 +114,10 @@ public final class RetryManager {
     }
 
     @SafeVarargs
-    @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
+    @SuppressWarnings({
+            "PMD.AvoidCatchingThrowable", // allow users to catch specific errors e.g. AssertionError
+            "PMD.UnnecessaryFinalModifier" // necessary for @SafeVarargs annotation
+    })
     private final <T, E extends Throwable> T doRetry(
             Retryable<T, E> task, Class<? extends Throwable>... recognizedExceptionTypes)
             throws E, MaximumRetriesExceededException {

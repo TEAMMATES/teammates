@@ -177,7 +177,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsInstructor(instructorId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
@@ -228,7 +228,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };

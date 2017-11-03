@@ -1,15 +1,16 @@
 {
   "devDependencies": {
-    "babel-core": "6.25.0",
-    "babel-loader": "7.0.0",
-    "babel-preset-env": "1.5.2",
-    "eslint": "3.17.1",
-    "eslint-config-airbnb-base": "11.1.1",
-    "eslint-plugin-import": "2.2.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.6.1",
+    "eslint": "4.11.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0",
     "eslint-plugin-json": "1.2.0",
     "lintspaces-cli": "0.6.0",
-    "stylelint": "7.9.0",
-    "webpack": "2.6.1"
+    "stylelint": "8.2.0",
+    "stylelint-config-standard": "17.0.0",
+    "webpack": "3.8.1"
   },
   "babel": {
     "presets": [

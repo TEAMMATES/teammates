@@ -23,20 +23,20 @@
         $.each(data.contributors, (i, contributor) => {
             const $div = contributor.multiple ? $('#contributors-multiple') : $('#contributors-single');
             $div.append(
-                `<li>
-                    ${contributor.username ? getGitHubLink(contributor.username, contributor.name) : contributor.name}
-                </li>`
+                    `<li>
+                        ${contributor.username ? getGitHubLink(contributor.username, contributor.name) : contributor.name}
+                    </li>`
             );
         });
 
         $.each(data.committers, (i, committer) => {
             const $div = committer.endPeriod ? $('#committers-past') : $('#committers-current');
             $div.append(
-                `<li>
-                    ${committer.image ? `<img src="${committer.image}" alt="${committer.name}" width="120px"><br>` : ''}
-                    ${getGitHubLink(committer.username, committer.name)}
-                    (${committer.startPeriod} - ${(committer.endPeriod ? committer.endPeriod : '')})
-                </li>`
+                    `<li>
+                        ${committer.image ? `<img src="${committer.image}" alt="${committer.name}" width="120px"><br>` : ''}
+                        ${getGitHubLink(committer.username, committer.name)}
+                        (${committer.startPeriod} - ${(committer.endPeriod ? committer.endPeriod : '')})
+                    </li>`
             );
         });
 
@@ -56,24 +56,24 @@
                         </div>`
                         : '';
                 $('#teammembers-current').append(
-                    `<div class="row margin-top-7px${img ? '' : ' margin-bottom-35px'}">
-                        ${img}
-                        <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-8 margin-top-7px">
-                            <strong>${url}</strong>
-                            <br><br>
-                            <strong>${teammember.currentPosition}</strong>
-                            ${listDownPastPositions(teammember.pastPositions)}
-                        </div>
-                    </div>`
+                        `<div class="row margin-top-7px${img ? '' : ' margin-bottom-35px'}">
+                            ${img}
+                            <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-8 margin-top-7px">
+                                <strong>${url}</strong>
+                                <br><br>
+                                <strong>${teammember.currentPosition}</strong>
+                                ${listDownPastPositions(teammember.pastPositions)}
+                            </div>
+                        </div>`
                 );
             } else {
                 $('#teammembers-past').append(
-                    `<li>
-                        ${teammember.image
-                                ? `<img src="${teammember.image}" alt="${teammember.name}" width="120px"><br>` : ''}
-                        ${url}
-                        ${listDownPastPositions(teammember.pastPositions)}
-                    </li>`
+                        `<li>
+                            ${teammember.image
+                                    ? `<img src="${teammember.image}" alt="${teammember.name}" width="120px"><br>` : ''}
+                            ${url}
+                            ${listDownPastPositions(teammember.pastPositions)}
+                        </li>`
                 );
             }
         });

@@ -193,10 +193,11 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "ticac.tac.id",
                 Const.ParamsNames.COURSE_NAME, "ticac tac name",
-                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"};
+                Const.ParamsNames.COURSE_TIME_ZONE, "UTC"
+        };
 
         verifyOnlyInstructorsCanAccess(submissionParams);
 

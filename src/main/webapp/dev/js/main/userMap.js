@@ -17,9 +17,9 @@ function handleError() {
     const contentHolder = d3.select('.container');
     contentHolder.html('');
     contentHolder.append('p')
-        .text('An error has occured in getting data, please try reloading.');
+            .text('An error has occured in getting data, please try reloading.');
     contentHolder.append('p')
-        .html('If the problem persists after a few retries, please <a href="/contact.jsp">contact us</a>.');
+            .html('If the problem persists after a few retries, please <a href="/contact.jsp">contact us</a>.');
 }
 
 function initializeMap(err, countryCoordinates, userData) {
@@ -83,12 +83,12 @@ function initializeMap(err, countryCoordinates, userData) {
         responsive: true,
         setProjection(element) {
             const projection = d3.geo.mercator()
-            .center([0, 20])
-            .rotate([-5, 0])
-            .scale(130)
-            .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+                    .center([0, 20])
+                    .rotate([-5, 0])
+                    .scale(130)
+                    .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
             const path = d3.geo.path()
-                .projection(projection);
+                    .projection(projection);
             return {
                 path,
                 projection,
@@ -125,7 +125,7 @@ function initializeMap(err, countryCoordinates, userData) {
 
     map.addPlugin('pins', function (layer, data, options) {
         const self = this;
-        const svg = this.svg;
+        const { svg } = this;
 
         function datumHasCoords(datum) {
             return datum && datum.latitude && datum.longitude;
@@ -133,7 +133,7 @@ function initializeMap(err, countryCoordinates, userData) {
 
         function getCoordinates(datum) {
             return datumHasCoords(datum) ? self.latLngToXY(datum.latitude, datum.longitude)
-                                         : self.path.centroid(svg.select(`path.${datum.centered}`).data()[0]);
+                    : self.path.centroid(svg.select(`path.${datum.centered}`).data()[0]);
         }
 
         function getX(datum) {
@@ -152,38 +152,38 @@ function initializeMap(err, countryCoordinates, userData) {
         const markers = layer.selectAll('image.datamaps-pins').data(data, JSON.stringify);
 
         markers
-        .enter()
-        .append('image')
-        .attr('class', 'datamaps-pin')
-        .attr('xlink:href', 'images/pin.png')
-        .attr('height', 20)
-        .attr('width', 20)
-        .attr('x', getX)
-        .attr('y', getY)
-        .on('mouseover', function (datum) {
-            const $this = d3.select(this);
+                .enter()
+                .append('image')
+                .attr('class', 'datamaps-pin')
+                .attr('xlink:href', 'images/pin.png')
+                .attr('height', 20)
+                .attr('width', 20)
+                .attr('x', getX)
+                .attr('y', getY)
+                .on('mouseover', function (datum) {
+                    const $this = d3.select(this);
 
-            if (options.popupOnHover) {
-                self.updatePopup($this, datum, options, svg);
-            }
-        })
-        .on('mouseout', function () {
-            const $this = d3.select(this);
+                    if (options.popupOnHover) {
+                        self.updatePopup($this, datum, options, svg);
+                    }
+                })
+                .on('mouseout', function () {
+                    const $this = d3.select(this);
 
-            if (options.highlightOnHover) {
-                const previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
-                $.each(previousAttributes, (i, attr) => {
-                    $this.style(i, attr);
+                    if (options.highlightOnHover) {
+                        const previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
+                        $.each(previousAttributes, (i, attr) => {
+                            $this.style(i, attr);
+                        });
+                    }
+                    d3.selectAll('.datamaps-hoverover').style('display', 'none');
                 });
-            }
-            d3.selectAll('.datamaps-hoverover').style('display', 'none');
-        });
 
         markers.exit()
-        .transition()
-        .delay(options.exitDelay)
-        .attr('height', 0)
-        .remove();
+                .transition()
+                .delay(options.exitDelay)
+                .attr('height', 0)
+                .remove();
     });
 
     map.pins(pins, {

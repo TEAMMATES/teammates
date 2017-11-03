@@ -9,11 +9,17 @@
     </module>
     <module name="WhitespaceAfter"/>
     <module name="NoWhitespaceAfter">
-      <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
+      <property name="tokens" value="INC,DEC,UNARY_MINUS,UNARY_PLUS,BNOT,LNOT,DOT,METHOD_REF"/>
     </module>
-    <module name="NoWhitespaceBefore"/>
+    <module name="NoWhitespaceBefore">
+      <property name="allowLineBreaks" value="true"/>
+      <property name="tokens" value="DOT"/>
+    </module>
+    <module name="NoWhitespaceBefore">
+      <property name="tokens" value="COMMA,SEMI,POST_INC,POST_DEC,GENERIC_END,ELLIPSIS,METHOD_REF"/>
+    </module>
     <module name="WhitespaceAround">
-      <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,DO_WHILE,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>
+      <property name="tokens" value="ASSIGN,ARRAY_INIT,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,DO_WHILE,EQUAL,GE,GT,LAMBDA,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND"/>
       <property name="allowEmptyTypes" value="true"/>
       <property name="ignoreEnhancedForColon" value="false"/>
     </module>
@@ -46,6 +52,7 @@
     <module name="ArrayTypeStyle"/>
     <module name="Indentation">
       <property name="caseIndent" value="0"/>
+      <property name="throwsIndent" value="8"/>
       <property name="arrayInitIndent" value="8"/>
       <property name="lineWrappingIndentation" value="8"/>
     </module>
@@ -53,11 +60,11 @@
       <property name="tokens" value="ANNOTATION_DEF,LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,ENUM_CONSTANT_DEF,ENUM_DEF,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,INTERFACE_DEF,METHOD_DEF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE"/>
     </module>
     <module name="RightCurly">
-      <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_IF,LITERAL_TRY"/>
+      <property name="tokens" value="LITERAL_TRY,LITERAL_CATCH,LITERAL_IF,LITERAL_ELSE,LITERAL_DO"/>
     </module>
     <module name="RightCurly">
       <property name="option" value="alone"/>
-      <property name="tokens" value="CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_FINALLY,LITERAL_FOR,INSTANCE_INIT,METHOD_DEF,STATIC_INIT,LITERAL_WHILE"/>
+      <property name="tokens" value="LITERAL_FINALLY,CLASS_DEF,METHOD_DEF,CTOR_DEF,LITERAL_FOR,LITERAL_WHILE,STATIC_INIT,INSTANCE_INIT"/>
     </module>
     <module name="LocalVariableName"/>
     <module name="ParameterName"/>
@@ -162,6 +169,7 @@
     <module name="IllegalImport">
       <property name="illegalPkgs" value="sun,com.google.appengine.repackaged,com.google.appengine.labs.repackaged"/>
     </module>
+    <module name="NoLineWrap"/>
   </module>
   <module name="SuppressionFilter">
     <property name="file" value="${basedir}/static-analysis/teammates-checkstyle-suppressions.xml"/>

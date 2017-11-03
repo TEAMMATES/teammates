@@ -174,11 +174,11 @@ class TableButtonHelpers {
     static clearAllSortStates($table) {
         $table.find('.icon-sort').attr('class', 'icon-sort unsorted'); // clear the icons
         $table.find('.button-sort-ascending')
-            .removeClass('button-sort-ascending')
-            .addClass('button-sort-none');
+                .removeClass('button-sort-ascending')
+                .addClass('button-sort-none');
         $table.find('.button-sort-descending')
-            .removeClass('button-sort-descending')
-            .addClass('button-sort-none');
+                .removeClass('button-sort-descending')
+                .addClass('button-sort-none');
     }
 
     /**
@@ -235,8 +235,7 @@ function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSort
             continue;
         }
 
-        const extractor = isDefined(extractorOrNull) ? extractorOrNull :
-                Extractors.getDefaultExtractor();
+        const extractor = isDefined(extractorOrNull) ? extractorOrNull : Extractors.getDefaultExtractor();
 
         // $.trim trims leading/trailing whitespaces
         // $rowList[i].cells[colIdx - 1] is where we get the table cell from
@@ -259,7 +258,7 @@ function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSort
 
     store.sort((x, y) => {
         const compareResult = shouldSortAscending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
-                                      : comparator(y[0].toUpperCase(), x[0].toUpperCase());
+                : comparator(y[0].toUpperCase(), x[0].toUpperCase());
         if (compareResult === 0) {
             return x[2] - y[2];
         }
@@ -298,10 +297,8 @@ function toggleSort($button, comparatorStringOrNull, extractorStringOrNull) {
 
     const $table = TableButtonHelpers.getEnclosingTable($button);
     const colIdx = TableButtonHelpers.getColumnPositionOfButton($button, 1);
-    const comparatorOrNull = !isDefined(comparatorStringOrNull) ? null :
-            Comparators[comparatorStringOrNull];
-    const extractorOrNull = !isDefined(extractorStringOrNull) ? null :
-            Extractors[extractorStringOrNull];
+    const comparatorOrNull = isDefined(comparatorStringOrNull) ? Comparators[comparatorStringOrNull] : null;
+    const extractorOrNull = isDefined(extractorStringOrNull) ? Extractors[extractorStringOrNull] : null;
     const shouldSortAscending = !isSortedAscending;
     const rowToStartSortingFrom = 1; // <th> occupies row 0
 

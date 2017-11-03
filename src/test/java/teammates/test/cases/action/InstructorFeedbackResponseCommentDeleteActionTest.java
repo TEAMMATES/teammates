@@ -167,7 +167,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         comment = frcDb.getFeedbackResponseComment(response.getId(), comment.giverEmail, comment.createdAt);
         comment.feedbackResponseId = response.getId();
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",

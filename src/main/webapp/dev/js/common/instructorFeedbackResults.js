@@ -266,17 +266,17 @@ function prepareInstructorFeedbackResultsPage() {
         const isGroupByTeam = $('#frgroupbyteam').prop('checked');
         const childPanelType = isGroupByTeam ? 'div.panel.panel-warning' : participantPanelType;
         const panels = $(e.currentTarget).closest('.panel-success')
-                            .children('.panel-collapse')
-                            .find(childPanelType)
-                            .children('.panel-collapse');
+                .children('.panel-collapse')
+                .find(childPanelType)
+                .children('.panel-collapse');
         expandOrCollapsePanels(e.currentTarget, panels);
     });
 
     $('.panel.panel-success').on('click', 'a[id^="collapse-panels-button-team-"]', (e) => {
         const panels = $(e.currentTarget).closest('.panel-warning')
-                            .children('.panel-collapse')
-                            .find(participantPanelType)
-                            .children('.panel-collapse');
+                .children('.panel-collapse')
+                .find(participantPanelType)
+                .children('.panel-collapse');
         expandOrCollapsePanels(e.currentTarget, panels);
     });
 

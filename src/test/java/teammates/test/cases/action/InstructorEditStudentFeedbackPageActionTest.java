@@ -45,7 +45,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         String courseId = student.course;
         String moderatedStudentEmail = student.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -73,7 +73,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -88,7 +88,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -145,7 +145,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         courseId = "IESFPTCourse";
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -169,7 +169,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         moderatedStudentEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -203,7 +203,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         String courseId = student.course;
         String moderatedStudentEmail = student.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail

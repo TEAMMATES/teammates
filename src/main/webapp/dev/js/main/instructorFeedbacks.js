@@ -252,7 +252,7 @@ const ajaxRequest = function (e) {
             $('#button_copy').text('Copy from previous feedback sessions');
             $('#copySessionsBody').html(appendedModalBody);
             $('#sessionList').removeClass('align-center')
-                             .html(appendedSessionTable);
+                    .html(appendedSessionTable);
             bindEventsAfterAjax();
         },
     });

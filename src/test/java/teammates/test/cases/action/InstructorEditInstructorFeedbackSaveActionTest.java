@@ -212,9 +212,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
 
         ______TS("Unsuccessful case: test empty course id parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                        dataBundle.feedbackResponses.get("response1ForQ1") .feedbackSessionName,
+                        dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
@@ -228,7 +228,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
 
         ______TS("Unsuccessful case: test no moderated student parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -274,7 +274,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -305,7 +305,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -357,7 +357,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -387,7 +387,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -428,7 +428,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Success case: modifying responses in closed session");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -484,7 +484,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         String feedbackSessionName = "First feedback session";
         String moderatedInstructorEmail = "helper@course1.tmt";
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail

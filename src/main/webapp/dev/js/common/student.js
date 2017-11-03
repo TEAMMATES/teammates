@@ -15,13 +15,12 @@ function bindLinksInUnregisteredPage(selector) {
         e.preventDefault();
         const $clickedLink = $(e.target);
 
-        const header = Const.ModalDialog.UNREGISTERED_STUDENT.header;
-        const messageText = Const.ModalDialog.UNREGISTERED_STUDENT.text;
+        const { header, text } = Const.ModalDialog.UNREGISTERED_STUDENT;
         function okCallback() {
             window.location = $clickedLink.attr('href');
         }
 
-        showModalConfirmation(header, messageText, okCallback, null, null, null, StatusType.INFO);
+        showModalConfirmation(header, text, okCallback, null, null, null, StatusType.INFO);
     });
 }
 

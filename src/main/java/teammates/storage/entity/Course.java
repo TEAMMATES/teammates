@@ -24,8 +24,9 @@ public class Course extends BaseEntity {
 
     private String timeZone;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private Course() {
+        // required by Objectify
     }
 
     public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
