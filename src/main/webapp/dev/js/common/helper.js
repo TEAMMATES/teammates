@@ -11,7 +11,7 @@
  * @returns boolean
  */
 function isDate(date) {
-    return !isNaN(Date.parse(date));
+    return !Number.isNaN(Date.parse(date));
 }
 
 /**
@@ -20,7 +20,7 @@ function isDate(date) {
 * @returns boolean
 */
 function isNumber(num) {
-    return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
+    return (typeof num === 'string' || typeof num === 'number') && !Number.isNaN(num - 0) && num !== '';
 }
 
 /**
@@ -37,10 +37,10 @@ function isWithinView(element) {
     // makes the viewport size slightly larger to account for rounding errors
     const tolerance = 0.25;
     return (
-        rect.top >= 0 - tolerance    // below the top of viewport
-        && rect.left >= 0 - tolerance    // within the left of viewport
-        && rect.right <= $viewport.width() + tolerance    // within the right of viewport
-        && rect.bottom <= $viewport.height() + tolerance    // above the bottom of viewport
+        rect.top >= 0 - tolerance // below the top of viewport
+        && rect.left >= 0 - tolerance // within the left of viewport
+        && rect.right <= $viewport.width() + tolerance // within the right of viewport
+        && rect.bottom <= $viewport.height() + tolerance // above the bottom of viewport
     );
 }
 

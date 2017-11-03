@@ -380,7 +380,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.equals(StringUtils.join(expected, Const.EOL)));
+        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
 
     }
 
@@ -394,7 +394,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
     protected void testAccessControl() throws Exception {
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };

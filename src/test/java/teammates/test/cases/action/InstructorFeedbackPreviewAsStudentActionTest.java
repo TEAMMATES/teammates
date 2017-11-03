@@ -39,7 +39,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         String courseId = student.course;
         String previewAsEmail = student.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -69,7 +69,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         courseId = "idOfTypicalCourse1";
         previewAsEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -89,7 +89,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
 
         previewAsEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -116,7 +116,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.PREVIEWAS, student.email

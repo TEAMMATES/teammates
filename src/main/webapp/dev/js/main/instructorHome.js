@@ -103,7 +103,7 @@ $(document).ready(() => {
             const paramValues = query.split('&');
             for (let i = 0; i < paramValues.length; i += 1) {
                 const paramValue = paramValues[i].split('=');
-                params[paramValue[0]] = paramValue[1];
+                [, params[paramValue[0]]] = paramValue;
             }
 
             if ('user' in params === false) {

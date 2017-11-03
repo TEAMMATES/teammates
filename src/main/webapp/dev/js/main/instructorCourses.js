@@ -41,13 +41,13 @@ function linkAjaxForCourseStats() {
                 $.each(ajaxCols, (i, ajaxCol) => {
                     const tryAgainLink = hyperlinkObject.clone();
                     $(ajaxCol).html('Failed. ')
-                        .append(tryAgainLink);
+                            .append(tryAgainLink);
                     tryAgainLink
-                        .attr('data-toggle', 'tooltip')
-                        .attr('data-placement', 'top')
-                        .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
-                        .html('Try again?')
-                        .click(courseStatsClickHandler);
+                            .attr('data-toggle', 'tooltip')
+                            .attr('data-placement', 'top')
+                            .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
+                            .html('Try again?')
+                            .click(courseStatsClickHandler);
                 });
             },
             success(data) {
@@ -76,7 +76,7 @@ $(document).ready(() => {
             url: `${$(this).attr('action')}?${formData}`,
             beforeSend() {
                 $('#coursesList').html(
-                    '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
+                        '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
                 );
                 isFetchingCourses = true;
             },
@@ -85,8 +85,9 @@ $(document).ready(() => {
                 needsRetrying = true;
                 $('#coursesList').html('');
                 setStatusMessage(
-                    'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.'
-                , StatusType.WARNING);
+                        'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.',
+                        StatusType.WARNING
+                );
                 $('#retryAjax').click((ev) => {
                     ev.preventDefault();
                     $('#ajaxForCourses').trigger('submit');
@@ -104,8 +105,8 @@ $(document).ready(() => {
 
                 const appendedCoursesTable = $(data).find('#coursesList').html();
                 $('#coursesList')
-                    .removeClass('align-center')
-                    .html(appendedCoursesTable);
+                        .removeClass('align-center')
+                        .html(appendedCoursesTable);
                 toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
             },

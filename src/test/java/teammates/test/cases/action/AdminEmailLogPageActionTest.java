@@ -105,7 +105,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Test(groups = "typicalEmailLogs")
     public void filterQuery_invalidQuery_defaultSearchPerformed() {
-        int[][] expected = new int[][]{{0, 1, 2, 3}};
+        int[][] expected = new int[][] { {0, 1, 2, 3} };
 
         String query = "unknown";
         verifyActionResult(expected, "filterQuery", query);
@@ -126,7 +126,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query);
 
         // invalid filterQuery with showing testing data
-        expected = new int[][]{{0, 1, 2, 3, 4, 5, 6}};
+        expected = new int[][] { {0, 1, 2, 3, 4, 5, 6} };
         query = "information:unknown";
         verifyActionResult(expected, "filterQuery", query, "all", "true");
     }
@@ -137,57 +137,57 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         // to decide whether to show logs from test data.
 
         // not show test data, default search
-        int[][] expected = new int[][]{{0, 1, 2, 3}};
+        int[][] expected = new int[][] { {0, 1, 2, 3} };
         verifyActionResult(expected);
 
         // show test data, show all email log
-        expected = new int[][]{{0, 1, 2, 3, 4, 5, 6}};
+        expected = new int[][] { {0, 1, 2, 3, 4, 5, 6} };
         verifyActionResult(expected, "all", "true");
     }
 
     @Test(groups = "typicalEmailLogs")
     public void filterQuery_validQuery() {
         // after
-        int[][] expected = new int[][]{{0, 1, 2, 3}, {0, 1}};
+        int[][] expected = new int[][] { {0, 1, 2, 3}, {0, 1} };
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
         String query = String.format(" after:%s", formatterAdminTime.format(yesterday));
         verifyActionResult(expected, "filterQuery", query);
 
         // before
-        expected = new int[][]{{}, {}, {0, 1}};
+        expected = new int[][] { {}, {}, {0, 1} };
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
         query = String.format("before :%s", formatterAdminTime.format(twoDaysAgo));
         verifyActionResult(expected, "filterQuery", query);
 
         // after-before
-        expected = new int[][]{{}, {0, 1}, {0, 1}};
+        expected = new int[][] { {}, {0, 1}, {0, 1} };
         query = String.format("after: %s  and  before:%s",
                 formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(yesterday));
         verifyActionResult(expected, "filterQuery", query);
 
         Date today = TimeHelper.getDateOffsetToCurrentTime(0);
-        expected = new int[][]{{0, 1, 2, 3}, {0, 1}, {0, 1}};
+        expected = new int[][] { {0, 1, 2, 3}, {0, 1}, {0, 1} };
         query = String.format("after : %s | before: %s ",
                 formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(today));
         verifyActionResult(expected, "filterQuery", query);
 
         // receiver
         query = "receiver: email1@email.com ";
-        expected = new int[][]{{1, 2}};
+        expected = new int[][] { {1, 2} };
         verifyActionResult(expected, "filterQuery", query);
 
         // subject
         query = String.format("  subject:subject2   | before:%s  ", formatterAdminTime.format(yesterday));
-        expected = new int[][]{{}, {1}};
+        expected = new int[][] { {}, {1} };
         verifyActionResult(expected, "filterQuery", query);
 
         // info
         query = "info: keyword3";
-        expected = new int[][]{{1, 3}};
+        expected = new int[][] { {1, 3} };
         verifyActionResult(expected, "filterQuery", query);
 
         query = String.format("info:keyword4   |   after:%s", formatterAdminTime.format(yesterday));
-        expected = new int[][]{{2}, {0}};
+        expected = new int[][] { {2}, {0} };
         verifyActionResult(expected, "filterQuery", query);
     }
 
@@ -196,11 +196,11 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
         Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
 
-        int[][] expected = new int[][]{{0, 3, 4, 6}, {1, 2}};
+        int[][] expected = new int[][] { {0, 3, 4, 6}, {1, 2} };
         String query = String.format("info:keyword1 | after:%s", formatterAdminTime.format(yesterday));
         verifyActionResult(expected, "filterQuery", query, "all", "true");
 
-        expected = new int[][]{{}, {}, {1, 2}};
+        expected = new int[][] { {}, {}, {1, 2} };
         query = String.format("subject:subject1 | before:%s", formatterAdminTime.format(twoDaysAgo));
         verifyActionResult(expected, "filterQuery", query, "all", "true");
     }
@@ -210,11 +210,11 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         // version query is controlled by GAE itself
         // so there is no need to write comprehensive test case for it
 
-        int[][] expected = new int[][]{{}};
+        int[][] expected = new int[][] { {} };
         String query = "version:2";
         verifyActionResult(expected, "filterQuery", query);
 
-        expected = new int[][]{{0, 1, 2, 3}};
+        expected = new int[][] { {0, 1, 2, 3} };
         query = "version:2, 1";
         verifyActionResult(expected, "filterQuery", query);
     }
@@ -241,34 +241,40 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         Date threeDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-3);
 
         // default continue search
-        int[][] expected = new int[][]{{}, {0, 1}};
+        int[][] expected = new int[][] { {}, {0, 1} };
         String[] params = new String[] {"offset", String.valueOf(yesterday.getTime())};
         verifyContinueSearch(params, expected, 5);
 
         // continue search and no more logs
-        expected = new int[][]{};
+        expected = new int[][] {};
         params = new String[] {"offset", String.valueOf(threeDaysAgo.getTime())};
         verifyContinueSearch(params, expected, 0);
 
         // continue search with some filters
-        expected = new int[][]{{}, {1, 2}};
-        params = new String[] {"offset", String.valueOf(yesterday.getTime()),
-                "filterQuery", "subject:subject2", "all", "true"};
+        expected = new int[][] { {}, {1, 2} };
+        params = new String[] {
+                "offset", String.valueOf(yesterday.getTime()),
+                "filterQuery", "subject:subject2", "all", "true"
+        };
         verifyContinueSearch(params, expected, 5);
 
         // when `after` is present, will do search between `after` and `offset`
         // This is important as if there are a lot of logs `after` certain date, the App
         // will only display the first 50 logs. Continue search will help to get more logs.
-        expected = new int[][]{{}, {0, 1}, {0, 1}};
-        params = new String[] {"offset", String.valueOf(yesterday.getTime()),
-                "filterQuery", String.format("after:%s", formatterAdminTime.format(threeDaysAgo))};
+        expected = new int[][] { {}, {0, 1}, {0, 1} };
+        params = new String[] {
+                "offset", String.valueOf(yesterday.getTime()),
+                "filterQuery", String.format("after:%s", formatterAdminTime.format(threeDaysAgo))
+        };
         verifyContinueSearch(params, expected, 8);
 
         // `before` present, search with 1 day interval
-        expected = new int[][]{{}, {}, {0, 1}};
+        expected = new int[][] { {}, {}, {0, 1} };
         Calendar toDate = adminTimeZoneToUtc(getEndOfTheDayOffsetNowInAdminTimeZone(-2));
-        params = new String[] {"offset", String.valueOf(toDate.getTimeInMillis()),
-                "filterQuery", String.format("before:%s", formatterAdminTime.format(yesterday))};
+        params = new String[] {
+                "offset", String.valueOf(toDate.getTimeInMillis()),
+                "filterQuery", String.format("before:%s", formatterAdminTime.format(yesterday))
+        };
         verifyContinueSearch(params, expected, 3);
     }
 
@@ -431,7 +437,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
 

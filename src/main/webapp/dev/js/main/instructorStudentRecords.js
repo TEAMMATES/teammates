@@ -19,8 +19,8 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
     const targetDiv = $(sender).find('div[id^="target-feedback-"]');
     const fsNameForUrl = encodeURIComponent(fsName);
-    const url = `/page/instructorStudentRecordsAjaxPage?courseid=${courseId
-               }&studentemail=${stuEmail}&user=${user}&fsname=${fsNameForUrl}`;
+    const url = `/page/instructorStudentRecordsAjaxPage?courseid=${courseId}&studentemail=${stuEmail}`
+            + `&user=${user}&fsname=${fsNameForUrl}`;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
     targetDiv.load(url, (response, status) => {
         if (status === 'success') {

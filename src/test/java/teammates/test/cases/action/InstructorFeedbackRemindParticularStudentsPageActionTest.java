@@ -34,7 +34,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends Ba
         verifyAssumptionFailure();
 
         ______TS("Typical case");
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
         };
@@ -74,7 +74,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends Ba
     protected void testAccessControl() throws Exception {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
         };

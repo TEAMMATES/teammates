@@ -60,9 +60,9 @@ function showUncommonPanelsIfNotInDefaultValues() {
 
 function bindUncommonSettingsEvents() {
     $('#editUncommonSettingsSessionResponsesVisibleButton')
-        .click(showUncommonPanelsForSessionResponsesVisible);
+            .click(showUncommonPanelsForSessionResponsesVisible);
     $('#editUncommonSettingsSendEmailsButton')
-        .click(showUncommonPanelsForSendEmails);
+            .click(showUncommonPanelsForSendEmails);
 }
 
 /**

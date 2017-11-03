@@ -6,7 +6,10 @@
     <description>
         This is the PMD ruleset for all TEAMMATES Java code.
     </description>
-
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
     <rule ref="rulesets/java/basic.xml"/>
 
     <rule ref="rulesets/java/design.xml">
@@ -19,6 +22,7 @@
         <exclude name="ImmutableField"/>
 
         <!-- Not worth the added safety -->
+        <exclude name="AccessorMethodGeneration"/>
         <exclude name="ConstructorCallsOverridableMethod"/>
         <exclude name="SimpleDateFormatNeedsLocale"/>
         <exclude name="UseLocaleWithCaseConversions"/>
@@ -62,6 +66,9 @@
     <rule ref="rulesets/java/strings.xml">
         <!-- Very difficult to enforce -->
         <exclude name="AvoidDuplicateLiterals"/>
+
+        <!-- Not worth the optimization -->
+        <exclude name="InefficientEmptyStringCheck"/>
     </rule>
 
     <rule ref="rulesets/java/unnecessary.xml"/>

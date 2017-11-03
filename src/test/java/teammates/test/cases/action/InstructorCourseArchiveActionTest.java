@@ -21,7 +21,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
@@ -36,7 +36,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Typical case: archive a course, redirect to homepage");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
@@ -57,7 +57,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Rare case: archive an already archived course, redirect to homepage");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
@@ -77,7 +77,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Typical case: unarchive a course, redirect to Courses page");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -98,7 +98,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Rare case: unarchive an active course, redirect to Courses page");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -118,7 +118,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Rare case: unarchive an active course, no next URL, redirect to Courses page");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
         };
@@ -138,7 +138,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         ______TS("Masquerade mode: archive course, redirect to Courses page");
 
         gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -159,7 +159,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         ______TS("Rare case: empty course ID");
 
         gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "",
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -194,7 +194,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
         };

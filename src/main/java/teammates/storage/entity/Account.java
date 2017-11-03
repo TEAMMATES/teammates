@@ -36,8 +36,9 @@ public class Account extends BaseEntity {
     @Ignore // session-specific based on whether profile retrieval is enabled
     private boolean isStudentProfileEnabled = true;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private Account() {
+        // required by Objectify
     }
 
     /**

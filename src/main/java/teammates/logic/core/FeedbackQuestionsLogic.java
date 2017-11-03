@@ -451,7 +451,7 @@ public final class FeedbackQuestionsLogic {
      * depending on the change.
      */
     public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes newQuestion)
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackQuestionAttributes oldQuestion =
                 fqDb.getFeedbackQuestion(newQuestion.getId());

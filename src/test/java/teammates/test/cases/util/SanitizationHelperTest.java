@@ -26,7 +26,7 @@ public class SanitizationHelperTest extends BaseTestCase {
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
         String normalEmail = "normal@email.com";
 
-        assertEquals(null, SanitizationHelper.sanitizeEmail(null));
+        assertNull(SanitizationHelper.sanitizeEmail(null));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
     }
@@ -37,7 +37,7 @@ public class SanitizationHelperTest extends BaseTestCase {
         String nameWithWhiteSpaces = "\t alice   bob \t\n";
         String normalName = "alice bob";
 
-        assertEquals(null, SanitizationHelper.sanitizeName(null));
+        assertNull(SanitizationHelper.sanitizeName(null));
         assertEquals(normalName, SanitizationHelper.sanitizeName(normalName));
         assertEquals(normalName, SanitizationHelper.sanitizeName(nameWithWhiteSpaces));
     }
@@ -59,7 +59,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeJs_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForJs(null));
+        assertNull(SanitizationHelper.sanitizeForJs(null));
     }
 
     private void sanitizeJs_receivesUnsanitized_returnsSanitized() {
@@ -77,7 +77,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForHtml((String) null));
+        assertNull(SanitizationHelper.sanitizeForHtml((String) null));
     }
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
@@ -103,7 +103,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void desanitizeFromHtml_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.desanitizeFromHtml((String) null));
+        assertNull(SanitizationHelper.desanitizeFromHtml((String) null));
     }
 
     private void desanitizeFromHtml_recievesEmpty_returnsEmpty() {
@@ -131,13 +131,13 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtmlTag_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(null));
+        assertNull(SanitizationHelper.sanitizeForHtmlTag(null));
     }
 
     @Test
     public void testSanitizeForRichText() {
-        assertEquals(null, SanitizationHelper.sanitizeForRichText((Text) null));
-        assertEquals(null, SanitizationHelper.sanitizeForRichText((String) null));
+        assertNull(SanitizationHelper.sanitizeForRichText((Text) null));
+        assertNull(SanitizationHelper.sanitizeForRichText((String) null));
         assertEquals("", SanitizationHelper.sanitizeForRichText(""));
         assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
         assertEquals("<p>spaces test</p>", SanitizationHelper.sanitizeForRichText("<p >spaces test</p >"));
@@ -197,7 +197,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeForNextUrl_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForNextUrl(null));
+        assertNull(SanitizationHelper.sanitizeForNextUrl(null));
     }
 
     private void sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl() {
@@ -215,7 +215,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void desanitizeFromNextUrl_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.desanitizeFromNextUrl(null));
+        assertNull(SanitizationHelper.desanitizeFromNextUrl(null));
     }
 
     private void desanitizeFromNextUrl_receivesSanitized_returnsDesanitized() {

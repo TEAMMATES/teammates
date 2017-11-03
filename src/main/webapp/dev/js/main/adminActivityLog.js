@@ -30,9 +30,7 @@ function toggleReference() {
 }
 
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
-    const params = `logTimeInAdminTimeZone=${time
-                  }&logRole=${role
-                  }&logGoogleId=${googleId}`;
+    const params = `logTimeInAdminTimeZone=${time}&logRole=${role}&logGoogleId=${googleId}`;
 
     const link = $(entry);
     const localTimeDisplay = $(entry).parent().children()[1];

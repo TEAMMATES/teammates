@@ -105,29 +105,29 @@ function removeUnwantedVisibilityOptions(commentId) {
 
 function updateVisibilityOptionsForResponseComment(formObject, data) {
     formObject.find("input[class*='answerCheckbox'][value='GIVER']")
-              .prop('checked', data.comment.showCommentTo.indexOf('GIVER') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('GIVER') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='GIVER']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('GIVER') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('GIVER') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='RECEIVER']")
-              .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='RECEIVER']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('OWN_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('RECEIVER_TEAM_MEMBERS') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='STUDENTS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('STUDENTS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('STUDENTS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='STUDENTS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('STUDENTS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('STUDENTS') !== -1);
     formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']")
-              .prop('checked', data.comment.showCommentTo.indexOf('INSTRUCTORS') !== -1);
+            .prop('checked', data.comment.showCommentTo.indexOf('INSTRUCTORS') !== -1);
     formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']")
-              .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
+            .prop('checked', data.comment.showGiverNameTo.indexOf('INSTRUCTORS') !== -1);
 }
 
 function deleteCommentRow(submitButton) {
@@ -161,7 +161,7 @@ function enableHoverToDisplayEditOptions() {
 }
 
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     $(`#responseCommentTable${id}`).show();
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
@@ -184,7 +184,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 }
 
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
         $(`#responseCommentTable${id}`).css('margin-top', '0');
@@ -199,12 +199,12 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== 'undefined') {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else {
+    } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
@@ -227,7 +227,7 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
 }
 
 function toggleVisibilityAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    const id = `${sectionIndex !== undefined ? `-${sectionIndex}` : ''}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     const $visibilityEditForm = $(`#visibility-options${id}`);
     if ($visibilityEditForm.is(':visible')) {
@@ -244,12 +244,12 @@ function toggleVisibilityAddForm(recipientIndex, giverIndex, qnIndex, sectionInd
 function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== 'undefined') {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else {
+    } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const $visibilityEditForm = $(`#visibility-options${id}`);
@@ -267,12 +267,12 @@ function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIn
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (`${sectionIndex}` !== 'undefined') {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else if (`${viewType}` !== 'undefined') {
-        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
-    } else {
+    } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+    } else {
+        id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
 
     const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
@@ -331,7 +331,7 @@ const addCommentHandler = (e) => {
                 // Inject new comment row
                 addFormRow.parent().attr('class', 'list-group');
                 addFormRow.before(data);
-                if (isOnQuestionsPage == null) {
+                if (!isOnQuestionsPage) {
                     removeUnwantedVisibilityOptions(commentId);
                 }
 
@@ -345,7 +345,7 @@ const addCommentHandler = (e) => {
                 addFormRow.prev().show();
                 addFormRow.hide();
                 destroyEditor(`responseCommentAddForm-${responseCommentId}`);
-                if (isOnQuestionsPage != null && isOnQuestionsPage) {
+                if (isOnQuestionsPage) {
                     const indexes = responseCommentId.split('-');
                     const recipientIndex = indexes[0];
                     const giverIndex = indexes[1];
@@ -462,36 +462,36 @@ const deleteCommentHandler = (e) => {
 
 function registerResponseCommentsEvent() {
     $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
-                 addCommentHandler);
+            addCommentHandler);
     $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]',
-                 editCommentHandler);
+            editCommentHandler);
     $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
 
     const clickHandlerMap = new Map();
     clickHandlerMap.set(
             '.show-frc-add-form', [showResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.show-frc-edit-form', [showResponseCommentEditForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(
             '.comment-button', [showResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.hide-frc-add-form', [hideResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.commentModalClose', [hideResponseCommentAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.hide-frc-edit-form', [hideResponseCommentEditForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
     clickHandlerMap.set(
             '.toggle-visib-add-form', [toggleVisibilityAddForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
     clickHandlerMap.set(
             '.toggle-visib-edit-form', [toggleVisibilityEditForm,
-                    ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
 
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandlerAndParams] of clickHandlerMap) {
