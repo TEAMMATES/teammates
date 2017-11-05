@@ -1,3 +1,7 @@
+import {
+    ParamsNames,
+} from './const';
+
 /**
  * Returns the value of a cookie given its name.
  * Returns null if the cookie is not set.
@@ -20,13 +24,18 @@ function getCookie(cookieNameToFind) {
 }
 
 function makeCsrfTokenParam() {
-    const tokenParamName = 'token';
-    const tokenCookieName = 'token';
-    const tokenCookieValue = getCookie(tokenCookieName);
+    return `${ParamsNames.SESSION_TOKEN}=${getCookie(ParamsNames.SESSION_TOKEN)}`;
+}
 
-    return `${tokenParamName}=${tokenCookieValue}`;
+function updateCsrfTokenInInputFields() {
+    const updatedToken = getCookie(ParamsNames.SESSION_TOKEN);
+    if (!updatedToken) {
+        return;
+    }
+    $(`input[name=${ParamsNames.SESSION_TOKEN}]`).val(updatedToken);
 }
 
 export {
     makeCsrfTokenParam,
+    updateCsrfTokenInInputFields,
 };
