@@ -47,8 +47,8 @@
     <div class="col-xs-12 col-sm-8">
       <h2 class="media-heading">Award Winning, Mature, Field-tested:</h2>
       <p>
-        TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">250 developers</a>.<br>
-        TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016) and Facebook Open Academy Program (2016).
+        TEAMMATES has been in operation since 2010. It has benefitted from the work of <a href="about.jsp">hundreds of developers</a>.<br>
+        TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016, 2017) and Facebook Open Academy Program (2016).
       </p>
     </div>
   </div>
@@ -103,7 +103,7 @@
       <h2 class="media-heading">Not for Profit:</h2>
       <p>
         TEAMMATES does not have commercial ambitions. It is funded mainly by education grants from the National University of Singapore.
-        TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014, 2015, and 2016.
+        TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank" rel="noopener noreferrer">Google Summer of Code</a> program in 2014, 2015, 2016, and 2017.
       </p>
     </div>
   </div>

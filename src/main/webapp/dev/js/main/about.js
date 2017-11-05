@@ -18,6 +18,8 @@
     }
 
     $.getJSON(`${window.location.origin}/data/developers.json`, (data) => {
+        $('#contributors-count').html(data.contributors.length + data.committers.length + data.teammembers.length);
+
         $.each(data.contributors, (i, contributor) => {
             const $div = contributor.multiple ? $('#contributors-multiple') : $('#contributors-single');
             $div.append(
@@ -31,8 +33,7 @@
             const $div = committer.endPeriod ? $('#committers-past') : $('#committers-current');
             $div.append(
                 `<li>
-                    ${committer.image
-                            ? `<img src="${committer.image}" alt="${committer.name}" width="120px"><br>` : ''}
+                    ${committer.image ? `<img src="${committer.image}" alt="${committer.name}" width="120px"><br>` : ''}
                     ${getGitHubLink(committer.username, committer.name)}
                     (${committer.startPeriod} - ${(committer.endPeriod ? committer.endPeriod : '')})
                 </li>`
