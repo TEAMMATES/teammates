@@ -1,4 +1,8 @@
 import {
+    updateCsrfTokenInInputFields,
+} from './crypto';
+
+import {
     toggleSort,
 } from './sortBy';
 
@@ -61,4 +65,12 @@ $(document).on('ajaxComplete ready', () => {
             $(this).addClass('tool-tip-decorate');
         }
     });
+
+    /**
+     * Updates the token in input fields with the latest one retrieved from the cookie.
+     * The token becomes outdated once the session expires. The cookie might be updated
+     * with the new token and session during page loads from other browser windows.
+     * The latest value should be retrieved from the cookie before form submission.
+     */
+    $('form').submit(updateCsrfTokenInInputFields);
 });
