@@ -46,6 +46,7 @@ function submitFormAjax() {
                     const table = data.sessionResultsHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
                     ajaxStatus.html(data.ajaxStatus);
+                    selectElementContents(content.get(0));
                 }
                 setStatusMessage(data.statusForAjax);
             }, 500);
@@ -288,11 +289,6 @@ function prepareInstructorFeedbackResultsPage() {
     // Show/Hide statistics
     showHideStats();
     $('#show-stats-checkbox').change(showHideStats);
-
-    // auto select the html table when modal is shown
-    $('#fsResultsTableWindow').on('shown.bs.modal', () => {
-        selectElementContents($('#fsModalTable').get(0));
-    });
 
     const panels = $('div.panel');
     bindCollapseEvents(panels, 0);
