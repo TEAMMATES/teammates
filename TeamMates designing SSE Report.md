@@ -2,6 +2,6 @@
 
 
 ### Threat Model Report
-Threat Model Link [https://nbiswal.github.io/Team-Mavericks-Report/]
+Threat Model Link [https://nbiswal.github.io/teammates/]
 
 ### Observations From The OSS Project 
