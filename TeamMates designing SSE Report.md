@@ -16,4 +16,4 @@ Please  click the link below for the threat model report which includes the DFD 
 
 + As per the design documentation of teamMates it enforces authentication of every user who access the teammates web page and also avoids using verbose error messages which prevents any sensitive information disclosure across the HTTP requests or responses.
 
-+ TeamMates is based on GAE which is a cloud service for developing and hosting web applications, there may be vulnerabilities that could allow an attacker to escape from JVM security sandbox and execute any code in the underlying system.We can bypass JRE classes restricted by GAE Security sandbox.This feature needs to be investigated. 
++ TeamMates is based on GAE which is a cloud service for developing and hosting web applications, there may be vulnerabilities that could allow an attacker to escape from JVM security sandbox and execute any code in the underlying system.We can bypass JRE classes restricted by GAE Security sandbox.TeamMates uses secure role based login to avoid this. 
