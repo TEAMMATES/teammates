@@ -8,7 +8,7 @@ Please  click the link below for the threat model report which includes the DFD 
 
 ### Observations From The OSS Project 
 
-+ TeamMates is based on GAE which is acloud service for developing and hosting web applications, there may be vulnerabilities that could allow an attacker to escape from JVM security sandbox and execute any code in the underlying system.We can bypass JRE classes restricted by GAE Security sandbox.
++ TeamMates is based on GAE which is a cloud service for developing and hosting web applications, there may be vulnerabilities that could allow an attacker to escape from JVM security sandbox and execute any code in the underlying system.We can bypass JRE classes restricted by GAE Security sandbox.
 
 + The threat model requires data flowing across processes and external interactors to be encrypted to prevent data sniffing .TeamMates uses secure AES encryption key to prevent any data sniffing.
 
