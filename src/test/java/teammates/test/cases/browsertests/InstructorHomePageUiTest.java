@@ -235,9 +235,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                         feedbackSessionOpen.getFeedbackSessionName()));
 
         homePage.waitForPageToLoad();
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);    
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+
         ______TS("remind action: OPEN feedback session - inner button");
-		
+
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionOpen.getCourseId(),
                                                             feedbackSessionOpen.getFeedbackSessionName()));
