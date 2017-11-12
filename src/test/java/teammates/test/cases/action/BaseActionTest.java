@@ -199,7 +199,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected String[] createParamsForTypicalFeedbackSession(String courseId, String fsName) {
 
-        return new String[]{
+        return new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
                 Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, "01/02/2012",
@@ -226,7 +226,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     protected String[] createParamsForTypicalFeedbackQuestion(String courseId, String fsName) {
 
-        return new String[]{
+        return new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),

@@ -27,7 +27,7 @@ public final class FieldValidatorExtension {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public static String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
+        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (value.isEmpty()) {
             return FieldValidator.getPopulatedEmptyStringErrorMessage(

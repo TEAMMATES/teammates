@@ -29,9 +29,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
 
         verifyAssumptionFailure();
 
-        String[] submissionParams = new String[] {
-
-        };
+        String[] submissionParams = new String[] {};
 
         verifyAssumptionFailure(submissionParams);
 

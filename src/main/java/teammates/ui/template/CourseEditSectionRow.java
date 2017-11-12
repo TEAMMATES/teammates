@@ -33,9 +33,11 @@ public class CourseEditSectionRow {
         isSessionsInSectionSpecial =
                 instructor != null && instructor.privileges.isSessionsInSectionSpecial(sectionName);
 
-        String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
+        String[] privileges = {
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+        };
 
         for (String feedbackName : feedbackNames) {
             List<ElementTag> checkBoxList = new ArrayList<>();
@@ -104,13 +106,17 @@ public class CourseEditSectionRow {
     private List<ElementTag> createCheckboxesForSessionPermissionsOfInstructors(int panelIndex) {
         List<ElementTag> permissionInputGroup = new ArrayList<>();
 
-        String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
+        String[] privileges = {
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+        };
 
-        String[] checkboxContent = {"Sessions: Submit Responses and Add Comments",
-                                    "Sessions: View Responses and Comments",
-                                    "Sessions: Edit/Delete Responses/Comments by Others"};
+        String[] checkboxContent = {
+                "Sessions: Submit Responses and Add Comments",
+                "Sessions: View Responses and Comments",
+                "Sessions: Edit/Delete Responses/Comments by Others"
+        };
 
         int index = 0;
         for (String privilege : privileges) {

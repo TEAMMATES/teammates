@@ -77,7 +77,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Updates only name and course archive status.<br>
      * Preconditions: <br>
      * * {@code courseToUpdate} is non-null.<br>
-     * @throws InvalidParametersException, EntityDoesNotExistException
      */
     public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException,
                                                                      EntityDoesNotExistException {

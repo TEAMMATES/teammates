@@ -9,7 +9,6 @@ gradle.properties
 build.properties
 test.properties
 report
-target
 appengine-generated
 *.ext
 appengine-web.xml
@@ -19,10 +18,11 @@ chromedriver*
 *.db
 *.md.html
 libs/
-*.js
-!webpack-*.config.js
+src/main/webapp/js
+src/main/webapp/test/*.js
 node_modules/
 npm-debug.log
+package-lock.json
 
 .launches
 test-output/*
@@ -46,20 +46,16 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
+build-eclipse/
 .checkstyle
-.pmd
-.ruleset
+.eclipse-pmd
+.tern-project
 
 ### IntelliJ ###
 # Ignore the folder where project settings are stored as IDE is not assumed
 /.idea/
-# IntelliJ sometimes places module iml on project root so they  also need to be ignored
-# Only ignore the root imls so the template imls can be checked in
-/*.iml
-# if the user uses the default compile output path 
+*.iml
 /out/
-# if the user uses the automated setup compiled output path
-/buildIdea/
 
 ### Stylelint ###
 /.stylelintrc.yml

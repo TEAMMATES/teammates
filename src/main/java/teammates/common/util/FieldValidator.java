@@ -251,15 +251,18 @@ public class FieldValidator {
                     new String[] {"sections?", "sect?", "courses?\\s+sec(tion)?s?"}));
     public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
             Arrays.asList(
-                    new String[] {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?",
-                                  "courses?\\s+teams?"}));
+                    new String[] {
+                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?"
+                    }));
     public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
     public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
             Arrays.asList(
-                    new String[] {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                                  "e-mails?\\s+address(es)?", "contacts?"}));
+                    new String[] {
+                            "emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
+                            "e-mails?\\s+address(es)?", "contacts?"
+                    }));
     public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
@@ -274,7 +277,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code emailContent} is acceptable.
      */
     public String getInvalidityInfoForEmailContent(Text emailContent) {
-        Assumption.assertTrue("Non-null value expected", emailContent != null);
+        Assumption.assertNotNull("Non-null value expected", emailContent);
         if (emailContent.getValue().isEmpty()) {
             return EMAIL_CONTENT_ERROR_MESSAGE;
         }
@@ -300,7 +303,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForEmail(String email) {
 
-        Assumption.assertTrue("Non-null value expected", email != null);
+        Assumption.assertNotNull("Non-null value expected", email);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
@@ -327,7 +330,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForGoogleId(String googleId) {
 
-        Assumption.assertTrue("Non-null value expected", googleId != null);
+        Assumption.assertNotNull("Non-null value expected", googleId);
         Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
                 !googleId.toLowerCase().endsWith("@gmail.com"));
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(googleId);
@@ -358,7 +361,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForCourseId(String courseId) {
 
-        Assumption.assertTrue("Non-null value expected", courseId != null);
+        Assumption.assertNotNull("Non-null value expected", courseId);
 
         if (courseId.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
@@ -418,7 +421,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code gender} is acceptable.
      */
     public String getInvalidityInfoForGender(String gender) {
-        Assumption.assertTrue("Non-null value expected", gender != null);
+        Assumption.assertNotNull("Non-null value expected", gender);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
 
         if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
@@ -499,7 +502,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
     public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
-        Assumption.assertTrue("Non-null value expected", timeZoneValue != null);
+        Assumption.assertNotNull("Non-null value expected", timeZoneValue);
         if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
                                             REASON_UNAVAILABLE_AS_CHOICE);
@@ -514,7 +517,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code role} is acceptable.
      */
     public String getInvalidityInfoForRole(String role) {
-        Assumption.assertTrue("Non-null value expected", role != null);
+        Assumption.assertNotNull("Non-null value expected", role);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
 
         if (!ROLE_ACCEPTED_VALUES.contains(role)) {
@@ -539,7 +542,7 @@ public class FieldValidator {
      */
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
+        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (value.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
@@ -586,7 +589,7 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
+        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -633,8 +636,8 @@ public class FieldValidator {
 
     private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
             Date earlierTime, Date laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
-        Assumption.assertTrue("Non-null value expected", earlierTime != null);
-        Assumption.assertTrue("Non-null value expected", laterTime != null);
+        Assumption.assertNotNull("Non-null value expected", earlierTime);
+        Assumption.assertNotNull("Non-null value expected", laterTime);
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }

@@ -26,7 +26,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         String instructorId = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
         String adminUserId = "admin.user";
-        String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
+        String[] submissionParams = new String[] {Const.ParamsNames.IS_USING_AJAX, "true"};
 
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
@@ -51,7 +51,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
-        assertEquals(null, pageData.getNewFsForm().getCourseId());
+        assertNull(pageData.getNewFsForm().getCourseId());
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackSessionsPage|||instructorFeedbackSessionsPage|||"
@@ -63,8 +63,10 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
 
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
 
-        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
-                                        Const.ParamsNames.IS_USING_AJAX, "true"};
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
+                Const.ParamsNames.IS_USING_AJAX, "true"
+        };
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
@@ -93,7 +95,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("new-course");
 
-        submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
+        submissionParams = new String[] {Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
@@ -126,7 +128,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID,
                 typicalBundle.instructors.get("instructor1OfCourse1").courseId
         };

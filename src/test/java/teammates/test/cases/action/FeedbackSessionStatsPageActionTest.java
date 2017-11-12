@@ -32,7 +32,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         ______TS("typical: instructor accesses feedback stats of his/her course");
 
         FeedbackSessionAttributes accessableFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };

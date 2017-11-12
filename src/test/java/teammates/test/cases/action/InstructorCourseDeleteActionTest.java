@@ -121,7 +121,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                 typicalBundle.instructors.get("instructor1OfCourse1").googleId,
                 "icdat.owncourse", "New course", "UTC");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "icdat.owncourse"
         };
 

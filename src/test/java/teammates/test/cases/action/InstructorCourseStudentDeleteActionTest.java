@@ -29,7 +29,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         ______TS("success: delete a student ");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
@@ -60,7 +60,7 @@ public class InstructorCourseStudentDeleteActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student5InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
