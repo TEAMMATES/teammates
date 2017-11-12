@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -123,7 +124,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = Const.GenderTypes.MALE;
+        spa.gender = GenderType.MALE;
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
@@ -145,12 +146,12 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertFalse(accountDataTest.isInstructor);
         // Change a field
         accountDataTest.isInstructor = true;
-        accountDataTest.studentProfile.gender = Const.GenderTypes.FEMALE;
+        accountDataTest.studentProfile.gender = GenderType.FEMALE;
         accountsDb.createAccount(accountDataTest);
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
-        assertEquals(Const.GenderTypes.FEMALE, accountDataTest.studentProfile.gender);
+        assertEquals(GenderType.FEMALE, accountDataTest.studentProfile.gender);
 
         accountsDb.deleteAccount(a.googleId);
 

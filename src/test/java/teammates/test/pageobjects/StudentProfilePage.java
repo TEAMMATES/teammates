@@ -10,7 +10,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import teammates.common.util.Const;
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.util.NationalityHelper;
 
 public class StudentProfilePage extends AppPage {
@@ -133,15 +133,15 @@ public class StudentProfilePage extends AppPage {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(String gender) {
+    public void selectGender(GenderType gender) {
         switch (gender) {
-        case Const.GenderTypes.MALE:
+        case MALE:
             click(genderMaleRadio);
             break;
-        case Const.GenderTypes.FEMALE:
+        case FEMALE:
             click(genderFemaleRadio);
             break;
-        case Const.GenderTypes.OTHER:
+        case OTHER:
             click(genderOtherRadio);
             break;
         default:
@@ -151,7 +151,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfileThroughUi(String shortName, String email, String institute,
-                                     String nationality, String gender, String moreInfo) {
+                                     String nationality, GenderType gender, String moreInfo) {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
@@ -162,7 +162,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
-                                      String gender, String moreInfo) {
+                                      GenderType gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -183,15 +183,15 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    private void ensureGenderIsSelectedAs(String gender) {
+    private void ensureGenderIsSelectedAs(GenderType gender) {
         switch (gender) {
-        case Const.GenderTypes.MALE:
+        case MALE:
             assertTrue(genderMaleRadio.isSelected());
             break;
-        case Const.GenderTypes.FEMALE:
+        case FEMALE:
             assertTrue(genderFemaleRadio.isSelected());
             break;
-        case Const.GenderTypes.OTHER:
+        case OTHER:
             assertTrue(genderOtherRadio.isSelected());
             break;
         default:

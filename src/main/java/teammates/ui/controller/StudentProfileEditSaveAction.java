@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -43,7 +44,6 @@ public class StudentProfileEditSaveAction extends Action {
 
     private StudentProfileAttributes extractProfileData() {
         StudentProfileAttributes editedProfile = StudentProfileAttributes.builder().build();
-
         editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
@@ -52,7 +52,7 @@ public class StudentProfileEditSaveAction extends Action {
         if ("".equals(editedProfile.nationality)) {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
-        editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
+        editedProfile.gender = GenderType.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
@@ -65,7 +65,6 @@ public class StudentProfileEditSaveAction extends Action {
     private void preprocessParameters(StudentProfileAttributes studentProfile) {
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
-        studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
         studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);

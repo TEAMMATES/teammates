@@ -6,6 +6,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -112,9 +113,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedErrorMessages.add(
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         SanitizationHelper.sanitizeForHtml(submissionParams[7])));
-        expectedErrorMessages.add(
-                String.format(FieldValidator.GENDER_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[9])));
 
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
 
@@ -190,7 +188,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
         spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
         spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
-        spa.gender = StringHelper.trimIfNotNull(submissionParams[9]);
+        spa.gender = GenderType.valueOf(submissionParams[9]);
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;
 
@@ -208,7 +206,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
+
+                // Since GenderType always store valid genderType: MALE, FEMALE or OTHER, we can remove invalid gender
+                Const.ParamsNames.STUDENT_GENDER, "FEMALE",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
         };
     }

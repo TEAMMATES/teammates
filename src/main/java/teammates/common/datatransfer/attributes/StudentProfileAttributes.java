@@ -25,7 +25,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public String gender; // only accepts "male", "female" or "other"
+    public GenderType gender; // only accepts MALE, FEMALE or OTHER
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;
@@ -37,7 +37,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = "other";
+        this.gender = GenderType.OTHER;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = new Date();
@@ -127,8 +127,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForGender(gender), errors);
-
         Assumption.assertNotNull(this.pictureKey);
 
         // No validation for modified date as it is determined by the system.
@@ -214,8 +212,10 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withGender(String gender) {
-            profileAttributes.gender = isGenderValid(gender) ? gender : "other";
+        public Builder withGender(GenderType gender) {
+            if (gender != null) {
+                profileAttributes.gender = gender;
+            }
             return this;
         }
 
@@ -240,10 +240,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         public StudentProfileAttributes build() {
             return profileAttributes;
-        }
-
-        private boolean isGenderValid(String gender) {
-            return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
         }
     }
 }

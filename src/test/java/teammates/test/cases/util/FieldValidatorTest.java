@@ -369,28 +369,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void invalidityInfoFor_validGender_returnEmptyString() {
-        String validGender = "other";
-        String actual = validator.getInvalidityInfoForGender(validGender);
-        assertEquals("Valid gender should return empty string", "", actual);
-    }
-
-    @Test
-    public void invalidityInfoFor_invalidGender_returnErrorString() {
-        String invalidGender = "alpha male";
-        String actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Invalid gender should return appropriate error string",
-                     String.format(GENDER_ERROR_MESSAGE, invalidGender),
-                     actual);
-
-        invalidGender = "<script> alert('hi!'); </script>";
-        actual = validator.getInvalidityInfoForGender(invalidGender);
-        assertEquals("Unsanitized, invalid gender should return appropriate error string",
-                String.format(GENDER_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidGender)),
-                actual);
-    }
-
-    @Test
     public void testGetInvalidityInfoForRole_null_throwException() {
         String errorMessageForNullRole = "Did not throw the expected AssertionError for null value";
         try {

@@ -2,10 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
+<%@ tag import="teammates.common.datatransfer.attributes.GenderType" %>
 <%@ tag import="teammates.common.util.Const" %>
+<c:set var="OTHER"><%= GenderType.OTHER %></c:set>
 <c:set var="none"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
-<c:set var="noneForGender"><span class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></span></c:set>
-<c:set var="other"><%= Const.GenderTypes.OTHER %></c:set>
 <div class="row">
   <div class="col-xs-12">
     <div class="row" id="studentProfile">
@@ -23,7 +23,18 @@
             <tr>
               <td class="text-bold">Short Name (Gender)</td>
               <td>${empty student.shortName ? none : fn:escapeXml(student.shortName)}
-                (<i> ${student.gender == other ? noneForGender : fn:escapeXml(student.gender)} </i>)
+                (<i>
+                  <c:choose>
+                    <c:when test="${student.gender == OTHER or student.gender == null}">
+                      <span class="text-muted">
+                        ${student.displayedGenderType}
+                      </span>
+                    </c:when>
+                    <c:otherwise>
+                      ${student.displayedGenderType}
+                    </c:otherwise>
+                  </c:choose>
+                </i>)
               </td>
             </tr>
             <tr>

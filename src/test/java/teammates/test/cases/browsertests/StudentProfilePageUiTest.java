@@ -1,5 +1,9 @@
 package teammates.test.cases.browsertests;
 
+import static teammates.common.datatransfer.attributes.GenderType.FEMALE;
+import static teammates.common.datatransfer.attributes.GenderType.MALE;
+import static teammates.common.datatransfer.attributes.GenderType.OTHER;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -121,10 +125,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: no picture");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean", "male",
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "Singaporean", MALE,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Singaporean",
-                                          "male", "this is enough!$%&*</>");
+                                          MALE, "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: attempted script injection");
@@ -133,7 +137,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withGoogleId("valid.id")
                 .withShortName("name<script>alert(\"Hello world!\");</script>")
                 .withEmail("e@email.tmt")
-                .withGender("male")
+                .withGender(MALE)
                 .withMoreInfo("this is enough!$%&*</><script>alert(\"Hello world!\");</script>")
                 .withInstitute("inst<script>alert(\"Hello world!\");</script>")
                 .withNationality("American")
@@ -142,31 +146,31 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
                 "e@email.tmt", "inst<script>alert(\"Hello world!\");</script>", "American",
-                "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
+                MALE, "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("Typical case: changing genders for complete coverage");
 
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "other",
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", OTHER,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          "other", "this is enough!$%&*</>");
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", "female",
+                                          OTHER, "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", FEMALE,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                         "female", "this is enough!$%&*</>");
+                                          FEMALE, "this is enough!$%&*</>");
 
         ______TS("Failure case: invalid institute with attempted script injection");
 
         spa = StudentProfileAttributes.builder()
                 .withGoogleId("valid.id").withShortName("short.name").withEmail("e@email.tmt")
-                .withGender("male").withMoreInfo("this is enough!$%&*</>")
+                .withGender(MALE).withMoreInfo("this is enough!$%&*</>")
                 .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
                 .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          "female", "this is enough!$%&*</>");
+                                          FEMALE, "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
                                              // de-sanitize
                                              .replace("&lt;", "<").replace("&gt;", ">")
@@ -176,13 +180,13 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         spa = StudentProfileAttributes.builder()
                 .withGoogleId("valid.id").withShortName("$$short.name").withEmail("e@email.tmt")
-                .withGender("male").withMoreInfo("this is enough!$%&*</>")
+                .withGender(MALE).withMoreInfo("this is enough!$%&*</>")
                 .withInstitute(" inst  ").withNationality("American")
                 .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          "female", "this is enough!$%&*</>");
+                                          FEMALE, "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
 
         ______TS("Typical case: picture upload and edit");
@@ -195,7 +199,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          "female", "this is enough!$%&*</>");
+                                          FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
 
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -206,7 +210,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.showPictureEditor();
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                                          "female", "this is enough!$%&*</>");
+                                          FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
 
         prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;

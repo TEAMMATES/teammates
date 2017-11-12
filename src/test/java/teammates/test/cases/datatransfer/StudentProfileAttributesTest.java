@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.attributes.GenderType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -32,7 +33,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         profile.institute = "institute";
         profile.email = "valid@email.com";
         profile.nationality = "Lebanese";
-        profile.gender = "female";
+        profile.gender = GenderType.FEMALE;
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
     }
@@ -53,7 +54,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
-        assertEquals("other", profileAttributes.gender);
+        assertEquals(GenderType.OTHER, profileAttributes.gender);
         assertEquals("", profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
         assertEquals("", profileAttributes.email);
@@ -66,11 +67,12 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", "male",
+                "Teammates Institute", "American", GenderType.MALE,
                 new Text("hello"), new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
         assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
+        assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
         assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
         assertEquals(studentProfile.getEmail(), profileAttributes.email);
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
@@ -114,6 +116,24 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         testGetInvalidityInfoForValidProfileWithValues();
         testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
+    }
+
+    @Test
+    public void testValidImportGender() {
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
+        StudentProfile studentProfile = new StudentProfile(spa.googleId);
+        studentProfile.importGender("male");
+
+        assertEquals(GenderType.MALE, studentProfile.getGender());
+        assertFalse(studentProfile.getGender().equals(GenderType.FEMALE));
+        assertFalse(studentProfile.getGender().equals(GenderType.OTHER));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInValidImportGender() {
+        StudentProfileAttributes spa2 = StudentProfileAttributes.valueOf(profile.toEntity());
+        StudentProfile studentProfile2 = new StudentProfile(spa2.googleId);
+        studentProfile2.importGender("banana"); // throws expected exception
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
@@ -234,7 +254,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
-        String gender = "invalidGender";
+        GenderType gender = GenderType.OTHER;
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
@@ -256,7 +276,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
         String nationality = "&\"invalid nationality &";
-        String gender = "'\"'invalidGender";
+        GenderType gender = GenderType.MALE;
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 

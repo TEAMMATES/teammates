@@ -614,12 +614,6 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
 
-    public static class GenderTypes {
-        public static final String MALE = "male";
-        public static final String FEMALE = "female";
-        public static final String OTHER = "other";
-    }
-
     public static class ParamsNames {
 
         public static final String IS_USING_AJAX = "isusingAjax";
