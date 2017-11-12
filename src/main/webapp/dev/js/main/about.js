@@ -50,13 +50,16 @@
                 url = teammember.name;
             }
             if (teammember.currentPosition) {
-                $('#teammembers-current').append(
-                    `<div class="row margin-top-7px">
-                        <div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
+                const img = teammember.image
+                        ? `<div class="col-xs-8 col-xs-offset-2 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
                             <img class="img-responsive" src="${teammember.image}" alt="${teammember.name}">
-                        </div>
+                        </div>`
+                        : '';
+                $('#teammembers-current').append(
+                    `<div class="row margin-top-7px${img ? '' : ' margin-bottom-35px'}">
+                        ${img}
                         <div class="col-xs-10 col-xs-offset-1 col-sm-7 col-sm-offset-0 col-md-8 margin-top-7px">
-                            ${url}
+                            <strong>${url}</strong>
                             <br><br>
                             <strong>${teammember.currentPosition}</strong>
                             ${listDownPastPositions(teammember.pastPositions)}

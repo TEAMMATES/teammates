@@ -270,7 +270,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
    * Click `Versions` under `Main` menu on the left bar.
    * Tick the checkbox next to the deployed version and select `Migrate Traffic`. Wait for a few minutes.
    * If you do not wish to set the deployed version as the default, you can access the deployed app using
-     `https://{version}-dot-teammates-john.appspot.com`, e.g `https://4-18-dot-teammates-john.appspot.com`.
+     `https://{version}-dot-teammates-john.appspot.com`, e.g `https://6-0-0-dot-teammates-john.appspot.com`.
 
 1. (Optional) You can run the tests against the deployed app.
    * You need to setup `Gmail API` for the project as follows:

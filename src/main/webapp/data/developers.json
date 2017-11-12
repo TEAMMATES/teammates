@@ -25,6 +25,10 @@
       "username": "ovshake"
     },
     {
+      "name": "Abhishek Trivedi",
+      "username": "Abhishek-Trivedi"
+    },
+    {
       "name": "Abikaran",
       "username": "abikaran96"
     },
@@ -81,11 +85,6 @@
     },
     {
       "multiple": true,
-      "name": "Amar Prakash Pandey",
-      "username": "amarlearning"
-    },
-    {
-      "multiple": true,
       "name": "Anagh Hegde",
       "username": "AnaghHegde"
     },
@@ -93,6 +92,10 @@
       "multiple": true,
       "name": "Anand Singh",
       "username": "hackosinn"
+    },
+    {
+      "name": "Andrea Castellanos",
+      "username": "drecaste"
     },
     {
       "name": "Andrew Hunter",
@@ -284,6 +287,10 @@
       "username": "clmcdonald"
     },
     {
+      "name": "Daniel Esponda",
+      "username": "desponda"
+    },
+    {
       "multiple": true,
       "name": "Daryl Lim"
     },
@@ -415,11 +422,6 @@
     {
       "name": "Harshvardhan Singh",
       "username": "Harshvardhan58"
-    },
-    {
-      "multiple": true,
-      "name": "Hirday Gupta",
-      "username": "HirdayGupta"
     },
     {
       "name": "Hiresh Trivedi",
@@ -706,11 +708,6 @@
       "username": "mesternefeld"
     },
     {
-      "multiple": true,
-      "name": "Mayank Harsani",
-      "username": "Mynk96"
-    },
-    {
       "name": "Megan Belle",
       "username": "onealml"
     },
@@ -747,6 +744,10 @@
     {
       "name": "Mukesh Gupta",
       "username": "mukesh14149"
+    },
+    {
+      "name": "Naman Tiwari",
+      "username": "Naman-sopho"
     },
     {
       "name": "Nassim Bou Ghannam",
@@ -971,6 +972,10 @@
       "username": "SELVAKUMAR-S"
     },
     {
+      "name": "Shaharyar Shamshi",
+      "username": "shaharyar-shamshi"
+    },
+    {
       "name": "Sharthak Mishra",
       "username": "SharUzumaki"
     },
@@ -1102,11 +1107,6 @@
     },
     {
       "multiple": true,
-      "name": "Sujeet",
-      "username": "sujeet14108"
-    },
-    {
-      "multiple": true,
       "name": "Supraja Bhavani Sekhar",
       "username": "supraja2610"
     },
@@ -1133,11 +1133,6 @@
     },
     {
       "multiple": true,
-      "name": "Tan Li Hao",
-      "username": "LiHaoTan"
-    },
-    {
-      "multiple": true,
       "name": "Tan Wee Kwan",
       "username": "weekwantan"
     },
@@ -1161,9 +1156,8 @@
       "username": "tangzijian"
     },
     {
-      "multiple": true,
-      "name": "Taras Sakharchuk",
-      "username": "LimeTheCoder"
+      "name": "Tanya Gupta",
+      "username": "Tanya16107"
     },
     {
       "name": "Tarun Bansal"
@@ -1189,6 +1183,10 @@
       "username": "tomelliott1988"
     },
     {
+      "name": "Torben Brueck",
+      "username": "torbenbru"
+    },
+    {
       "multiple": true,
       "name": "Truong Hoang Phuoc",
       "username": "hoangphuoc25"
@@ -1208,11 +1206,6 @@
     },
     {
       "name": "Vaibhav Desai"
-    },
-    {
-      "multiple": true,
-      "name": "Vamsi Sangam",
-      "username": "VamsiSangam"
     },
     {
       "name": "Varsha Venkatesh",
@@ -1336,18 +1329,6 @@
       "startPeriod": "Jan 2017"
     },
     {
-      "name": "John Yong",
-      "username": "whipermr5",
-      "image": "images/teammembers/john.png",
-      "startPeriod": "Jan 2017"
-    },
-    {
-      "name": "Lee Yi Min",
-      "username": "leeyimin",
-      "image": "images/teammembers/yimin.png",
-      "startPeriod": "Jan 2017"
-    },
-    {
       "name": "Li Kai",
       "username": "li-kai",
       "image": "images/teammembers/likai.png",
@@ -1357,12 +1338,6 @@
       "name": "Samson Tan",
       "username": "samsontmr",
       "image": "images/teammembers/samson.png",
-      "startPeriod": "Jan 2017"
-    },
-    {
-      "name": "Thenaesh Elango",
-      "username": "thenaesh",
-      "image": "images/teammembers/thenaesh.png",
       "startPeriod": "Jan 2017"
     },
     {
@@ -1411,11 +1386,128 @@
       "currentPosition": "Founder, Project Mentor (2010 - )"
     },
     {
+      "name": "Wilson Kurniawan",
+      "username": "wkurniawan07",
+      "image": "images/teammembers/wilson.png",
+      "currentPosition": "Project Mentor (Jun 2017 - )",
+      "pastPositions": [
+        "Project Lead (Jun 2016 - May 2017)",
+        "Area Lead - DevOps, Results (Jan 2016 - May 2016)",
+        "Snr Developer (Aug 2015 - Dec 2015)",
+        "Committer (Apr 2015 - May 2015)"
+      ]
+    },
+    {
+      "name": "Chow Yuan Bin",
+      "username": "chowyb",
+      "image": "images/teammembers/yuanbin.png",
+      "currentPosition": "Project Lead (Jun 2017 - )",
+      "pastPositions": [
+        "Area Lead (Jan 2017 - May 2017)",
+        "Snr Developer (Aug 2016 - Dec 2016)",
+        "Committer (May 2016 - Jul 2016)"
+      ]
+    },
+    {
+      "name": "John Yong",
+      "username": "whipermr5",
+      "image": "images/teammembers/john.png",
+      "currentPosition": "Area Lead (Aug 2017 - )",
+      "pastPositions": [
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
+      "name": "Lee Yi Min",
+      "username": "leeyimin",
+      "image": "images/teammembers/yimin.png",
+      "currentPosition": "Area Lead (Aug 2017 - )",
+      "pastPositions": [
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
+      "name": "Thenaesh Elango",
+      "username": "thenaesh",
+      "image": "images/teammembers/thenaesh.png",
+      "currentPosition": "Area Lead (Aug 2017 - )",
+      "pastPositions": [
+        "Snr Developer (May 2017 - Jul 2017)",
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
+      "name": "Tan Li Hao",
+      "username": "LiHaoTan",
+      "image": "images/teammembers/lihao.png",
+      "currentPosition": "Snr Developer (Aug 2017 - )",
+      "pastPositions": [
+        "Committer (May 2017 - Jul 2017)"
+      ]
+    },
+    {
+      "name": "Amar Prakash Pandey",
+      "username": "amarlearning",
+      "image": "images/teammembers/amar.png",
+      "currentPosition": "Major Contributor (May 2017 - )"
+    },
+    {
+      "name": "Hirday Gupta",
+      "username": "HirdayGupta",
+      "image": "images/teammembers/hirday.png",
+      "currentPosition": "Major Contributor (May 2017 - )"
+    },
+    {
+      "name": "Mayank Harsani",
+      "username": "Mynk96",
+      "image": "images/teammembers/mayank.png",
+      "currentPosition": "Major Contributor (May 2017 - )"
+    },
+    {
+      "name": "Sujeet Kumar",
+      "username": "sujeet14108",
+      "image": "images/teammembers/sujeet.png",
+      "currentPosition": "Major Contributor (May 2017 - )"
+    },
+    {
+      "name": "Vamsi Sangam",
+      "username": "VamsiSangam",
+      "image": "images/teammembers/vamsi.png",
+      "currentPosition": "Major Contributor (May 2017 - )"
+    },
+    {
+      "name": "Taras Sakharchuk",
+      "username": "LimeTheCoder",
+      "currentPosition": "Major Contributor (May 2017 - )"
+    },
+    {
+      "name": "Josephine Kwa",
+      "username": "JosephineKwa",
+      "image": "images/teammembers/josephine.png",
+      "pastPositions": [
+        "Area Lead - UI/UX, Comments, Profiles, Courses (Jan 2016 - May 2017)",
+        "Snr Developer (Aug 2015 - Dec 2015)",
+        "Committer (Feb 2015 - May 2015)"
+      ]
+    },
+    {
+      "name": "Yap Jun Hao",
+      "username": "junhaoyap",
+      "image": "images/teammembers/junhao.png",
+      "pastPositions": [
+        "Area Lead - DevOps, Submissions (Jan 2016 - May 2017)",
+        "Snr Developer (Aug 2015 - Dec 2015)",
+        "Committer (Apr 2015 - May 2015)"
+      ]
+    },
+    {
       "name": "Kang Hong Jin",
       "username": "kanghj",
       "image": "images/teammembers/hongjin.png",
-      "currentPosition": "Project Mentor (June 2016 - )",
       "pastPositions": [
+        "Project Mentor (Jun 2016 - Dec 2016)",
         "Project Lead (Aug 2015 - May 2016)",
         "Snr Developer (May 2015 - Jul 2015)",
         "Committer (Aug 2014 - Apr 2015)"
@@ -1425,60 +1517,20 @@
       "name": "Thyagesh Manikandan",
       "username": "thyageshm",
       "image": "images/teammembers/thyagesh.png",
-      "currentPosition": "Project Mentor (June 2016 - )",
       "pastPositions": [
+        "Project Mentor (Jun 2016 - Dec 2016)",
         "Project Lead (Jan 2016 - May 2016)",
         "Area Lead - Profiles (Aug 2014 - Dec 2015)",
-        "Snr Developer (June 2014 - Jul 2014)",
+        "Snr Developer (Jun 2014 - Jul 2014)",
         "Committer (Apr 2014 - May 2014)"
-      ]
-    },
-    {
-      "name": "Wilson Kurniawan",
-      "username": "wkurniawan07",
-      "image": "images/teammembers/wilson.png",
-      "currentPosition": "Project Lead (June 2016 - )",
-      "pastPositions": [
-        "Area Lead - DevOps, Results (Jan 2016 - May 2016)",
-        "Snr Developer (Aug 2015 - Dec 2015)",
-        "Committer (Apr 2015 - May 2015)"
-      ]
-    },
-    {
-      "name": "Josephine Kwa",
-      "username": "JosephineKwa",
-      "image": "images/teammembers/josephine.png",
-      "currentPosition": "Area Lead - UI/UX, Comments, Profiles, Courses (Jan 2016 - )",
-      "pastPositions": [
-        "Snr Developer (Aug 2015 - Dec 2015)",
-        "Committer (Feb 2015 - May 2015)"
-      ]
-    },
-    {
-      "name": "Yap Jun Hao",
-      "username": "junhaoyap",
-      "image": "images/teammembers/junhao.png",
-      "currentPosition": "Area Lead - DevOps, Submissions (Jan 2016 - )",
-      "pastPositions": [
-        "Snr Developer (Aug 2015 - Dec 2015)",
-        "Committer (Apr 2015 - May 2015)"
-      ]
-    },
-    {
-      "name": "Chow Yuan Bin",
-      "username": "chowyb",
-      "image": "images/teammembers/yuanbin.png",
-      "currentPosition": "Snr Developer (Aug 2016 - )",
-      "pastPositions": [
-        "Committer (May 2016 - Jul 2016)"
       ]
     },
     {
       "name": "Khoo Yong Jie",
       "username": "YongJieYongJie",
       "image": "images/teammembers/yongjie.png",
-      "currentPosition": "Snr Developer (Aug 2016 - )",
       "pastPositions": [
+        "Snr Developer (Aug 2016 - Dec 2016)",
         "Committer (May 2016 - Jul 2016)"
       ]
     },
@@ -1486,19 +1538,25 @@
       "name": "Lakmal Padmakumara",
       "username": "rclakmal",
       "image": "images/teammembers/lakmal.png",
-      "currentPosition": "Major Contributor (May 2016 - )"
+      "pastPositions": [
+        "Major Contributor (May 2016 - Dec 2016)"
+      ]
     },
     {
       "name": "Serhii Beliablia",
       "username": "belyabl9",
       "image": "images/teammembers/serhii.png",
-      "currentPosition": "Major Contributor (May 2016 - )"
+      "pastPositions": [
+        "Major Contributor (May 2016 - Dec 2016)"
+      ]
     },
     {
       "name": "Tarun Kumar Yadav",
       "username": "tarun14110",
       "image": "images/teammembers/tarun.png",
-      "currentPosition": "Major Contributor (May 2016 - )"
+      "pastPositions": [
+        "Major Contributor (May 2016 - Dec 2016)"
+      ]
     },
     {
       "name": "Low Wei Lin",

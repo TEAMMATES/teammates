@@ -259,6 +259,10 @@ input.inline {
     margin-bottom: 15px;
 }
 
+.margin-bottom-35px {
+    margin-bottom: 35px;
+}
+
 .margin-center-horizontal {
     margin: 0 auto;
 }

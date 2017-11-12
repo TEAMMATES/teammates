@@ -79,7 +79,7 @@ Expected | Actual | Explanation
 --- | --- | ---
 `<expected></expected>` | `<actual></actual>` | These are inserted by the test code for easier reference, after the comparison has been done.
 
-Furthermore, you might see tags such as `${test.student1}` and `${version}` in some of the expected files (e.g. `studentHomeHTML.html`) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, `${version}` will be replaced by something like `4.89`.
+Furthermore, you might see tags such as `${test.student1}` and `${version}` in some of the expected files (e.g. `studentHomeHTML.html`) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, `${version}` will be replaced by something like `6.0.0`.
 
 ### Common test errors and solutions
 
@@ -121,7 +121,7 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
 * **ERROR**: Browser alert about invalid SSL certificate.
 
-  **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://4-30-dot-teammates-john.appspot.com`.
+  **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://6-0-0-dot-teammates-john.appspot.com`.
 
 * **ERROR**: Tests fail due to accented characters.
 
