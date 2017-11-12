@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ attribute name="cssIncludes" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="altNavBar" %>
@@ -11,9 +10,6 @@
 <c:set var="defaultFooter"><t:bodyFooter /></c:set>
 
 <t:page pageTitle="${title} [Instructor]" bodyTitle="${title}">
-  <jsp:attribute name="cssIncludes">
-    ${cssIncludes}
-  </jsp:attribute>
   <jsp:attribute name="jsIncludes">
     ${jsIncludes}
   </jsp:attribute>

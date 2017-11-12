@@ -496,15 +496,15 @@ public abstract class AppPage {
 
     protected void fillRichTextEditor(String id, String content) {
         String preparedContent = content.replace("\n", "<br>");
-        executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
-                      + "    tinyMCE.get('" + id + "').focus();" // for consistent HTML verification across browsers
+        executeScript("  if (typeof tinymce !== 'undefined') {"
+                      + "    tinymce.get('" + id + "').setContent('" + preparedContent + "\t\t');"
+                      + "    tinymce.get('" + id + "').focus();" // for consistent HTML verification across browsers
                       + "}");
     }
 
     protected String getRichTextEditorContent(String id) {
-        return (String) executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                                      + "    return tinyMCE.get('" + id + "').getContent();"
+        return (String) executeScript("  if (typeof tinymce !== 'undefined') {"
+                                      + "    return tinymce.get('" + id + "').getContent();"
                                       + "}");
     }
 

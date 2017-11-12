@@ -45,8 +45,8 @@ public class FeedbackSubmitPage extends AppPage {
         String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                 + "-" + qnNumber + "-" + responseNumber;
         fillRichTextEditor(id, text);
-        executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').fire('change');"
+        executeScript("  if (typeof tinymce !== 'undefined') {"
+                      + "    tinymce.get('" + id + "').fire('change');"
                       + "}");
     }
 

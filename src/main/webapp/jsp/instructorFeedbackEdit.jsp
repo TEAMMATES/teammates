@@ -4,14 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
+  <script type="text/javascript" src="/js/libs-tinymce.js"></script>
   <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
 </c:set>
 

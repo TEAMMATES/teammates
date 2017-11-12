@@ -1,5 +1,4 @@
 <%@ tag description="Generic TEAMMATES Static Page" %>
-<%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="jsIncludes" %>
@@ -12,9 +11,6 @@
     <meta name="application-name" content="TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects">
     <meta name="keywords" content="Teammates, peer feedback, peer evaluation, student, team, project, free">
     <meta name="description" content="TEAMMATES is an Online Peer Feedback System for student team projects. It is completely free to use. Get your students to evaluate their performance in team projects, and view reports and summaries of their feedback and evaluations.">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">
-    <link type="text/css" href="stylesheets/teammatesCommon.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <title>TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects</title>
@@ -61,9 +57,7 @@
       </div>
     </footer>
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+    <script type="text/javascript" src="/js/libs-common.js"></script>
     ${jsIncludes}
   </body>
 </html>

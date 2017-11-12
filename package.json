@@ -1,39 +1,46 @@
 {
+  "dependencies": {
+    "bootbox": "4.4.0",
+    "bootstrap": "3.1.1",
+    "d3": "3.5.17",
+    "datamaps": "0.5.8",
+    "guillotine": "1.3.1",
+    "jquery": "1.12.4",
+    "jquery-highlight": "3.4.0",
+    "jquery-ui": "1.12.1",
+    "moment": "2.19.1",
+    "moment-timezone": "0.5.13",
+    "printthis": "0.1.5",
+    "tinymce": "4.7.1"
+  },
   "devDependencies": {
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
     "babel-preset-env": "1.6.1",
+    "blanket": "1.2.3",
+    "css-loader": "0.28.7",
     "eslint": "4.11.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-json": "1.2.0",
+    "file-loader": "1.1.5",
+    "imports-loader": "0.7.1",
     "lintspaces-cli": "0.6.0",
+    "qunitjs": "2.4.1",
+    "style-loader": "0.19.0",
     "stylelint": "8.2.0",
     "stylelint-config-standard": "17.0.0",
     "webpack": "3.8.1"
   },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "browsers": [
-              "ie >= 9"
-            ]
-          }
-        }
-      ]
-    ]
-  },
   "scripts": {
+    "build:libs": "webpack --config webpack-libs.config.js",
     "build:src": "webpack --config webpack-main.config.js",
     "build:test": "webpack --config webpack-test.config.js",
-    "build": "npm run build:src && npm run build:test",
+    "build": "npm run build:libs && npm run build:src && npm run build:test",
     "lint:js": "eslint *.js src/main/webapp/dev -c static-analysis/teammates-eslint.yml",
-    "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
-    "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
-    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/main/webapp/dev/**/*.js\" \"src/**/*.properties\" \"*.js\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
+    "lint:json": "eslint package.json src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
+    "lint:css": "stylelint src/main/webapp/dev/css/*.css --config static-analysis/teammates-stylelint.yml",
+    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/main/webapp/dev/**/*.js\" \"src/**/*.properties\" \"*.js\" \"*.json\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
     "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
   },
   "private": true

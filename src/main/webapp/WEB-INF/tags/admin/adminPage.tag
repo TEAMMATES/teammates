@@ -1,13 +1,9 @@
 <%@ tag description="Generic Admin Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
-<%@ attribute name="cssIncludes" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="title" required="true" %>
 <t:page pageTitle="${title} [Administrator]" bodyTitle="${title}">
-  <jsp:attribute name="cssIncludes">
-    ${cssIncludes}
-  </jsp:attribute>
   <jsp:attribute name="jsIncludes">
     ${jsIncludes}
   </jsp:attribute>

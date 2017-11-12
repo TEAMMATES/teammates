@@ -1,18 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Table Sorting Test Page - TEAMMATES</title>
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
-    <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-
-    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
-    <script type="text/javascript" src="/test/tableSort.js"></script>
-
   </head>
 
   <body>
@@ -183,5 +174,7 @@
       </table>
       <br> <br> <br>
     </div>
+    <script type="text/javascript" src="/js/libs-common.js"></script>
+    <script type="text/javascript" src="/test/tableSort.js"></script>
   </body>
 </html>
