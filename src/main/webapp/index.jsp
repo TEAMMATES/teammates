@@ -87,7 +87,7 @@
     <div class="col-xs-12 col-sm-8">
       <h2 class="media-heading">Growing Global Community:</h2>
       <p>
-        TEAMMATES community is growing fast, spanning over 1000 universities from many countries across the globe.
+        TEAMMATES community is growing fast, spanning over 200,000 users from over 1,600 universities from many countries across the globe.
       </p>
       <p>
         <a href="usermap.jsp">See who is using TEAMMATES.</a>

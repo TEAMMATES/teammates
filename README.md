@@ -1,18 +1,11 @@
 # TEAMMATES Developer Web Site
 
-![Users Count](https://img.shields.io/badge/users-140K%2B-brightgreen.svg)
-![Universities Count](https://img.shields.io/badge/universities-1200%2B-green.svg)
 [![Travis Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw?svg=true)](https://ci.appveyor.com/project/damithc/teammates)
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 
-![Java LoC Count](https://img.shields.io/badge/java-119%20KLoC-blue.svg)
 [![Dependency Status](https://www.versioneye.com/user/projects/579103ca51500e0031886f12/badge.svg)](https://www.versioneye.com/user/projects/579103ca51500e0031886f12)
-
-![HTML LoC Count](https://img.shields.io/badge/html-5%20KLoC-blue.svg)
-![CSS LoC Count](https://img.shields.io/badge/css-2%20KLoC-blue.svg)
-![JS LoC Count](https://img.shields.io/badge/js-20%20KLoC-blue.svg)
 [![Dependency Status](https://www.versioneye.com/user/projects/579103d351500e0039e7b76a/badge.svg)](https://www.versioneye.com/user/projects/579103d351500e0039e7b76a)
 
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
