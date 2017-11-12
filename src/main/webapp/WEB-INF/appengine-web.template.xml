@@ -13,7 +13,7 @@
 
     <!-- Version number of the app -->
     <!-- Use dashes instead of dots because GAE does not allow dots in version number -->
-    <version>4-18</version>
+    <version>6-0-0</version>
 
     <!-- Specify which file contains logging configuration to be used by java.util.logging -->
     <system-properties>
