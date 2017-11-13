@@ -139,8 +139,8 @@ function bindDeleteAccountAction() {
         const existingCourses = $(`#courses_${googleId}`).html();
 
         const messageText = `Are you sure you want to delete the account ${googleId}?`
-                          + `<br><br>${existingCourses
-                           }<br><br>This operation will delete ALL information about this account from the system.`;
+                + `<br><br>${existingCourses}`
+                + '<br><br>This operation will delete ALL information about this account from the system.';
 
         const okCallback = function () {
             window.location = $clickedLink.attr('href');

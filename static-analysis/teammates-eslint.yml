@@ -18,12 +18,29 @@ rules:
         "exports": "always-multiline",
         "functions": "ignore", # not supported in ES2015
     }]
+    eqeqeq: ["error", "always"]
     func-names: "off"
-    indent: ["error", 4]
+    function-paren-newline: "off"
+    indent: ["error", 4, {
+        "MemberExpression": 2,
+        "FunctionDeclaration": {
+            "parameters": 2,
+        },
+        "FunctionExpression": {
+            "parameters": 2,
+        },
+        "CallExpression": {
+            "arguments": 2,
+        },
+        "ignoredNodes": [
+            "ConditionalExpression",
+        ],
+    }]
     linebreak-style: "off"
     max-len: ["error", 125]
     no-continue: "off"
     no-mixed-operators: "off"
+    no-negated-condition: "error"
     no-param-reassign: ["error", { "props": false }]
 
     import/no-extraneous-dependencies: "off"

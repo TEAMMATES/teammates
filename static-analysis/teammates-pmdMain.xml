@@ -8,6 +8,10 @@
     </description>
     <exclude-pattern>.*/test/java/.*</exclude-pattern>
     <exclude-pattern>.*/client/java/.*</exclude-pattern>
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
     <rule ref="rulesets/java/logging-java.xml">
         <!-- Not worth the added safety -->
         <exclude name="GuardLogStatementJavaUtil"/>

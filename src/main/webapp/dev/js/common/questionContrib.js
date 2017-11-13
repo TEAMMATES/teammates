@@ -19,10 +19,10 @@ function setContribQnVisibilityFormat(questionNum) {
 
     // Show only the two visibility options valid for contrib questions; hide the rest
     $currentQuestionTable.find('.visibility-options-dropdown-option')
-                         .not('[data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"]')
-                         .not('[data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY"]')
-                         .parent()
-                         .addClass('hidden');
+            .not('[data-option-name="ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS"]')
+            .not('[data-option-name="VISIBLE_TO_INSTRUCTORS_ONLY"]')
+            .parent()
+            .addClass('hidden');
     $currentQuestionTable.find('.visibility-options-dropdown .dropdown-menu .divider').addClass('hidden');
 
     // Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
@@ -35,15 +35,15 @@ function setContribQnVisibilityFormat(questionNum) {
                     || $(this).val() === 'OWN_TEAM_MEMBERS'
                     || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
                 $currentQuestionTable.find('input.visibilityCheckbox')
-                                     .filter('input[class*="giverCheckbox"],input[class*="recipientCheckbox"]')
-                                     .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
-                                     .prop('checked', false);
+                        .filter('input[class*="giverCheckbox"],input[class*="recipientCheckbox"]')
+                        .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
+                        .prop('checked', false);
             } else {
                 const visibilityOptionsRow = $(this).closest('tr');
                 visibilityOptionsRow.find('input[class*="giverCheckbox"]')
-                                         .prop('checked', false);
+                        .prop('checked', false);
                 visibilityOptionsRow.find('input[class*="recipientCheckbox"]')
-                                         .prop('checked', false);
+                        .prop('checked', false);
             }
         }
 
@@ -51,17 +51,17 @@ function setContribQnVisibilityFormat(questionNum) {
                 || $(this).val() === 'OWN_TEAM_MEMBERS'
                 || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
-                                 .filter('input[name=receiverFollowerCheckbox]')
-                                 .prop('checked', $(this).prop('checked'));
+                    .filter('input[name=receiverFollowerCheckbox]')
+                    .prop('checked', $(this).prop('checked'));
         }
 
         if ($(this).val() === 'RECEIVER'
                 || $(this).val() === 'OWN_TEAM_MEMBERS'
                 || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
-                                 .filter('.answerCheckbox')
-                                 .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
-                                 .prop('checked', $(this).prop('checked'));
+                    .filter('.answerCheckbox')
+                    .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
+                    .prop('checked', $(this).prop('checked'));
         }
     });
 
@@ -69,8 +69,8 @@ function setContribQnVisibilityFormat(questionNum) {
         if ($(this).is(':checked')) {
             const visibilityOptionsRow = $(this).closest('tr');
             visibilityOptionsRow.find('input.answerCheckbox')
-                                     .prop('checked', true)
-                                     .trigger('change');
+                    .prop('checked', true)
+                    .trigger('change');
         }
     });
 
@@ -78,15 +78,15 @@ function setContribQnVisibilityFormat(questionNum) {
         if ($(this).is(':checked')) {
             const visibilityOptionsRow = $(this).closest('tr');
             visibilityOptionsRow.find('input.answerCheckbox')
-                                     .prop('checked', true)
-                                     .trigger('change');
+                    .prop('checked', true)
+                    .trigger('change');
         }
     });
 
     $currentQuestionTable.find('input.visibilityCheckbox').filter('[name=receiverLeaderCheckbox]').change(function () {
         const visibilityOptionsRow = $(this).closest('tr');
         visibilityOptionsRow.find('input[name=receiverFollowerCheckbox]')
-                                 .prop('checked', $(this).prop('checked'));
+                .prop('checked', $(this).prop('checked'));
     });
 }
 

@@ -166,7 +166,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      *  are non-null and correspond to an existing feedback session. <br>
      */
     public void updateFeedbackSession(FeedbackSessionAttributes newAttributes)
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
 
         newAttributes.sanitizeForSaving();

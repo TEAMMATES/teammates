@@ -214,7 +214,7 @@ public final class CoursesLogic {
      * @param isCourseVerified Determine whether it is necessary to check if the course exists
      */
     private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified)
-        throws EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         if (!isCourseVerified) {
             verifyCourseIsPresent(courseId);
         }

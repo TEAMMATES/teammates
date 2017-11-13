@@ -92,9 +92,9 @@ $(document).ready(() => {
             } else {
                 $('#profileUploadPictureSubmit').prop('disabled', false);
                 const newVal = val.split('\\')
-                                  .pop()
-                                  .split('/')
-                                  .pop();
+                        .pop()
+                        .split('/')
+                        .pop();
                 $('.filename-preview').val(newVal);
             }
         });

@@ -167,8 +167,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }
 
@@ -179,7 +179,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         String courseId = instructor.courseId;
         String courseName = "Typical Course 1 with 2 Evals";
         String courseTimeZone = "UTC";
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,
                 Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone

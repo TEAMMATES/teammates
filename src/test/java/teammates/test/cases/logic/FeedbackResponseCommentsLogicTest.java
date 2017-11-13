@@ -318,7 +318,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         FeedbackResponseCommentAttributes frCommentGot =
                 frcLogic.getFeedbackResponseComment(
                                  frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
-        assertEquals(null, frCommentGot);
+        assertNull(frCommentGot);
     }
 
     private void verifyExceptionThrownWhenUpdateFrComment(

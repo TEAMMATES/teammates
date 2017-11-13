@@ -120,7 +120,7 @@ function updateMcqOtherOptionField() {
 
         for (let j = 0; j < numResponses; j += 1) {
             $(`[data-text="otherOptionText"][name="responsetext-${qnNum}-${j}"]`)
-                 .val($(`#otherOptionText-${qnNum}-${j}`).val());
+                    .val($(`#otherOptionText-${qnNum}-${j}`).val());
         }
     }
 }
@@ -135,7 +135,7 @@ function updateMsqOtherOptionField() {
 
         for (let j = 0; j < numResponses; j += 1) {
             $(`[data-text="msqOtherOptionText"][name="responsetext-${qnNum}-${j}"]`)
-                 .val($(`#msqOtherOptionText-${qnNum}-${j}`).val());
+                    .val($(`#msqOtherOptionText-${qnNum}-${j}`).val());
         }
     }
 }
@@ -251,9 +251,9 @@ function prepareMSQQuestions() {
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function () {
+            // $options includes 'other'
             const $options = $(this).closest('table')
-                                  .find('input[name^="responsetext-"][value!=""], '
-                                        + 'input[name^="responsetext-"][data-text]'); // includes 'other'
+                    .find('input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]');
             const name = $(this).attr('name');
             const indexSuffix = name.substring(name.indexOf('-'));
 
@@ -274,7 +274,7 @@ function prepareMSQQuestions() {
         $options.click(function () {
             const $self = $(this);
             noneOfTheAboveOption = $self.closest('table').find(
-                                           'input[name^="responsetext-"][value=""]:not([data-text])');
+                    'input[name^="responsetext-"][value=""]:not([data-text])');
             const name = $self.attr('name');
             const indexSuffix = name.substring(name.indexOf('-'));
 
@@ -510,7 +510,7 @@ function updateConstSumMessageQn(qnNum) {
     let answerSet = {};
 
     function fillWithZeroIfEmpty(inputFieldElement) {
-        if (isNaN(parseInt(inputFieldElement.val(), 10))) {
+        if (Number.isNaN(parseInt(inputFieldElement.val(), 10))) {
             inputFieldElement.val(0);
         }
     }
@@ -519,8 +519,8 @@ function updateConstSumMessageQn(qnNum) {
         let message = '';
 
         if (allNotNumbers) {
-            message = `Please distribute ${points} points among the above ${
-                       distributeToRecipients ? 'recipients.' : 'options.'}`;
+            message = `Please distribute ${points} points among the above `
+                    + `${distributeToRecipients ? 'recipients' : 'options'}.`;
             messageElement.addClass('text-color-blue');
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
@@ -724,9 +724,9 @@ function formatRecipientLists() {
             if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
                 $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
-                    .not(this)
-                    // leave this in double quotes and single within, will fail otherwise
-                    .find(`option[value='${selectedOption}']`)
+                        .not(this)
+                        // leave this in double quotes and single within, will fail otherwise
+                        .find(`option[value='${selectedOption}']`)
                         .hide();
             }
         }
@@ -741,18 +741,18 @@ function formatRecipientLists() {
 
         if (lastSelectedOption !== '') {
             $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
-                .not(this)
-                // leave this in double quotes and single within, will fail otherwise
-                .find(`option[value='${lastSelectedOption}']`)
+                    .not(this)
+                    // leave this in double quotes and single within, will fail otherwise
+                    .find(`option[value='${lastSelectedOption}']`)
                     .show();
         }
 
         if (curSelectedOption !== '') {
             curSelectedOption = sanitizeForJs(curSelectedOption);
             $(`select[name|=${FEEDBACK_RESPONSE_RECIPIENT}-${questionNumber}]`)
-                .not(this)
-                // leave this in double quotes and single within, will fail otherwise
-                .find(`option[value='${curSelectedOption}']`)
+                    .not(this)
+                    // leave this in double quotes and single within, will fail otherwise
+                    .find(`option[value='${curSelectedOption}']`)
                     .hide();
         }
 
@@ -869,7 +869,7 @@ function updateRankMessageQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
 
     const numOptions = isDistributingToRecipients ? numRecipients
-                                                : parseInt($(`#rankNumOptions-${qnNum}`).val(), 10);
+            : parseInt($(`#rankNumOptions-${qnNum}`).val(), 10);
 
     let areAllAnswersUnique;
     let allocatedRanks;
@@ -935,8 +935,7 @@ function updateRankMessageQn(qnNum) {
             message += ` Rank no more than ${max} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
             $messageElement.addClass('text-color-red');
         } else if (!isAllOptionsRanked && !isMinOrMaxOptionsToBeRankedEnabled) {
-            message = `Please rank the above ${isDistributingToRecipients ? 'recipients. '
-                                                                             : 'options. '}`;
+            message = `Please rank the above ${isDistributingToRecipients ? 'recipients' : 'options'}. `;
             $messageElement.addClass('text-color-blue');
         }
 
@@ -1149,7 +1148,7 @@ $(document).ready(() => {
         $.each(textFields, (i, textField) => {
             const id = $(textField).attr('id');
             const isSessionOpenData = $(textField).data('isSessionOpen');
-            const isSessionOpen = typeof (isSessionOpenData) === 'boolean' ? isSessionOpenData : true;
+            const isSessionOpen = typeof isSessionOpenData === 'boolean' ? isSessionOpenData : true;
 
             /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
             richTextEditorBuilder.initEditor(`#${id}`, {
@@ -1185,15 +1184,15 @@ $(document).ready(() => {
         updateMcqOtherOptionField();
         updateMsqOtherOptionField();
 
-        if (!validationStatus) {
-            e.preventDefault();
-            e.stopPropagation();
-        } else {
+        if (validationStatus) {
             reenableFieldsForSubmission(); // only enabled inputs will appear in the post data
 
             // disable button to prevent user from clicking submission button again
             const $submissionButton = $('#response_submit_button');
             addLoadingIndicator($submissionButton, 'Submitting ');
+        } else {
+            e.preventDefault();
+            e.stopPropagation();
         }
     });
 

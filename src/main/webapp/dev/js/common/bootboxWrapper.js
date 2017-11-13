@@ -17,7 +17,7 @@ const DEFAULT_NO_TEXT = 'No';
 
 function applyStyleToModal(modal, statusType) {
     modal.find('.modal-header').addClass(`alert-${statusType || StatusType.DEFAULT}`)
-         .find('.modal-title').addClass(`icon-${statusType || StatusType.DEFAULT}`);
+            .find('.modal-title').addClass(`icon-${statusType || StatusType.DEFAULT}`);
 }
 
 /**
@@ -49,7 +49,7 @@ function showModalAlert(titleText, messageText, okButtonText, statusType) {
  *                  statusType (defaults to StatusType.INFO)
  */
 function showModalConfirmation(titleText, messageText, okCallback, cancelCallback,
-                                okButtonText, cancelButtonText, statusType) {
+        okButtonText, cancelButtonText, statusType) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
@@ -79,7 +79,7 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
  *                  statusType (defaults to StatusType.INFO)
  */
 function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallback, noButtonCallback,
-                                    cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, statusType) {
+        cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, statusType) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,

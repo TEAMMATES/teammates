@@ -199,8 +199,8 @@ function bindCollapseEvents(panels) {
 }
 
 const STUDENT_LIMIT = 3000;
-const PERFORMANCE_ISSUE_MESSAGE = `Due to performance issue, it is not allowed to show more than ${STUDENT_LIMIT
-                                 } students. Please deselect some courses to view student list of other courses.`;
+const PERFORMANCE_ISSUE_MESSAGE = `Due to performance issue, it is not allowed to show more than ${STUDENT_LIMIT}`
+        + ' students. Please deselect some courses to view student list of other courses.';
 let numStudents = 0;
 
 function transportSectionChoices() {
@@ -387,16 +387,16 @@ $(document).ready(() => {
                    + '<small class="text-muted">This message will disappear in 10 seconds</small>';
 
         $copyEmailButton
-            .popover('destroy')
-            .popover({
-                html: true,
-                trigger: 'manual',
-                placement: 'top',
-                content() {
-                    return tips;
-                },
-            })
-            .popover('show');
+                .popover('destroy')
+                .popover({
+                    html: true,
+                    trigger: 'manual',
+                    placement: 'top',
+                    content() {
+                        return tips;
+                    },
+                })
+                .popover('show');
 
         selectElementContents($('#emails').get(0));
         executeCopyCommand();
