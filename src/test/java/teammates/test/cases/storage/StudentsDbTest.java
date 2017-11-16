@@ -55,7 +55,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes updatedStudent2 = studentsDb.getStudentForGoogleId(s.course, s.googleId);
 
         // Assert lastUpdate has NOT changed.
-        assertTrue(updatedStudent.getUpdatedAt().equals(updatedStudent2.getUpdatedAt()));
+        assertEquals(updatedStudent.getUpdatedAt(), updatedStudent2.getUpdatedAt());
     }
 
     @Test
@@ -95,9 +95,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertTrue(retrievedStudent.isEnrollInfoSameAs(s));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
+        assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
+        assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
+        assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
 
         ______TS("fail : duplicate");
         try {
@@ -256,7 +256,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId));
+        assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId));
         int currentStudentNum = studentsDb.getAllStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");

@@ -142,15 +142,15 @@ class Instructor {
     /* eslint-enable class-methods-use-this */
     static allFromString(multipleInstructorsString) {
         return multipleInstructorsString
-            .split('\n')
-            .map(str => str.trim()) // remove trailing spaces, reduces whitespace-only lines to empty string
-            .filter(str => str !== '') // get rid of any blank/whitespace-only lines
-            .map(singleInstructorString => Instructor.createFromString(singleInstructorString));
+                .split('\n')
+                .map(str => str.trim()) // remove trailing spaces, reduces whitespace-only lines to empty string
+                .filter(str => str !== '') // get rid of any blank/whitespace-only lines
+                .map(singleInstructorString => Instructor.createFromString(singleInstructorString));
     }
     static allToString(instructors) {
         return instructors
-            .map(instructor => instructor.toString())
-            .join('\n');
+                .map(instructor => instructor.toString())
+                .join('\n');
     }
 }
 
@@ -295,8 +295,8 @@ function addInstructorFromFirstFormByAjax() {
     const instructors = Instructor.allFromString($instructorsAddTextArea.val());
     const postProcess = (ajaxResults) => {
         const failedInstructors = ajaxResults
-            .filter(ajaxResult => ajaxResult.isError() || ajaxResult.isAddFailed())
-            .map(ajaxResult => ajaxResult.instructor);
+                .filter(ajaxResult => ajaxResult.isError() || ajaxResult.isAddFailed())
+                .map(ajaxResult => ajaxResult.instructor);
         $instructorsAddTextArea.val(Instructor.allToString(failedInstructors));
     };
 

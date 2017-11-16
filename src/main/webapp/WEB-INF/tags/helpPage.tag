@@ -11,11 +11,6 @@
     <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" type="text/css">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body style="padding-top: 0;">
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">

@@ -293,7 +293,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         studentTestSanitization =
                 studentsDb.getStudentForEmail(studentTestSanitization.course, studentTestSanitization.email);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
                 StringHelper.encrypt(studentTestSanitization.key),
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE

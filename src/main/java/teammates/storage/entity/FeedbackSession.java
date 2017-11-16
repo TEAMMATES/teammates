@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -90,8 +89,9 @@ public class FeedbackSession extends BaseEntity {
 
     private Boolean isPublishedEmailEnabled;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private FeedbackSession() {
+        // required by Objectify
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,

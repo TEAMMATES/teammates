@@ -15,9 +15,7 @@ import {
 } from '../common/ui';
 
 function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button) {
-    const params = `studentemail=${studentEmail
-                  }&courseid=${studentCourseId
-                  }&googleid=${wrongGoogleId}`;
+    const params = `studentemail=${studentEmail}&courseid=${studentCourseId}&googleid=${wrongGoogleId}`;
 
     const googleIdEntry = $(button).closest('.studentRow').find('.homePageLink');
     const originalButton = $(button).html();

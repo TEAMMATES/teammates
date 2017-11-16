@@ -55,7 +55,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
         ______TS("Successful case: Typical case");
 
         fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        String[] paramsTypical = new String[]{
+        String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
         };
@@ -80,7 +80,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     protected void testAccessControl() throws Exception {
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };

@@ -543,7 +543,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickShowStats();
         resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
-        assertEquals(resultsPage.showStatsCheckbox.getAttribute("checked"), null);
+        assertNull(resultsPage.showStatsCheckbox.getAttribute("checked"));
         assertFalse(resultsPage.verifyAllStatsVisibility());
 
         resultsPage.clickShowStats();

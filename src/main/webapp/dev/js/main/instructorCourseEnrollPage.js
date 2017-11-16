@@ -23,7 +23,7 @@ const loadUpFunction = function () {
     const ENTER_KEYCODE = 13;
     let enrolTextbox = $('#enrollstudents');
     if (enrolTextbox.length) {
-        enrolTextbox = enrolTextbox[0];
+        [enrolTextbox] = enrolTextbox;
         $(enrolTextbox).keydown((e) => {
             const keycode = e.which || e.keyCode;
             if (keycode === ENTER_KEYCODE) {

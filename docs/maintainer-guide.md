@@ -87,7 +87,7 @@ New releases are made every set period of time (typically every week), in which 
   * Update `about.jsp` with the names of new contributors, if any.
 * Release day:
   * Ensure all issues and PRs included in the release are tagged with the correct milestone, correct assignee(s), and appropriate `e.*` labels.
-  * Merge `release` branch with `master` branch and tag the release with format `V{major}.{minor}` (e.g. `V5.100`).
+  * Merge `release` branch with `master` branch and tag the release with format `V{major}.{minor}.0` (e.g. `V6.0.0`).
   * Close the current milestone and create a new milestone for the next + 1 release.
   * Announce the release via GitHub release feature as well as the release issue in the issue tracker. Be sure to credit all who contributed to the release in one way or another.
   * Assign PM to the "Release" issue.
@@ -107,7 +107,7 @@ It is released on a necessity basis, typically few days after latest release.
 
 **Role: RL**
 
-* Tag the release with format `V{major}.{minor}.{patch}` (e.g. `V5.100.1`).
+* Tag the release with format `V{major}.{minor}.{patch}` (e.g. `V6.0.1`).
 * Close the milestone for the patch release and announce via GitHub release feature only. Be sure to credit all who contributed in one way or another.
 * Inform PM the hot patch is ready for deployment.
 * After the last hot patch of the proper release, merge the `release` branch back to the current `master` branch.

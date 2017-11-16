@@ -31,7 +31,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
         assertTrue(courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         String invalidKey = "invalid key";
-        assertEquals(null, courseLevelMap.get(invalidKey));
+        assertNull(courseLevelMap.get(invalidKey));
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
         // manager: only one false
@@ -210,12 +210,11 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         Map<String, Boolean> sectionPrivileges = privileges.getSectionLevelPrivileges().get(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        assertEquals(null, sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertFalse(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertEquals(null, sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertEquals(null, sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-        assertEquals(null,
-                sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(sectionId, invalidPrivilegeName, false);

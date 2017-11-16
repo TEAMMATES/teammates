@@ -23,7 +23,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"
         };
 
@@ -56,11 +56,11 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                                      + "|||/page/instructorHomePage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
-        submissionParams = new String[]{};
+        submissionParams = new String[] {};
 
         ______TS("instructor with multiple courses, sort by course id, masquerade mode");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_ID
         };
         String adminUserId = "admin.user";
@@ -107,7 +107,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
         ______TS("instructor with multiple courses, sort by course name, masquerade mode");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_NAME
         };
 
@@ -135,7 +135,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
         ______TS("instructor with multiple courses, sort by course name, masquerade mode");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, "haha"
         };
 
@@ -149,7 +149,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
 
         ______TS("instructor with multiple courses, sort by creation date, masquerade mode");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_CREATION_DATE
         };
 
@@ -187,7 +187,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyInstructorsCanAccess(submissionParams);
 
         // check for persistence issue

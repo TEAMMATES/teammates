@@ -2124,7 +2124,7 @@ public class Logic {
     /**
      * Gets an admin email by subject and createDate.
      *
-     * @see AdminEmailsLogic#getAdminEmail(String, Date).
+     * @see AdminEmailsLogic#getAdminEmail(String, Date)
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
         Assumption.assertNotNull(subject);

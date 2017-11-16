@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -71,8 +70,9 @@ public class FeedbackQuestion extends BaseEntity {
 
     private Date updatedAt;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private FeedbackQuestion() {
+        // required by Objectify
     }
 
     public FeedbackQuestion(

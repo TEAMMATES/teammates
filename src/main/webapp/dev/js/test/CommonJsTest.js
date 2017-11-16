@@ -128,11 +128,11 @@ QUnit.test('Comparators.sortNum(x, y)', (assert) => {
 QUnit.test('Comparators.sortDate(x, y)', (assert) => {
     assert.equal(Comparators.sortDate('25 April 1999', '23 April 1999'), 1, '25 April 1999 - 23 April 1999');
     assert.equal(Comparators.sortDate('25 April 1999 2:00', '25 April 1999 1:59'), 1,
-        '25 April 1999 2:00PM - 25 April 1999 1:59PM');
+            '25 April 1999 2:00PM - 25 April 1999 1:59PM');
     assert.equal(Comparators.sortDate('25 April 1999 2:00', '25 April 1999 2:00'), 0,
-        '25 April 1999 2:00PM - 25 April 1999 2:00PM');
+            '25 April 1999 2:00PM - 25 April 1999 2:00PM');
     assert.equal(Comparators.sortDate('25 April 1999 2:00', '25 April 1999 2:01'), -1,
-        '25 April 1999 2:00PM - 25 April 1999 2:01PM');
+            '25 April 1999 2:00PM - 25 April 1999 2:01PM');
 });
 
 QUnit.test('getPointValue(s, ditchZero)', (assert) => {
@@ -213,31 +213,31 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.DEFAULT),
-        'Default message status without specifying status of message (info)');
+            'Default message status without specifying status of message (info)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.INFO),
-        'Info message status by specifying status of message (StatusType.INFO)');
+            'Info message status by specifying status of message (StatusType.INFO)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.SUCCESS),
-        'Success message status by specifying status of message (StatusType.SUCCESS)');
+            'Success message status by specifying status of message (StatusType.SUCCESS)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.WARNING),
-        'Warning message status by specifying status of message (StatusType.WARNING)');
+            'Warning message status by specifying status of message (StatusType.WARNING)');
     clearStatusMessages();
 
     setStatusMessage(message, StatusType.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.DANGER),
-        'Danger message status by specifying status of message (StatusType.DANGER)');
+            'Danger message status by specifying status of message (StatusType.DANGER)');
     clearStatusMessages();
 
     setStatusMessage('');
@@ -248,20 +248,20 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
     setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === undefined,
-              'Empty message with status (any status will be the same)');
+            'Empty message with status (any status will be the same)');
     clearStatusMessages();
 
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(StatusType.DEFAULT),
-        'Message with random status (defaulted to info)');
+            'Message with random status (defaulted to info)');
 });
 
 QUnit.test('clearStatusMessages()', (assert) => {
     clearStatusMessages();
     assert.equal($('#statusMessagesToUser').html(), '', 'Status message cleared');
     assert.ok($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
-        '#statusMessagesToUser').css('background-color') === 'transparent', 'No background');
+            '#statusMessagesToUser').css('background-color') === 'transparent', 'No background');
 });
 
 QUnit.test('checkEvaluationForm()', (assert) => {
@@ -311,6 +311,6 @@ QUnit.test('sanitizeForJs(string)', (assert) => {
     assert.equal(sanitizeForJs(''), '', 'sanitization for empty string');
     assert.equal(sanitizeForJs('Will o\' Wisp'), 'Will o\\\' Wisp', 'sanitization for single quote');
     assert.equal(sanitizeForJs('Will o\'\'\'\'\'\\\\ Wisp'),
-        'Will o\\\'\\\'\\\'\\\'\\\'\\\\\\\\ Wisp',
-        'sanitization for single quote and slash \\');
+            'Will o\\\'\\\'\\\'\\\'\\\'\\\\\\\\ Wisp',
+            'sanitization for single quote and slash \\');
 });
