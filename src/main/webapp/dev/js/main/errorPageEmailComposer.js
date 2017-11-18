@@ -39,12 +39,12 @@ $(document).ready(() => {
             },
             success(result) {
                 hideErrorReportForm($form);
-                if (typeof result.statusMessagesToUser !== 'undefined') {
+                if (typeof result.statusMessagesToUser === 'undefined') {
+                    displayWarningStatus($form);
+                } else {
                     setStatusMessageToForm(result.statusMessagesToUser[0].text,
                             result.statusMessagesToUser[0].color.toLowerCase(),
                             $form);
-                } else {
-                    displayWarningStatus($form);
                 }
             },
             error() {

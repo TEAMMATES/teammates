@@ -142,7 +142,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                               + Const.EOL + "James Tan\tjames@email.tmt\tTeam 2\t";
         enrollString = headerRow + Const.EOL + studentsInfo;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
@@ -195,7 +195,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                      + studentWithoutEnoughParam + Const.EOL
                      + studentWithInvalidEmail;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
@@ -253,7 +253,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
             enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
@@ -268,7 +268,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                 "section" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\tteam" + Const.SIZE_LIMIT_PER_ENROLLMENT
                  + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail" + Const.SIZE_LIMIT_PER_ENROLLMENT
                  + "@nonexistemail.nonexist");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
@@ -283,7 +283,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         enrollString = "";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
@@ -333,7 +333,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, ""
         };

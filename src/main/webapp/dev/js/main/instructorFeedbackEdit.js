@@ -168,8 +168,8 @@ const questionsBeforeEdit = [];
 
 function getCustomDateTimeFields() {
     return $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`)
-                                                .add(`#${ParamsNames.FEEDBACK_SESSION_VISIBLEDATE}`)
-                                                .add(`#${ParamsNames.FEEDBACK_SESSION_VISIBLETIME}`);
+            .add(`#${ParamsNames.FEEDBACK_SESSION_VISIBLEDATE}`)
+            .add(`#${ParamsNames.FEEDBACK_SESSION_VISIBLETIME}`);
 }
 
 function extractQuestionNumFromEditFormId(id) {
@@ -190,8 +190,8 @@ function getQuestionNumFromEditForm(form) {
  */
 function checkFeedbackQuestion(form) {
     const recipientType = $(form).find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
-                               .find(':selected')
-                               .val();
+            .find(':selected')
+            .val();
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
         if ($(form).find(`[name|=${ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
@@ -246,7 +246,7 @@ function disableEditFS() {
         $(this).data('last', $(this).prop('disabled'));
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
-                                  .prop('disabled', true);
+            .prop('disabled', true);
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor('instructions');
@@ -368,10 +368,10 @@ function enableEditFS() {
     const $sessionOpeningReminder = $('#sendreminderemail_open');
 
     $('#form_feedbacksession').find('text,input,button,textarea,select')
-                              .not($customDateTimeFields)
-                              .not($sessionOpeningReminder)
-                              .not('.disabled')
-                              .prop('disabled', false);
+            .not($customDateTimeFields)
+            .not($sessionOpeningReminder)
+            .not('.disabled')
+            .prop('disabled', false);
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor('instructions');
@@ -414,9 +414,9 @@ function enableQuestion(questionNum) {
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
     $currentQuestionTable.find('text,button,textarea,select,input')
-                         .not('[name="receiverFollowerCheckbox"]')
-                         .not('.disabled_radio')
-                         .prop('disabled', false);
+            .not('[name="receiverFollowerCheckbox"]')
+            .not('.disabled_radio')
+            .prop('disabled', false);
 
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
@@ -507,9 +507,9 @@ function enableNewQuestion() {
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
 
     $newQuestionTable.find('text,button,textarea,select,input')
-                     .not('[name="receiverFollowerCheckbox"]')
-                     .not('.disabled_radio')
-                     .prop('disabled', false);
+            .not('[name="receiverFollowerCheckbox"]')
+            .not('.disabled_radio')
+            .prop('disabled', false);
     $newQuestionTable.find('.removeOptionLink').show();
     $newQuestionTable.find('.addOptionLink').show();
 
@@ -649,8 +649,8 @@ function restoreOriginal(questionNum) {
  */
 function discardChanges(questionNum) {
     const confirmationMsg = questionNum === NEW_QUESTION
-                          ? CONFIRM_DISCARD_NEW_QNS
-                          : CONFIRM_DISCARD_CHANGES;
+            ? CONFIRM_DISCARD_NEW_QNS
+            : CONFIRM_DISCARD_CHANGES;
     const okCallback = function () {
         restoreOriginal(questionNum);
     };
@@ -673,7 +673,7 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input[id^="rubricWeight"]'), true, true);
 
     $(`select[name=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`).each(updateVisibilityOfNumEntitiesBox)
-                                                             .change(updateVisibilityOfNumEntitiesBox);
+            .change(updateVisibilityOfNumEntitiesBox);
 }
 
 function hideAllNewQuestionForms() {
@@ -881,8 +881,7 @@ function setupQuestionCopyModal() {
         const $questionCopyStatusMessage = $('#question-copy-modal-status');
         $.ajax({
             type: 'GET',
-            url: `${actionlink}&courseid=${encodeURIComponent(courseid)
-                             }&fsname=${encodeURIComponent(fsname)}`,
+            url: `${actionlink}&courseid=${encodeURIComponent(courseid)}&fsname=${encodeURIComponent(fsname)}`,
             beforeSend() {
                 $('#button_copy_submit').prop('disabled', true);
                 $('#copyTableModal').remove();

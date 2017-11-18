@@ -15,8 +15,7 @@ const INSTRUCTOR_STUDENT_EDIT_FORM = '#instructor-student-edit-form';
 
 function sendEmailToNewEmailOption(event, newStudentEmail) {
     event.preventDefault();
-    const messageText = `Do you want to resend past session links of this course to the new email ${
-                        newStudentEmail}?`;
+    const messageText = `Do you want to resend past session links of this course to the new email ${newStudentEmail}?`;
     const yesCallback = function () {
         $('#isSendEmail').val(true);
         event.target.submit();

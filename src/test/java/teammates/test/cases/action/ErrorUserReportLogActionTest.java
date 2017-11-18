@@ -39,7 +39,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
         final String testErrorReportContent = "This is a test user-submitted error report.";
         final String testErrorReportRequestedUrl = "/page/testurl";
 
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, testErrorReportRequestedUrl,
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, testErrorReportSubject,
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, testErrorReportContent,
@@ -67,7 +67,7 @@ public class ErrorUserReportLogActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_SUBJECT, "test subject",
                 Const.ParamsNames.ERROR_FEEDBACK_EMAIL_CONTENT, "test content",
         };

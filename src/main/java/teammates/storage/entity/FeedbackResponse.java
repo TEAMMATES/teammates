@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
@@ -56,8 +55,9 @@ public class FeedbackResponse extends BaseEntity {
 
     private Date updatedAt;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private FeedbackResponse() {
+        // required by Objectify
     }
 
     public FeedbackResponse(String feedbackSessionName, String courseId,

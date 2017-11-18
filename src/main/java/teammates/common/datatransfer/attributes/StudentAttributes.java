@@ -163,8 +163,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
-        Assumption.assertTrue(team != null);
-        Assumption.assertTrue(comments != null);
+        Assumption.assertNotNull(team);
+        Assumption.assertNotNull(comments);
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();

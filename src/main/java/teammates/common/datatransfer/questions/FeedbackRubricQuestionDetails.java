@@ -1266,7 +1266,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          */
         void calculatePercentageFrequencyAndAverage() {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
-                                     responseFrequency);
+                                     (Object[]) responseFrequency);
 
             percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value

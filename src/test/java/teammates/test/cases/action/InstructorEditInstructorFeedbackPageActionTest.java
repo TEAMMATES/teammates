@@ -43,7 +43,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         ______TS("typical success case");
         feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -69,7 +69,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         ______TS("success: another feedback");
         feedbackSessionName = "Another feedback session";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -96,7 +96,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         ______TS("failure: accessing non-existent moderatedinstructor email");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         moderatedInstructorEmail = "non-exIstentEmail@gsail.tmt";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -125,7 +125,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         String feedbackSessionName = "First feedback session";
         String moderatedInstructorEmail = "helper@course1.tmt";
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
