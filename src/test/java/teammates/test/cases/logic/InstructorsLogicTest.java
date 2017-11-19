@@ -455,7 +455,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: instructor doesn't belong to course");
         instructorEmail[1] = "nonExistingInstructor@email.tmt";
 
-
         try {
             instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail[1], courseId[0]);
             signalFailureToDetectException();
