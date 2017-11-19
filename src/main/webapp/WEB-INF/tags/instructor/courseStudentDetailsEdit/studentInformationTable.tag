@@ -1,4 +1,4 @@
-<%@ tag description="instructorCourseStudentDetailsEdit - Student Information with Editable Fields" %>
+<%@ tag description="instructorCourseStudentDetailsEdit - Student Information with Editable Fields" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>

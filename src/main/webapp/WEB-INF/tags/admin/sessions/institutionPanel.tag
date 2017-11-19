@@ -1,4 +1,4 @@
-<%@ tag description="Admin sessions - institution panel" %>
+<%@ tag description="Admin sessions - institution panel" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/sessions" prefix="adminSessions" %>

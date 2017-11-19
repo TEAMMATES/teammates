@@ -1,4 +1,4 @@
-<%@ tag description="Course List Table for a student in Account Details Page" %>
+<%@ tag description="Course List Table for a student in Account Details Page" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="studentCourseListTable" type="java.util.Collection" required="true" %>
 
