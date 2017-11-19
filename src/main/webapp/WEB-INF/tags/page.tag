@@ -1,4 +1,4 @@
-<%@ tag description="Generic TEAMMATES Page" %>
+<%@ tag description="Generic TEAMMATES Page" pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>

@@ -1,4 +1,4 @@
-<%@ tag description="instructorSearch.tag - Search students" %>
+<%@ tag description="instructorSearch.tag - Search students" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search" %>
 <%@ attribute name="searchStudentsTables" type="java.util.Collection" required="true" %>

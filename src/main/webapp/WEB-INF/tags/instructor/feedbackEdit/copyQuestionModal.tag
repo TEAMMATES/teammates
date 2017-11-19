@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks - feedback sessions 'copy question' modal" %>
+<%@ tag description="instructorFeedbacks - feedback sessions 'copy question' modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 

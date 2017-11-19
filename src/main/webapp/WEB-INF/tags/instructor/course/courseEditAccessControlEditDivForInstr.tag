@@ -1,4 +1,4 @@
-<%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" %>
+<%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>

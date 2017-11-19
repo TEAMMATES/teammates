@@ -1,4 +1,4 @@
-<%@ tag description="instructorSearch / instructorStudentList - Student List" %>
+<%@ tag description="instructorSearch / instructorStudentList - Student List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseId" required="true" %>

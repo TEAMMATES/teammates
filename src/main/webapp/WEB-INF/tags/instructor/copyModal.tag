@@ -1,4 +1,4 @@
-<%@ tag description="instructorHome / instructorFeedbacks / instructorFeedbackEdit - Copy modal" %>
+<%@ tag description="instructorHome / instructorFeedbacks / instructorFeedbackEdit - Copy modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="editCopyActionLink" required="true" %>
 

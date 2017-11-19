@@ -1,4 +1,4 @@
-<%@ tag description="studentHome - Course table" %>
+<%@ tag description="studentHome - Course table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/home" prefix="home" %>
 <%@ tag import="teammates.common.util.Const" %>
