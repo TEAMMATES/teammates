@@ -1,4 +1,4 @@
-<%@ tag description="Admin sessions - filter bar" %>
+<%@ tag description="Admin sessions - filter bar" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="filter" type="teammates.ui.template.AdminFilter" required="true"%>

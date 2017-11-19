@@ -1,4 +1,4 @@
-<%@ tag description="adminSearch.jsp - input panel" %>
+<%@ tag description="adminSearch.jsp - input panel" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="searchKey" required="true" %>
 

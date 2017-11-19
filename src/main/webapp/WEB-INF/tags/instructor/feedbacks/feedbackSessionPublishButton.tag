@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks and instructorHome - Feedback Session publish/unpublish button" %>
+<%@ tag description="instructorFeedbacks and instructorHome - Feedback Session publish/unpublish button" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="publishButton" type="teammates.ui.template.FeedbackSessionPublishButton" required="true" %>
 <%@ attribute name="showTooltip" type="java.lang.Boolean" required="true" %>

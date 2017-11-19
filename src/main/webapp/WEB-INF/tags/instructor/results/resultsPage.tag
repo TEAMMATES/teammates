@@ -1,4 +1,4 @@
-<%@ tag description="Generic InstructorFeedbackResults Page" %>
+<%@ tag description="Generic InstructorFeedbackResults Page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>

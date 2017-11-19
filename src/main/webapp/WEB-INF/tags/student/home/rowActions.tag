@@ -1,4 +1,4 @@
-<%@ tag description="studentHome - Course table" %>
+<%@ tag description="studentHome - Course table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.StudentFeedbackSessionActions" required="true" %>

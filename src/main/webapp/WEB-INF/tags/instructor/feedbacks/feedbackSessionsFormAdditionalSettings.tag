@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks - new feedback session form additional settings" %>
+<%@ tag description="instructorFeedbacks - new feedback session form additional settings" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>

@@ -1,4 +1,4 @@
-<%@ tag description="Student Message of the day" %>
+<%@ tag description="Student Message of the day" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Config" %>
 <c:set var="motdUrl" value="<%= Config.STUDENT_MOTD_URL %>" />

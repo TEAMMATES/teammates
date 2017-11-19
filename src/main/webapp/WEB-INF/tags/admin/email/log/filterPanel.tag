@@ -1,4 +1,4 @@
-<%@ tag description="adminEmailLog.jsp - filter panel in Admin Email Log Page" %>
+<%@ tag description="adminEmailLog.jsp - filter panel in Admin Email Log Page" pageEncoding="UTF-8" %>
 <%@ attribute name="filterQuery" required="true" %>
 <%@ attribute name="queryKeywordsForReceiver" required="true" %>
 <%@ attribute name="queryKeywordsForSubject" required="true" %>

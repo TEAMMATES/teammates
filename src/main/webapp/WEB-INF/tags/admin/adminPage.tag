@@ -1,4 +1,4 @@
-<%@ tag description="Generic Admin Page" %>
+<%@ tag description="Generic Admin Page" pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
 <%@ attribute name="cssIncludes" %>
