@@ -1,4 +1,4 @@
-<%@ tag description="instructorHome / instructorFeedbacks - Remind modal" %>
+<%@ tag description="instructorHome / instructorFeedbacks - Remind modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="remindParticularStudentsLink" required="true" %>
 

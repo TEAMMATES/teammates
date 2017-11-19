@@ -1,4 +1,4 @@
-<%@ tag description="Filter Panel in Admin Activity Log Page" %>
+<%@ tag description="Filter Panel in Admin Activity Log Page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="excludedLogRequestURIs" required="true" %>

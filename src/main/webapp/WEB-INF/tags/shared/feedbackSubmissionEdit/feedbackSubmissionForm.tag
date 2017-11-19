@@ -1,4 +1,4 @@
-<%@ tag description="Student/Instructor feedback submission form" %>
+<%@ tag description="Student/Instructor feedback submission form" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>

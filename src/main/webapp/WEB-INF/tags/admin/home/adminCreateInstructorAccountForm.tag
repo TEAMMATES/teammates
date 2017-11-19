@@ -1,4 +1,4 @@
-<%@ tag description="adminHome.jsp - Admin home create instructor account form" %>
+<%@ tag description="adminHome.jsp - Admin home create instructor account form" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="instructorShortName" required="true" %>
 <%@ attribute name="instructorName" required="true" %>

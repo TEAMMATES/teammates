@@ -1,4 +1,4 @@
-<%@ tag description="instructorStudentList - Student filter box" %>
+<%@ tag description="instructorStudentList - Student filter box" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="filterBox" type="teammates.ui.template.InstructorStudentListFilterBox" required="true" %>

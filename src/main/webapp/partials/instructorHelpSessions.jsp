@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <h4>
   <a name="sessionTypes">Sessions</a>
 </h4>

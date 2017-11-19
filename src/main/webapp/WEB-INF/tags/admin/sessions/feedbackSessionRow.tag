@@ -1,4 +1,4 @@
-<%@ tag description="Admin sessions - feedback session row" %>
+<%@ tag description="Admin sessions - feedback session row" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="feedbackSessionRow" type="teammates.ui.template.AdminFeedbackSessionRow" required="true"%>
 <tr>

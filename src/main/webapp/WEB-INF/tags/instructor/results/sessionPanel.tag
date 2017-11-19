@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackResultsTop - Feedback Session Information Table" %>
+<%@ tag description="instructorFeedbackResultsTop - Feedback Session Information Table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="f" %>

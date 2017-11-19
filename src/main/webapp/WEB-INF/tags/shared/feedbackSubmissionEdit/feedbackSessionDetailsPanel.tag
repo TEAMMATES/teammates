@@ -1,4 +1,4 @@
-<%@ tag description="feedbackSubmissionEdit.jsp - Displays feedback session details" %>
+<%@ tag description="feedbackSubmissionEdit.jsp - Displays feedback session details" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="feedbackSession" type="teammates.common.datatransfer.attributes.FeedbackSessionAttributes" required="true" %>
 
