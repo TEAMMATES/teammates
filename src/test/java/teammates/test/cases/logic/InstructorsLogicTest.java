@@ -416,16 +416,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         instructorId = "nonExistingInstructor";
 
-        for (int i = 0; i < 2; i++) {
-
-            try {
-                instructorsLogic.verifyInstructorExists(instructorId);
-                signalFailureToDetectException();
-            } catch (EntityDoesNotExistException e) {
-                AssertHelper.assertContains("Instructor does not exist", e.getMessage());
-            }
-        }
-
         try {
             instructorsLogic.verifyInstructorExists(instructorId);
             signalFailureToDetectException();
