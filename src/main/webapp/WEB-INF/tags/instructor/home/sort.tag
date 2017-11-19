@@ -1,4 +1,4 @@
-<%@ tag description="instructorHome - Course sorting buttons" %>
+<%@ tag description="instructorHome - Course sorting buttons" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="isSortButtonsDisabled" required="true" %>

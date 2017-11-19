@@ -237,9 +237,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
 
-        //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
-
         ______TS("remind action: OPEN feedback session - inner button");
 
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
@@ -250,9 +247,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                              feedbackSessionOpen.getFeedbackSessionName()));
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
-
-        //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("remind particular users action: OPEN feedback session");
 
@@ -268,8 +262,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
-        homePage.goToPreviousPage(InstructorHomePage.class);
-
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
@@ -278,7 +270,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
-        homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("remind action: CLOSED feedback session - inner button");
 

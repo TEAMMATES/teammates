@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackResults - panel body inside participant panels" %>
+<%@ tag description="instructorFeedbackResults - panel body inside participant panels" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ tag import="teammates.common.util.Const" %>
