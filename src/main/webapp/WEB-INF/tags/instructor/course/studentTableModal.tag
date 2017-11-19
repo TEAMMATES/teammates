@@ -1,4 +1,4 @@
-<%@ tag description="instructorCourseDetails - Student Table Modal" %>
+<%@ tag description="instructorCourseDetails - Student Table Modal" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 
 <div class="modal fade" id="studentTableWindow">
   <div class="modal-dialog modal-lg">

@@ -1,4 +1,4 @@
-<%@ tag description="Admin Search - Form to open email application with default values" %>
+<%@ tag description="Admin Search - Form to open email application with default values" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ attribute name="student" type="teammates.ui.template.AdminSearchStudentRow" required="true" %>
 <%@ attribute name="linkTitle" required="true" %>
 <%@ attribute name="subjectType" required="true" %>
