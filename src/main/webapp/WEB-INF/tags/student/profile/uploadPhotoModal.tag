@@ -1,4 +1,4 @@
-<%@ tag description="studentProfile - Upload photo modal" %>
+<%@ tag description="studentProfile - Upload photo modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="modal" type="teammates.ui.template.StudentProfileUploadPhotoModal" required="true" %>

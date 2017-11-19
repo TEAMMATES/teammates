@@ -1,4 +1,4 @@
-<%@ tag description="adminEmail.jsp - navbar tabs Compose, Sent, Draft, Trash" %>
+<%@ tag description="adminEmail.jsp - navbar tabs Compose, Sent, Draft, Trash" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="isCompose" required="true" type="java.lang.Boolean" %>
 <%@ attribute name="isSent" required="true" type="java.lang.Boolean" %>

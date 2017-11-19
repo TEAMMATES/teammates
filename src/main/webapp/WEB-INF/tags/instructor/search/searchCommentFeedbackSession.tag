@@ -1,4 +1,4 @@
-<%@ tag description="commentsForResponsesSearchResults.tag - Feedback session when instructor searches for a keyword in feedback response comments"%>
+<%@ tag description="commentsForResponsesSearchResults.tag - Feedback session when instructor searches for a keyword in feedback response comments" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search"%>
 <%@ attribute name="fsIndx" required="true" %>
