@@ -23,7 +23,7 @@ if (!String.prototype.includes) {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return ('ontouchstart' in window || window.DocumentTouch) && document instanceof window.DocumentTouch;
+    return ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch);
 }
 
 $(document).on('click', '.toggle-sort', (e) => {
