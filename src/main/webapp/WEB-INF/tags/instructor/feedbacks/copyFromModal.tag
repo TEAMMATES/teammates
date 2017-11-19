@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks  - Copy From Another FS modal" %>
+<%@ tag description="instructorFeedbacks  - Copy From Another FS modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>

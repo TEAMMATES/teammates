@@ -1,4 +1,4 @@
-<%@ tag description="Instructor Account Details" %>
+<%@ tag description="Instructor Account Details" pageEncoding="UTF-8" %>
 <%@ attribute name="accountInformation" type="teammates.common.datatransfer.attributes.AccountAttributes" required="true" %>
 
 <div class="well well-plain">

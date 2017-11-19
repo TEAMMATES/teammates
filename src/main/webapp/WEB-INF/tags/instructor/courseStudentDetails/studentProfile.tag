@@ -1,4 +1,4 @@
-<%@ tag description="instructorCourseStudentDetails / instructorStudentRecords - Student Profile" %>
+<%@ tag description="instructorCourseStudentDetails / instructorStudentRecords - Student Profile" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
