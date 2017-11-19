@@ -1,4 +1,4 @@
-<%@ tag description="displayDetails.tag - Displays instructor list on student course details page" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ tag description="displayDetails.tag - Displays instructor list on student course details page" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:forEach items="${data.studentCourseDetailsPanel.instructors}" var="instructor">
