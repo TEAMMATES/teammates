@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <% response.setStatus(500);%>
 <t:errorPage>

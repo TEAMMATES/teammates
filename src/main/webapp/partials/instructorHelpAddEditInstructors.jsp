@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <h4>
   <a name="editCourse">Add/Edit instructors</a>
 </h4>
