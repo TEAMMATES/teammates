@@ -358,8 +358,6 @@ public class Logic {
         return instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
-
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

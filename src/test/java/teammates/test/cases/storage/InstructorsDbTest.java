@@ -203,7 +203,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         }
     }
 
-
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
 

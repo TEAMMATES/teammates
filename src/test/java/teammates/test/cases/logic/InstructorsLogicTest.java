@@ -288,7 +288,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         }
     }
 
-
     private void testGetKeyForInstructor() throws Exception {
 
         ______TS("success: get encrypted key for instructor");

@@ -174,8 +174,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         return makeAttributesOrNull(getInstructorEntityForRegistrationKey(decryptedKey));
     }
 
-
-
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
@@ -373,7 +371,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         }
         return getInstructorEntitiesForGoogleId(googleId);
     }
-
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
