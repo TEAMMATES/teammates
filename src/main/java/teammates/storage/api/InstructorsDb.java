@@ -374,9 +374,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         return getInstructorEntitiesForGoogleId(googleId);
     }
 
-    private List<Instructor> getInstructorEntitiesForEmail(String email) {
-        return load().filter("email =", email).list();
-    }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
