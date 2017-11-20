@@ -358,17 +358,7 @@ public class Logic {
         return instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
 
-        Assumption.assertNotNull(email);
-
-        return instructorsLogic.getInstructorsForEmail(email);
-    }
 
     /**
      * Preconditions: <br>
