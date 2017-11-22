@@ -179,11 +179,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      *  * All parameters are non-null.
      * @return empty list if no matching objects.
      */
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
-        return makeAttributes(getInstructorEntitiesForEmail(email));
-    }
 
     /**
      * Preconditions: <br>

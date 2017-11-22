@@ -145,10 +145,7 @@ public final class InstructorsLogic {
         return StringHelper.encrypt(instructor.key);
     }
 
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-
-        return instructorsDb.getInstructorsForEmail(email);
-    }
+ 
 
     /**
      * Gets all instructors in the Datastore.
