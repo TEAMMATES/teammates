@@ -363,12 +363,6 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
 
         Assumption.assertNotNull(courseId);

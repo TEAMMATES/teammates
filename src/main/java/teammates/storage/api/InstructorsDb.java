@@ -177,13 +177,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
-     * @return empty list if no matching objects.
-     */
-
-
-    /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
      *
      * @return empty list if no matching objects.
      */
@@ -377,10 +370,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                     .list();
         }
         return getInstructorEntitiesForGoogleId(googleId);
-    }
-
-    private List<Instructor> getInstructorEntitiesForEmail(String email) {
-        return load().filter("email =", email).list();
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {

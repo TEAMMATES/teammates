@@ -202,8 +202,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
-
-    
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
 
