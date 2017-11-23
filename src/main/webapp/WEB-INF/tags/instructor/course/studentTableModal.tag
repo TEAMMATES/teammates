@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <span class="help-block">
-          Tips: <span class="btn-link" id="btn-select-element-contents">Click here</span> to select the table, 
+          Tips: <span class="btn-link" id="btn-select-element-contents">Click here</span> to select the table,
           then <kbd>Ctrl + C</kbd> or <kbd>⌘ + C</kbd> to COPY and <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
         </span>
 
