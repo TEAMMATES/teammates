@@ -48,6 +48,7 @@ function submitFormAjax() {
                 } else {
                     const table = data.studentListHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
+                    selectElementContents(content.get(0));
                 }
 
                 setStatusMessage(data.statusForAjax);
