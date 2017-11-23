@@ -110,9 +110,6 @@ $(document).ready(() => {
     attachEventToDeleteStudentLink();
     attachEventToDeleteAllStudentLink();
 
-    $('#btn-select-element-contents').on('click', () => {
-        selectElementContents($('#detailsTable').get(0));
-    });
 
     $('#btn-display-table').on('click', () => {
         submitFormAjax();
