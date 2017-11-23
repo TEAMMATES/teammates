@@ -8,13 +8,10 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <span class="help-block">
-          Tips: After selecting the table, <kbd>Ctrl + C</kbd> or <kbd>⌘ + C</kbd> to COPY and
-          <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
+          Tips: <span class="btn-link" id="btn-select-element-contents">Click here</span> to select the table, 
+          then <kbd>Ctrl + C</kbd> or <kbd>⌘ + C</kbd> to COPY and <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
         </span>
 
-        <button type="button" class="btn btn-primary" id="btn-select-element-contents">
-          Select Table
-        </button>
       </div>
 
       <div class="modal-body">
