@@ -144,7 +144,6 @@ public final class InstructorsLogic {
 
         return StringHelper.encrypt(instructor.key);
     }
-
     /**
      * Gets all instructors in the Datastore.
      *

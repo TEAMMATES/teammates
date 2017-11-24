@@ -287,7 +287,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
-
     private void testGetKeyForInstructor() throws Exception {
 
         ______TS("success: get encrypted key for instructor");
