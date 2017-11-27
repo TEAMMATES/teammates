@@ -48,7 +48,6 @@ function submitFormAjax() {
                 } else {
                     const table = data.studentListHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
-                    selectElementContents(content.get(0));
                 }
 
                 setStatusMessage(data.statusForAjax);
@@ -110,6 +109,10 @@ $(document).ready(() => {
     attachEventToSendInviteLink();
     attachEventToDeleteStudentLink();
     attachEventToDeleteAllStudentLink();
+
+    $('#btn-select-element-contents').on('click', () => {
+        selectElementContents($('#detailsTable').get(0));
+    });
 
     $('#btn-display-table').on('click', () => {
         submitFormAjax();
