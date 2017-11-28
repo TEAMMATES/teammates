@@ -188,6 +188,13 @@ All other test suites will be run once and only once.
 
 To run any test suite or individual test with [GodMode turned on](godmode.md), set the value of `test.godmode.enabled` to `true` in `test.properties`.
 
+**NOTE** 
+> GodMode is a tool that aids in browser and email content tests to ensure the source code is as expected and will work across various computers, browsers, user accounts, etc. GodMode is utilized in two main ways: 
+      1) to create a new source file for a (new) browser test or email content test
+     2) to update existing source files to reflect intended changes to the UI of the web pages or the email content.
+
+> More information about GodMode and how to properly utilize it can be found at the [GodMode User Notes](godmode.md) page. 
+
 ### Running the test suite with an IDE
 
 * An additional configuration `All tests` is provided, which will run `CI tests` and `Local tests`.
