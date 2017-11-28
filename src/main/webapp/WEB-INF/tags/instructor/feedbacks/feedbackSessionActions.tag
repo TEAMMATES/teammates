@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks and instructorHome - Feedback Session actions" %>
+<%@ tag description="instructorFeedbacks and instructorHome - Feedback Session actions" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>

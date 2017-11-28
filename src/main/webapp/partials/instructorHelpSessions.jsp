@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <h4>
   <a name="sessionTypes">Sessions</a>
 </h4>
@@ -960,7 +961,9 @@
               <br>
               <div class="form-group margin-0">
                 <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-                  <label for="input">To Team: </label>
+                  <label for="input">
+                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee </span> (Team):
+                  </label>
                   <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                     <option value="" selected=""></option>
                     <option value="Team 1">Team 1</option>
@@ -985,7 +988,9 @@
               <br>
               <div class="form-group margin-0">
                 <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-                  <label for="input">To Team: </label>
+                  <label for="input">
+                    <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee </span>(Team):
+                  </label>
                   <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="width:200px;max-width:275px">
                     <option value="" selected=""></option>
                     <option value="Team 1">Team 1</option>

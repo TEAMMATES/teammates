@@ -63,6 +63,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> getInstructions() {
+        return null;
+    }
+
+    @Override
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
@@ -1261,7 +1266,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          */
         void calculatePercentageFrequencyAndAverage() {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
-                                     responseFrequency);
+                                     (Object[]) responseFrequency);
 
             percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value

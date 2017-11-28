@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackResults - by question" %>
+<%@ tag description="instructorFeedbackResults - by question" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <h4>
   <a name="faq">Frequently Asked Questions</a>
 </h4>

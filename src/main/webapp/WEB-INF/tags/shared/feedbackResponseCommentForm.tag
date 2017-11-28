@@ -1,4 +1,4 @@
-<%@ tag description="Feedback Response Comment Form With Visibility Options" %>
+<%@ tag description="Feedback Response Comment Form With Visibility Options" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -15,6 +15,7 @@
 <%@ attribute name="submitLink" required="true" %>
 <%@ attribute name="buttonText" required="true" %>
 <%@ attribute name="viewType" %>
+<%@ attribute name="isOnQuestionsPage" %>
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
 <form class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
@@ -202,16 +203,21 @@
         id="button_save_comment_for_${fn:toLowerCase(formType)}-${divId}">
       ${buttonText}
     </a>
-    <input type="button"
-        class="btn btn-default hide-frc-${fn:toLowerCase(formType)}-form"
-        value="Cancel"
-        data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
-        data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
-        <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
-        <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
+    <c:if test="${empty isOnQuestionsPage && !isOnQuestionsPage}">
+      <input type="button"
+          class="btn btn-default hide-frc-${fn:toLowerCase(formType)}-form"
+          value="Cancel"
+          data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
+          data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+          <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+          <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
+    </c:if>
   </div>
   <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
   <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
+  <c:if test="${not empty isOnQuestionsPage && isOnQuestionsPage}">
+    <input type="hidden" name="isOnQuestionsPage" value="${isOnQuestionsPage}">
+  </c:if>
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${fn:escapeXml(frc.feedbackResponseId)}">
   <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">

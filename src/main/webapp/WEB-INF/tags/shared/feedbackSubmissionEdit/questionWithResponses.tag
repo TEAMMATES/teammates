@@ -1,4 +1,4 @@
-<%@ tag description="feedbackSubmissionEdit.jsp - Display question with responses" %>
+<%@ tag description="feedbackSubmissionEdit.jsp - Display question with responses" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
@@ -45,6 +45,14 @@
           <li class="unordered">${line}</li>
         </c:forEach>
       </ul>
+      <c:if test="${not empty questionWithResponses.question.instructions}">
+        <p class="text-muted">Instructions:</p>
+        <ul class="text-muted">
+          <c:forEach items="${questionWithResponses.question.instructions}" var="instruction">
+            <li class="unordered">${instruction}</li>
+          </c:forEach>
+        </ul>
+      </c:if>
 
       <c:if test="${questionWithResponses.question.giverTeam}">
         <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>

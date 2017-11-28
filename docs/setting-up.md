@@ -13,7 +13,8 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 ## Step 1: Install necessary tools and languages
 
 1. Install Source Tree or other similar Git Client, or at least Git.
-1. Install JDK 1.7.
+1. Install JDK 1.8.
+1. Install Python 2.7.
 1. Install Node.js (minimum version 4.x).
 
 ## Step 2: Obtain your own repository copy
@@ -40,11 +41,23 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 3: Set up project-specific settings and dependencies
 
-1. Run this command to download the correct version Google App Engine SDK as used in the project:
+1. Install Google Cloud SDK version 179.0.0. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
+   Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
-   ./gradlew appengineDownloadSdk
+   # This command is to be run at the Google Cloud SDK directory
+
+   # Linux/OS X
+   ./install.sh --path-update true
+   # Windows
+   install.bat --path-update true
    ```
-   **Verification:** Check your Gradle folder (the directory can be found with the command `./gradlew printUserHomeDir`). A folder named appengine-sdk` should be present.
+   **Verification**: Run a `gcloud` command (e.g. `gcloud version`) in order to verify that you can access the SDK from the command line.
+
+1. Run this command to install App Engine Java SDK bundled with the Cloud SDK:
+   ```sh
+   gcloud -q components install app-engine-java
+   ```
+   **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
 
 1. Run this command to download the necessary tools for JavaScript development:
    ```sh
@@ -61,17 +74,20 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Modify the following config file:
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
-      This value must be a valid **JDK 1.7** directory.
-      **Windows users** should use a **forward slash**(`/`) instead of the Windows default **backward slash**(`\`) while specifying the path.
-
-If you followed every step correctly, you should have successfully set up the development environment.
-You may proceed to the development routine as lined out in [this document](development.md).
+      This value must be a valid **JDK 1.8** directory.
+      **Windows users** should use a **forward slash** (`/`) instead of the Windows default **backward slash** (`\`) while specifying the path.
 
 ## Step 4: (Optional but recommended) Set up an IDE
 
 You are encouraged, but not required, to use an IDE to assist many development tasks.
 
-We currently support two IDEs: Eclipse IDE (full support) and IntelliJ IDEA (experimental; limited support).
+We currently support two IDEs: Eclipse IDE and IntelliJ IDEA.
 Support requests related to other IDEs will not be entertained.
 
 Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
+
+## Step 5: Start developing
+
+If you followed every step correctly, you should have successfully set up the development environment.
+
+Proceed to the development routine as outlined in [this document](development.md).

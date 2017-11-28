@@ -61,52 +61,62 @@ public class StringHelperTest extends BaseTestCase {
         //so use this to test the various header field regex expressions here
 
         List<String> regexList = FieldValidator.REGEX_COLUMN_NAME;
-        String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
-                                   "student names", "students name", "full name", "full names", "full   names",
-                                   "student full names", "students full    names", "Names", "NAMES", "Full Names",
-                                   "FULL NAMES", "Full Name", "Student Full Name", "Name"};
+        String[] stringsToMatch = {
+                "names", "name", " name ", " names ", "student name", "students names",
+                "student names", "students name", "full name", "full names", "full   names",
+                "student full names", "students full    names", "Names", "NAMES", "Full Names",
+                "FULL NAMES", "Full Name", "Student Full Name", "Name"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"namess", "nam", "student", "full"};
+        stringsToMatch = new String[] {"namess", "nam", "student", "full"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_SECTION;
-        stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
-                                      "course section", "course sections", "course sec", "courses sec", "Section",
-                                      "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"};
+        stringsToMatch = new String[] {
+                "section", "sections", "sect", "sec", "course sections", "courses sections",
+                "course section", "course sections", "course sec", "courses sec", "Section",
+                "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
+        stringsToMatch = new String[] {"secc", "Section 1", "Course 1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_TEAM;
-        stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
-                                      "Groups", "GROUPS", "student teams", "students teams ", "student team",
-                                      "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
-                                      "Student Groups", "student   groups", "student   teams", "Course Teams",
-                                      "courses teams", "course   team", "courses team", "COURSE TEAM"};
+        stringsToMatch = new String[] {
+                "team", "teams", "Team", "TEAMS", "group", "Group",
+                "Groups", "GROUPS", "student teams", "students teams ", "student team",
+                "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
+                "Student Groups", "student   groups", "student   teams", "Course Teams",
+                "courses teams", "course   team", "courses team", "COURSE TEAM"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
+        stringsToMatch = new String[] {"tea", "Team 1", "Group 1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_EMAIL;
-        stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
-                                      "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
-                                      "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
-                                      "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
-                                      "E-mail  addresses", "Contact", "CONTACT", "contacts"};
+        stringsToMatch = new String[] {
+                "email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
+                "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
+                "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
+                "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
+                "E-mail  addresses", "Contact", "CONTACT", "contacts"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"emai", "test@gmail.com", "address1"};
+        stringsToMatch = new String[] {"emai", "test@gmail.com", "address1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_COMMENT;
-        stringsToMatch = new String[]{"comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
-                                      "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "};
+        stringsToMatch = new String[] {
+                "comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
+                "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"this is a comment", "this is a note", "one comment, one note"};
+        stringsToMatch = new String[] {"this is a comment", "this is a note", "one comment, one note"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
     }
@@ -253,7 +263,7 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testRemoveExtraSpace() {
 
-        assertEquals(null, StringHelper.removeExtraSpace((String) null));
+        assertNull(StringHelper.removeExtraSpace((String) null));
 
         String str = "";
         assertEquals("", StringHelper.removeExtraSpace(str));
@@ -275,7 +285,7 @@ public class StringHelperTest extends BaseTestCase {
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
 
-        assertEquals(null, StringHelper.replaceIllegalChars(null, regex, '_'));
+        assertNull(StringHelper.replaceIllegalChars(null, regex, '_'));
 
         String str = "";
         assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
@@ -351,7 +361,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
 
         // input null, expected null
-        assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
+        assertNull(StringHelper.removeEnclosingSquareBrackets(null));
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, List<String> regexList, boolean expectedResult) {

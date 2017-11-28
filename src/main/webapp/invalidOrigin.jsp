@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <% response.setStatus(403);%>
 <t:errorPage>
@@ -14,7 +15,7 @@
           Click on the link from the relevant page instead of typing in the URL.
         </li>
         <li>
-          Enable the HTTP referrer setting in your browser if you previously disabled it.
+          Disable HTTP referrer spoofing in your browser if you previously enabled it.
         </li>
         <li>
           Enable cookies in your browser.

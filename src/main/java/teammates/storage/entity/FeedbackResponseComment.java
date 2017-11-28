@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -66,8 +65,9 @@ public class FeedbackResponseComment extends BaseEntity {
     /** The time in which the comment is last edited. */
     private Date lastEditedAt;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private FeedbackResponseComment() {
+        // required by Objectify
     }
 
     public FeedbackResponseComment(String courseId, String feedbackSessionName,

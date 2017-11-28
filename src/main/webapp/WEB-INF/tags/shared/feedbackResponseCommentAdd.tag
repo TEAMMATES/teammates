@@ -1,4 +1,4 @@
-<%@ tag description="Feedback Response Add Comment" %>
+<%@ tag description="Feedback Response Add Comment" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -8,6 +8,7 @@
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
+<%@ attribute name="isOnQuestionsPage" %>
 
 <c:choose>
   <c:when test="${not empty fourthIndex}">
@@ -30,5 +31,6 @@
       formType="Add"
       textAreaId="responseCommentAddForm"
       submitLink="${submitLink}"
-      buttonText="Add" />
+      buttonText="Add"
+      isOnQuestionsPage="${isOnQuestionsPage}" />
 </li>

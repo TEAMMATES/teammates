@@ -161,10 +161,10 @@ public abstract class Action {
 
         String referrer = request.getHeader("referer");
         if (referrer == null) {
-            throw new InvalidOriginException("Missing HTTP referrer");
-        }
-
-        if (!isHttpReferrerValid(referrer)) {
+            // Requests with missing referrer information are given the benefit of the doubt to
+            // accommodate users who choose to disable the HTTP referrer setting in their browser
+            // for privacy reasons
+        } else if (!isHttpReferrerValid(referrer)) {
             throw new InvalidOriginException("Invalid HTTP referrer");
         }
 

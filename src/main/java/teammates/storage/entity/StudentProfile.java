@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -45,8 +44,9 @@ public class StudentProfile extends BaseEntity {
     @Index
     private Date modifiedDate;
 
-    @SuppressWarnings("unused") // required by Objectify
+    @SuppressWarnings("unused")
     private StudentProfile() {
+        // required by Objectify
     }
 
     /**

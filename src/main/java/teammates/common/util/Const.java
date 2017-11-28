@@ -102,12 +102,12 @@ public final class Const {
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 12:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 12:00 AM UTC");
+        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 12:00 AM UTC");
+        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 12:00 AM UTC");
+        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 12:00 AM UTC");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 12:00 AM UTC");
     }
 
     public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -264,6 +264,7 @@ public final class Const {
                 + "using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, "
                 + "but a joined student can access extra features e.g. set up a user profile";
 
+        public static final String EVALUEE_DESCRIPTION = "The party being evaluated or given feedback to";
         public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT =
                 "If this is unselected, the instructor will be completely invisible to students."
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
@@ -773,9 +774,13 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
         public static final String FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED = "rankAreDuplicatesAllowed";
         public static final String FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED = "minOptionsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED = "minOptionsToBeRanked";
         public static final String FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED = "maxOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED = "minOptionsToBeRanked";
         public static final String FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED = "maxOptionsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANKISMINRECIPIENTSTOBERANKEDENABLED = "minRecipientsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANKISMAXRECIPIENTSTOBERANKEDENABLED = "maxRecipientsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED = "minRecipientsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED = "maxRecipientsToBeRanked";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
@@ -1398,7 +1403,7 @@ public final class Const {
                 "This session seems to have a large number of responses. "
                 + "It is recommended to view the results one question/section at a time. "
                 + "To view responses for a particular question, click on the question below. "
-                + "To view response for a particular section, choose the section from the drop-down box above.";
+                + "To view response for a particular section, click the 'Edit View' button above and choose a section.";
         public static final String FEEDBACK_RESULTS_QUESTIONVIEWWARNING =
                 "This session seems to have a large number of responses. "
                 + "It is recommended to view the results for one question at a time. "

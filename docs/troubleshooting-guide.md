@@ -15,13 +15,20 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 ### Common setup errors and solutions
 
+* **ERROR**: After downloading and installing Google Cloud SDK, running any `gcloud` command results in `gcloud: command not found` or alike.
+
+  **REASON**: You did not choose to update the `PATH` variable when installing the SDK.
+
+  **SOLUTION**: You can re-run the install command again without any side effect. Make sure to choose to update the `PATH` variable this time. Alternatively, you can use other appropriate methods to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder.<br>
+  To verify this, try running any `gcloud` command and it should now give you access to the SDK.
+
 * **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
 
   **REASON**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK).
 
   Go to `Window → Preferences → Java → Installed JREs`. You will note that a JRE path is the one selected, not a JDK path.
 
-  **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.7/jre`. Now you should see all of the JARs added to the library section.
+  **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.8/jre`. Now you should see all of the JARs added to the library section.
 
 * **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
@@ -79,7 +86,7 @@ Expected | Actual | Explanation
 --- | --- | ---
 `<expected></expected>` | `<actual></actual>` | These are inserted by the test code for easier reference, after the comparison has been done.
 
-Furthermore, you might see tags such as `${test.student1}` and `${version}` in some of the expected files (e.g. `studentHomeHTML.html`) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, `${version}` will be replaced by something like `4.89`.
+Furthermore, you might see tags such as `${test.student1}` and `${version}` in some of the expected files (e.g. `studentHomeHTML.html`) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, `${version}` will be replaced by something like `6.0.0`.
 
 ### Common test errors and solutions
 
@@ -109,19 +116,13 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION 2**: Make sure that the path is set correctly following the example from `test.template.properties`.
 
-* **ERROR**: After deploying on the staging server, you get an error related to "Unsupported major.minor version ..." when trying to access pages of the staged app.
-
-  **REASON**: This can happen if you have Java 8 installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
-
-  **SOLUTION**: Refer to [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed) to learn how to modify `eclipse.ini` to use Java 7 by default.
-
 * **ERROR**: A handful of failed test cases (< 10).
 
   **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
 
 * **ERROR**: Browser alert about invalid SSL certificate.
 
-  **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://4-30-dot-teammates-john.appspot.com`.
+  **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://6-0-0-dot-teammates-john.appspot.com`.
 
 * **ERROR**: Tests fail due to accented characters.
 
@@ -132,10 +133,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
   **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link](http://www.sevenforums.com/tutorials/3530-time-format-change.html) may be useful.
 
   ![troubleshooting-test-5.png](images/troubleshooting-test-5.png)
-
-* **ERROR**: `java.lang.UnsupportedClassVersionError` when running on staging server.
-
-  **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. [Here is a useful reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
 
 * **ERROR**: `InstructorCourseDetailsPageUiTest` fails in production server due to Gmail's access restriction (e.g `javax.mail.AuthenticationFailedException`)
 

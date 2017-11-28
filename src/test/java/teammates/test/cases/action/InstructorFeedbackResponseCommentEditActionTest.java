@@ -345,7 +345,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
         feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),

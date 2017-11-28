@@ -96,7 +96,7 @@ public final class InstructorsLogic {
     }
 
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
-           throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = archiveStatus;
@@ -143,11 +143,6 @@ public final class InstructorsLogic {
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
 
         return StringHelper.encrypt(instructor.key);
-    }
-
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-
-        return instructorsDb.getInstructorsForEmail(email);
     }
 
     /**

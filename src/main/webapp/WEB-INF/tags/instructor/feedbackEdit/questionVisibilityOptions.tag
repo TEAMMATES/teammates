@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackEdit - feedback question settings for response visibility" %>
+<%@ tag description="instructorFeedbackEdit - feedback question settings for response visibility" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ page import="teammates.common.util.StringHelper" %>
@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Webpage Compilation - TEAMMATES</title>

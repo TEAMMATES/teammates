@@ -31,6 +31,12 @@ public class InstructorFeedbackResultsResponseRow {
 
     private String displayableResponse;
     private InstructorFeedbackResultsModerationButton moderationButton;
+    private FeedbackResponseCommentRow addCommentButton;
+
+    private List<FeedbackResponseCommentRow> commentsOnResponses;
+    private int responseRecipientIndex;
+    private int responseGiverIndex;
+    private boolean isCommentsOnResponsesAllowed;
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
@@ -164,6 +170,46 @@ public class InstructorFeedbackResultsResponseRow {
             }
         });
         return responseRows;
+    }
+
+    public FeedbackResponseCommentRow getAddCommentButton() {
+        return addCommentButton;
+    }
+
+    public void setAddCommentButton(FeedbackResponseCommentRow addCommentButton) {
+        this.addCommentButton = addCommentButton;
+    }
+
+    public List<FeedbackResponseCommentRow> getCommentsOnResponses() {
+        return commentsOnResponses;
+    }
+
+    public void setCommentsOnResponses(List<FeedbackResponseCommentRow> commentsOnResponses) {
+        this.commentsOnResponses = commentsOnResponses;
+    }
+
+    public int getResponseRecipientIndex() {
+        return responseRecipientIndex;
+    }
+
+    public void setResponseRecipientIndex(int responseRecipientIndex) {
+        this.responseRecipientIndex = responseRecipientIndex;
+    }
+
+    public int getResponseGiverIndex() {
+        return responseGiverIndex;
+    }
+
+    public void setResponseGiverIndex(int responseGiverIndex) {
+        this.responseGiverIndex = responseGiverIndex;
+    }
+
+    public boolean isCommentsOnResponsesAllowed() {
+        return isCommentsOnResponsesAllowed;
+    }
+
+    public void setCommentsOnResponsesAllowed(boolean isCommentsOnResponsesAllowed) {
+        this.isCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
     }
 
 }

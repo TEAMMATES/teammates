@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <h4>
   <a name="tips">Tips for conducting 'team peer evaluation' sessions</a>
 </h4>

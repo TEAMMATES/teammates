@@ -14,10 +14,10 @@ This document will cover an overview of these tools and how to run them in local
 
 The version number of all the tool stacks are declared in `build.gradle` or `package.json`.
 
-When downloading the plugin for Eclipse, find the plugin version that uses the correct version of the tool, e.g if CheckStyle 6.19 is used find an Eclipse plugin that uses CheckStyle 6.19 as well.
+When downloading the plugin for Eclipse/IntelliJ, find the plugin version that uses the correct version of the tool, e.g if CheckStyle 8.0 is used find an Eclipse/IntelliJ plugin that uses CheckStyle 8.0 as well.
 If the exact version of the plugin cannot be found, using the latest version is allowed, however there is no guarantee that there will be no backward-incompatible changes.
 
-Conversely, when updating any tool, ensure that the tool version is supported by the Eclipse plugin, e.g when upgrading CheckStyle to 6.19 ensure that there is an Eclipse plugin which supports that version as well.
+Conversely, when updating any tool, ensure that the tool version is supported by the Eclipse/IntelliJ plugin, e.g when upgrading CheckStyle to 8.0 ensure that there is an Eclipse/IntelliJ plugin which supports that version as well.
 
 ## Tool stack
 
@@ -76,12 +76,14 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring PMD Eclipse plugin
 
-The plugin for Eclipse can be found [here](https://sourceforge.net/projects/pmd/files/pmd-eclipse/update-site/).
+The plugin for Eclipse can be found [here](http://www.acanda.ch/eclipse-pmd/release/latest).
 
 1. In `Project > Properties`, go to the `PMD` tab.
-2. Check `Enable PMD`.
-3. Under `Rule Source`, check `Use the ruleset configured in a project file`. Click `Browse`,
-   navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`. Click OK.
+1. Check `Enable PMD for this project`.
+1. Click `Add`, select `Project` and click `Next >`.
+1. Click `Browse` next to the `Location` bar, navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`.
+1. Enter any name you wish for the ruleset. Click `OK`.
+1. Repeat the last two steps for `teammates-pmdMain.xml`.
 
 ##### Configuring PMD for IntelliJ
 
@@ -144,7 +146,7 @@ and [set up project specific settings and dependencies](setting-up.md#step-3-set
 1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
    `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
 1. Point `Configuration file:` to the location of `teammates-eslint.yml`.
-1. Under 'Extra eslint options:', add `--ext .es6 --ignore-pattern '**/*.js'`.
+1. Under 'Extra eslint options:', add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
 1. Click `OK`.
 
 ##### Suppressing ESLint warnings
@@ -191,10 +193,12 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
 [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea),
 [NodeJS](https://plugins.jetbrains.com/plugin/6098-nodejs) (Optional)
 
-2. Run the command to setup the settings for the various plugins:
+1. Run the command to setup the settings for the various plugins:
    ```sh
    ./gradlew setupIntellijStaticAnalysis
    ```
+
+1. Restart IntelliJ IDEA.
 
 **NOTE**
 >The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#static-analysis-tools-setup-behavior).

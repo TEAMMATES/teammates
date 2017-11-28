@@ -363,18 +363,6 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-
-        Assumption.assertNotNull(email);
-
-        return instructorsLogic.getInstructorsForEmail(email);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
 
         Assumption.assertNotNull(courseId);
@@ -2124,7 +2112,7 @@ public class Logic {
     /**
      * Gets an admin email by subject and createDate.
      *
-     * @see AdminEmailsLogic#getAdminEmail(String, Date).
+     * @see AdminEmailsLogic#getAdminEmail(String, Date)
      */
     public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
         Assumption.assertNotNull(subject);

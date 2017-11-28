@@ -1,4 +1,4 @@
-<%@ tag description="instructorCourseEdit - Instructor Role Modal" %>
+<%@ tag description="instructorCourseEdit - Instructor Role Modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <div class="modal fade" id="tunePermissionsDivForInstructorAll" role="dialog" aria-labelledby="instructorRoleModalLabel" aria-hidden="true">

@@ -114,7 +114,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         ______TS("Typical case, student contains data requiring sanitization");
         StudentAttributes studentTestingSanitization = typicalBundle.students.get("student1InTestingSanitizationCourse");
         gaeSimulation.loginAsStudent(studentTestingSanitization.googleId);
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, studentTestingSanitization.course
         };
 

@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="jsIncludes">
@@ -47,8 +48,8 @@
     <div class="col-xs-12 col-sm-8">
       <h2 class="media-heading">Award Winning, Mature, Field-tested:</h2>
       <p>
-        TEAMMATES has been in operation since 2010. It has benefited from the work of over <a href="about.jsp">250 developers</a>.<br>
-        TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016) and Facebook Open Academy Program (2016).
+        TEAMMATES has been in operation since 2010. It has benefitted from the work of <a href="about.jsp">hundreds of developers</a>.<br>
+        TEAMMATES won the Grand Prize at the OSS Awards World Challenge 2014 and was selected as a mentoring organization for Google Summer of Code Program (2014, 2015, 2016, 2017) and Facebook Open Academy Program (2016).
       </p>
     </div>
   </div>
@@ -87,8 +88,7 @@
     <div class="col-xs-12 col-sm-8">
       <h2 class="media-heading">Growing Global Community:</h2>
       <p>
-        TEAMMATES community is growing fast, spanning over 1000 universities from many countries across the globe:
-        Singapore, Canada, USA, UK, Turkey, Australia, Malaysia, Belgium, Taiwan, Macau, Sri Lanka, India, China, Vietnam, and more ...
+        TEAMMATES community is growing fast, spanning over 200,000 users from over 1,600 universities from many countries across the globe.
       </p>
       <p>
         <a href="usermap.jsp">See who is using TEAMMATES.</a>
@@ -104,7 +104,7 @@
       <h2 class="media-heading">Not for Profit:</h2>
       <p>
         TEAMMATES does not have commercial ambitions. It is funded mainly by education grants from the National University of Singapore.
-        TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank"> Google Summer of Code</a> program in 2014, 2015, and 2016.
+        TEAMMATES also received funding support under the <a href="https://developers.google.com/open-source/gsoc/" target="_blank" rel="noopener noreferrer">Google Summer of Code</a> program in 2014, 2015, 2016, and 2017.
       </p>
     </div>
   </div>

@@ -68,7 +68,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
         // check for user not logged in
         gaeSimulation.logoutUser();
-        assertEquals(null, gateKeeper.getCurrentUser());
+        assertNull(gateKeeper.getCurrentUser());
     }
 
 }

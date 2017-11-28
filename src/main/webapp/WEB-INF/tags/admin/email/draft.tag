@@ -1,4 +1,4 @@
-<%@ tag description="adminEmail.jsp - Draft email table" %>
+<%@ tag description="adminEmail.jsp - Draft email table" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/email" prefix="adminEmail" %>

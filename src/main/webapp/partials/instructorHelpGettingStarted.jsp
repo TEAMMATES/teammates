@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <h4>
   <a name="gs">Getting Started</a>
 </h4>

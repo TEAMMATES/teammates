@@ -1,4 +1,4 @@
-<%@ tag description="Generic TEAMMATES Page" %>
+<%@ tag description="Generic TEAMMATES Page" pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
@@ -13,16 +13,12 @@
   <head>
     <title>${pageTitle}</title>
     <link rel="shortcut icon" href="/favicon.png">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" rel="stylesheet">
     <link type="text/css" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" rel="stylesheet">
     <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
     <jsp:invoke fragment="cssIncludes" />
-    <!--[if lt IE 9]>
-      <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
     <noscript>

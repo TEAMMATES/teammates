@@ -36,7 +36,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
     @Test
     public void testAll() throws Exception {
         testGetInstructorForEmail();
-        testGetInstructorsForEmail();
         testGetInstructorForGoogleId();
         testGetInstructorsForGoogleId();
         testGetInstructorForRegistrationKey();
@@ -283,35 +282,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         try {
             instructorsLogic.getInstructorsForGoogleId(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }
-    }
-
-    private void testGetInstructorsForEmail() {
-
-        ______TS("success: get all instructors for a google id");
-
-        String email = "instructor3@course1.tmt";
-
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForEmail(email);
-        assertEquals(1, instructors.size());
-
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email);
-        verifySameInstructor(instructor1, instructors.get(0));
-
-        ______TS("failure: non-exist email");
-
-        email = "non-exist-email@course1.tmt";
-
-        instructors = instructorsLogic.getInstructorsForEmail(email);
-        assertEquals(0, instructors.size());
-
-        ______TS("failure: null parameter");
-
-        try {
-            instructorsLogic.getInstructorsForEmail(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());

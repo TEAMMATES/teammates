@@ -1,4 +1,4 @@
-<%@ tag description="adminEmail.jsp - Compose email" %>
+<%@ tag description="adminEmail.jsp - Compose email" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.Config" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
