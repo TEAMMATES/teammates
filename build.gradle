@@ -45,7 +45,7 @@ configurations.all {
             // not been released as of the time of writing. Once the new version (>1.23.0) is released,
             // we can update the `google-api-client` dependency and remove this block of code.
             if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava-jdk5') {
-                details.useTarget 'com.google.guava:guava:20.0'
+                details.useTarget 'com.google.guava:guava:23.5-jre'
             }
         }
     }
@@ -64,7 +64,7 @@ dependencies {
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.2",
-                    "com.google.guava:guava:20.0",
+                    "com.google.guava:guava:23.5-jre",
                     "com.googlecode.objectify:objectify:5.1.21",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20171016.1",
                     "com.mailjet:mailjet-client:4.1.1",
