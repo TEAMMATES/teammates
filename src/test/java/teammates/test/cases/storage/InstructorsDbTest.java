@@ -204,35 +204,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetInstructorsForEmail() {
-
-        ______TS("Success: get instructors with specific email");
-
-        String email = "instructor1@course1.tmt";
-
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForEmail(email);
-        assertEquals(1, retrieved.size());
-
-        InstructorAttributes instructor = retrieved.get(0);
-
-        assertEquals("idOfTypicalCourse1", instructor.courseId);
-
-        ______TS("Failure: instructor does not exist");
-
-        retrieved = instructorsDb.getInstructorsForEmail("non-exist-email");
-        assertEquals(0, retrieved.size());
-
-        ______TS("Failure: null parameters");
-
-        try {
-            instructorsDb.getInstructorsForEmail(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
-        }
-    }
-
-    @Test
     public void testGetInstructorsForGoogleId() throws Exception {
 
         ______TS("Success: get instructors with specific googleId");
