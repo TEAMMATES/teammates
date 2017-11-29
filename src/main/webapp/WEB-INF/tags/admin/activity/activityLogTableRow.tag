@@ -41,14 +41,14 @@
         </c:if>
         <a href="${log.displayedActionUrl}"
             class="${log.isActionFailure || log.isActionErrorReport ? "text-danger" : "" }"
-            target="_blank">
+            target="_blank" rel="noopener noreferrer">
           ${log.actionName}
         </a>
         <small>
           id: ${log.logId} [${log.userName}
           <c:choose>
             <c:when test="${log.hasUserHomeLink}">
-              <a href="${log.userHomeLink}" target="_blank">${log.userGoogleId}</a>
+              <a href="${log.userHomeLink}" target="_blank" rel="noopener noreferrer">${log.userGoogleId}</a>
             </c:when>
             <c:otherwise>
               <%-- Display user role for user who don't have home link --%>
@@ -57,7 +57,7 @@
           </c:choose>
           <c:choose>
             <c:when test="${log.hasUserEmail}">
-              <a href="mailto:${log.userEmail}" target="_blank">${log.userEmail}</a>
+              <a href="mailto:${log.userEmail}" target="_blank" rel="noopener noreferrer">${log.userEmail}</a>
             </c:when>
             <c:otherwise>
               <%= Const.ActivityLog.UNKNOWN %>
