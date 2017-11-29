@@ -48,6 +48,7 @@ function submitFormAjax() {
                 } else {
                     const table = data.studentListHtmlTableAsString;
                     content.html(`<small>${table}</small>`);
+                    selectElementContents(content.get(0));
                 }
 
                 setStatusMessage(data.statusForAjax);
@@ -99,11 +100,6 @@ $(document).ready(() => {
     } else {
         toggleSort($('#button_sortstudentteam'));
     }
-
-    // auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', () => {
-        selectElementContents($('#detailsTable').get(0));
-    });
 
     attachEventToRemindStudentsButton();
     attachEventToSendInviteLink();
