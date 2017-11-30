@@ -473,7 +473,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
 
         // check email body for no left placeholders
-        //assertFalse(emailContent.contains("${"));
+        assertFalse(emailContent.contains("${"));
     }
 
     private void verifyEmailReceivedCorrectly(
