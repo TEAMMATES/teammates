@@ -62,27 +62,7 @@ If you started the server in the background, run the following command to stop i
 
 If the server is running in the foreground, press `Ctrl + C` to stop it or run the above command in a new console.
 
-### With Eclipse
-
-#### Starting the dev server
-
-Right-click on the project folder and choose `Run As → App Engine`.<br>
-After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-The dev server URL will be given at the console output, e.g `http://localhost:8080`.
-
-#### Stopping the dev server
-
-Click the "Terminate" icon on the Eclipse console.
-
-### With IntelliJ
-
-#### Starting the dev server
-
-Go to `Run → Run...` and select `Google App Engine Standard Local Server` in the pop-up box.
-
-#### Stopping the dev server
-
-Go to `Run → Stop 'Google App Engine Standard Local Server'`.
+Refer to [Using an IDE](ide-usage.md) for using [Eclipse](ide-usage.md#managing-the-dev-server-with-eclipse) or [IntelliJ](ide-usage.md#managing-the-dev-server-with-intellij) to manage the dev server.
 
 ## Logging in to a TEAMMATES instance
 

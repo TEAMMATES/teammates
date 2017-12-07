@@ -19,8 +19,8 @@ Add the library based on the name listed in [Maven Central](http://search.maven.
 To update a library's version, simply change the version number declared in `build.gradle` file.
 
 - If you are using command line, your next build will automatically reflect the change.
-- If you are using Eclipse, right click on the project in the Project Explorer and select `Gradle → Refresh Gradle Project` for the changes to be reflected.
-- If you are using IntelliJ, dependencies are automatically refreshed as soon as changes to the file are detected (assuming auto-import is enabled).
+
+Refer to [Using an IDE](ide-usage.md) for using [Eclipse](ide-usage.md#updating-libraries-in-eclipse) or IntelliJ(ide-usage.md#updating-libraries-in-intellij) to update libraries.
 
 # Managing Client-Side Dependencies
 
