@@ -20,7 +20,7 @@ To update a library's version, simply change the version number declared in `bui
 
 - If you are using command line, your next build will automatically reflect the change.
 
-Refer to [Using an IDE](ide-usage.md) for using [Eclipse](ide-usage.md#updating-libraries-in-eclipse) or [IntelliJ](ide-usage#updating-libraries-in-intellij) to update libraries.
+Refer to [Using an IDE](ide-usage.md) for using [Eclipse](ide-usage.md#updating-libraries-in-eclipse) or [IntelliJ](ide-usage.md#updating-libraries-in-intellij) to update libraries.
 
 # Managing Client-Side Dependencies
 
