@@ -51,7 +51,7 @@ private String ID;
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 
-Refer to [IDE Usage](ide-usage.md) for configuring CheckStyle in [Eclipse](ide-usage.md#configuring-pmd-eclipse-plugin) and [IntelliJ](ide-usage.md#configuring-pmd-for-intellij).
+Refer to [IDE Usage](ide-usage.md) for configuring PMD in [Eclipse](ide-usage.md#configuring-pmd-eclipse-plugin) and [IntelliJ](ide-usage.md#configuring-pmd-for-intellij).
 
 ##### Suppressing PMD warnings
 

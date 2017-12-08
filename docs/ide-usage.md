@@ -5,6 +5,7 @@
     * [Project Setup](#eclipse-project-setup)
     * [Updating Libraries](#updating-libraries-in-eclipse)
     * [Managing the dev server](#managing-the-dev-server-with-eclipse)
+    * [Running the test suite](#running-the-test-suite-wtih-eclipse)
     * [Static Analysis](#static-analysis-with-eclipse)
     * [Developer Troubleshooting Guide](#developer-troubleshooting-guide)
 - [IntelliJ IDEA](#intellij-idea)
@@ -12,6 +13,7 @@
     * [Project Setup](#intellij-project-setup)
     * [Updating Libraries](#updating-libraries-in-intellij)
     * [Managing the dev server](#managing-the-dev-server-with-intellij)
+    * [Running the test suite](#running-the-test-suite-with-intellij)
     * [Static Analysis](#static-analysis-with-intellij)
 
 ## Eclipse IDE
@@ -117,6 +119,14 @@ The dev server URL will be given at the console output, e.g `http://localhost:80
 #### Stopping the dev server
 
 Click the "Terminate" icon on the Eclipse console.
+
+### Running the test suite with Eclipse
+
+Run tests using the configurations available under the green `Run` button on the Eclipse toolbar.
+
+Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
+
+To run individual tests, right-click on the test files on the project explorer and choose `Run As → TestNG Test`.
 
 ### Static Analysis with Eclipse
 
@@ -314,6 +324,11 @@ Go to `Run → Run...` and select `Google App Engine Standard Local Server` in t
 #### Stopping the dev server
 
 Go to `Run → Stop 'Google App Engine Standard Local Server'`.
+
+### Running the test suite with IntelliJ
+Run tests using the configurations available under `Run → Run...`.
+
+To run individual tests, right-click on the test files on the project explorer and choose `Run`.
 
 ### Static Analysis with Intellij
 

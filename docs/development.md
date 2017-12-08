@@ -174,19 +174,8 @@ To run any test suite or individual test with [GodMode turned on](godmode.md), s
 * Additionally, configurations that run the tests with `GodMode` turned on are also provided.
 * When running the test cases, if a few cases fail (this can happen due to timing issues), re-run the failed cases using the `Run Failed Test` icon in the TestNG tab until they pass.
 
-#### Eclipse
+Refer to [IDE Usage](ide-usage.md) for running the test suite with [Eclipse](ide-usage.md#running-the-test-suite-with-Eclipse) or [Intellij](ide-usage.md#running-the-test-suite-with-intellij).
 
-Run tests using the configurations available under the green `Run` button on the Eclipse toolbar.
-
-Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
-
-To run individual tests, right-click on the test files on the project explorer and choose `Run As → TestNG Test`.
-
-#### IntelliJ
-
-Run tests using the configurations available under `Run → Run...`.
-
-To run individual tests, right-click on the test files on the project explorer and choose `Run`.
 
 ## Deploying to a staging server
 
