@@ -1,18 +1,18 @@
 # Using an IDE
 
 - [Eclipse IDE](#eclipse-ide)
-    * [Prerequisites](#prerequisites)
-    * [Project Setup](#project-setup)
+    * [Prerequisites](#eclipse-prerequisites)
+    * [Project Setup](#eclipse-project-setup)
     * [Updating Libraries](#updating-libraries-in-eclipse)
     * [Managing the dev server](#managing-the-dev-server-with-eclipse)
-    * [Static Analysis](#static-analysis)
+    * [Static Analysis](#static-analysis-with-eclipse)
     * [Developer Troubleshooting Guide](#developer-troubleshooting-guide)
 - [IntelliJ IDEA](#intellij-idea)
-    * [Prerequisites](#prerequisites)
-    * [Project Setup](#project-setup)
+    * [Prerequisites](#intellij-prerequisites)
+    * [Project Setup](#intellij-project-setup)
     * [Updating Libraries](#updating-libraries-in-intellij)
     * [Managing the dev server](#managing-the-dev-server-with-intellij)
-    * [Static Analysis](#static-analysis)
+    * [Static Analysis](#static-analysis-with-intellij)
 
 ## Eclipse IDE
 
@@ -21,7 +21,7 @@
 
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or Oxygen](http://www.eclipse.org/downloads/).
 
-### Prerequisites
+### Eclipse Prerequisites
 
 1. You need the following plugins:
    * [Buildship Gradle Integration](https://marketplace.eclipse.org/content/buildship-gradle-integration)
@@ -43,7 +43,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
      Note that the JDK to be used is not required to be the `default`.
 
-### Project Setup
+### Eclipse Project Setup
 
 1. Run this command to get necessary configuration files for Eclipse:
 
@@ -118,7 +118,7 @@ The dev server URL will be given at the console output, e.g `http://localhost:80
 
 Click the "Terminate" icon on the Eclipse console.
 
-### Static Analysis
+### Static Analysis with Eclipse
 
 ##### Configuring Checkstyle Eclipse plugin
 
@@ -231,7 +231,7 @@ Here is a better place for it. Just drag the tab and drop it alongside the Proje
 Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work with Google App Engine).
 You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
 
-### Prerequisites
+### IntelliJ Prerequisites
 
 1. You need a Java 8 SDK with the name `1.8` defined in IntelliJ IDEA as follows:
 
@@ -250,7 +250,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
      go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
      ![intellijsetupguide-3.png](images/intellijsetupguide-3.png)
 
-### Project Setup
+### Intellij Project Setup
 
 1. Import the project as a Gradle project as follows:
    1. Click `Import Project` (or `File → New → Project from Existing Sources...` if a project is currently open).
@@ -315,7 +315,7 @@ Go to `Run → Run...` and select `Google App Engine Standard Local Server` in t
 
 Go to `Run → Stop 'Google App Engine Standard Local Server'`.
 
-### Static Analysis
+### Static Analysis with Intellij
 
 ##### Configuring Checkstyle in IntelliJ IDEA
 
@@ -343,33 +343,30 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 
 ##### Configuring ESLint for IntelliJ
 
-**NOTE**
-> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
-
 1. If you have not installed Node.js and ESLint, please refer to
 [install necessary tools and languages](setting-up.md#step-1-install-necessary-tools-and-languages)
 and [set up project specific settings and dependencies](setting-up.md#step-3-set-up-project-specific-settings-and-dependencies).
-1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
-1. Go to `Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
-1. Check the box next to `Enable`.
-1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
+2. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
+3. Go to `Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
+4. Check the box next to `Enable`.
+5. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
    `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
-1. Point `Configuration file:` to the location of `teammates-eslint.yml`.
-1. Under 'Extra eslint options:', add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
-1. Click `OK`.
+6. Point `Configuration file:` to the location of `teammates-eslint.yml`.
+7. Under 'Extra eslint options:', add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
+8. Click `OK`.
 
 ##### Configuring Stylelint for IntelliJ
 
 1. If you have not installed Node.js and ESLint, please refer to
 [install necessary tools and languages](setting-up.md#step-1-install-necessary-tools-and-languages)
 and [set up project specific settings and dependencies](setting-up.md#step-3-set-up-project-specific-settings-and-dependencies).
-1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
-1. Go to `Languages & Frameworks → Stylesheets → Stylelint`.
-1. Check the box next to `Enable`.
-1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
+2. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
+3. Go to `Languages & Frameworks → Stylesheets → Stylelint`.
+4. Check the box next to `Enable`.
+5. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
    `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
-1. Click `OK`.
-1. Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
+6. Click `OK`.
+7. Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
 
 #### IntelliJ automatic setup
 1. Ensure the following plugins are installed. [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea),
@@ -377,12 +374,12 @@ and [set up project specific settings and dependencies](setting-up.md#step-3-set
 [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea),
 [NodeJS](https://plugins.jetbrains.com/plugin/6098-nodejs) (Optional)
 
-1. Run the command to setup the settings for the various plugins:
+2. Run the command to setup the settings for the various plugins:
    ```sh
    ./gradlew setupIntellijStaticAnalysis
    ```
 
-1. Restart IntelliJ IDEA.
+3. Restart IntelliJ IDEA.
 
 **NOTE**
 >The behavior of the automated setup is described [here](#intellij-idea-static-analysis-tools-setup-behavior).
