@@ -15,6 +15,7 @@
     * [Managing the dev server](#managing-the-dev-server-with-intellij)
     * [Running the test suite](#running-the-test-suite-with-intellij)
     * [Static Analysis](#static-analysis-with-intellij)
+    * [IntelliJ IDEA Static Analysis Tools Setup Behavior](#intellij-idea-static-analysis-tools-setup-behavior)
 
 ## Eclipse IDE
 
@@ -260,7 +261,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
      go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
      ![intellijsetupguide-3.png](images/intellijsetupguide-3.png)
 
-### Intellij Project Setup
+### IntelliJ Project Setup
 
 1. Import the project as a Gradle project as follows:
    1. Click `Import Project` (or `File → New → Project from Existing Sources...` if a project is currently open).
@@ -330,7 +331,7 @@ Run tests using the configurations available under `Run → Run...`.
 
 To run individual tests, right-click on the test files on the project explorer and choose `Run`.
 
-### Static Analysis with Intellij
+### Static Analysis with IntelliJ
 
 ##### Configuring Checkstyle in IntelliJ IDEA
 
