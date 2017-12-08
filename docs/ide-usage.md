@@ -312,7 +312,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 1. To move on to the development phase, refer to [this document](development.md).
 
 ### Updating Libraries in IntelliJ
-To update a library's version, simply change the version number declared in `build.gradle. dependencies are automatically refreshed as soon as changes to the file are detected (assuming auto-import is enabled).
+To update a library's version, simply change the version number declared in `build.gradle. Dependencies are automatically refreshed as soon as changes to the file are detected (assuming auto-import is enabled).
 
 ### Managing the dev server with IntelliJ
 
@@ -356,6 +356,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 1. Go to `File → Settings → Other Settings → PMD`.
 1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
 1. In the `Options` tab, set `Target JDK` to 1.7.
+1. Click `OK`.
 
 ##### Configuring ESLint for IntelliJ
 
@@ -473,16 +474,16 @@ The syntax for the pre-configured settings found below are as follows:
 
 #### Inspection Profile To Use
      
-     | Settings Info |                                            |
-     |---------------|--------------------------------------------|
-     | File name     | `inspectionProfiles/profiles_settings.xml` |
-     | Settings      | `Editor → Inspections`                     |
-     
-     **Parent Node:** `/component/settings/option`
-     
-     | IntelliJ Setting | Node                                                       | Value       |
-     |------------------|------------------------------------------------------------|-------------|
-     | `Profile:`       | `[@name='projectProfile']` and `[@name='PROJECT_PROFILE']` | `teammates` |
+| Settings Info |                                            |
+|---------------|--------------------------------------------|
+| File name     | `inspectionProfiles/profiles_settings.xml` |
+| Settings      | `Editor → Inspections`                     |
+
+**Parent Node:** `/component/settings/option`
+
+| IntelliJ Setting | Node                                                       | Value       |
+|------------------|------------------------------------------------------------|-------------|
+| `Profile:`       | `[@name='projectProfile']` and `[@name='PROJECT_PROFILE']` | `teammates` |
      
 #### Inspection Profile
 
