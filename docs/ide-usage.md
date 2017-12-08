@@ -5,7 +5,7 @@
     * [Project Setup](#eclipse-project-setup)
     * [Updating Libraries](#updating-libraries-in-eclipse)
     * [Managing the dev server](#managing-the-dev-server-with-eclipse)
-    * [Running the test suite](#running-the-test-suite-wtih-eclipse)
+    * [Running the test suite](#running-the-test-suite-with-eclipse)
     * [Static Analysis](#static-analysis-with-eclipse)
     * [Developer Troubleshooting Guide](#developer-troubleshooting-guide)
 - [IntelliJ IDEA](#intellij-idea)

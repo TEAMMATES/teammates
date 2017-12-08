@@ -174,7 +174,7 @@ To run any test suite or individual test with [GodMode turned on](godmode.md), s
 * Additionally, configurations that run the tests with `GodMode` turned on are also provided.
 * When running the test cases, if a few cases fail (this can happen due to timing issues), re-run the failed cases using the `Run Failed Test` icon in the TestNG tab until they pass.
 
-Refer to [IDE Usage](ide-usage.md) for running the test suite with [Eclipse](ide-usage.md#running-the-test-suite-with-Eclipse) or [Intellij](ide-usage.md#running-the-test-suite-with-intellij).
+Refer to [IDE Usage](ide-usage.md) for running the test suite with [Eclipse](ide-usage.md#running-the-test-suite-with-eclipse) or [Intellij](ide-usage.md#running-the-test-suite-with-intellij).
 
 
 ## Deploying to a staging server
