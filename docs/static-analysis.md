@@ -6,7 +6,6 @@ This document will cover an overview of these tools and how to run them in local
 
 - [Version numbers](#version-numbers)
 - [Tool stack](#tool-stack)
-- [IntelliJ automatic setup](#intellij-automatic-setup)
 - [Running static analysis](#running-static-analysis)
 - [Running code coverage session](#running-code-coverage-session)
 
@@ -26,29 +25,7 @@ Conversely, when updating any tool, ensure that the tool version is supported by
 [CheckStyle](http://checkstyle.sourceforge.net/index.html) helps to enforce coding standard in Java source code.
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-checkstyle.xml).
 
-##### Configuring Checkstyle Eclipse plugin
-
-The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
-
-1. In `Project > Properties`, go to the `Checkstyle` tab.
-2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
-3. In the `Main` tab, uncheck `Use simple configuration`.
-4. Add a new File Set. It should include only the `.java$` file. Enter any name you wish for the `File Set Name`, and select the Check Configuration that you created earlier for `Check Configuration`. Click OK.
-5. Ensure that only the newly created File Set is enabled. Disable all other File Sets if they are enabled. Click OK.
-
-##### Configuring Checkstyle in IntelliJ IDEA
-
-The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1065-checkstyle-idea).
-
-> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
-
-1. Go to `File → Settings → Other Settings → Checkstyle`.
-1. Set `Scan Scope` to `Only Java sources (including tests)`.
-1. Click the `+` to add a new configuration file. Click the `Browse` button, navigate to the `static-analysis` folder, and choose the `teammates-checkstyle.xml` file.
-1. Fill in the `Description` field with the name of your project (e.g. teammates).
-1. Click `Next`. Set the value of `basedir` to the path of your project folder.
-1. Click `Finish`.
-1. Check the box next to the newly added rule to activate it.
+Refer to [IDE Usage](ide-usage.md) for configuring CheckStyle in [Eclipse](ide-usage.md#configuring-checkstyle-eclipse-plugin) and [IntelliJ](ide-usage.md#configuring-checkstyle-in-intellij-idea).
 
 ##### Suppressing Checkstyle warnings
 
@@ -74,27 +51,7 @@ private String ID;
 [PMD](https://pmd.github.io) analyses the Java source code for common programming flaws (e.g unused variables, empty catch block).
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-pmd.xml).
 
-##### Configuring PMD Eclipse plugin
-
-The plugin for Eclipse can be found [here](http://www.acanda.ch/eclipse-pmd/release/latest).
-
-1. In `Project > Properties`, go to the `PMD` tab.
-1. Check `Enable PMD for this project`.
-1. Click `Add`, select `Project` and click `Next >`.
-1. Click `Browse` next to the `Location` bar, navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`.
-1. Enter any name you wish for the ruleset. Click `OK`.
-1. Repeat the last two steps for `teammates-pmdMain.xml`.
-
-##### Configuring PMD for IntelliJ
-
-The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin).
-
-> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
-
-1. Go to `File → Settings → Other Settings → PMD`.
-1. Click the `+` to add a new rule set. Browse for `teammates-pmd.xml`. Click OK.
-1. In the `Options` tab, set `Target JDK` to 1.7.
-1. Click `OK`.
+Refer to [IDE Usage](ide-usage.md) for configuring PMD in [Eclipse](ide-usage.md#configuring-pmd-eclipse-plugin) and [IntelliJ](ide-usage.md#configuring-pmd-for-intellij).
 
 ##### Suppressing PMD warnings
 
@@ -108,7 +65,7 @@ In Gradle build, the rules are configured by specifying the classes in the `visi
 The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
 The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea).
 
-> You can also [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA.
+> You can also [configure all the static analysis tools automatically](ide-usage.md#intellij-automatic-setup) for IntelliJ IDEA.
 
 ### Macker
 
@@ -133,21 +90,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 ESLint integration is currently not supported for Eclipse.
 
 **NOTE**
-> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
-
-#### Configuring ESLint for IntelliJ
-
-1. If you have not installed Node.js and ESLint, please refer to
-[install necessary tools and languages](setting-up.md#step-1-install-necessary-tools-and-languages)
-and [set up project specific settings and dependencies](setting-up.md#step-3-set-up-project-specific-settings-and-dependencies).
-1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
-1. Go to `Languages & Frameworks → JavaScript → Code Quality Tools → ESLint`.
-1. Check the box next to `Enable`.
-1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
-   `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
-1. Point `Configuration file:` to the location of `teammates-eslint.yml`.
-1. Under 'Extra eslint options:', add `--ignore-pattern 'src/main/webapp/js/*.js' --ignore-pattern 'src/main/webapp/test/*.js' --ignore-pattern 'test-output/**/*.js'`.
-1. Click `OK`.
+> You can [configure all the static analysis tools automatically](ide-usage.md#intellij-automatic-setup) for IntelliJ IDEA or follow the [manual instructions](ide-usage.md#configuring-eslint-for-intellij).
 
 ##### Suppressing ESLint warnings
 
@@ -167,41 +110,12 @@ An example to suppress the `camelcase` rule is as follows:
 The rules to be used are configured in a ruleset file; in TEAMMATES the file can be found [here](../static-analysis/teammates-stylelint.yml).
 Stylelint integration is currently not supported for Eclipse.
 
-> You can [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA or follow the manual instructions.
-
-#### Configuring Stylelint for IntelliJ
-
-1. If you have not installed Node.js and ESLint, please refer to
-[install necessary tools and languages](setting-up.md#step-1-install-necessary-tools-and-languages)
-and [set up project specific settings and dependencies](setting-up.md#step-3-set-up-project-specific-settings-and-dependencies).
-1. Open `File → Settings` or `IntelliJ IDEA → Preferences`.
-1. Go to `Languages & Frameworks → Stylesheets → Stylelint`.
-1. Check the box next to `Enable`.
-1. The `Node interpreter` and `Stylelint package` should have been auto-filled to your locally installed NodeJS and
-   `$PROJECT_DIR$/node_modules/stylelint` respectively. Point them to the right locations if they are not.
-1. Click `OK`.
-1. Copy `$PROJECT_DIR$/static-analysis/teammates-stylelint.yml` to `$PROJECT_DIR$/.stylelintrc.yml`.
+> You can [configure all the static analysis tools automatically](ide-usage.md#intellij-automatic-setup) for IntelliJ IDEA or follow the [manual instructions](ide-usage.md#configuring-stylelint-for-intellij).
 
 ### blanket.js
 
 [blanket.js](http://blanketjs.org) measures code coverage for JavaScript test run.
 It is immediately enabled for all scripts with the `data-cover` attribute (configured via HTML) in a QUnit test run.
-
-## IntelliJ automatic setup
-1. Ensure the following plugins are installed. [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea),
-[PMDPlugin](https://plugins.jetbrains.com/plugin/1137-pmdplugin),
-[FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea),
-[NodeJS](https://plugins.jetbrains.com/plugin/6098-nodejs) (Optional)
-
-1. Run the command to setup the settings for the various plugins:
-   ```sh
-   ./gradlew setupIntellijStaticAnalysis
-   ```
-
-1. Restart IntelliJ IDEA.
-
-**NOTE**
->The behavior of the automated setup is described [here](intellij-automated-setup-behavior.md#static-analysis-tools-setup-behavior).
 
 ## Running static analysis
 
@@ -238,43 +152,7 @@ To run all static analysis tasks in one sitting, run the following two commands:
 npm run lint
 ```
 
-### Eclipse
-
-Eclipse allows CheckStyle, PMD, and FindBugs analysis on the spot;
-just right-click on the source class or folder and select the appropriate commands.
-Remember to configure the tools to use the ruleset provided.
-The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
-
-To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle plugin,
-right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`.
-The report can be found in the `Markers` window in Eclipse.
-
-To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`.
-The report can be viewed in the PMD Perspective view under `Violations Overview`.
-
-### IntelliJ IDEA
-
-`CheckStyle`, `ESLint` and `Stylelint` are configured as inspection tools in IntelliJ IDEA.\
-This means they automatically run on every open file in the editor. Any code issues will show up on the right of the
-editor and you can also see the analysis status of the whole file from by hovering over the icon on the top-right of the
-editor. You may also be able to see some code inspection status on the line itself (e.g. wriggly red lines).
-
-`FindBugs` is also an inspection tool but it does not run automatically. You can run it by going to `Analyze → FindBugs`
-and choosing the option you want. Alternatively, you can select a number of files and right click, select `FindBugs` and
-the option you want.
-
-If you wish to run inspections for the whole project, you can do `Analyze → Inspect Code... → Whole project`. You may
-also wish to learn more about code inspections by referring to
-[IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-inspection.html).
-
-**NOTE**
-> `FindBugs` will only appear in the inspection results if you ran it manually before running
-> `Analyze → Inspect Code... → Whole project`.
-
-`PMD` is provided as a plugin and does not run automatically. You can run it by selecting a number of files, right clicking,
-selecting `Run PMD` and then choosing the option you want.
-
-`Macker` is not available in IntelliJ IDEA and you have to run it on the command line.
+Refer to [IDE Usage](ide-usage.md) for running static analyis in [Eclipse](ide-usage.md#running-static-analysis-in-eclipse) and [IntelliJ](ide-usage.md#running-static-analysis-in-intellij).
 
 ## Running code coverage session
 
@@ -298,25 +176,5 @@ The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 For JavaScript unit tests, coverage is done concurrently with the tests themselves.
 A coverage lower bound is enforced via `AllJsTests.java`, lower than which the build will fail.
 
-### Eclipse
+Refer to [IDE Usage](ide-usage.md) for running code coverage session in [Eclipse](ide-usage.md#running-code-coverage-session-in-eclipse) and [IntelliJ](ide-usage.md#running-code-coverage-session-in-intellij).
 
-For Java tests, choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite.
-The coverage will be reported in Eclipse after the test run is over.
-
-For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
-The coverage will be reported immediately in the test page.
-
-### IntelliJ IDEA
-
-For Java tests, you can measure code coverage for the project using `Run → Run... → CI Tests → ▶ → Cover `.
-
-**NOTE**
-> There are some packages and classes that are excluded when using Jacoco on the comamnd line which are not excluded
-when you run them in IntelliJ, thus the coverage statistics you see in IntelliJ may not match what you see on `Codecov`. 
-
-Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use
-IntelliJ IDEA's code coverage runner. You can further configure your code coverage settings by referring to
-[IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-coverage.html).
-
-For JavaScript unit tests, simply open `allJsUnitTests.html` and tick `Enable coverage`, or run `AllJsTests.java`.
-The coverage will be reported immediately in the test page.

@@ -22,55 +22,11 @@ Note that some of the screenshots might be outdated, but the instructions will r
   **SOLUTION**: You can re-run the install command again without any side effect. Make sure to choose to update the `PATH` variable this time. Alternatively, you can use other appropriate methods to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder.<br>
   To verify this, try running any `gcloud` command and it should now give you access to the SDK.
 
-* **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
-
-  **REASON**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK).
-
-  Go to `Window → Preferences → Java → Installed JREs`. You will note that a JRE path is the one selected, not a JDK path.
-
-  **SOLUTION**: To fix this, Click `Add → Standard VM`, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder, e.g. `C:/jdk1.8/jre`. Now you should see all of the JARs added to the library section.
-
-* **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
-
-  **SOLUTION**: You can force Eclipse to use the JDK (instead of JRE) by modifying the `eclipse.ini` file. See [here](http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse) for more details.
-
-* **ERROR (on Windows)**: Dev server launched by Eclipse keeps running even after closing Eclipse. After restarting Eclipse, you will be able to relaunch dev server on the same port but requests will be received by the previous server instance.
-
-  **REASON**: If Eclipse crashes while dev server is running inside Eclipse, the server might keep running even after Eclipse is closed.
-
-  **SOLUTION**: Go to Windows Task Manager and kill processes named `javaw.exe`.
-
-* **ERROR**: Eclipse complains "file out of sync".
-
-  **SOLUTION**: "Refresh" the project in Eclipse.
-
-* **ERROR**: Eclipse complains "There are no JREs installed in the workplace that are strictly compatible with this environment.".
-
-  **REASON**: Eclipse may be using an incompatible version of the JRE Library (with respect to TEAMMATES) for the current JRE definition. System Library for JRE should be set to the workspace default, after an appropriate JRE definition has been added (covered in existing point#2 of the troubleshooting section).
-
-  **SOLUTION**: Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE".
-
-* **ERROR**: Eclipse complains "NewClass cannot be resolved to a type", "The import some.package.NewClass cannot be resolved", or "The method someMethod() from the type ExistingClass refers to the missing type NewClass" after syncing with `master` branch.
-
-  **SOLUTION**: This is likely because the dependencies have changed. Refer to [this document](dependencies.md) for steps to update your local dependencies configuration.
-
-* **ERROR**: Some characters are displayed incorrectly in the browser. For example, `Charlés's` is displayed as `CharlÃ©s`.
-
-  **REASON**: Page encoding is not set to UTF-8.
-
-  **SOLUTION**: In Eclipse, go to `Window` → `Preferences` → `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`. If this does not fix the error, you can try the methods in [this link](https://z0ltan.wordpress.com/2011/12/25/changing-the-encoding-in-eclipse-to-utf-8-howto/).
+To see common setup errors and solutions specific to Eclipse, refer to [IDE Usage](ide-usage.md#common-setup-errors-and-solutions)
 
 ## Troubleshooting test failures
 
-### Optimizing IDE layout for testing
-
-The default place for the TestNG tab is alongside the Console tab.
-
-![troubleshooting-test-1.png](images/troubleshooting-test-1.png)
-
-Here is a better place for it. Just drag the tab and drop it alongside the Project Explorer tab.
-
-![troubleshooting-test-2.png](images/troubleshooting-test-2.png)
+Refer to [IDE Usage: Optimizing IDE Layout for testing](ide-usage.md#optimizing-ide-layout-for-testing) for optimizing Eclipse Layout for testing.
 
 ### How automated browser tests work
 
@@ -98,12 +54,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION**: Ensure compatible version of Firefox is installed as specified under [Development process document](development.md#testing).
 
-* **ERROR**: Tests fail randomly during dev server testing.
-
-  **SOLUTION**: Make sure there is only one dev server running. Eclipse will happily allow you to start multiple dev servers.
-
-  ![troubleshooting-test-4.png](images/troubleshooting-test-4.png)
-
 * **ERROR**: Test failure message encountered when running full test suite: "Selenium cannot find Firefox binary in PATH".
 
   **REASON 1**: Path to Firefox executable on local machine is incorrect.
@@ -124,10 +74,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://6-0-0-dot-teammates-john.appspot.com`.
 
-* **ERROR**: Tests fail due to accented characters.
-
-  **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](setting-up.md).
-
 * **ERROR**: Error message in the console about "incorrect date format".
 
   **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link](http://www.sevenforums.com/tutorials/3530-time-format-change.html) may be useful.
@@ -141,6 +87,8 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 * **ERROR (on Linux)**: `java.io.IOException: Directory "/tmpfiles" could not be created`.
 
    **SOLUTION**: Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
+
+To see common test errors and solutions specific to Eclipse, refer to [IDE Usage](ide-usage.md#common-test-errors-and-solutions)
 
 ## Submitting help request
 
