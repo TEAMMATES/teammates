@@ -8,7 +8,7 @@
   <div id="browserMessage" style="display: none;"></div>
   <br>
   <main>
-    <h1 class="h2 color_light_orange text-center">
+    <h1 class="h2 color_orange text-center">
       Student peer evaluations/feedback, shareable instructor comments, and more...
     </h1>
     <div class="row">

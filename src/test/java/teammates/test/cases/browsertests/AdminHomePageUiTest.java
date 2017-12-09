@@ -28,6 +28,11 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.Invocable;
+import javax.script.ScriptException;
+
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_HOME_PAGE}.
  */
@@ -35,6 +40,10 @@ import teammates.test.pageobjects.StudentProfilePage;
 public class AdminHomePageUiTest extends BaseUiTestCase {
     private AdminHomePage homePage;
     private InstructorCoursesPage coursesPage;
+    ScriptEngineManager factory = new ScriptEngineManager();
+    ScriptEngine engine = factory.getEngineByName("nashorn");
+
+
 
     @Override
     protected void prepareTestData() {
@@ -90,8 +99,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
-                     + expectedjoinUrl, homePage.getMessageFromResultTable(2));
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
+                homePage.getMessageFromResultTable(2));
+        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(2)));
+
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();
@@ -133,8 +144,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
 
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
-                     + expectedjoinUrl, homePage.getMessageFromResultTable(1));
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
+                homePage.getMessageFromResultTable(1));
+
 
         homePage.logout();
         //verify the instructor and the demo course have been created
