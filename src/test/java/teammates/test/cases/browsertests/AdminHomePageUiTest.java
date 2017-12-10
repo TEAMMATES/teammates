@@ -137,8 +137,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
                 homePage.getMessageFromResultTable(1));
-
-
+        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(1)));
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(getCourseWithRetry(demoCourseId));
