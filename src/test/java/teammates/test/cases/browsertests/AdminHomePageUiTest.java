@@ -28,11 +28,6 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.Invocable;
-import javax.script.ScriptException;
-
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_HOME_PAGE}.
  */
@@ -40,10 +35,6 @@ import javax.script.ScriptException;
 public class AdminHomePageUiTest extends BaseUiTestCase {
     private AdminHomePage homePage;
     private InstructorCoursesPage coursesPage;
-    ScriptEngineManager factory = new ScriptEngineManager();
-    ScriptEngine engine = factory.getEngineByName("nashorn");
-
-
 
     @Override
     protected void prepareTestData() {

@@ -20,7 +20,7 @@
     </c:if>
   </c:when>
   <c:otherwise>
-    <div id="statusMessagesToUser"  style="display: none;">
+    <div id="statusMessagesToUser" style="display: none;">
     </div>
   </c:otherwise>
 </c:choose>
