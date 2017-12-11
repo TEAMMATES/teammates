@@ -28,9 +28,18 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        int numOfInstrNotDisplayed = getNumberOfInstructorsNotDisplayedToStudents(courseId);
+        if (numOfInstrNotDisplayed < 1) {
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPALYED),
+                                               StatusMessageColor.DANGER));
+            RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+            result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+            return result;
+        }
 
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
@@ -53,6 +62,17 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
+    }
+
+    protected int getNumberOfInstructorsNotDisplayedToStudents(String courseId) {
+       List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+       int numOfInstrNotDisplayed = 0;
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.isDisplayedToStudents) {
+                numOfInstrNotDisplayed++;
+            }
+        }
+        return numOfInstrNotDisplayed;
     }
 
     /**
@@ -110,6 +130,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructorToEdit =
                 updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
                                                 instructorRole, isDisplayedToStudents, displayedName);
+
 
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
