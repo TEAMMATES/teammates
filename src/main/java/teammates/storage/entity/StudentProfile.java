@@ -35,7 +35,7 @@ public class StudentProfile extends BaseEntity {
     private String nationality;
 
     /* only accepts "male", "female" or "other" */
-   // private String gender;
+   // private enum Gender
     private enum Gender
     {
         male,female,other
