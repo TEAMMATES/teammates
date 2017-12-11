@@ -114,6 +114,7 @@ public class StudentProfilePage extends AppPage {
 
     public void fillInstitution(String studentInstitution) {
         fillTextBox(institutionBox, studentInstitution);
+        
     }
 
     /**

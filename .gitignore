@@ -19,11 +19,10 @@ chromedriver*
 *.db
 *.md.html
 libs/
-src/main/webapp/js
-src/main/webapp/test/*.js
+*.js
+!webpack-*.config.js
 node_modules/
 npm-debug.log
-package-lock.json
 
 .launches
 test-output/*

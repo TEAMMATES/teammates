@@ -14,6 +14,7 @@ import org.joda.time.DateTimeZone;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.

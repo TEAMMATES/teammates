@@ -35,7 +35,13 @@ public class StudentProfile extends BaseEntity {
     private String nationality;
 
     /* only accepts "male", "female" or "other" */
-    private String gender;
+   // private String gender;
+    private enum Gender
+    {
+        male,female,other
+    }
+    private Gender gender;
+    
 
     /* must be html sanitized before saving */
     private Text moreInfo;
@@ -139,11 +145,17 @@ public class StudentProfile extends BaseEntity {
     }
 
     public String getGender() {
-        return this.gender;
+        return (this.gender).name();
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        if(gender=="male")
+            this.gender=Gender.male;
+        else if(gender=="female")
+            this.gender=Gender.female;
+        else
+            this.gender=Gender.male;
+        
     }
 
     public Text getMoreInfo() {
