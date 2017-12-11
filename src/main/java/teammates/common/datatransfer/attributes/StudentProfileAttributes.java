@@ -25,7 +25,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-   // public String gender; // only accepts "male", "female" or "other"
     public enum Gender
     {
         male,female,other
