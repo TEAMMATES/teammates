@@ -702,7 +702,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("test the only registered instructor with the privilege to modify instructors cannot be deleted");
 
-        // Create an registered instructor with all privileges except modifying instructors
+        // Create a registered instructor with all privileges except modifying instructors
         InstructorPrivileges privilege =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
