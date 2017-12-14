@@ -24,6 +24,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -211,7 +212,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
         expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = "female";
+        expectedStudentProfile.gender = Gender.valueOf("female");
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
 
         student1.studentProfile = expectedStudentProfile;

@@ -139,7 +139,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withNationality("American")
                 .build();
         profilePage.editProfileThroughUi(
-                spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender, spa.moreInfo);
+                spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender.name(), spa.moreInfo);
         profilePage.ensureProfileContains("name<script>alert(\"Hello world!\");</script>",
                 "e@email.tmt", "inst<script>alert(\"Hello world!\");</script>", "American",
                 "male", "this is enough!$%&*</><script>alert(\"Hello world!\");</script>");
@@ -163,7 +163,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withGender("male").withMoreInfo("this is enough!$%&*</>")
                 .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
                 .build();
-        profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
+        profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender.name(),
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");
@@ -179,7 +179,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withGender("male").withMoreInfo("this is enough!$%&*</>")
                 .withInstitute(" inst  ").withNationality("American")
                 .build();
-        profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender,
+        profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender.name(),
                                          spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           "female", "this is enough!$%&*</>");

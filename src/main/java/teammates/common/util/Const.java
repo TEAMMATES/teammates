@@ -12,6 +12,7 @@ import java.util.TimeZone;
 import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 
 /**
  * Stores constants that are widely used across classes.
@@ -615,9 +616,9 @@ public final class Const {
     }
 
     public static class GenderTypes {
-        public static final String MALE = "male";
-        public static final String FEMALE = "female";
-        public static final String OTHER = "other";
+        public static final Gender MALE = Gender.male;
+        public static final Gender FEMALE = Gender.female;
+        public static final Gender OTHER = Gender.other;
     }
 
     public static class ParamsNames {

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidOriginException;
@@ -548,8 +549,8 @@ public abstract class Action {
     /**
      * Returns null if the specified parameter was not found in the request.
      */
-    public String getRequestParamValue(String paramName) {
-        return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+    public String getRequestParamValue(String studentGender) {
+        return HttpRequestHelper.getValueFromParamMap(requestParameters, studentGender);
     }
 
     /**
