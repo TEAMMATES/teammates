@@ -19,7 +19,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
@@ -37,10 +36,9 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
             return result;
         }
-
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         InstructorAttributes instructorToEdit =
                 extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
-
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
@@ -70,8 +68,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
     trying to make the instructor false, we need to account for that.
      */
     protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean isDisplayedToStudents) {
-       List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-       int numOfInstrDisplayed = 0;
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        int numOfInstrDisplayed = 0;
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isDisplayedToStudents) {
                 numOfInstrDisplayed++;
@@ -139,7 +137,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructorToEdit =
                 updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
                                                 instructorRole, isDisplayedToStudents, displayedName);
-
 
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
