@@ -63,7 +63,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         return result;
     }
 
-    /* This method gets the numbers of instructors that would be made to students if
+    /* This method gets the numbers of instructors that would be made visible to students if
     changes to the instructor information were successfully processed. Thus, if we are
     trying to make the instructor false, we need to account for that.
      */
