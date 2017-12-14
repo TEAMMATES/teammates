@@ -90,10 +90,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
-                homePage.getMessageFromResultTable(2));
-        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(2)));
-
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
+                                     + expectedjoinUrl, homePage.getMessageFromResultTable(2));
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
         homePage.clearInstructorDetailsSingleLineForm();
@@ -135,9 +133,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
 
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
-                homePage.getMessageFromResultTable(1));
-        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(1)));
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created with join link:\n"
+                                     + expectedjoinUrl, homePage.getMessageFromResultTable(1));
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(getCourseWithRetry(demoCourseId));
