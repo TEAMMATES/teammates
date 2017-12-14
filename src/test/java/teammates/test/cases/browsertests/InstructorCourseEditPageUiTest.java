@@ -599,7 +599,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         /* Test to verify that changes made to instructor are not saved if this is the only instructor displayed to students
         and you try to uncheck the box for "Display to students as:"
         The information in "verifyInstructorDetails" method below comes from InstructorCourseEditPageUiTest.json,
-        googleId: InsCrsEdit.Test
+        googleId: InsCrsEdit.tutor
          */
         courseEditPage.verifyInstructorDetails(8, "Teammates Tutor", "InsCrsEdit.tutor@gmail.tmt",
                 true, "Instructor", "Tutor");
