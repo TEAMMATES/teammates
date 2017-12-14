@@ -577,6 +577,25 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 sectionToCheck, sessionToCheck, InstructorCourseEditPage.SESSION_MODIFY_RESPONSES));
 
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
+
+        // Need to prepare for test by setting all instructors as not displayed to students
+        //courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
+        //                              false, "Instructor", "Custom");
+        courseEditPage.editInstructor(8, "Teammates Tutor", "InsCrsEdit.tutor@gmail.tmt",
+                true, "Instructor", "Tutor");
+        courseEditPage.editInstructor(2, "New name", "InsCrsEdit.instructor@gmail.tmt",
+                false, "Instructor", "Co-owner");
+        courseEditPage.editInstructor(3, "New name", "InsCrsEdit.instructor@gmail.tmt",
+                false, "Instructor", "Co-owner");
+        courseEditPage.editInstructor(4, "Teammates New Instructor", "InsCrsEdit.Helper@gmail.tmt",
+                false, "Instructor", "Custom");
+        courseEditPage.editInstructor(5, "Teammates Observer", "InsCrsEdit.observer@gmail.tmt",
+                false, "Instructor", "Observer");
+        courseEditPage.editInstructor(6, "Teammates Test", "InsCrsEdit.test@gmail.tmt",
+                false, "Instructor", "Co-owner");
+        courseEditPage.editInstructor(7, "Teammates Tutor", "InsCrsEdit.newInstr@gmail.tmt",
+                false, "Instructor", "Tutor");
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
     }
 
     private void testCancelEditInstructorAction() throws Exception {

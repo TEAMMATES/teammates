@@ -28,9 +28,10 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        int numOfInstrNotDisplayed = getNumberOfInstructorsNotDisplayedToStudents(courseId);
-        if (numOfInstrNotDisplayed < 1) {
-            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPALYED),
+        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+        int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId, isDisplayedToStudents);
+        if (numOfInstrDisplayed < 1 && !isDisplayedToStudents) {
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED),
                                                StatusMessageColor.DANGER));
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
@@ -64,15 +65,23 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         return result;
     }
 
-    protected int getNumberOfInstructorsNotDisplayedToStudents(String courseId) {
+    /* This method gets the numbers of instructors that would be made to students if
+    changes to the instructor information were successfully processed. Thus, if we are
+    trying to make the instructor false, we need to account for that.
+     */
+    protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean isDisplayedToStudents) {
        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-       int numOfInstrNotDisplayed = 0;
+       int numOfInstrDisplayed = 0;
         for (InstructorAttributes instructor : instructors) {
-            if (!instructor.isDisplayedToStudents) {
-                numOfInstrNotDisplayed++;
+            if (instructor.isDisplayedToStudents) {
+                numOfInstrDisplayed++;
             }
         }
-        return numOfInstrNotDisplayed;
+        // We need to account for the instructor we're trying to make false.
+        if (!isDisplayedToStudents) {
+            numOfInstrDisplayed--;
+        }
+        return numOfInstrDisplayed;
     }
 
     /**
