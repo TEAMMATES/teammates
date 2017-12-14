@@ -580,22 +580,29 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("Verify that one instructor must be visible to students");
         // Need to prepare for test by setting all instructors as not displayed to students
-        //courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
-        //                              false, "Instructor", "Custom");
+        courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
+                                      false, "Instructor", "Custom");
         courseEditPage.editInstructor(8, "Teammates Tutor", "InsCrsEdit.tutor@gmail.tmt",
                 false, "Instructor", "Tutor");
         courseEditPage.editInstructor(2, "New name", "InsCrsEdit.instructor@gmail.tmt",
-                false, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                false, "New display name", "Co-owner");
         courseEditPage.editInstructor(3, "New name", "InsCrsEdit.instructor@gmail.tmt",
-                false, "Instructor", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                false, "Instructor", "Co-owner");
         courseEditPage.editInstructor(4, "Teammates New Instructor", "InsCrsEdit.Helper@gmail.tmt",
                 false, "Instructor", "Custom");
         courseEditPage.editInstructor(5, "Teammates Observer", "InsCrsEdit.observer@gmail.tmt",
                 false, "Instructor", "Observer");
         courseEditPage.editInstructor(6, "Teammates Test", "InsCrsEdit.test@gmail.tmt",
-                false, "Instructor", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.editInstructor(7, "Teammates Tutor", "InsCrsEdit.newInstr@gmail.tmt",
-                false, "Instructor", "Tutor");
+                false, "Instructor", "Co-owner");
+        courseEditPage.editInstructor(7, "Teammates Do Not Save", "InsCrsEdit.test@gmail.tmt",
+                false, "Instructor", "Co-owner");
+        /* Test to verify that changes made to instructor are not saved if this is the only instructor displayed to students
+        and you try to uncheck the box for "Display to students as:"
+        The information in "verifyInstructorDetails" method below comes from InstructorCourseEditPageUiTest.json,
+        googleId: InsCrsEdit.Test
+         */
+        courseEditPage.verifyInstructorDetails(7, "Teammates Test", "InsCrsEdit.test@gmail.tmt",
+                true, "Instructor", "Co-owner");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
     }
 
