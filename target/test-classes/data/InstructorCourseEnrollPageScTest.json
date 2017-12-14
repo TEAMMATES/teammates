@@ -1,0 +1,86 @@
+{
+  "accounts": {
+    "CCEnrollScT.teammates.test": {
+      "googleId": "CCEnrollScT.teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "CCEnrollScT.CS2104": {
+      "id": "CCEnrollScT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "CCEnrollScT.teammates.test": {
+      "googleId": "CCEnrollScT.teammates.test",
+      "courseId": "CCEnrollScT.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.b.tmms@CCEnrollScT.CS2104": {
+      "googleId": "CCEnrollScT.alice.b.tmms",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "CCEnrollScT.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</option></td></div>'\"",
+      "section": "Section 1</option></td></div>'\""
+    },
+    "benny.c.tmms@CCEnrollScT.CS2104": {
+      "googleId": "CCEnrollScT.benny.c.tmms",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "CCEnrollScT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</option></td></div>'\"",
+      "section": "Section 1</option></td></div>'\""
+    },
+    "charlie.d.tmms@CCEnrollScT.CS2104": {
+      "googleId": "CCEnrollScT.charlie.d.tmms",
+      "email": "charlie.d.tmms@gmail.tmt",
+      "course": "CCEnrollScT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2",
+      "section": "Section 2"
+    },
+    "danny.e.tmms@CCEnrollScT.CS2104": {
+      "googleId": "CCEnrollScT.danny.e.tmms",
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "CCEnrollScT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "Section 2"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

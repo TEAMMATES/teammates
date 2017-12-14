@@ -1,0 +1,365 @@
+{
+  "accounts": {
+    "instructorWithoutCourses": {
+      "googleId": "instructorWithoutCourses",
+      "name": "Instructor Without Courses",
+      "isInstructor": true,
+      "email": "iwc@yahoo.tmt",
+      "institute": "TEAMMATES Test Institute 7"
+    },
+    "instructorWith2Courses": {
+      "googleId": "instructorWith2Courses",
+      "name": "Instructor With Two Courses",
+      "isInstructor": true,
+      "email": "iwithtwoc@yahoo.tmt",
+      "institute": "TEAMMATES Test Institute 5"
+    },
+    "instructorOfCourse1": {
+      "googleId": "instructorOfCourse1",
+      "name": "Instructor of Course 1",
+      "isInstructor": true,
+      "email": "instr@course1.tmt",
+      "institute": "TEAMMATES Test Institute 7"
+    },
+    "instructorOfCourse4": {
+      "googleId": "instructorOfCourse4",
+      "name": "Instructor of Course 4",
+      "isInstructor": true,
+      "email": "instr@course4.tmt",
+      "institute": "TEAMMATES Test Institute 9"
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CSListUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CSListUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
+    "Student3Course3": {
+      "googleId": "CCSDetailsUiT.charlie.tmms",
+      "name": "Charlie D",
+      "isInstructor": false,
+      "email": "CCSDetailsUiT.charlie.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 5"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CSListUiT.student1InTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "CSListUiT.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
+    }
+  },
+  "courses": {
+    "course1": {
+      "id": "course1",
+      "name": "Name of Course 1",
+      "timeZone": "UTC"
+    },
+    "course2": {
+      "id": "course2",
+      "name": "Name of Course 2",
+      "timeZone": "UTC"
+    },
+    "course3": {
+      "id": "course3",
+      "name": "Name of Course 3",
+      "timeZone": "UTC"
+    },
+    "course4": {
+      "id": "course4",
+      "name": "Name of Course 4",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CSListUiT.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructorOfCourse1": {
+      "googleId": "instructorOfCourse1",
+      "courseId": "course1",
+      "name": "Instructor1 Course1",
+      "email": "instr@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfCourse1": {
+      "googleId": "instructorOfCourse4",
+      "courseId": "course1",
+      "name": "Instructor1 Course4",
+      "email": "instr@course4.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfCourse2": {
+      "googleId": "instructorWith2Courses",
+      "courseId": "course2",
+      "name": "Instructor1 Course2",
+      "email": "iwithtwoc@yahoo.tmt",
+      "isArchived": false,
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfCourse3": {
+      "googleId": "instructorWith2Courses",
+      "courseId": "course3",
+      "name": "Instructor1 Course3",
+      "email": "iwithtwoc@yahoo.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfCourse3": {
+      "googleId": "instructorOfCourse4",
+      "courseId": "course3",
+      "name": "Instructor1 Course4",
+      "email": "instr@course4.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfCourse4": {
+      "googleId": "instructorOfCourse4",
+      "courseId": "course4",
+      "name": "Instructor1 Course4",
+      "email": "instr@course4.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CSListUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "CSListUiT.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CSListUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "Student1Course2": {
+      "googleId": "CCSDetailsUiT.alice.tmms",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.tmt",
+      "course": "course2",
+      "name": "Alice</option></td>tags and char here</div>&'\"",
+      "comments": "This student's name is Alice</option></td>tags and char here</div>&'\"",
+      "team": "Team 1</td>tags and char here</div>&'\"",
+      "section": "Section A</option></td>tags and char here</div>&'\""
+    },
+    "Student2Course2": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "course2",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2",
+      "section": "Section B"
+    },
+    "Student3Course2": {
+      "googleId": "",
+      "email": "hugh.i.tmms@gmail.tmt",
+      "course": "course2",
+      "name": "Hugh Ivanov",
+      "comments": "This student's name is Hugh Ivanov",
+      "team": "Team 2",
+      "section": "Section B"
+    },
+    "Student4Course2": {
+      "googleId": "",
+      "email": "ivan.j.tmms@gmail.tmt",
+      "course": "course2",
+      "name": "Ivan James",
+      "comments": "This student's name is Ivan James",
+      "team": "Team 3",
+      "section": "Section B"
+    },
+    "Student5Course2": {
+      "googleId": "",
+      "email": "jack.k.tmms@gmail.tmt",
+      "course": "course2",
+      "name": "Jack Khan",
+      "comments": "This student's name is Jack Kahn",
+      "team": "Team 3",
+      "section": "Section B"
+    },
+    "Student1Course3": {
+      "googleId": "CCSDetailsUiT.alice.tmms",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.tmt",
+      "course": "course3",
+      "name": "Alice</option></td>tags and char here</div>&'\"",
+      "comments": "This student's name is Alice</option></td>tags and char here</div>&'\"",
+      "team": "Team 1</td>tags and char here</div>&'\""
+    },
+    "Student2Course3": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "course3",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td>tags and char here</div>&'\""
+    },
+    "Student3Course3": {
+      "googleId": "CCSDetailsUiT.charlie.tmms",
+      "email": "CCSDetailsUiT.charlie.tmms@gmail.tmt",
+      "course": "course3",
+      "name": "Charlie D",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 2"
+    },
+    "Student4Course3": {
+      "googleId": "",
+      "email": "denny.c.tmms@gmail.tmt",
+      "course": "course3",
+      "name": "Denny Charlés",
+      "comments": "This student's name is Denny Charlés",
+      "team": "Team 2"
+    },
+    "Student5Course4": {
+      "googleId": "",
+      "email": "ann.tmms@gmail.tmt",
+      "course": "course4",
+      "name": "Ann",
+      "comments": "This student's name is Ann",
+      "team": "Team 1</td>tags and char here</div>&'\""
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CSListUiT.student1InTestingSanitizationCourse",
+      "email": "CSListUiT.normal@sanitization.tmt",
+      "course": "CSListUiT.idOfTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

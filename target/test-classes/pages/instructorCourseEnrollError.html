@@ -1,0 +1,252 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Enroll Students for CCEnrollUiT.CS2104
+  </h1>
+  <br>
+  <div class="instructionImg">
+    <img border="0" class="img-responsive" src="/images/enrollInstructions.gif">
+  </div>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+      <div class="text-muted">
+        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary">
+        </span>
+        If you want to enroll more then
+        <strong>
+          100
+        </strong>
+        students into one course, divide students into sections containing no more than
+        <strong>
+          100
+        </strong>
+        students.
+      </div>
+      <br>
+      <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" method="post" role="form">
+        <input name="token" type="hidden" value="${sessionToken}">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-sm-1 control-label" for="instructions">
+              Student data:
+            </label>
+            <div class="col-sm-11">
+              <textarea class="form-control" cols="120" id="enrollstudents" name="enrollstudents" placeholder="Paste student data here ..." rows="6" style="max-width:100%;">
+                Team | Name | Email | Comment Team 3 | Frank Hughe Team 1&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | Black Jack | bjack.gmail.tmt | This student email is invalid aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | Robert Downey | rob@email.tmt | This student team name is too long Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | longname@email.tmt | This student name is too long
+              </textarea>
+              <br>
+              <div id="statusMessagesToUser">
+                <div class="overflow-auto alert alert-danger icon-danger statusMessage">
+                  <p>
+                    <span class="bold">
+                      Problem in line :
+                      <span class="invalidLine">
+                        Team 3 | Frank Hughe
+                      </span>
+                    </span>
+                    <br>
+                    <span class="problemDetail">
+                      • Enroll line had fewer than the minimally expected 3 columns (Team, Name and Email)
+                      <br>
+                    </span>
+                  </p>
+                  <br>
+                  <p>
+                    <span class="bold">
+                      Problem in line :
+                      <span class="invalidLine">
+                        Team 1&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" | Black Jack | bjack.gmail.tmt | This student email is invalid
+                      </span>
+                    </span>
+                    <br>
+                    <span class="problemDetail">
+                      • "bjack.gmail.tmt" is not acceptable to TEAMMATES as a/an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.
+                    </span>
+                  </p>
+                  <br>
+                  <p>
+                    <span class="bold">
+                      Problem in line :
+                      <span class="invalidLine">
+                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | Robert Downey | rob@email.tmt | This student team name is too long
+                      </span>
+                    </span>
+                    <br>
+                    <span class="problemDetail">
+                      • "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" is not acceptable to TEAMMATES as a/an team name because it is too long. The value of a/an team name should be no longer than 60 characters. It should not be empty.
+                    </span>
+                  </p>
+                  <br>
+                  <p>
+                    <span class="bold">
+                      Problem in line :
+                      <span class="invalidLine">
+                        Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | longname@email.tmt | This student name is too long
+                      </span>
+                    </span>
+                    <br>
+                    <span class="problemDetail">
+                      • "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" is not acceptable to TEAMMATES as a/an person name because it is too long. The value of a/an person name should be no longer than 100 characters. It should not be empty.
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <script defer="" src="/js/statusMessage.js" type="text/javascript">
+              </script>
+              <button class="btn btn-primary btn-md" id="button_enroll" name="button_enroll" title="Enroll" type="submit">
+                Enroll students
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <br>
+  <div class="moreInfo">
+    <h2>
+      More info
+    </h2>
+    <hr style="width: 80%; margin-left: 0px;">
+    <ul>
+      <li>
+        <span class="moreInfoPointTitle">
+          Sample spreadsheet
+        </span>
+        <div class="moreInfoPointDetails">
+          If you are not sure about the format of the spreadsheet,
+          <a href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing" id="spreadsheet-link">
+            here
+          </a>
+          is a sample file.
+        </div>
+      </li>
+      <li>
+        <span class="moreInfoPointTitle">
+          Column headings
+        </span>
+        <div class="moreInfoPointDetails">
+          The column order is not important. Column headings are
+          <u>
+            not
+          </u>
+          case sensitive. e.g. Team, TEAM, team are all acceptable.
+        </div>
+      </li>
+      <li>
+        <span class="moreInfoPointTitle">
+          Columns to include
+        </span>
+        <div class="moreInfoPointDetails">
+          <ul>
+            <li class="moreInfoColumnInfo">
+              <samp>
+                Section
+              </samp>
+              [Compulsory for courses having more than 100 students]: Section name/ID
+            </li>
+            <li class="moreInfoColumnInfo">
+              <samp>
+                Team
+              </samp>
+              [Compulsory]: Team name/ID
+              <div class="moreInfoPointDetails">
+                <ul>
+                  <li class="moreInfoEmailDetails">
+                    Team must be unique within a course. A team cannot be in 2 different sections.
+                  </li>
+                  <li class="moreInfoEmailDetails">
+                    If you do not have teams in your course, use “N/A” as the team name for all students.
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="moreInfoColumnInfo">
+              <samp>
+                Name
+              </samp>
+              [Compulsory]: Student name
+            </li>
+            <li class="moreInfoColumnInfo">
+              <samp>
+                Email
+              </samp>
+              [Compulsory]: The email address used to contact the student.
+              <br>
+              <div class="moreInfoPointDetails">
+                <ul>
+                  <li class="moreInfoEmailDetails">
+                    This need not be a Gmail address.
+                  </li>
+                  <li class="moreInfoEmailDetails">
+                    It should be unique for each student. If two students are given the same email, they will be considered the same student.
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="moreInfoColumnInfo">
+              <samp>
+                Comments
+              </samp>
+              [Optional]: Any other information you want to record about a student.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="moreInfoPointTitle">
+          Mass editing enrolled students
+        </span>
+        <div class="moreInfoPointDetails">
+          <ul>
+            <li class="moreInfoMassEditInfo">
+              The text box above can be used for mass-editing details (except email address) of students already enrolled. To edit, simply enroll students using the updated data and existing data will be updated accordingly.
+            </li>
+            <li class="moreInfoMassEditInfo">
+              To DELETE students or to UPDATE EMAIL address of a student, please go to the ‘courses’ page and click the 'view' link of the course.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="moreInfoPointTitle">
+          Enrolling without spreadsheets
+        </span>
+        <div class="moreInfoPointDetails">
+          The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, not to be confused with upper case i or lower case L) to separate values.
+          <br>
+          Here is an example.
+          <br>
+          <br>
+          <div id="moreInfoEnrollWOSpreadSheetEg">
+            <samp>
+              <span class="enrollLines">
+                <b>
+                  Section   |   Team   |   Name   |   Email   |   Comments
+                </b>
+              </span>
+              <br>
+              <span class="enrollLines">
+                Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com
+              </span>
+              <br>
+              <span class="enrollLines">
+                Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student
+              </span>
+              <br>
+              <span class="enrollLines">
+                Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com
+              </span>
+              <br>
+              <span class="enrollLines">
+                Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com
+              </span>
+            </samp>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

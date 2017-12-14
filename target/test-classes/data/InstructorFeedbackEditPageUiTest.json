@@ -1,0 +1,307 @@
+{
+  "accounts": {
+    "instructorWithSessions": {
+      "googleId": "CFeedbackEditUiT.instructor",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "otherInstructor": {
+      "googleId": "CFeedbackEditUiT.instructor2",
+      "name": "Instructor 2",
+      "isInstructor": true,
+      "email": "tmms.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "thirdInstructor": {
+      "googleId": "CFeedbackEditUiT.instructor3",
+      "name": "Instructor 3",
+      "isInstructor": true,
+      "email": "tmms.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CFeedbackEditUiT.instructor1OfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
+    "alice.tmms": {
+      "googleId": "CFeedbackEditUiT.alice.tmms",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "alice.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "course": {
+      "id": "CFeedbackEditUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "course2": {
+      "id": "CFeedbackEditUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CFeedbackEditUiT.idOfTSCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "teammates.test.instructor": {
+      "googleId": "CFeedbackEditUiT.instructor",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2": {
+      "googleId": "CFeedbackEditUiT.instructor2",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor3": {
+      "googleId": "CFeedbackEditUiT.instructor3",
+      "courseId": "CFeedbackEditUiT.CS1101",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CFeedbackEditUiT.instructor1OfTSCourse",
+      "courseId": "CFeedbackEditUiT.idOfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@CFeedbackEditUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.alice.tmms",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "benny.tmms@CFeedbackEditUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.benny.tmms",
+      "email": "benny.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "charlie.tmms@CFeedbackEditUiT.CS1101": {
+      "googleId": "charlie.tmms",
+      "email": "CFeedbackEditUiT.charlie.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "danny.tmms@CFeedbackEditUiT.CS1101": {
+      "googleId": "danny.tmms",
+      "email": "CFeedbackEditUiT.danny.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    }
+  },
+  "feedbackSessions": {
+    "openSession": {
+      "feedbackSessionName": "First Session",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "openSession2": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for Second session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "openSession3": {
+      "feedbackSessionName": "Third Session",
+      "courseId": "CFeedbackEditUiT.CS1101",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for Third session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1InTestingSanitizationCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "CFeedbackEditUiT.idOfTSCourse",
+      "creatorEmail": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "instructions": {
+        "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1InSession1InTestingSanitizationCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "CFeedbackEditUiT.idOfTSCourse",
+      "creatorEmail": "CFeedbackEditUiT.instructor1@sanitization.tmt",
+      "questionMetaData": {
+        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

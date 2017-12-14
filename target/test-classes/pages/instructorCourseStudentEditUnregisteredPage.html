@@ -1,0 +1,64 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Edit Student Details
+  </h1>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+      <form action="/page/instructorCourseStudentDetailsEditSave" class="form form-horizontal" id="instructor-student-edit-form" method="post">
+        <input name="courseid" type="hidden" value="CCSDEditUiT.CS2104">
+        <input name="sessionsummarysendemail" type="hidden" value="false">
+        <input id="openorpublishedemailsent" name="openorpublishedemailsent" type="hidden" value="false">
+        <input name="token" type="hidden" value="${sessionToken}">
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            Student Name:
+          </label>
+          <div class="col-sm-11">
+            <input class="form-control" id="studentname" name="studentname" value="Benny Charles">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            Team Name:
+          </label>
+          <div class="col-sm-11">
+            <input class="form-control" id="teamname" name="teamname" value="Team 1</td></div>'&quot;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            E-mail Address:
+            <input id="studentemail" name="studentemail" type="hidden" value="benny.c.tmms@gmail.tmt">
+          </label>
+          <div class="col-sm-11">
+            <input class="form-control" id="newstudentemail" name="newstudentemail" value="benny.c.tmms@gmail.tmt">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-1 control-label">
+            Comments:
+          </label>
+          <div class="col-sm-11">
+            <textarea class="form-control" id="comments" name="comments" rows="6">
+              This student's name is Benny Charles
+            </textarea>
+          </div>
+        </div>
+        <div id="statusMessagesToUser" style="display: none;">
+        </div>
+        <br>
+        <div class="align-center">
+          <input class="btn btn-primary" id="button_submit" type="submit" value="Save Changes">
+        </div>
+        <br>
+        <br>
+        <input name="user" type="hidden" value="CCSDEditUiT.instr">
+      </form>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>

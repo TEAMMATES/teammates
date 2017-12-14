@@ -1,0 +1,16 @@
+<div class="margin-bottom-7px" id="constSumOptionRow-${i}-${questionNumber}">
+  <div class="input-group width-100-pc">
+    <input class="form-control" type="text" disabled
+        name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}-${i}"
+        id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}-${i}-${questionNumber}"
+        class="constSumOptionTextBox" value="${constSumOptionValue}">
+    <span class="input-group-btn">
+      <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink"
+          onclick="removeConstSumOption(${i},${questionNumber})"
+          style="display:none" tabindex="-1">
+        <span class="glyphicon glyphicon-remove">
+        </span>
+      </button>
+    </span>
+  </div>
+</div>

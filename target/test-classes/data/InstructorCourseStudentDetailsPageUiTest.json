@@ -1,0 +1,176 @@
+{
+  "accounts": {
+    "CCSDetailsUiT.instr": {
+      "googleId": "CCSDetailsUiT.instr.veryLongGoogleId",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "CCSDetailsUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCSDetailsUiT.Helper": {
+      "googleId": "CCSDetailsUiT.Helper",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "CCSDetailsUiT.Helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "registeredStudent": {
+      "googleId": "CCSDetailsUiT.jose.tmms",
+      "name": "José Gómez",
+      "isInstructor": false,
+      "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 5",
+      "studentProfile": {
+        "googleId": "CCSDetailsUiT.jose.tmms",
+        "shortName": "Jose",
+        "email": "jose@e.tmt",
+        "institute": "TEAMMATES Test Institute 7",
+        "nationality": "Laotian",
+        "gender": "other",
+        "moreInfo": "This is a lot of info...",
+        "pictureKey": ""
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationInstruct",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CCSDetailsUiT.instruct@sanitization.tmt",
+      "institute": "inst\"</td></div>"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationStud",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "CCSDetailsUiT.stud@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "CCSDetailsUiT.sanitizationStud",
+        "shortName": "name\"/><script>alert('hi!');</script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "school'/><script>alert('hi!');</script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
+    }
+  },
+  "courses": {
+    "CCSDetailsUiT.CS2104": {
+      "id": "CCSDetailsUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CCSDetailsUiT.sanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "CCSDetailsUiT.instr": {
+      "googleId": "CCSDetailsUiT.instr.veryLongGoogleId",
+      "courseId": "CCSDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "CCSDetailsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCSDetailsUiT.Helper": {
+      "googleId": "CCSDetailsUiT.Helper",
+      "courseId": "CCSDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "CCSDetailsUiT.Helper@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationInstruct",
+      "courseId": "CCSDetailsUiT.sanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CCSDetailsUiT.instruct@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "registeredStudent": {
+      "googleId": "CCSDetailsUiT.jose.tmms",
+      "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
+      "course": "CCSDetailsUiT.CS2104",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
+      "team": "Team 1"
+    },
+    "unregisteredStudent": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "CCSDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationStud",
+      "email": "CCSDetailsUiT.stud@sanitization.tmt",
+      "course": "CCSDetailsUiT.sanitizationCourse",
+      "name": "Stud1</option></td></div>'\"",
+      "comments": "</p></div>'\"<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</option></td>",
+      "section": "Section'</td>"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

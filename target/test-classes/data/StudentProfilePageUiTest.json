@@ -1,0 +1,165 @@
+{
+  "accounts": {
+    "SHomeUiT.instr": {
+      "googleId": "SHomeUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SHomeUiT.helper": {
+      "googleId": "SHomeUiT.helper",
+      "name": "Teammates Test Helper",
+      "isInstructor": true,
+      "email": "SHomeUiT.helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "studentWithExistingProfile": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Benny C",
+      "isInstructor": false,
+      "email": "${value.injected.in.testfile}",
+      "institute": "TEAMMATES Test Institute 7",
+      "studentProfile": {
+        "googleId": "${value.injected.in.testfile}",
+        "shortName": "Ben",
+        "email": "i.m.benny@gmail.tmt",
+        "institute": "TEAMMATES Test Institute 4",
+        "nationality": "Singaporean",
+        "gender": "male",
+        "moreInfo": "I am just another student :P",
+        "pictureKey": ""
+      }
+    },
+    "studentWithEmptyProfile": {
+      "googleId": "SHomeUiT.benny.c",
+      "name": "Benny Charles",
+      "isInstructor": false,
+      "email": "SHomeUiT.benny.c@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.sanitizationInstruct",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "SHomeUiT.instruct@sanitization.tmt",
+      "institute": "inst\"</td></div>"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.sanitizationStud",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "SHomeUiT.stud@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "SHomeUiT.sanitizationStud",
+        "shortName": "name\"/><script>alert('hi!');</script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "school'/><script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
+    }
+  },
+  "courses": {
+    "SHomeUiT.CS2104": {
+      "id": "SHomeUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "SHomeUiT.sanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SHomeUiT.instr.CS2104": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "SHomeUiT.helper.CS2104": {
+      "googleId": "SHomeUiT.helper",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test Helper",
+      "email": "SHomeUiT.helper@gmail.tmt",
+      "isDisplayedToStudents": false,
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.sanitizationInstruct",
+      "courseId": "SHomeUiT.sanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "SHomeUiT.instruct@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "studentWithExistingProfile": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SHomeUiT.CS2104",
+      "name": "Benny C",
+      "comments": "This student's name is BC",
+      "team": "Team 1"
+    },
+    "SHomeUiT.benny.c@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.benny.c",
+      "email": "SHomeUiT.benny.c@gmail.tmt",
+      "course": "SHomeUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.sanitizationStud",
+      "email": "SHomeUiT.stud@sanitization.tmt",
+      "course": "SHomeUiT.sanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

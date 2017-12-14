@@ -1,0 +1,60 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Course Join Confirmation
+  </h1>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <br>
+  <div class="panel panel-primary panel-narrow">
+    <div class="panel-heading">
+      <h4>
+        Confirm your Google account
+      </h4>
+    </div>
+    <div class="panel-body">
+      <p>
+        You are currently logged in as
+        <span>
+          <strong>
+            ${test.student1}
+          </strong>
+        </span>
+        . You have been redirected to this page because you navigated to a link for the course
+        <strong>
+          SFResultsUiT.CS2104
+        </strong>
+        , which you have not been registered in.
+        <br>
+        If you wish to register as
+        <strong>
+          ${test.student1}
+        </strong>
+        , please confirm below to complete your registration.
+        <br>
+        If you wish to register with another Google ID or do not wish to register for this course, please
+        <a href="/_ah/logout?continue=${continue.url}">
+          log out
+        </a>
+        , log in with your desired Google ID if necessary, and navigate to the link again.
+        <br>
+      </p>
+      <div class="align-center">
+        <a class="btn btn-success" href="/page/studentCourseJoinAuthenticated?key=${regkey.enc}&next=/page/studentFeedbackResultsPage?courseid=SFResultsUiT.CS2104${amp}studentemail=drop.out%40gmail.tmt${amp}fsname=First+Session${amp}key=${regkey.enc}" id="button_confirm">
+          Register as
+          <strong>
+            ${test.student1}
+          </strong>
+        </a>
+        <a class="btn btn-danger" href="/_ah/logout?continue=${continue.url}" id="button_cancel">
+          Do not register as
+          <strong>
+            ${test.student1}
+          </strong>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

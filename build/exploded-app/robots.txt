@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /page/
+Sitemap: http://teammatesv4.appspot.com/sitemap.xml

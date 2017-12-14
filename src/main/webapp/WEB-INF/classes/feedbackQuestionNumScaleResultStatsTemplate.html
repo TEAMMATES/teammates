@@ -1,0 +1,38 @@
+<div class="panel-body">
+  <div class="row">
+    <div class="col-sm-4 text-color-gray">
+      <strong>
+        ${summaryTitle}
+      </strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-bordered table-responsive margin-0">
+        <thead>
+          <tr>
+            <td class="button-sort-ascending toggle-sort" id="button_sortreceiverteam">
+              Team <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-ascending toggle-sort" id="button_sortreceivername">
+              Recipient <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortavg" data-toggle-sort-comparator="sortByPoint" data-toggle="tooltip" data-placement="top" data-container="body">
+              <span data-toggle="tooltip" title="Average of the visible responses">Average</span>
+              <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortmax" data-toggle-sort-comparator="sortByPoint" data-toggle="tooltip" data-placement="top" data-container="body">
+              <span data-toggle="tooltip" title="Maximum of the visible responses">Max</span>
+              <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort" id="button_sortmin" data-toggle-sort-comparator="sortByPoint" data-toggle="tooltip" data-placement="top" data-container="body">
+              <span data-toggle="tooltip" title="Minimum of the visible responses">Min</span>
+              <span class="icon-sort unsorted"></span>
+            </td>
+          </tr>
+        </thead>
+        ${statsFragments}
+      </table>
+    </div>
+  </div>
+</div>

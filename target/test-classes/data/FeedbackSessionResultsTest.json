@@ -1,0 +1,734 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "googleId": "FSRTest.idOfInstructor1OfCourse1",
+      "name": "Instructor 1 of Course 1",
+      "isInstructor": true,
+      "email": "FSRTest.instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor2OfCourse1": {
+      "googleId": "FSRTest.idOfInstructor2OfCourse1",
+      "name": "Instructor 2 of Course 1",
+      "isInstructor": true,
+      "email": "FSRTest.instr2@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor3": {
+      "googleId": "FSRTest.idOfInstructor3",
+      "name": "Instructor 3 of Course 1 and No Sessions",
+      "isInstructor": true,
+      "email": "FSRTest.instr3@course1n2.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithoutCourses": {
+      "googleId": "FSRTest.instructorWithoutCourses",
+      "name": "Instructor Without Courses",
+      "isInstructor": true,
+      "email": "FSRTest.iwc@yahoo.tmt",
+      "institute": "TEAMMATES Test Institute 7"
+    },
+    "student1InCourse1": {
+      "googleId": "FSRTest.student1InCourse1",
+      "name": "Student 1 in course 1",
+      "isInstructor": false,
+      "email": "FSRTest.sudent1inCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student2InCourse1": {
+      "googleId": "FSRTest.student2InCourse1",
+      "name": "Student in two courses",
+      "isInstructor": false,
+      "email": "FSRTest.sudent2inCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student3InCourse1": {
+      "googleId": "FSRTest.student3InCourse1",
+      "name": "Student 3 in course 1",
+      "isInstructor": false,
+      "email": "FSRTest.sudent1inCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student4InCourse1": {
+      "googleId": "FSRTest.student4InCourse1",
+      "name": "Student 4 in course 1",
+      "isInstructor": false,
+      "email": "FSRTest.sudent4inCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student5InCourse1": {
+      "googleId": "FSRTest.student5InCourse1",
+      "name": "Student 5 in course 1",
+      "isInstructor": false,
+      "email": "FSRTest.sudent5inCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "id": "FSRTest.idOfTypicalCourse1",
+      "name": "Typical Course 1",
+      "timeZone": "UTC"
+    },
+    "course.no.sessions": {
+      "id": "FSRTest.idOfNoSessionsCourse",
+      "name": "No Sessions Course",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "googleId": "FSRTest.idOfInstructor1OfCourse1",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "name": "Instructor1 Course1",
+      "email": "FSRTest.instr1@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfCourse1": {
+      "googleId": "FSRTest.idOfInstructor2OfCourse1",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "name": "Instructor2 Course1",
+      "email": "FSRTest.instr2@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor3OfCourse1": {
+      "googleId": "FSRTest.idOfInstructor3",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "name": "Instructor3 Course1",
+      "email": "FSRTest.instr3@course1n2.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor4": {
+      "googleId": "FSRTest.idOfInstructor3",
+      "courseId": "FSRTest.idOfNoSessionsCourse",
+      "name": "Instructor3 No Sessions",
+      "email": "FSRTest.instr3@course1n2.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCourse1": {
+      "googleId": "FSRTest.student1InCourse1",
+      "email": "FSRTest.student1InCourse1@gmail.tmt",
+      "course": "FSRTest.idOfTypicalCourse1",
+      "name": "student1 In Course1</td></div>'\"",
+      "comments": "comment for student1InCourse1",
+      "team": "Team 1.1</td></div>'\"",
+      "section": "Section A"
+    },
+    "student2InCourse1": {
+      "googleId": "FSRTest.student2InCourse1",
+      "email": "FSRTest.student2InCourse1@gmail.tmt",
+      "course": "FSRTest.idOfTypicalCourse1",
+      "name": "student2 In Course1",
+      "comments": "",
+      "team": "Team 1.1</td></div>'\"",
+      "section": "Section A"
+    },
+    "student3InCourse1": {
+      "googleId": "FSRTest.student3InCourse1",
+      "email": "FSRTest.student3InCourse1@gmail.tmt",
+      "course": "FSRTest.idOfTypicalCourse1",
+      "name": "student3 In Course1",
+      "comments": "",
+      "team": "Team 1.2",
+      "section": "Section B"
+    },
+    "student4InCourse1": {
+      "googleId": "FSRTest.student4InCourse1",
+      "email": "FSRTest.student4InCourse1@gmail.tmt",
+      "course": "FSRTest.idOfTypicalCourse1",
+      "name": "student4 In Course1",
+      "comments": "",
+      "team": "Team 1.2",
+      "section": "Section B"
+    },
+    "student5InCourse1": {
+      "googleId": "FSRTest.student5InCourse1",
+      "email": "FSRTest.student5InCourse1@gmail.tmt",
+      "course": "FSRTest.idOfTypicalCourse1",
+      "name": "student5 In Course1",
+      "comments": "",
+      "team": "Team 1.3",
+      "section": "Section B"
+    },
+    "student6InCourse1": {
+      "googleId": "FSRTest.student5InCourse1",
+      "email": "FSRTest.student6InCourse1@gmail.tmt",
+      "course": "FSRTest.idOfTypicalCourse1",
+      "name": "student6 In Course1",
+      "comments": "same googleId as student 5",
+      "team": "Team 1.4",
+      "section": "Section A"
+    }
+  },
+  "feedbackSessions": {
+    "standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "private.session": {
+      "feedbackSessionName": "Private feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "sessionVisibleFromTime": "1970-11-27 12:00 AM UTC",
+      "resultsVisibleFromTime": "1970-11-27 12:00 AM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType": "PRIVATE",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
+      "questionMetaData": {
+        "value": "student self feedback"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn2.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
+      "questionMetaData": {
+        "value": "student feedback to team members. only recipient can see names."
+      },
+      "questionNumber": 2,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn3.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "student to instructors. recipient name protected."
+      },
+      "questionNumber": 3,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": []
+    },
+    "qn4.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "student to 2 teams with extra responses. only instructor can see giver name."
+      },
+      "questionNumber": 4,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 2,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn5.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "student to students. only giver team + receiver can see giver name"
+      },
+      "questionNumber": 5,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS"
+      ]
+    },
+    "qn6.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "instructor to none. only instructors can see."
+      },
+      "questionNumber": 6,
+      "questionType": "TEXT",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn7.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "teams to students. all students can see everything, but not instr inc creator."
+      },
+      "questionNumber": 7,
+      "questionType": "TEXT",
+      "giverType": "TEAMS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS"
+      ]
+    },
+    "qn8.standard.session": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "teams to teams test."
+      },
+      "questionNumber": 8,
+      "questionType": "TEXT",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn1.private.session": {
+      "feedbackSessionName": "Private feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
+      "questionMetaData": {
+        "value": "creator self feedback"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "SELF",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": []
+    },
+    "qn2.private.session": {
+      "feedbackSessionName": "Private feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
+      "questionMetaData": {
+        "value": "hidden qn for opening up later."
+      },
+      "questionNumber": 2,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "qn1.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "student self feedback."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "qn2.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "student 1 feedback to student 2."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "qn2.resp2": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student6InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "student 6 feedback to student 3."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    },
+    "qn2.resp3": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student2InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "student 2 feedback to student 1."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "qn3.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "FSRTest.instr1@course1.tmt",
+      "responseMetaData": {
+        "value": "student 1 feedback to instr 1."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
+    },
+    "qn3.resp2": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student3InCourse1@gmail.tmt",
+      "recipient": "FSRTest.instr2@course1.tmt",
+      "responseMetaData": {
+        "value": "student 3 feedback to instr 2."
+      },
+      "giverSection": "Section B",
+      "recipientSection": "None"
+    },
+    "qn4.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student5InCourse1@gmail.tmt",
+      "recipient": "Team 1.2",
+      "responseMetaData": {
+        "value": "student 5 feedback to Team 1.2."
+      },
+      "giverSection": "Section B",
+      "recipientSection": "Section B"
+    },
+    "qn4.resp2": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "Team 1.3",
+      "responseMetaData": {
+        "value": "student 1 feedback to Team 1.3."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    },
+    "qn4.resp3": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student2InCourse1@gmail.tmt",
+      "recipient": "Team 1.4",
+      "responseMetaData": {
+        "value": "extra response to Team 1.4."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "qn5.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "5",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student2InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "standard stu>stu, diff teams"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    },
+    "qn6.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.instr1@course1.tmt",
+      "recipient": "%GENERAL%",
+      "responseMetaData": {
+        "value": "instr > all"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "qn7.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "team 1.1 > student (in own team)"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "qn7.resp2": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student2InCourse1@gmail.tmt",
+      "recipient": "FSRTest.student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "team 1.1 > student (in Team 1.2)"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    },
+    "qn8.resp1": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "8",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "Team 1.2",
+      "responseMetaData": {
+        "value": "team 1.1 > team 1.2"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    },
+    "qn8.resp2": {
+      "feedbackSessionName": "Standard feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "8",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student4InCourse1@gmail.tmt",
+      "recipient": "Team 1.1</td></div>'\"",
+      "responseMetaData": {
+        "value": "team 1.2 > team 1.1"
+      },
+      "giverSection": "Section B",
+      "recipientSection": "Section A"
+    },
+    "p.qn1.resp1": {
+      "feedbackSessionName": "Private feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.instr1@course1.tmt",
+      "recipient": "FSRTest.instr1@course1.tmt",
+      "responseMetaData": {
+        "value": "creator self feedback"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "p.qn2.resp1": {
+      "feedbackSessionName": "Private feedback session",
+      "courseId": "FSRTest.idOfTypicalCourse1",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "TEXT",
+      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "recipient": "Team 1.2",
+      "responseMetaData": {
+        "value": "feedback created before session became private"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section B"
+    }
+  },
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

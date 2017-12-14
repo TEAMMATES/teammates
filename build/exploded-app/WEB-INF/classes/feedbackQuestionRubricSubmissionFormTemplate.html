@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-bordered margin-0 hidden-xs hidden-sm" id="rubricResponseTable-${questionIndex}-${responseIndex}">
+      <thead>
+        <tr>
+          <th class="col-md-1"></th>
+          ${tableHeaderRowFragmentHtml}
+        </tr>
+      </thead>
+      <tbody>
+        ${tableBodyHtml}
+      </tbody>
+    </table>
+    <div class="visible-xs visible-sm">
+      ${mobileHtml}
+    </div>
+  </div>
+</div>
+<input type="hidden" id="rubricResponse-${questionIndex}-${responseIndex}" name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}" value=""/>

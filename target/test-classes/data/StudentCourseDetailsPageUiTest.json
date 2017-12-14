@@ -1,0 +1,191 @@
+{
+  "accounts": {
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SCDetailsUiT.coord": {
+      "googleId": "SCDetailsUiT.coord",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.coord@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SCDetailsUiT.alice": {
+      "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "SCDetailsUiT.alice@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SCDetailsUiT.charlie": {
+      "googleId": "SCDetailsUiT.charlie",
+      "name": "Charlie Davis",
+      "isInstructor": false,
+      "email": "SCDetailsUiT.charlie@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SCDetailsUiT.danny": {
+      "googleId": "SCDetailsUiT.danny",
+      "name": "Danny Engrid",
+      "isInstructor": false,
+      "email": "SCDetailsUiT.danny@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SCDetailsUiT.instructor1fTSCourse": {
+      "googleId": "SCDetailsUiT.idOfInstructor1OfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "SCDetailsUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
+    "SCDetailsUiT.student1InTSCourse": {
+      "googleId": "SCDetailsUiT.student1InTSCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "SCDetailsUiT.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
+    }
+  },
+  "courses": {
+    "SCDetailsUiT.CS2104": {
+      "id": "SCDetailsUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "SCDetailsUiT.TSCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "SCDetailsUiT.idOfTSCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SCDetailsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SCDetailsUiT.coord": {
+      "googleId": "SCDetailsUiT.coord",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Coord",
+      "email": "SCDetailsUiT.coord@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SCDetailsUiT.instructor1OfTSCourse": {
+      "googleId": "SCDetailsUiT.idOfInstructor1OfTSCourse",
+      "courseId": "SCDetailsUiT.idOfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "SCDetailsUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "SCDetailsUiT.alice": {
+      "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
+      "email": "SCDetailsUiT.alice@gmail.tmt",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "SCDetailsUiT.benny": {
+      "googleId": "SCDetailsUiT.benny",
+      "email": "SCDetailsUiT.benny@gmail.tmt",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "SCDetailsUiT.charlie": {
+      "googleId": "SCDetailsUiT.charlie",
+      "email": "SCDetailsUiT.charlie@gmail.tmt",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "SCDetailsUiT.student1InTSCourse": {
+      "googleId": "SCDetailsUiT.student1InTSCourse",
+      "email": "SCDetailsUiT.normal@sanitization.tmt",
+      "course": "SCDetailsUiT.idOfTSCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

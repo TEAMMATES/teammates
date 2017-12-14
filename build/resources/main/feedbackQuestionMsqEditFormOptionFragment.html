@@ -1,0 +1,19 @@
+<div class="margin-bottom-7px" id="msqOptionRow-${i}-${questionNumber}">
+  <div class="input-group width-100-pc">
+    <span class="input-group-addon">
+      <input type="checkbox" class="disabled_radio" disabled>
+    </span>
+    <input class="form-control" type="text" disabled
+        name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${i}"
+        id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${i}-${questionNumber}"
+        class="msqOptionTextBox" value="${msqChoiceValue}">
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default removeOptionLink" id="msqRemoveOptionLink"
+          onclick="removeMsqOption(${i},${questionNumber})"
+          style="display:none" tabindex="-1">
+        <span class="glyphicon glyphicon-remove">
+        </span>
+      </button>
+    </span>
+  </div>
+</div>

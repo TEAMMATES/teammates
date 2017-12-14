@@ -1,0 +1,17 @@
+<tr>
+  <td>
+    <div class="checkbox">
+      <label class="bold-label">
+        <input type="checkbox"
+            name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
+            ${disabled} ${checked} value="${msqChoiceValue}" data-text="msqOtherOptionText">
+        Other
+      </label>
+      <input class="form-control margin-top-2px" type="text" name="msqOtherOptionText-${questionIndex}-${responseIndex}" id="msqOtherOptionText-${questionIndex}-${responseIndex}"
+          ${text-disabled} value="${msqChoiceValue}">
+      <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}-${questionIndex}-${responseIndex}"
+          id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}-${questionIndex}-${responseIndex}"
+          value="${msqOtherOptionAnswer}">
+    </div>
+  </td>
+</tr>

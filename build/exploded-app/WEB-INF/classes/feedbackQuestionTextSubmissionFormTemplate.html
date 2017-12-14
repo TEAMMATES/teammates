@@ -1,0 +1,20 @@
+<div class="panel panel-default panel-body"
+    data-is-session-open="${isSessionOpen}" id="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
+    name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
+    data-length-text-id="responseLength-${questionIndex}-${responseIndex}" data-recommended-text="${recommendedLength}">
+  ${existingResponse}
+</div>
+<div class="margin-top-7px text-color-gray font-weight-normal">
+  <div class="col-md-6 padding-0" ${recommendedLengthDisplay}>
+    Recommended length for the answer:
+    <span id="recommendedLength-${questionIndex}-${responseIndex}">
+      ${recommendedLength}
+    </span>
+    words
+  </div>
+  <div class="pull-right">
+    Response length:
+    <span id="responseLength-${questionIndex}-${responseIndex}">0</span>
+    words
+  </div>
+</div>

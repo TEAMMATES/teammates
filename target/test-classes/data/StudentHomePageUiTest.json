@@ -1,0 +1,595 @@
+{
+  "accounts": {
+    "SHomeUiT.instr": {
+      "googleId": "SHomeUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SHomeUiT.instructor1OfTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "SHomeUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
+    "alice.tmms": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Alice B",
+      "isInstructor": false,
+      "email": "${value.injected.in.testfile}",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SHomeUiT.student1InTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
+    }
+  },
+  "courses": {
+    "SHomeUiT.CS2104": {
+      "id": "SHomeUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "SHomeUiT.CS1101": {
+      "id": "SHomeUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    },
+    "SHomeUiT.CS4215": {
+      "id": "SHomeUiT.CS4215",
+      "name": "Programming Language Implementation",
+      "timeZone": "UTC"
+    },
+    "SHomeUiT.CS4221": {
+      "id": "SHomeUiT.CS4221",
+      "name": "Database Design",
+      "timeZone": "UTC"
+    },
+    "SHomeUiT.testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "SHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SHomeUiT.instr.CS2104": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SHomeUiT.instr.CS1101": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SHomeUiT.instr.CS4215": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS4215",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SHomeUiT.instr.CS4221": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS4221",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SHomeUiT.instructor1OfTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "SHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "SHomeUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@SHomeUiT.CS2104": {
+      "email": "${value.injected.in.testfile}",
+      "course": "SHomeUiT.CS2104",
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "SHomeUiT.benny.c@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.benny.c",
+      "email": "SHomeUiT.benny.c@gmail.tmt",
+      "course": "SHomeUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "SHomeUiT.charlie.d@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.charlie.d",
+      "email": "SHomeUiT.charlie.d@gmail.tmt",
+      "course": "SHomeUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "SHomeUiT.danny.e@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.danny.e",
+      "email": "SHomeUiT.danny.e@gmail.tmt",
+      "course": "SHomeUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    },
+    "alice.tmms@SHomeUiT.CS1101": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SHomeUiT.CS1101",
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "SHomeUiT.benny.c@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.benny.c",
+      "email": "SHomeUiT.benny.c@gmail.tmt",
+      "course": "SHomeUiT.CS1101",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "SHomeUiT.charlie.d@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.charlie.d",
+      "email": "SHomeUiT.charlie.d@gmail.tmt",
+      "course": "SHomeUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "SHomeUiT.danny.e@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.danny.e",
+      "email": "SHomeUiT.danny.e@gmail.tmt",
+      "course": "SHomeUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    },
+    "alice.tmms@SHomeUiT.CS4215": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SHomeUiT.CS4215",
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "alice.tmms@SHomeUiT.CS4221": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SHomeUiT.CS4221",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1</td></div>'\""
+    },
+    "SHomeUiT.student1InTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
+      "email": "SHomeUiT.normal@sanitization.tmt",
+      "course": "SHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
+    }
+  },
+  "feedbackSessions": {
+    "SHomeUiT.CS2104:First Feedback Session": {
+      "feedbackSessionName": "First Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "SHomeUiT.CS2104:Graced Feedback Session": {
+      "feedbackSessionName": "Graced Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2013-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 1440,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "SHomeUiT.CS2104:No Question Feedback Session": {
+      "feedbackSessionName": "No Question Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "SHomeUiT.CS2104:Future Feedback Session": {
+      "feedbackSessionName": "Future Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2034-04-01 11:59 PM UTC",
+      "endTime": "2035-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2034-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2036-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "SHomeUiT.CS2104:Closed Feedback Session": {
+      "feedbackSessionName": "Closed Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2012-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "SHomeUiT.CS2104:Private Feedback Session": {
+      "feedbackSessionName": "Private Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2035-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType": "PRIVATE",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "SHomeUiT.CS4221:Session with no Student Questions": {
+      "feedbackSessionName": "Session without Student Questions",
+      "courseId": "SHomeUiT.CS4221",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2035-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "timeZone": 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "SHomeUiT.CS2104:First Feedback Session:Q1": {
+      "feedbackSessionName": "First Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "SHomeUiT.CS2104:Graced Feedback Session:Q1": {
+      "feedbackSessionName": "Graced Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "SHomeUiT.CS2104:Future Feedback Session:Q1": {
+      "feedbackSessionName": "Future Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "SHomeUiT.CS2104:Closed Feedback Session:Q1": {
+      "feedbackSessionName": "Closed Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "SHomeUiT.CS2104:Private Feedback Session:Q1": {
+      "feedbackSessionName": "Private Feedback Session",
+      "courseId": "SHomeUiT.CS2104",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "This is a private session"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "SHomeUiT.CS4221:Feedback Session without Student Questions:Q1": {
+      "feedbackSessionName": "Session without Student Questions",
+      "courseId": "SHomeUiT.CS4221",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "This is a session without questions for students"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "STUDENTS"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}
