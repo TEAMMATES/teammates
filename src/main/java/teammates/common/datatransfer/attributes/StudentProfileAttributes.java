@@ -25,10 +25,11 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    public enum Gender
-    {
-        male,female,other
+    
+    public enum Gender {
+        male, female, other
     }
+    
     public Gender gender;
     public String moreInfo;
     public String pictureKey;
@@ -219,10 +220,12 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public Builder withGender(String gender) {
-            if(gender=="male")
+            if ("male".equals(gender)) {
             profileAttributes.gender = Gender.male;
-            else if(gender=="female")
-                profileAttributes.gender=Gender.female;
+            }
+            else if ("female".equals(gender)) {
+                profileAttributes.gender = Gender.female;
+            }
             return this;
         }
 
