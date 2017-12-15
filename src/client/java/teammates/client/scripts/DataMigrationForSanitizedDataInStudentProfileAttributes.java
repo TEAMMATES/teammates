@@ -77,7 +77,7 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
-        profile.gender = Gender.valueOf((desanitizeIfHtmlSanitized(profile.gender.name())));
+        profile.gender = Gender.valueOf(desanitizeIfHtmlSanitized(profile.gender.name()));
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {

@@ -140,14 +140,11 @@ public class StudentProfilePage extends AppPage {
         String other = Const.GenderTypes.OTHER.name();
         if (gender.equals(male)) {
             click(genderMaleRadio);
-        }
-        else if (gender.equals(female)) {
+        } else if (gender.equals(female)) {
             click(genderFemaleRadio);
-        }
-        else if (gender.equals(other)) {
+        } else if (gender.equals(other)) {
             click(genderOtherRadio);
-        }
-        else {
+        } else {
             fail("Given gender " + gender + " is not valid!");
         }
     }
@@ -191,15 +188,11 @@ public class StudentProfilePage extends AppPage {
         String other = Const.GenderTypes.OTHER.name();
         if (gender.equals(male)) {
             assertTrue(genderMaleRadio.isSelected());
-        }
-        else if (gender.equals(female)) {
+        } else if (gender.equals(female)) {
             assertTrue(genderFemaleRadio.isSelected());
-        }
-        else if (gender.equals(other)) {
+        } else if (gender.equals(other)) {
             assertTrue(genderOtherRadio.isSelected());
-        }
-            
-        else {
+        } else {
             fail("unexpected gender value given");
         }
            
