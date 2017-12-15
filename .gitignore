@@ -1,0 +1,68 @@
+.classpath
+.project
+.DS_Store
+.settings
+*.orig
+*.class
+*.jar
+gradle.properties
+build.properties
+test.properties
+report
+target
+appengine-generated
+*.ext
+appengine-web.xml
+chromedriver*
+*.bin
+*.bak
+*.db
+*.md.html
+libs/
+*.js
+!webpack-*.config.js
+node_modules/
+npm-debug.log
+
+.launches
+test-output/*
+src/test/current testng.xml
+src/main/webapp/WEB-INF/classes
+src/client/java/teammates/client/scripts/scalabilitytests/data/
+*.exe
+
+### Gradle ###
+.gradle
+build/
+bin/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+.checkstyle
+.pmd
+.ruleset
+
+### IntelliJ ###
+# Ignore the folder where project settings are stored as IDE is not assumed
+/.idea/
+# IntelliJ sometimes places module iml on project root so they  also need to be ignored
+# Only ignore the root imls so the template imls can be checked in
+/*.iml
+# if the user uses the default compile output path 
+/out/
+# if the user uses the automated setup compiled output path
+/buildIdea/
+
+### Stylelint ###
+/.stylelintrc.yml
+
+### Gmail API Credentials ###
+/src/test/resources/gmail-api/
