@@ -144,7 +144,7 @@ public class StudentProfilePage extends AppPage {
         else if (gender.equals(female)) {
             click(genderFemaleRadio);
         }
-        else if (gender.equals(other) {
+        else if (gender.equals(other)) {
             click(genderOtherRadio);
         }
         else {
