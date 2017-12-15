@@ -135,7 +135,6 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void selectGender(String gender) {
-
         String male=Const.GenderTypes.MALE.name();
         String female=Const.GenderTypes.FEMALE.name();
         String other=Const.GenderTypes.OTHER.name();
