@@ -135,17 +135,21 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void selectGender(String gender) {
-        String male=Const.GenderTypes.MALE.name();
-        String female=Const.GenderTypes.FEMALE.name();
-        String other=Const.GenderTypes.OTHER.name();
-        if(gender.equals(male))
+        String male = Const.GenderTypes.MALE.name();
+        String female = Const.GenderTypes.FEMALE.name();
+        String other = Const.GenderTypes.OTHER.name();
+        if (gender.equals(male)) {
             click(genderMaleRadio);
-        else if(gender.equals(female))
+        }
+        else if (gender.equals(female)) {
             click(genderFemaleRadio);
-        else if(gender.equals(other))
+        }
+        else if (gender.equals(other) {
             click(genderOtherRadio);
-        else
+        }
+        else {
             fail("Given gender " + gender + " is not valid!");
+        }
     }
 
     public void editProfileThroughUi(String shortName, String email, String institute,
@@ -182,18 +186,22 @@ public class StudentProfilePage extends AppPage {
     }
 
     private void ensureGenderIsSelectedAs(String gender) {
-        String male=Const.GenderTypes.MALE.name();
-        String female=Const.GenderTypes.FEMALE.name();
-        String other=Const.GenderTypes.OTHER.name();
-        if(gender.equals(male))
+        String male = Const.GenderTypes.MALE.name();
+        String female = Const.GenderTypes.FEMALE.name();
+        String other = Const.GenderTypes.OTHER.name();
+        if (gender.equals(male)) {
             assertTrue(genderMaleRadio.isSelected());
-        else if(gender.equals(female))
+        }
+        else if (gender.equals(female)) {
             assertTrue(genderFemaleRadio.isSelected());
-        else if(gender.equals(other))
+        }
+        else if (gender.equals(other)) {
             assertTrue(genderOtherRadio.isSelected());
+        }
             
-        else
+        else {
             fail("unexpected gender value given");
+        }
            
     }
 
