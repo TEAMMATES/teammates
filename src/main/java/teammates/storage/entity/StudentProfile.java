@@ -34,8 +34,8 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
-     /* only accepts "male", "female" or "other" */
-   // private enum Gender
+    /* only accepts "male", "female" or "other" */
+    // private enum Gender
     private enum Gender {
         male, female, other
     }
@@ -145,13 +145,13 @@ public class StudentProfile extends BaseEntity {
     }
 
     public String getGender() {
-        return (this.gender).name();
+        return this.gender.name();
     }
 
     public void setGender(String gender) {
-        if (("male").equals(gender)) {
+        if ("male".equals(gender)) {
             this.gender = Gender.male;
-        } else if (("female").equals(gender)) {
+        } else if ("female".equals(gender)) {
             this.gender = Gender.female;
         } else {
             this.gender = Gender.male;

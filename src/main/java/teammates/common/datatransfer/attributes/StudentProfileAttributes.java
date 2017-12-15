@@ -221,9 +221,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         public Builder withGender(String gender) {
             if ("male".equals(gender)) {
-            profileAttributes.gender = Gender.male;
-            }
-            else if ("female".equals(gender)) {
+                profileAttributes.gender = Gender.male;
+            } else if ("female".equals(gender)) {
                 profileAttributes.gender = Gender.female;
             }
             return this;
