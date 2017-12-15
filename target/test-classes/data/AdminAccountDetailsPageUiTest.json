@@ -1,0 +1,109 @@
+{
+  "accounts": {
+    "AAMgtUiT.instr2": {
+      "googleId": "AAMgtUiT.instr2",
+      "name": "Teammates Instr2",
+      "isInstructor": true,
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "AAMgtUiT.CS2103": {
+      "id": "AAMgtUiT.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "UTC"
+    },
+    "AAMgtUiT.CS1101": {
+      "id": "AAMgtUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "AAMgtUiT.instr2-AAMgtUiT.CS2104": {
+      "googleId": "AAMgtUiT.instr2",
+      "courseId": "AAMgtUiT.CS2104",
+      "name": "Teammates Instr2",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAMgtUiT.instr2-AAMgtUiT.CS2103": {
+      "googleId": "AAMgtUiT.instr2",
+      "courseId": "AAMgtUiT.CS2103",
+      "name": "Teammates Instr2",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAMgtUiT.instr2-AAMgtUiT.CS1101": {
+      "googleId": "AAMgtUiT.instr2",
+      "courseId": "AAMgtUiT.CS1101",
+      "name": "Teammates Instr2",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "AAMgtUiT.instr2-student": {
+      "googleId": "AAMgtUiT.instr2",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "course": "AAMgtUiT.CS1101",
+      "name": "Teammates Instr2</option></td></div>'\"",
+      "comments": "This is an instructor</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

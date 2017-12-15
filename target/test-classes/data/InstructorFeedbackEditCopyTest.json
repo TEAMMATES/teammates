@@ -1,0 +1,423 @@
+{
+  "accounts": {
+    "instructorWithSessions": {
+      "googleId": "FeedbackEditCopyinstructor",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "otherInstructor": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "name": "Instructor 2",
+      "isInstructor": true,
+      "email": "tmms.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "alice.tmms": {
+      "googleId": "FeedbackEditCopy.alice.tmms",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "alice.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "course": {
+      "id": "FeedbackEditCopy.CS2104",
+      "name": "Programming Language Concepts",
+      "createdAt": "2012-04-01 08:00 PM UTC",
+      "timeZone": "UTC"
+    },
+    "course2": {
+      "id": "FeedbackEditCopy.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    },
+    "course3": {
+      "id": "FeedbackEditCopy.CS2105",
+      "name": "Introduction to Computer Networks",
+      "createdAt": "2012-04-01 09:00 PM UTC",
+      "timeZone": "UTC"
+    },
+    "course4": {
+      "id": "FeedbackEditCopy.CS2103",
+      "name": "Software Engineering",
+      "createdAt": "2012-04-01 10:00 PM UTC",
+      "timeZone": "UTC"
+    },
+    "course5": {
+      "id": "FeedbackEditCopy.CS2107",
+      "name": "Introduction to Information and System Security",
+      "timeZone": "UTC"
+    },
+    "course6": {
+      "id": "FeedbackEditCopy.CS2103R",
+      "name": "Software Engineering (R)",
+      "timeZone": "UTC"
+    },
+    "course7": {
+      "id": "FeedbackEditCopy.CS2102",
+      "name": "Introduction to Databases",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "teammates.test.instructor": {
+      "googleId": "FeedbackEditCopyinstructor",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor1a": {
+      "googleId": "FeedbackEditCopyinstructor",
+      "courseId": "FeedbackEditCopy.CS2105",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor1b": {
+      "googleId": "FeedbackEditCopyinstructor",
+      "courseId": "FeedbackEditCopy.CS1101",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor1c": {
+      "googleId": "FeedbackEditCopyinstructor",
+      "courseId": "FeedbackEditCopy.CS2103",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor1d": {
+      "googleId": "FeedbackEditCopyinstructor",
+      "courseId": "FeedbackEditCopy.CS2107",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2a": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "courseId": "FeedbackEditCopy.CS2103",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2b": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "courseId": "FeedbackEditCopy.CS1101",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2c": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "courseId": "FeedbackEditCopy.CS2103R",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2d": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "courseId": "FeedbackEditCopy.CS2102",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "teammates.test.instructor2e": {
+      "googleId": "FeedbackEditCopyinstructor2",
+      "courseId": "FeedbackEditCopy.CS2107",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@FeedbackEditCopy.CS2104": {
+      "googleId": "FeedbackEditCopy.alice.tmms",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "FeedbackEditCopy.CS2104",
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "benny.tmms@FeedbackEditCopy.CS2104": {
+      "googleId": "FeedbackEditCopy.benny.tmms",
+      "email": "benny.tmms@gmail.tmt",
+      "course": "FeedbackEditCopy.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "charlie.tmms@FeedbackEditCopy.CS1101": {
+      "googleId": "charlie.tmms",
+      "email": "FeedbackEditCopy.charlie.tmms@gmail.tmt",
+      "course": "FeedbackEditCopy.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "danny.tmms@FeedbackEditCopy.CS1101": {
+      "googleId": "danny.tmms",
+      "email": "FeedbackEditCopy.danny.tmms@gmail.tmt",
+      "course": "FeedbackEditCopy.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    }
+  },
+  "feedbackSessions": {
+    "openSession": {
+      "feedbackSessionName": "First Session",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for first session"
+      },
+      "createdTime": "2012-04-01 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2026-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "questionMetaData": {
+        "value": "student self feedback"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "qn1.resp1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "benny.tmms@gmail.tmt",
+      "recipient": "benny.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "student self feedback."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    }
+  },
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

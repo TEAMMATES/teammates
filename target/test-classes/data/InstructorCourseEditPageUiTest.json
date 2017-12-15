@@ -1,0 +1,310 @@
+{
+  "accounts": {
+    "InsCrsEdit.test": {
+      "googleId": "InsCrsEdit.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "InsCrsEdit.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "InsCrsEdit.coord": {
+      "googleId": "InsCrsEdit.coord",
+      "name": "Teammates Coord",
+      "isInstructor": true,
+      "email": "InsCrsEdit.coord@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "InsCrsEdit.instructor": {
+      "googleId": "InsCrsEdit.instructor",
+      "name": "Teammates Instructor",
+      "isInstructor": true,
+      "email": "InsCrsEdit.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "InsCrsEdit.Helper": {
+      "googleId": "InsCrsEdit.Helper",
+      "name": "Teammates Instructor",
+      "isInstructor": true,
+      "email": "InsCrsEdit.Helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "InsCrsEdit.instructor1OfTestingSanitizationCourse": {
+      "googleId": "InsCrsEdit.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "InsCrsEdit.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    }
+  },
+  "courses": {
+    "InsCrsEdit.CS2104": {
+      "id": "InsCrsEdit.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "InsCrsEdit.testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "InsCrsEdit.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "InsCrsEdit.test": {
+      "googleId": "InsCrsEdit.test",
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates Test",
+      "email": "InsCrsEdit.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.manager": {
+      "googleId": "InsCrsEdit.manager",
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates Manager",
+      "email": "InsCrsEdit.manager@gmail.tmt",
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.observer": {
+      "googleId": "InsCrsEdit.observer",
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates Observer",
+      "email": "InsCrsEdit.observer@gmail.tmt",
+      "role": "Observer",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.tutor": {
+      "googleId": "InsCrsEdit.tutor",
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates Tutor",
+      "email": "InsCrsEdit.tutor@gmail.tmt",
+      "role": "Tutor",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.coord": {
+      "googleId": "InsCrsEdit.coord",
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates Coord",
+      "email": "InsCrsEdit.coord@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.newInstructor": {
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates New Instructor",
+      "email": "InsCrsEdit.newInstr@gmail.tmt",
+      "key": "InsCrsEdit.newInstr@gmail.tmt%InsCrsEdit.CS2104",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.Helper": {
+      "googleId": "InsCrsEdit.Helper",
+      "courseId": "InsCrsEdit.CS2104",
+      "name": "Teammates New Instructor",
+      "email": "InsCrsEdit.Helper@gmail.tmt",
+      "key": "InsCrsEdit.Helper@gmail.tmt%InsCrsEdit.CS2104",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.instructor1OfTestingSanitizationCourse": {
+      "googleId": "InsCrsEdit.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "InsCrsEdit.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "InsCrsEdit.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@InsCrsEdit.CS2104": {
+      "googleId": "InsCrsEdit.alice.tmms",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "InsCrsEdit.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "section": "Section 1"
+    },
+    "benny.tmms@InsCrsEdit.CS2104": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "InsCrsEdit.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2",
+      "section": "Section 1"
+    },
+    "charlie.tmms@InsCrsEdit.CS2104": {
+      "googleId": "",
+      "email": "charlie.d.tmms@gmail.tmt",
+      "course": "InsCrsEdit.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "section": "Section 2"
+    },
+    "danny.tmms@InsCrsEdit.CS2104": {
+      "googleId": "InsCrsEdit.danny.tmms",
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "InsCrsEdit.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "Section 3"
+    }
+  },
+  "feedbackSessions": {
+    "session1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "InsCrsEdit.CS2104",
+      "creatorEmail": "InsCrsEdit.test@gmail.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 11:59 PM UTC",
+      "endTime": "2027-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

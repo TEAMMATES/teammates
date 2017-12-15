@@ -1,0 +1,7 @@
+this file has
+LF style line endings
+only
+with multiple LFs in a row
+
+
+to test an edge case.

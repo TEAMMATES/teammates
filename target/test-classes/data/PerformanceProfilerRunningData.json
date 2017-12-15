@@ -1,0 +1,32 @@
+{
+  "accounts": {},
+  "courses": {
+    "Z3_Cou0_of_Coo0": {
+      "id": "idOf_Z3_Cou0_of_Coo0",
+      "name": "nameOf_Z3_Cou0_of_Coo0",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "Z3_Coo0": {
+      "name": "testingforteammates",
+      "email": "testingforteammates@gmail.tmt",
+      "isDisplayedToStudents": false
+    }
+  },
+  "students": {
+    "Z3_Stu273Team1_in_Cou0_of_Coo0": {
+      "googleId": "Z3_Stu273Email",
+      "email": "Z3_Stu273Email@gmail.tmt",
+      "course": "idOf_Z3_Cou0_of_Coo0",
+      "name": "Student 273 in Z3_Cou0_of_Coo0",
+      "comments": "aaaa",
+      "team": "Team 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

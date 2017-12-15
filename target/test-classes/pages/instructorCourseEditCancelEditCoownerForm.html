@@ -1,0 +1,480 @@
+<form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor7" method="post" name="formEditInstructors">
+  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+  <input name="instructorid" type="hidden" value="InsCrsEdit.test">
+  <input name="user" type="hidden" value="InsCrsEdit.test">
+  <input name="token" type="hidden" value="${sessionToken}">
+  <div id="instructorTable7">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">
+        Google ID:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control immutable" disabled="" id="instructorid7" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.test">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">
+        Name:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructorname7" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Test">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">
+        Email:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail7" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.test@gmail.tmt">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">
+        <input checked="" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="" name="instructorisdisplayed" title="" type="checkbox" value="true">
+        Display to students as:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
+      </div>
+    </div>
+    <div id="accessControlInfoForInstr7" style="display: block;">
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+          Access Level:
+        </label>
+        <div class="col-sm-9">
+          <p class="form-control-static">
+            <span>
+              Co-owner
+            </span>
+            <a class="view-role-details" data-role="Co-owner" href="javascript:;">
+               View Details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div id="accessControlEditDivForInstr7" style="display: none;">
+      <div class="form-group">
+        <div class="col-sm-3">
+          <label class="control-label pull-right">
+            Access-level
+          </label>
+        </div>
+        <div class="col-sm-9">
+          <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Co-owner">
+           Co-owner: Can do everything 
+          <a class="view-role-details" data-role="Co-owner" href="javascript:;">
+            View Details
+          </a>
+          <br>
+          <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Manager">
+           Manager: Can do everything except for deleting the course 
+          <a class="view-role-details" data-role="Manager" href="javascript:;">
+            View Details
+          </a>
+          <br>
+          <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Observer">
+           Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
+          <a class="view-role-details" data-role="Observer" href="javascript:;">
+            View Details
+          </a>
+          <br>
+          <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Tutor">
+           Tutor: Can view student details, give/view comments, submit/view responses for sessions 
+          <a class="view-role-details" data-role="Tutor" href="javascript:;">
+            View Details
+          </a>
+          <br>
+          <input disabled="" id="instructorroleforinstructor7" name="instructorrole" type="radio" value="Custom">
+           Custom: No access by default. Any access needs to be granted explicitly.
+          <br>
+        </div>
+      </div>
+      <div id="tunePermissionsDivForInstructor7" style="display: none;">
+        <div class="form-group">
+          <div class="col-xs-12">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <strong>
+                  In general, this instructor can
+                </strong>
+              </div>
+              <div class="panel-body">
+                <div class="col-sm-3">
+                  <input checked="" disabled="" name="canmodifycourse" type="checkbox" value="true">
+                  Edit/Delete Course
+                </div>
+                <div class="col-sm-3">
+                  <input checked="" disabled="" name="canmodifyinstructor" type="checkbox" value="true">
+                  Add/Edit/Delete Instructors
+                </div>
+                <div class="col-sm-3">
+                  <input checked="" disabled="" name="canmodifysession" type="checkbox" value="true">
+                  Create/Edit/Delete Sessions
+                </div>
+                <div class="col-sm-3">
+                  <input checked="" disabled="" name="canmodifystudent" type="checkbox" value="true">
+                  Enroll/Edit/Delete Students
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-6 border-right-gray">
+                  <input checked="" disabled="" name="canviewstudentinsection" type="checkbox" value="true">
+                  View Students' Details
+                  <br>
+                </div>
+                <div class="col-sm-5 col-sm-offset-1">
+                  <input checked="" disabled="" name="cansubmitsessioninsection" type="checkbox" value="true">
+                  Sessions: Submit Responses and Add Comments
+                  <br>
+                  <input checked="" disabled="" name="canviewsessioninsection" type="checkbox" value="true">
+                  Sessions: View Responses and Comments
+                  <br>
+                  <input checked="" disabled="" name="canmodifysessioncommentinsection" type="checkbox" value="true">
+                  Sessions: Edit/Delete Responses/Comments by Others
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div data-is-originally-displayed="false" id="tuneSectionPermissionsDiv0ForInstructor7" style="display: none;">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <p>
+                        <strong>
+                          But in section(s)
+                        </strong>
+                      </p>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="col-sm-12">
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup0section0" type="checkbox" value="Section 1">
+                          Section 1
+                        </div>
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup0section1" type="checkbox" value="Section 2">
+                          Section 2
+                        </div>
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup0section2" type="checkbox" value="Section 3">
+                          Section 3
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-1">
+                      <a class="pull-right hide-tune-section-permissions" data-instructorindex="7" data-panelindex="0" href="javascript:;">
+                        <span class="glyphicon glyphicon-trash">
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>
+                        <strong>
+                          the instructor can only,
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                  <input disabled="" name="issectiongroup0set" type="hidden" value="false">
+                </div>
+                <div class="panel-body">
+                  <br>
+                  <div class="col-sm-6 border-right-gray">
+                    <input checked="" disabled="" name="canviewstudentinsectionsectiongroup0" type="checkbox" value="true">
+                    View Students' Details
+                    <br>
+                    <br>
+                  </div>
+                  <div class="col-sm-5 col-sm-offset-1">
+                    <input checked="" disabled="" name="cansubmitsessioninsectionsectiongroup0" type="checkbox" value="true">
+                    Sessions: Submit Responses and Add Comments
+                    <br>
+                    <input checked="" disabled="" name="canviewsessioninsectionsectiongroup0" type="checkbox" value="true">
+                    Sessions: View Responses and Comments
+                    <br>
+                    <input checked="" disabled="" name="canmodifysessioncommentinsectionsectiongroup0" type="checkbox" value="true">
+                    Sessions: Edit/Delete Responses/Comments by Others
+                    <br>
+                    <br>
+                  </div>
+                  <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="7" data-panelindex="0" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor7">
+                    Give different permissions for sessions in this section
+                  </a>
+                  <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv0ForInstructor7" style="display: none;">
+                    <input disabled="" name="issectiongroup0sessionsset" type="hidden" value="false">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <td>
+                            SessionName
+                          </td>
+                          <td>
+                            Submit Responses and Add Comments
+                          </td>
+                          <td>
+                            View Responses and Comments
+                          </td>
+                          <td>
+                            Edit/Delete Responses/Comments by Others
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            First feedback session
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="cansubmitsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="canviewsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="canmodifysessioncommentinsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-is-originally-displayed="false" id="tuneSectionPermissionsDiv1ForInstructor7" style="display: none;">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <p>
+                        <strong>
+                          But in section(s)
+                        </strong>
+                      </p>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="col-sm-12">
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup1section0" type="checkbox" value="Section 1">
+                          Section 1
+                        </div>
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup1section1" type="checkbox" value="Section 2">
+                          Section 2
+                        </div>
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup1section2" type="checkbox" value="Section 3">
+                          Section 3
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-1">
+                      <a class="pull-right hide-tune-section-permissions" data-instructorindex="7" data-panelindex="1" href="javascript:;">
+                        <span class="glyphicon glyphicon-trash">
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>
+                        <strong>
+                          the instructor can only,
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                  <input disabled="" name="issectiongroup1set" type="hidden" value="false">
+                </div>
+                <div class="panel-body">
+                  <br>
+                  <div class="col-sm-6 border-right-gray">
+                    <input checked="" disabled="" name="canviewstudentinsectionsectiongroup1" type="checkbox" value="true">
+                    View Students' Details
+                    <br>
+                    <br>
+                  </div>
+                  <div class="col-sm-5 col-sm-offset-1">
+                    <input checked="" disabled="" name="cansubmitsessioninsectionsectiongroup1" type="checkbox" value="true">
+                    Sessions: Submit Responses and Add Comments
+                    <br>
+                    <input checked="" disabled="" name="canviewsessioninsectionsectiongroup1" type="checkbox" value="true">
+                    Sessions: View Responses and Comments
+                    <br>
+                    <input checked="" disabled="" name="canmodifysessioncommentinsectionsectiongroup1" type="checkbox" value="true">
+                    Sessions: Edit/Delete Responses/Comments by Others
+                    <br>
+                    <br>
+                  </div>
+                  <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="7" data-panelindex="1" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor7">
+                    Give different permissions for sessions in this section
+                  </a>
+                  <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv1ForInstructor7" style="display: none;">
+                    <input disabled="" name="issectiongroup1sessionsset" type="hidden" value="false">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <td>
+                            SessionName
+                          </td>
+                          <td>
+                            Submit Responses and Add Comments
+                          </td>
+                          <td>
+                            View Responses and Comments
+                          </td>
+                          <td>
+                            Edit/Delete Responses/Comments by Others
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            First feedback session
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="cansubmitsessioninsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="canviewsessioninsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="canmodifysessioncommentinsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-is-originally-displayed="false" id="tuneSectionPermissionsDiv2ForInstructor7" style="display: none;">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <p>
+                        <strong>
+                          But in section(s)
+                        </strong>
+                      </p>
+                    </div>
+                    <div class="col-sm-9">
+                      <div class="col-sm-12">
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup2section0" type="checkbox" value="Section 1">
+                          Section 1
+                        </div>
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup2section1" type="checkbox" value="Section 2">
+                          Section 2
+                        </div>
+                        <div class="col-sm-4">
+                          <input disabled="" name="sectiongroup2section2" type="checkbox" value="Section 3">
+                          Section 3
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-1">
+                      <a class="pull-right hide-tune-section-permissions" data-instructorindex="7" data-panelindex="2" href="javascript:;">
+                        <span class="glyphicon glyphicon-trash">
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>
+                        <strong>
+                          the instructor can only,
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                  <input disabled="" name="issectiongroup2set" type="hidden" value="false">
+                </div>
+                <div class="panel-body">
+                  <br>
+                  <div class="col-sm-6 border-right-gray">
+                    <input checked="" disabled="" name="canviewstudentinsectionsectiongroup2" type="checkbox" value="true">
+                    View Students' Details
+                    <br>
+                    <br>
+                  </div>
+                  <div class="col-sm-5 col-sm-offset-1">
+                    <input checked="" disabled="" name="cansubmitsessioninsectionsectiongroup2" type="checkbox" value="true">
+                    Sessions: Submit Responses and Add Comments
+                    <br>
+                    <input checked="" disabled="" name="canviewsessioninsectionsectiongroup2" type="checkbox" value="true">
+                    Sessions: View Responses and Comments
+                    <br>
+                    <input checked="" disabled="" name="canmodifysessioncommentinsectionsectiongroup2" type="checkbox" value="true">
+                    Sessions: Edit/Delete Responses/Comments by Others
+                    <br>
+                    <br>
+                  </div>
+                  <a class="small col-sm-5 show-tune-session-permissions" data-instructorindex="7" data-panelindex="2" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor7">
+                    Give different permissions for sessions in this section
+                  </a>
+                  <div class="row" data-is-originally-displayed="false" id="tuneSessionPermissionsDiv2ForInstructor7" style="display: none;">
+                    <input disabled="" name="issectiongroup2sessionsset" type="hidden" value="false">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <td>
+                            SessionName
+                          </td>
+                          <td>
+                            Submit Responses and Add Comments
+                          </td>
+                          <td>
+                            View Responses and Comments
+                          </td>
+                          <td>
+                            Edit/Delete Responses/Comments by Others
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            First feedback session
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="cansubmitsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="canviewsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                          <td class="align-center">
+                            <input checked="" disabled="" name="canmodifysessioncommentinsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a class="small show-tune-section-permissions" data-instructorindex="7" data-panelindex="0" href="javascript:;" id="addSectionLevelForInstructor7" style="display: inline;">
+              Give different permissions for a specific section
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="align-center">
+        <input class="btn btn-primary" disabled="" id="btnSaveInstructor7" style="display: none;" tabindex="6" type="submit" value="Save changes">
+      </div>
+    </div>
+  </div>
+</form>

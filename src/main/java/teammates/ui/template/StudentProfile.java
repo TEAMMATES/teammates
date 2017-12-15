@@ -16,7 +16,7 @@ public class StudentProfile {
         this.pictureUrl = pictureUrl;
         this.name = fullName;
         this.shortName = student.shortName;
-        this.gender = student.gender;
+        this.gender = student.gender.name();
         this.email = student.email;
         this.institute = student.institute;
         this.nationality = student.nationality;

@@ -1,0 +1,1096 @@
+[33mcommit 8f4403cc0c053962e13c313705053a3cd6202389[m
+Author: shaharyarshamshi <shaharyarshamshi@gmail.com>
+Date:   Thu Dec 14 23:28:06 2017 +0530
+
+    Delete StudentProfilePage.java
+
+ delete mode 100644 src/test/java/teammates/test/pageobjects/StudentProfilePage.java
+
+[33mcommit 39afe763d94fbe4c338baf9f2ace81bd923379a4[m
+Author: shaharyarshamshi <shaharyarshamshi@gmail.com>
+Date:   Thu Dec 14 23:26:32 2017 +0530
+
+    Delete instructorFeedbackEdit.js
+
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackEdit.js
+
+[33mcommit 86b13d645765785c962193d165c097fcad855933[m
+Author: shaharyarshamshi <shaharyarshamshi@gmail.com>
+Date:   Thu Dec 14 23:24:46 2017 +0530
+
+    Delete .gitignore
+
+ delete mode 100644 .gitignore
+
+[33mcommit 6f1931474b443ba6060efaef2e625c9792d289fd[m
+Author: shaharyarshamshi <shaharyarshamshi@gmail.com>
+Date:   Sun Oct 22 12:15:03 2017 +0530
+
+    Delete git checkout 02dbea51ef8cdb49b06e2ac9bd811f16acc9d8d1
+
+ delete mode 100644 git checkout 02dbea51ef8cdb49b06e2ac9bd811f16acc9d8d1
+
+[33mcommit ffde881fdb1f627bbec96d43235e0a46b01921a9[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Fri Oct 20 17:39:53 2017 +0800
+
+    [#8099] Convert *.es6 back to *.js (#8100)
+
+ delete mode 100644 src/main/webapp/dev/js/common/administrator.es6
+ delete mode 100644 src/main/webapp/dev/js/common/ajaxResponseRate.es6
+ delete mode 100644 src/main/webapp/dev/js/common/assert.es6
+ delete mode 100644 src/main/webapp/dev/js/common/bootboxWrapper.es6
+ delete mode 100644 src/main/webapp/dev/js/common/checkBrowserVersion.es6
+ delete mode 100644 src/main/webapp/dev/js/common/const.es6
+ delete mode 100644 src/main/webapp/dev/js/common/countryCodes.es6
+ delete mode 100644 src/main/webapp/dev/js/common/crypto.es6
+ delete mode 100644 src/main/webapp/dev/js/common/datepicker.es6
+ delete mode 100644 src/main/webapp/dev/js/common/feedbackPath.es6
+ delete mode 100644 src/main/webapp/dev/js/common/feedbackResponseComments.es6
+ delete mode 100644 src/main/webapp/dev/js/common/helper.es6
+ delete mode 100644 src/main/webapp/dev/js/common/instructor.es6
+ delete mode 100644 src/main/webapp/dev/js/common/instructorFeedbackResults.es6
+ delete mode 100644 src/main/webapp/dev/js/common/instructorFeedbacks.es6
+ delete mode 100644 src/main/webapp/dev/js/common/onStart.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionConstSum.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionContrib.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionMcq.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionMsq.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionNumScale.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionRank.es6
+ delete mode 100644 src/main/webapp/dev/js/common/questionRubric.es6
+ delete mode 100755 src/main/webapp/dev/js/common/remindModal.es6
+ delete mode 100644 src/main/webapp/dev/js/common/richTextEditor.es6
+ delete mode 100644 src/main/webapp/dev/js/common/sanitizer.es6
+ delete mode 100644 src/main/webapp/dev/js/common/scrollTo.es6
+ delete mode 100644 src/main/webapp/dev/js/common/sortBy.es6
+ delete mode 100644 src/main/webapp/dev/js/common/statusMessage.es6
+ delete mode 100644 src/main/webapp/dev/js/common/student.es6
+ delete mode 100644 src/main/webapp/dev/js/common/timezone.es6
+ delete mode 100644 src/main/webapp/dev/js/common/ui.es6
+ delete mode 100644 src/main/webapp/dev/js/common/visibilityOptions.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminAccountDetails.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminAccountManagement.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminActivityLog.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminEmail.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminEmailLog.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminHome.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminSearch.es6
+ delete mode 100644 src/main/webapp/dev/js/main/adminSessions.es6
+ delete mode 100644 src/main/webapp/dev/js/main/errorPageEmailComposer.es6
+ delete mode 100644 src/main/webapp/dev/js/main/feedbackSubmissionsEdit.es6
+ delete mode 100644 src/main/webapp/dev/js/main/googleAnalytics.es6
+ delete mode 100644 src/main/webapp/dev/js/main/index.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseDetails.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseEdit.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseEnrollPage.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseEnrollResult.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseJoinConfirmation.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseStudentDetails.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourseStudentEdit.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorCourses.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackEdit.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackResultsGQR.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackResultsGRQ.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackResultsQuestion.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackResultsRGQ.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbackResultsRQG.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorFeedbacks.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorHome.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorSearch.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorStudentList.es6
+ delete mode 100644 src/main/webapp/dev/js/main/instructorStudentRecords.es6
+ delete mode 100644 src/main/webapp/dev/js/main/statusMessage.es6
+ delete mode 100644 src/main/webapp/dev/js/main/studentCourseDetails.es6
+ delete mode 100644 src/main/webapp/dev/js/main/studentCourseJoinConfirmation.es6
+ delete mode 100644 src/main/webapp/dev/js/main/studentFeedbackResults.es6
+ delete mode 100644 src/main/webapp/dev/js/main/studentHome.es6
+ delete mode 100644 src/main/webapp/dev/js/main/studentMotd.es6
+ delete mode 100644 src/main/webapp/dev/js/main/studentProfile.es6
+ delete mode 100644 src/main/webapp/dev/js/main/userMap.es6
+ delete mode 100644 src/main/webapp/dev/js/test/AdminHomeJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/CommonJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/CommonTestFunctions.es6
+ delete mode 100644 src/main/webapp/dev/js/test/DatepickerJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/InstructorEnrolmentJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/InstructorFeedbacksJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/InstructorJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/StudentJsTest.es6
+ delete mode 100644 src/main/webapp/dev/js/test/SubmissionCountJsTest.es6
+
+[33mcommit 1ccd3d11d54295792454ef07958b384ae57e9e29[m
+Author: shaharyar-shamshi <shaharyarshamshi@gmail.com>
+Date:   Mon Oct 9 11:04:27 2017 +0530
+
+    Revert ""
+    
+    This reverts commit 31629c677ac0ca15d46d605876df4129f84b0da3.
+
+ delete mode 100644 .metadata/.lock
+ delete mode 100644 .metadata/.log
+ delete mode 100644 .metadata/.mylyn/repositories.xml.zip
+ delete mode 100644 .metadata/.plugins/com.google.gwt.eclipse.core/uiBinderReferences
+ delete mode 100644 .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/history.version
+ delete mode 100644 .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+ delete mode 100644 .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.version
+ delete mode 100644 .metadata/.plugins/org.eclipse.core.resources/.root/3.tree
+ delete mode 100644 .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+ delete mode 100644 .metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+ delete mode 100644 .metadata/.plugins/org.eclipse.equinox.p2.ui/dialog_settings.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.help.base/browser.log
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.core/assumedExternalFilesCache
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.core/externalFilesCache
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.core/invalidArchivesCache
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.debug.ui/dialog_settings.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.launching/.install.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.launching/libraryInfos.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.ui/OpenTypeHistory.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.jdt.ui/QualifiedTypeNameHistory.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/26522e0d83a422eed93329ece7565cfc/_0.cfs
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/26522e0d83a422eed93329ece7565cfc/segments.gen
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/26522e0d83a422eed93329ece7565cfc/segments_2
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/26522e0d83a422eed93329ece7565cfc/write.lock
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/830bc118332e77292949ed1e6d2fabe0/_0.cfs
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/830bc118332e77292949ed1e6d2fabe0/segments.gen
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/830bc118332e77292949ed1e6d2fabe0/segments_2
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/830bc118332e77292949ed1e6d2fabe0/write.lock
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/d99dcbccb302f270a33154faa7d68d32/_0.cfs
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/d99dcbccb302f270a33154faa7d68d32/segments.gen
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/d99dcbccb302f270a33154faa7d68d32/segments_2
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/nexus/d99dcbccb302f270a33154faa7d68d32/write.lock
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.core/workspaceState.ser
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
+ delete mode 100644 .metadata/.plugins/org.eclipse.m2e.logback.configuration/logback.1.5.1.20150109-1820.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.pde.core/.cache/clean-cache.properties
+ delete mode 100644 .metadata/.plugins/org.eclipse.rse.core/.log
+ delete mode 100644 .metadata/.plugins/org.eclipse.rse.core/initializerMarks/org.eclipse.rse.internal.core.RSELocalConnectionInitializer.mark
+ delete mode 100644 .metadata/.plugins/org.eclipse.rse.core/profiles/PRF.shaharyar_0/FP.local.files_0/node.properties
+ delete mode 100644 .metadata/.plugins/org.eclipse.rse.core/profiles/PRF.shaharyar_0/H.local_16/node.properties
+ delete mode 100644 .metadata/.plugins/org.eclipse.rse.core/profiles/PRF.shaharyar_0/node.properties
+ delete mode 100644 .metadata/.plugins/org.eclipse.rse.ui/.log
+ delete mode 100644 .metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.ui.intro/dialog_settings.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.wst.jsdt.core/variablesAndContainers.dat
+ delete mode 100644 .metadata/.plugins/org.eclipse.wst.jsdt.ui/OpenTypeHistory.xml
+ delete mode 100644 .metadata/.plugins/org.eclipse.wst.jsdt.ui/QualifiedTypeNameHistory.xml
+ delete mode 100644 .metadata/version.ini
+ delete mode 100644 src/main/resources/Untitled Document
+
+[33mcommit 83d138827cfca2c633731020122282fe89990f9e[m
+Author: shaharyar-shamshi <shaharyarshamshi@gmail.com>
+Date:   Mon Oct 9 11:04:02 2017 +0530
+
+    Revert "Revert """
+    
+    This reverts commit 10598aae37554fc9d3818ab2a74ae44e8dbeb91d.
+
+ delete mode 100644 src/main/webapp/pulse.jsp
+
+[33mcommit 10598aae37554fc9d3818ab2a74ae44e8dbeb91d[m
+Author: shaharyar-shamshi <shaharyarshamshi@gmail.com>
+Date:   Mon Oct 9 11:03:37 2017 +0530
+
+    Revert ""
+    
+    This reverts commit 02dbea51ef8cdb49b06e2ac9bd811f16acc9d8d1.
+
+ delete mode 100644 src/main/webapp/WEB-INF/tags/instructor/results/commentModal.tag
+ delete mode 100644 src/main/webapp/pulse.html
+
+[33mcommit 02dbea51ef8cdb49b06e2ac9bd811f16acc9d8d1[m
+Author: shaharyar-shamshi <shaharyarshamshi@gmail.com>
+Date:   Mon Oct 9 10:03:48 2017 +0530
+
+ delete mode 100644 src/main/webapp/pulse.jsp
+
+[33mcommit 3b4701b83b6e6424f0327b73b702e709e73c9eeb[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Sun Oct 8 22:52:40 2017 +0800
+
+    [#7352] *.jsp: change to 2-space indentation (#8086)
+
+ delete mode 100644 src/main/webapp/pulse.jsp
+
+[33mcommit 6d22b363295e2337b571428544e66a78ddf3a44d[m
+Author: Jaikirat Singh Sandhu <sandhujaikirat98@gmail.com>
+Date:   Sun Sep 3 14:03:09 2017 +0530
+
+    [#8016] Move `static-analysis.md` from root folder to `docs/` (#8018)
+
+ delete mode 100644 static-analysis.md
+
+[33mcommit 3ff41474a9348f47f22c9d583d8ceb72969363c4[m
+Author: Amar Prakash Pandey <amar.om1994@gmail.com>
+Date:   Tue Aug 29 18:42:09 2017 +0530
+
+    [#7931] CSS files: fix coding standard violations (#7969)
+
+ delete mode 100644 src/main/webapp/stylesheets/adminAccountDetails.css
+ delete mode 100644 src/main/webapp/stylesheets/datepicker.css
+ delete mode 100644 src/main/webapp/stylesheets/instructorCourseEnroll.css
+ delete mode 100644 src/main/webapp/stylesheets/omniComment.css
+
+[33mcommit 9e6c4c2f9d084339cf242a856eba6abff9e6df55[m
+Author: Kirti <kirti7756@gmail.com>
+Date:   Sun Aug 27 04:44:51 2017 +0530
+
+    [#7742] Rename staticAnalysis.md -> static-analysis.md (#7994)
+
+ delete mode 100644 docs/staticAnalysis.md
+
+[33mcommit c347090683d1ac862bd7f1dfab734dcea33c626a[m
+Author: Taras Sakharchuk <limethecoder@gmail.com>
+Date:   Wed Jul 26 21:03:33 2017 +0300
+
+    [#7652] FeedbackRankRecipientsQuestionDetails: show all columns regardless of recipient type (#7831)
+
+ delete mode 100644 src/main/resources/feedbackQuestionRankResultStatsRecipientFragmentSelfResponse.html
+ delete mode 100644 src/main/resources/feedbackQuestionRankResultStatsRecipientTemplateSelfResponse.html
+ delete mode 100644 src/test/resources/pages/instructorFeedbackResultsPageRankRecipientExcludingSelfView.html
+
+[33mcommit 49f5407eeaa0c8204515b7946777ecc0ea5d4ba6[m
+Author: Taras Sakharchuk <limethecoder@gmail.com>
+Date:   Wed Jul 26 09:52:29 2017 +0300
+
+    [#7778] 'Session closed' email: include more details (#7793)
+
+ delete mode 100644 src/main/resources/userEmailTemplate-feedbackSessionClosed.html
+
+[33mcommit 9b4f857eaf1791da131e38a4f760cca2c2c68031[m
+Author: yliang97 <yijial@princeton.edu>
+Date:   Thu Jul 13 02:37:43 2017 -0400
+
+    [#7741] Rename settingUp.md -> setting-up.md (#7753)
+
+ delete mode 100644 docs/settingUp.md
+
+[33mcommit d314cc88d724fcfe65ed1854ac4bdf56978acda9[m
+Author: John Yong <whipermr5@gmail.com>
+Date:   Mon Jul 10 17:20:42 2017 +0800
+
+    [#7688] SearchManager: fix bug where documents are put multiple times (#7689)
+
+ delete mode 100644 src/test/java/teammates/test/driver/retry/RetryManager.java
+ delete mode 100644 src/test/java/teammates/test/driver/retry/Retryable.java
+ delete mode 100644 src/test/java/teammates/test/driver/retry/RetryableTask.java
+ delete mode 100644 src/test/java/teammates/test/driver/retry/RetryableTaskReturns.java
+ delete mode 100644 src/test/java/teammates/test/driver/retry/RetryableTaskReturnsThrows.java
+ delete mode 100644 src/test/java/teammates/test/driver/retry/RetryableTaskThrows.java
+ delete mode 100644 src/test/java/teammates/test/driver/retry/package-info.java
+
+[33mcommit a1bb20de04affcc0f4a029407b87f05b45de183f[m
+Author: Sujeet <sujeet14108@iiitd.ac.in>
+Date:   Wed Jul 5 06:40:45 2017 +0530
+
+    [#7479] AdminHomePageUiTest: enhance to cover content of the sample course (#7511)
+
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorCourseEnrollPage.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorCoursesPageSampleCourseUnarhived.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackResultsPage.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackSessionPublished.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackSessionRemind.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackSessionSuccessEdited.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackSessionUnpublished.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackSessionsPage.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbackSubmissionEditPage.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorHomePageSampleCourseArchived.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorStudentListPage.html
+
+[33mcommit 5c4be68ede61ac8600d3fc5dd5a75e84941724e2[m
+Author: John Yong <whipermr5@gmail.com>
+Date:   Tue Jul 4 13:43:37 2017 +0800
+
+    [#7668] Migrate client scripts to Objectify API (#7672)
+
+ delete mode 100644 src/client/java/teammates/client/scripts/AddSectionsToLargeCourses.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationAppendInstitutionForAccounts.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationForInstructorsCourseArchiving.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationForIsArchivedAttribute.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationForSentClosingEmailFieldInSessions.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationForTimezoneFieldInCourses.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DownloadAllCourseData.java
+ delete mode 100644 src/client/java/teammates/client/scripts/GenerateEmailsOfInstructors.java
+ delete mode 100644 src/client/java/teammates/client/scripts/InstructorEntityViewer.java
+ delete mode 100644 src/client/java/teammates/client/scripts/InstructorStudentInstitueMigrator.java
+ delete mode 100644 src/client/java/teammates/client/scripts/RepairFeedbackSessionNameWithExtraWhiteSpace.java
+ delete mode 100644 src/client/java/teammates/client/scripts/RepairFeedbackSessionResponseRate.java
+ delete mode 100644 src/client/java/teammates/client/scripts/RepairStudentsWithDuplicateEmail.java
+ delete mode 100644 src/client/java/teammates/client/scripts/RepairTeamNameInStudentResponseAndCommentAttributes.java
+
+[33mcommit 3119708daee403b33e5b7115045b029a26ef3616[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Sat Jul 1 18:21:23 2017 +0800
+
+    [#7643] Remove unused comments-related constants and classes (#7654)
+
+ delete mode 100644 src/main/java/teammates/ui/controller/InstructorFeedbackResponseCommentsLoadAction.java
+ delete mode 100644 src/main/java/teammates/ui/pagedata/InstructorFeedbackResponseCommentsLoadPageData.java
+ delete mode 100644 src/main/webapp/jsp/instructorFeedbackResponseCommentsLoad.jsp
+ delete mode 100644 src/test/resources/pages/instructorStudentRecordsPageAddComment.html
+
+[33mcommit d0b4dd17f22eb18d1f325201a440b32045aa6859[m
+Author: John Yong <whipermr5@gmail.com>
+Date:   Fri Jun 30 14:03:08 2017 +0800
+
+    [#7337] Migrate storage component to Objectify API (#7338)
+
+ delete mode 100644 docs/images/setupguide-5.png
+ delete mode 100644 src/main/java/teammates/storage/api/QueryWithParams.java
+ delete mode 100644 src/main/java/teammates/storage/entity/Entity.java
+ delete mode 100644 src/main/resources/META-INF/jdoconfig.xml
+ delete mode 100644 src/main/resources/META-INF/persistence.xml
+
+[33mcommit 2f553407642ced43e788a38d6d18075063f8fed5[m
+Author: Urvashi Verma <vurvashi11@gmail.com>
+Date:   Thu Jun 29 11:51:46 2017 +0530
+
+    [#7564] Remove unused email html template for cleared pending comments (#7614)
+
+ delete mode 100644 src/main/resources/userEmailTemplate-pendingCommentsCleared.html
+
+[33mcommit eea71ced715d5596698d9210b6d1ceedac01dfa1[m
+Author: Selvakumar <selvacybersecured@gmail.com>
+Date:   Wed Jun 28 12:33:01 2017 +0530
+
+    [#7185] InstructorFeedbacksPageAction.java: change Feedbacks -> FeedbackSessions (#7581)
+
+ delete mode 100644 src/main/java/teammates/ui/controller/InstructorFeedbacksPageAction.java
+ delete mode 100644 src/main/java/teammates/ui/pagedata/InstructorFeedbacksPageData.java
+ delete mode 100644 src/test/java/teammates/test/cases/action/InstructorFeedbacksPageActionTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/browsertests/InstructorFeedbackPageUiTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/pagedata/InstructorFeedbacksPageDataTest.java
+ delete mode 100644 src/test/java/teammates/test/pageobjects/InstructorFeedbacksPage.java
+ delete mode 100644 src/test/resources/data/InstructorFeedbackPageUiTest.json
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorFeedbacksPage.html
+
+[33mcommit 484fa934a3bc3835177dd3239ba09bd88022f7f3[m
+Author: Hirday Gupta <hirday.gupta@gmail.com>
+Date:   Tue Jun 27 16:41:26 2017 +0530
+
+    [#6805] Emails sent to students: include contact details of the course owners (#7169)
+
+ delete mode 100644 src/test/resources/emails/studentCourseJoinEmail.html
+ delete mode 100644 src/test/resources/emails/studentCourseRejoinAfterGoogleIdResetEmail.html
+
+[33mcommit 78e691e87f74a37dc2b638351a7714e97e2df5fa[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Thu Jun 15 14:08:02 2017 +0800
+
+    [#7428] Set up Webpack to enable modular JS development (#7522)
+
+ delete mode 100644 src/main/webapp/js/adminAccountDetails.es6
+ delete mode 100644 src/main/webapp/js/adminAccountManagement.es6
+ delete mode 100644 src/main/webapp/js/adminActivityLog.es6
+ delete mode 100644 src/main/webapp/js/adminEmail.es6
+ delete mode 100644 src/main/webapp/js/adminEmailLog.es6
+ delete mode 100644 src/main/webapp/js/adminHome.es6
+ delete mode 100644 src/main/webapp/js/adminSearch.es6
+ delete mode 100644 src/main/webapp/js/adminSessions.es6
+ delete mode 100644 src/main/webapp/js/administrator.es6
+ delete mode 100644 src/main/webapp/js/ajaxResponseRate.es6
+ delete mode 100644 src/main/webapp/js/checkBrowserVersion.es6
+ delete mode 100644 src/main/webapp/js/common.es6
+ delete mode 100644 src/main/webapp/js/const.es6
+ delete mode 100644 src/main/webapp/js/countryCodes.es6
+ delete mode 100644 src/main/webapp/js/countryCoordinates.json
+ delete mode 100644 src/main/webapp/js/crypto.es6
+ delete mode 100644 src/main/webapp/js/datepicker.es6
+ delete mode 100644 src/main/webapp/js/feedbackResponseComments.es6
+ delete mode 100644 src/main/webapp/js/feedbackSubmissionsEdit.es6
+ delete mode 100644 src/main/webapp/js/googleAnalytics.es6
+ delete mode 100644 src/main/webapp/js/index.es6
+ delete mode 100644 src/main/webapp/js/instructor.es6
+ delete mode 100644 src/main/webapp/js/instructorCourseDetails.es6
+ delete mode 100644 src/main/webapp/js/instructorCourseEdit.es6
+ delete mode 100644 src/main/webapp/js/instructorCourseEnrollPage.es6
+ delete mode 100644 src/main/webapp/js/instructorCourseEnrollResult.es6
+ delete mode 100644 src/main/webapp/js/instructorCourseJoinConfirmation.es6
+ delete mode 100644 src/main/webapp/js/instructorCourseStudentDetails.es6
+ delete mode 100644 src/main/webapp/js/instructorCourses.es6
+ delete mode 100755 src/main/webapp/js/instructorFeedbackAjaxRemindModal.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/feedbackPath.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionConstSum.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionContrib.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionMcq.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionMsq.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionNumScale.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionRank.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionRubric.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/visibilityOptions.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResults.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByGQR.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByGRQ.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByQuestion.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByRGQ.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByRQG.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbacks.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbacksSpecific.es6
+ delete mode 100644 src/main/webapp/js/instructorHome.es6
+ delete mode 100644 src/main/webapp/js/instructorSearch.es6
+ delete mode 100644 src/main/webapp/js/instructorStudentEdit.es6
+ delete mode 100644 src/main/webapp/js/instructorStudentList.es6
+ delete mode 100644 src/main/webapp/js/instructorStudentRecords.es6
+ delete mode 100644 src/main/webapp/js/richTextEditor.es6
+ delete mode 100644 src/main/webapp/js/statusMessage.es6
+ delete mode 100644 src/main/webapp/js/student.es6
+ delete mode 100644 src/main/webapp/js/studentCourseDetails.es6
+ delete mode 100644 src/main/webapp/js/studentCourseJoinConfirmation.es6
+ delete mode 100644 src/main/webapp/js/studentFeedbackResults.es6
+ delete mode 100644 src/main/webapp/js/studentHome.es6
+ delete mode 100644 src/main/webapp/js/studentMotd.es6
+ delete mode 100644 src/main/webapp/js/studentProfile.es6
+ delete mode 100644 src/main/webapp/js/timezone.es6
+ delete mode 100644 src/main/webapp/js/userMap.es6
+ delete mode 100644 src/main/webapp/js/userMapData.json
+ delete mode 100644 src/main/webapp/test/AdminHomeJsTest.es6
+ delete mode 100644 src/main/webapp/test/CommonJsTest.es6
+ delete mode 100644 src/main/webapp/test/CommonTestFunctions.es6
+ delete mode 100644 src/main/webapp/test/DatepickerJsTest.es6
+ delete mode 100644 src/main/webapp/test/InstructorCourseDetailsJsTest.es6
+ delete mode 100644 src/main/webapp/test/InstructorEnrolmentJsTest.es6
+ delete mode 100644 src/main/webapp/test/InstructorFeedbacksJsTest.es6
+ delete mode 100644 src/main/webapp/test/InstructorJsTest.es6
+ delete mode 100644 src/main/webapp/test/StudentJsTest.es6
+ delete mode 100644 src/main/webapp/test/SubmissionCountJsTest.es6
+ delete mode 100644 static-analysis/teammates-eslint-es6.yml
+
+[33mcommit cf548735d25775c67029832612bd591ccaa0a755[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Thu Mar 30 00:06:07 2017 +0800
+
+    [#6954] Repurpose src/main/webapp/dev for front-end development (#6955)
+
+ delete mode 100644 src/main/webapp/dev/AdminHomeJsTest.es6
+ delete mode 100644 src/main/webapp/dev/CommonJsTest.es6
+ delete mode 100644 src/main/webapp/dev/CommonTestFunctions.es6
+ delete mode 100644 src/main/webapp/dev/DatepickerJsTest.es6
+ delete mode 100644 src/main/webapp/dev/InstructorCourseDetailsJsTest.es6
+ delete mode 100644 src/main/webapp/dev/InstructorEnrolmentJsTest.es6
+ delete mode 100644 src/main/webapp/dev/InstructorFeedbacksJsTest.es6
+ delete mode 100644 src/main/webapp/dev/InstructorJsTest.es6
+ delete mode 100644 src/main/webapp/dev/StudentJsTest.es6
+ delete mode 100644 src/main/webapp/dev/SubmissionCountJsTest.es6
+ delete mode 100644 src/main/webapp/dev/allJsUnitTests.jsp
+ delete mode 100644 src/main/webapp/dev/mashup.jsp
+ delete mode 100644 src/main/webapp/dev/tableSort.jsp
+ delete mode 100644 src/main/webapp/dev/timezone.jsp
+
+[33mcommit b47c6e6f55403914711478c30304465a384ef0c6[m
+Author: John Yong <whipermr5@gmail.com>
+Date:   Wed Jun 7 23:04:51 2017 +0800
+
+    [#7378] Move GodMode switch into test.properties (#7379)
+
+ delete mode 100644 .templates/.idea/runConfigurations/All_Tests__Godmode_.xml
+ delete mode 100644 .templates/.idea/runConfigurations/CI_Tests__Godmode_.xml
+ delete mode 100644 .templates/.idea/runConfigurations/Failed_Tests__Godmode_.xml
+ delete mode 100644 .templates/.idea/runConfigurations/Local_Tests__Godmode_.xml
+ delete mode 100644 .templates/eclipseLaunches/All tests (GodMode).launch.xml
+ delete mode 100644 .templates/eclipseLaunches/CI tests (GodMode).launch.xml
+ delete mode 100644 .templates/eclipseLaunches/Failed tests (GodMode).launch.xml
+ delete mode 100644 .templates/eclipseLaunches/Local tests (GodMode).launch.xml
+
+[33mcommit df70aee0c2e5674e110bc647161c23abf385b7e8[m
+Author: Tan Li Hao <LiHaoTan@users.noreply.github.com>
+Date:   Wed Jun 7 16:38:53 2017 +0800
+
+    [#7322] IntelliJ IDEA: Change Setup Instructions (#7354)
+
+ delete mode 100644 .templates/intellijRunConfigs/All_Tests.xml
+ delete mode 100644 .templates/intellijRunConfigs/All_Tests__Godmode_.xml
+ delete mode 100644 .templates/intellijRunConfigs/CI_Tests.xml
+ delete mode 100644 .templates/intellijRunConfigs/CI_Tests__Godmode_.xml
+ delete mode 100644 .templates/intellijRunConfigs/Failed_Tests.xml
+ delete mode 100644 .templates/intellijRunConfigs/Failed_Tests__Godmode_.xml
+ delete mode 100644 .templates/intellijRunConfigs/Local_Tests.xml
+ delete mode 100644 .templates/intellijRunConfigs/Local_Tests__Godmode_.xml
+
+[33mcommit 2502c9000b0db3ad37037e08c94fe7bca5ea9ac7[m
+Author: Taras Sakharchuk <limethecoder@gmail.com>
+Date:   Wed Jun 7 09:21:59 2017 +0300
+
+    [#7295] Instructor: view results: remove 'filter results' feature (#7313)
+
+ delete mode 100644 src/test/resources/pages/instructorFeedbackResultDefaultSort.html
+ delete mode 100644 src/test/resources/pages/instructorFeedbackResultsSortQuestionSearch.html
+ delete mode 100644 src/test/resources/pages/instructorFeedbackResultsSortRGQSearch.html
+
+[33mcommit 8ba68ad09784f04f7817404d3c3d3a88a5382dc6[m
+Author: Sujeet <sujeet14108@iiitd.ac.in>
+Date:   Sat Jun 3 22:36:49 2017 +0530
+
+    [#6356] Move access control tests to each respective action tests (#7332)
+
+ delete mode 100644 src/test/java/teammates/test/cases/action/AllActionsAccessControlTest.java
+
+[33mcommit 769e6084fa84d40a371f3fcc40e769642d325812[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Tue May 30 17:16:34 2017 +0800
+
+    [#7271] Remove support for commenting on students/courses/teams (#7334)
+
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationForComments.java
+ delete mode 100644 src/client/java/teammates/client/scripts/DataMigrationForSearchableComments.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/CommentParticipantType.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/CommentSearchResultBundle.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/CommentSendingState.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/CommentStatus.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/attributes/CommentAttributes.java
+ delete mode 100644 src/main/java/teammates/logic/core/CommentsLogic.java
+ delete mode 100644 src/main/java/teammates/storage/api/CommentsDb.java
+ delete mode 100644 src/main/java/teammates/storage/entity/Comment.java
+ delete mode 100644 src/main/java/teammates/storage/search/CommentSearchDocument.java
+ delete mode 100644 src/main/java/teammates/storage/search/CommentSearchQuery.java
+ delete mode 100644 src/main/java/teammates/ui/automated/PendingCommentClearedEmailWorkerAction.java
+ delete mode 100644 src/main/java/teammates/ui/automated/PutCommentDocumentWorkerAction.java
+ delete mode 100644 src/main/java/teammates/ui/controller/InstructorCommentsPageAction.java
+ delete mode 100644 src/main/java/teammates/ui/controller/InstructorStudentCommentAddAction.java
+ delete mode 100644 src/main/java/teammates/ui/controller/InstructorStudentCommentClearPendingAction.java
+ delete mode 100644 src/main/java/teammates/ui/controller/InstructorStudentCommentEditAction.java
+ delete mode 100644 src/main/java/teammates/ui/controller/StudentCommentsPageAction.java
+ delete mode 100644 src/main/java/teammates/ui/pagedata/InstructorCommentsPageData.java
+ delete mode 100644 src/main/java/teammates/ui/pagedata/StudentCommentsPageData.java
+ delete mode 100644 src/main/java/teammates/ui/template/CommentRow.java
+ delete mode 100644 src/main/java/teammates/ui/template/CommentsForStudentsTable.java
+ delete mode 100644 src/main/java/teammates/ui/template/CoursePagination.java
+ delete mode 100644 src/main/webapp/WEB-INF/tags/instructor/comments/commentsFromFeedbackSessions.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/instructor/comments/commentsNotifyPanel.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/instructor/comments/filter.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/instructor/comments/search.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/instructor/course/commentArea.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/shared/commentRow.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/shared/commentsPanel.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/shared/pagination.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/student/comments/feedbackQuestionPanel.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/student/comments/feedbackResponsePanel.tag
+ delete mode 100644 src/main/webapp/WEB-INF/tags/student/comments/feedbackSessionPanel.tag
+ delete mode 100644 src/main/webapp/js/contextualcomments.es6
+ delete mode 100644 src/main/webapp/js/instructorComments.es6
+ delete mode 100644 src/main/webapp/js/studentComments.es6
+ delete mode 100644 src/main/webapp/jsp/instructorComments.jsp
+ delete mode 100644 src/main/webapp/jsp/studentComments.jsp
+ delete mode 100644 src/test/java/teammates/test/cases/action/InstructorCommentsPageActionTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/action/InstructorStudentCommentAddActionTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/action/InstructorStudentCommentEditActionTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/action/StudentCommentsPageActionTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/browsertests/InstructorCommentsPageUiTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/browsertests/StudentCommentsPageUiTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/datatransfer/CommentAttributesTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/logic/CommentsLogicTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/pagedata/InstructorCommentsPageDataTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/pagedata/StudentCommentsPageDataTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/search/CommentSearchTest.java
+ delete mode 100644 src/test/java/teammates/test/cases/storage/CommentsDbTest.java
+ delete mode 100644 src/test/java/teammates/test/pageobjects/InstructorCommentsPage.java
+ delete mode 100644 src/test/java/teammates/test/pageobjects/StudentCommentsPage.java
+ delete mode 100644 src/test/resources/data/InstructorCommentsPageUiTest.json
+ delete mode 100644 src/test/resources/pages/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageAddFrc.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageAddSc.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageDeleteFrc.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageEditFrc.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageForCourseWithURIEncodedSessionName.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageForCourseWithoutComment.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageForEmptyCourse.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageForTypicalCourseWithComments.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageSearchEmpty.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageSearchNormal.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsForAll.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsForPrivate.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsForPublic.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsForSessionCommentPanel.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsForStudentCommentPanel.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsFromAll.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsFromAllStatus.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsFromOthers.html
+ delete mode 100644 src/test/resources/pages/instructorCommentsPageShowCommentsFromYou.html
+ delete mode 100644 src/test/resources/pages/instructorSearchPageSearchComments.html
+ delete mode 100644 src/test/resources/pages/instructorSearchPageSearchStudentComments.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorCommentsPage.html
+ delete mode 100644 src/test/resources/pages/newlyJoinedInstructorStudentCommentsPage.html
+ delete mode 100644 src/test/resources/pages/studentCommentsPageForStudent1.html
+ delete mode 100644 src/test/resources/pages/studentCommentsPageForStudent2.html
+ delete mode 100644 src/test/resources/pages/studentCommentsPageForStudent3.html
+
+[33mcommit 54dbea7fd9789eeac89eba5ba370774a5b789864[m
+Author: Tan Li Hao <LiHaoTan@users.noreply.github.com>
+Date:   Mon May 29 00:00:51 2017 +0800
+
+    [#7287] Change teammates-eslint.yml and teammates-eslint-es6.yml (#7361)
+
+ delete mode 100644 static-analysis/teammates-eslint-es6.yml
+
+[33mcommit 62f48e9479810a7f115109c4f5594afcdfb51467[m
+Author: Lee Yi Min <e0008742@u.nus.edu>
+Date:   Thu May 18 14:49:44 2017 +0800
+
+    [#6891] Remove HTML sanitization in StudentProfileAttributes (#6922)
+    
+    * Move methods in DataMigrationForSanitizedDataHelper to SanitizationHelper and StringHelper
+    
+    * Remove html sanitization before saving in StudentProfileAttributes
+    
+    * Add data with script injection in typicalDataBundle
+    
+    * Sanitize StudentProfileAttributes.toString in statusToAdmin of InstructorStudentRecordsPageAction
+    
+    * Sanitize StudentProfileAttributes.toString in statusToAdmin of StudentProfilePageAction
+    
+    * Sanitize StudentProfileAttributes.toString in statusToAdmin of StudentProfileEditSaveAction
+    
+    * Add sanitization test cases to StudentProfilePageUiTest
+    
+    * Add sanitization test case to InstructorCourseStudentDetailsPageUiTest
+    
+    * Add sanitization test case to InstructorStudentRecordsPageUiTest
+    
+    * Add data migration script for StudentProfileAttributes
+    
+    * Use ternary if
+
+ delete mode 100644 src/client/java/teammates/client/scripts/util/DataMigrationForSanitizedDataHelper.java
+
+[33mcommit 3ea7d8e1e5dfcc3417a861d2c790e153a9b1684a[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Mon Apr 10 23:29:39 2017 +0800
+
+    [#7002] Move all document.ready functions to just one file per page (#7004)
+
+ delete mode 100644 src/main/webapp/js/instructorCourseEditAjax.es6
+ delete mode 100644 src/main/webapp/js/instructorCoursesAjax.es6
+ delete mode 100644 src/main/webapp/js/instructorCoursesStatsAjax.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxResponse.es6
+ delete mode 100644 src/main/webapp/js/instructorFeedbacksAjax.es6
+ delete mode 100644 src/main/webapp/js/instructorStudentListAjax.es6
+ delete mode 100644 src/main/webapp/js/omniComment.es6
+
+[33mcommit c74ff605f8998d5e524823df962ae5aca51ba835[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Mon Apr 10 22:57:10 2017 +0800
+
+    [#6973] Make IDE usage entirely optional (#6980)
+
+ delete mode 100644 .idea/runConfigurations/All_Tests.xml
+ delete mode 100644 .idea/runConfigurations/All_Tests__Godmode_.xml
+ delete mode 100644 .idea/runConfigurations/CI_Tests.xml
+ delete mode 100644 .idea/runConfigurations/CI_Tests__Godmode_.xml
+ delete mode 100644 .idea/runConfigurations/Failed_Tests.xml
+ delete mode 100644 .idea/runConfigurations/Failed_Tests__Godmode_.xml
+ delete mode 100644 .idea/runConfigurations/Local_Tests.xml
+ delete mode 100644 .idea/runConfigurations/Local_Tests__Godmode_.xml
+ delete mode 100644 .idea/runConfigurations/Staging_Tests.xml
+ delete mode 100644 .launches/All tests (GodMode).launch.xml
+ delete mode 100644 .launches/All tests.launch.xml
+ delete mode 100644 .launches/CI tests.launch.xml
+ delete mode 100644 .launches/Failed tests (GodMode).launch.xml
+ delete mode 100644 .launches/Failed tests.launch.xml
+ delete mode 100644 .launches/Local tests.launch.xml
+ delete mode 100644 .launches/Staging tests.launch.xml
+ delete mode 100644 .settings/com.google.appengine.eclipse.core.prefs
+ delete mode 100644 .settings/com.google.gdt.eclipse.core.prefs
+ delete mode 100644 .settings/org.eclipse.core.resources.prefs
+ delete mode 100644 .settings/org.eclipse.jdt.core.prefs
+ delete mode 100644 .settings/org.eclipse.jdt.ui.prefs
+ delete mode 100644 .settings/org.eclipse.wst.validation.prefs
+ delete mode 100644 docs/images/devverification-guide-1.png
+ delete mode 100644 docs/images/setup-checklist-1.png
+ delete mode 100644 docs/images/setup-checklist-2.png
+ delete mode 100644 docs/images/setup-checklist-3.png
+ delete mode 100644 docs/images/setup-checklist-4.png
+ delete mode 100644 docs/images/setup-checklist-5.png
+ delete mode 100644 docs/images/setup-checklist-6.png
+
+[33mcommit 8b6a9887e281c02b5e3d2cac794791f662609c9a[m
+Author: Dartteon <a0122545@u.nus.edu>
+Date:   Mon Apr 3 21:51:04 2017 +0800
+
+    [#6747] TEAMMATES logo not transparent (#6933)
+
+ delete mode 100644 src/main/webapp/images/teammates.png
+ delete mode 100644 src/main/webapp/images/teammateslogo.jpg
+
+[33mcommit 0ffb8e56db3037cd1b2fe2f74f5cfc590dbcf4f9[m
+Author: Thenaesh Elango <thenaeshelango@gmail.com>
+Date:   Thu Mar 23 19:50:39 2017 +0800
+
+    [#6831] Convert all the remaining JS to ES6 (#6832)
+
+ delete mode 100644 src/main/webapp/js/ajaxResponseRate.js
+ delete mode 100644 src/main/webapp/js/checkBrowserVersion.js
+ delete mode 100644 src/main/webapp/js/common.js
+ delete mode 100644 src/main/webapp/js/const.js
+ delete mode 100644 src/main/webapp/js/contextualcomments.js
+ delete mode 100644 src/main/webapp/js/countryCodes.js
+ delete mode 100644 src/main/webapp/js/datepicker.js
+ delete mode 100644 src/main/webapp/js/feedbackResponseComments.js
+ delete mode 100644 src/main/webapp/js/feedbackSubmissionsEdit.js
+ delete mode 100644 src/main/webapp/js/googleAnalytics.js
+ delete mode 100644 src/main/webapp/js/index.js
+ delete mode 100644 src/main/webapp/js/omniComment.js
+ delete mode 100644 src/main/webapp/js/richTextEditor.js
+ delete mode 100644 src/main/webapp/js/statusMessage.js
+ delete mode 100644 src/main/webapp/js/timezone.js
+ delete mode 100644 src/main/webapp/js/userMap.js
+
+[33mcommit 82c3dd1bd53c58a6dfe1fa31aadadc1fdb7c764c[m
+Author: Dickson Tan <Neurrone@users.noreply.github.com>
+Date:   Wed Mar 22 11:07:22 2017 +0800
+
+    [#6819] Update the rest of Instructor*.js to ES6 (#6852)
+
+ delete mode 100644 src/main/webapp/js/instructor.js
+ delete mode 100644 src/main/webapp/js/instructorHome.js
+ delete mode 100644 src/main/webapp/js/instructorSearch.js
+ delete mode 100644 src/main/webapp/js/instructorStudentEdit.js
+ delete mode 100644 src/main/webapp/js/instructorStudentList.js
+ delete mode 100644 src/main/webapp/js/instructorStudentListAjax.js
+ delete mode 100644 src/main/webapp/js/instructorStudentRecords.js
+
+[33mcommit d0d0c7c786357a41b4f29aee85b3c4ef399d8645[m
+Author: Li Kai <li-kai@users.noreply.github.com>
+Date:   Wed Mar 22 11:07:03 2017 +0800
+
+    [#6785] Update all admin*.js to ES6 (#6786)
+
+ delete mode 100644 src/main/webapp/js/adminAccountManagement.js
+ delete mode 100644 src/main/webapp/js/adminActivityLog.js
+ delete mode 100644 src/main/webapp/js/adminEmail.js
+ delete mode 100644 src/main/webapp/js/adminEmailLog.js
+ delete mode 100644 src/main/webapp/js/adminHome.js
+ delete mode 100644 src/main/webapp/js/adminSearch.js
+ delete mode 100644 src/main/webapp/js/adminSessions.js
+ delete mode 100644 src/main/webapp/js/administrator.js
+
+[33mcommit 81b3b029c3c0edf86f427fd7cad6d29cb5067714[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Sun Mar 19 18:49:15 2017 +0800
+
+    [#6811] Convert test JS files to ES6 (#6820)
+
+ delete mode 100644 src/main/webapp/dev/AdminHomeJsTest.js
+ delete mode 100644 src/main/webapp/dev/CommonJsTest.js
+ delete mode 100644 src/main/webapp/dev/CommonTestFunctions.js
+ delete mode 100644 src/main/webapp/dev/InstructorCourseDetailsJsTest.js
+ delete mode 100644 src/main/webapp/dev/InstructorEnrolmentJsTest.js
+ delete mode 100644 src/main/webapp/dev/InstructorFeedbacksJsTest.js
+ delete mode 100644 src/main/webapp/dev/InstructorJsTest.js
+ delete mode 100644 src/main/webapp/dev/StudentJsTest.js
+ delete mode 100644 src/main/webapp/dev/SubmissionCountJsTest.js
+
+[33mcommit f89d45c7c54d621cef7a66dcb3b089e6e15ae4bf[m
+Author: Li Kai <li-kai@users.noreply.github.com>
+Date:   Sun Mar 19 17:32:55 2017 +0800
+
+    [#6766] Update all student related js files to es6 syntax (#6767)
+
+ delete mode 100644 src/main/webapp/js/student.js
+ delete mode 100644 src/main/webapp/js/studentMotd.js
+ delete mode 100644 src/main/webapp/js/studentProfile.js
+
+[33mcommit 28c3490d1d86a8dad3f2d4a6be1499279266e31d[m
+Author: Thenaesh Elango <thenaeshelango@gmail.com>
+Date:   Wed Mar 15 16:36:45 2017 +0800
+
+    [#6771] Update all InstructorFeedbackResults*.js to ES6 (#6788)
+
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResults.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByGQR.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByGRQ.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByQuestion.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByRGQ.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxByRQG.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackResultsAjaxResponse.js
+
+[33mcommit 35d0a7d782554cdbc30280908a85f0aa6efaa929[m
+Author: Dickson Tan <Neurrone@users.noreply.github.com>
+Date:   Wed Mar 15 14:21:40 2017 +0800
+
+    [#6772] Update all InstructorCourses*.js to ES6 (#6790)
+
+ delete mode 100644 src/main/webapp/js/instructorCourseDetails.js
+ delete mode 100644 src/main/webapp/js/instructorCourseEdit.js
+ delete mode 100644 src/main/webapp/js/instructorCourseEditAjax.js
+ delete mode 100644 src/main/webapp/js/instructorCourseEnrollPage.js
+ delete mode 100644 src/main/webapp/js/instructorCourses.js
+ delete mode 100644 src/main/webapp/js/instructorCoursesAjax.js
+ delete mode 100644 src/main/webapp/js/instructorCoursesStatsAjax.js
+
+[33mcommit e9bec6dd4fb82126ae4ee49efc1e2a858cef644c[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Wed Mar 15 14:20:33 2017 +0800
+
+    [#6773] Convert instructorFeedbackEdit*.js and instructorFeedbacks*.js to ES6 (#6801)
+
+ delete mode 100755 src/main/webapp/js/instructorFeedbackAjaxRemindModal.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/feedbackPath.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionConstSum.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionContrib.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionMcq.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionMsq.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionNumScale.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionRank.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/questionRubric.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbackEdit/visibilityOptions.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbacks.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbacksAjax.js
+ delete mode 100644 src/main/webapp/js/instructorFeedbacksSpecific.js
+
+[33mcommit a8ccbe4fe249b57cd197a1fec2708f8b12b06cca[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Wed Mar 22 19:26:28 2017 +0800
+
+    [#6892] Add more Javadoc to the code base (#6897)
+
+ delete mode 100644 src/main/java/teammates/ui/controller/PublicResourcesServlet.java
+ delete mode 100644 src/test/java/teammates/test/cases/logic/TaskQueuesLogicTest.java
+
+[33mcommit da723fdba4ab38ab702445810f711650b5299ee5[m
+Author: Miguel Araújo <miguelarauj1o@gmail.com>
+Date:   Fri Mar 17 04:40:23 2017 -0300
+
+    [#6640] Remove unnecessary classes in common.datatransfer package (#6706)
+
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackQuestionBundle.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackSessionState.java
+
+[33mcommit d0e3918a595fbd8770db0c6258770d8400e06b72[m
+Author: Tan Li Hao <LiHaoTan@users.noreply.github.com>
+Date:   Tue Mar 14 22:06:30 2017 +0800
+
+    [#6587] ControllerServlet: do not sent email to admin upon error (#6796)
+
+ delete mode 100644 src/main/resources/systemErrorEmailTemplate.html
+ delete mode 100644 src/test/resources/emails/systemCrashReportEmail.html
+ delete mode 100644 src/test/resources/emails/systemCrashReportEmailLessInfo.html
+
+[33mcommit 941bb8918bf8de24314e32be05c8992b745aa690[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Mon Mar 13 16:05:13 2017 +0800
+
+    [#6582] Add Javadoc rules to Checkstyle without full enforcement (#6583)
+
+ delete mode 100644 src/main/java/teammates/common/datatransfer/SessionResultsBundle.java
+
+[33mcommit 93e70f42ec67bf4d9dde2c5e4161216bd4c7b26d[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Wed Mar 8 19:21:23 2017 +0800
+
+    [#6085] Increase testability and test coverage of JS code - preliminary part 2 (#6615)
+
+ delete mode 100644 src/main/webapp/dev/InstructorStudentListJsTest.js
+
+[33mcommit b2f63c211369673a5c1512ba37a30525bd6d4755[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Fri Feb 24 15:51:48 2017 +0800
+
+    [#6644] Enhancement: Make issue templates more readily accessible (#6647)
+
+ delete mode 100644 docs/template-bugReport.md
+ delete mode 100644 docs/template-contributorIntro.md
+ delete mode 100644 docs/template-featureRequest.md
+ delete mode 100644 docs/template-helpRequest.md
+
+[33mcommit b283458419036f0968da3ba0a0052516700e8db4[m
+Author: Li Kai <li-kai@users.noreply.github.com>
+Date:   Sun Feb 19 16:26:19 2017 +0800
+
+    [#6487] Make frontpage responsive (#6488)
+
+ delete mode 100644 src/main/webapp/stylesheets/teammates.css
+
+[33mcommit b53a74866d4ed8dd03108dfe59bdb28dfcc370bd[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Wed Feb 15 14:22:11 2017 +0800
+
+    [#6346] Use package.json and CDN to entirely manage front-end dependencies regardless of environment (#6373)
+
+ delete mode 100644 src/main/webapp/js/lib/bootbox.min.js
+ delete mode 100644 src/main/webapp/js/lib/bootstrap.min.js
+ delete mode 100644 src/main/webapp/js/lib/d3.min.js
+ delete mode 100644 src/main/webapp/js/lib/datamaps.none.min.js
+ delete mode 100644 src/main/webapp/js/lib/jquery-ui.min.js
+ delete mode 100755 src/main/webapp/js/lib/jquery.guillotine.min.js
+ delete mode 100644 src/main/webapp/js/lib/jquery.highlight.js
+ delete mode 100644 src/main/webapp/js/lib/jquery.min.js
+ delete mode 100644 src/main/webapp/js/lib/moment-timezone-with-data-2010-2020.min.js
+ delete mode 100644 src/main/webapp/js/lib/moment.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/advlist/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/anchor/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/autolink/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/autoresize/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/autosave/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/bbcode/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/charmap/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/code/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/codesample/css/prism.css
+ delete mode 100644 src/main/webapp/js/lib/plugins/codesample/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/colorpicker/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/contextmenu/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/directionality/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-cool.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-cry.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-embarassed.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-foot-in-mouth.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-frown.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-innocent.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-kiss.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-laughing.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-money-mouth.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-sealed.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-smile.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-surprised.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-tongue-out.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-undecided.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-wink.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/img/smiley-yell.gif
+ delete mode 100644 src/main/webapp/js/lib/plugins/emoticons/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/fullpage/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/fullscreen/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/hr/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/image/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/imagetools/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/importcss/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/insertdatetime/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/layer/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/legacyoutput/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/link/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/lists/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/media/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/nonbreaking/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/noneditable/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/pagebreak/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/paste/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/preview/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/print/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/save/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/searchreplace/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/spellchecker/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/tabfocus/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/table/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/template/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/textcolor/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/textpattern/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/toc/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/visualblocks/css/visualblocks.css
+ delete mode 100644 src/main/webapp/js/lib/plugins/visualblocks/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/visualchars/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/plugins/wordcount/plugin.min.js
+ delete mode 100644 src/main/webapp/js/lib/printThis.js
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/content.inline.min.css
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/content.min.css
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce-small.eot
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce-small.svg
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce-small.ttf
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce-small.woff
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce.eot
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce.svg
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce.ttf
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/fonts/tinymce.woff
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/img/anchor.gif
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/img/loader.gif
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/img/object.gif
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/img/trans.gif
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/skin.ie7.min.css
+ delete mode 100644 src/main/webapp/js/lib/skins/lightgray/skin.min.css
+ delete mode 100644 src/main/webapp/js/lib/themes/inlite/theme.min.js
+ delete mode 100644 src/main/webapp/js/lib/themes/modern/theme.min.js
+ delete mode 100644 src/main/webapp/js/lib/tinymce.min.js
+ delete mode 100644 src/main/webapp/js/lib/topojson.min.js
+ delete mode 100644 src/main/webapp/js/lib/world.hires.topo.json
+ delete mode 100644 src/main/webapp/package.json
+ delete mode 100644 src/main/webapp/stylesheets/fonts/glyphicons-halflings-regular.eot
+ delete mode 100644 src/main/webapp/stylesheets/fonts/glyphicons-halflings-regular.svg
+ delete mode 100644 src/main/webapp/stylesheets/fonts/glyphicons-halflings-regular.ttf
+ delete mode 100644 src/main/webapp/stylesheets/fonts/glyphicons-halflings-regular.woff
+ delete mode 100644 src/main/webapp/stylesheets/lib/bootstrap-theme.min.css
+ delete mode 100644 src/main/webapp/stylesheets/lib/bootstrap.min.css
+ delete mode 100755 src/main/webapp/stylesheets/lib/jquery.guillotine.css
+ delete mode 100644 src/test/javascript/CommonJsTest.js
+ delete mode 100644 src/test/javascript/CommonTestFunctions.js
+ delete mode 100644 src/test/javascript/InstructorCourseDetailsJsTest.js
+ delete mode 100644 src/test/javascript/InstructorEnrolmentJsTest.js
+ delete mode 100644 src/test/javascript/InstructorFeedbacksJsTest.js
+ delete mode 100644 src/test/javascript/InstructorJsTest.js
+ delete mode 100644 src/test/javascript/InstructorStudentListJsTest.js
+ delete mode 100644 src/test/javascript/StudentJsTest.js
+ delete mode 100644 src/test/javascript/SubmissionCountJsTest.js
+ delete mode 100644 src/test/javascript/lib/blanket.min.js
+ delete mode 100644 src/test/javascript/lib/qunit.css
+ delete mode 100644 src/test/javascript/lib/qunit.js
+ delete mode 100644 src/test/resources/pages/allJsUnitTests.html
+ delete mode 100644 src/test/resources/pages/tableSort.html
+
+[33mcommit 68e75262a01cf50625d0e765baf7e7b012d6ff41[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Thu Feb 9 15:43:06 2017 +0800
+
+    [#6547] Suppress repetitions and unnecessary code in test cases (#6548)
+
+ delete mode 100644 src/test/java/teammates/test/cases/testdriver/DataBundleTest.java
+
+[33mcommit e9311468dbb870267c662c0ae8179c1b13ae5176[m
+Author: Samson Tan <samsontmr@users.noreply.github.com>
+Date:   Thu Feb 9 12:23:16 2017 +0800
+
+    [#6355] Separate common.datatransfer package into sub-packages (#6453)
+
+ delete mode 100644 src/main/java/teammates/common/datatransfer/AccountAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/AdminEmailAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/CommentAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/CourseAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/EntityAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackConstantSumQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackConstantSumResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackContributionQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackContributionResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackMcqQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackMcqResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackMsqQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackMsqResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackNumericalScaleQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackNumericalScaleResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackQuestionAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackQuestionType.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRankOptionsQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRankOptionsResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRankQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRankRecipientsQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRankRecipientsResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRankResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackResponseAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackResponseCommentAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRubricQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackRubricResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackSessionAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackTextQuestionDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/FeedbackTextResponseDetails.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/InstructorAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/SessionAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/StudentAttributes.java
+ delete mode 100644 src/main/java/teammates/common/datatransfer/StudentProfileAttributes.java
+
+[33mcommit fe3b63dd30992674a1f44bf5fd14d9c06b835137[m
+Author: Lee Yi Min <e0008742@u.nus.edu>
+Date:   Tue Feb 7 00:13:09 2017 +0800
+
+    [#6518] Refactor StringHelper and Sanitizer class (#6523)
+
+ delete mode 100644 src/main/java/teammates/common/util/Sanitizer.java
+ delete mode 100644 src/test/java/teammates/test/cases/util/SanitizerTest.java
+
+[33mcommit dccb667c67bb26167a7e9b0f7c37bf660043032c[m
+Author: Wilson Kurniawan <wkurniawan.92@gmail.com>
+Date:   Tue Jan 31 14:32:31 2017 +0800
+
+    [#6238] Set up AppVeyor to run tests on Windows (#6321)
+
+ delete mode 100644 .launches/Travis tests.launch.xml
+ delete mode 100644 src/test/testng-travis.xml

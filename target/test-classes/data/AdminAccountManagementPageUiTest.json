@@ -1,0 +1,79 @@
+{
+  "accounts": {
+    "AAMgtUiT.instr1": {
+      "googleId": "AAMgtUiT.instr1",
+      "name": "Teammates Instr1",
+      "isInstructor": true,
+      "email": "AAMgtUiT.instr1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "AAMgtUiT.instr3": {
+      "googleId": "AAMgtUiT.instr3",
+      "name": "Teammates Instr3",
+      "isInstructor": true,
+      "email": "AAMgtUiT.instr3@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "AAMgtUiT.CS2104": {
+      "id": "AAMgtUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "AAMgtUiT.instr1": {
+      "googleId": "AAMgtUiT.instr1",
+      "courseId": "AAMgtUiT.CS2104",
+      "name": "Teammates Instr1",
+      "email": "AAMgtUiT.instr1@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAMgtUiT.instr3": {
+      "googleId": "AAMgtUiT.instr3",
+      "courseId": "AAMgtUiT.CS2104",
+      "name": "Teammates Instr3",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

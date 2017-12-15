@@ -1,0 +1,2441 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Session Results
+  </h1>
+  <br>
+  <div class="well well-plain padding-0">
+    <div class="form-horizontal">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-5 col-lg-4">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Course ID:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  CFResultsUiT.CS2104
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Session:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  First Session
+                  <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&editsessiondetails=true&user=CFResultsUiT.instr">
+                    [Edit]
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6">
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Session duration:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Sun, 01 Apr 2012, 11:59 PM   
+                  <b>
+                    to
+                  </b>
+                     Thu, 30 Apr 2026, 11:59 PM
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-4 control-label">
+                Results visible from:
+              </label>
+              <div class="col-lg-8">
+                <p class="form-control-static">
+                  Tue, 01 May 2012, 11:59 PM
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-lg-2">
+            <div class="form-group">
+              <div class="col-md-12">
+                <form action="/page/instructorFeedbackResultsDownload" method="post">
+                  <div id="feedbackDataButtons">
+                    <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results">
+                  </div>
+                  <input name="user" type="hidden" value="CFResultsUiT.instr">
+                  <input name="fsname" type="hidden" value="First Session">
+                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                  <input name="sectionname" type="hidden" value="All">
+                  <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
+                  <input name="frindicatemissingresponses" type="hidden" value="false">
+                </form>
+                <br>
+                <div>
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFResultsUiT.instr&token=${sessionToken}" title="">
+                    Unpublish Results
+                  </a>
+                </div>
+                <br>
+                <div>
+                  <button class="btn btn-primary btn-block" id="button-print" type="input">
+                    Print View
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="help-block align-center">
+            Non-English characters not displayed properly in the downloaded file?
+            <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" id="btn-display-table">
+              Click here.
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="csvToHtmlForm">
+    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+    <input name="fsname" type="hidden" value="First Session">
+    <input name="user" type="hidden" value="CFResultsUiT.instr">
+    <input name="frgroupbysection" type="hidden" value="All">
+    <input name="csvtohtmltable" type="hidden" value="true">
+  </form>
+  <div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="help-block" style="display:inline;">
+            Tips: After selecting the table,
+            <kbd>
+              Ctrl + C
+            </kbd>
+            to COPY and
+            <kbd>
+              Ctrl + V
+            </kbd>
+            to PASTE to your Excel Workbook.
+          </span>
+               
+          <button class="btn btn-default" data-dismiss="modal" type="button">
+            Close
+          </button>
+          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
+            Select Table
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <div id="fsModalTable">
+            </div>
+            <br>
+            <div id="ajaxStatus">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom: 10px">
+    <div class="well well-plain">
+      <div class="row">
+        <div class="col-md-5">
+          <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+            <div class="row">
+              <label class="col-md-offset-1 col-md-3">
+                View:
+              </label>
+              <div class="col-md-8">
+                Group by - Recipient &gt; Question &gt; Giver
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+              <label class="col-md-offset-1 col-md-3">
+                Section:
+              </label>
+              <div class="col-md-8">
+                All
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
+          <label>
+            Additional settings:
+          </label>
+          <ul>
+            <li>
+              <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Group by Teams
+                </div>
+              </div>
+            </li>
+            <li>
+              <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Show Statistics
+                </div>
+              </div>
+            </li>
+            <li>
+              <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Indicate Missing Responses
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+          <button class="btn btn-primary btn-block" data-target="#editModal" data-toggle="modal" id="editBtn" type="button">
+            Edit View
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="editModal" role="dialog">
+      <div class="modal-dialog">
+        <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" method="post">
+          <div class="modal-content">
+            <div class="modal-header alert-info">
+              <button class="close" data-dismiss="modal" type="button">
+                ×
+              </button>
+              <h4 class="modal-title">
+                Edit View
+              </h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <label class="control-label" for="viewSelect">
+                      View:
+                    </label>
+                    <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+                      <select class="form-control" id="viewSelect" name="frsorttype">
+                        <option value="question">
+                          Group by - Question
+                        </option>
+                        <option value="giver-recipient-question">
+                          Group by - Giver &gt; Recipient &gt; Question
+                        </option>
+                        <option value="recipient-giver-question">
+                          Group by - Recipient &gt; Giver &gt; Question
+                        </option>
+                        <option value="giver-question-recipient">
+                          Group by - Giver &gt; Question &gt; Recipient
+                        </option>
+                        <option selected="" value="recipient-question-giver">
+                          Group by - Recipient &gt; Question &gt; Giver
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+                    <div class="form-group">
+                      <label class="control-label" for="sectionSelect">
+                        Section:
+                      </label>
+                      <select class="form-control" id="sectionSelect" name="frgroupbysection">
+                        <option selected="" value="All">
+                          All
+                        </option>
+                        <option value="Section A">
+                          Section A
+                        </option>
+                        <option value="Section B">
+                          Section B
+                        </option>
+                        <option value="None">
+                          No specific section
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <label class="control-label">
+                    Additional settings:
+                  </label>
+                  <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <label>
+                        <input class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                        Group by Teams
+                      </label>
+                    </div>
+                  </div>
+                  <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <label>
+                        <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                        Show Statistics
+                      </label>
+                    </div>
+                  </div>
+                  <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
+                      Indicate Missing Responses
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input name="fsname" type="hidden" value="First Session">
+              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+              <input name="user" type="hidden" value="CFResultsUiT.instr">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal" type="button">
+                Cancel
+              </button>
+              <button class="btn btn-primary" id="submitBtn" type="submit">
+                Change View
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <div>
+    <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
+      Expand All Sections
+    </a>
+  </div>
+  <br>
+  <br>
+  <div class="panel panel-success">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-0-1" id="panelHeading-section-0-1" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            No specific section
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-0" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="frgroupbysection" type="hidden" value="None">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-0" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-0-1">
+      <div class="panel-body" id="sectionBody-0">
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-success">
+    <div class="panel-heading" data-target="#panelBodyCollapse-section-1-2" id="panelHeading-section-1-2" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            Section A
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" style="display: inline;" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-up">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="frgroupbysection" type="hidden" value="Section A">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-1" name="frshowstats" type="hidden" value="off">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-1" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-section-1-2" style="height: auto;">
+      <div class="panel-body" id="sectionBody-1">
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-1" id="panelHeading-1-1" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Alice Betsy&lt;/td&gt;'"
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
+                [CFResultsUiT.alice.b@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-1">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 1:
+                  <span class="text-preserve-space">
+                    Rate 3 other students' products
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Drop out
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Response to Alice from Dropout.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 2:
+                  <span class="text-preserve-space">
+                    What is the best selling point of your product?
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Alice self feedback.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 7:
+                  <span class="text-preserve-space">
+                    What is your extra feature? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-recipient-0-question-3" onclick="toggleAdditionalQuestionInfo('7-section-1-recipient-0-question-3')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-7-section-1-recipient-0-question-3" style="display:none;">
+                        Multiple-choice (single answer) question options:
+                        <ul style="list-style-type: disc;margin-left: 20px;">
+                          <li>
+                            FlexiCommand
+                          </li>
+                          <li>
+                            PowerSearch
+                          </li>
+                          <li>
+                            GoodUI
+                          </li>
+                          <li>
+                            Google Integration
+                          </li>
+                        </ul>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Choice
+                                  </td>
+                                  <td>
+                                    Response Count
+                                  </td>
+                                  <td>
+                                    Percentage
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    FlexiCommand
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    PowerSearch
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    100%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    GoodUI
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Google Integration
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              PowerSearch
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 8:
+                  <span class="text-preserve-space">
+                    What is your extra feature? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-recipient-0-question-4" onclick="toggleAdditionalQuestionInfo('8-section-1-recipient-0-question-4')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-8-section-1-recipient-0-question-4" style="display:none;">
+                        Multiple-choice (multiple answers) question options:
+                        <ul style="list-style-type: disc;margin-left: 20px;">
+                          <li>
+                            FlexiCommand
+                          </li>
+                          <li>
+                            PowerSearch
+                          </li>
+                          <li>
+                            GoodUI
+                          </li>
+                          <li>
+                            Google Integration
+                          </li>
+                        </ul>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Choice
+                                  </td>
+                                  <td>
+                                    Response Count
+                                  </td>
+                                  <td>
+                                    Percentage
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    FlexiCommand
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    PowerSearch
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    50%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    GoodUI
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    50%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Google Integration
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              <ul class="selectedOptionsList">
+                                <li>
+                                  PowerSearch
+                                </li>
+                                <li>
+                                  GoodUI
+                                </li>
+                              </ul>
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 9:
+                  <span class="text-preserve-space">
+                    Who do you think is the most hardworking student? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-9-section-1-recipient-0-question-5" onclick="toggleAdditionalQuestionInfo('9-section-1-recipient-0-question-5')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-9-section-1-recipient-0-question-5" style="display:none;">
+                        Multiple-choice (single answer) question options:
+                        <br>
+                        The options for this question is automatically generated from the list of all students in this course.
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Choice
+                                  </td>
+                                  <td>
+                                    Response Count
+                                  </td>
+                                  <td>
+                                    Percentage
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    Danny
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    100%
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Danny
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 10:
+                  <span class="text-preserve-space">
+                    Which team do you think has the best feature? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-recipient-0-question-6" onclick="toggleAdditionalQuestionInfo('10-section-1-recipient-0-question-6')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-10-section-1-recipient-0-question-6" style="display:none;">
+                        Multiple-choice (single answer) question options:
+                        <br>
+                        The options for this question is automatically generated from the list of all teams in this course.
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Choice
+                                  </td>
+                                  <td>
+                                    Response Count
+                                  </td>
+                                  <td>
+                                    Percentage
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    Team 1
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    100%
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Team 1
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 11:
+                  <span class="text-preserve-space">
+                    This is a dummy question to test default sort
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Fred Gabriel
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Danny to Alice.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-2" id="panelHeading-1-2" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Benny Charles
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
+                [CFResultsUiT.benny.c@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-2">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 1:
+                  <span class="text-preserve-space">
+                    Rate 3 other students' products
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              2 Response to Benny.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Drop out
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Response to Benny from Dropout.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 8:
+                  <span class="text-preserve-space">
+                    What is your extra feature? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-8-section-1-recipient-1-question-2" onclick="toggleAdditionalQuestionInfo('8-section-1-recipient-1-question-2')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-8-section-1-recipient-1-question-2" style="display:none;">
+                        Multiple-choice (multiple answers) question options:
+                        <ul style="list-style-type: disc;margin-left: 20px;">
+                          <li>
+                            FlexiCommand
+                          </li>
+                          <li>
+                            PowerSearch
+                          </li>
+                          <li>
+                            GoodUI
+                          </li>
+                          <li>
+                            Google Integration
+                          </li>
+                        </ul>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Benny Charles
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-3" id="panelHeading-1-3" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Fred Gabriel
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.fred.g@gmail.tmt">
+                [CFResultsUiT.fred.g@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-3">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 11:
+                  <span class="text-preserve-space">
+                    This is a dummy question to test default sort
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Alice to Danny.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Danny Engrid
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Benny to Danny.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-4" id="panelHeading-1-4" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Charlie Dávis
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
+                [CFResultsUiT.charlie.d@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-4">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 1:
+                  <span class="text-preserve-space">
+                    Rate 3 other students' products
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Benny Charles
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              4 Response to Charlie.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Fred Gabriel
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Fred's Response to Charlie.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.fred.g@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-5" id="panelHeading-1-5" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Danny Engrid
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.danny.e@gmail.tmt">
+                [CFResultsUiT.danny.e@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-5">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 1:
+                  <span class="text-preserve-space">
+                    Rate 3 other students' products
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Benny Charles
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              1 Response to Danny.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Drop out
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Response to Danny from Dropout.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-6" id="panelHeading-1-6" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Drop out
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a class="link-in-dark-bg" href="mailto:drop.out@gmail.tmt">
+                [drop.out@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-6">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 1:
+                  <span class="text-preserve-space">
+                    Rate 3 other students' products
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Alice Betsy&lt;/td&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Response to Dropout.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 7:
+                  <span class="text-preserve-space">
+                    What is your extra feature? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-7-section-1-recipient-5-question-2" onclick="toggleAdditionalQuestionInfo('7-section-1-recipient-5-question-2')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-7-section-1-recipient-5-question-2" style="display:none;">
+                        Multiple-choice (single answer) question options:
+                        <ul style="list-style-type: disc;margin-left: 20px;">
+                          <li>
+                            FlexiCommand
+                          </li>
+                          <li>
+                            PowerSearch
+                          </li>
+                          <li>
+                            GoodUI
+                          </li>
+                          <li>
+                            Google Integration
+                          </li>
+                        </ul>
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Choice
+                                  </td>
+                                  <td>
+                                    Response Count
+                                  </td>
+                                  <td>
+                                    Percentage
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    FlexiCommand
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    PowerSearch
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    100%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    GoodUI
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Google Integration
+                                  </td>
+                                  <td>
+                                    0
+                                  </td>
+                                  <td>
+                                    0%
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Drop out
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              PowerSearch
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 10:
+                  <span class="text-preserve-space">
+                    Which team do you think has the best feature? 
+                    <span style=" white-space: normal;">
+                      <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-10-section-1-recipient-5-question-3" onclick="toggleAdditionalQuestionInfo('10-section-1-recipient-5-question-3')">
+                        [more]
+                      </a>
+                      <br>
+                      <span id="questionAdditionalInfo-10-section-1-recipient-5-question-3" style="display:none;">
+                        Multiple-choice (single answer) question options:
+                        <br>
+                        The options for this question is automatically generated from the list of all teams in this course.
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-4 text-color-gray">
+                            <strong>
+                              Response Summary
+                            </strong>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <table class="table margin-0">
+                              <thead>
+                                <tr>
+                                  <td>
+                                    Choice
+                                  </td>
+                                  <td>
+                                    Response Count
+                                  </td>
+                                  <td>
+                                    Percentage
+                                  </td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    Team 2
+                                  </td>
+                                  <td>
+                                    1
+                                  </td>
+                                  <td>
+                                    100%
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  View Photo
+                                </a>
+                                <img alt="No Image Given" class="hidden" src="">
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 2
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Drop out
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Team 2
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-7" id="panelHeading-1-7" style="cursor: pointer;">
+            To:
+            <div class="inline panel-heading-text">
+              <strong>
+                Team 2
+              </strong>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-7">
+            <div class="panel-body">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  Question 4:
+                  <span class="text-preserve-space">
+                    Give feedback to 3 other teams.
+                  </span>
+                </div>
+                <div>
+                  <div class="panel-body padding-0">
+                    <div class="resultStatistics" style="display: none;">
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table fixed-table-layout table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                          <tr>
+                            <th>
+                              Photo
+                            </th>
+                            <th class="button-sort-ascending toggle-sort" id="button_sortFromTeam" style="width: 15%; min-width: 67px;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFromName" style="width: 15%; min-width: 65px;">
+                              Giver
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="min-width: 95px;">
+                              Feedback
+                              <span class="icon-sort unsorted">
+                              </span>
+                            </th>
+                            <th class="action-header">
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="middlealign">
+                              <div class="align-center" data-link="">
+                                <a class="student-profile-pic-view-link btn-link">
+                                  No Photo
+                                </a>
+                              </div>
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                            </td>
+                            <td class="word-wrap-break middlealign">
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
+                            </td>
+                            <td class="word-wrap-break text-preserve-space">
+                              Response from team 1 (by alice) to team 2.
+                            </td>
+                            <td>
+                              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                                <input name="fsname" type="hidden" value="First Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
+                              </form>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-target="#panelBodyCollapse-1-8" id="panelHeading-1-8" style="cursor: pointer;">
+            To:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Extra guy
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a href="mailto:extra.guy@gmail.tmt">
+                [extra.guy@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-1-8">
+            <div class="panel-body">
+              <i>
+                There are no responses received by this user or you may not have the permission to see the response
+              </i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-success">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-section-2-3" id="panelHeading-section-2-3" style="cursor: pointer;">
+      <div class="row">
+        <div class="col-sm-9 panel-heading-text">
+          <strong>
+            Section B
+          </strong>
+        </div>
+        <div class="col-sm-3">
+          <div class="pull-right">
+            <a class="btn btn-success btn-xs collapse" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
+              Collapse Students
+            </a>
+             
+            <div class="display-icon" style="display:inline;">
+              <span class="glyphicon glyphicon-chevron-down">
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="frgroupbysection" type="hidden" value="Section B">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="frgroupbyteam" type="hidden" value="null">
+        <input name="frsorttype" type="hidden" value="recipient-question-giver">
+        <input id="showStats-2" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="false">
+        <input id="mainIndex-2" name="frmainindex" type="hidden" value="-1">
+      </form>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
+      <div class="panel-body" id="sectionBody-2">
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DCFResultsUiT.instr%26courseid%3DCFResultsUiT.CS2104%26fsname%3DFirst%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CFResultsUiT.instr">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+      <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+        <input name="fsname" type="hidden" value="First Session">
+        <input name="user" type="hidden" value="CFResultsUiT.instr">
+        <input name="questionid" type="hidden" value="-1">
+      </form>
+      <div class="display-icon pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
+        </span>
+      </div>
+      Participants who have not responded to any question
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-4">
+    </div>
+  </div>
+</div>

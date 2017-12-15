@@ -1,0 +1,127 @@
+[
+  {
+    "feedbackSessionName": "${feedbackSessionName}",
+    "courseId": "${courseId}",
+    "creatorEmail": "${creatorEmail}",
+    "questionMetaData": {
+      "value": "{\"questionText\":\"Your estimate of how much each team member has contributed.\",\"questionType\":\"CONTRIB\"}"
+    },
+    "questionNumber": 1,
+    "questionType": "CONTRIB",
+    "giverType": "STUDENTS",
+    "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+    "numberOfEntitiesToGiveFeedbackTo": -100,
+    "showResponsesTo": [
+      "RECEIVER",
+      "OWN_TEAM_MEMBERS",
+      "RECEIVER_TEAM_MEMBERS",
+      "INSTRUCTORS"
+    ],
+    "showGiverNameTo": [
+      "INSTRUCTORS"
+    ],
+    "showRecipientNameTo": [
+      "RECEIVER",
+      "INSTRUCTORS"
+    ]
+  },
+  {
+    "feedbackSessionName": "${feedbackSessionName}",
+    "courseId": "${courseId}",
+    "creatorEmail": "${creatorEmail}",
+    "questionMetaData": {
+      "value": "Comments about your contribution (shown to other teammates)"
+    },
+    "questionNumber": 2,
+    "questionType": "TEXT",
+    "giverType": "STUDENTS",
+    "recipientType": "SELF",
+    "numberOfEntitiesToGiveFeedbackTo": -100,
+    "showResponsesTo": [
+      "RECEIVER",
+      "OWN_TEAM_MEMBERS",
+      "RECEIVER_TEAM_MEMBERS",
+      "INSTRUCTORS"
+    ],
+    "showGiverNameTo": [
+      "RECEIVER",
+      "OWN_TEAM_MEMBERS",
+      "RECEIVER_TEAM_MEMBERS",
+      "INSTRUCTORS"
+    ],
+    "showRecipientNameTo": [
+      "RECEIVER",
+      "OWN_TEAM_MEMBERS",
+      "RECEIVER_TEAM_MEMBERS",
+      "INSTRUCTORS"
+    ]
+  },
+  {
+    "feedbackSessionName": "${feedbackSessionName}",
+    "courseId": "${courseId}",
+    "creatorEmail": "${creatorEmail}",
+    "questionMetaData": {
+      "value": "Your comments about this teammate (confidential and only shown to instructor)"
+    },
+    "questionNumber": 3,
+    "questionType": "TEXT",
+    "giverType": "STUDENTS",
+    "recipientType": "OWN_TEAM_MEMBERS",
+    "numberOfEntitiesToGiveFeedbackTo": -100,
+    "showResponsesTo": [
+      "INSTRUCTORS"
+    ],
+    "showGiverNameTo": [
+      "INSTRUCTORS"
+    ],
+    "showRecipientNameTo": [
+      "INSTRUCTORS"
+    ]
+  },
+  {
+    "feedbackSessionName": "${feedbackSessionName}",
+    "courseId": "${courseId}",
+    "creatorEmail": "${creatorEmail}",
+    "questionMetaData": {
+      "value": "Comments about team dynamics (confidential and only shown to instructor)"
+    },
+    "questionNumber": 4,
+    "questionType": "TEXT",
+    "giverType": "STUDENTS",
+    "recipientType": "OWN_TEAM",
+    "numberOfEntitiesToGiveFeedbackTo": -100,
+    "showResponsesTo": [
+      "INSTRUCTORS"
+    ],
+    "showGiverNameTo": [
+      "INSTRUCTORS"
+    ],
+    "showRecipientNameTo": [
+      "INSTRUCTORS"
+    ]
+  },
+  {
+    "feedbackSessionName": "${feedbackSessionName}",
+    "courseId": "${courseId}",
+    "creatorEmail": "${creatorEmail}",
+    "questionMetaData": {
+      "value": "Your feedback to this teammate (shown anonymously to the teammate)"
+    },
+    "questionNumber": 5,
+    "questionType": "TEXT",
+    "giverType": "STUDENTS",
+    "recipientType": "OWN_TEAM_MEMBERS",
+    "numberOfEntitiesToGiveFeedbackTo": -100,
+    "showResponsesTo": [
+      "RECEIVER",
+      "INSTRUCTORS"
+    ],
+    "showGiverNameTo": [
+      "INSTRUCTORS"
+    ],
+    "showRecipientNameTo": [
+      "RECEIVER",
+      "INSTRUCTORS"
+    ]
+  }
+]

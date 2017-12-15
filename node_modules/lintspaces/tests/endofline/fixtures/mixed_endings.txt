@@ -1,0 +1,2 @@
+this file has (CR)mixed style line endings (LF)
+it is crazy. (CRLF)

@@ -1,0 +1,312 @@
+{
+  "accounts": {
+    "CCDetailsUiT.instr": {
+      "googleId": "CCDetailsUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCDetailsUiT.instr2": {
+      "googleId": "CCDetailsUiT.instr2",
+      "name": "Teammates Test 2",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCDetailsUiT.instr2Helper": {
+      "googleId": "CCDetailsUiT.instr2Helper",
+      "name": "Teammates Test 2",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCDetailsUiT.coord": {
+      "googleId": "CCDetailsUiT.coord",
+      "name": "Teammates Coord",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.coord@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCDetailsUiT.instructor1OfTSCourse": {
+      "googleId": "CCDetailsUiT.idOfInstructor1OfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
+    "Alice": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "alice.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "Charlie": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Charlie Davis",
+      "isInstructor": false,
+      "email": "charlie.d.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCDetailsUiT.student1InTSCourse": {
+      "googleId": "CCDetailsUiT.student1InTSCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "CCDetailsUiT.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTSCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
+    }
+  },
+  "courses": {
+    "CCDetailsUiT.CS2104": {
+      "id": "CCDetailsUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "CCDetailsUiT.CS2103": {
+      "id": "CCDetailsUiT.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "UTC"
+    },
+    "CCDetailsUiT.CourseWithoutStudents": {
+      "id": "CCDetailsUiT.CourseWithoutStudents",
+      "name": "A course with no students",
+      "timeZone": "UTC"
+    },
+    "CCDetailsUiT.TSCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CCDetailsUiT.idOfTSCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "CCDetailsUiT.instr": {
+      "googleId": "CCDetailsUiT.instr",
+      "courseId": "CCDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "CCDetailsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCDetailsUiT.coord": {
+      "googleId": "CCDetailsUiT.coord",
+      "courseId": "CCDetailsUiT.CS2104",
+      "name": "Teammates Coord",
+      "email": "CCDetailsUiT.coord@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCDetailsUiT.instr2": {
+      "googleId": "CCDetailsUiT.instr2",
+      "courseId": "CCDetailsUiT.CS2103",
+      "name": "Teammates Test 2",
+      "email": "CCDetailsUiT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCDetailsUiT.instr2Helper": {
+      "googleId": "CCDetailsUiT.instr2Helper",
+      "courseId": "CCDetailsUiT.CS2103",
+      "name": "Teammates Test 2",
+      "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCDetailsUiT.instrForEmptyCourse": {
+      "googleId": "CCDetailsUiT.instr",
+      "courseId": "CCDetailsUiT.CourseWithoutStudents",
+      "name": "Teammates Test",
+      "email": "CCDetailsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCDetailsUiT.instructor1OfTSCourse": {
+      "googleId": "CCDetailsUiT.idOfInstructor1OfTSCourse",
+      "courseId": "CCDetailsUiT.idOfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CCDetailsUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "CCDetailsUiT.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+    },
+    "benny.tmms@CCDetailsUiT.CS2104": {
+      "googleId": "",
+      "email": "benny.tmms@gmail.tmt",
+      "course": "CCDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2"
+    },
+    "charlie.tmms@CCDetailsUiT.CS2104": {
+      "googleId": "",
+      "email": "${value.injected.in.testfile}",
+      "course": "CCDetailsUiT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+    },
+    "danny.tmms@CCDetailsUiT.CS2104": {
+      "googleId": "danny.tmms",
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "CCDetailsUiT.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    },
+    "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "CCDetailsUiT.CS2103",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
+      "section": "Tut Group 1"
+    },
+    "benny.tmms@CCDetailsUiT.CS2103": {
+      "googleId": "",
+      "email": "benny.tmms@gmail.tmt",
+      "course": "CCDetailsUiT.CS2103",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2",
+      "section": "Tut Group 2"
+    },
+    "charlie.tmms@CCDetailsUiT.CS2103": {
+      "googleId": "",
+      "email": "${value.injected.in.testfile}",
+      "course": "CCDetailsUiT.CS2103",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 1",
+      "section": "Tut Group 1"
+    },
+    "CCDetailsUiT.student1InTSCourse": {
+      "googleId": "CCDetailsUiT.student1InTSCourse",
+      "email": "CCDetailsUiT.normal@sanitization.tmt",
+      "course": "CCDetailsUiT.idOfTSCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags</option><option value=\"dump\"></td><td>'\"&\"</td>",
+      "section": "Section'</td>"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

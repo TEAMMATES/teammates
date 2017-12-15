@@ -1,0 +1,1 @@
+this file hasCR style line endingsonlywith multiple CRs in a rowto test an edge case.

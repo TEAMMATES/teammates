@@ -1,0 +1,12 @@
+<tr id="rubricRow-${questionIndex}-${row}">
+  <td>
+    <div class="col-sm-12 input-group">
+      <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${questionIndex}" id="rubricRemoveSubQuestionLink-${questionIndex}-${row}" onclick="removeRubricRow(${row},${questionIndex})"
+          onmouseover="highlightRubricRow(${row}, ${questionIndex}, true)" onmouseout="highlightRubricRow(${row}, ${questionIndex}, false)">
+        <span class="glyphicon glyphicon-remove"></span>
+      </span>
+      <textarea class="form-control" rows="3" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${questionIndex}-${row}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}" required="">${subQuestion}</textarea>
+    </div>
+  </td>
+  ${rubricRowBodyFragments}
+</tr>

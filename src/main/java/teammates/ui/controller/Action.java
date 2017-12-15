@@ -548,8 +548,8 @@ public abstract class Action {
     /**
      * Returns null if the specified parameter was not found in the request.
      */
-    public String getRequestParamValue(String paramName) {
-        return HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+    public String getRequestParamValue(String studentGender) {
+        return HttpRequestHelper.getValueFromParamMap(requestParameters, studentGender);
     }
 
     /**

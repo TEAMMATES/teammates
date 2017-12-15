@@ -1,0 +1,95 @@
+{
+  "accounts": {},
+  "courses": {
+    "CS2104-TESTING": {
+      "id": "CS2104-TESTING",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "CS1101-TESTING": {
+      "id": "CS1101-TESTING",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "teammates.demo.instructor": {
+      "name": "Teammates Demo Instructor",
+      "email": "teammates.demo.instructor@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "teammates.instructor": {
+      "name": "Instructor",
+      "email": "teammates.instructor@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "teammates.test": {
+      "name": "Instructor",
+      "email": "teammates.test@gmail.tmt",
+      "isDisplayedToStudents": false
+    }
+  },
+  "students": {
+    "alice.b.tmms@CS2104-TESTING": {
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "CS2104-TESTING",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "benny.c.tmms@CS2104-TESTING": {
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "CS2104-TESTING",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "charlie.d.tmms@CS2104-TESTING": {
+      "email": "charlie.d.tmms@gmail.tmt",
+      "course": "CS2104-TESTING",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "danny.e.tmms@CS2104-TESTING": {
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "CS2104-TESTING",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    },
+    "alice.b.tmms@CS1101-TESTING": {
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "CS1101-TESTING",
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team 1</td></div>'\""
+    },
+    "benny.c.tmms@CS1101-TESTING": {
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "CS1101-TESTING",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\""
+    },
+    "charlie.d.tmms@CS1101-TESTING": {
+      "email": "charlie.d.tmms@gmail.tmt",
+      "course": "CS1101-TESTING",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "danny.e.tmms@CS1101-TESTING": {
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "CS1101-TESTING",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

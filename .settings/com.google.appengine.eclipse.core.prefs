@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+gaeDatanucleusEnabled=false
+googleCloudSqlEnabled=false
+localDevMySqlEnabled=true
+validationExclusions=src/test/java

@@ -1,0 +1,44 @@
+<div aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade in" id="studentPhotoUploader" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+          ×
+        </button>
+        <h4 class="modal-title">
+          Upload/Edit Photo
+        </h4>
+      </div>
+      <div class="modal-body center-block align-center">
+        <br>
+        <div class="row">
+          <div class="col-xs-4 profile-pic-edit-col">
+            <div class="center-block align-center">
+              <form id="profilePictureUploadForm" method="post">
+                <span class="btn btn-primary profile-pic-file-selector">
+                  Browse...
+                  <input id="studentPhoto" name="studentprofilephoto" type="file">
+                </span>
+                <input class="filename-preview" disabled="" type="text" value="No File Selected">
+                <p class="help-block align-left">
+                  Max Size: 5 MB
+                </p>
+                <button class="btn btn-primary width-100-pc" disabled="" id="profileUploadPictureSubmit" type="button">
+                  Upload Picture
+                </button>
+                <input name="user" type="hidden" value="${test.student2}">
+              </form>
+            </div>
+          </div>
+          <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+            <div class="alert alert-warning">
+              Please upload a photo to start editing.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

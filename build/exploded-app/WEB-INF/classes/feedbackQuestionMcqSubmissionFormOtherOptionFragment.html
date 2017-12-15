@@ -1,0 +1,17 @@
+<tr>
+  <td>
+    <div class="radio">
+      <label class="bold-label">
+        <input type="radio"
+            name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${questionIndex}-${responseIndex}"
+            ${disabled} ${checked} value="${mcqChoiceValue}" data-text="otherOptionText">
+        Other
+      </label>
+      <input class="form-control margin-top-2px" type="text" name="otherOptionText-${questionIndex}-${responseIndex}" id="otherOptionText-${questionIndex}-${responseIndex}"
+          ${text-disabled} value="${mcqChoiceValue}">
+      <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${questionIndex}-${responseIndex}"
+          id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${questionIndex}-${responseIndex}"
+          value="${mcqOtherOptionAnswer}">
+    </div>
+  </td>
+</tr>

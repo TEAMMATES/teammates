@@ -114,6 +114,7 @@ public class StudentProfilePage extends AppPage {
 
     public void fillInstitution(String studentInstitution) {
         fillTextBox(institutionBox, studentInstitution);
+        
     }
 
     /**
@@ -134,19 +135,17 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void selectGender(String gender) {
-        switch (gender) {
-        case Const.GenderTypes.MALE:
+        String male = Const.GenderTypes.MALE.name();
+        String female = Const.GenderTypes.FEMALE.name();
+        String other = Const.GenderTypes.OTHER.name();
+        if (gender.equals(male)) {
             click(genderMaleRadio);
-            break;
-        case Const.GenderTypes.FEMALE:
+        } else if (gender.equals(female)) {
             click(genderFemaleRadio);
-            break;
-        case Const.GenderTypes.OTHER:
+        } else if (gender.equals(other)) {
             click(genderOtherRadio);
-            break;
-        default:
+        } else {
             fail("Given gender " + gender + " is not valid!");
-            break;
         }
     }
 
@@ -184,20 +183,19 @@ public class StudentProfilePage extends AppPage {
     }
 
     private void ensureGenderIsSelectedAs(String gender) {
-        switch (gender) {
-        case Const.GenderTypes.MALE:
+        String male = Const.GenderTypes.MALE.name();
+        String female = Const.GenderTypes.FEMALE.name();
+        String other = Const.GenderTypes.OTHER.name();
+        if (gender.equals(male)) {
             assertTrue(genderMaleRadio.isSelected());
-            break;
-        case Const.GenderTypes.FEMALE:
+        } else if (gender.equals(female)) {
             assertTrue(genderFemaleRadio.isSelected());
-            break;
-        case Const.GenderTypes.OTHER:
+        } else if (gender.equals(other)) {
             assertTrue(genderOtherRadio.isSelected());
-            break;
-        default:
+        } else {
             fail("unexpected gender value given");
-            break;
         }
+           
     }
 
     public void uploadPicture() {
