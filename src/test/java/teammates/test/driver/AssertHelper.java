@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 /**
