@@ -418,19 +418,19 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testJoin() {
-        assertEquals("", StringHelper.join(""));
-        assertEquals("", StringHelper.join(","));
-        assertEquals("", StringHelper.join("||"));
+        assertEquals("", String.join(""));
+        assertEquals("", String.join(","));
+        assertEquals("", String.join("||"));
 
-        assertEquals("test", StringHelper.join("", "test"));
-        assertEquals("test", StringHelper.join(",", "test"));
-        assertEquals("test", StringHelper.join("||", "test"));
-        assertEquals("testdata", StringHelper.join("", "test", "data"));
+        assertEquals("test", String.join("", "test"));
+        assertEquals("test", String.join(",", "test"));
+        assertEquals("test", String.join("||", "test"));
+        assertEquals("testdata", String.join("", "test", "data"));
 
-        assertEquals("test,data", StringHelper.join(",", "test", "data"));
-        assertEquals("test||data", StringHelper.join("||", "test", "data"));
+        assertEquals("test,data", String.join(",", "test", "data"));
+        assertEquals("test||data", String.join("||", "test", "data"));
         assertEquals("test|||data|||testdata",
-                StringHelper.join("|||", "test", "data", "testdata"));
+                String.join("|||", "test", "data", "testdata"));
     }
 
     @Test
@@ -443,7 +443,7 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testJoinWithNullDelimiter() {
-        StringHelper.join(null, "test", "data");
+        String.join(null, "test", "data");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

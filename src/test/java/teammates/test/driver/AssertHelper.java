@@ -179,7 +179,7 @@ public final class AssertHelper {
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEqualsIgnoreLogId(expected, actual);
         assertLogIdContainsUserId(actual,
-                StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
+                String.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
     }
 
     /**
