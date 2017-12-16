@@ -441,7 +441,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = NullPointerException.class)
     public void testJoinWithNullDelimiter() {
         String.join(null, "test", "data");
     }
