@@ -358,9 +358,9 @@ function prepareInstructorFeedbackResultsPage() {
 
 function bindRubicQuestionSelfExcludingCheck() {
     $('#self-excluding-check').on('change', (e) => {
-        var responseSummary = $(e.target).next();
-        var includingSelfBody = responseSummary.parent().parent().parent().find('.body-including-self');
-        var excludingSelfBody = responseSummary.parent().parent().parent().find('.body-excluding-self');
+        const responseSummary = $(e.target).next();
+        const includingSelfBody = responseSummary.parent().parent().parent().find('.body-including-self');
+        const excludingSelfBody = responseSummary.parent().parent().parent().find('.body-excluding-self');
         if (responseSummary.html().trim() === 'Response Summary') {
             responseSummary.html('Response Summary Excluding Self');
         } else {
