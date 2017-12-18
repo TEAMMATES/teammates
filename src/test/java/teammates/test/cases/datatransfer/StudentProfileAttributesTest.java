@@ -10,6 +10,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -32,7 +33,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         profile.institute = "institute";
         profile.email = "valid@email.com";
         profile.nationality = "Lebanese";
-        profile.gender = "female";
+        profile.gender = Gender.female;
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
     }
@@ -199,7 +200,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     private StudentProfile createStudentProfileFrom(
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
-                                  profile.institute, profile.nationality, profile.gender,
+                                  profile.institute, profile.nationality, profile.gender.name(),
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
     }
 

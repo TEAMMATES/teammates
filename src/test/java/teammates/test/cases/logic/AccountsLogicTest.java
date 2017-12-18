@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -59,7 +60,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = Const.GenderTypes.MALE;
+        spa.gender = Gender.valueOf(Const.GenderTypes.MALE);
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";

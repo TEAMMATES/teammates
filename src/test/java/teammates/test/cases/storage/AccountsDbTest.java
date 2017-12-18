@@ -10,6 +10,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -123,7 +124,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
-        spa.gender = Const.GenderTypes.MALE;
+        spa.gender = Gender.valueOf(Const.GenderTypes.MALE);
         spa.nationality = "American";
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
@@ -145,7 +146,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertFalse(accountDataTest.isInstructor);
         // Change a field
         accountDataTest.isInstructor = true;
-        accountDataTest.studentProfile.gender = Const.GenderTypes.FEMALE;
+        accountDataTest.studentProfile.gender = Gender.valueOf(Const.GenderTypes.FEMALE);
         accountsDb.createAccount(accountDataTest);
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId, true);

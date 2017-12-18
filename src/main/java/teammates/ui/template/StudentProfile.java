@@ -6,7 +6,13 @@ public class StudentProfile {
     private String pictureUrl;
     private String name;
     private String shortName;
-    private String gender;
+    
+    private enum Gender {
+    	male, female, other
+    }
+    
+    private Gender gender;
+    
     private String email;
     private String institute;
     private String nationality;
@@ -16,7 +22,7 @@ public class StudentProfile {
         this.pictureUrl = pictureUrl;
         this.name = fullName;
         this.shortName = student.shortName;
-        this.gender = student.gender;
+        this.gender = Gender.valueOf(student.gender.name());
         this.email = student.email;
         this.institute = student.institute;
         this.nationality = student.nationality;
@@ -36,7 +42,7 @@ public class StudentProfile {
     }
 
     public String getGender() {
-        return gender;
+        return gender.name();
     }
 
     public String getEmail() {
