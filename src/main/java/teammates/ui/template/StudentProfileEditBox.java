@@ -17,13 +17,13 @@ public class StudentProfileEditBox {
     /** option to select the nationality. */
     private List<ElementTag> nationalitySelectField;
     private String legacyNationalityInstructions;
-    
+
     private enum Gender {
-    	male, female, other
+    male, female, other
     }
-    
+
     private Gender gender;
-    
+
     private String moreInfo;
     private String googleId;
     private String pictureUrl;

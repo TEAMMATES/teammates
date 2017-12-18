@@ -25,13 +25,13 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
-    
+
     public enum Gender {
-    	male, female, other
+    male, female, other
     }
-    
+
     public Gender gender;
-    
+
     public String moreInfo;
     public String pictureKey;
     public Date modifiedDate;

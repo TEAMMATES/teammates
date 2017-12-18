@@ -6,13 +6,13 @@ public class StudentProfile {
     private String pictureUrl;
     private String name;
     private String shortName;
-    
+
     private enum Gender {
-    	male, female, other
+    male, female, other
     }
-    
+
     private Gender gender;
-    
+
     private String email;
     private String institute;
     private String nationality;
