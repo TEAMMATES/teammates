@@ -648,7 +648,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String tableBodyExcludingSelfCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
                         percentageFrequencyExclSelfString + " (" + responseFrequencyExcludingSelf[i][j] + ")");
-                
+
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
                 tableBodyExclSelfFragmentHtml.append(tableBodyExcludingSelfCell).append(Const.EOL);
             }
@@ -1228,7 +1228,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * -> is the total number of the responses for the given sub-question.
          */
         int[][] responseFrequency;
-        
+
         int[][] responseFrequencyExcludingSelf;
 
         /**
@@ -1245,7 +1245,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * -> is the average weight of the responses for the given sub-question.
          */
         float[][] percentageFrequencyAndAverage;
-        
+
         float[][] percentageFrequencyAndAverageExcludingSelf;
 
         List<FeedbackResponseAttributes> responses;
@@ -1266,7 +1266,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             calculateResponseFrequency();
             calculatePercentageFrequencyAndAverage(false);
-            
+
             calculatePercentageFrequencyAndAverage(true);
         }
 
@@ -1327,7 +1327,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     }
                 }
             }
-            
+
             if (isSelfExcluded) {
                 this.percentageFrequencyAndAverageExcludingSelf = percentageFrequencyAndAverage;
             } else {
@@ -1338,7 +1338,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] getResponseFrequency() {
             return responseFrequency;
         }
-        
+
         int[][] getResponseFrequencyExcludingSelf() {
             return responseFrequencyExcludingSelf;
         }
@@ -1346,7 +1346,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         float[][] getPercentageFrequencyAndAverage() {
             return percentageFrequencyAndAverage;
         }
-        
+
         float[][] getPercentageFrequencyAndAverageExcludingSelf() {
             return percentageFrequencyAndAverageExcludingSelf;
         }
