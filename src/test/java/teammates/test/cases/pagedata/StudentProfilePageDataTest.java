@@ -82,7 +82,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.institute), profileEditBox.getInstitute());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
-        assertEquals(spa.gender, profileEditBox.getGender());
+        assertEquals(spa.gender.name(), profileEditBox.getGender());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.moreInfo), profileEditBox.getMoreInfo());
         /*
          * Currently across the application googleId is always taken from Account.

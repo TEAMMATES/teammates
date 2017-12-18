@@ -11,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -131,7 +132,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
                 Const.ParamsNames.STUDENT_NATIONALITY, "American",
-                Const.ParamsNames.STUDENT_GENDER, "  other   ",
+                Const.ParamsNames.STUDENT_GENDER, "other",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
     }

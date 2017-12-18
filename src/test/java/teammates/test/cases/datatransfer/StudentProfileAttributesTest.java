@@ -54,7 +54,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
-        assertEquals("other", profileAttributes.gender);
+        assertEquals("other", profileAttributes.gender.name());
         assertEquals("", profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
         assertEquals("", profileAttributes.email);
@@ -76,7 +76,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getEmail(), profileAttributes.email);
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
-        assertEquals(studentProfile.getGender(), profileAttributes.gender);
+        assertEquals(studentProfile.getGender(), profileAttributes.gender.name());
         assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
         assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
 

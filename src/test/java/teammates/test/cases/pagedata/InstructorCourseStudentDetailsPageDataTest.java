@@ -53,7 +53,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(pictureUrl, studentProfile.getPictureUrl());
         assertEquals(inputStudent.name, studentProfile.getName());
         assertEquals(inputStudentProfile.shortName, studentProfile.getShortName());
-        assertEquals(inputStudentProfile.gender, studentProfile.getGender());
+        assertEquals(inputStudentProfile.gender.name(), studentProfile.getGender());
         assertEquals(inputStudentProfile.email, studentProfile.getEmail());
         assertEquals(inputStudentProfile.institute, studentProfile.getInstitute());
         assertEquals(inputStudentProfile.nationality, studentProfile.getNationality());
