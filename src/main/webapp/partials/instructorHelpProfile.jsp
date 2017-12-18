@@ -1,15 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="profiles">Profiles</a>
-</h4>
+<h4 class="text-color-primary" id="profiles">Profiles</h4>
 <div id="contentHolder">
   <br>
   <ol style="list-style-type: none;">
-    <li>
+    <li id="viewStudentProfile">
       <span class="text-bold">
-        <a name="viewStudentProfile">
           <h3>1. Viewing student profiles</h3>
-        </a>
       </span>
       <div>
         Go to the
@@ -135,11 +131,9 @@
         <br>You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a modal for better readability.
       </div>
     </li>
-    <li>
+    <li id="editStudentProfile">
       <span class="text-bold">
-        <a name="editStudentProfile">
           <h3>2. Editing student profiles</h3>
-        </a>
       </span>
       <div>
         Go to the
