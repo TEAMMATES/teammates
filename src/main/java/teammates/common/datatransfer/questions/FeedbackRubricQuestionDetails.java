@@ -1282,7 +1282,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         responseFrequency[i][chosenChoice] += 1;
                         responseFrequency[i][responseTotalIndex] += 1;
                     }
-                    if (!response.giver.equals(response.recipient)) {
+                    if (chosenChoice != -1 && !response.giver.equals(response.recipient)) {
                         responseFrequencyExcludingSelf[i][chosenChoice] += 1;
                         responseFrequencyExcludingSelf[i][responseTotalIndex] += 1;
                     }
