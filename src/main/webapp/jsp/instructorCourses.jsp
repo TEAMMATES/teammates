@@ -1,12 +1,10 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <c:set var="jsIncludes">
-  <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-  <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
+  <script type="text/javascript" src="/js/libs-moment.js"></script>
   <script type="text/javascript" src="/js/instructorCourses.js"></script>
 </c:set>
 

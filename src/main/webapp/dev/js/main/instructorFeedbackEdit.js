@@ -78,6 +78,7 @@ import {
 import {
     addRankOption,
     bindRankEvents,
+    hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
     toggleMaxOptionsToBeRanked,
@@ -341,6 +342,8 @@ function disableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
     $(`#button_question_submit-${questionNum}`).hide();
+
+    hideInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -472,6 +475,7 @@ function enableQuestion(questionNum) {
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
+    hideInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -550,6 +554,7 @@ function enableNewQuestion() {
     disableCornerMoveRubricColumnButtons(NEW_QUESTION);
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
+    hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
 /**
@@ -986,12 +991,23 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     const giverType = $giverSelect.val();
     const $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
     const recipientType = $recipientSelect.val();
+    const qnType = $giverSelect.closest('.form_question').find('[name="questiontype"]').val();
     switch (giverType) {
-    case 'STUDENTS':
-        // all recipientType options enabled
+        case 'STUDENTS':
+        /* all recipientType options enabled
+         * except that when the question type is Rank Recipient, SELF and NONE cannot be chosen
+         */
+        if (qnType === 'RANK_RECIPIENTS') {
+            hideOption($recipientSelect, 'SELF');
+            hideOption($recipientSelect, 'NONE');
+        }
         break;
     case 'SELF':
     case 'INSTRUCTORS':
+        if (qnType === 'RANK_RECIPIENTS') {
+            hideOption($recipientSelect, 'SELF');
+            hideOption($recipientSelect, 'NONE');
+        }
         hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
         hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
         if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
@@ -999,6 +1015,10 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
         }
         break;
     case 'TEAMS':
+        if (qnType === 'RANK_RECIPIENTS') {
+            hideOption($recipientSelect, 'SELF');
+            hideOption($recipientSelect, 'NONE');
+        }
         hideOption($recipientSelect, 'OWN_TEAM');
         hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
         if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
