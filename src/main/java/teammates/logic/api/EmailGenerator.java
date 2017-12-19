@@ -313,7 +313,7 @@ public class EmailGenerator {
                                                  : new ArrayList<InstructorAttributes>();
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_CLOSING.getSubject(),EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
+                EmailType.FEEDBACK_CLOSING.getSubject(), EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
                 FEEDBACK_ACTION_SUBMIT);
     }
 
