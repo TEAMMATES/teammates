@@ -544,27 +544,8 @@ public final class StringHelper {
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
      */
-    public static String join(String delimiter, String... elements) {
-        if (delimiter == null || elements == null) {
-            throw new IllegalArgumentException("Provided arguments cannot be null");
-        }
-
-        StringBuilder result = new StringBuilder();
-        for (String element : elements) {
-            result.append(element).append(delimiter);
-        }
-        if (result.length() > 0 && delimiter.length() > 0) {
-            result.delete(result.length() - delimiter.length(), result.length());
-        }
-        return result.toString();
-    }
-
-    /**
-     * Returns a new String composed of copies of the String elements joined together
-     * with a copy of the specified delimiter.
-     */
     public static String join(String delimiter, List<Integer> elements) {
-        return join(delimiter, toStringArray(elements));
+        return String.join(delimiter, toStringArray(elements));
     }
 
     /**

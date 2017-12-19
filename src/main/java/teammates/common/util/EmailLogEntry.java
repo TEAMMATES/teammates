@@ -46,7 +46,7 @@ public class EmailLogEntry {
      */
     public String generateLogMessage() {
         // TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
-        return StringHelper.join(Const.EmailLog.FIELD_SEPARATOR, Const.EmailLog.TEAMMATES_EMAIL_LOG,
+        return String.join(Const.EmailLog.FIELD_SEPARATOR, Const.EmailLog.TEAMMATES_EMAIL_LOG,
                 receiver, subject, content);
     }
 
