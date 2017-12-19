@@ -90,7 +90,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created " + Const.JOIN_LINK,
                 homePage.getMessageFromResultTable(2));
         assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(2)));
 
@@ -135,7 +135,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
 
-        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created [Join Link]",
+        assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created " + Const.JOIN_LINK,
                 homePage.getMessageFromResultTable(1));
         assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(1)));
         homePage.logout();
