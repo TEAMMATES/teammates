@@ -417,33 +417,11 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testJoin() {
-        assertEquals("", StringHelper.join(""));
-        assertEquals("", StringHelper.join(","));
-        assertEquals("", StringHelper.join("||"));
-
-        assertEquals("test", StringHelper.join("", "test"));
-        assertEquals("test", StringHelper.join(",", "test"));
-        assertEquals("test", StringHelper.join("||", "test"));
-        assertEquals("testdata", StringHelper.join("", "test", "data"));
-
-        assertEquals("test,data", StringHelper.join(",", "test", "data"));
-        assertEquals("test||data", StringHelper.join("||", "test", "data"));
-        assertEquals("test|||data|||testdata",
-                StringHelper.join("|||", "test", "data", "testdata"));
-    }
-
-    @Test
     public void testJoinWithListOfIntegers() {
         assertEquals("", StringHelper.join(",", new ArrayList<Integer>()));
         assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testJoinWithNullDelimiter() {
-        StringHelper.join(null, "test", "data");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
