@@ -305,7 +305,7 @@ public class EmailGenerator {
             }
         }
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING
+        String template = EmailTemplates.USER_FEEDBACK_SESSION
                 .replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = isEmailNeeded
@@ -313,7 +313,8 @@ public class EmailGenerator {
                                                  : new ArrayList<InstructorAttributes>();
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_CLOSING.getSubject());
+                EmailType.FEEDBACK_CLOSING.getSubject(), EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
+                FEEDBACK_ACTION_SUBMIT);
     }
 
     /**
