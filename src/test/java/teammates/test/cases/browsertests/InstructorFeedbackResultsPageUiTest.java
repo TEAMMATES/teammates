@@ -600,6 +600,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: remind all: click on remind with no students selected");
 
+        // clicking the Remind All button before the modal closes properly will cause inconsistency in the modal's state
+        resultsPage.waitForModalToDisappear();
+
         resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.deselectUsersInRemindAllForm();
         resultsPage.clickRemindButtonInModal();
@@ -608,6 +611,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
 
         ______TS("Typical case: remind all: click on remind with students selected");
+
+        // clicking the Remind All button before the modal closes properly will cause inconsistency in the modal's state
+        resultsPage.waitForModalToDisappear();
 
         resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.clickRemindButtonInModal();
