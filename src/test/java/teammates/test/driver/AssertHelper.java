@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -179,7 +178,7 @@ public final class AssertHelper {
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEqualsIgnoreLogId(expected, actual);
         assertLogIdContainsUserId(actual,
-                StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
+                String.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
     }
 
     /**
