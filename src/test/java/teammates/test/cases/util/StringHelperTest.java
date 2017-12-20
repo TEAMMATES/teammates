@@ -417,6 +417,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
+<<<<<<< HEAD
     public void testJoin() {
         assertEquals("", String.join(""));
         assertEquals("", String.join(","));
@@ -439,11 +440,6 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
-    }
-
-    @Test(expectedExceptions = NullPointerException.class)
-    public void testJoinWithNullDelimiter() {
-        String.join(null, "test", "data");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
