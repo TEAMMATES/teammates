@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -46,36 +45,21 @@ public class CourseDetailsBundle {
     }
 
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
-        Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-            @Override
-            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj1.course.getId().compareTo(obj2.course.getId());
-            }
-        });
+        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.getId()));
     }
 
     /**
      * Sorts courses based on course ID.
      */
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
-        Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-            @Override
-            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj1.course.getId().compareTo(obj2.course.getId());
-            }
-        });
+        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.getId()));
     }
 
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order.
      */
     public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
-        Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
-            @Override
-            public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {
-                return obj2.course.createdAt.compareTo(obj1.course.createdAt);
-            }
-        });
+        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.createdAt));
     }
 
     public CourseStats getStats() {
