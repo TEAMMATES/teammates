@@ -197,13 +197,9 @@ public class InstructorSearchPageData extends PageData {
             String sectionName = student.section;
             String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());
             emailToPhotoUrlMap.put(student.email, viewPhotoLink);
-            if (!teamNameToStudentsMap.containsKey(teamName)) {
-                teamNameToStudentsMap.put(teamName, new ArrayList<StudentAttributes>());
-            }
+            teamNameToStudentsMap.putIfAbsent(teamName, new ArrayList<StudentAttributes>());
             teamNameToStudentsMap.get(teamName).add(student);
-            if (!sectionNameToTeamNameMap.containsKey(sectionName)) {
-                sectionNameToTeamNameMap.put(sectionName, new ArrayList<String>());
-            }
+            sectionNameToTeamNameMap.put(sectionName, new ArrayList<String>());
             if (!sectionNameToTeamNameMap.get(sectionName).contains(teamName)) {
                 sectionNameToTeamNameMap.get(sectionName).add(teamName);
             }
