@@ -417,7 +417,6 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-<<<<<<< HEAD
     public void testJoin() {
         assertEquals("", String.join(""));
         assertEquals("", String.join(","));
