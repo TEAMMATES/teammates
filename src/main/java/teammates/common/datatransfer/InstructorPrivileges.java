@@ -228,9 +228,7 @@ public final class InstructorPrivileges {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return;
         }
-        if (!this.sectionLevel.containsKey(sectionName)) {
-            sectionLevel.put(sectionName, new LinkedHashMap<String, Boolean>());
-        }
+        this.sectionLevel.putIfAbsent(sectionName, new LinkedHashMap<String, Boolean>());
         sectionLevel.get(sectionName).put(privilegeName, isAllowed);
     }
 
@@ -240,9 +238,7 @@ public final class InstructorPrivileges {
             return;
         }
         verifyExistenceOfsectionName(sectionName);
-        if (!this.sessionLevel.get(sectionName).containsKey(sessionName)) {
-            this.sessionLevel.get(sectionName).put(sessionName, new LinkedHashMap<String, Boolean>());
-        }
+        this.sessionLevel.get(sectionName).putIfAbsent(sessionName, new LinkedHashMap<String, Boolean>());
         this.sessionLevel.get(sectionName).get(sessionName).put(privilegeName, isAllowed);
     }
 

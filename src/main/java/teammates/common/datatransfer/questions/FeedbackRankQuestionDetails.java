@@ -64,10 +64,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     protected void updateOptionRanksMapping(
                         Map<String, List<Integer>> optionRanks,
                         String optionReceivingRanks, int rankReceived) {
-        if (!optionRanks.containsKey(optionReceivingRanks)) {
-            List<Integer> ranks = new ArrayList<>();
-            optionRanks.put(optionReceivingRanks, ranks);
-        }
+        optionRanks.putIfAbsent(optionReceivingRanks, new ArrayList<Integer>());
 
         List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
         ranksReceived.add(rankReceived);
@@ -133,9 +130,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 continue;
             }
 
-            if (!rankToAnswersMap.containsKey(rankGiven)) {
-                rankToAnswersMap.put(rankGiven, new ArrayList<K>());
-            }
+            rankToAnswersMap.putIfAbsent(rankGiven, new ArrayList<K>());
             rankToAnswersMap.get(rankGiven).add(answer);
         }
 
