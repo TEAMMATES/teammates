@@ -36,7 +36,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
-        int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId, isDisplayedToStudents);
+        int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId, instructorToEdit.isDisplayedToStudents,
+                                                                             isDisplayedToStudents);
         /* This if statement should only be processed if only one instructor is displayed to students and you are
         making an instructor that was previously displayed to students invisible
          */
@@ -75,7 +76,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
     changes to the instructor information were successfully processed. Thus, if we are
     trying to make the instructor false, we need to account for that.
      */
-    protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean isDisplayedToStudents) {
+    protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean currentlyDisplayed,
+                                                            boolean isDisplayedToStudents) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         int numOfInstrDisplayed = 0;
         for (InstructorAttributes instructor : instructors) {
@@ -83,8 +85,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                 numOfInstrDisplayed++;
             }
         }
-        // We need to account for the instructor we're trying to make false.
-        if (!isDisplayedToStudents) {
+        // We need to account for the instructor we're trying to make false if the instructor is currently visible .
+        if (!isDisplayedToStudents && currentlyDisplayed) {
             numOfInstrDisplayed--;
         }
         return numOfInstrDisplayed;

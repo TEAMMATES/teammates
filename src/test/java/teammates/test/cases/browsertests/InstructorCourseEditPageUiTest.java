@@ -604,9 +604,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyInstructorDetails(8, "Teammates Tutor", "InsCrsEdit.tutor@gmail.tmt",
                 true, "Instructor", "Tutor");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
+
+        /* Test that you can successfully edit a non-displayed instructor without receiving an error message,
+        if at least one instructor is visible.
+         */
+        courseEditPage.editInstructor(1, "New name", "new_email_number_2@email.tmt",
+                false, "Instructor", "Custom");
+        courseEditPage.verifyInstructorDetails(1, "New name", "new_email_number_2@email.tmt",
+                false, "Instructor", "Custom");
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         // after test, need to change Instructor 7 back to visible so that future tests work correctly
         courseEditPage.editInstructor(7, "Teammates Test", "InsCrsEdit.test@gmail.tmt",
                 true, "Instructor", "Co-owner");
+        // after test, need to change Instructor 1 email back so future tests work correctly
+        courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
+                false, "Instructor", "Custom");
     }
 
     private void testCancelEditInstructorAction() throws Exception {
