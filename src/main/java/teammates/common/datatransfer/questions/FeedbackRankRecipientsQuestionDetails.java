@@ -394,15 +394,16 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         // resolve ties for each giver's responses
         Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = new HashMap<>();
-        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : responsesGivenByPerson.entrySet()) {
+        responsesGivenByPerson.forEach((key, feedbackResponseAttributesList) -> {
             Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
             for (FeedbackResponseAttributes res : responses) {
                 FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
                 rankOfResponse.put(res, frd.answer);
             }
 
-            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse, entry.getValue()));
-        }
+            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse,
+                    feedbackResponseAttributesList));
+        });
 
         return normalisedRankOfResponse;
     }

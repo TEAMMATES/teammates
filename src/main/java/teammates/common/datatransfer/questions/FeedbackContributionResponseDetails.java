@@ -191,10 +191,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
             //Convert email to anonEmail and add stats.
             Map<String, StudentResultSummary> anonContribQnStats = new HashMap<>();
-            for (Map.Entry<String, StudentResultSummary> entry : contribQnStats.entrySet()) {
-                anonContribQnStats.put(
-                        feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());
-            }
+            contribQnStats.forEach((key, studentResultSummary) -> anonContribQnStats.put(
+                        feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(key), studentResultSummary));
             for (Map.Entry<String, StudentResultSummary> entry : anonContribQnStats.entrySet()) {
                 if (contribQnStats.get(entry.getKey()) == null) {
                     contribQnStats.put(entry.getKey(), entry.getValue());

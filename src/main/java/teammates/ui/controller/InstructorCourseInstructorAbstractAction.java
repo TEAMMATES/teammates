@@ -41,10 +41,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         Map<String, List<String>> sectionNamesMap = getSectionsWithSpecialPrivilegesFromParameters(
                                                                 instructor, sectionNames,
                                                                 isSectionSpecialMappings);
-        for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {
-            String sectionGroupName = entry.getKey();
-            List<String> specialSectionsInSectionGroup = entry.getValue();
-
+        sectionNamesMap.forEach((sectionGroupName, specialSectionsInSectionGroup) -> {
             updateInstructorPrivilegesForSectionInSectionLevel(sectionGroupName,
                     specialSectionsInSectionGroup, instructor);
 
@@ -57,7 +54,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
             } else {
                 removeSessionLevelPrivileges(instructor, specialSectionsInSectionGroup);
             }
-        }
+        });
         for (Entry<String, Boolean> entry : isSectionSpecialMappings.entrySet()) {
             String sectionNameToBeChecked = entry.getKey();
             boolean isSectionSpecial = entry.getValue().booleanValue();
