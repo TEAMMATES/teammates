@@ -1764,8 +1764,6 @@ public class FeedbackSessionResultsBundle {
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             responsesFromOneGiver.putIfAbsent(question, new ArrayList<FeedbackResponseAttributes>());
-
-
             List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = responsesFromOneGiver.get(question);
             responsesFromOneGiverOneQuestion.add(response);
         }
