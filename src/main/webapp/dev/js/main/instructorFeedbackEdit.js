@@ -993,7 +993,7 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     const recipientType = $recipientSelect.val();
     const qnType = $giverSelect.closest('.form_question').find('[name="questiontype"]').val();
     switch (giverType) {
-        case 'STUDENTS':
+    case 'STUDENTS':
         /* all recipientType options enabled
          * except that when the question type is Rank Recipient, SELF and NONE cannot be chosen
          */
