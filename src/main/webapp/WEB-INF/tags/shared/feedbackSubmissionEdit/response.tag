@@ -49,12 +49,24 @@
       </c:forEach>
     </select>
   </div>
-  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
-    ${response.submissionFormHtml}
-    <c:if test="${response.existingResponse}">
-      <input type="hidden"
-          name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-          value="<c:out value="${response.responseId}"/>">
-    </c:if>
-  </div>
+  <c:choose>
+    <c:when test="${questionWithResponses.question.questionTypeConstsum}">
+      ${response.submissionFormHtml}
+      <c:if test="${response.existingResponse}">
+        <input type="hidden"
+               name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+               value="<c:out value="${response.responseId}"/>">
+      </c:if>
+    </c:when>
+    <c:otherwise>
+      <div class="${divClassType}">
+        ${response.submissionFormHtml}
+        <c:if test="${response.existingResponse}">
+          <input type="hidden"
+              name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+              value="<c:out value="${response.responseId}"/>">
+        </c:if>
+      </div>
+    </c:otherwise>
+  </c:choose>
 </div>
