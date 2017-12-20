@@ -211,8 +211,6 @@ public class EmailGenerator {
             String template, String subject) {
 
         List<EmailWrapper> emails = new ArrayList<>();
-        /*String additionalContactInformation = fillUpAdditionalContactInformationFragment(course, "",
-                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);*/
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
                     template, subject));
