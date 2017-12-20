@@ -199,7 +199,7 @@ public class InstructorSearchPageData extends PageData {
             emailToPhotoUrlMap.put(student.email, viewPhotoLink);
             teamNameToStudentsMap.putIfAbsent(teamName, new ArrayList<StudentAttributes>());
             teamNameToStudentsMap.get(teamName).add(student);
-            sectionNameToTeamNameMap.put(sectionName, new ArrayList<String>());
+            sectionNameToTeamNameMap.putIfAbsent(sectionName, new ArrayList<String>());
             if (!sectionNameToTeamNameMap.get(sectionName).contains(teamName)) {
                 sectionNameToTeamNameMap.get(sectionName).add(teamName);
             }
