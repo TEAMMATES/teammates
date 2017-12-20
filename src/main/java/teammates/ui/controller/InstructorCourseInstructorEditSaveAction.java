@@ -27,20 +27,28 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        // get instructor without making any edits
+        InstructorAttributes instructorToEdit;
+        if (instructorId == null) {
+            instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);
+        } else {
+            instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
+        }
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId, isDisplayedToStudents);
-        if (numOfInstrDisplayed < 1 && !isDisplayedToStudents) {
+        /* This if statement should only be processed if only one instructor is displayed to students and you are
+        making an instructor that was previously displayed to students invisible
+         */
+        if (numOfInstrDisplayed < 1 && !isDisplayedToStudents && instructorToEdit.isDisplayedToStudents) {
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED),
                                                StatusMessageColor.DANGER));
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
             return result;
         }
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        InstructorAttributes instructorToEdit =
-                extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+        instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-
         try {
             if (instructorId == null) {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
