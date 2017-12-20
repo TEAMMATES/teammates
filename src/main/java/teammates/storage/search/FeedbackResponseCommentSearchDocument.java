@@ -577,14 +577,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frCommentSearchResults.questions.entrySet().iterator();
 
         while (fqsIter.hasNext()) {
-            Iterator<FeedbackQuestionAttributes> fqIter = fqsIter.next().getValue().iterator();
 
-            while (fqIter.hasNext()) {
-                FeedbackQuestionAttributes fq = fqIter.next();
-                if (frCommentSearchResults.responses.get(fq.getId()).isEmpty()) {
-                    fqIter.remove();
-                }
-            }
+            fqsIter.next().getValue().removeIf(fq -> frCommentSearchResults.responses.get(fq.getId()).isEmpty());
         }
     }
 }
