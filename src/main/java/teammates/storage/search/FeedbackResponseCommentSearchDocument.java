@@ -577,7 +577,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frCommentSearchResults.questions.entrySet().iterator();
 
         while (fqsIter.hasNext()) {
-
             fqsIter.next().getValue().removeIf(fq -> frCommentSearchResults.responses.get(fq.getId()).isEmpty());
         }
     }
