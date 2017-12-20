@@ -156,6 +156,8 @@ public class EmailGenerator {
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
+        String additionalContactInformation = fillUpAdditionalContactInformationFragment(course, "",
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);
 
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
@@ -164,8 +166,7 @@ public class EmailGenerator {
                 "${courseId}", course.getId(),
                 "${joinFragment}", joinFragmentValue,
                 "${linksFragment}", linksFragmentValue.toString(),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(courseId),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
@@ -224,7 +225,8 @@ public class EmailGenerator {
         Calendar time = TimeHelper.convertToUserTimeZone(timestamp, session.getTimeZone());
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
-
+        String additionalContactInformation = fillUpAdditionalContactInformationFragment(course, "",
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -233,8 +235,7 @@ public class EmailGenerator {
                 "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(time.getTime())),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
-                "${supportEmail}", Config.SUPPORT_EMAIL);
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -311,9 +312,12 @@ public class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<InstructorAttributes>();
+        String additionalContactInformation = fillUpAdditionalContactInformationFragment(course,
+                EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_CLOSING.getSubject());
+                EmailType.FEEDBACK_CLOSING.getSubject(), "", FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
     }
 
     /**
@@ -342,9 +346,13 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION
                 .replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
 
+        String additionalContactInformation = fillUpAdditionalContactInformationFragment(course,
+                EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);
+
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_CLOSED.getSubject(), EmailTemplates.FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS,
-                FEEDBACK_ACTION_VIEW);
+                FEEDBACK_ACTION_VIEW, additionalContactInformation);
     }
 
     /**
@@ -363,8 +371,11 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
 
+        String additionalContactInformation = fillUpAdditionalContactInformationFragment(course, "",
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);
+
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_PUBLISHED.getSubject());
+                EmailType.FEEDBACK_PUBLISHED.getSubject(), "", FEEDBACK_ACTION_VIEW, additionalContactInformation);
     }
 
     /**
@@ -390,31 +401,35 @@ public class EmailGenerator {
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject) {
+        String additionalContactInformation = fillUpAdditionalContactInformationFragment(course, "",
+                EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION);
+
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template, subject, "",
-                FEEDBACK_ACTION_SUBMIT);
+                FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject, String additionalInstructions,
-            String feedbackAction) {
+            String feedbackAction, String addtionalContactInformation) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         String coOwnersLine = generateCoOwnersEmailsLine(course.getId());
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
-                    template, subject, coOwnersLine, additionalInstructions, feedbackAction));
+                    template, subject, coOwnersLine, additionalInstructions, feedbackAction, addtionalContactInformation));
         }
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor,
-                    template, subject, coOwnersLine, additionalInstructions, feedbackAction));
+                    template, subject, coOwnersLine, additionalInstructions, feedbackAction, addtionalContactInformation));
         }
         return emails;
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForStudents(
             CourseAttributes course, FeedbackSessionAttributes session, StudentAttributes student, String template,
-            String subject, String coOwnersLine, String additionalInstructions, String feedbackAction) {
+            String subject, String coOwnersLine, String additionalInstructions,
+            String feedbackAction, String additionalContactInformation) {
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
@@ -443,7 +458,8 @@ public class EmailGenerator {
                 "${coOwnersEmails}", coOwnersLine,
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${additionalInstructions}", additionalInstructions,
-                "${feedbackAction}", feedbackAction);
+                "${feedbackAction}", feedbackAction,
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -469,7 +485,7 @@ public class EmailGenerator {
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, String subject, String coOwnersLine, String additionalInstructions,
-            String feedbackAction) {
+            String feedbackAction, String additionalContactInformation) {
 
         String instructorFragment = generateInstructorPreamble(course.getId(), course.getName());
 
@@ -486,7 +502,8 @@ public class EmailGenerator {
                 "${coOwnersEmails}", coOwnersLine,
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${additionalInstructions}", additionalInstructions,
-                "${feedbackAction}", feedbackAction);
+                "${feedbackAction}", feedbackAction,
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -681,4 +698,12 @@ public class EmailGenerator {
         return coOwnersEmailsLine.substring(0, coOwnersEmailsLine.length() - 2);
     }
 
+    private String fillUpAdditionalContactInformationFragment(CourseAttributes course,
+            String additionalInstructions, String emailBody) {
+
+        return Templates.populateTemplate(emailBody,
+                "${additionalInstructions}", additionalInstructions,
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+    }
 }

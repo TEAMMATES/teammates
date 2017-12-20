@@ -60,6 +60,8 @@ public final class Templates {
                 FileHelper.readResourceFile("severeErrorLogLine.html");
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
+        public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
+                FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
     }
 
     public static class FeedbackQuestion {
