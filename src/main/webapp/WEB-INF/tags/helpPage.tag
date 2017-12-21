@@ -18,6 +18,20 @@
         <div class="navbar-header">
           <t:teammatesLogo/>
         </div>
+        <!-- Navigation links added below for help pages -->
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="${currentPage == 'index' ? 'active' : ''}"><a href="/">Home</a></li>
+              <li class="${currentPage == 'features' ? 'active' : ''}"><a href="features.jsp">Features</a></li>
+              <li class="${currentPage == 'about' ? 'active' : ''}"><a href="about.jsp">About Us</a></li>
+              <li class="${currentPage == 'contact' ? 'active' : ''}"><a href="contact.jsp">Contact</a></li>
+              <li class="${currentPage == 'terms' ? 'active' : ''}"><a href="terms.jsp">Terms of Use</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" action="/login" name="login">
+              <input type="submit" name="student" class="btn btn-login " id="btnStudentLogin" value="Student Login" label="studentLogin">
+              <input type="submit" name="instructor" class="btn btn-login" id="btnInstructorLogin" value="Instructor Login" label="instructorLogin">
+            </form>
+        </div>
       </div>
     </div>
     <div class="container" id="mainContent">
