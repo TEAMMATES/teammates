@@ -11,6 +11,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import teammates.common.exception.InvalidParametersException;
 
+import static java.lang.Math.toIntExact;
+
 /**
  * Holds String-related helper functions.
  */
@@ -476,13 +478,9 @@ public final class StringHelper {
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
-        int numOfEmptyStrings = 0;
-        for (String s : strings) {
-            if (isEmpty(s)) {
-                numOfEmptyStrings += 1;
-            }
-        }
-        return numOfEmptyStrings;
+        return Math.toIntExact(Arrays.stream(strings)
+                .filter(s -> isEmpty(s))
+                .count());
     }
 
     /**
