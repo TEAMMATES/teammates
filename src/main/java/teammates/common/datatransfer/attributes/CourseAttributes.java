@@ -179,7 +179,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         private void validateRequiredFields(Object... objects) {
             for (Object object : objects) {
-                Assumption.assertNotNull(object);
+                Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, object);
             }
         }
     }

@@ -2,6 +2,8 @@ package teammates.test.cases.datatransfer;
 
 import static teammates.common.util.Const.EOL;
 
+import java.util.Date;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -15,7 +17,74 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class CourseAttributesTest extends BaseTestCase {
 
-    //TODO: add test for constructor
+    private String validName = "validName";
+    private String validId = "validId";
+    private String validTimeZone = "validTimeZone";
+    private Date validCreatedAt = new Date();
+
+    @Test
+    public void testStandardBuilder() {
+        CourseAttributes courseAttributes = CourseAttributes
+                .builder(validId, validName, validTimeZone)
+                .build();
+        assertEquals(validId, courseAttributes.getId());
+        assertEquals(validName, courseAttributes.getName());
+        assertEquals(validTimeZone, courseAttributes.getTimeZone());
+    }
+
+    @Test
+    public void testBuilderWithCreatedAt() {
+        CourseAttributes caWithCreatedAt = CourseAttributes
+                .builder(validId, validName, validTimeZone)
+                .withCreatedAt(validCreatedAt)
+                .build();
+        assertEquals(validId, caWithCreatedAt.getId());
+        assertEquals(validName, caWithCreatedAt.getName());
+        assertEquals(validTimeZone, caWithCreatedAt.getTimeZone());
+        assertEquals(validCreatedAt, caWithCreatedAt.createdAt);
+    }
+
+    @Test
+    public void testBuilderWithNullId() {
+        try {
+            CourseAttributes.builder(null, validName, validTimeZone)
+                    .build();
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Non-null value expected", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBuilderWithNullName() {
+        try {
+            CourseAttributes.builder(validId, null, validTimeZone)
+                    .build();
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Non-null value expected", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBuilderWithNullTimeZone() {
+        try {
+            CourseAttributes.builder(validId, validName, null)
+                    .build();
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Non-null value expected", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testBuilderWithNullCreatedAt() {
+        CourseAttributes courseAttributes = CourseAttributes
+                .builder(validId, validName, validTimeZone)
+                .withCreatedAt(null)
+                .build();
+        assertEquals(new Date(), courseAttributes.createdAt);
+    }
 
     @Test
     public void testValidate() throws Exception {
