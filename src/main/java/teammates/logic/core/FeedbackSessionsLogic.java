@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -835,8 +834,7 @@ public final class FeedbackSessionsLogic {
             throw new ExceedingRangeException(ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE);
         }
         // sort responses by giver > recipient > qnNumber
-        Collections.sort(results.responses,
-                results.compareByGiverRecipientQuestion);
+        results.responses.sort(results.compareByGiverRecipientQuestion);
 
         StringBuilder exportBuilder = new StringBuilder(100);
 
@@ -2051,13 +2049,8 @@ public final class FeedbackSessionsLogic {
     }
 
     private void sortByCreatedDate(List<FeedbackResponseCommentAttributes> responseCommentList) {
-        Collections.sort(responseCommentList, new Comparator<FeedbackResponseCommentAttributes>() {
-            @Override
-            public int compare(FeedbackResponseCommentAttributes frc1,
-                               FeedbackResponseCommentAttributes frc2) {
-                return frc1.createdAt.compareTo(frc2.createdAt);
-            }
-        });
+        responseCommentList.sort(Comparator.comparing((FeedbackResponseCommentAttributes responseComment) ->
+                responseComment.createdAt));
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD
