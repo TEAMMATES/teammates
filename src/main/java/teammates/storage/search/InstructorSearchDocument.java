@@ -96,27 +96,11 @@ public class InstructorSearchDocument extends SearchDocument {
 
     private static void sortInstructorResultList(List<InstructorAttributes> instructorList) {
 
-        Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
-            @Override
-            public int compare(InstructorAttributes ins1, InstructorAttributes ins2) {
-                int compareResult = ins1.courseId.compareTo(ins2.courseId);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
+        instructorList.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
+                      .thenComparing(instructor -> instructor.role)
+                      .thenComparing(instructor -> instructor.name)
+                      .thenComparing(instructor -> instructor.email));
 
-                compareResult = ins1.role.compareTo(ins2.role);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = ins1.name.compareTo(ins2.name);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                return ins1.email.compareTo(ins2.email);
-            }
-        });
     }
 
 }
