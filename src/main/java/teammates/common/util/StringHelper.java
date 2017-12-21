@@ -1,10 +1,7 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import javax.crypto.BadPaddingException;
@@ -35,11 +32,9 @@ public final class StringHelper {
 
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(character);
-        }
-        return sb.toString();
+        char[] chars = new char[length];
+        Arrays.fill(chars, character);
+        return new String(chars);
     }
 
     public static boolean isWhiteSpace(String string) {
