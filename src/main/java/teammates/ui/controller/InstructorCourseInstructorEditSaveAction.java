@@ -27,7 +27,9 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+
         // get instructor without making any edits
         InstructorAttributes instructorToEdit;
         if (instructorId == null) {
@@ -35,12 +37,13 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         } else {
             instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
+
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
         int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId, instructorToEdit.isDisplayedToStudents,
                                                                              isDisplayedToStudents);
-        /* This if statement should only be processed if only one instructor is displayed to students and you are
-        making an instructor that was previously displayed to students invisible
-         */
+
+        // This if statement should only be processed if only one instructor is displayed to students and you are
+        // making an instructor that was previously displayed to students invisible
         if (numOfInstrDisplayed < 1 && !isDisplayedToStudents && instructorToEdit.isDisplayedToStudents) {
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED),
                                                StatusMessageColor.DANGER));
@@ -48,6 +51,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
             return result;
         }
+
         instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         try {
@@ -72,11 +76,12 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         return result;
     }
 
-    /* This method gets the numbers of instructors that would be made visible to students if
-    changes to the instructor information were successfully processed. Thus, if we are
-    trying to make the instructor false, we need to account for that.
+    /**
+     * This method gets the numbers of instructors that would be made visible to students if
+     * changes to the instructor information were successfully processed. Thus, if we are
+     * trying to make the instructor false, we need to account for that.
      */
-    protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean currentlyDisplayed,
+    protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean previousStateInstructorDisplayed,
                                                             boolean isDisplayedToStudents) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         int numOfInstrDisplayed = 0;
@@ -86,7 +91,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             }
         }
         // We need to account for the instructor we're trying to make false if the instructor is currently visible .
-        if (!isDisplayedToStudents && currentlyDisplayed) {
+        if (!isDisplayedToStudents && previousStateInstructorDisplayed) {
             numOfInstrDisplayed--;
         }
         return numOfInstrDisplayed;

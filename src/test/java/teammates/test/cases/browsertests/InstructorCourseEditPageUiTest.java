@@ -596,23 +596,23 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 false, "Instructor", "Co-owner");
         courseEditPage.editInstructor(8, "Teammates Do Not Save", "InsCrsEdit.tutor@gmail.tmt",
                 false, "Instructor", "Tutor");
-        /* Test to verify that changes made to instructor are not saved if this is the only instructor displayed to students
-        and you try to uncheck the box for "Display to students as:"
-        The information in "verifyInstructorDetails" method below comes from InstructorCourseEditPageUiTest.json,
-        googleId: InsCrsEdit.tutor
-         */
+
+        // Test to verify that changes made to instructor are not saved if this is the only instructor displayed to students
+        // and you try to uncheck the box for "Display to students as:"
+        // The information in "verifyInstructorDetails" method below comes from InstructorCourseEditPageUiTest.json,
+        // googleId: InsCrsEdit.tutor
         courseEditPage.verifyInstructorDetails(8, "Teammates Tutor", "InsCrsEdit.tutor@gmail.tmt",
                 true, "Instructor", "Tutor");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
 
-        /* Test that you can successfully edit a non-displayed instructor without receiving an error message,
-        if at least one instructor is visible.
-         */
+        // Test that you can successfully edit a non-displayed instructor without receiving an error message,
+        // if at least one instructor is visible.
         courseEditPage.editInstructor(1, "New name", "new_email_number_2@email.tmt",
                 false, "Instructor", "Custom");
         courseEditPage.verifyInstructorDetails(1, "New name", "new_email_number_2@email.tmt",
                 false, "Instructor", "Custom");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        
         // after test, need to change Instructor 7 back to visible so that future tests work correctly
         courseEditPage.editInstructor(7, "Teammates Test", "InsCrsEdit.test@gmail.tmt",
                 true, "Instructor", "Co-owner");
@@ -717,7 +717,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("test the only registered instructor with the privilege to modify instructors cannot be deleted");
 
-        // Create a registered instructor with all privileges except modifying instructors
+        // Create an registered instructor with all privileges except modifying instructors
         InstructorPrivileges privilege =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
