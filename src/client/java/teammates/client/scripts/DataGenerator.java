@@ -198,6 +198,7 @@ public final class DataGenerator {
     /**
      * Returns Json string presentation for all instructors.
      */
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends") // Seems like a bug in PMD
     private static String allInstructors() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"instructors\":{\n");
