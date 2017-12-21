@@ -177,10 +177,6 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list, String delimiter) {
-        if (list.isEmpty()) {
-            return "";
-        }
-
         return list.stream()
                 .map(s -> s.toString())
                 .collect(Collectors.joining(delimiter));
