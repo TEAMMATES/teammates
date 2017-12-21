@@ -565,12 +565,8 @@ public final class StringHelper {
             return true;
         }
 
-        for (String string : strings) {
-            if (text.contains(string)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(strings)
+                .anyMatch(s -> text.contains(s));
     }
 
     /**
