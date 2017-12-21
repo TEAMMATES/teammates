@@ -27,7 +27,9 @@ public class CourseAttributesTest extends BaseTestCase {
         String veryLongId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         String invalidTimeZone = "InvalidTimeZone";
-        CourseAttributes invalidCourse = new CourseAttributes(veryLongId, emptyName, invalidTimeZone);
+        CourseAttributes invalidCourse = CourseAttributes
+                .builder(veryLongId, emptyName, invalidTimeZone)
+                .build();
 
         assertFalse("invalid value", invalidCourse.isValid());
         String errorMessage =
@@ -61,7 +63,7 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     private static CourseAttributes generateValidCourseAttributesObject() {
-        return new CourseAttributes("valid-id-$_abc", "valid-name", "UTC");
+        return CourseAttributes.builder("valid-id-$_abc", "valid-name", "UTC").build();
     }
 
 }
