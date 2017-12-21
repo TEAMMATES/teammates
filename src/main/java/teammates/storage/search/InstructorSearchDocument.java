@@ -97,9 +97,9 @@ public class InstructorSearchDocument extends SearchDocument {
     private static void sortInstructorResultList(List<InstructorAttributes> instructorList) {
 
         instructorList.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
-                      .thenComparing(instructor -> instructor.role)
-                      .thenComparing(instructor -> instructor.name)
-                      .thenComparing(instructor -> instructor.email));
+                .thenComparing(instructor -> instructor.role)
+                .thenComparing(instructor -> instructor.name)
+                .thenComparing(instructor -> instructor.email));
 
     }
 
