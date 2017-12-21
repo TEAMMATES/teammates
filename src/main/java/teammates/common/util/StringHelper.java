@@ -1,8 +1,13 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -10,8 +15,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
 import teammates.common.exception.InvalidParametersException;
-
-import static java.lang.Math.toIntExact;
 
 /**
  * Holds String-related helper functions.
@@ -178,14 +181,9 @@ public final class StringHelper {
             return "";
         }
 
-        StringBuilder returnValue = new StringBuilder();
-        for (int i = 0; i < list.size() - 1; i++) {
-            returnValue.append(list.get(i)).append(delimiter);
-        }
-        //append the last item
-        returnValue.append(list.get(list.size() - 1));
-
-        return returnValue.toString();
+        return list.stream()
+                .map(s -> s.toString())
+                .collect(Collectors.joining(delimiter));
     }
 
     public static String toDecimalFormatString(double doubleVal) {
