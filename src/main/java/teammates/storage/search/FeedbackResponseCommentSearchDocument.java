@@ -465,22 +465,20 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr =
                 frCommentSearchResults.responses.entrySet().iterator();
 
-        int filteredResultsSize = totalResultsSize;
+        final int[] filteredResultsSize = {totalResultsSize};
         while (iterFr.hasNext()) {
             List<FeedbackResponseAttributes> frs = iterFr.next().getValue();
-            Iterator<FeedbackResponseAttributes> fr = frs.iterator();
 
-            while (fr.hasNext()) {
-                FeedbackResponseAttributes response = fr.next();
+            frs.removeIf(response -> {
                 InstructorAttributes instructor = getInstructorForCourseId(response.courseId, instructors);
 
                 boolean isVisibleResponse = true;
                 boolean isNotAllowedForInstructor =
                         instructor == null
-                        || !instructor.isAllowedForPrivilege(
+                                || !instructor.isAllowedForPrivilege(
                                 response.giverSection, response.feedbackSessionName,
                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                        || !instructor.isAllowedForPrivilege(
+                                || !instructor.isAllowedForPrivilege(
                                 response.recipientSection, response.feedbackSessionName,
                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
@@ -489,19 +487,18 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 }
                 if (!isVisibleResponse) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
-                    filteredResultsSize -= sizeOfCommentList;
+                    filteredResultsSize[0] -= sizeOfCommentList;
                     // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
                     frCommentSearchResults.comments.remove(response.getId());
-                    fr.remove();
                 }
-            }
+                return !isVisibleResponse;
+            });
         }
 
         Set<String> emailList = frCommentSearchResults.instructorEmails;
-        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn =
-                frCommentSearchResults.questions.entrySet().iterator();
-        while (iterQn.hasNext()) {
-            String fsName = iterQn.next().getKey();
+
+        frCommentSearchResults.questions.entrySet().removeIf(questionSet -> {
+            String fsName = questionSet.getKey();
             List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
 
             for (int i = questionList.size() - 1; i >= 0; i--) {
@@ -553,12 +550,10 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     questionList.remove(i);
                 }
             }
-            if (questionList.isEmpty()) {
-                iterQn.remove();
-            }
-        }
+            return questionList.isEmpty();
+        });
 
-        return filteredResultsSize;
+        return filteredResultsSize[0];
     }
 
     private static InstructorAttributes getInstructorForCourseId(String courseId, List<InstructorAttributes> instructors) {
