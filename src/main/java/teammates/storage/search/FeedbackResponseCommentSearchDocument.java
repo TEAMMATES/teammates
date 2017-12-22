@@ -465,7 +465,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr =
                 frCommentSearchResults.responses.entrySet().iterator();
 
-        final int[] filteredResultsSize = {totalResultsSize};
+        int[] filteredResultsSize = {totalResultsSize};
         while (iterFr.hasNext()) {
             List<FeedbackResponseAttributes> frs = iterFr.next().getValue();
 
