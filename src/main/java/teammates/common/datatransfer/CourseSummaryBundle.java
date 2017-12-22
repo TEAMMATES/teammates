@@ -34,19 +34,16 @@ public class CourseSummaryBundle {
      * Sorts courses based on course name.
      */
     public static void sortSummarizedCoursesByCourseName(List<CourseSummaryBundle> courses) {
-        Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
-            @Override
-            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
-                String courseName1 = obj1.course.getName();
-                String courseName2 = obj2.course.getName();
+        courses.sort((CourseSummaryBundle obj1, CourseSummaryBundle obj2) -> {
+            String courseName1 = obj1.course.getName();
+            String courseName2 = obj2.course.getName();
 
-                //TODO: [CourseAttribute] remove desanitization after data migration
-                //desanitization is applied to course name to ensure a well-defined order of the courses by course name
-                courseName1 = SanitizationHelper.desanitizeIfHtmlSanitized(courseName1);
-                courseName2 = SanitizationHelper.desanitizeFromHtml(courseName2);
+            //TODO: [CourseAttribute] remove desanitization after data migration
+            //desanitization is applied to course name to ensure a well-defined order of the courses by course name
+            courseName1 = SanitizationHelper.desanitizeIfHtmlSanitized(courseName1);
+            courseName2 = SanitizationHelper.desanitizeFromHtml(courseName2);
 
-                return courseName1.compareTo(courseName2);
-            }
+            return courseName1.compareTo(courseName2);
         });
     }
 
