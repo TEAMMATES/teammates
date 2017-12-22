@@ -675,10 +675,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherAnswer = "";
 
             if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-
+                answerFrequency.putIfAbsent("Other", 0);
                 answerFrequency.put("Other", answerFrequency.get("Other") + 1);
 
                 numChoicesSelected++;
@@ -715,9 +712,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             numChoices++;
 
-            if (!answerFrequency.containsKey(answerString)) {
-                answerFrequency.put(answerString, 0);
-            }
+            answerFrequency.putIfAbsent(answerString, 0);
+
             answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
         }
         return numChoices;

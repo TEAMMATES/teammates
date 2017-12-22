@@ -400,14 +400,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
 
             if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
+                answerFrequency.putIfAbsent("Other", 0);
                 answerFrequency.put("Other", answerFrequency.get("Other") + 1);
             } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
+                answerFrequency.putIfAbsent(answerString, 0);
                 answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
         }
@@ -451,14 +447,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
 
             if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
+                answerFrequency.putIfAbsent("Other", 0);
                 answerFrequency.put("Other", answerFrequency.get("Other") + 1);
             } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
+                answerFrequency.putIfAbsent(answerString, 0);
                 answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
             }
         }
