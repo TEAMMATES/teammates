@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -817,17 +818,20 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
                 new LinkedList<>(recipientToRecipientStats.entrySet());
-        recipientStatsList.sort((Entry<String, RubricRecipientStatistics> obj1,
-                                      Entry<String, RubricRecipientStatistics> obj2) -> {
-                    RubricRecipientStatistics a = obj1.getValue();
-                    RubricRecipientStatistics b = obj2.getValue();
+        Collections.sort(recipientStatsList, new Comparator<Map.Entry<String, RubricRecipientStatistics>>() {
+            @Override
+            public int compare(Entry<String, RubricRecipientStatistics> o1,
+                    Entry<String, RubricRecipientStatistics> o2) {
+                RubricRecipientStatistics a = o1.getValue();
+                RubricRecipientStatistics b = o2.getValue();
 
-                    if (a.recipientTeam.equalsIgnoreCase(b.recipientTeam)) {
-                        return a.recipientName.compareTo(b.recipientName);
-                    } else {
-                        return a.recipientTeam.compareTo(b.recipientTeam);
-                    }
-                });
+                if (a.recipientTeam.equalsIgnoreCase(b.recipientTeam)) {
+                    return a.recipientName.compareTo(b.recipientName);
+                } else {
+                    return a.recipientTeam.compareTo(b.recipientTeam);
+                }
+            }
+        });
 
         return recipientStatsList;
     }
