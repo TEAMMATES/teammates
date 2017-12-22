@@ -162,7 +162,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
 
-        Collections.sort(sectionNames);
+        sectionNames.sort(null);
         return sectionNames;
     }
 
@@ -649,7 +649,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // create for every remaining team in the section, participantResultsPanels for every team member
         for (String teamWithoutResponses : teamsWithoutResponses) {
             List<String> teamMembers = new ArrayList<>(bundle.getTeamMembersFromRoster(teamWithoutResponses));
-            Collections.sort(teamMembers);
+            teamMembers.sort(null);
             if (viewType.isPrimaryGroupingOfGiverType()) {
                 addMissingParticipantsPanelsWithModerationButtonForTeam(
                                                 sectionPanel, teamWithoutResponses, teamMembers);
@@ -687,7 +687,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         // Create missing participants panels for the previous team
         List<String> sortedTeamMembersWithoutResponses = new ArrayList<>(teamMembersWithoutResponses);
-        Collections.sort(sortedTeamMembersWithoutResponses);
+        sortedTeamMembersWithoutResponses.sort(null);
 
         if (viewType.isPrimaryGroupingOfGiverType()) {
             addMissingParticipantsPanelsWithModerationButtonForTeam(sectionPanel,
