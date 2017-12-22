@@ -430,7 +430,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for (Set<String> teamNamesForSection : bundle.sectionTeamNameTable.values()) {
             teamNames.addAll(teamNamesForSection);
         }
-        Collections.sort(teamNames);
+        teamNames.sort(null);
         return teamNames;
     }
 
@@ -565,7 +565,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 continue;
             }
             List<String> memberEmails = new ArrayList<>(bundle.rosterTeamNameMembersTable.get(teamName));
-            Collections.sort(memberEmails);
+            memberEmails.sort(null);
             teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;
@@ -612,8 +612,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (result.isEmpty()) {
             return getPointsAsColorizedHtml(Const.POINTS_NOT_SUBMITTED);
         }
-        Collections.sort(result);
-        Collections.reverse(result);
+        result.sort(Comparator.reverseOrder());
 
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
@@ -636,8 +635,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (result.isEmpty()) {
             return Integer.toString(Const.INT_UNINITIALIZED);
         }
-        Collections.sort(result);
-        Collections.reverse(result);
+        result.sort(Comparator.reverseOrder());
 
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {

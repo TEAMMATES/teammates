@@ -22,7 +22,12 @@ public class CourseSummaryBundle {
      * Sorts courses based on course ID.
      */
     public static void sortSummarizedCoursesByCourseId(List<CourseSummaryBundle> courses) {
-        courses.sort(Comparator.comparing((CourseSummaryBundle obj) -> obj.course.getId()));
+        Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
+            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+                return obj1.course.getId().compareTo(obj2.course.getId());
+            }
+        });
     }
 
     /**
@@ -49,10 +54,20 @@ public class CourseSummaryBundle {
      * Sorts courses based on course creation date in the order of latest to oldest order.
      */
     public static void sortSummarizedCoursesByCreationDate(List<CourseSummaryBundle> courses) {
-        courses.sort(Comparator.comparing((CourseSummaryBundle obj) -> obj.course.createdAt));
+        Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
+            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+                return obj2.course.createdAt.compareTo(obj1.course.createdAt);
+            }
+        });
     }
 
     public static void sortSummarizedCourses(List<CourseSummaryBundle> courses) {
-        courses.sort(Comparator.comparing((CourseSummaryBundle obj) -> obj.course.getId()));
+        Collections.sort(courses, new Comparator<CourseSummaryBundle>() {
+            @Override
+            public int compare(CourseSummaryBundle obj1, CourseSummaryBundle obj2) {
+                return obj1.course.getId().compareTo(obj2.course.getId());
+            }
+        });
     }
 }
