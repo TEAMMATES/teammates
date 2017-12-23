@@ -63,12 +63,8 @@ public final class StringHelper {
      * @param regexList The regex list used for the matching
      */
     public static boolean isAnyMatching(String input, List<String> regexList) {
-        for (String regex : regexList) {
-            if (isMatching(input.trim().toLowerCase(), regex)) {
-                return true;
-            }
-        }
-        return false;
+        return regexList.stream()
+                .anyMatch(r -> isMatching(input.trim().toLowerCase(), r));
     }
 
     public static String getIndent(int length) {
@@ -420,7 +416,7 @@ public final class StringHelper {
     }
 
     private static boolean checkIfEmptyRow(List<String> rowData) {
-        if(rowData.isEmpty()) {
+        if (rowData.isEmpty()) {
             return true;
         }
 
