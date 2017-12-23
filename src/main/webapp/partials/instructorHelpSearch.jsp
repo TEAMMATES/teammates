@@ -1,15 +1,12 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="search">Search</a>
+<h4 class="text-color-primary" id="search">Search</a>
 </h4>
 <div id="contentHolder">
   <br>
   <ol style="list-style-type: none;">
-    <li>
+    <li id="searchStudents">
       <span class="text-bold">
-        <a name="searchStudents">
           <h3>1. Searching for students</h3>
-        </a>
       </span>
       <div>
         You can search for students by clicking on
@@ -289,11 +286,9 @@
         </div>
       </div>
     </li>
-    <li>
+    <li id="searchCommentForResponses">
       <span class="text-bold">
-        <a name="searchCommentForResponses">
           <h3>2. Searching for comments on responses</h3>
-        </a>
       </span>
       <div>
         You can search for comments on responses given by students. To do this check
