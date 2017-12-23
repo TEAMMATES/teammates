@@ -1989,9 +1989,10 @@ public final class FeedbackSessionsLogic {
                 if (isVisibleResponse && (isViewingAllSections
                                           || isStudentInSelectedSection)) {
                     String section = student.section;
-                    sectionTeamNameTable.putIfAbsent(section, new HashSet<>());
 
-                    sectionTeamNameTable.get(section).add(student.team);
+                    sectionTeamNameTable.computeIfAbsent(section, (String key) -> new HashSet<>())
+                                        .add(student.team);
+
                 }
             }
         }

@@ -1633,10 +1633,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     @Override
     public String getStudentProfilePictureLink(String studentEmail, String courseId) {
-        profilePictureLinks.putIfAbsent(studentEmail,
-                                    super.getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
-                                                                       StringHelper.encrypt(courseId)));
-        return profilePictureLinks.get(studentEmail);
+        return profilePictureLinks.computeIfAbsent(studentEmail,
+                (String key) -> super.getStudentProfilePictureLink(StringHelper.encrypt(key),
+                                                                    StringHelper.encrypt(courseId)));
     }
 
     public void setBundle(FeedbackSessionResultsBundle bundle) {

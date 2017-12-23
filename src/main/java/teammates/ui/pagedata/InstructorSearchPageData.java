@@ -197,11 +197,13 @@ public class InstructorSearchPageData extends PageData {
             String sectionName = student.section;
             String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());
             emailToPhotoUrlMap.put(student.email, viewPhotoLink);
-            teamNameToStudentsMap.putIfAbsent(teamName, new ArrayList<StudentAttributes>());
-            teamNameToStudentsMap.get(teamName).add(student);
-            sectionNameToTeamNameMap.putIfAbsent(sectionName, new ArrayList<String>());
-            if (!sectionNameToTeamNameMap.get(sectionName).contains(teamName)) {
-                sectionNameToTeamNameMap.get(sectionName).add(teamName);
+
+            teamNameToStudentsMap.computeIfAbsent(teamName, (String key) -> new ArrayList<>()).add(student);
+
+            List<String> teamNamesInSection = sectionNameToTeamNameMap.computeIfAbsent(sectionName, (String key) ->
+                                                                                                    new ArrayList<>());
+            if (!teamNamesInSection.contains(teamName)) {
+                teamNamesInSection.add(teamName);
             }
         }
         List<SectionDetailsBundle> sections = new ArrayList<>();

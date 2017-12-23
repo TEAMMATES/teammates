@@ -47,9 +47,9 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     @Override
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
-                        boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                        int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails);
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+            int totalNumRecipients,
+            FeedbackResponseDetails existingResponseDetails);
 
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
@@ -62,12 +62,13 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * Updates the mapping of ranks for the option optionReceivingPoints.
      */
     protected void updateOptionRanksMapping(
-                        Map<String, List<Integer>> optionRanks,
-                        String optionReceivingRanks, int rankReceived) {
-        optionRanks.putIfAbsent(optionReceivingRanks, new ArrayList<Integer>());
+            Map<String, List<Integer>> optionRanks,
+            String optionReceivingRanks, int rankReceived) {
 
+        optionRanks.putIfAbsent(optionReceivingRanks, new ArrayList<>());
         List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
         ranksReceived.add(rankReceived);
+
     }
 
     /**
@@ -117,8 +118,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * @return a map of the option to the normalised rank of the response
      */
     protected <K> Map<K, Integer> obtainMappingToNormalisedRanksForRanking(
-                                                        Map<K, Integer> rankOfOption,
-                                                        List<K> options) {
+            Map<K, Integer> rankOfOption,
+            List<K> options) {
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
 
         // group the options/feedback response by its rank
@@ -130,8 +131,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 continue;
             }
 
-            rankToAnswersMap.putIfAbsent(rankGiven, new ArrayList<K>());
-            rankToAnswersMap.get(rankGiven).add(answer);
+            rankToAnswersMap.computeIfAbsent(rankGiven, (Integer key) -> new ArrayList<>())
+                            .add(answer);
         }
 
         // every answer in the same group is given the same rank
