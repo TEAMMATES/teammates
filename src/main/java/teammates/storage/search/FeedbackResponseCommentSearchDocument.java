@@ -462,38 +462,31 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             FeedbackResponseCommentSearchResultBundle frCommentSearchResults,
             List<InstructorAttributes> instructors, int totalResultsSize) {
 
-        Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr =
-                frCommentSearchResults.responses.entrySet().iterator();
-
         int[] filteredResultsSize = {totalResultsSize};
-        while (iterFr.hasNext()) {
-            List<FeedbackResponseAttributes> frs = iterFr.next().getValue();
+        frCommentSearchResults.responses.forEach((responseName, frs) -> frs.removeIf(response -> {
+            InstructorAttributes instructor = getInstructorForCourseId(response.courseId, instructors);
 
-            frs.removeIf(response -> {
-                InstructorAttributes instructor = getInstructorForCourseId(response.courseId, instructors);
+            boolean isVisibleResponse = true;
+            boolean isNotAllowedForInstructor =
+                    instructor == null
+                            || !instructor.isAllowedForPrivilege(
+                            response.giverSection, response.feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            || !instructor.isAllowedForPrivilege(
+                            response.recipientSection, response.feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
-                boolean isVisibleResponse = true;
-                boolean isNotAllowedForInstructor =
-                        instructor == null
-                                || !instructor.isAllowedForPrivilege(
-                                response.giverSection, response.feedbackSessionName,
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                                || !instructor.isAllowedForPrivilege(
-                                response.recipientSection, response.feedbackSessionName,
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-
-                if (isNotAllowedForInstructor) {
-                    isVisibleResponse = false;
-                }
-                if (!isVisibleResponse) {
-                    int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
-                    filteredResultsSize[0] -= sizeOfCommentList;
-                    // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
-                    frCommentSearchResults.comments.remove(response.getId());
-                }
-                return !isVisibleResponse;
-            });
-        }
+            if (isNotAllowedForInstructor) {
+                isVisibleResponse = false;
+            }
+            if (!isVisibleResponse) {
+                int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
+                filteredResultsSize[0] -= sizeOfCommentList;
+                // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
+                frCommentSearchResults.comments.remove(response.getId());
+            }
+            return !isVisibleResponse;
+        }));
 
         Set<String> emailList = frCommentSearchResults.instructorEmails;
 
@@ -568,11 +561,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
     private static void removeQuestionsAndResponsesWithoutComments(
             FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
-        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter =
-                frCommentSearchResults.questions.entrySet().iterator();
 
-        while (fqsIter.hasNext()) {
-            fqsIter.next().getValue().removeIf(fq -> frCommentSearchResults.responses.get(fq.getId()).isEmpty());
-        }
+        frCommentSearchResults.questions.forEach((fsName, questionList) -> questionList.removeIf(fq ->
+                frCommentSearchResults.responses.get(fq.getId()).isEmpty()));
     }
 }
