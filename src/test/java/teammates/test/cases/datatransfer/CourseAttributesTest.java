@@ -20,13 +20,14 @@ public class CourseAttributesTest extends BaseTestCase {
     private String validName = "validName";
     private String validId = "validId";
     private String validTimeZone = "validTimeZone";
-    private Date validCreatedAt = new Date();
+    private Date validCreatedAt = new Date(98765);
 
     @Test
     public void testStandardBuilder() {
         CourseAttributes courseAttributes = CourseAttributes
                 .builder(validId, validName, validTimeZone)
                 .build();
+        assertEquals(new Date(), courseAttributes.createdAt);
         assertEquals(validId, courseAttributes.getId());
         assertEquals(validName, courseAttributes.getName());
         assertEquals(validTimeZone, courseAttributes.getTimeZone());
