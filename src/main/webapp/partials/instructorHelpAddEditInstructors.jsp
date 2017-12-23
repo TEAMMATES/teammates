@@ -1,14 +1,10 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="editCourse">Add/Edit instructors</a>
-</h4>
+<h4 class="text-color-primary" id="editCourse">Add/Edit instructors</h4>
 <div id="contentHolder">
   <br>
   <ul>
-    <li>
-      <b>
-        <a name="editCourseAddInstructor" id="question">How do I add instructors to my course?</a>
-      </b>
+    <li id="editCourseAddInstructor">
+      <b>How do I add instructors to my course?</b>
       <div class="helpSectionContent">
         After pressing 'edit' link of the course, you can go to course edit page, where you can add new instructors and edit existing instructors in the course. However, depending on your privilege setting, you may or may not perform certain actions.
         <br> For example, edit/delete instructors, add instructor links will be disabled for those who do not have the privilege.
@@ -180,10 +176,8 @@
       </div>
     </li>
     <br>
-    <li>
-      <b>
-        <a name="editCourseEditInstructor" id="question">How do I edit instructors in my course?</a>
-      </b>
+    <li id="editCourseEditInstructor">
+      <b>How do I edit instructors in my course?</b>
       <div class="helpSectionContent">
         In course edit page, you can edit instructors in this course by pressing the 'edit' link for an instructor. After pressing the link, a form will appear for editing the instructor.
         <br> Fill in the form with the updated information of the instructor and press "Save changes" button to save the changes.
@@ -192,10 +186,8 @@
       </div>
     </li>
     <br>
-    <li>
-      <b>
-        <a name="editCourseSetAccessLevel" id="question">How do I set different access level for an instructor?</a>
-      </b>
+    <li id="editCourseSetAccessLevel">
+      <b>How do I set different access level for an instructor?</b>
       <div class="helpSectionContent">
         When adding/editing an instructor, you can set the access level for an instructor. There are 5 options for you to choose from: Co-owner, Manager, Observer, Tutor and Custom.
         <br>
@@ -210,10 +202,8 @@
       </div>
     </li>
     <br>
-    <li>
-      <b>
-        <a name="editCourseSetCustom" id="question">How do I set custom privileges for an instructor?</a>
-      </b>
+    <li id="editCourseSetCustom">
+      <b>How do I set custom privileges for an instructor?</b>
       <div class="helpSectionContent">
         When setting the access level for an instructor as 'Custom', detailed privilege settings will be available for you.
         <br>
@@ -464,7 +454,6 @@
         <br>
         <br> If a course does have sections, the link 'Give different permissions for a specific section' will be shown for customization for different sections. In the panel for section-level privilege settings, you can choose more than one section to apply the same set of settings. You can also set settings for different sessions for student in that section by click the link 'Give different permissions for sessions in this section'.
         <br>
-
       </div>
     </li>
     <br>
