@@ -596,7 +596,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 responses.add(response);
             }
         }
-        Collections.sort(responses, bundle.compareByGiverRecipientQuestion);
+        bundle.compareByGiverRecipientQuestion(responses);
         return responses;
     }
 
