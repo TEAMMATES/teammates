@@ -253,11 +253,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<>();
-        institutes.forEach((insStatName, inStatStudents) -> {
+        institutes.forEach((insName, insStudents) -> {
             InstituteStats insStat = new InstituteStats();
-            insStat.name = insStatName;
-            insStat.studentTotal = inStatStudents.get(STUDENT_INDEX).size();
-            insStat.instructorTotal = inStatStudents.get(INSTRUCTOR_INDEX).size();
+            insStat.name = insName;
+            insStat.studentTotal = insStudents.get(STUDENT_INDEX).size();
+            insStat.instructorTotal = insStudents.get(INSTRUCTOR_INDEX).size();
             list.add(insStat);
         });
         return list;
