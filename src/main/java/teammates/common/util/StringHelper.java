@@ -81,11 +81,8 @@ public final class StringHelper {
         if (inputString.length() <= truncateLength) {
             return inputString;
         }
-        String result = inputString;
-        if (inputString.length() > truncateLength) {
-            result = inputString.substring(0, truncateLength - 3) + "...";
-        }
-        return result;
+
+        return inputString.substring(0, truncateLength - 3) + "...";
     }
 
     /**
