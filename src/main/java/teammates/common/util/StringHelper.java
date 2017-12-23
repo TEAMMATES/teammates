@@ -420,14 +420,12 @@ public final class StringHelper {
     }
 
     private static boolean checkIfEmptyRow(List<String> rowData) {
-
-        for (String td : rowData) {
-            if (!td.isEmpty()) {
-                return false;
-            }
+        if(rowData.isEmpty()) {
+            return true;
         }
 
-        return true;
+        return rowData.stream()
+                .anyMatch(r -> r.isEmpty());
     }
 
     /**
