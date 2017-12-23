@@ -62,6 +62,17 @@
         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
 
+      <div>
+        <label for="input"
+            style="text-indent: 40px">
+            <span data-toggle="tooltip"
+                data-placement="top"
+                title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
+                Evaluee/Recipient
+            </span>
+        </label>
+      </div>
+
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
             questionWithResponses="${questionWithResponses}"/>
