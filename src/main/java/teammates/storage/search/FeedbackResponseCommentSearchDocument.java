@@ -3,10 +3,8 @@ package teammates.storage.search;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.appengine.api.search.Document;
@@ -466,7 +464,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         frCommentSearchResults.responses.forEach((responseName, frs) -> frs.removeIf(response -> {
             InstructorAttributes instructor = getInstructorForCourseId(response.courseId, instructors);
 
-            boolean isVisibleResponse = true;
             boolean isNotAllowedForInstructor =
                     instructor == null
                             || !instructor.isAllowedForPrivilege(
@@ -477,15 +474,12 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
 
             if (isNotAllowedForInstructor) {
-                isVisibleResponse = false;
-            }
-            if (!isVisibleResponse) {
                 int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
                 filteredResultsSize[0] -= sizeOfCommentList;
                 // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
                 frCommentSearchResults.comments.remove(response.getId());
             }
-            return !isVisibleResponse;
+            return isNotAllowedForInstructor;
         }));
 
         Set<String> emailList = frCommentSearchResults.instructorEmails;
