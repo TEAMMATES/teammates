@@ -835,7 +835,8 @@ public final class FeedbackSessionsLogic {
             throw new ExceedingRangeException(ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE);
         }
         // sort responses by giver > recipient > qnNumber
-        results.compareByGiverRecipientQuestion(results.responses);
+        Collections.sort(results.responses,
+                results.compareByGiverRecipientQuestion);
 
         StringBuilder exportBuilder = new StringBuilder(100);
 

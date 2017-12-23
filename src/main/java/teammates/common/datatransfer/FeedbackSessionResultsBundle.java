@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -76,8 +78,10 @@ public class FeedbackSessionResultsBundle {
 
     // Sorts by giverName > recipientName > qnNumber
     // General questions and team questions at the bottom.
-    public void compareByGiverRecipientQuestion(List<FeedbackResponseAttributes> responses) {
-        responses.sort((FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) -> {
+    public Comparator<FeedbackResponseAttributes> compareByGiverRecipientQuestion =
+            new Comparator<FeedbackResponseAttributes>() {
+        @Override
+        public int compare(FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) {
             String giverSection1 = o1.giverSection;
             String giverSection2 = o2.giverSection;
             int order = giverSection1.compareTo(giverSection2);
@@ -115,8 +119,8 @@ public class FeedbackSessionResultsBundle {
             }
 
             return o1.getId().compareTo(o2.getId());
-        });
-    }
+        }
+    };
 
     // Sorts by giverName > recipientName
     private void compareByGiverRecipient(List<FeedbackResponseAttributes> list) {
@@ -1937,7 +1941,7 @@ public class FeedbackSessionResultsBundle {
         if (sortByTeam) {
             compareByTeamGiverRecipientQuestion(responses);
         } else {
-            compareByGiverRecipientQuestion(responses);
+            Collections.sort(responses, compareByGiverRecipientQuestion);
         }
 
         for (FeedbackResponseAttributes response : responses) {
@@ -1982,7 +1986,7 @@ public class FeedbackSessionResultsBundle {
         if (sortByTeam) {
             compareByTeamGiverRecipientQuestion(responses);
         } else {
-            compareByGiverRecipientQuestion(responses);
+            Collections.sort(responses, compareByGiverRecipientQuestion);
         }
 
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
