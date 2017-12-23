@@ -264,7 +264,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private void sortByTotalStudentsDescending(List<InstituteStats> list) {
-        list.sort(Comparator.comparing((InstituteStats instituteStat) -> instituteStat.studentTotal));
+        list.sort((institute1,institute2) -> {
+            return Integer.compare(institute2.studentTotal, institute1.studentTotal);
+        });
     }
 
     private void updateProgressIndicator() {
