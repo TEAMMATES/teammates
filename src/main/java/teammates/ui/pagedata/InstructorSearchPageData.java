@@ -209,9 +209,9 @@ public class InstructorSearchPageData extends PageData {
             }
         }
         List<SectionDetailsBundle> sections = new ArrayList<>();
-        sectionNameToTeamNameMap.forEach((sdbName, teamNameList) -> {
+        sectionNameToTeamNameMap.forEach((sectionName, teamNameList) -> {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
-            sdb.name = sdbName;
+            sdb.name = sectionName;
             ArrayList<TeamDetailsBundle> teams = new ArrayList<>();
             for (String teamName : teamNameList) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();

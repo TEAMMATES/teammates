@@ -466,9 +466,7 @@ public final class BackDoor {
 
     private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
-        map.forEach((key, value) -> {
-            dataStringBuilder.append(key + "=" + SanitizationHelper.sanitizeForUri(value) + "&");
-        });
+        map.forEach((key, value) -> dataStringBuilder.append(key + "=" + SanitizationHelper.sanitizeForUri(value) + "&"));
         return dataStringBuilder.toString();
     }
 

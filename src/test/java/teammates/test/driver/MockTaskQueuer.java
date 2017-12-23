@@ -21,9 +21,7 @@ public class MockTaskQueuer extends TaskQueuer {
     @Override
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
         Map<String, String[]> multisetParamMap = new HashMap<>();
-        paramMap.forEach((key, value) -> {
-            multisetParamMap.put(key, new String[] { value });
-        });
+        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
         tasksAdded.add(task);
     }

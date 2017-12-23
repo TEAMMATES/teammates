@@ -411,9 +411,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         }
 
-        sortedMap.forEach((key, value) -> {
-            contribFragments.append(value);
-        });
+        sortedMap.forEach((key, value) -> contribFragments.append(value));
 
         String csvPointsExplanation =
                 "In the points given below, an equal share is equal to 100 points. "
