@@ -504,12 +504,9 @@ public final class StringHelper {
      * trailing any string in the input array.
      */
     public static String[] trim(String[] stringsToTrim) {
-        String[] stringsAfterTrim = new String[stringsToTrim.length];
-        int i = 0;
-        for (String stringToTrim : stringsToTrim) {
-            stringsAfterTrim[i++] = stringToTrim.trim();
-        }
-        return stringsAfterTrim;
+        return Arrays.stream(stringsToTrim)
+                .map(s -> s.trim())
+                .toArray(size -> new String[size]);
     }
 
     /**
