@@ -38,15 +38,16 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
 
-        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
-        int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId, instructorToEdit.isDisplayedToStudents,
-                                                                             isDisplayedToStudents);
+        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT)
+                != null;
+        int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(
+                courseId, instructorToEdit.isDisplayedToStudents, isDisplayedToStudents);
 
         // This if statement should only be processed if only one instructor is displayed to students and you are
         // making an instructor that was previously displayed to students invisible
         if (numOfInstrDisplayed < 1 && !isDisplayedToStudents && instructorToEdit.isDisplayedToStudents) {
-            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED),
-                                               StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(String.format(
+                    Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
             return result;
@@ -62,7 +63,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             }
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
-                                               StatusMessageColor.SUCCESS));
+                    StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                     + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;
@@ -81,8 +82,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
      * changes to the instructor information were successfully processed. Thus, if we are
      * trying to make the instructor false, we need to account for that.
      */
-    protected int getNumberOfInstructorsDisplayedToStudents(String courseId, boolean previousStateInstructorDisplayed,
-                                                            boolean isDisplayedToStudents) {
+    protected int getNumberOfInstructorsDisplayedToStudents(
+            String courseId, boolean isDisplayedToStudentsBeforeChanges, boolean isDisplayedToStudentsAfterChanges) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         int numOfInstrDisplayed = 0;
         for (InstructorAttributes instructor : instructors) {
@@ -90,8 +91,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                 numOfInstrDisplayed++;
             }
         }
-        // We need to account for the instructor we're trying to make false if the instructor is currently visible .
-        if (!isDisplayedToStudents && previousStateInstructorDisplayed) {
+        // We need to account for the instructor we're trying to make false if the instructor is currently visible.
+        if (!isDisplayedToStudentsAfterChanges && isDisplayedToStudentsBeforeChanges) {
             numOfInstrDisplayed--;
         }
         return numOfInstrDisplayed;
