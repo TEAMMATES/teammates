@@ -43,7 +43,7 @@
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
   </div>
-  
+
   <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
     ${response.submissionFormHtml}
     <c:if test="${response.existingResponse}">

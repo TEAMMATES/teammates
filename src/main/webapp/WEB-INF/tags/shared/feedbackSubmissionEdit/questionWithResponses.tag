@@ -62,7 +62,7 @@
         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
 
-      <div>
+      <div class="panel-body">
         <label for="input"
             style="text-indent: 40px">
             <span data-toggle="tooltip"
