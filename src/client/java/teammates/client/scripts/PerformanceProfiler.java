@@ -35,21 +35,22 @@ import teammates.test.pageobjects.BrowserPool;
  * <ul>
  * <li>Name: name of the test</li>
  * <li>CustomTimer: (default is false) if true, the function will return the duration need to recorded itself.
- *                  If false, the function return the status of the test and expected the function
- *                  which called it to record the duration.</li>
+ * If false, the function return the status of the test and expected the function
+ * which called it to record the duration.</li>
  * </ul>
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @interface PerformanceTest {
     String name() default "";
+
     boolean customTimer() default false;
 }
 
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
  * of this script in parallel, use ParallelProfiler.Java.
- *
+ * <p>
  * <p>Notes:
  * <ul>
  * <li>Edit name of the report file, the result will be written to a file in src/test/resources/data folder</li>
@@ -171,6 +172,7 @@ public class PerformanceProfiler extends Thread {
 
     /**
      * The results from file stored in filePath.
+     *
      * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
@@ -188,23 +190,23 @@ public class PerformanceProfiler extends Thread {
         }
 
         //Import old data to the HashMap
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String strLine;
-        while ((strLine = br.readLine()) != null) {
-            System.out.println(strLine);
-            String[] strs = strLine.split("\\|");
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                System.out.println(strLine);
+                String[] strs = strLine.split("\\|");
 
-            String testName = strs[0];
-            String[] durations = strs[2].split("\\,");
+                String testName = strs[0];
+                String[] durations = strs[2].split("\\,");
 
-            ArrayList<Float> arr = new ArrayList<>();
-            for (String str : durations) {
-                Float f = Float.parseFloat(str);
-                arr.add(f);
+                ArrayList<Float> arr = new ArrayList<>();
+                for (String str : durations) {
+                    Float f = Float.parseFloat(str);
+                    arr.add(f);
+                }
+                results.put(testName, arr);
             }
-            results.put(testName, arr);
         }
-        br.close();
         return results;
     }
 
@@ -217,22 +219,22 @@ public class PerformanceProfiler extends Thread {
             list.add(str);
         }
         Collections.sort(list);
-        FileWriter fstream = new FileWriter(filePath);
-        BufferedWriter out = new BufferedWriter(fstream);
+        try (FileWriter fstream = new FileWriter(filePath);
+             BufferedWriter out = new BufferedWriter(fstream)) {
 
-        for (String str : list) {
-            StringBuilder lineStrBuilder = new StringBuilder();
-            ArrayList<Float> arr = results.get(str);
-            Float total = 0.0f;
-            for (Float f : arr) {
-                total += f;
-                lineStrBuilder.append(f).append(" , ");
+            for (String str : list) {
+                StringBuilder lineStrBuilder = new StringBuilder();
+                ArrayList<Float> arr = results.get(str);
+                Float total = 0.0f;
+                for (Float f : arr) {
+                    total += f;
+                    lineStrBuilder.append(f).append(" , ");
+                }
+                String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
+                Float average = total / arr.size();
+                out.write(str + "| " + average + " | " + lineStr + "\n");
             }
-            String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
-            Float average = total / arr.size();
-            out.write(str + "| " + average + " | " + lineStr + "\n");
         }
-        out.close();
     }
 
     // TODO: this class needs to be tweaked to work with the new Browser class

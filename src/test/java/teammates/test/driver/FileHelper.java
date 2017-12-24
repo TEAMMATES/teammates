@@ -21,34 +21,31 @@ public final class FileHelper {
      * Reads the file with the specified path as a String.
      */
     public static String readFile(String filePath) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        Scanner sc = new Scanner(br);
-        try {
-            return sc.useDelimiter("\\Z").next();
-        } finally {
-            sc.close();
-            br.close();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+             Scanner sc = new Scanner(br)) {
+                return sc.useDelimiter("\\Z").next();
+            }
         }
-    }
 
     /**
      * Reads the file with the specified path as a byte array.
      */
     public static byte[] readFileAsBytes(String filePath) throws IOException {
-        FileInputStream fis = new FileInputStream(filePath);
-        byte[] buffer = new byte[1024 * 300];
-        fis.read(buffer);
-        fis.close();
-        return buffer;
+        byte[] buffer;
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            buffer = new byte[1024 * 300];
+            fis.read(buffer);
+            return buffer;
+        }
     }
 
     /**
      * Saves the supplied content to the specified file path.
      */
     public static void saveFile(String filePath, String content) throws IOException {
-        FileWriter fw = new FileWriter(new File(filePath));
-        fw.write(content);
-        fw.close();
+        try (FileWriter fw = new FileWriter(new File(filePath))) {
+            fw.write(content);
+        }
     }
 
     /**

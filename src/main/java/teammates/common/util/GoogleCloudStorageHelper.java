@@ -61,13 +61,12 @@ public final class GoogleCloudStorageHelper {
      */
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
-        GcsOutputChannel outputChannel =
-                GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                                 .createOrReplace(gcsFilename,
-                                                  new GcsFileOptions.Builder().mimeType("image/png").build());
+        try (GcsOutputChannel outputChannel = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
+                .createOrReplace(gcsFilename,
+                        new GcsFileOptions.Builder().mimeType("image/png").build())) {
 
-        outputChannel.write(ByteBuffer.wrap(imageData));
-        outputChannel.close();
+            outputChannel.write(ByteBuffer.wrap(imageData));
+        }
 
         return BlobstoreServiceFactory.getBlobstoreService()
                 .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
@@ -131,47 +130,46 @@ public final class GoogleCloudStorageHelper {
         while (size > 0) {
             // Make sure not to over-read
             int bytesToRead = Math.min(size, MAX_READING_LENGTH);
-            InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
-            byte[] array = new byte[bytesToRead];
+            try (InputStream blobStream = new BlobstoreInputStream(blobKey, offset)) {
+                byte[] array = new byte[bytesToRead];
 
-            blobStream.read(array);
+                blobStream.read(array);
 
-            // Remember where it stops reading
-            offset += MAX_READING_LENGTH;
-            // Decrease unread bytes
-            size -= MAX_READING_LENGTH;
+                // Remember where it stops reading
+                offset += MAX_READING_LENGTH;
+                // Decrease unread bytes
+                size -= MAX_READING_LENGTH;
 
-            // Get the read bytes into string and split it by ","
-            String readString = new String(array);
-            List<String> newList = Arrays.asList(readString.split(","));
+                // Get the read bytes into string and split it by ","
+                String readString = new String(array);
+                List<String> newList = Arrays.asList(readString.split(","));
 
-            if (listOfList.isEmpty()) {
-                // This is the first time reading
-                listOfList.add(newList);
-            } else {
-                // Check if the last reading stopped in the middle of a email address string
-                List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
-                // Get the last item of the list from last reading
-                String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
-                // Get the first item of the list from current reading
-                String firstStringOfNewList = newList.get(0);
-
-                if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
-                    // No broken email from last reading found, simply add the list
-                    // from current reading into the upper list.
+                if (listOfList.isEmpty()) {
+                    // This is the first time reading
                     listOfList.add(newList);
                 } else {
-                    // Either the left part or the right part of the broken email string does not contains a "@".
-                    // Simply append the right part to the left part (last item of the list from last reading).
-                    listOfList.get(listOfList.size() - 1)
-                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                    // Check if the last reading stopped in the middle of a email address string
+                    List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
+                    // Get the last item of the list from last reading
+                    String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
+                    // Get the first item of the list from current reading
+                    String firstStringOfNewList = newList.get(0);
 
-                    // And also needs to delete the right part which is the first item of the list from current reading
-                    listOfList.add(newList.subList(1, newList.size() - 1));
+                    if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
+                        // No broken email from last reading found, simply add the list
+                        // from current reading into the upper list.
+                        listOfList.add(newList);
+                    } else {
+                        // Either the left part or the right part of the broken email string does not contains a "@".
+                        // Simply append the right part to the left part (last item of the list from last reading).
+                        listOfList.get(listOfList.size() - 1)
+                                .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+
+                        // And also needs to delete the right part which is the first item of the list from current reading
+                        listOfList.add(newList.subList(1, newList.size() - 1));
+                    }
                 }
             }
-
-            blobStream.close();
         }
 
         return listOfList;

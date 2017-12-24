@@ -30,10 +30,14 @@ import teammates.common.util.Const;
  */
 final class GmailServiceMaker {
 
-    /** Global instance of the JSON factory. */
+    /**
+     * Global instance of the JSON factory.
+     */
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    /** Global instance of the HTTP transport. */
+    /**
+     * Global instance of the HTTP transport.
+     */
     private static final HttpTransport HTTP_TRANSPORT;
 
     static {
@@ -68,6 +72,7 @@ final class GmailServiceMaker {
 
     /**
      * Authorizes the user and creates an authorized Credential.
+     *
      * @return an authorized Credential
      */
     private Credential authorizeAndCreateCredentials() throws IOException {
@@ -87,14 +92,12 @@ final class GmailServiceMaker {
     }
 
     private GoogleClientSecrets loadClientSecretFromJson() throws IOException {
-        InputStream in;
-        try {
-            in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"));
+        try (InputStream in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"))) {
+            return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("You need to set up your Gmail API credentials." + Const.EOL
                     + "See docs/development.md section \"Deploying to a staging server\".", e);
         }
-        return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
     }
 
     private GoogleAuthorizationCodeFlow buildFlow(GoogleClientSecrets clientSecrets) throws IOException {
