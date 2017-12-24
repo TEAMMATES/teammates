@@ -276,28 +276,20 @@ public class UploadBackupData extends RemoteApiClient {
     private static void adjustFeedbackResponseId(FeedbackResponseAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
 
-        if (feedbackQuestionIds.containsKey(question.getId())) {
-            response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
-        } else {
-            String newId = feedbackQuestionsLogic.getFeedbackQuestion(
-                    response.feedbackSessionName, response.courseId,
-                    question.questionNumber).getId();
-            response.feedbackQuestionId = newId;
-            feedbackQuestionIds.put(question.getId(), newId);
-        }
+        String newId = feedbackQuestionsLogic.getFeedbackQuestion(
+                response.feedbackSessionName, response.courseId,
+                question.questionNumber).getId();
+        feedbackQuestionIds.putIfAbsent(question.getId(), newId);
+        response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
     }
 
     private static void adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
         FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
 
-        if (feedbackQuestionIds.containsKey(question.getId())) {
-            response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
-        } else {
-            String newId = feedbackQuestionsLogic.getFeedbackQuestion(
-                    response.feedbackSessionName, response.courseId,
-                    question.questionNumber).getId();
-            response.feedbackQuestionId = newId;
-            feedbackQuestionIds.put(question.getId(), newId);
-        }
+        String newId = feedbackQuestionsLogic.getFeedbackQuestion(
+                response.feedbackSessionName, response.courseId,
+                question.questionNumber).getId();
+        feedbackQuestionIds.putIfAbsent(question.getId(), newId);
+        response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
     }
 }
