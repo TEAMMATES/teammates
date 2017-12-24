@@ -50,7 +50,7 @@ import teammates.test.pageobjects.BrowserPool;
 /**
  * Usage: This script is to profile performance of the app with id in test.properties. To run multiple instance
  * of this script in parallel, use ParallelProfiler.Java.
- * <p>
+ *
  * <p>Notes:
  * <ul>
  * <li>Edit name of the report file, the result will be written to a file in src/test/resources/data folder</li>

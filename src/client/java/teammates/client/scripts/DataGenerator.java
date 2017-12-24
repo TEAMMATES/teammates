@@ -16,7 +16,7 @@ import teammates.test.driver.TestProperties;
 /**
  * Class that create a json data file to be used with ImportData script
  * The result file will be saved in src/test/resources/data/ folder.
- * <p>
+ *
  * <p>This script does not use any teamamtes's data structures or json framework for some reasons:
  * <ul>
  * <li>For 5000 or more students, it will consume a lot of memory. Need to store only id

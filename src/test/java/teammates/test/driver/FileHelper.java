@@ -23,9 +23,9 @@ public final class FileHelper {
     public static String readFile(String filePath) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath));
              Scanner sc = new Scanner(br)) {
-                return sc.useDelimiter("\\Z").next();
-            }
+            return sc.useDelimiter("\\Z").next();
         }
+    }
 
     /**
      * Reads the file with the specified path as a byte array.
