@@ -533,7 +533,7 @@ public final class StringHelper {
         }
 
         return elements.stream()
-                .map(i -> String.valueOf(i))
+                .map(s -> String.valueOf(s))
                 .toArray(size -> new String[size]);
     }
 
