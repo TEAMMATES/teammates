@@ -1,7 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="tips">Tips for conducting 'team peer evaluation' sessions</a>
-</h4>
+<h4 class="text-color-primary" id="tips">Tips for conducting 'team peer evaluation' sessions</h4>
 <div id="contentHolder">
   <br>
   <p>Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your course while minimizing any negative effects. Here are some of the things you could do:</p>
