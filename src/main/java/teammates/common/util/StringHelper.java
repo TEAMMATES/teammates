@@ -306,6 +306,7 @@ public final class StringHelper {
 
     public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
+
         for (byte b : bytes) {
             int v = b & 0xff;
             if (v < 16) {
@@ -313,16 +314,14 @@ public final class StringHelper {
             }
             sb.append(Integer.toHexString(v));
         }
+
         return sb.toString().toUpperCase();
     }
 
     public static byte[] hexStringToByteArray(String s) {
         byte[] b = new byte[s.length() / 2];
-        for (int i = 0; i < b.length; i++) {
-            int index = i * 2;
-            int v = Integer.parseInt(s.substring(index, index + 2), 16);
-            b[i] = (byte) v;
-        }
+        IntStream.range(0, b.length)
+                .forEach(i -> b[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
         return b;
     }
 
