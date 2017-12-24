@@ -30,11 +30,18 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
     upstream        https://github.com/TEAMMATES/teammates.git (fetch)
     upstream        https://github.com/TEAMMATES/teammates.git (push)
     ```
+1. Retrieve remote-tracking branches from the upstream repo.
+   ```sh
+   git fetch upstream
+   ```
+   **Verification:** Use the command `git branch -r` and the following lines should be part of the output:
+   ```
+   upstream/master
+   ```
 
 1. Set your `master` branch to track the main repo's `master` branch.
    ```sh
    git checkout master
-   git fetch upstream
    git branch -u upstream/master
    ```
 
