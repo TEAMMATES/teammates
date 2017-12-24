@@ -602,8 +602,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // The information in "verifyInstructorDetails" method below comes from InstructorCourseEditPageUiTest.json,
         // googleId: InsCrsEdit.tutor
         courseEditPage.verifyInstructorDetails(8, "Teammates Tutor",
-                "InsCrsEdit.tutor@gmail.tmt", true, "Instructor",
-                "Tutor");
+                "InsCrsEdit.tutor@gmail.tmt", true, "Instructor", "Tutor");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
 
         // Test that you can successfully edit a non-displayed instructor without receiving an error message,
