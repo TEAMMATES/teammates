@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -535,10 +536,8 @@ public final class StringHelper {
         }
 
         String[] elementsArr = new String[elements.size()];
-
-        for (int i = 0; i < elements.size(); i++) {
-            elementsArr[i] = String.valueOf(elements.get(i));
-        }
+        IntStream.range(0, elements.size())
+                .forEach(i -> elementsArr[i] = String.valueOf(elements.get(i)));
 
         return elementsArr;
     }
