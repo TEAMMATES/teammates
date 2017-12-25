@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -344,20 +345,17 @@ public final class StringHelper {
 
         StringBuilder result = new StringBuilder();
 
-        for (String line : lines) {
-
-            List<String> rowData = getTableData(line);
-
-            if (checkIfEmptyRow(rowData)) {
-                continue;
-            }
-
-            result.append("<tr>");
-            for (String td : rowData) {
-                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
-            }
-            result.append("</tr>");
-        }
+        Arrays.stream(lines)
+                .map(StringHelper::getTableData)
+                .filter(rowData -> !checkIfEmptyRow(rowData))
+                .forEach(rowData -> {
+                    result.append("<tr>");
+                    for (String td : rowData) {
+                        String format = String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td));
+                        result.append(format);
+                    }
+                    result.append("</tr>");
+                });
 
         return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
                              result.toString());
