@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -178,14 +180,11 @@ public final class StringHelper {
             return "";
         }
 
-        StringBuilder returnValue = new StringBuilder();
-        for (int i = 0; i < list.size() - 1; i++) {
-            returnValue.append(list.get(i)).append(delimiter);
-        }
+        int size = list.size();
+        return IntStream.range(0, size - 1)
+                .mapToObj(i -> list.get(i) + delimiter)
+                .collect(Collectors.joining("", "", String.valueOf(list.get(size - 1))));
         //append the last item
-        returnValue.append(list.get(list.size() - 1));
-
-        return returnValue.toString();
     }
 
     public static String toDecimalFormatString(double doubleVal) {
@@ -286,11 +285,9 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<>();
-        for (String s : strSet) {
-            result.add(removeExtraSpace(s));
-        }
-        return result;
+        return strSet.stream()
+                .map(StringHelper::removeExtraSpace)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     /**
