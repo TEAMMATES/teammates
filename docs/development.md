@@ -133,6 +133,7 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 
 **NOTE**
 > The dev server sets its time zone to UTC at startup.
+> View and edit `test.selenium.browser` in `src/test/resources/test.properties` to change browser for testing (default is firefox)
 
 ### Using Firefox
 
