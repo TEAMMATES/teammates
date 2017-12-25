@@ -531,13 +531,7 @@ public final class StringHelper {
             throw new IllegalArgumentException("Provided arguments cannot be null");
         }
 
-        String[] elementsArr = new String[elements.size()];
-
-        for (int i = 0; i < elements.size(); i++) {
-            elementsArr[i] = String.valueOf(elements.get(i));
-        }
-
-        return elementsArr;
+        return elements.stream().map(String::valueOf).toArray(String[]::new);
     }
 
     /**
