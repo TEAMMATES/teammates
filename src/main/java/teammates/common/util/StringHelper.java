@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -33,13 +34,14 @@ public final class StringHelper {
         return s == null || s.isEmpty();
     }
 
+    /**
+     * Generates a string with a repeated {@code character}.
+     * @param length The number of times to repeated
+     * @param character The char to be repeated
+     */
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(character);
-        }
-        return sb.toString();
+        return String.join("", Collections.nCopies(length, "" + character));
     }
 
     public static boolean isWhiteSpace(String string) {
