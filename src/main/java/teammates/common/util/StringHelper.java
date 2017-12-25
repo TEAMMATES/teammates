@@ -306,11 +306,9 @@ public final class StringHelper {
 
         char[] charArray = str.toCharArray();
 
-        for (int i = 0; i < charArray.length; i++) {
-            if (!isMatching(Character.toString(charArray[i]), regex)) {
-                charArray[i] = replacement;
-            }
-        }
+        IntStream.range(0, charArray.length)
+                .filter(i -> !isMatching(Character.toString(charArray[i]), regex))
+                .forEach(i -> charArray[i] = replacement);
 
         return String.valueOf(charArray);
     }
