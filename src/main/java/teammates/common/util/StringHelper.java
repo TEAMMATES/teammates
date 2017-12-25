@@ -65,12 +65,7 @@ public final class StringHelper {
      * @param regexList The regex list used for the matching
      */
     public static boolean isAnyMatching(String input, List<String> regexList) {
-        for (String regex : regexList) {
-            if (isMatching(input.trim().toLowerCase(), regex)) {
-                return true;
-            }
-        }
-        return false;
+        return regexList.stream().anyMatch(regex -> isMatching(input.trim().toLowerCase(), regex));
     }
 
     public static String getIndent(int length) {
