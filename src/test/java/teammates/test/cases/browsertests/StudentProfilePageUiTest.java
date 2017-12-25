@@ -133,7 +133,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withGoogleId("valid.id")
                 .withShortName("name<script>alert(\"Hello world!\");</script>")
                 .withEmail("e@email.tmt")
-                .withGender("male")
+                .withGender("MALE")
                 .withMoreInfo("this is enough!$%&*</><script>alert(\"Hello world!\");</script>")
                 .withInstitute("inst<script>alert(\"Hello world!\");</script>")
                 .withNationality("American")
@@ -160,7 +160,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         spa = StudentProfileAttributes.builder()
                 .withGoogleId("valid.id").withShortName("short.name").withEmail("e@email.tmt")
-                .withGender("male").withMoreInfo("this is enough!$%&*</>")
+                .withGender("MALE").withMoreInfo("this is enough!$%&*</>")
                 .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
                 .build();
         profilePage.editProfileThroughUi(spa.shortName, spa.email, spa.institute, spa.nationality, spa.gender.name(),

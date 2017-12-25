@@ -196,8 +196,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         if ("male".equals(value) || "female".equals(value) || "other".equals(value)) {
             spa.gender = Gender.valueOf(value);
-        } else {
-            spa.gender = Gender.none;
         }
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;

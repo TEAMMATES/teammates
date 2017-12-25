@@ -59,7 +59,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     @Test
     public void testGetInstructorAccounts() throws Exception {
-        int numOfInstructors = 4;
+        int numOfInstructors = 3;
 
         // a non-instructor account
         createNewAccount();
@@ -151,7 +151,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         // Re-retrieve
         accountDataTest = accountsDb.getAccount(a.googleId, true);
         assertTrue(accountDataTest.isInstructor);
-        assertEquals((String) Const.GenderTypes.FEMALE, (String) accountDataTest.studentProfile.gender.toString());
+        assertEquals(Const.GenderTypes.FEMALE, accountDataTest.studentProfile.gender.toString());
 
         accountsDb.deleteAccount(a.googleId);
 

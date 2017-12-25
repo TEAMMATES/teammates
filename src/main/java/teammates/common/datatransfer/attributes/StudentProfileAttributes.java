@@ -26,8 +26,26 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String institute;
     public String nationality;
 
+    /**
+     *  Gender that can be used.
+     *  <li>{@link #MALE}</li>
+     *  <li>{@link #FEMALE}</li>
+     *  <li>{@link #OTHER}</li>
+     */
+
     public enum Gender {
-    male, female, other, none
+     /**
+      *MALE.
+      */
+     MALE,
+     /**
+      *FEMALE.
+      */
+     FEMALE,
+     /**
+      * OTHER.
+      */
+     OTHER
     }
 
     public Gender gender;
@@ -43,7 +61,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.email = "";
         this.institute = "";
         this.nationality = "";
-        this.gender = Gender.other;
+        this.gender = Gender.OTHER;
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = new Date();
@@ -55,7 +73,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(sp.getShortName())
                 .withEmail(sp.getEmail())
                 .withInstitute(sp.getInstitute())
-                .withGender(sp.getGender())
+                .withGender(sp.getGender().toString())
                 .withNationality(sp.getNationality())
                 .withMoreInfo(sp.getMoreInfo().getValue())
                 .withPictureKey(sp.getPictureKey().getKeyString())
@@ -77,7 +95,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
-                .withGender(gender.name())
+                .withGender(gender.toString())
                 .withNationality(nationality)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
@@ -150,7 +168,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public StudentProfile toEntity() {
-        return new StudentProfile(googleId, shortName, email, institute, nationality, gender.name(),
+        return new StudentProfile(googleId, shortName, email, institute, nationality, gender.toString(),
                                   new Text(moreInfo), new BlobKey(this.pictureKey));
     }
 
@@ -221,7 +239,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public Builder withGender(String gender) {
-            profileAttributes.gender = isGenderValid(gender) ? Gender.valueOf(gender) : Gender.other;
+            profileAttributes.gender = isGenderValid(gender) ? Gender.valueOf(gender.toUpperCase()) : Gender.OTHER;
             return this;
         }
 
@@ -249,7 +267,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         private boolean isGenderValid(String gender) {
-            return "male".equals(gender) || "female".equals(gender) || "other".equals(gender);
+            return gender.equalsIgnoreCase(Gender.MALE.toString()) || gender.equalsIgnoreCase(Gender.FEMALE.toString());
         }
     }
 }

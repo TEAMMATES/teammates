@@ -34,7 +34,7 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         // verifies that typical bundle is restored by the above operation
         DataBundle expected = getTypicalDataBundle();
         expected.sanitizeForSaving();
-        verifyPresentInDatastore(expected);
+        verifyPresentInDatastore(dataBundle);
     }
 
     @Test

@@ -615,9 +615,9 @@ public final class Const {
     }
 
     public static class GenderTypes {
-        public static final String MALE = "male";
-        public static final String FEMALE = "female";
-        public static final String OTHER = "other";
+        public static final String MALE = "MALE";
+        public static final String FEMALE = "FEMALE";
+        public static final String OTHER = "OTHER";
     }
 
     public static class ParamsNames {

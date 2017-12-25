@@ -33,7 +33,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         profile.institute = "institute";
         profile.email = "valid@email.com";
         profile.nationality = "Lebanese";
-        profile.gender = Gender.female;
+        profile.gender = Gender.FEMALE;
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
     }
@@ -67,7 +67,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", "male",
+                "Teammates Institute", "American", "MALE",
                 new Text("hello"), new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
@@ -200,7 +200,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     private StudentProfile createStudentProfileFrom(
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
-                                  profile.institute, profile.nationality, profile.gender.name(),
+                                  profile.institute, profile.nationality, profile.gender.toString(),
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
     }
 

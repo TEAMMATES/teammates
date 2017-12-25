@@ -10,12 +10,12 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
-
 /**
  * Action: saves the new profile details given by a student.
  *         A purely Action based URI as it redirects back to
  *         StudentProfilePageAction once completed
  */
+
 public class StudentProfileEditSaveAction extends Action {
 
     @Override
@@ -58,8 +58,6 @@ public class StudentProfileEditSaveAction extends Action {
 
         if ("male".equals(value) || "female".equals(value) || "other".equals(value)) {
             editedProfile.gender = Gender.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
-        } else {
-            editedProfile.gender = Gender.none;
         }
 
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);

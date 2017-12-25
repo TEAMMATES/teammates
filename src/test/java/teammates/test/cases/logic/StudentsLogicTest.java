@@ -212,7 +212,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
         expectedStudentProfile.nationality = "Angolan";
-        expectedStudentProfile.gender = Gender.female;
+        expectedStudentProfile.gender = Gender.FEMALE;
         expectedStudentProfile.moreInfo = "This sentence may sound sound but it cannot make actual sound... :P";
 
         student1.studentProfile = expectedStudentProfile;
