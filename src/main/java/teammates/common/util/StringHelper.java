@@ -41,7 +41,7 @@ public final class StringHelper {
      */
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
-        return String.join("", Collections.nCopies(length, "" + character));
+        return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 
     public static boolean isWhiteSpace(String string) {
