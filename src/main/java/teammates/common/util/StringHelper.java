@@ -18,6 +18,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import teammates.common.exception.InvalidParametersException;
 
+
+
 /**
  * Holds String-related helper functions.
  */
@@ -305,13 +307,11 @@ public final class StringHelper {
             return null;
         }
 
-        char[] charArray = str.toCharArray();
-
-        IntStream.range(0, charArray.length)
-                .filter(i -> !isMatching(Character.toString(charArray[i]), regex))
-                .forEach(i -> charArray[i] = replacement);
-
-        return String.valueOf(charArray);
+        return str.codePoints()
+                .mapToObj(c -> (char) c)
+                .map(c -> isMatching(Character.toString(c), regex) ? c : replacement)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     public static String byteArrayToHexString(byte[] bytes) {
