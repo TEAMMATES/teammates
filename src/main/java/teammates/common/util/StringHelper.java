@@ -464,13 +464,7 @@ public final class StringHelper {
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
-        int numOfEmptyStrings = 0;
-        for (String s : strings) {
-            if (isEmpty(s)) {
-                numOfEmptyStrings += 1;
-            }
-        }
-        return numOfEmptyStrings;
+        return (int) Arrays.stream(strings).filter(StringHelper::isEmpty).count();
     }
 
     /**
