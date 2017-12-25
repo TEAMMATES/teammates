@@ -18,8 +18,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import teammates.common.exception.InvalidParametersException;
 
-
-
 /**
  * Holds String-related helper functions.
  */
