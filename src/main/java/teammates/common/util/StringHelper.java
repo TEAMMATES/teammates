@@ -503,10 +503,8 @@ public final class StringHelper {
      */
     public static String[] trim(String[] stringsToTrim) {
         String[] stringsAfterTrim = new String[stringsToTrim.length];
-        int i = 0;
-        for (String stringToTrim : stringsToTrim) {
-            stringsAfterTrim[i++] = stringToTrim.trim();
-        }
+        Arrays.stream(stringsAfterTrim)
+                .forEach(String::trim);
         return stringsAfterTrim;
     }
 
