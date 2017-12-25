@@ -104,8 +104,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private void setMcqQuestionDetails(int numOfMcqChoices,
-                                       List<String> mcqChoices,
-                                       boolean otherEnabled) {
+            List<String> mcqChoices,
+            boolean otherEnabled) {
         this.numOfMcqChoices = numOfMcqChoices;
         this.mcqChoices = mcqChoices;
         this.otherEnabled = otherEnabled;
@@ -166,7 +166,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
                             Slots.CHECKED,
-                            existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
+                                    existingMcqResponse.getAnswerString().equals(choices.get(i)) ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment).append(Const.EOL);
@@ -182,9 +182,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.CHECKED, isOtherSelected ? "checked" : "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
-                            Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             Slots.MCQ_CHOICE_VALUE,
-                            SanitizationHelper.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
+                                    SanitizationHelper.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
                             Slots.MCQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
         }
@@ -224,7 +224,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.CHECKED, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MCQ_PARAM_IS_OTHER_OPTION_ANSWER,
-                            Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
+                                    Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             Slots.MCQ_CHOICE_VALUE, "",
                             Slots.MCQ_OTHER_OPTION_ANSWER, "0");
             optionListHtml.append(otherOptionFragment).append(Const.EOL);
@@ -325,8 +325,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         mcqChoices.add("");
 
         return "<div id=\"mcqForm\">"
-                + getQuestionSpecificEditFormHtml(-1)
-                + "</div>";
+                  + getQuestionSpecificEditFormHtml(-1)
+             + "</div>";
     }
 
     @Override
@@ -374,10 +374,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-                                                  FeedbackQuestionAttributes question,
-                                                  String studentEmail,
-                                                  FeedbackSessionResultsBundle bundle,
-                                                  String view) {
+            FeedbackQuestionAttributes question,
+            String studentEmail,
+            FeedbackSessionResultsBundle bundle,
+            String view) {
 
         if ("student".equals(view) || responses.isEmpty()) {
             return "";
@@ -459,8 +459,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
             fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey())).append(',')
-                    .append(entry.getValue().toString()).append(',')
-                    .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
+                     .append(entry.getValue().toString()).append(',')
+                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
         }
 
         return "Choice, Response Count, Percentage" + Const.EOL

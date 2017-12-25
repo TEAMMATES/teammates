@@ -564,7 +564,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
             // Compute maximum score received
             max.putIfAbsent(recipientEmail, answer);
-
             double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
             max.put(recipientEmail, maxScoreReceived);
 

@@ -808,9 +808,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String recipientTeam = bundle.getTeamNameForEmail(recipient);
                 String recipientName = bundle.getNameForEmail(recipient);
                 return new RubricRecipientStatistics(recipient, recipientName, recipientTeam);
-            });
-
-            recipientToRecipientStats.get(response.recipient).addResponseToRecipientStats(response);
+            })
+                .addResponseToRecipientStats(response);
         }
 
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =

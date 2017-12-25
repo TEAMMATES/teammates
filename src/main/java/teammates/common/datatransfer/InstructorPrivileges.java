@@ -229,7 +229,7 @@ public final class InstructorPrivileges {
             return;
         }
         this.sectionLevel.computeIfAbsent(sectionName, (String key) -> new LinkedHashMap<>())
-                            .put(privilegeName, isAllowed);
+                         .put(privilegeName, isAllowed);
     }
 
     private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,
@@ -239,7 +239,7 @@ public final class InstructorPrivileges {
         }
         verifyExistenceOfsectionName(sectionName);
         this.sessionLevel.get(sectionName).computeIfAbsent(sessionName, (String key) -> new LinkedHashMap<>())
-                                            .put(privilegeName, isAllowed);
+                                          .put(privilegeName, isAllowed);
     }
 
     public void updatePrivileges(String sectionName, Map<String, Boolean> privileges) {

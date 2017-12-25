@@ -121,7 +121,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
             orderedOptions.computeIfAbsent(answer, (Integer key) -> new ArrayList<>())
-                            .add(option);
+                          .add(option);
         }
         return orderedOptions;
     }

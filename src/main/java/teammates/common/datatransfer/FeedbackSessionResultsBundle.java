@@ -1729,8 +1729,8 @@ public class FeedbackSessionResultsBundle {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
 
             List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion =
-                    responsesForOneRecipient.computeIfAbsent(question, (FeedbackQuestionAttributes key)
-                            -> new ArrayList<>());
+                    responsesForOneRecipient.computeIfAbsent(question,
+                            (FeedbackQuestionAttributes key) -> new ArrayList<>());
 
             responsesForOneRecipientOneQuestion.add(response);
         }
@@ -1761,7 +1761,7 @@ public class FeedbackSessionResultsBundle {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
 
             responsesFromOneGiver.computeIfAbsent(question, (FeedbackQuestionAttributes key) -> new ArrayList<>())
-                    .add(response);
+                                 .add(response);
         }
 
         return sortedMap;
@@ -1789,7 +1789,7 @@ public class FeedbackSessionResultsBundle {
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             responsesForOneRecipient.computeIfAbsent(question, (FeedbackQuestionAttributes key) -> new ArrayList<>())
-                    .add(response);
+                                    .add(response);
         }
 
         return sortedMap;
@@ -1834,7 +1834,7 @@ public class FeedbackSessionResultsBundle {
             String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
 
             responsesToOneRecipient.computeIfAbsent(giverNameWithTeam, (String key) -> new ArrayList<>())
-                    .add(response);
+                                   .add(response);
         }
 
         return sortedMap;
@@ -1872,7 +1872,7 @@ public class FeedbackSessionResultsBundle {
 
             String giverEmail = response.giver;
             responsesToOneRecipient.computeIfAbsent(giverEmail, (String key) -> new ArrayList<>())
-                    .add(response);
+                                   .add(response);
         }
 
         return sortedMap;
@@ -1902,7 +1902,7 @@ public class FeedbackSessionResultsBundle {
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             responsesFromOneGiver.computeIfAbsent(question, (FeedbackQuestionAttributes key) -> new ArrayList<>())
-                    .add(response);
+                                 .add(response);
         }
 
         return sortedMap;
@@ -1946,7 +1946,7 @@ public class FeedbackSessionResultsBundle {
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
 
             responsesFromOneGiver.computeIfAbsent(recipientNameWithTeam, (String key) -> new ArrayList<>())
-                    .add(response);
+                                 .add(response);
         }
 
         return sortedMap;
@@ -1982,7 +1982,7 @@ public class FeedbackSessionResultsBundle {
 
             String recipientEmail = response.recipient;
             responsesFromOneGiver.computeIfAbsent(recipientEmail, (String key) -> new ArrayList<>())
-                    .add(response);
+                                 .add(response);
         }
 
         return sortedMap;
