@@ -488,20 +488,16 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             String fsName = questionSet.getKey();
             List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
 
-            for (int i = questionList.size() - 1; i >= 0; i--) {
-                FeedbackQuestionAttributes question = questionList.get(i);
+            questionList.removeIf(question -> {
                 List<FeedbackResponseAttributes> responseList = frCommentSearchResults.responses.get(question.getId());
 
-                for (int j = responseList.size() - 1; j >= 0; j--) {
-                    FeedbackResponseAttributes response = responseList.get(j);
+                responseList.removeIf(response -> {
                     List<FeedbackResponseCommentAttributes> commentList =
                             frCommentSearchResults.comments.get(response.getId());
 
-                    for (int k = commentList.size() - 1; k >= 0; k--) {
-                        FeedbackResponseCommentAttributes comment = commentList.get(k);
-
+                    commentList.removeIf(comment -> {
                         if (emailList.contains(comment.giverEmail)) {
-                            continue;
+                            return false;
                         }
 
                         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
@@ -509,7 +505,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 || comment.isVisibleTo(FeedbackParticipantType.GIVER);
 
                         if (isVisibleToGiver && emailList.contains(response.giver)) {
-                            continue;
+                            return false;
                         }
 
                         boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
@@ -517,7 +513,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
 
                         if (isVisibleToReceiver && emailList.contains(response.recipient)) {
-                            continue;
+                            return false;
                         }
 
                         boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
@@ -525,21 +521,16 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
                         if (isVisibleToInstructor) {
-                            continue;
+                            return false;
                         }
-                        commentList.remove(k);
-                    }
-                    if (commentList.isEmpty()) {
-                        responseList.remove(j);
-                    }
-                }
-                if (responseList.isEmpty()) {
-                    questionList.remove(i);
-                }
-            }
+                        return true;
+                    });
+                    return commentList.isEmpty();
+                });
+                return responseList.isEmpty();
+            });
             return questionList.isEmpty();
         });
-
         return filteredResultsSize[0];
     }
 
