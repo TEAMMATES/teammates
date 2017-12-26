@@ -953,7 +953,7 @@
               </ul>
               <br>
               <label for="input" style="text-indent: 40px">
-                <span data-toggle="tooltip" data-placement="top" title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee/Recipient </span> 
+                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee/Recipient </span>
               </label>
 
               <br>
