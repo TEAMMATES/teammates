@@ -138,7 +138,7 @@ public class StudentSearchDocument extends SearchDocument {
                 .thenComparing(student -> student.section)
                 .thenComparing(student -> student.team)
                 .thenComparing(student -> student.name)
-                .thenComparing(student -> student.name));
+                .thenComparing(student -> student.email));
     }
 
 }
