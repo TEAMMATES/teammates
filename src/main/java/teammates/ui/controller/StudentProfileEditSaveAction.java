@@ -54,10 +54,12 @@ public class StudentProfileEditSaveAction extends Action {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
 
-        String value = Const.ParamsNames.STUDENT_GENDER;
+        String value = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
 
-        if ("male".equals(value) || "female".equals(value) || "other".equals(value)) {
-            editedProfile.gender = Gender.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
+        if (value != null && ("MALE".equalsIgnoreCase(value) || "FEMALE".equalsIgnoreCase(value))) {
+            editedProfile.gender = Gender.valueOf(value.toUpperCase());
+        } else {
+            editedProfile.gender = Gender.OTHER;
         }
 
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);

@@ -5,7 +5,7 @@
 <%@ tag import= "teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender" %>
 <%@ tag import="teammates.common.util.Const" %>
 <c:set var="none"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
-<c:set var="other"><%= Gender.OTHER %></c:set>
+<c:set var="OTHER"><%= Gender.OTHER %></c:set>
 <div class="row">
   <div class="col-xs-12">
     <div class="row" id="studentProfile">

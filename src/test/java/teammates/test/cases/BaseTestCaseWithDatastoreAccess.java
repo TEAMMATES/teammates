@@ -250,9 +250,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) {
-        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
-    }
+    protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

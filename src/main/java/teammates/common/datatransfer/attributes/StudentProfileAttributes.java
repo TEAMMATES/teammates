@@ -265,7 +265,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         private boolean isGenderValid(String gender) {
-            return gender.equalsIgnoreCase(Gender.MALE.toString()) || gender.equalsIgnoreCase(Gender.FEMALE.toString());
+            return "MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender) || "OTHER".equalsIgnoreCase(gender);
         }
     }
 }

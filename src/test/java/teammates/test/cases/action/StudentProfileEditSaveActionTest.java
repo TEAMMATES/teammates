@@ -191,7 +191,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
         String value = StringHelper.trimIfNotNull(submissionParams[9]);
 
-        if ("male".equals(value) || "female".equals(value) || "other".equals(value)) {
+        if ("MALE".equalsIgnoreCase(value) || "FEMALE".equalsIgnoreCase(value) || "OTHER".equalsIgnoreCase(value)) {
             spa.gender = Gender.valueOf(value);
         }
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
@@ -211,7 +211,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
+                Const.ParamsNames.STUDENT_GENDER, "FEMALE",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
         };
     }
