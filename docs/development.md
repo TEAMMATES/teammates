@@ -128,12 +128,12 @@ You need a student account which can be created by instructors.
 
 ## Testing
 
-TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
-It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
+* TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
+  * It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
+  * View and edit `test.selenium.browser` in `src/test/resources/test.properties` to change browser for testing (default is `firefox`)
 
 **NOTE**
 > The dev server sets its time zone to UTC at startup.
-> View and edit `test.selenium.browser` in `src/test/resources/test.properties` to change browser for testing (default is firefox)
 
 ### Using Firefox
 
