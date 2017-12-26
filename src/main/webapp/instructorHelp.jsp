@@ -27,13 +27,13 @@
               <a href="#faq4">How do I delete students from a course?</a>
             </li>
             <li>
-              <a href="#faq6">How do I change the Google ID associated with a student?</a>
+              <a href="#faq5">How do I change the Google ID associated with a student?</a>
             </li>
             <li>
-              <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
+              <a href="#faq6">What to do if a student says his/her courses have disappeared from the system?</a>
             </li>
             <li>
-              <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+              <a href="#faq7">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
             </li>
             <li>
               <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
