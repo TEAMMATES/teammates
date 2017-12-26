@@ -545,49 +545,31 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
-            if (!numResponses.containsKey(recipientEmail)) {
-                numResponses.put(recipientEmail, 0);
-            }
-            int numOfResponses = numResponses.get(recipientEmail) + 1;
+            int numOfResponses = numResponses.getOrDefault(recipientEmail, 0) + 1;
             numResponses.put(recipientEmail, numOfResponses);
 
             // Compute number of responses excluding user's self response
-            if (!numResponsesExcludingSelf.containsKey(recipientEmail)) {
-                numResponsesExcludingSelf.put(recipientEmail, 0);
-            }
             boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
             if (!isSelfResponse) {
-                int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
+                int numOfResponsesExcludingSelf = numResponsesExcludingSelf.getOrDefault(recipientEmail, 0) + 1;
                 numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
             }
 
             // Compute minimum score received
-            if (!min.containsKey(recipientEmail)) {
-                min.put(recipientEmail, answer);
-            }
-            double minScoreReceived = Math.min(answer, min.get(recipientEmail));
+            double minScoreReceived = Math.min(answer, min.getOrDefault(recipientEmail, answer));
             min.put(recipientEmail, minScoreReceived);
 
             // Compute maximum score received
-            if (!max.containsKey(recipientEmail)) {
-                max.put(recipientEmail, answer);
-            }
-            double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
+            double maxScoreReceived = Math.max(answer, max.getOrDefault(recipientEmail, answer));
             max.put(recipientEmail, maxScoreReceived);
 
             // Compute total score received
-            if (!total.containsKey(recipientEmail)) {
-                total.put(recipientEmail, 0.0);
-            }
-            double totalScore = total.get(recipientEmail) + answer;
+            double totalScore = total.getOrDefault(recipientEmail, 0.0) + answer;
             total.put(recipientEmail, totalScore);
 
             // Compute total score received excluding self
-            if (!totalExcludingSelf.containsKey(recipientEmail)) {
-                totalExcludingSelf.put(recipientEmail, null);
-            }
             if (!isSelfResponse) {
-                Double totalScoreExcludingSelf = totalExcludingSelf.get(recipientEmail);
+                Double totalScoreExcludingSelf = totalExcludingSelf.getOrDefault(recipientEmail, null);
 
                 // totalScoreExcludingSelf == null when the user has only self response
                 totalExcludingSelf.put(recipientEmail,
@@ -595,19 +577,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
 
             // Compute average score received
-            if (!average.containsKey(recipientEmail)) {
-                average.put(recipientEmail, 0.0);
-            }
-            double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
+            double averageReceived = total.getOrDefault(recipientEmail, 0.0) / numResponses.get(recipientEmail);
             average.put(recipientEmail, averageReceived);
 
             // Compute average score received excluding self
-            if (!averageExcludingSelf.containsKey(recipientEmail)) {
-                averageExcludingSelf.put(recipientEmail, null);
-            }
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
                 double averageReceivedExcludingSelf =
-                        totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
+                        totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.getOrDefault(recipientEmail, null);
                 averageExcludingSelf.put(recipientEmail, averageReceivedExcludingSelf);
             }
         }
