@@ -1,15 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="editComments">Comments</a>
-</h4>
+<h4 class="text-color-primary" id="editComments">Comments</h4>
 <div id="contentHolder">
   <br>
   <ol style="list-style-type:none;">
-    <li>
+    <li id="addResponseComments">
       <span class="text-bold">
-        <a name="addResponseComments">
           <h3>1. Create comments for response</h3>
-        </a>
       </span>
       <div class="row">
         <br> To create comments for response, go to the
@@ -149,11 +145,9 @@
         </div>
       </div>
     </li>
-    <li>
+    <li id="editDeleteComments">
       <span class="text-bold">
-        <a name="editDeleteComments">
           <h3>2. Edit and delete comments</h3>
-        </a>
       </span>
       <div class="row">
         <br> Go to the same page used for adding a comment, then hover the mouse upon a comment.
@@ -166,11 +160,9 @@
         <br>
       </div>
     </li>
-    <li>
+    <li id="searchComments">
       <span class="text-bold">
-        <a name="searchComments">
           <h3>3. Search for comments</h3>
-        </a>
       </span>
       <div class="row">
         <br> Go to the
