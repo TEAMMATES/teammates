@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -89,15 +88,9 @@ public class InstructorStudentRecordsPageAction extends Action {
 
     private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
                                         InstructorAttributes instructor, StudentAttributes student) {
-        Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
-        while (iterFs.hasNext()) {
-            FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.getCourseId().equals(courseId)
-                    || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                iterFs.remove();
-            }
-        }
+        feedbacks.removeIf(tempFs -> !tempFs.getCourseId().equals(courseId)
+                || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
     }
 
 }
