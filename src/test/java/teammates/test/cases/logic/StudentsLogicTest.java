@@ -200,6 +200,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // fill-in auto-generated and default values
         expectedSpa.institute = actualSpa.institute;
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        expectedSpa.gender = actualSpa.gender;
 
         assertEquals(expectedSpa.toString(), actualSpa.toString());
 
@@ -640,7 +641,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
-                .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
+                .withGoogleId(instructorId).withShortName("Ins1").withGender("MALE")
                 .build();
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",

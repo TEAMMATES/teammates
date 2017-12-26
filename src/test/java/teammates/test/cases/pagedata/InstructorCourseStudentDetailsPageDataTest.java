@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
@@ -53,7 +54,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(pictureUrl, studentProfile.getPictureUrl());
         assertEquals(inputStudent.name, studentProfile.getName());
         assertEquals(inputStudentProfile.shortName, studentProfile.getShortName());
-        assertEquals(inputStudentProfile.gender.name(), studentProfile.getGender());
+        assertEquals(inputStudentProfile.gender.name(), studentProfile.getGender().toString());
         assertEquals(inputStudentProfile.email, studentProfile.getEmail());
         assertEquals(inputStudentProfile.institute, studentProfile.getInstitute());
         assertEquals(inputStudentProfile.nationality, studentProfile.getNationality());
@@ -98,7 +99,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
-        String gender = Const.GenderTypes.MALE;
+        Gender gender = Gender.MALE;
         String moreInfo = "Information for John Doe.";
 
         if (pictureKey == null || pictureKey.isEmpty()) {
@@ -114,7 +115,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withNationality(nationality)
-                .withGender(gender)
+                .withGender(gender.name())
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();

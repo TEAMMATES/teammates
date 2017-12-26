@@ -151,8 +151,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForGender(gender.name()), errors);
-
         Assumption.assertNotNull(this.pictureKey);
 
         // No validation for modified date as it is determined by the system.

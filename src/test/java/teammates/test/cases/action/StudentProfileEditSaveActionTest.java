@@ -113,9 +113,6 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         expectedErrorMessages.add(
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         SanitizationHelper.sanitizeForHtml(submissionParams[7])));
-        expectedErrorMessages.add(
-                String.format(FieldValidator.GENDER_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[9])));
 
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
 

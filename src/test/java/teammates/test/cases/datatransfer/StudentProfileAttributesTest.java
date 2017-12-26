@@ -67,7 +67,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", "MALE",
+                "Teammates Institute", "American", Gender.MALE.toString(),
                 new Text("hello"), new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
@@ -76,7 +76,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getEmail(), profileAttributes.email);
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
-        assertEquals(studentProfile.getGender(), profileAttributes.gender.name());
+        assertEquals(studentProfile.getGender().name(), profileAttributes.gender.name());
         assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
         assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
 
@@ -115,6 +115,24 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         testGetInvalidityInfoForValidProfileWithValues();
         testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
+    }
+
+    @Test
+    public void testValidImportGender() {
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
+        StudentProfile studentProfile = new StudentProfile(spa.googleId);
+        studentProfile.importGender("MALE");
+
+        assertEquals(Gender.MALE, studentProfile.getGender());
+        assertFalse(studentProfile.getGender().equals(Gender.FEMALE));
+        assertFalse(studentProfile.getGender().equals(Gender.OTHER));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInValidImportGender() {
+        StudentProfileAttributes spa2 = StudentProfileAttributes.valueOf(profile.toEntity());
+        StudentProfile studentProfile2 = new StudentProfile(spa2.googleId);
+        studentProfile2.importGender("banana"); // throws expected exception
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
@@ -235,7 +253,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
-        String gender = "invalidGender";
+
+        Gender gender = Gender.MALE;
+
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
@@ -245,7 +265,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withNationality(nationality)
-                .withGender(gender)
+                .withGender(gender.name())
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();
@@ -257,7 +277,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String email = "'toSanitize@email.com'";
         String institute = "institute/\"";
         String nationality = "&\"invalid nationality &";
-        String gender = "'\"'invalidGender";
+
+        Gender gender = Gender.MALE;
+
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 
@@ -267,7 +289,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withNationality(nationality)
-                .withGender(gender)
+                .withGender(gender.name())
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();

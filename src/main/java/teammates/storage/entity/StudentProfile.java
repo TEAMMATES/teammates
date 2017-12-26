@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.AlsoLoad;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -169,6 +170,14 @@ public class StudentProfile extends BaseEntity {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    // Equalizes Objectify and GenderType enum
+    public void importGender(@AlsoLoad("gender") String gender) {
+        if (gender == null) {
+            return;
+        }
+        this.gender = Gender.valueOf(gender.toUpperCase());
     }
 
 }

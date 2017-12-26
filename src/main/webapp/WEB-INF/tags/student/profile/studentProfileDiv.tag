@@ -1,11 +1,12 @@
 <%@ tag description="studentProfile - Edit profile div" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ tag import="teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
 <%@ attribute name="sessionToken" required="true" %>
-<c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
-<c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
-<c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
+<c:set var="MALE" value="<%= Gender.MALE %>" />
+<c:set var="FEMALE" value="<%= Gender.FEMALE %>" />
+<c:set var="OTHER" value="<%= Gender.OTHER %>" />
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
   <h3 id="studentName">
     <strong>${profile.name}</strong>
@@ -115,7 +116,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= Const.GenderTypes.MALE %>"
+              value="<%= Gender.MALE %>"
               <c:if test="${profile.gender == MALE}">checked</c:if>> Male
         </label>
         <label for="genderFemale" class="radio-inline">
@@ -123,7 +124,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= Const.GenderTypes.FEMALE %>"
+              value="<%= Gender.FEMALE %>"
               <c:if test="${profile.gender == FEMALE}">checked</c:if>> Female
         </label>
         <label class="radio-inline" for="genderOther">
@@ -131,7 +132,7 @@
               name="<%= Const.ParamsNames.STUDENT_GENDER %>"
               class="radio"
               type="radio"
-              value="<%= Const.GenderTypes.OTHER %>"
+              value="<%= Gender.OTHER %>"
               <c:if test="${profile.gender == OTHER}">checked</c:if>> Not Specified
         </label>
       </div>

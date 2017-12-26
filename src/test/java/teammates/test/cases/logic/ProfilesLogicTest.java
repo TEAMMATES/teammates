@@ -37,7 +37,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .withEmail("personal@email.com")
                 .withInstitute("institute")
                 .withNationality("American")
-                .withGender("female")
+                .withGender("FEMALE")
                 .withMoreInfo("moreInfo")
                 .build();
 
