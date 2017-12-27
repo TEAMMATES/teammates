@@ -21,11 +21,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     /**
      * Sorts the Instructors list alphabetically by name.
      */
-    public static Comparator<InstructorAttributes> compareByName = new Comparator<InstructorAttributes>() {
-        public int compare(InstructorAttributes one, InstructorAttributes other) {
-            return one.name.toLowerCase().compareTo(other.name.toLowerCase());
-        }
-    };
+    public static Comparator<InstructorAttributes> compareByName = Comparator.comparing(one -> one.name.toLowerCase());
 
     // Note: be careful when changing these variables as their names are used in *.json files.
 
