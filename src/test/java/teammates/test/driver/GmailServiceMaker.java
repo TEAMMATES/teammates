@@ -30,14 +30,10 @@ import teammates.common.util.Const;
  */
 final class GmailServiceMaker {
 
-    /**
-     * Global instance of the JSON factory.
-     */
+    /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    /**
-     * Global instance of the HTTP transport.
-     */
+    /** Global instance of the HTTP transport. */
     private static final HttpTransport HTTP_TRANSPORT;
 
     static {
@@ -72,7 +68,6 @@ final class GmailServiceMaker {
 
     /**
      * Authorizes the user and creates an authorized Credential.
-     *
      * @return an authorized Credential
      */
     private Credential authorizeAndCreateCredentials() throws IOException {

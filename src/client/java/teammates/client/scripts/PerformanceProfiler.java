@@ -35,15 +35,14 @@ import teammates.test.pageobjects.BrowserPool;
  * <ul>
  * <li>Name: name of the test</li>
  * <li>CustomTimer: (default is false) if true, the function will return the duration need to recorded itself.
- * If false, the function return the status of the test and expected the function
- * which called it to record the duration.</li>
+ *                  If false, the function return the status of the test and expected the function
+ *                  which called it to record the duration.</li>
  * </ul>
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @interface PerformanceTest {
     String name() default "";
-
     boolean customTimer() default false;
 }
 
@@ -172,7 +171,6 @@ public class PerformanceProfiler extends Thread {
 
     /**
      * The results from file stored in filePath.
-     *
      * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
