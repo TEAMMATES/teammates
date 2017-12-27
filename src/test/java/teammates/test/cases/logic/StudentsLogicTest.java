@@ -641,7 +641,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
-                .withGoogleId(instructorId).withShortName("Ins1").withGender("MALE")
+                .withGoogleId(instructorId).withShortName("Ins1").withGender(Gender.MALE)
                 .build();
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
@@ -743,7 +743,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("same student added, modified and unmodified");
 
         StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
-                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
+                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender(Gender.MALE)
                 .build();
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",

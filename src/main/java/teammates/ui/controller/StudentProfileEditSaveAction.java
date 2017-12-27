@@ -36,7 +36,7 @@ public class StudentProfileEditSaveAction extends Action {
     private void validatePostParameters(StudentProfileAttributes studentProfile) {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_SHORT_NAME, studentProfile.shortName);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentProfile.email);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_GENDER, studentProfile.gender);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_GENDER, studentProfile.gender.name()     );
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_NATIONALITY, studentProfile.nationality);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, studentProfile.institute);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_PROFILE_MOREINFO, studentProfile.moreInfo);
@@ -74,7 +74,6 @@ public class StudentProfileEditSaveAction extends Action {
     private void preprocessParameters(StudentProfileAttributes studentProfile) {
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
-        studentProfile.gender = Gender.valueOf(StringHelper.trimIfNotNull(studentProfile.gender.name()));
         studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);

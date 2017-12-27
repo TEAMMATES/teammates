@@ -181,7 +181,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(personalEmail)
                 .withInstitute(profileInstitute)
                 .withNationality(nationality)
-                .withGender(gender.toString())
+                .withGender(gender)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();

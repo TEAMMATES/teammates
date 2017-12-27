@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
@@ -48,7 +49,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withEmail("e@mail2.com")
                 .withInstitute("inst")
                 .withNationality("American")
-                .withGender("MALE")
+                .withGender(Gender.MALE)
                 .withMoreInfo("more info")
                 .withPictureKey("pictureKey")
                 .build();
@@ -64,7 +65,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
         spa = StudentProfileAttributes.builder()
                 .withGoogleId("valid.id.2")
-                .withGender("MALE")
+                .withGender(Gender.MALE)
                 .build();
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
@@ -82,7 +83,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.institute), profileEditBox.getInstitute());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
-        assertEquals(spa.gender.name(), profileEditBox.getGender());
+        assertEquals(spa.gender.name(), profileEditBox.getGender().name());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.moreInfo), profileEditBox.getMoreInfo());
         /*
          * Currently across the application googleId is always taken from Account.

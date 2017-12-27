@@ -73,7 +73,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(sp.getShortName())
                 .withEmail(sp.getEmail())
                 .withInstitute(sp.getInstitute())
-                .withGender(sp.getGender().toString())
+                .withGender(sp.getGender())
                 .withNationality(sp.getNationality())
                 .withMoreInfo(sp.getMoreInfo().getValue())
                 .withPictureKey(sp.getPictureKey().getKeyString())
@@ -95,7 +95,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
-                .withGender(gender.toString())
+                .withGender(gender)
                 .withNationality(nationality)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
@@ -166,7 +166,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public StudentProfile toEntity() {
-        return new StudentProfile(googleId, shortName, email, institute, nationality, gender.toString(),
+        return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
                                   new Text(moreInfo), new BlobKey(this.pictureKey));
     }
 
@@ -236,8 +236,10 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withGender(String gender) {
-            profileAttributes.gender = isGenderValid(gender) ? Gender.valueOf(gender.toUpperCase()) : Gender.OTHER;
+        public Builder withGender(Gender gender) {
+            if (gender != null) {
+                profileAttributes.gender = isGenderValid(gender.name()) ? gender : Gender.OTHER;
+            }
             return this;
         }
 

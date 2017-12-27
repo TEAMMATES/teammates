@@ -67,7 +67,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
-                "Teammates Institute", "American", Gender.MALE.toString(),
+                "Teammates Institute", "American", Gender.MALE,
                 new Text("hello"), new BlobKey("key"));
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
@@ -103,7 +103,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
-                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
+                     + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"FEMALE\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
@@ -218,7 +218,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     private StudentProfile createStudentProfileFrom(
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
-                                  profile.institute, profile.nationality, profile.gender.toString(),
+                                  profile.institute, profile.nationality, profile.gender,
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
     }
 
@@ -265,7 +265,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withNationality(nationality)
-                .withGender(gender.name())
+                .withGender(gender)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();
@@ -289,7 +289,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withNationality(nationality)
-                .withGender(gender.name())
+                .withGender(gender)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();

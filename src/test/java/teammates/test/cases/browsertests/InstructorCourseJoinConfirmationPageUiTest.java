@@ -29,7 +29,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email =
                                         TestProperties.TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
 
-        removeAndRestoreDataBundle(testData);
+       // removeAndRestoreDataBundle(testData);
     }
 
     @BeforeClass

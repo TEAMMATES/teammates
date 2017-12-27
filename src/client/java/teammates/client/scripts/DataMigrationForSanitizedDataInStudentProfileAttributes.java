@@ -9,7 +9,6 @@ import java.util.List;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.ProfilesLogic;
@@ -40,6 +39,7 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
 
     @Override
     protected void doOperation() {
+        @SuppressWarnings("deprecation")
         List<StudentProfileAttributes> allStudentProfiles = profilesLogic.getAllStudentProfiles();
         int numberOfAffectedProfiles = 0;
         int numberOfUpdatedProfiles = 0;
@@ -77,7 +77,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
-        profile.gender = Gender.valueOf(desanitizeIfHtmlSanitized(profile.gender.name()));
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {
@@ -97,6 +96,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes extends Rem
     private boolean hasAnySanitizedField(StudentProfileAttributes profile) {
         return isSanitizedHtml(profile.shortName) || isSanitizedHtml(profile.email)
                 || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
-                || isSanitizedHtml(profile.gender.name()) || isSanitizedHtml(profile.moreInfo);
+                || isSanitizedHtml(profile.moreInfo);
     }
 }

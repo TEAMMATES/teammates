@@ -115,7 +115,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withNationality(nationality)
-                .withGender(gender.name())
+                .withGender(gender)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();

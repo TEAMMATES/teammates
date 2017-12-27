@@ -8,6 +8,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.AlsoLoad;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.IgnoreLoad;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
@@ -36,6 +37,7 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
+    @IgnoreLoad
     private Gender gender;
 
     /* must be html sanitized before saving */
@@ -72,7 +74,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
+                          String nationality, Gender gender, Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -90,7 +92,7 @@ public class StudentProfile extends BaseEntity {
         this.setEmail("");
         this.setInstitute("");
         this.setNationality("");
-        this.setGender("other");
+        this.setGender(Gender.OTHER);
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
         this.setModifiedDate(new Date());
@@ -144,8 +146,8 @@ public class StudentProfile extends BaseEntity {
         return this.gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = Gender.valueOf(gender.toUpperCase());
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public Text getMoreInfo() {
