@@ -505,11 +505,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return Comparator.comparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverTeam())
-                .thenComparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverDisplayableIdentifier())
-                .thenComparing((InstructorFeedbackResultsResponseRow obj) -> obj.getDisplayableResponse())
-                .thenComparing((InstructorFeedbackResultsResponseRow obj) -> obj.getRecipientTeam())
-                .thenComparing((InstructorFeedbackResultsResponseRow obj) -> obj.getRecipientDisplayableIdentifier());
+        return Comparator.comparing(InstructorFeedbackResultsResponseRow::getGiverTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getGiverDisplayableIdentifier)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getDisplayableResponse)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
     }
 
     @Override

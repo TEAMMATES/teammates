@@ -174,11 +174,11 @@ public final class FeedbackQuestionsLogic {
             }
         }
 
-        copiableQuestions.sort(Comparator.comparing((FeedbackQuestionAttributes copiableQuestion) ->
-                copiableQuestion.courseId)
-                .thenComparing(copiableQuestion -> copiableQuestion.feedbackSessionName)
-                .thenComparing(copiableQuestion -> copiableQuestion.getQuestionDetails().getQuestionTypeDisplayName())
-                .thenComparing(copiableQuestion -> copiableQuestion.getQuestionDetails().getQuestionText()));
+        copiableQuestions.sort(Comparator.comparing((FeedbackQuestionAttributes question) ->
+                question.courseId)
+                .thenComparing(question -> question.feedbackSessionName)
+                .thenComparing(question -> question.getQuestionDetails().getQuestionTypeDisplayName())
+                .thenComparing(question -> question.getQuestionDetails().getQuestionText()));
 
         return copiableQuestions;
     }

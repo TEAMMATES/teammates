@@ -17,7 +17,7 @@ public interface SessionAttributes {
      * Comparator to sort SessionAttributes on ASCENDING order based on
      * end time, followed by start time and session name.
      */
-    Comparator<SessionAttributes> ASCENDING_ORDER = (SessionAttributes session1, SessionAttributes session2) -> {
+    Comparator<SessionAttributes> ASCENDING_ORDER = (session1, session2) -> {
 
         Assumption.assertNotNull(session1.getSessionName());
         Assumption.assertNotNull(session1.getSessionStartTime());
@@ -49,7 +49,7 @@ public interface SessionAttributes {
      * Comparator to sort SessionAttributes on DESCENDING order based on
      * end time, followed by start time and session name.
      */
-    Comparator<SessionAttributes> DESCENDING_ORDER = (SessionAttributes session1, SessionAttributes session2) -> {
+    Comparator<SessionAttributes> DESCENDING_ORDER = (session1, session2) -> {
 
         FeedbackSessionAttributes feedbackSession1 = null;
         FeedbackSessionAttributes feedbackSession2 = null;

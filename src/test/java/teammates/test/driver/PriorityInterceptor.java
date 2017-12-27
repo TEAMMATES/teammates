@@ -2,7 +2,6 @@ package teammates.test.driver;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -36,25 +35,23 @@ public class PriorityInterceptor implements IMethodInterceptor {
 
     @SuppressWarnings("deprecation")
     private int getMethodPriority(IMethodInstance mi) {
-        int result = 0;
         Method method = mi.getMethod().getMethod();
         Priority a1 = method.getAnnotation(Priority.class);
         if (a1 != null) {
-            result = a1.value();
+            return a1.value();
         }
-        return result;
+        return 0;
     }
 
     @SuppressWarnings("deprecation")
     private int getClassPriority(IMethodInstance mi) {
-        int result = 0;
         Method method = mi.getMethod().getMethod();
         Class<?> cls = method.getDeclaringClass();
         Priority classPriority = cls.getAnnotation(Priority.class);
         if (classPriority != null) {
-            result = classPriority.value();
+            return classPriority.value();
         }
-        return result;
+        return 0;
     }
 
     @SuppressWarnings("deprecation")
@@ -81,40 +78,22 @@ public class PriorityInterceptor implements IMethodInterceptor {
                                            ITestContext context) {
 
         //Compare by package name
-        Comparator<IMethodInstance> compareByPackage = (IMethodInstance m1, IMethodInstance m2) -> {
-            int val = 0;
-
+        Comparator<IMethodInstance> compareByPackage = (m1, m2) -> {
             String p1 = getPackageName(m1);
             String p2 = getPackageName(m2);
-            val = p1.compareTo(p2);
-            val -= packagePriorityOffset(p1);
-            val += packagePriorityOffset(p2);
 
-            return val;
+            return p1.compareTo(p2) - packagePriorityOffset(p1) + packagePriorityOffset(p2);
         };
 
-        //Compare by class priority
-        Comparator<IMethodInstance> compareByClassPriority = Comparator.comparing((IMethodInstance m) ->
-                getClassPriority(m));
-
-        //Compare by class name
-        Comparator<IMethodInstance> compareByClassName = Comparator.comparing((IMethodInstance m) ->
-                getClassName(m));
-
-        //Compare by class name
-        Comparator<IMethodInstance> compareByMethodPriority = Comparator.comparing((IMethodInstance m) ->
-                getMethodPriority(m));
-
         //Overall Comparator sorts in the order of package name -> class priority -> class name -> method priority
-        Comparator<IMethodInstance> comparator = compareByPackage.thenComparing(compareByClassPriority)
-                .thenComparing(compareByClassName)
-                .thenComparing(compareByMethodPriority);
+        Comparator<IMethodInstance> comparator = compareByPackage
+                .thenComparing(m -> getClassPriority(m))
+                .thenComparing(m -> getClassName(m))
+                .thenComparing(m -> getMethodPriority(m));
 
-        IMethodInstance[] array = methods.toArray(new IMethodInstance[methods
-                .size()]);
-        Arrays.sort(array, comparator);
+        methods.sort(comparator);
 
-        return Arrays.asList(array);
+        return methods;
     }
 
 }

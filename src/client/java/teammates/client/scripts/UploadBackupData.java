@@ -93,7 +93,7 @@ public class UploadBackupData extends RemoteApiClient {
         }
         List<String> listOfFolders = Arrays.asList(folders);
 
-        listOfFolders.sort((String o1, String o2) -> {
+        listOfFolders.sort((o1, o2) -> {
             DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
             try {
                 Date firstDate = dateFormat.parse(o1);

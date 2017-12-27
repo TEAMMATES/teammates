@@ -48,7 +48,6 @@ public class FeedbackSessionResponseStatus {
     };
 
     // Sorts by teamName > studentName
-    // Sorts by team name and then by names in each team
     private Comparator<String> compareByTeamNameStudentName = compareByTeamName.thenComparing(compareByName);
 
     public FeedbackSessionResponseStatus() {
