@@ -222,29 +222,23 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         try {
 
             File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
-            try (FileOutputStream fos = new FileOutputStream(newFile);
-                 OutputStreamWriter osw = new OutputStreamWriter(fos);
-                 Writer w = new BufferedWriter(osw)) {
+            try (Writer w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(newFile)))) {
                 int studentEmailCount = 0;
-                if (!studentEmailSet.isEmpty()) {
-                    for (String email : studentEmailSet) {
-                        if (!shouldIncludeTestData && email.endsWith(".tmt")) {
-                            continue;
-                        }
-                        w.write(email + ",");
-                        studentEmailCount++;
+                for (String email : studentEmailSet) {
+                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
+                        continue;
                     }
+                    w.write(email + ",");
+                    studentEmailCount++;
                 }
 
                 int instructorEmailCount = 0;
-                if (!instructorEmailSet.isEmpty()) {
-                    for (String email : instructorEmailSet) {
-                        if (!shouldIncludeTestData && email.endsWith(".tmt")) {
-                            continue;
-                        }
-                        w.write(email + ",");
-                        instructorEmailCount++;
+                for (String email : instructorEmailSet) {
+                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
+                        continue;
                     }
+                    w.write(email + ",");
+                    instructorEmailCount++;
                 }
 
                 System.out.print("Student email num: " + studentEmailCount + "\n");
