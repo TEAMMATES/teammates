@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
@@ -87,8 +86,9 @@ final class GmailServiceMaker {
     }
 
     private GoogleClientSecrets loadClientSecretFromJson() throws IOException {
-        try (InputStream in = new FileInputStream(new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json"))) {
-            return GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        try (InputStreamReader in = new InputStreamReader(new FileInputStream(
+                                    new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json")))) {
+            return GoogleClientSecrets.load(JSON_FACTORY, in);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("You need to set up your Gmail API credentials." + Const.EOL
                     + "See docs/development.md section \"Deploying to a staging server\".", e);
