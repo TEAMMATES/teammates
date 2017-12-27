@@ -61,7 +61,7 @@ public class StudentProfile {
 
     // Ensures gender type is displayed in lower case
     public String getDisplayedGenderType() {
-         return gender == null || gender == Gender.OTHER
+        return gender == null || gender == Gender.OTHER
              ? Const.STUDENT_PROFILE_FIELD_NOT_FILLED
                      : gender.name().toLowerCase();
     }
