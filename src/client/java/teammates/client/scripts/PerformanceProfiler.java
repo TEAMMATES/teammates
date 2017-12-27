@@ -219,9 +219,7 @@ public class PerformanceProfiler extends Thread {
             list.add(str);
         }
         Collections.sort(list);
-        try (FileWriter fstream = new FileWriter(filePath);
-             BufferedWriter out = new BufferedWriter(fstream)) {
-
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath))) {
             for (String str : list) {
                 StringBuilder lineStrBuilder = new StringBuilder();
                 ArrayList<Float> arr = results.get(str);
