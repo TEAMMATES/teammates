@@ -15,10 +15,10 @@ public class FeedbackSessionResponseStatus {
     public Map<String, String> emailTeamNameTable;
 
     // Sorts by studentName
-    private Comparator<String> compareByName = Comparator.comparing((String s) -> emailNameTable.get(s).toLowerCase());
+    private Comparator<String> compareByName = Comparator.comparing((s) -> emailNameTable.get(s).toLowerCase());
 
     // Sorts by teamName
-    private Comparator<String> compareByTeamName = (String s1, String s2) -> {
+    private Comparator<String> compareByTeamName = (s1, s2) -> {
 
         // Compare between instructor and student
         // Instructor should be at higher order compared to student

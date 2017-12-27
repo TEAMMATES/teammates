@@ -890,7 +890,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // check the content from first list (we assume the content of the
         // second list is similar.
 
-        listReceivedUsingStudentInCourse1.sort(Comparator.comparing((StudentAttributes student) -> student.course));
+        listReceivedUsingStudentInCourse1.sort(Comparator.comparing((student) -> student.course));
 
         StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2

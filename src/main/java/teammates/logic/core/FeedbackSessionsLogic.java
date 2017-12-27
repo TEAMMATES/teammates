@@ -2031,7 +2031,7 @@ public final class FeedbackSessionsLogic {
     }
 
     private void sortByCreatedDate(List<FeedbackResponseCommentAttributes> responseCommentList) {
-        responseCommentList.sort(Comparator.comparing((FeedbackResponseCommentAttributes responseComment) ->
+        responseCommentList.sort(Comparator.comparing((responseComment) ->
                 responseComment.createdAt));
     }
 
