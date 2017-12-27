@@ -205,8 +205,8 @@ public final class DataGenerator {
             String instructorWithPrefix = PREFIX + entry.getKey();
             outputBuilder.append('\t')
                          .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix,
-                                    "courseIdOf_" + course, "nameOf_" + instructorWithPrefix,
-                                      "emailOf_" + instructorWithPrefix + "@gmail.com"))
+                                            "courseIdOf_" + course, "nameOf_" + instructorWithPrefix,
+                                            "emailOf_" + instructorWithPrefix + "@gmail.com"))
                          .append(",\n");
         }
         String output = outputBuilder.substring(0, outputBuilder.length() - 2);
@@ -246,8 +246,8 @@ public final class DataGenerator {
 
             outputBuilder.append('\t')
                          .append(student(student, email, "Student " + index + " in " + course,
-                            "Team " + team, email.split("@")[0], "comment",
-                           "courseIdOf_" + course));
+                                        "Team " + team, email.split("@")[0], "comment",
+                                        "courseIdOf_" + course));
             if (i != students.size() - 1) {
                 outputBuilder.append(",\n");
             }
@@ -257,9 +257,9 @@ public final class DataGenerator {
 
     private static String account(String acc) {
         return "\"" + acc
-               + "\":{\"googleId\":\"" + acc
-               + "\",\"name\":\"" + acc
-               + "\",\"email\":\"" + acc + "@gmail.com\",\"institute\":\"\"}";
+              + "\":{\"googleId\":\"" + acc
+              + "\",\"name\":\"" + acc
+              + "\",\"email\":\"" + acc + "@gmail.com\",\"institute\":\"\"}";
     }
 
     /**
