@@ -5470,7 +5470,7 @@
             </form>
           </div>
           <br> The results and statistics are presented as follows. See
-          <a href="#faq7">here</a> on how to use these results.
+          <a href="#faq-interpret-contribution-values-in-results">here</a> on how to use these results.
           <br>
           <div class="bs-example">
             <div class="panel panel-info">
@@ -5500,7 +5500,7 @@
                         </div>
                         <div class="col-sm-3 pull-right">
                           [
-                          <a href="#faq7" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
+                          <a href="#faq-interpret-contribution-values-in-results" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                         </div>
                       </div>
                       <div class="row">
