@@ -58,9 +58,8 @@ public class InstructorFeedbackResultsSectionPanel {
      */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
-        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels = participantPanels.getOrDefault(
-                currentTeam, new ArrayList<>()
-                );
+        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels =
+                participantPanels.getOrDefault(currentTeam, new ArrayList<>());
 
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);

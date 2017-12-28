@@ -1026,9 +1026,7 @@ public class FeedbackSessionResultsBundle {
      * @return a set of emails of the students in the team
      */
     public Set<String> getTeamMembersFromRoster(String teamName) {
-        return new HashSet<>(rosterTeamNameMembersTable.getOrDefault(
-                teamName, new HashSet<>()
-                ));
+        return new HashSet<>(rosterTeamNameMembersTable.getOrDefault(teamName, new HashSet<>()));
     }
 
     /**
@@ -1038,9 +1036,7 @@ public class FeedbackSessionResultsBundle {
      * @return a set of team names of the teams in the section
      */
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
-        return new HashSet<>(rosterSectionTeamNameTable.getOrDefault(
-                sectionName, new HashSet<>()
-                ));
+        return new HashSet<>(rosterSectionTeamNameTable.getOrDefault(sectionName, new HashSet<>()));
     }
 
     public boolean isParticipantIdentifierStudent(String participantIdentifier) {
