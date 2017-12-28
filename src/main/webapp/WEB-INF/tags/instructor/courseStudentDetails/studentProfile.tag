@@ -23,7 +23,7 @@
             <tr>
               <td class="text-bold">Short Name (Gender)</td>
               <td>${empty student.shortName ? none : fn:escapeXml(student.shortName)}
-                ()<i>
+                (<i>
                   <c:choose>
                     <c:when test="${student.gender == OTHER or student.gender == null}">
                       <span class="text-muted">
