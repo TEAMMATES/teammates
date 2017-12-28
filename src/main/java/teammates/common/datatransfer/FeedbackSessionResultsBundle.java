@@ -77,23 +77,22 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Set<String>> sectionTeamNameTable;
 
     private Comparator<FeedbackResponseAttributes> compareByGiverSection =
-            Comparator.comparing((FeedbackResponseAttributes fra) -> fra.giverSection);
+            Comparator.comparing((fra) -> fra.giverSection);
 
     private Comparator<FeedbackResponseAttributes> compareByRecipientSection =
-            Comparator.comparing((FeedbackResponseAttributes fra) -> fra.recipientSection);
+            Comparator.comparing((fra) -> fra.recipientSection);
 
     private Comparator<FeedbackResponseAttributes> compareByGiverInEmailNameTable =
-            (FeedbackResponseAttributes fra1, FeedbackResponseAttributes fra2) ->
+            (fra1, fra2) ->
                     compareByNames(emailNameTable.get(fra1.giver), emailNameTable.get(fra2.giver),
                             isGiverVisible(fra1), isGiverVisible(fra2));
 
     private Comparator<FeedbackResponseAttributes> compareByRecipientInEmailNameTable =
-            (FeedbackResponseAttributes fra1, FeedbackResponseAttributes fra2) ->
+            (fra1, fra2) ->
                     compareByNames(emailNameTable.get(fra1.recipient), emailNameTable.get(fra2.recipient),
-                            isGiverVisible(fra1), isGiverVisible(fra2));
+                            isRecipientVisible(fra1), isRecipientVisible(fra2));
 
-    private Comparator<FeedbackResponseAttributes> compareByQuestionNumber = (FeedbackResponseAttributes r1,
-                                                                              FeedbackResponseAttributes r2) -> {
+    private Comparator<FeedbackResponseAttributes> compareByQuestionNumber = (r1, r2) -> {
         FeedbackQuestionAttributes q1 = questions.get(r1.feedbackQuestionId);
         FeedbackQuestionAttributes q2 = questions.get(r2.feedbackQuestionId);
         if (q1 == null || q2 == null) {
@@ -102,8 +101,7 @@ public class FeedbackSessionResultsBundle {
         return q1.compareTo(q2);
     };
 
-    private Comparator<FeedbackResponseAttributes> compareByNamesForGiver =
-            (FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) -> {
+    private Comparator<FeedbackResponseAttributes> compareByNamesForGiver = (o1, o2) -> {
 
                 boolean isGiverVisible1 = isGiverVisible(o1);
                 boolean isGiverVisible2 = isGiverVisible(o2);
@@ -115,8 +113,7 @@ public class FeedbackSessionResultsBundle {
                 return compareByNames(t1, t2, isGiverVisible1, isGiverVisible2);
             };
 
-    private Comparator<FeedbackResponseAttributes> compareByNamesForRecipient =
-            (FeedbackResponseAttributes o1, FeedbackResponseAttributes o2) -> {
+    private Comparator<FeedbackResponseAttributes> compareByNamesForRecipient = (o1, o2) -> {
 
                 boolean isRecipientVisible1 = isRecipientVisible(o1);
                 boolean isRecipientVisible2 = isRecipientVisible(o2);
@@ -130,10 +127,10 @@ public class FeedbackSessionResultsBundle {
             };
 
     private Comparator<FeedbackResponseAttributes> compareByResponseString =
-            Comparator.comparing((FeedbackResponseAttributes fra) -> fra.getResponseDetails().getAnswerString());
+            Comparator.comparing((fra) -> fra.getResponseDetails().getAnswerString());
 
     private Comparator<FeedbackResponseAttributes> compareByFeedbackResponseAttributeId =
-            Comparator.comparing((FeedbackResponseAttributes fra) -> fra.getId());
+            Comparator.comparing((fra) -> fra.getId());
 
     // Sorts by giverName > recipientName > qnNumber
     // General questions and team questions at the bottom.
