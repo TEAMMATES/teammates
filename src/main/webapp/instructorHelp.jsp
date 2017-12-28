@@ -14,7 +14,7 @@
         <div style="margin: 0 auto; padding: 0 50px;">
           <ul>
             <li>
-              <a href="#faq-students-in-a-course">How do I view a list of students in a course?</a>
+              <a href="#faq-view-student-list-in-course">How do I view a list of students in a course?</a>
             </li>
             <li>
               <a href="#faq-change-details-after-enrolling">How do I change student details after enrolling?
@@ -33,13 +33,13 @@
               <a href="#faq-if-courses-displayed-to-students-disappear">What to do if a student says his/her courses have disappeared from the system?</a>
             </li>
             <li>
-              <a href="#faq-use-contribution-values-in-result-of-Team-comtribution">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+              <a href="#faq-interpret-contribution-values-in-results">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
             </li>
             <li>
               <a href="#faq-if-students-cannot-submit-an-evaluation">What to do if a student says he cannot submit responses due to some technical glitch?</a>
             </li>
             <li>
-              <a href="#faq-actual-contribution-by-student-and-values-in-result-differ">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
+              <a href="#faq-entered-contribution-differs-from-results">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
             </li>
             <li>
               <a href="#faq-can-student-influence-his-contribution">Can a student influence his ‘perceived contribution’ value by awarding himself a larger contribution?</a>
@@ -48,10 +48,10 @@
               <a href="#faq-how-contribution-numbers-calculated">How are the contribution numbers calculated?</a>
             </li>
             <li>
-              <a href="#faq-is-google-account-usage-compulsory-for-student">Is it compulsory for students to use Google accounts?</a>
+              <a href="#faq-is-google-account-compulsory-for-student">Is it compulsory for students to use Google accounts?</a>
             </li>
             <li>
-              <a href="#faq-if-course-have-no-teams">What if my course doesn’t have teams?</a>
+              <a href="#faq-if-course-has-no-teams">What if my course doesn’t have teams?</a>
             </li>
             <li>
               <a href="#faq-size-limit-for-course">Is there a size limit for a course?</a>

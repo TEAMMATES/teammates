@@ -5,7 +5,7 @@
 <div id="contentHolder">
   <div class="bulletPointsIndent">
     <ul>
-      <li id="faq-students-in-a-course">
+      <li id="faq-view-student-list-in-course">
         <b>How do I view a list of students in a course?</b>
         <div class="helpSectionContent">
           Go to the ‘Courses’ page, click ‘View’ for the relevant course.
@@ -56,7 +56,7 @@
           <br>
         </div>
       </li>
-      <li id="faq-use-contribution-values-in-result-of-Team-comtribution">
+      <li id="faq-interpret-contribution-values-in-results">
         <b>How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</b>
         <div class="helpSectionContent">
           <ul>
@@ -95,7 +95,7 @@
           <br>
         </div>
       </li>
-      <li id="faq-actual-contribution-by-student-and-values-in-result-differ">
+      <li id="faq-entered-contribution-differs-from-results">
         <b>How come the actual contribution values entered by the student is different from the values shown in the results?</b>
         <div class="helpSectionContent">
           This is because the system ‘normalizes’ those values so that there is no artificial inflation of contribution. For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalize it to ‘Equal share’ because in reality that is what the student means.
@@ -133,7 +133,7 @@
         </div>
       </li>
       <br>
-      <li id="faq-is-google-account-usage-compulsory-for-student">
+      <li id="faq-is-google-account-compulsory-for-student">
         <b>Is it compulsory for students to use Google accounts?</b>
         <div class="helpSectionContent">
           Student can submit feedback and view results without Google accounts. TEAMMATES send unique URL for each of those. But it is more convenient for them if they use Google accounts.
@@ -141,7 +141,7 @@
           <br>
         </div>
       </li>
-      <li id="faq-if-course-have-no-teams">
+      <li id="faq-if-course-has-no-teams">
         <b>What if my course doesn’t have teams?</b>
         <div class="helpSectionContent">
           They can use a dummy value for the ‘Team’ column.
