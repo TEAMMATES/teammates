@@ -135,8 +135,6 @@ public class FeedbackSessionResultsBundle {
     private Comparator<FeedbackResponseAttributes> compareByFeedbackResponseAttributeId =
             Comparator.comparing((FeedbackResponseAttributes fra) -> fra.getId());
 
-
-
     // Sorts by giverName > recipientName > qnNumber
     // General questions and team questions at the bottom.
     public Comparator<FeedbackResponseAttributes> compareByGiverRecipientQuestion = compareByGiverSection
@@ -146,14 +144,11 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
 
-
     // Sorts by giverName > recipientName
     private Comparator<FeedbackResponseAttributes> compareByGiverRecipient = compareByGiverInEmailNameTable
             .thenComparing(compareByRecipientInEmailNameTable)
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
-
-
 
     // Sorts by teamName > giverName > recipientName > qnNumber
     private Comparator<FeedbackResponseAttributes> compareByTeamGiverRecipientQuestion = compareByGiverSection
@@ -164,8 +159,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
 
-
-
     // Sorts by recipientName > giverName > qnNumber
     private Comparator<FeedbackResponseAttributes> compareByRecipientGiverQuestion = compareByRecipientSection
             .thenComparing(compareByRecipientInEmailNameTable)
@@ -173,7 +166,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByQuestionNumber)
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
-
 
     // Sorts by teamName > recipientName > giverName > qnNumber
     private Comparator<FeedbackResponseAttributes> compareByTeamRecipientGiverQuestion = compareByRecipientSection
@@ -184,7 +176,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
 
-
     // Sorts by giverName > question > recipientTeam > recipientName
     private Comparator<FeedbackResponseAttributes> compareByGiverQuestionTeamRecipient = compareByGiverSection
             .thenComparing(compareByGiverInEmailNameTable)
@@ -193,7 +184,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByRecipientInEmailNameTable)
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
-
 
     // Sorts by giverTeam > giverName > question > recipientTeam > recipientName
     private Comparator<FeedbackResponseAttributes> compareByTeamGiverQuestionTeamRecipient = compareByGiverSection
@@ -214,7 +204,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
 
-
     // Sorts by recipientTeam > recipientName > question > giverTeam > giverName
     private Comparator<FeedbackResponseAttributes> compareByTeamRecipientQuestionTeamGiver = compareByRecipientSection
             .thenComparing(compareByNamesForRecipient)
@@ -225,7 +214,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
 
-
     // Sorts by recipientTeam > question > recipientName > giverTeam > giverName
     private Comparator<FeedbackResponseAttributes> compareByTeamQuestionRecipientTeamGiver = compareByNamesForRecipient
             .thenComparing(compareByQuestionNumber)
@@ -235,7 +223,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
 
-
     // Sorts by giverTeam > question > giverName > recipientTeam > recipientName
     private Comparator<FeedbackResponseAttributes> compareByTeamQuestionGiverTeamRecipient = compareByNamesForGiver
             .thenComparing(compareByQuestionNumber)
@@ -244,7 +231,6 @@ public class FeedbackSessionResultsBundle {
             .thenComparing(compareByRecipientInEmailNameTable)
             .thenComparing(compareByResponseString)
             .thenComparing(compareByFeedbackResponseAttributeId);
-
 
     // Sorts by recipientName > recipientEmail > giverName > giverEmail
     private Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
@@ -1688,7 +1674,6 @@ public class FeedbackSessionResultsBundle {
         return sectionToTeam;
     }
 
-
     /**
      * Compares the values of {@code name1} and {@code name2}.
      * Anonymous names are ordered later than non-anonymous names.
@@ -1724,8 +1709,6 @@ public class FeedbackSessionResultsBundle {
         int order = Integer.compare(n1Priority, n2Priority);
         return order == 0 ? name1.compareTo(name2) : order;
     }
-
-
 
     public FeedbackSessionAttributes getFeedbackSession() {
         return feedbackSession;
