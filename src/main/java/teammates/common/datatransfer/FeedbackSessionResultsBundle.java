@@ -103,28 +103,28 @@ public class FeedbackSessionResultsBundle {
 
     private Comparator<FeedbackResponseAttributes> compareByNamesForGiver = (o1, o2) -> {
 
-                boolean isGiverVisible1 = isGiverVisible(o1);
-                boolean isGiverVisible2 = isGiverVisible(o2);
+        boolean isGiverVisible1 = isGiverVisible(o1);
+        boolean isGiverVisible2 = isGiverVisible(o2);
 
-                String t1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
-                        : getTeamNameForEmail(o1.giver);
-                String t2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
-                        : getTeamNameForEmail(o2.giver);
-                return compareByNames(t1, t2, isGiverVisible1, isGiverVisible2);
-            };
+        String t1 = getTeamNameForEmail(o1.giver).isEmpty() ? getNameForEmail(o1.giver)
+                : getTeamNameForEmail(o1.giver);
+        String t2 = getTeamNameForEmail(o2.giver).isEmpty() ? getNameForEmail(o2.giver)
+                : getTeamNameForEmail(o2.giver);
+        return compareByNames(t1, t2, isGiverVisible1, isGiverVisible2);
+    };
 
     private Comparator<FeedbackResponseAttributes> compareByNamesForRecipient = (o1, o2) -> {
 
-                boolean isRecipientVisible1 = isRecipientVisible(o1);
-                boolean isRecipientVisible2 = isRecipientVisible(o2);
+        boolean isRecipientVisible1 = isRecipientVisible(o1);
+        boolean isRecipientVisible2 = isRecipientVisible(o2);
 
-                String t1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
-                        : getTeamNameForEmail(o1.recipient);
-                String t2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
-                        : getTeamNameForEmail(o2.recipient);
-                return compareByNames(t1, t2, isRecipientVisible1, isRecipientVisible2);
+        String t1 = getTeamNameForEmail(o1.recipient).isEmpty() ? getNameForEmail(o1.recipient)
+                : getTeamNameForEmail(o1.recipient);
+        String t2 = getTeamNameForEmail(o2.recipient).isEmpty() ? getNameForEmail(o2.recipient)
+                : getTeamNameForEmail(o2.recipient);
+        return compareByNames(t1, t2, isRecipientVisible1, isRecipientVisible2);
 
-            };
+    };
 
     private Comparator<FeedbackResponseAttributes> compareByResponseString =
             Comparator.comparing((fra) -> fra.getResponseDetails().getAnswerString());
