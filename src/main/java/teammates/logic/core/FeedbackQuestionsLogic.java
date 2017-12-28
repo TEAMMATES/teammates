@@ -174,8 +174,7 @@ public final class FeedbackQuestionsLogic {
             }
         }
 
-        copiableQuestions.sort(Comparator.comparing((FeedbackQuestionAttributes question) ->
-                question.courseId)
+        copiableQuestions.sort(Comparator.comparing((FeedbackQuestionAttributes question) -> question.courseId)
                 .thenComparing(question -> question.feedbackSessionName)
                 .thenComparing(question -> question.getQuestionDetails().getQuestionTypeDisplayName())
                 .thenComparing(question -> question.getQuestionDetails().getQuestionText()));

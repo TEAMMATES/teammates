@@ -2031,8 +2031,7 @@ public final class FeedbackSessionsLogic {
     }
 
     private void sortByCreatedDate(List<FeedbackResponseCommentAttributes> responseCommentList) {
-        responseCommentList.sort(Comparator.comparing((responseComment) ->
-                responseComment.createdAt));
+        responseCommentList.sort(Comparator.comparing(responseComment -> responseComment.createdAt));
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD

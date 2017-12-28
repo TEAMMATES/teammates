@@ -15,7 +15,7 @@ public class FeedbackSessionResponseStatus {
     public Map<String, String> emailTeamNameTable;
 
     // Sorts by studentName
-    private Comparator<String> compareByName = Comparator.comparing((s) -> emailNameTable.get(s).toLowerCase());
+    private Comparator<String> compareByName = Comparator.comparing(s -> emailNameTable.get(s).toLowerCase());
 
     // Sorts by teamName
     private Comparator<String> compareByTeamName = (s1, s2) -> {

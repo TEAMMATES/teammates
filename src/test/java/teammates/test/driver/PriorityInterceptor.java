@@ -74,10 +74,9 @@ public class PriorityInterceptor implements IMethodInterceptor {
     }
 
     @Override
-    public List<IMethodInstance> intercept(List<IMethodInstance> methods,
-                                           ITestContext context) {
+    public List<IMethodInstance> intercept(List<IMethodInstance> methods, ITestContext context) {
 
-        //Compare by package name
+        //Package Name -> Package priority
         Comparator<IMethodInstance> compareByPackage = (m1, m2) -> {
             String p1 = getPackageName(m1);
             String p2 = getPackageName(m2);
@@ -85,7 +84,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
             return p1.compareTo(p2) - packagePriorityOffset(p1) + packagePriorityOffset(p2);
         };
 
-        //Overall Comparator sorts in the order of package name -> class priority -> class name -> method priority
+        //(Package name -> package priority) -> class priority -> class name -> method priority
         Comparator<IMethodInstance> comparator = compareByPackage
                 .thenComparing(m -> getClassPriority(m))
                 .thenComparing(m -> getClassName(m))
