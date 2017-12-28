@@ -952,9 +952,11 @@
 
               </ul>
               <br>
-              <label for="input" style="text-indent: 40px">
-                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee/Recipient </span>
-              </label>
+              <div class="col-sm-12 form-inline mobile-align-left">
+                <label for="input" style="text-indent: 24px">
+                  <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee/Recipient </span>
+                </label>
+              </div>
 
               <br>
               <br>

@@ -62,9 +62,9 @@
         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
 
-      <div>
+      <div class="col-sm-12 form-inline mobile-align-left">
         <label for="input"
-            style="text-indent: 40px">
+            style="text-indent: 24px">
             <span data-toggle="tooltip"
                 data-placement="top"
                 title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
@@ -72,6 +72,7 @@
             </span>
         </label>
       </div>
+      <br>
 
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
