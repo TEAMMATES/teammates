@@ -282,14 +282,18 @@ public final class InstructorPrivileges {
     }
 
     public void addSectionWithDefaultPrivileges(String sectionName) {
-        this.sectionLevel.put(sectionName,
-                this.sectionLevel.getOrDefault(sectionName, getOverallPrivilegesForSections()));
+        if (this.sectionLevel.containsKey(sectionName)) {
+            return;
+        }
+        this.sectionLevel.put(sectionName, getOverallPrivilegesForSections());
     }
 
     public void addSessionWithDefaultPrivileges(String sectionName, String sessionName) {
         verifyExistenceOfsectionName(sectionName);
-        this.sessionLevel.get(sectionName).put(sessionName,
-                this.sectionLevel.getOrDefault(sessionName, getOverallPrivilegesForSessionsInSection(sectionName)));
+        if (this.sessionLevel.get(sectionName).containsKey(sessionName)) {
+            return;
+        }
+        this.sessionLevel.get(sectionName).put(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
     }
 
     /**
@@ -402,7 +406,7 @@ public final class InstructorPrivileges {
 
         Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
 
-        return this.courseLevel.getOrDefault(privilegeName, Boolean.FALSE).booleanValue();
+        return this.courseLevel.getOrDefault(privilegeName, false);
     }
 
     private boolean isAllowedInSectionLevel(String sectionName, String privilegeName) {
@@ -413,7 +417,7 @@ public final class InstructorPrivileges {
             return isAllowedInCourseLevel(privilegeName);
         }
 
-        return this.sectionLevel.get(sectionName).getOrDefault(privilegeName, Boolean.FALSE).booleanValue();
+        return this.sectionLevel.get(sectionName).getOrDefault(privilegeName, false);
     }
 
     private boolean isAllowedInSessionLevel(String sectionName, String sessionName, String privilegeName) {
@@ -425,7 +429,7 @@ public final class InstructorPrivileges {
             return isAllowedInSectionLevel(sectionName, privilegeName);
         }
 
-        return this.sessionLevel.get(sectionName).get(sessionName).getOrDefault(privilegeName, Boolean.FALSE).booleanValue();
+        return this.sessionLevel.get(sectionName).get(sessionName).getOrDefault(privilegeName, false);
     }
 
     private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
@@ -449,23 +453,23 @@ public final class InstructorPrivileges {
      * prerequisite privileges if they have not been granted yet.
      */
     public void validatePrivileges() {
-        if (this.courseLevel.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                && this.courseLevel.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                                   .booleanValue()) {
+        if (this.courseLevel.getOrDefault(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false
+                )) {
             this.courseLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, true);
         }
         for (Map<String, Boolean> sectionMap : this.sectionLevel.values()) {
-            if (sectionMap.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                    && sectionMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                                 .booleanValue()) {
+            if (sectionMap.getOrDefault(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false
+                    )) {
                 sectionMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, true);
             }
         }
         for (Map<String, Map<String, Boolean>> section : this.sessionLevel.values()) {
             for (Map<String, Boolean> sessionMap : section.values()) {
-                if (sessionMap.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                        && sessionMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                                     .booleanValue()) {
+                if (sessionMap.getOrDefault(
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false
+                        )) {
                     sessionMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, true);
                 }
             }
