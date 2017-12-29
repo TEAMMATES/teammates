@@ -384,33 +384,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-            } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-            }
-        }
+        Map<String, Integer> answerFrequency = collateAnsweringFrequencyForMcqOptions(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -435,33 +409,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-            } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-            }
-        }
+        Map<String, Integer> answerFrequency = collateAnsweringFrequencyForMcqOptions(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -524,5 +472,37 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    public Map<String, Integer> collateAnsweringFrequencyForMcqOptions(List<FeedbackResponseAttributes> responses) {
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+
+        for (String option : mcqChoices) {
+            answerFrequency.put(option, 0);
+        }
+
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+
+        for (FeedbackResponseAttributes response : responses) {
+            String answerString = response.getResponseDetails().getAnswerString();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 0);
+                }
+                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+            } else {
+                if (!answerFrequency.containsKey(answerString)) {
+                    answerFrequency.put(answerString, 0);
+                }
+                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+            }
+        }
+
+        return answerFrequency;
     }
 }
