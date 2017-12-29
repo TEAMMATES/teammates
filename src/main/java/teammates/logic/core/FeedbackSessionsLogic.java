@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -357,27 +356,19 @@ public final class FeedbackSessionsLogic {
                 fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
         // instructor can only see students in allowed sections for him/her
         if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
-            Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry<String, String> studentEntry = iter.next();
+            recipients.entrySet().removeIf(studentEntry -> {
                 StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
-                if (!instructor.isAllowedForPrivilege(student.section,
-                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                    iter.remove();
-                }
-            }
+                return !instructor.isAllowedForPrivilege(student.section,
+                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            });
         }
         // instructor can only see teams in allowed sections for him/her
         if (question.recipientType.equals(FeedbackParticipantType.TEAMS)) {
-            Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry<String, String> teamEntry = iter.next();
+            recipients.entrySet().removeIf(teamEntry -> {
                 String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
-                if (!instructor.isAllowedForPrivilege(teamSection,
-                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                    iter.remove();
-                }
-            }
+                return !instructor.isAllowedForPrivilege(teamSection,
+                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            });
         }
         normalizeMaximumResponseEntities(question, recipients);
 
@@ -520,16 +511,7 @@ public final class FeedbackSessionsLogic {
             }
 
             // Remove responses to the hidden instructors if they have been stored already
-            Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
-
-            while (iterResponse.hasNext()) {
-
-                FeedbackResponseAttributes response = iterResponse.next();
-
-                if (response.recipient.equals(instructorEmail)) {
-                    iterResponse.remove();
-                }
-            }
+            responses.removeIf(response -> response.recipient.equals(instructorEmail));
         }
     }
 
