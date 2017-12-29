@@ -1355,7 +1355,7 @@ public class FeedbackSessionResultsBundle {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
-            responses.sort(compareByTeamQuestionRecipientTeamGiver);
+            responses.sort(compareByTeamRecipientQuestionTeamGiver);
         } else {
             responses.sort(compareByRecipientQuestionTeamGiver);
         }
