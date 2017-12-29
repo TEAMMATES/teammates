@@ -62,8 +62,7 @@ public final class GoogleCloudStorageHelper {
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
         try (GcsOutputChannel outputChannel = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                .createOrReplace(gcsFilename,
-                        new GcsFileOptions.Builder().mimeType("image/png").build())) {
+                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build())) {
 
             outputChannel.write(ByteBuffer.wrap(imageData));
         }
