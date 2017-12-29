@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -55,13 +54,12 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
                 removeSessionLevelPrivileges(instructor, specialSectionsInSectionGroup);
             }
         });
-        for (Entry<String, Boolean> entry : isSectionSpecialMappings.entrySet()) {
-            String sectionNameToBeChecked = entry.getKey();
-            boolean isSectionSpecial = entry.getValue().booleanValue();
+        isSectionSpecialMappings.forEach((sectionNameToBeChecked, value) -> {
+            boolean isSectionSpecial = value.booleanValue();
             if (!isSectionSpecial) {
                 instructor.privileges.removeSectionLevelPrivileges(sectionNameToBeChecked);
             }
-        }
+        });
     }
 
     /**
