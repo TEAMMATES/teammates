@@ -164,7 +164,7 @@ public final class GoogleCloudStorageHelper {
                     // Either the left part or the right part of the broken email string does not contains a "@".
                     // Simply append the right part to the left part (last item of the list from last reading).
                     listOfList.get(listOfList.size() - 1)
-                            .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
 
                     // And also needs to delete the right part which is the first item of the list from current reading
                     listOfList.add(newList.subList(1, newList.size() - 1));
