@@ -33,9 +33,8 @@ public class PriorityInterceptor implements IMethodInterceptor {
     // 4) Orders methods by class name in lexical order
     // 5) Orders methods by priority e.g. Add "@Priority(1)" to method
 
-    @SuppressWarnings("deprecation")
     private int getMethodPriority(IMethodInstance mi) {
-        Method method = mi.getMethod().getMethod();
+        Method method = mi.getMethod().getConstructorOrMethod().getMethod();
         Priority a1 = method.getAnnotation(Priority.class);
         if (a1 != null) {
             return a1.value();
@@ -43,9 +42,8 @@ public class PriorityInterceptor implements IMethodInterceptor {
         return 0;
     }
 
-    @SuppressWarnings("deprecation")
     private int getClassPriority(IMethodInstance mi) {
-        Method method = mi.getMethod().getMethod();
+        Method method = mi.getMethod().getConstructorOrMethod().getMethod();
         Class<?> cls = method.getDeclaringClass();
         Priority classPriority = cls.getAnnotation(Priority.class);
         if (classPriority != null) {
@@ -54,14 +52,12 @@ public class PriorityInterceptor implements IMethodInterceptor {
         return 0;
     }
 
-    @SuppressWarnings("deprecation")
     private String getPackageName(IMethodInstance mi) {
-        return mi.getMethod().getMethod().getDeclaringClass().getPackage().getName();
+        return mi.getMethod().getConstructorOrMethod().getMethod().getDeclaringClass().getPackage().getName();
     }
 
-    @SuppressWarnings("deprecation")
     private String getClassName(IMethodInstance mi) {
-        return mi.getMethod().getMethod().getDeclaringClass().getName();
+        return mi.getMethod().getConstructorOrMethod().getMethod().getDeclaringClass().getName();
     }
 
     private int packagePriorityOffset(String packageName) {
