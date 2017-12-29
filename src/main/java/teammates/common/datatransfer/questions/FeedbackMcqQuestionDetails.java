@@ -474,7 +474,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    public Map<String, Integer> collateAnsweringFrequencyForMcqOptions(List<FeedbackResponseAttributes> responses) {
+    private Map<String, Integer> collateAnsweringFrequencyForMcqOptions(List<FeedbackResponseAttributes> responses) {
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
         for (String option : mcqChoices) {
