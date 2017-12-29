@@ -87,7 +87,7 @@ final class GmailServiceMaker {
 
     private GoogleClientSecrets loadClientSecretFromJson() throws IOException {
         try (InputStreamReader in = new InputStreamReader(new FileInputStream(
-                                    new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json")))) {
+                new File(TestProperties.TEST_GMAIL_API_FOLDER, "client_secret.json")))) {
             return GoogleClientSecrets.load(JSON_FACTORY, in);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("You need to set up your Gmail API credentials." + Const.EOL
