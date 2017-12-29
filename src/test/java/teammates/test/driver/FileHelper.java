@@ -30,9 +30,8 @@ public final class FileHelper {
      * Reads the file with the specified path as a byte array.
      */
     public static byte[] readFileAsBytes(String filePath) throws IOException {
-        byte[] buffer;
         try (FileInputStream fis = new FileInputStream(filePath)) {
-            buffer = new byte[1024 * 300];
+            byte[] buffer = new byte[1024 * 300];
             fis.read(buffer);
             return buffer;
         }
