@@ -372,8 +372,8 @@ public class OfflineBackup extends RemoteApiClient {
 
     private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
         appendToFile(currentFileName,
-                formatJsonString(feedbackResponseComment.getJsonString(),
-                        feedbackResponseComment.getId().toString()));
+                     formatJsonString(feedbackResponseComment.getJsonString(),
+                                      feedbackResponseComment.getId().toString()));
     }
 
     private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
