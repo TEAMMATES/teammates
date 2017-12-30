@@ -579,21 +579,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.selectRoleForInstructor(editInstructorIndex, "Co-owner");
 
         ______TS("Verify that one instructor must be visible to students");
-        // Need to prepare for test by setting all instructors as not displayed to students
-        courseEditPage.editInstructor(1, "New name", "new_email@email.tmt",
-                false, "Instructor", "Custom");
-        courseEditPage.editInstructor(2, "New name", "InsCrsEdit.instructor@gmail.tmt",
-                false, "New display name", "Co-owner");
-        courseEditPage.editInstructor(3, "New name", "InsCrsEdit.instructor@gmail.tmt",
-                false, "Instructor", "Co-owner");
-        courseEditPage.editInstructor(4, "Teammates New Instructor", "InsCrsEdit.Helper@gmail.tmt",
-                false, "Instructor", "Custom");
-        courseEditPage.editInstructor(5, "Teammates New Instructor", "InsCrsEdit.newInstr@gmail.tmt",
-                false, "Instructor", "Custom");
-        courseEditPage.editInstructor(6, "Teammates Observer", "InsCrsEdit.observer@gmail.tmt",
-                false, "Instructor", "Observer");
-        courseEditPage.editInstructor(7, "Teammates Test", "InsCrsEdit.test@gmail.tmt",
-                false, "Instructor", "Co-owner");
+        courseEditPage.makeOtherInstructorsInvisible(8, 8);
         courseEditPage.editInstructor(8, "Teammates Do Not Save", "InsCrsEdit.tutor@gmail.tmt",
                 false, "Instructor", "Tutor");
 

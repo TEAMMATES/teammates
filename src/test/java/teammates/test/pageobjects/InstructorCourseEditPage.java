@@ -116,6 +116,17 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void makeOtherInstructorsInvisible(int instrNum, int numOfInstructors) {
+        for (int inst = 1; inst <= numOfInstructors; inst++) {
+            if (inst != instrNum) {
+                clickEditInstructorLink(inst);
+                editInstructorDisplayedToStudents(inst, false);
+                saveEditInstructor(inst);
+                waitForPageToLoad();
+            }
+        }
+    }
+
     public void clickSaveInstructorButton(int instrNum) {
         WebElement button = browser.driver.findElement(By.id("btnSaveInstructor" + instrNum));
         click(button);
