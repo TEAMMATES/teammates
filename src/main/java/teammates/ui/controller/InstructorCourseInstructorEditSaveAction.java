@@ -31,7 +31,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         // get instructor without making any edits
-
         InstructorAttributes instructorToEdit = instructorId == null
                 ? logic.getInstructorForEmail(courseId, instructorEmail)
                 : logic.getInstructorForGoogleId(courseId, instructorId);
