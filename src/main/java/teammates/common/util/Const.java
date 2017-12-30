@@ -30,6 +30,7 @@ public final class Const {
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+    public static final String JOIN_LINK = "[Join Link]";
 
     public static final String NONE_OF_THE_ABOVE = "None of the above";
 
