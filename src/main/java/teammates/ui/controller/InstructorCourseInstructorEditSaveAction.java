@@ -31,12 +31,10 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         // get instructor without making any edits
-        InstructorAttributes instructorToEdit;
-        if (instructorId == null) {
-            instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);
-        } else {
-            instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
-        }
+
+        InstructorAttributes instructorToEdit = instructorId == null
+                ? logic.getInstructorForEmail(courseId, instructorEmail)
+                : logic.getInstructorForGoogleId(courseId, instructorId);
 
         boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT)
                 != null;
