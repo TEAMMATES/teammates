@@ -184,18 +184,20 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public static Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
 
-        feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.computeIfAbsent(question.getId(), key -> {
-            FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
-            Map<String, StudentResultSummary> contribQnStats =
-                    fqcd.getStudentResults(feedbackSessionResultsBundle, question);
+        return feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.computeIfAbsent(
+                question.getId(), key -> {
+                    FeedbackContributionQuestionDetails fqcd =
+                            (FeedbackContributionQuestionDetails) question.getQuestionDetails();
+                    Map<String, StudentResultSummary> contribQnStats =
+                            fqcd.getStudentResults(feedbackSessionResultsBundle, question);
 
-            new HashMap<>(contribQnStats).forEach((contribQnStatsKey, value) -> contribQnStats.putIfAbsent(
-                    feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(contribQnStatsKey), value));
+                    new HashMap<>(contribQnStats).forEach((contribQnStatsKey, value) -> contribQnStats.putIfAbsent(
+                            feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(contribQnStatsKey), value));
 
-            return contribQnStats;
-        });
+                    return contribQnStats;
+                }
+        );
 
-        return feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
     }
 
     public Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,
