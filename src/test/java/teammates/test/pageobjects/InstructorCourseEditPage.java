@@ -116,12 +116,18 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void makeOtherInstructorsInvisible(int instrNum, int numOfInstructors) {
-        for (int inst = 1; inst <= numOfInstructors; inst++) {
-            if (inst != instrNum) {
-                clickEditInstructorLink(inst);
-                editInstructorDisplayedToStudents(inst, false);
-                saveEditInstructor(inst);
+    /**
+     * Loops through all instructors in the course.
+     * For all instructors, other than the instructor not being edited,
+     * the method clicks the edit button, makes the instructor invisible to students,
+     * and saves instructor details for the given instructor index.
+     */
+    public void makeOtherInstructorsInvisible(int instructorNotBeingEdited, int numberOfInstructorsForCourse) {
+        for (int instructorIndex = 1; instructorIndex <= numberOfInstructorsForCourse; instructorIndex++) {
+            if (instructorIndex != instructorNotBeingEdited) {
+                clickEditInstructorLink(instructorIndex);
+                editInstructorDisplayedToStudents(instructorIndex, false);
+                saveEditInstructor(instructorIndex);
                 waitForPageToLoad();
             }
         }

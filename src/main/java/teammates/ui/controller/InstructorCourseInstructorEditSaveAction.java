@@ -29,19 +29,17 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-
-        // get instructor without making any edits
         InstructorAttributes instructorToEdit = instructorId == null
                 ? logic.getInstructorForEmail(courseId, instructorEmail)
                 : logic.getInstructorForGoogleId(courseId, instructorId);
 
-        boolean isDisplayedToStudents =
+        boolean isDisplayedToStudentsAfterChanges =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
-        boolean isMakingInstructorInvisible = !isDisplayedToStudents && instructorToEdit.isDisplayedToStudents;
+        boolean isMakingInstructorInvisible = !isDisplayedToStudentsAfterChanges
+                && instructorToEdit.isDisplayedToStudents;
         if (isMakingInstructorInvisible) {
-            int numOfInstrDisplayed = getNumberOfInstructorsDisplayedToStudents(
-                    courseId, instructorToEdit.isDisplayedToStudents, isDisplayedToStudents);
-            boolean isSoleVisibleInstructor = numOfInstrDisplayed == 1;
+            int numberOfInstructorsDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId);
+            boolean isSoleVisibleInstructor = numberOfInstructorsDisplayed == 1;
             if (isSoleVisibleInstructor) {
                 statusToUser.add(new StatusMessage(String.format(
                         Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
@@ -75,16 +73,15 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         return result;
     }
 
-    protected int getNumberOfInstructorsDisplayedToStudents(
-            String courseId, boolean isDisplayedToStudentsBeforeChanges, boolean isDisplayedToStudentsAfterChanges) {
+    protected int getNumberOfInstructorsDisplayedToStudents(String courseId) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        int numOfInstrDisplayed = 0;
+        int numberOfInstructorsDisplayed = 0;
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isDisplayedToStudents) {
-                numOfInstrDisplayed++;
+                numberOfInstructorsDisplayed++;
             }
         }
-        return numOfInstrDisplayed;
+        return numberOfInstructorsDisplayed;
     }
 
     /**
