@@ -54,8 +54,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
                 removeSessionLevelPrivileges(instructor, specialSectionsInSectionGroup);
             }
         });
-        isSectionSpecialMappings.forEach((sectionNameToBeChecked, value) -> {
-            boolean isSectionSpecial = value.booleanValue();
+        isSectionSpecialMappings.forEach((sectionNameToBeChecked, isSectionSpecial) -> {
             if (!isSectionSpecial) {
                 instructor.privileges.removeSectionLevelPrivileges(sectionNameToBeChecked);
             }
