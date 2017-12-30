@@ -128,10 +128,8 @@ public final class GoogleCloudStorageHelper {
 
         while (size > 0) {
             // Make sure not to over-read
-            byte[] array;
+            byte[] array = new byte[Math.min(size, MAX_READING_LENGTH)];;
             try (InputStream blobStream = new BlobstoreInputStream(blobKey, offset)) {
-                array = new byte[Math.min(size, MAX_READING_LENGTH)];
-
                 blobStream.read(array);
             }
             // Remember where it stops reading
