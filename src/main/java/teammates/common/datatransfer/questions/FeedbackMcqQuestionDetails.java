@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -414,15 +413,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(entry.getKey()),
-                    Slots.COUNT, entry.getValue().toString(),
-                    Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / responses.size())));
-        }
+        answerFrequency.forEach((key, value) ->
+                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                        Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
+                        Slots.COUNT, value.toString(),
+                        Slots.PERCENTAGE, df.format(100 * (double) value / responses.size()))));
 
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
-                Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
 
     @Override
@@ -465,11 +462,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey())).append(',')
-                     .append(entry.getValue().toString()).append(',')
-                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
-        }
+        answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
+                     .append(value.toString()).append(',')
+                     .append(df.format(100 * (double) value / responses.size())).append(Const.EOL));
 
         return "Choice, Response Count, Percentage" + Const.EOL
                + fragments.toString();
