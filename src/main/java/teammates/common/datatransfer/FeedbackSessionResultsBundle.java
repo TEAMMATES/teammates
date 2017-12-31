@@ -99,12 +99,12 @@ public class FeedbackSessionResultsBundle {
             (fra1, fra2) ->
                     compareByNames(fra1.recipient, fra2.recipient, isRecipientVisible(fra1), isRecipientVisible(fra2));
 
-    private Comparator<FeedbackResponseAttributes> compareByGiverNameOrTeam =
+    private Comparator<FeedbackResponseAttributes> compareByGiverDisplayName =
             (fra1, fra2) ->
                     compareByNames(getNameForEmail(fra1.giver), getNameForEmail(fra2.giver),
                             isGiverVisible(fra1), isGiverVisible(fra2));
 
-    private Comparator<FeedbackResponseAttributes> compareByRecipientNameOrTeam =
+    private Comparator<FeedbackResponseAttributes> compareByRecipientDisplayName =
             (fra1, fra2) ->
                     compareByNames(getNameForEmail(fra1.recipient), getNameForEmail(fra2.recipient),
                             isRecipientVisible(fra1), isRecipientVisible(fra2));
@@ -248,8 +248,8 @@ public class FeedbackSessionResultsBundle {
 
     // Sorts by recipientName > recipientEmail > giverName > giverEmail
     private Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
-            compareByRecipientNameOrTeam.thenComparing(compareByRecipientEmail)
-                    .thenComparing(compareByGiverNameOrTeam)
+            compareByRecipientDisplayName.thenComparing(compareByRecipientEmail)
+                    .thenComparing(compareByGiverDisplayName)
                     .thenComparing(compareByGiverEmail)
                     .thenComparing(compareByResponseString)
                     .thenComparing(compareByFeedbackResponseAttributeId);
