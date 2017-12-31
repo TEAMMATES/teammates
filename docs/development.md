@@ -2,7 +2,6 @@
 
 These are the common tasks involved when working on features, enhancements, bug fixes, etc. for TEAMMATES.
 
-* [Building JavaScript files](#building-javascript-files)
 * [Managing the dev server](#managing-the-dev-server)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
 * [Testing](#testing)
@@ -17,7 +16,11 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 > If you encounter any problems during the any of the processes, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request on our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-## Building JavaScript files
+## Managing the dev server
+
+> `Dev server` is the server run in your local machine.
+
+### Building JavaScript files
 
 Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
 To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
@@ -29,9 +32,7 @@ npm run build
 
 In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
 
-## Managing the dev server
-
-> `Dev server` is the server run in your local machine.
+This command needs to be run before starting the dev server if there are updates to the JavaScript files.
 
 ### With command line
 
