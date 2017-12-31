@@ -236,9 +236,13 @@ This instruction set assumes that the app identifier is `teammates-john`.
      * Run the following command:
 
        ```sh
-       ./gradlew appengineDeploy
+       ./gradlew appengineDeployAll
        ```
-     * Wait until you see `Deployed service [default] to [https://6-0-0-dot-teammates-john.appspot.com]` or similar on the console.
+     * Wait until you see all the following messages or similar on the console:
+       * `Deployed service [default] to [https://6-0-0-dot-teammates-john.appspot.com]`
+       * `Cron jobs have been updated.`
+       * `Indexes are being rebuilt. This may take a moment.`
+       * `Task queues have been updated.`
    * With Eclipse
      * Refer to [this guide](https://cloud.google.com/eclipse/docs/deploying) to deploy your application.
    * With IntelliJ
