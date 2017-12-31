@@ -92,6 +92,23 @@ public class FeedbackSessionResultsBundle {
                     compareByNames(emailNameTable.get(fra1.recipient), emailNameTable.get(fra2.recipient),
                             isRecipientVisible(fra1), isRecipientVisible(fra2));
 
+    private Comparator<FeedbackResponseAttributes> compareByGiverEmail =
+            (fra1, fra2) -> compareByNames(fra1.giver, fra2.giver, isGiverVisible(fra1), isGiverVisible(fra2));
+
+    private Comparator<FeedbackResponseAttributes> compareByRecipientEmail =
+            (fra1, fra2) ->
+                    compareByNames(fra1.recipient, fra2.recipient, isRecipientVisible(fra1), isRecipientVisible(fra2));
+
+    private Comparator<FeedbackResponseAttributes> compareByGiverNameOrTeam =
+            (fra1, fra2) ->
+                    compareByNames(getNameForEmail(fra1.giver), getNameForEmail(fra2.giver),
+                            isGiverVisible(fra1), isGiverVisible(fra2));
+
+    private Comparator<FeedbackResponseAttributes> compareByRecipientNameOrTeam =
+            (fra1, fra2) ->
+                    compareByNames(getNameForEmail(fra1.recipient), getNameForEmail(fra2.recipient),
+                            isRecipientVisible(fra1), isRecipientVisible(fra2));
+
     private Comparator<FeedbackResponseAttributes> compareByQuestionNumber = (r1, r2) -> {
         FeedbackQuestionAttributes q1 = questions.get(r1.feedbackQuestionId);
         FeedbackQuestionAttributes q2 = questions.get(r2.feedbackQuestionId);
@@ -231,49 +248,12 @@ public class FeedbackSessionResultsBundle {
 
     // Sorts by recipientName > recipientEmail > giverName > giverEmail
     private Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
-            (o1, o2) -> {
-
-                boolean isRecipientVisible1 = isRecipientVisible(o1);
-                boolean isRecipientVisible2 = isRecipientVisible(o2);
-                // Compare by Recipient Name
-                int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipient),
-                        getNameForEmail(o2.recipient),
-                        isRecipientVisible1, isRecipientVisible2);
-                if (recipientNameCompareResult != 0) {
-                    return recipientNameCompareResult;
-                }
-
-                // Compare by Recipient Email
-                int recipientEmailCompareResult = compareByNames(o1.recipient, o2.recipient,
-                        isRecipientVisible1, isRecipientVisible2);
-                if (recipientEmailCompareResult != 0) {
-                    return recipientEmailCompareResult;
-                }
-
-                boolean isGiverVisible1 = isGiverVisible(o1);
-                boolean isGiverVisible2 = isGiverVisible(o2);
-                // Compare by Giver Name
-                int giverNameCompareResult = compareByNames(getNameForEmail(o1.giver),
-                        getNameForEmail(o2.giver),
-                        isGiverVisible1, isGiverVisible2);
-                if (giverNameCompareResult != 0) {
-                    return giverNameCompareResult;
-                }
-
-                // Compare by Giver Email
-                int giverEmailCompareResult = compareByNames(o1.giver, o2.giver,
-                        isGiverVisible1, isGiverVisible2);
-                if (giverEmailCompareResult != 0) {
-                    return giverEmailCompareResult;
-                }
-
-                int responseStringResult = compareByResponseString.compare(o1, o2);
-                if (responseStringResult != 0) {
-                    return responseStringResult;
-                }
-
-                return o1.getId().compareTo(o2.getId());
-            };
+            compareByRecipientNameOrTeam.thenComparing(compareByRecipientEmail)
+                    .thenComparing(compareByRecipientEmail)
+                    .thenComparing(compareByGiverNameOrTeam)
+                    .thenComparing(compareByGiverEmail)
+                    .thenComparing(compareByResponseString)
+                    .thenComparing(compareByFeedbackResponseAttributeId);
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
             Map<String, FeedbackQuestionAttributes> questions, CourseRoster roster) {
