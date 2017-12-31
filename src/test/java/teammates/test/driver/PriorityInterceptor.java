@@ -33,8 +33,16 @@ public class PriorityInterceptor implements IMethodInterceptor {
     // 4) Orders methods by class name in lexical order
     // 5) Orders methods by priority e.g. Add "@Priority(1)" to method
 
+    private Method getMethod(IMethodInstance mi) {
+        return mi.getMethod().getConstructorOrMethod().getMethod();
+    }
+
+    private Class<?> getDeclaringClassOfMethod(IMethodInstance mi) {
+        return getMethod(mi).getDeclaringClass();
+    }
+
     private int getMethodPriority(IMethodInstance mi) {
-        Method method = mi.getMethod().getConstructorOrMethod().getMethod();
+        Method method = getMethod(mi);
         Priority a1 = method.getAnnotation(Priority.class);
         if (a1 != null) {
             return a1.value();
@@ -43,7 +51,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
     }
 
     private int getClassPriority(IMethodInstance mi) {
-        Method method = mi.getMethod().getConstructorOrMethod().getMethod();
+        Method method = getMethod(mi);
         Class<?> cls = method.getDeclaringClass();
         Priority classPriority = cls.getAnnotation(Priority.class);
         if (classPriority != null) {
@@ -53,14 +61,14 @@ public class PriorityInterceptor implements IMethodInterceptor {
     }
 
     private String getPackageName(IMethodInstance mi) {
-        return mi.getMethod().getConstructorOrMethod().getMethod().getDeclaringClass().getPackage().getName();
+        return getDeclaringClassOfMethod(mi).getPackage().getName();
     }
 
     private String getClassName(IMethodInstance mi) {
-        return mi.getMethod().getConstructorOrMethod().getMethod().getDeclaringClass().getName();
+        return getDeclaringClassOfMethod(mi).getName();
     }
 
-    private int packagePriorityOffset(String packageName) {
+    private int getPackagePriority(String packageName) {
         int index = packageOrder.indexOf(packageName);
 
         if (index == -1) {
@@ -77,7 +85,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
             String p1 = getPackageName(m1);
             String p2 = getPackageName(m2);
 
-            return p1.compareTo(p2) - packagePriorityOffset(p1) + packagePriorityOffset(p2);
+            return p1.compareTo(p2) - getPackagePriority(p1) + getPackagePriority(p2);
         };
 
         //(Package name -> package priority) -> class priority -> class name -> method priority
