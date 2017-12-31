@@ -98,7 +98,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 
 ##### Suppressing PMD warnings
 
-To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](https://pmd.github.io/pmd-5.8.1/usage/suppressing.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs
