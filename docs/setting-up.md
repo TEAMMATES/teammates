@@ -85,7 +85,7 @@ You are encouraged, but not required, to use an IDE to assist many development t
 We currently support two IDEs: Eclipse IDE and IntelliJ IDEA.
 Support requests related to other IDEs will not be entertained.
 
-Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
+Refer to [this document](ide-setup.md) if you wish to set up an IDE for developing TEAMMATES.
 
 ## Step 5: Start developing
 
