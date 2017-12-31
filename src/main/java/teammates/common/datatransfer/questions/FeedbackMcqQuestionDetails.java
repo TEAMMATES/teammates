@@ -384,7 +384,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = collateAnsweringFrequencyForMcqOptions(responses);
+        Map<String, Integer> answerFrequency = collateAnsweringFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -409,7 +409,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = collateAnsweringFrequencyForMcqOptions(responses);
+        Map<String, Integer> answerFrequency = collateAnsweringFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -474,7 +474,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    private Map<String, Integer> collateAnsweringFrequencyForMcqOptions(List<FeedbackResponseAttributes> responses) {
+    private Map<String, Integer> collateAnsweringFrequency(List<FeedbackResponseAttributes> responses) {
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
         for (String option : mcqChoices) {
@@ -491,15 +491,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
 
             if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
             } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
             }
         }
 
