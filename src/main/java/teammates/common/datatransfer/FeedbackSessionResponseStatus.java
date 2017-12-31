@@ -63,7 +63,7 @@ public class FeedbackSessionResponseStatus {
      * sorted by teamName > studentNamelist.
      */
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
-        Collections.sort(noResponse, compareByTeamNameStudentName);
+        noResponse.sort(compareByTeamNameStudentName);
         return noResponse;
     }
 

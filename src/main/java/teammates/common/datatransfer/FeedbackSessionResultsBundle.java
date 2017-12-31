@@ -1415,7 +1415,7 @@ public class FeedbackSessionResultsBundle {
                         new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
             }
             Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                        sortedMap.get(recipientNameWithTeam);
+                                            sortedMap.get(recipientNameWithTeam);
 
             String giverName = this.getGiverNameForResponse(response);
             String giverTeamName = this.getTeamNameForEmail(response.giver);
@@ -1461,7 +1461,7 @@ public class FeedbackSessionResultsBundle {
                               new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
             }
             Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                             sortedMap.get(recipientEmail);
+                                            sortedMap.get(recipientEmail);
 
             String giverEmail = response.giver;
             if (!responsesToOneRecipient.containsKey(giverEmail)) {
