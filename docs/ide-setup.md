@@ -40,7 +40,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
    ./gradlew setupEclipse
    ```
 
-   **Verification:** The folder `.launches` should be added to the project root directory.
+   **Verification:** The folder `.launches` and files `.classpath`, `.project` should be added to the project root directory.
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
