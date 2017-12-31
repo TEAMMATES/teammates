@@ -42,7 +42,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 3: Set up project-specific settings and dependencies
 
-1. Install Google Cloud SDK version 179.0.0. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
+1. Install Google Cloud SDK. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
    # This command is to be run at the Google Cloud SDK directory
