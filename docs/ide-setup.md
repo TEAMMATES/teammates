@@ -112,8 +112,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 1. You need the [Google Cloud Tools](https://cloud.google.com/tools/intellij/docs/quickstart-IDEA#install) plugin installed and configured:
 
    ![intellijsetupguide-2.png](images/intellijsetupguide-2.png)
-   * During installation, you may encounter two prompts: one to install the `Google Account` plugin dependency and
-     another to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes` to both prompts.
+   * During installation, you may encounter a prompt to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes`.
    * After installation, restart IntelliJ IDEA and configure the plugin.
      Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is currently open),
      go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
