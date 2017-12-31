@@ -61,13 +61,11 @@ public final class GoogleCloudStorageHelper {
      */
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
-        GcsOutputChannel outputChannel =
-                GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                                 .createOrReplace(gcsFilename,
-                                                  new GcsFileOptions.Builder().mimeType("image/png").build());
+        try (GcsOutputChannel outputChannel = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
+                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build())) {
 
-        outputChannel.write(ByteBuffer.wrap(imageData));
-        outputChannel.close();
+            outputChannel.write(ByteBuffer.wrap(imageData));
+        }
 
         return BlobstoreServiceFactory.getBlobstoreService()
                 .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
@@ -130,12 +128,10 @@ public final class GoogleCloudStorageHelper {
 
         while (size > 0) {
             // Make sure not to over-read
-            int bytesToRead = Math.min(size, MAX_READING_LENGTH);
-            InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
-            byte[] array = new byte[bytesToRead];
-
-            blobStream.read(array);
-
+            byte[] array = new byte[Math.min(size, MAX_READING_LENGTH)];;
+            try (InputStream blobStream = new BlobstoreInputStream(blobKey, offset)) {
+                blobStream.read(array);
+            }
             // Remember where it stops reading
             offset += MAX_READING_LENGTH;
             // Decrease unread bytes
@@ -170,8 +166,6 @@ public final class GoogleCloudStorageHelper {
                     listOfList.add(newList.subList(1, newList.size() - 1));
                 }
             }
-
-            blobStream.close();
         }
 
         return listOfList;

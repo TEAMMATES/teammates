@@ -19,13 +19,14 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
     @Override
     protected void doOperation() {
         Logic logic = new Logic();
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter course to edit: ");
-        String courseId = scanner.nextLine();
-        System.out.println("Enter new institute name: ");
-        String institute = scanner.nextLine();
-
+        String courseId;
+        String institute;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Enter course to edit: ");
+            courseId = scanner.nextLine();
+            System.out.println("Enter new institute name: ");
+            institute = scanner.nextLine();
+        }
         try {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
@@ -47,7 +48,6 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
             e.printStackTrace();
         }
 
-        scanner.close();
     }
 
 }
