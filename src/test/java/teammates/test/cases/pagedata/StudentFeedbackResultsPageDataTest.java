@@ -140,16 +140,11 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
             Logic logic, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> actualQuestionsWithResponses =
                 new LinkedHashMap<>();
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
-                     entry : questionsWithResponses.entrySet()) {
-            FeedbackQuestionAttributes dataBundleQuestion = entry.getKey();
-
+        questionsWithResponses.forEach((dataBundleQuestion, dataBundleResponses) -> {
             FeedbackQuestionAttributes actualQuestion = logic.getFeedbackQuestion(
                                                                     dataBundleQuestion.feedbackSessionName,
                                                                     dataBundleQuestion.courseId,
                                                                     dataBundleQuestion.questionNumber);
-
-            List<FeedbackResponseAttributes> dataBundleResponses = entry.getValue();
 
             List<FeedbackResponseAttributes> actualResponses = new ArrayList<>();
             for (FeedbackResponseAttributes dataBundleResponse : dataBundleResponses) {
@@ -158,10 +153,9 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                                                                     dataBundleResponse.giver,
                                                                     dataBundleResponse.recipient);
                 actualResponses.add(actualResponse);
-
             }
             actualQuestionsWithResponses.put(actualQuestion, actualResponses);
-        }
+        });
         return actualQuestionsWithResponses;
     }
 }

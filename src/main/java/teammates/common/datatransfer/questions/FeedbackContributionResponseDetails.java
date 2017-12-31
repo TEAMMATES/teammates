@@ -183,28 +183,21 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     // TODO: check if this can be made non-static
     public static Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        Map<String, StudentResultSummary> contribQnStats =
-                feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.get(question.getId());
-        if (contribQnStats == null) {
-            FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
-            contribQnStats = fqcd.getStudentResults(feedbackSessionResultsBundle, question);
 
-            //Convert email to anonEmail and add stats.
-            Map<String, StudentResultSummary> anonContribQnStats = new HashMap<>();
-            for (Map.Entry<String, StudentResultSummary> entry : contribQnStats.entrySet()) {
-                anonContribQnStats.put(
-                        feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(entry.getKey()), entry.getValue());
-            }
-            for (Map.Entry<String, StudentResultSummary> entry : anonContribQnStats.entrySet()) {
-                if (contribQnStats.get(entry.getKey()) == null) {
-                    contribQnStats.put(entry.getKey(), entry.getValue());
+        return feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.computeIfAbsent(
+                question.getId(), key -> {
+                    FeedbackContributionQuestionDetails fqcd =
+                            (FeedbackContributionQuestionDetails) question.getQuestionDetails();
+                    Map<String, StudentResultSummary> contribQnStats =
+                            fqcd.getStudentResults(feedbackSessionResultsBundle, question);
+
+                    new HashMap<>(contribQnStats).forEach((contribQnStatsKey, value) -> contribQnStats.putIfAbsent(
+                            feedbackSessionResultsBundle.getAnonEmailFromStudentEmail(contribQnStatsKey), value));
+
+                    return contribQnStats;
                 }
-            }
+        );
 
-            feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.put(question.getId(), contribQnStats);
-        }
-
-        return contribQnStats;
     }
 
     public Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,

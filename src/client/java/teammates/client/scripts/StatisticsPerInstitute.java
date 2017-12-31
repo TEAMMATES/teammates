@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
@@ -254,13 +253,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<>();
-        for (Map.Entry<String, HashMap<Integer, HashSet<String>>> entry : institutes.entrySet()) {
+        institutes.forEach((insName, insStudents) -> {
             InstituteStats insStat = new InstituteStats();
-            insStat.name = entry.getKey();
-            insStat.studentTotal = entry.getValue().get(STUDENT_INDEX).size();
-            insStat.instructorTotal = entry.getValue().get(INSTRUCTOR_INDEX).size();
+            insStat.name = insName;
+            insStat.studentTotal = insStudents.get(STUDENT_INDEX).size();
+            insStat.instructorTotal = insStudents.get(INSTRUCTOR_INDEX).size();
             list.add(insStat);
-        }
+        });
         return list;
     }
 
