@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -320,20 +319,17 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
+        optionRanks.forEach((option, ranks) -> {
 
-            List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
-
-            String option = entry.getKey();
 
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                     Slots.RANK_RECIEVED, ranksReceived,
                     Slots.RANK_AVERAGE, df.format(average)));
 
-        }
+        });
 
         return Templates.populateTemplate(FormTemplates.RANK_RESULT_OPTION_STATS,
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "Option",
@@ -354,15 +350,14 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
-            String option = SanitizationHelper.sanitizeForCsv(entry.getKey());
+        optionRanks.forEach((key, ranksAssigned) -> {
+            String option = SanitizationHelper.sanitizeForCsv(key);
 
-            List<Integer> ranksAssigned = entry.getValue();
             double average = computeAverage(ranksAssigned);
             String fragment = option + "," + df.format(average) + ","
                     + StringHelper.join(",", ranksAssigned) + Const.EOL;
             fragments.append(fragment);
-        }
+        });
 
         return "Option, Average Rank, Ranks Received" + Const.EOL + fragments.toString() + Const.EOL;
     }

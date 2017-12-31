@@ -209,11 +209,11 @@ public class InstructorSearchPageData extends PageData {
             }
         }
         List<SectionDetailsBundle> sections = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : sectionNameToTeamNameMap.entrySet()) {
+        sectionNameToTeamNameMap.forEach((sectionName, teamNameList) -> {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
-            sdb.name = entry.getKey();
+            sdb.name = sectionName;
             ArrayList<TeamDetailsBundle> teams = new ArrayList<>();
-            for (String teamName : entry.getValue()) {
+            for (String teamName : teamNameList) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();
                 tdb.name = teamName;
                 tdb.students = teamNameToStudentsMap.get(teamName);
@@ -221,7 +221,7 @@ public class InstructorSearchPageData extends PageData {
             }
             sdb.teams = teams;
             sections.add(sdb);
-        }
+        });
         for (SectionDetailsBundle section : sections) {
             InstructorAttributes instructor = studentSearchResultBundle.courseIdInstructorMap.get(courseId);
             boolean isAllowedToViewStudentInSection =

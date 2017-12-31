@@ -3,7 +3,6 @@ package teammates.test.cases.testdriver;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
 
@@ -34,9 +33,7 @@ public class TestNgTest extends BaseTestCase {
                                             "GodModeTest"
                                             );
 
-        for (Entry<String, String> testFileName : testFiles.entrySet()) {
-            assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
-        }
+        testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
     }
 
     /**

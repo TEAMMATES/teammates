@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,12 +40,8 @@ public final class DataBundleRegenerator {
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());
             DataBundle db = JsonUtils.fromJson(jsonString, DataBundle.class);
-            for (Map.Entry<String, FeedbackResponseAttributes> responseMap : db.feedbackResponses.entrySet()) {
-                fixResponse(responseMap.getValue());
-            }
-            for (Map.Entry<String, FeedbackQuestionAttributes> questionMap : db.feedbackQuestions.entrySet()) {
-                fixQuestion(questionMap.getValue());
-            }
+            db.feedbackResponses.forEach((key, feedbackResponseAttributes) -> fixResponse(feedbackResponseAttributes));
+            db.feedbackQuestions.forEach((key, feedbackQuestionAttributes) -> fixQuestion(feedbackQuestionAttributes));
             String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
             saveFile(file.getCanonicalPath(), regeneratedJsonString);
         }
