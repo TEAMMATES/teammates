@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -199,18 +198,19 @@ public final class DataGenerator {
     /**
      * Returns Json string presentation for all instructors.
      */
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends") // Seems like a bug in PMD
     private static String allInstructors() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"instructors\":{\n");
-        for (Map.Entry<String, String> entry : instructors.entrySet()) {
-            String course = PREFIX + instructors.get(entry.getValue());
-            String instructorWithPrefix = PREFIX + entry.getKey();
+        instructors.forEach((key, value) -> {
+            String course = PREFIX + instructors.get(value);
+            String instructorWithPrefix = PREFIX + key;
             outputBuilder.append('\t')
                          .append(instructor(instructorWithPrefix, "googleIdOf_" + instructorWithPrefix,
                                             "courseIdOf_" + course, "nameOf_" + instructorWithPrefix,
                                             "emailOf_" + instructorWithPrefix + "@gmail.com"))
                          .append(",\n");
-        }
+        });
         String output = outputBuilder.substring(0, outputBuilder.length() - 2);
         return output + "\n},";
 
