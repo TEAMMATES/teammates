@@ -107,6 +107,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
 
      ```sh
      ./gradlew lint
+     npm run lint
      ```
    * **Dev green**, i.e. all *local tests* are passing on your dev server.<br>
      You are more than welcome to also ensure all *CI tests* are passing on your dev server.
