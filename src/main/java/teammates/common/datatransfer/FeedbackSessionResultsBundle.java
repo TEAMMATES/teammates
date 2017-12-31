@@ -249,7 +249,6 @@ public class FeedbackSessionResultsBundle {
     // Sorts by recipientName > recipientEmail > giverName > giverEmail
     private Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
             compareByRecipientNameOrTeam.thenComparing(compareByRecipientEmail)
-                    .thenComparing(compareByRecipientEmail)
                     .thenComparing(compareByGiverNameOrTeam)
                     .thenComparing(compareByGiverEmail)
                     .thenComparing(compareByResponseString)
