@@ -28,7 +28,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring Checkstyle Eclipse plugin
 
-The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
+The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/checkstyle-plug). **Install version 8.0.0**.
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
@@ -76,7 +76,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring PMD Eclipse plugin
 
-The plugin for Eclipse can be found [here](http://www.acanda.ch/eclipse-pmd/release/latest).
+The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/eclipse-pmd).
 
 1. In `Project > Properties`, go to the `PMD` tab.
 1. Check `Enable PMD for this project`.
