@@ -115,11 +115,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // and load them by ajax question by question
         boolean isLoadingStructureOnly = questionToResponseMap.size() > 1;
 
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
-                     entry : questionToResponseMap.entrySet()) {
-            FeedbackQuestionAttributes question = entry.getKey();
-            List<FeedbackResponseAttributes> responses = entry.getValue();
-
+        questionToResponseMap.forEach((question, responses) -> {
             InstructorFeedbackResultsQuestionTable questionPanel;
             if (isLoadingStructureOnly) {
                 questionPanel = buildQuestionTableWithoutResponseRows(question, responses, "");
@@ -129,8 +125,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
 
             questionPanels.add(questionPanel);
-        }
-
+        });
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
