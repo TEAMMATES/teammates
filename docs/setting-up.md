@@ -75,8 +75,6 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Modify the following config file:
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
-      This value must be a valid **JDK 1.8** directory.
-      **Windows users** should use a **forward slash** (`/`) instead of the Windows default **backward slash** (`\`) while specifying the path.
 
 ## Step 4: (Optional but recommended) Set up an IDE
 
