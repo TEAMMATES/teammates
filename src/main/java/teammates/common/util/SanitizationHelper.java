@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -319,10 +318,7 @@ public final class SanitizationHelper {
     public static List<String> sanitizeListForCsv(List<String> strList) {
         List<String> sanitizedStrList = new ArrayList<>();
 
-        Iterator<String> itr = strList.iterator();
-        while (itr.hasNext()) {
-            sanitizedStrList.add(sanitizeForCsv(itr.next()));
-        }
+        strList.forEach(string -> sanitizedStrList.add(sanitizeForCsv(string)));
 
         return sanitizedStrList;
     }
