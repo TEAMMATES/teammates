@@ -571,11 +571,7 @@ public class FeedbackSessionResultsBundle {
      * @return a set of emails of the students in the team
      */
     public Set<String> getTeamMembersFromRoster(String teamName) {
-        if (!rosterTeamNameMembersTable.containsKey(teamName)) {
-            return new HashSet<>();
-        }
-
-        return new HashSet<>(rosterTeamNameMembersTable.get(teamName));
+        return new HashSet<>(rosterTeamNameMembersTable.getOrDefault(teamName, new HashSet<>()));
     }
 
     /**
@@ -585,10 +581,7 @@ public class FeedbackSessionResultsBundle {
      * @return a set of team names of the teams in the section
      */
     public Set<String> getTeamsInSectionFromRoster(String sectionName) {
-        if (rosterSectionTeamNameTable.containsKey(sectionName)) {
-            return new HashSet<>(rosterSectionTeamNameTable.get(sectionName));
-        }
-        return new HashSet<>();
+        return new HashSet<>(rosterSectionTeamNameTable.getOrDefault(sectionName, new HashSet<>()));
     }
 
     public boolean isParticipantIdentifierStudent(String participantIdentifier) {
@@ -1604,13 +1597,7 @@ public class FeedbackSessionResultsBundle {
 
         for (StudentAttributes student : students) {
             String studentTeam = student.team;
-            Set<String> studentEmails;
-
-            if (teamNameToEmails.containsKey(studentTeam)) {
-                studentEmails = teamNameToEmails.get(studentTeam);
-            } else {
-                studentEmails = new TreeSet<>();
-            }
+            Set<String> studentEmails = teamNameToEmails.getOrDefault(studentTeam, new TreeSet<>());
 
             studentEmails.add(student.email);
             teamNameToEmails.put(studentTeam, studentEmails);
@@ -1635,13 +1622,7 @@ public class FeedbackSessionResultsBundle {
         for (StudentAttributes student : students) {
             String studentSection = student.section;
             String studentTeam = student.team;
-            Set<String> teamNames;
-
-            if (sectionToTeam.containsKey(studentSection)) {
-                teamNames = sectionToTeam.get(studentSection);
-            } else {
-                teamNames = new HashSet<>();
-            }
+            Set<String> teamNames = sectionToTeam.getOrDefault(studentSection, new HashSet<>());
 
             teamNames.add(studentTeam);
             sectionToTeam.put(studentSection, teamNames);
