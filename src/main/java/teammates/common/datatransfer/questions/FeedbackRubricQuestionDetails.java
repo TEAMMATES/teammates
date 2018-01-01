@@ -816,9 +816,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
                 new LinkedList<>(recipientToRecipientStats.entrySet());
-        recipientStatsList.sort(Comparator.comparing((Map.Entry<String, RubricRecipientStatistics> obj) ->
-                obj.getValue().recipientTeam.toLowerCase())
-                .thenComparing(obj -> obj.getValue().recipientName));
+        recipientStatsList.sort((Map.Entry<String, RubricRecipientStatistics> obj1,
+                                 Map.Entry<String, RubricRecipientStatistics> obj2) -> {
+            RubricRecipientStatistics a = obj1.getValue();
+            RubricRecipientStatistics b = obj2.getValue();
+
+            if (a.recipientTeam.equalsIgnoreCase(b.recipientTeam)) {
+                return a.recipientName.compareTo(b.recipientName);
+            } else {
+                return a.recipientTeam.compareTo(b.recipientTeam);
+            }
+        });
+
         return recipientStatsList;
     }
 
