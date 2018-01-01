@@ -3,8 +3,6 @@ package teammates.ui.template;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.common.collect.ComparisonChain;
-
 /**
  * Data model for Instructor Feedback Results view by question, view by...
  */
