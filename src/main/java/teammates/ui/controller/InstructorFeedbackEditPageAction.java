@@ -44,9 +44,9 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        studentList.sort((Comparator.comparing((StudentAttributes studentAttribute) ->
+        studentList.sort(Comparator.comparing((StudentAttributes studentAttribute) ->
                 studentAttribute.team.toLowerCase())
-                .thenComparing(studentAttributes -> studentAttributes.name.toLowerCase())));
+                .thenComparing(studentAttributes -> studentAttributes.name.toLowerCase()));
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
