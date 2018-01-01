@@ -45,21 +45,21 @@ public class CourseDetailsBundle {
     }
 
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
-        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.getId()));
+        courses.sort(Comparator.comparing(obj -> obj.course.getId()));
     }
 
     /**
      * Sorts courses based on course ID.
      */
     public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
-        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.getId()));
+        courses.sort(Comparator.comparing(obj -> obj.course.getId()));
     }
 
     /**
      * Sorts courses based on course creation date in the order of latest to oldest order.
      */
     public static void sortDetailedCoursesByCreationDate(List<CourseDetailsBundle> courses) {
-        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.createdAt));
+        courses.sort(Comparator.comparing((CourseDetailsBundle obj) -> obj.course.createdAt).reversed());
     }
 
     public CourseStats getStats() {
