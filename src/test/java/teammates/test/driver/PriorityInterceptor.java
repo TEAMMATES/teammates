@@ -38,7 +38,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
     }
 
     private Class<?> getDeclaringClassOfMethod(IMethodInstance mi) {
-        return getMethod(mi).getDeclaringClass();
+        return mi.getMethod().getRealClass();
     }
 
     private int getMethodPriority(IMethodInstance mi) {
