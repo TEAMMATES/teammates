@@ -1,7 +1,6 @@
 package teammates.client.scripts;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -61,7 +60,7 @@ public final class StudentDataGenerator {
 
             lines.add(student);
         }
-        Collections.sort(lines);
+        lines.sort(null);
         return lines;
     }
 

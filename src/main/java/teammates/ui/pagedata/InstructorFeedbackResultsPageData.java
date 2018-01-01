@@ -910,7 +910,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // If question specific sorting is not needed, responses are sorted
             // by default order (first by team name, then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
-                Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
+                responseRows.sort(questionDetails.getResponseRowsSortOrder());
             } else {
                 responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
             }

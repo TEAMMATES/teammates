@@ -502,32 +502,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return new Comparator<InstructorFeedbackResultsResponseRow>() {
-
-            @Override
-            public int compare(InstructorFeedbackResultsResponseRow o1,
-                               InstructorFeedbackResultsResponseRow o2) {
-
-                if (!o1.getGiverTeam().equals(o2.getGiverTeam())) {
-                    return o1.getGiverTeam().compareTo(o2.getGiverTeam());
-                }
-
-                if (!o1.getGiverDisplayableIdentifier().equals(o2.getGiverDisplayableIdentifier())) {
-                    return o1.getGiverDisplayableIdentifier().compareTo(o2.getGiverDisplayableIdentifier());
-                }
-
-                if (!o1.getDisplayableResponse().equals(o2.getDisplayableResponse())) {
-                    return o1.getDisplayableResponse().compareTo(o2.getDisplayableResponse());
-                }
-
-                if (!o1.getRecipientTeam().equals(o2.getRecipientTeam())) {
-                    return o1.getRecipientTeam().compareTo(o2.getRecipientTeam());
-                }
-
-                return o1.getRecipientDisplayableIdentifier().compareTo(o2.getRecipientDisplayableIdentifier());
-            }
-
-        };
+        return Comparator.comparing(InstructorFeedbackResultsResponseRow::getGiverTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getGiverDisplayableIdentifier)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getDisplayableResponse)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
     }
 
     @Override

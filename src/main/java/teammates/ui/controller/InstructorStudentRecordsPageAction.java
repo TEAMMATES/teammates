@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -42,7 +41,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         filterFeedbackSessions(courseId, sessions, instructor, student);
 
-        Collections.sort(sessions, FeedbackSessionAttributes.DESCENDING_ORDER);
+        sessions.sort(FeedbackSessionAttributes.DESCENDING_ORDER);
 
         StudentProfileAttributes studentProfile = null;
 
