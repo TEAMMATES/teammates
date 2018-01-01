@@ -671,11 +671,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherAnswer = "";
 
             if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -711,10 +707,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             numChoices++;
 
-            if (!answerFrequency.containsKey(answerString)) {
-                answerFrequency.put(answerString, 0);
-            }
-            answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+            answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
         }
         return numChoices;
     }

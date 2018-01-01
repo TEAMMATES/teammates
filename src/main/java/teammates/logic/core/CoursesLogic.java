@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -228,7 +227,7 @@ public final class CoursesLogic {
         }
 
         List<String> sectionNameList = new ArrayList<>(sectionNameSet);
-        Collections.sort(sectionNameList);
+        sectionNameList.sort(null);
 
         return sectionNameList;
     }

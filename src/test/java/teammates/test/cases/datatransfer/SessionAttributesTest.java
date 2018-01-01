@@ -2,7 +2,6 @@ package teammates.test.cases.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 
 import org.testng.annotations.Test;
@@ -49,7 +48,7 @@ public class SessionAttributesTest extends BaseTestCase {
         expected.add(s2);
         expected.add(s5);
 
-        Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
+        testList.sort(SessionAttributes.ASCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
             assertEquals(expected.get(i), testList.get(i));
         }
@@ -68,7 +67,7 @@ public class SessionAttributesTest extends BaseTestCase {
         expected.add(s1);
         expected.add(s3);
 
-        Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
+        testList.sort(SessionAttributes.DESCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
             assertEquals(expected.get(i), testList.get(i));
         }
