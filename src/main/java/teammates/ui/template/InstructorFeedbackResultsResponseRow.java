@@ -155,8 +155,8 @@ public class InstructorFeedbackResultsResponseRow {
 
     public static List<InstructorFeedbackResultsResponseRow> sortListWithDefaultOrder(
             List<InstructorFeedbackResultsResponseRow> responseRows) {
-        responseRows.sort((Comparator.comparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverTeam())
-                .thenComparing(obj -> obj.getGiverDisplayableIdentifier())));
+        responseRows.sort(Comparator.comparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverTeam())
+                .thenComparing(obj -> obj.getGiverDisplayableIdentifier()));
         return responseRows;
     }
 
