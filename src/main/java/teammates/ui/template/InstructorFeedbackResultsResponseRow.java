@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.common.collect.ComparisonChain;
@@ -156,14 +157,8 @@ public class InstructorFeedbackResultsResponseRow {
 
     public static List<InstructorFeedbackResultsResponseRow> sortListWithDefaultOrder(
             List<InstructorFeedbackResultsResponseRow> responseRows) {
-        responseRows.sort((InstructorFeedbackResultsResponseRow a1,
-                InstructorFeedbackResultsResponseRow a2) -> {
-            return ComparisonChain.start()
-                    .compare(a1.getGiverTeam(), a2.getGiverTeam())
-                    .compare(a1.getGiverDisplayableIdentifier(),
-                            a2.getGiverDisplayableIdentifier())
-                    .result();
-        });
+        responseRows.sort((Comparator.comparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverTeam())
+                .thenComparing(obj -> obj.getGiverDisplayableIdentifier())));
         return responseRows;
     }
 
