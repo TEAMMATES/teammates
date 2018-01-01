@@ -27,7 +27,7 @@ public class InstructorStudentListPageAction extends Action {
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         // Sort by creation date
-        courses.sort(Comparator.comparing((CourseAttributes course) -> course.createdAt));
+        courses.sort(Comparator.comparing(course -> course.createdAt));
 
         // Get instructor attributes
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(account.googleId);
