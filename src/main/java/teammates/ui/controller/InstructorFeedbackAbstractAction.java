@@ -139,7 +139,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
 
-        courses.sort(Comparator.comparing(course -> course.getId()));
+        courses.sort(Comparator.comparing((CourseAttributes course) -> course.getId()));
 
         return courses;
     }

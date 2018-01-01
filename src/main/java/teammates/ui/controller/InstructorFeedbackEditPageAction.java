@@ -1,6 +1,9 @@
 package teammates.ui.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -40,9 +43,12 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        studentList.sort((Comparator.comparing((StudentAttributes studentAttribute) ->
-                studentAttribute.team.toLowerCase())
-                .thenComparing(studentAttributes -> studentAttributes.name.toLowerCase())));
+        studentList.sort((StudentAttributes s1, StudentAttributes s2) -> {
+            if (s1.team.equals(s2.team)) {
+                return s1.name.compareToIgnoreCase(s2.name);
+            }
+            return s1.team.compareToIgnoreCase(s2.team);
+        });
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
@@ -51,7 +57,8 @@ public class InstructorFeedbackEditPageAction extends Action {
                 instructorsWhoCanSubmit.add(instructor);
             }
         }
-        instructorList.sort(Comparator.comparing(instructorAttribute -> instructorAttribute.name.toLowerCase()));
+        instructorList
+                .sort((InstructorAttributes i1, InstructorAttributes i2) -> i1.name.compareToIgnoreCase(i2.name));
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         int numOfInstructors = instructorList.size();

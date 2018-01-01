@@ -145,7 +145,8 @@ public class InstructorFeedbackResultsQuestionTable {
     }
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
-        questionTables.sort(Comparator.comparing(questionTable -> questionTable.question.questionNumber));
+        questionTables.sort(Comparator.comparing((InstructorFeedbackResultsQuestionTable questionTable) ->
+                questionTable.question.questionNumber));
     }
 
 }
