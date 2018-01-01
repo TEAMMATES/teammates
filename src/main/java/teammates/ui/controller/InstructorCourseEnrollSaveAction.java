@@ -105,7 +105,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
                     courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
         }
 
-        students.sort(Comparator.comparing((StudentAttributes obj) -> obj.updateStatus.numericRepresentation));
+        students.sort(Comparator.comparing(obj -> obj.updateStatus.numericRepresentation));
 
         return separateStudents(students);
     }
