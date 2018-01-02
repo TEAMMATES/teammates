@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
@@ -316,11 +317,10 @@ public final class SanitizationHelper {
      * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
-        List<String> sanitizedStrList = new ArrayList<>();
 
-        strList.forEach(string -> sanitizedStrList.add(sanitizeForCsv(string)));
+        return strList.stream().map(string -> sanitizeForCsv(string))
+                               .collect(Collectors.toList());
 
-        return sanitizedStrList;
     }
 
     /**
