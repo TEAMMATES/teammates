@@ -64,11 +64,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     protected void updateOptionRanksMapping(
             Map<String, List<Integer>> optionRanks,
             String optionReceivingRanks, int rankReceived) {
-
-        optionRanks.putIfAbsent(optionReceivingRanks, new ArrayList<>());
-        List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
-        ranksReceived.add(rankReceived);
-
+        optionRanks.computeIfAbsent(optionReceivingRanks, (String key) -> new ArrayList<>())
+                   .add(rankReceived);
     }
 
     /**
