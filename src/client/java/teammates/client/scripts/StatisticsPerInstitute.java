@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -264,13 +263,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private void sortByTotalStudentsDescending(List<InstituteStats> list) {
-        Collections.sort(list, new Comparator<InstituteStats>() {
-            @Override
-            public int compare(InstituteStats inst1, InstituteStats inst2) {
-                //the two objects are swapped, to sort in descending order
-                return Integer.compare(inst2.studentTotal, inst1.studentTotal);
-            }
-        });
+        list.sort(Comparator.comparing((InstituteStats institute) -> institute.studentTotal).reversed());
     }
 
     private void updateProgressIndicator() {

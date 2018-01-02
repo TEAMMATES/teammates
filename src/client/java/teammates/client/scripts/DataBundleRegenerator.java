@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONException;
@@ -73,7 +72,7 @@ public final class DataBundleRegenerator {
         for (Object key : json.keySet()) {
             keys.add((String) key);
         }
-        Collections.sort(keys);
+        keys.sort(null);
         for (String key : keys) {
             reprintedJson.put(key, json.get(key));
         }
