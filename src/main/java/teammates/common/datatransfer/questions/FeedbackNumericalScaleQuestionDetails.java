@@ -545,8 +545,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
-            numResponses.putIfAbsent(recipientEmail, 0);
-            int numOfResponses = numResponses.get(recipientEmail) + 1;
+            int numOfResponses = numResponses.getOrDefault(recipientEmail, 0) + 1;
             numResponses.put(recipientEmail, numOfResponses);
 
             // Compute number of responses excluding user's self response
@@ -558,18 +557,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
 
             // Compute minimum score received
-            min.putIfAbsent(recipientEmail, answer);
-            double minScoreReceived = Math.min(answer, min.get(recipientEmail));
+            double minScoreReceived = Math.min(answer, min.getOrDefault(recipientEmail, answer));
             min.put(recipientEmail, minScoreReceived);
 
             // Compute maximum score received
-            max.putIfAbsent(recipientEmail, answer);
-            double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
+            double maxScoreReceived = Math.max(answer, max.getOrDefault(recipientEmail, answer));
             max.put(recipientEmail, maxScoreReceived);
 
             // Compute total score received
-            total.putIfAbsent(recipientEmail, 0.0);
-            double totalScore = total.get(recipientEmail) + answer;
+            double totalScore = total.getOrDefault(recipientEmail, 0.0) + answer;
             total.put(recipientEmail, totalScore);
 
             // Compute total score received excluding self
@@ -584,7 +580,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
 
             // Compute average score received
-            average.putIfAbsent(recipientEmail, 0.0);
             double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
             average.put(recipientEmail, averageReceived);
 

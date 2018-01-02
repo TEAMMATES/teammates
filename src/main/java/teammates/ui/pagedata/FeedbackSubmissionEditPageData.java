@@ -178,14 +178,14 @@ public class FeedbackSubmissionEditPageData extends PageData {
         result.add("<option value=\"\" " + (currentlySelectedOption == null ? "selected>" : ">")
                    + "</option>");
 
-        for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
-            boolean isSelected = SanitizationHelper.desanitizeFromHtml(pair.getKey())
+        emailNamePair.forEach((key, value) -> {
+            boolean isSelected = SanitizationHelper.desanitizeFromHtml(key)
                                              .equals(currentlySelectedOption);
-            result.add("<option value=\"" + sanitizeForHtml(pair.getKey()) + "\"" + (isSelected ? " selected" : "") + ">"
-                           + sanitizeForHtml(pair.getValue())
+            result.add("<option value=\"" + sanitizeForHtml(key) + "\"" + (isSelected ? " selected" : "") + ">"
+                           + sanitizeForHtml(value)
                        + "</option>"
             );
-        }
+        });
 
         return result;
     }

@@ -292,6 +292,12 @@ appengine {
     }
 }
 
+task appengineDeployAll {
+    description "Deploy an App Engine application and all its extended configurations"
+    group "App Engine Standard environment"
+    dependsOn appengineDeploy, appengineDeployIndex, appengineDeployCron, appengineDeployQueue
+}
+
 // STATIC ANALYSIS TASKS
 
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")

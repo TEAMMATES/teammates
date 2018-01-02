@@ -229,12 +229,12 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private void constructSessionToInstructorIdMap() {
-        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : this.map.entrySet()) {
-            for (FeedbackSessionAttributes fs : entry.getValue()) {
+        this.map.forEach((key, feedbackSessionAttributesList) -> {
+            for (FeedbackSessionAttributes fs : feedbackSessionAttributesList) {
                 String googleId = findAvailableInstructorGoogleIdForCourse(fs.getCourseId());
                 this.sessionToInstructorIdMap.put(fs.getIdentificationString(), googleId);
             }
-        }
+        });
     }
 
     /**

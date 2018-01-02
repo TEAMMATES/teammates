@@ -2151,11 +2151,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table) {
         StringBuilder tableStringBuilder = new StringBuilder();
-        for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableStringBuilder.append('{' + entry.getKey() + "={"
-                                      + entry.getValue()[0] + ','
-                                      + entry.getValue()[1] + "}},");
-        }
+        table.forEach((key, value) -> tableStringBuilder.append('{' + key + "={" + value[0] + ',' + value[1] + "}},"));
         String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {
             tableString = tableString.substring(0, tableString.length() - 1);
