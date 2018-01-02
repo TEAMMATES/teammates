@@ -2,12 +2,10 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
@@ -254,24 +252,18 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private List<InstituteStats> convertToList(
             HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<>();
-        for (Map.Entry<String, HashMap<Integer, HashSet<String>>> entry : institutes.entrySet()) {
+        institutes.forEach((insName, insStudents) -> {
             InstituteStats insStat = new InstituteStats();
-            insStat.name = entry.getKey();
-            insStat.studentTotal = entry.getValue().get(STUDENT_INDEX).size();
-            insStat.instructorTotal = entry.getValue().get(INSTRUCTOR_INDEX).size();
+            insStat.name = insName;
+            insStat.studentTotal = insStudents.get(STUDENT_INDEX).size();
+            insStat.instructorTotal = insStudents.get(INSTRUCTOR_INDEX).size();
             list.add(insStat);
-        }
+        });
         return list;
     }
 
     private void sortByTotalStudentsDescending(List<InstituteStats> list) {
-        Collections.sort(list, new Comparator<InstituteStats>() {
-            @Override
-            public int compare(InstituteStats inst1, InstituteStats inst2) {
-                //the two objects are swapped, to sort in descending order
-                return Integer.compare(inst2.studentTotal, inst1.studentTotal);
-            }
-        });
+        list.sort(Comparator.comparing((InstituteStats institute) -> institute.studentTotal).reversed());
     }
 
     private void updateProgressIndicator() {

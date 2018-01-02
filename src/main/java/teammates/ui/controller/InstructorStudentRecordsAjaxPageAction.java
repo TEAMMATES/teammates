@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         List<SessionAttributes> sessions = new ArrayList<>();
         sessions.addAll(feedbacks);
-        Collections.sort(sessions, SessionAttributes.DESCENDING_ORDER);
+        sessions.sort(SessionAttributes.DESCENDING_ORDER);
 
         List<FeedbackSessionResultsBundle> results = new ArrayList<>();
         for (SessionAttributes session : sessions) {

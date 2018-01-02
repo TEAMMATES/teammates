@@ -255,7 +255,7 @@ This instruction set assumes that the app identifier is `teammates-john`.
    
      **NOTE**
      > Setup of Gmail API is required when testing against the staging server.\
-     See [Notes on Gmail API](#notes-about-using-the-gmail-api) for more details.
+     See [Notes on Gmail API](#notes-on-gmail-api) for more details.
      
      * Go to [Google Cloud Console](https://console.cloud.google.com/), select your TEAMMATES project if it is not selected
        and click `API Manager`.\
