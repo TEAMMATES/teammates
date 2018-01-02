@@ -58,13 +58,8 @@ public class InstructorFeedbackResultsSectionPanel {
      */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
-        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
-
-        if (participantPanels.containsKey(currentTeam)) {
-            teamsMembersPanels = participantPanels.get(currentTeam);
-        } else {
-            teamsMembersPanels = new ArrayList<>();
-        }
+        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels =
+                participantPanels.getOrDefault(currentTeam, new ArrayList<>());
 
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);
