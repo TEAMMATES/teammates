@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
