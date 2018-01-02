@@ -194,10 +194,8 @@ public class AdminSessionsPageData extends PageData {
     public void setInstitutionPanels(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap) {
         institutionPanels = new ArrayList<>();
-        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : map.entrySet()) {
-            institutionPanels.add(
-                    new InstitutionPanel(
-                            entry.getKey(), getFeedbackSessionRows(entry.getValue(), sessionToInstructorIdMap)));
-        }
+        map.forEach((key, feedbackSessionAttributesList) -> institutionPanels.add(
+                new InstitutionPanel(
+                        key, getFeedbackSessionRows(feedbackSessionAttributesList, sessionToInstructorIdMap))));
     }
 }
