@@ -384,7 +384,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = collateAnsweringFrequency(responses);
+        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -409,7 +409,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = collateAnsweringFrequency(responses);
+        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -474,7 +474,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    private Map<String, Integer> collateAnsweringFrequency(List<FeedbackResponseAttributes> responses) {
+    private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
         for (String option : mcqChoices) {
@@ -489,12 +489,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String answerString = response.getResponseDetails().getAnswerString();
             boolean isOtherOptionAnswer =
                     ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
+            String key = isOtherOptionAnswer ? "Other" : answerString;
 
-            if (isOtherOptionAnswer) {
-                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
-            } else {
-                answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
-            }
+            answerFrequency.put(key, answerFrequency.getOrDefault(key, 0) + 1);
         }
 
         return answerFrequency;
