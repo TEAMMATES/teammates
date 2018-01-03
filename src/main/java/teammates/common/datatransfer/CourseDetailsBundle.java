@@ -44,14 +44,10 @@ public class CourseDetailsBundle {
         return feedbackSessionAttributes;
     }
 
-    public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
-        courses.sort(Comparator.comparing(obj -> obj.course.getId()));
-    }
-
     /**
      * Sorts courses based on course ID.
      */
-    public static void sortDetailedCourses(List<CourseDetailsBundle> courses) {
+    public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         courses.sort(Comparator.comparing(obj -> obj.course.getId()));
     }
 

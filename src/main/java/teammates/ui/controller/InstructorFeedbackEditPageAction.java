@@ -44,9 +44,9 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        studentList.sort(Comparator.comparing((StudentAttributes studentAttribute) ->
-                studentAttribute.team.toLowerCase())
-                .thenComparing(studentAttributes -> studentAttributes.name.toLowerCase()));
+        studentList.sort(Comparator.comparing((StudentAttributes student) ->
+                student.team.toLowerCase())
+                .thenComparing(student -> student.name.toLowerCase()));
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
@@ -55,7 +55,7 @@ public class InstructorFeedbackEditPageAction extends Action {
                 instructorsWhoCanSubmit.add(instructor);
             }
         }
-        instructorList.sort(Comparator.comparing(instructorAttribute -> instructorAttribute.name.toLowerCase()));
+        instructorList.sort(Comparator.comparing(instructor -> instructor.name.toLowerCase()));
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         int numOfInstructors = instructorList.size();

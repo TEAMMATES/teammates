@@ -40,7 +40,4 @@ public class CourseSummaryBundle {
         courses.sort(Comparator.comparing((CourseSummaryBundle obj) -> obj.course.createdAt).reversed());
     }
 
-    public static void sortSummarizedCourses(List<CourseSummaryBundle> courses) {
-        courses.sort(Comparator.comparing(obj -> obj.course.getId()));
-    }
 }
