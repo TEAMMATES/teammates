@@ -1515,8 +1515,8 @@ public class FeedbackSessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giver;
 
-            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.computeIfAbsent(giverEmail,
-                    (String key) -> new LinkedHashMap<>());
+            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
+                    sortedMap.computeIfAbsent(giverEmail, (String key) -> new LinkedHashMap<>());
 
             String recipientEmail = response.recipient;
             responsesFromOneGiver.computeIfAbsent(recipientEmail, (String key) -> new ArrayList<>())
