@@ -429,34 +429,26 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * method is called with combined feedback sessions from many courses
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
+        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.startTime).reversed()
+                .thenComparing(session -> session.courseId)
+                .thenComparing(session -> session.feedbackSessionName));
         sessions.sort((session1, session2) -> {
-            int result = session2.createdTime.compareTo(session1.createdTime);
-            if (result == 0) {
-                if (session1.endTime == null || session2.endTime == null) {
-                    if (session1.endTime == null) {
-                        --result;
-                    }
-                    if (session2.endTime == null) {
-                        ++result;
-                    }
-                } else {
-                    result = session2.endTime.compareTo(session1.endTime);
+            int result = 0;
+
+            if (session1.endTime == null || session2.endTime == null) {
+                if (session1.endTime == null) {
+                    --result;
                 }
-            }
-
-            if (result == 0) {
-                result = session2.startTime.compareTo(session1.startTime);
-            }
-            if (result == 0) {
-                result = session1.courseId.compareTo(session2.courseId);
-            }
-
-            if (result == 0) {
-                result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
+                if (session2.endTime == null) {
+                    ++result;
+                }
+            } else {
+                result = session2.endTime.compareTo(session1.endTime);
             }
 
             return result;
         });
+        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.createdTime).reversed());
     }
 
     @Override
