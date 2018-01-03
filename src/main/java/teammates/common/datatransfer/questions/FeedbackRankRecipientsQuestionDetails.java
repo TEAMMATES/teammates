@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -263,17 +262,15 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
+        recipientRanks.forEach((participantIdentifier, ranks) -> {
 
-            List<Integer> ranks = entry.getValue();
             double average = computeAverage(ranks);
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
 
-            String participantIdentifier = entry.getKey();
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
+                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, participantIdentifier);
             String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
                     ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
@@ -285,7 +282,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                     Slots.RANK_AVERAGE, df.format(average),
                     Slots.RANK_EXCLUDING_SELF_AVERAGE, userAverageExcludingSelfText));
 
-        }
+        });
 
         return Templates.populateTemplate(templateToUse,
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
@@ -310,20 +307,19 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
+        recipientRanks.forEach((key, ranks) -> {
 
-            String teamName = bundle.getTeamNameForEmail(entry.getKey());
-            String recipientName = bundle.getNameForEmail(entry.getKey());
+            String teamName = bundle.getTeamNameForEmail(key);
+            String recipientName = bundle.getNameForEmail(key);
             String option = SanitizationHelper.sanitizeForCsv(teamName)
                             + ","
                             + SanitizationHelper.sanitizeForCsv(recipientName);
 
             String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, entry.getKey());
-            List<Integer> ranks = entry.getValue();
+                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, key);
             double average = computeAverage(ranks);
-            String selfRank = recipientSelfRanks.containsKey(entry.getKey())
-                    ? Integer.toString(recipientSelfRanks.get(entry.getKey())) : "-";
+            String selfRank = recipientSelfRanks.containsKey(key)
+                    ? Integer.toString(recipientSelfRanks.get(key)) : "-";
 
             fragments.append(option);
             fragments.append(',').append(selfRank);
@@ -332,7 +328,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             fragments.append(',');
             fragments.append(StringHelper.join(",", ranks));
             fragments.append(Const.EOL);
-        }
+        });
 
         return "Team, Recipient, Self Rank, Average Rank, Average Rank Excluding Self, Ranks Received" + Const.EOL
                 + fragments + Const.EOL;
@@ -394,15 +390,16 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         // resolve ties for each giver's responses
         Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = new HashMap<>();
-        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : responsesGivenByPerson.entrySet()) {
+        responsesGivenByPerson.forEach((key, feedbackResponseAttributesList) -> {
             Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
             for (FeedbackResponseAttributes res : responses) {
                 FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
                 rankOfResponse.put(res, frd.answer);
             }
 
-            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse, entry.getValue()));
-        }
+            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse,
+                    feedbackResponseAttributesList));
+        });
 
         return normalisedRankOfResponse;
     }
@@ -505,32 +502,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return new Comparator<InstructorFeedbackResultsResponseRow>() {
-
-            @Override
-            public int compare(InstructorFeedbackResultsResponseRow o1,
-                               InstructorFeedbackResultsResponseRow o2) {
-
-                if (!o1.getGiverTeam().equals(o2.getGiverTeam())) {
-                    return o1.getGiverTeam().compareTo(o2.getGiverTeam());
-                }
-
-                if (!o1.getGiverDisplayableIdentifier().equals(o2.getGiverDisplayableIdentifier())) {
-                    return o1.getGiverDisplayableIdentifier().compareTo(o2.getGiverDisplayableIdentifier());
-                }
-
-                if (!o1.getDisplayableResponse().equals(o2.getDisplayableResponse())) {
-                    return o1.getDisplayableResponse().compareTo(o2.getDisplayableResponse());
-                }
-
-                if (!o1.getRecipientTeam().equals(o2.getRecipientTeam())) {
-                    return o1.getRecipientTeam().compareTo(o2.getRecipientTeam());
-                }
-
-                return o1.getRecipientDisplayableIdentifier().compareTo(o2.getRecipientDisplayableIdentifier());
-            }
-
-        };
+        return Comparator.comparing(InstructorFeedbackResultsResponseRow::getGiverTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getGiverDisplayableIdentifier)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getDisplayableResponse)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
     }
 
     @Override
