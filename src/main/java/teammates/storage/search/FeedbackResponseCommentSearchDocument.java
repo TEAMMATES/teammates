@@ -1,7 +1,6 @@
 package teammates.storage.search;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -346,7 +345,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             bundle.numberOfResults++;
         }
         for (List<FeedbackQuestionAttributes> questions : bundle.questions.values()) {
-            Collections.sort(questions);
+            questions.sort(null);
         }
 
         for (List<FeedbackResponseAttributes> responses : bundle.responses.values()) {
