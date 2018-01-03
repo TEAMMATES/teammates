@@ -55,6 +55,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testDeleteCourseAction();
 
         testSanitization();
+
+        testEditInstructorDisplayedToStudents();
     }
 
     private void testContent() throws Exception {
@@ -823,4 +825,30 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(courseEditPageLink, InstructorCourseEditPage.class);
     }
 
+    private void testEditInstructorDisplayedToStudents() {
+        ______TS("verify that one instructor must be visible to students");
+
+        instructorId = testData.instructors.get("InsCrsEdit.instructor1OfCS2105").googleId;
+        courseId = testData.courses.get("InsCrsEdit.CS2105").getId();
+        courseEditPage = getCourseEditPage();
+
+        courseEditPage.editInstructor(1, "Teammates Do Not Save", "insCrsEdit.instructor1@cs2105.tmt",
+                false, "CS2105 Instructor 1", "Co-owner");
+
+        // Test to verify that changes made to instructor are not saved if this is the only instructor displayed
+        // to students and you try to uncheck the box for "Display to students as:"
+        // The information in "verifyInstructorDetails" method below comes from InstructorCourseEditPageUiTest.json,
+        // googleId: InsCrsEdit.tutor
+        courseEditPage.verifyInstructorDetails(1, "CS2105 Instructor 1",
+                "insCrsEdit.instructor1@cs2105.tmt", true, "CS2105 Instructor 1", "Co-owner");
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
+
+        // Test that you can successfully edit a non-displayed instructor without receiving an error message,
+        // if at least one instructor is visible.
+        courseEditPage.editInstructor(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
+                false, "CS2105 Instructor 2", "Co-owner");
+        courseEditPage.verifyInstructorDetails(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
+                false, "CS2105 Instructor 2", "Co-owner");
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "CS2105 Instructor 2"));
+    }
 }
