@@ -481,10 +481,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
+            FeedbackResponseDetails responseDetails = response.getResponseDetails();
             boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-            String key = isOtherOptionAnswer ? "Other" : answerString;
+                    ((FeedbackMcqResponseDetails) responseDetails).isOtherOptionAnswer();
+            String key = isOtherOptionAnswer ? "Other" : responseDetails.getAnswerString();
 
             answerFrequency.put(key, answerFrequency.getOrDefault(key, 0) + 1);
         }
