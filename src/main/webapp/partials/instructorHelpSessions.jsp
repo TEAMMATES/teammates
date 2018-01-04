@@ -2094,7 +2094,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form">
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="essayQuestionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -2412,7 +2412,7 @@
           <br> Example with specified options:
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post">
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="specifiedOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -2863,7 +2863,7 @@
           Example with generated options:
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="generatedOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -3437,7 +3437,7 @@
 
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="numericalQuestionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -3971,7 +3971,7 @@
 
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="amongOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -4602,7 +4602,7 @@
 
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="amongRecipientTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -5080,7 +5080,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="teamContributionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -6309,7 +6309,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="rubricQuestionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -6920,7 +6920,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="rankOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -7327,7 +7327,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post">
-              <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
+              <div class="panel panel-primary questionTable" id="rankRecpientTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
