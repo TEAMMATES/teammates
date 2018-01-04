@@ -54,7 +54,7 @@ public class StudentProfileEditSaveAction extends Action {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
 
-        String value = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
+        String value = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER).toUpperCase();
 
         if (value != null && ("MALE".equalsIgnoreCase(value) || "FEMALE".equalsIgnoreCase(value))) {
             editedProfile.gender = Gender.valueOf(value.toUpperCase());

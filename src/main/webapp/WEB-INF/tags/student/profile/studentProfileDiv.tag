@@ -133,7 +133,7 @@
               class="radio"
               type="radio"
               value="<%= Gender.OTHER %>"
-              <c:if test="${profile.gender == OTHER}">checked</c:if>> OTHER
+              <c:if test="${profile.gender == OTHER}">checked</c:if>> Not Specified
         </label>
       </div>
     </div>
