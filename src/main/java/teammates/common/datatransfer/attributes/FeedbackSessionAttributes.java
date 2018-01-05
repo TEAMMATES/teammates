@@ -1,8 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.nullsLast;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -433,7 +430,15 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
         sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.createdTime).reversed()
-                .thenComparing(session -> session.endTime, nullsLast(naturalOrder())).reversed()
+                .thenComparing((session1, session2) -> {
+                    if (session1.endTime == null) {
+                        return -1;
+                    } else if (session2.endTime == null) {
+                        return 1;
+                    } else {
+                        return session2.endTime.compareTo(session1.endTime);
+                    }
+                })
                 .thenComparing(session -> session.startTime).reversed()
                 .thenComparing(session -> session.courseId)
                 .thenComparing(session -> session.feedbackSessionName));
