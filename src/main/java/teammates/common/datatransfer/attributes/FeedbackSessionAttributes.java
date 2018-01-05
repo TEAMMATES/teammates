@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import static java.util.Comparator.naturalOrder;
+
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionType;
@@ -429,26 +431,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * method is called with combined feedback sessions from many courses
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
-        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.startTime).reversed()
+        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.createdTime).reversed()
+                .thenComparing(session -> session.endTime, Comparator.nullsLast(naturalOrder())).reversed()
+                .thenComparing(session -> session.startTime).reversed()
                 .thenComparing(session -> session.courseId)
                 .thenComparing(session -> session.feedbackSessionName));
-        sessions.sort((session1, session2) -> {
-            int result = 0;
-
-            if (session1.endTime == null || session2.endTime == null) {
-                if (session1.endTime == null) {
-                    --result;
-                }
-                if (session2.endTime == null) {
-                    ++result;
-                }
-            } else {
-                result = session2.endTime.compareTo(session1.endTime);
-            }
-
-            return result;
-        });
-        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.createdTime).reversed());
     }
 
     @Override
