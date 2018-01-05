@@ -52,9 +52,13 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
    You need not be alarmed as these will be resolved in the next step.
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
-   * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
-
-     ![eclipsesetupguide-5.png](images/eclipsesetupguide-5.png)
+   * Text encoding: In TEAMMATES, we use `UTF-8` for text encoding.
+     Configure for all the languages used in TEAMMATES in `Eclipse → Preferences → ...`. Change to `UTF-8` if it is not the default value.
+     * General: `General → Workspace → Text file encoding`.
+     * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
+     * CSS: `Web → CSS Files → Encoding`.
+     * JSP: `Web → JSP Files → Encoding`.
+     * HTML: `XML → XML Files → Encoding`.
 
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
 
