@@ -430,7 +430,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
         sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.createdTime).reversed()
-                .thenComparing((session1, session2) -> {
+                .thenComparing((FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) -> {
                     if (session1.endTime == null) {
                         return -1;
                     } else if (session2.endTime == null) {
