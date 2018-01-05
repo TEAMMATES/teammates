@@ -26,9 +26,7 @@ public class TaskQueuer {
 
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
         Map<String, String[]> multisetParamMap = new HashMap<>();
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            multisetParamMap.put(entry.getKey(), new String[] { entry.getValue() });
-        }
+        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
         new TaskQueuesLogic().addTask(task);
     }
@@ -36,9 +34,7 @@ public class TaskQueuer {
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
                                    long countdownTime) {
         Map<String, String[]> multisetParamMap = new HashMap<>();
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            multisetParamMap.put(entry.getKey(), new String[] { entry.getValue() });
-        }
+        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
         new TaskQueuesLogic().addDeferredTask(task, countdownTime);
     }

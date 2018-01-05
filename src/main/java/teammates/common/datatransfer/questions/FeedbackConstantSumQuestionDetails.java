@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -409,15 +408,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
-        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
+        sortedOptionPoints.forEach((option, points) -> {
 
-            List<Integer> points = entry.getValue();
             double average = computeAverage(points);
             int total = computeTotal(points);
             String pointsReceived = getListOfPointsAsString(points);
 
             if (distributeToRecipients) {
-                String participantIdentifier = identifierMap.get(entry.getKey());
+                String participantIdentifier = identifierMap.get(option);
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
 
@@ -428,7 +426,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             } else {
-                String option = entry.getKey();
 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
@@ -436,7 +433,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             }
-        }
+        });
 
         if (distributeToRecipients) {
             return Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
@@ -473,20 +470,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
-        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
+        sortedOptionPoints.forEach((key, points) -> {
             String option;
             if (distributeToRecipients) {
-                String participantIdentifier = identifierMap.get(entry.getKey());
+                String participantIdentifier = identifierMap.get(key);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 String recipientName = bundle.getNameForEmail(participantIdentifier);
 
                 option = SanitizationHelper.sanitizeForCsv(teamName)
                          + "," + SanitizationHelper.sanitizeForCsv(recipientName);
             } else {
-                option = SanitizationHelper.sanitizeForCsv(entry.getKey());
+                option = SanitizationHelper.sanitizeForCsv(key);
             }
 
-            List<Integer> points = entry.getValue();
             double average = computeAverage(points);
             double total = computeTotal(points);
 
@@ -496,7 +492,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     .append(',').append(StringHelper.join(",", points))
                     .append(Const.EOL);
 
-        }
+        });
 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
                + ", Average Points, Total Points, Received Points" + Const.EOL
@@ -514,14 +510,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
             Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
 
-        for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
-            String participantIdentifier = entry.getKey();
+        recipientMapping.forEach((participantIdentifier, value) -> {
             String name = bundle.getNameForEmail(participantIdentifier);
             String nameEmail = name + participantIdentifier;
 
             identifierMap.put(nameEmail, participantIdentifier);
-            sortedOptionPoints.put(nameEmail, entry.getValue());
-        }
+            sortedOptionPoints.put(nameEmail, value);
+        });
     }
 
     /**
@@ -535,11 +530,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, List<Integer>> optionPoints, List<String> optionList,
             Map<String, List<Integer>> sortedOptionPoints) {
 
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
-            String option = optionList.get(Integer.parseInt(entry.getKey()));
+        optionPoints.forEach((key, value) -> {
+            String option = optionList.get(Integer.parseInt(key));
 
-            sortedOptionPoints.put(option, entry.getValue());
-        }
+            sortedOptionPoints.put(option, value);
+        });
     }
 
     /**
