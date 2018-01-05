@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static java.util.Comparator.naturalOrder;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -8,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-
-import static java.util.Comparator.naturalOrder;
 
 import com.google.appengine.api.datastore.Text;
 
