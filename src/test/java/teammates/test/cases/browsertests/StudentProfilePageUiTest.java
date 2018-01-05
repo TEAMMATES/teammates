@@ -152,7 +152,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           Gender.OTHER, "this is enough!$%&*</>");
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", Gender.OTHER,
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", Gender.FEMALE,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                          Gender.FEMALE, "this is enough!$%&*</>");
