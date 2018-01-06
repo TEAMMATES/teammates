@@ -429,9 +429,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * method is called with combined feedback sessions from many courses
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
-        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.createdTime)
-                .thenComparing(session -> session.endTime, Comparator.nullsLast(Comparator.naturalOrder()))
-                .thenComparing(session -> session.startTime).reversed()
+        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) ->
+                session.createdTime, Comparator.reverseOrder())
+                .thenComparing(session -> session.endTime, Comparator.nullsFirst(Comparator.reverseOrder()))
+                .thenComparing(session -> session.startTime, Comparator.reverseOrder())
                 .thenComparing(session -> session.courseId)
                 .thenComparing(session -> session.feedbackSessionName));
     }
