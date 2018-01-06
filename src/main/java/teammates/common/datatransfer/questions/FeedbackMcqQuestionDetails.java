@@ -383,27 +383,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-
-            if (isOtherOptionAnswer) {
-                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
-            } else {
-                answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
-            }
-        }
+        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -426,27 +406,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-
-            if (isOtherOptionAnswer) {
-                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
-            } else {
-                answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
-            }
-        }
+        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -507,5 +467,28 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+
+        for (String option : mcqChoices) {
+            answerFrequency.put(option, 0);
+        }
+
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackResponseDetails responseDetails = response.getResponseDetails();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMcqResponseDetails) responseDetails).isOtherOptionAnswer();
+            String key = isOtherOptionAnswer ? "Other" : responseDetails.getAnswerString();
+
+            answerFrequency.put(key, answerFrequency.getOrDefault(key, 0) + 1);
+        }
+
+        return answerFrequency;
     }
 }
