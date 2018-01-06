@@ -86,12 +86,12 @@ public class ElementTag {
         }
 
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
-            sb.append(' ').append(attribute.getKey());
-            if (attribute.getValue() != null) {
-                sb.append("=\"" + attribute.getValue() + "\"");
+        attributes.forEach((key, value) -> {
+            sb.append(' ').append(key);
+            if (value != null) {
+                sb.append("=\"" + value + "\"");
             }
-        }
+        });
         return sb.toString();
     }
 }

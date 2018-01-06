@@ -1,9 +1,11 @@
 package teammates.test.pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.Const;
 
 public class AdminHomePage extends AppPage {
     @FindBy (id = "addInstructorDetailsSingleLine")
@@ -93,6 +95,11 @@ public class AdminHomePage extends AppPage {
 
     public String getMessageFromResultTable(int index) {
         return getCellValueFromDataTable(index, 5);
+    }
+
+    public String getJoinLink(String messageText) {
+        WebElement link = browser.driver.findElement(By.linkText(Const.JOIN_LINK));
+        return link.getAttribute("href");
     }
 
 }

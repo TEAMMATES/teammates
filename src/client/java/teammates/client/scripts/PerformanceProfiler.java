@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,7 +215,7 @@ public class PerformanceProfiler extends Thread {
         for (String str : results.keySet()) {
             list.add(str);
         }
-        Collections.sort(list);
+        list.sort(null);
         FileWriter fstream = new FileWriter(filePath);
         BufferedWriter out = new BufferedWriter(fstream);
 
