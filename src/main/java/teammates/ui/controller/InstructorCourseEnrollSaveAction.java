@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -106,12 +105,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
                     courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
         }
 
-        Collections.sort(students, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation;
-            }
-        });
+        students.sort(Comparator.comparing(obj -> obj.updateStatus.numericRepresentation));
 
         return separateStudents(students);
     }

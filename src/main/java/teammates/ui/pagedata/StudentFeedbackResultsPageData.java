@@ -186,11 +186,6 @@ public class StudentFeedbackResultsPageData extends PageData {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
                 recipientName = bundle.getNameForEmail(response.recipient);
-            } else if (!isUserGiver
-                       && !bundle.isRecipientVisible(response)) {
-                // Hide anonymous recipient entirely to prevent student from guessing the identity
-                // based on responses from other response givers
-                recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
             }
 
             String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
