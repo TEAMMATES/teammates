@@ -38,7 +38,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         boolean isMakingInstructorInvisible = !isDisplayedToStudentsAfterChanges
                 && instructorToEdit.isDisplayedToStudents;
         if (isMakingInstructorInvisible) {
-            int numberOfInstructorsDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId);
+            long numberOfInstructorsDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId);
             boolean isSoleVisibleInstructor = numberOfInstructorsDisplayed == 1;
             if (isSoleVisibleInstructor) {
                 statusToUser.add(new StatusMessage(String.format(
@@ -73,14 +73,10 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         return result;
     }
 
-    protected int getNumberOfInstructorsDisplayedToStudents(String courseId) {
+    protected long getNumberOfInstructorsDisplayedToStudents(String courseId) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        int numberOfInstructorsDisplayed = 0;
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.isDisplayedToStudents) {
-                numberOfInstructorsDisplayed++;
-            }
-        }
+        long numberOfInstructorsDisplayed = instructors.stream().filter(
+                instructor -> instructor.isDisplayedToStudents).count();
         return numberOfInstructorsDisplayed;
     }
 
