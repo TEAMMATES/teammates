@@ -75,9 +75,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
     protected long getNumberOfInstructorsDisplayedToStudents(String courseId) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        long numberOfInstructorsDisplayed = instructors.stream().filter(
-                instructor -> instructor.isDisplayedToStudents).count();
-        return numberOfInstructorsDisplayed;
+        return instructors.stream().filter(instructor -> instructor.isDisplayedToStudents).count();
     }
 
     /**
