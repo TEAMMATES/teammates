@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -43,7 +42,7 @@ public class FeedbackSessionQuestionsBundle {
         List<FeedbackQuestionAttributes> sortedQuestions =
                 new ArrayList<>(this.questionResponseBundle.keySet());
 
-        Collections.sort(sortedQuestions);
+        sortedQuestions.sort(null);
 
         return sortedQuestions;
     }
@@ -75,15 +74,8 @@ public class FeedbackSessionQuestionsBundle {
 
         List<Map.Entry<String, String>> sortedList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
-        Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
-            @Override
-            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
-                // Sort by value (name).
-                int compare = o1.getValue().compareTo(o2.getValue());
-                // Sort by key (email) if name is same.
-                return compare == 0 ? o1.getKey().compareTo(o2.getKey()) : compare;
-            }
-        });
+        sortedList.sort(Comparator.comparing((Map.Entry<String, String> obj) -> obj.getValue())
+                .thenComparing(obj -> obj.getKey()));
 
         Map<String, String> result = new LinkedHashMap<>();
 
