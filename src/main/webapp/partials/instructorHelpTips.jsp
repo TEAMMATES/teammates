@@ -8,7 +8,7 @@
   <div class="bulletPointsIndent">
     <ul>
       <li>
-        <span id="question">Have frequent peer evaluations.
+        <span id="question"><b>Have frequent peer evaluations.</b>
           <br>
         </span>
         <div class="helpSectionContent">
@@ -18,7 +18,7 @@
         </div>
       </li>
       <li>
-        <span id="question">Ignore early peer evaluations.
+        <span id="question"><b>Ignore early peer evaluations.</b>
           <br>
         </span>
         <div class="helpSectionContent">
@@ -28,7 +28,7 @@
         </div>
       </li>
       <li>
-        <span id="question">Interpret contribution numbers with care.
+        <span id="question"><b>Interpret contribution numbers with care.</b>
           <br>
         </span>
         <div class="helpSectionContent">
@@ -41,12 +41,11 @@
         </div>
       </li>
       <li>
-        <span id="question">Tolerate unequal contributions.
+        <span id="question"><b>Tolerate unequal contributions.</b>
           <br>
         </span>
         <div class="helpSectionContent">
           This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values):
-          <br>
           <br>
           <span class="italic">It is OK to do less than an equal share of the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
           <br>
@@ -54,12 +53,11 @@
         </div>
       </li>
       <li>
-        <span id="question">Announce a 'cooling off' period.
+        <span id="question"><b>Announce a 'cooling off' period.</b>
           <br>
         </span>
         <div class="helpSectionContent">
           This may be a good guidelines to give to students:
-          <br>
           <br>
           <span class="italic">If you are unhappy about the peer-feedback received, please allow at least one day to lapse before you fire off a response email. You are likely to respond more rationally when you had some time to think it over. Also keep in mind that we do take note of how well you handle such a situation. You need to act professionally when facing conflicting views, opposition, and even deliberate sabotage.</span>
           <br>

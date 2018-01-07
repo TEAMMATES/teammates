@@ -3,6 +3,7 @@
   Frequently Asked Questions
 </h4>
 <div id="contentHolder">
+  <br>
   <div class="bulletPointsIndent">
     <ul>
       <li id="faq1">
