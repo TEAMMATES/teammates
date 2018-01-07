@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -47,7 +46,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             }
         }
 
-        Collections.sort(filteredAnswers);
+        filteredAnswers.sort(null);
         return filteredAnswers;
     }
 
