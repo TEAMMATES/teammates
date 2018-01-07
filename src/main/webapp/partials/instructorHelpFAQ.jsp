@@ -5,7 +5,7 @@
 <div id="contentHolder">
   <div class="bulletPointsIndent">
     <ul>
-      <li id="faq1">
+      <li id="faq-view-student-list-in-course">
         <b>How do I view a list of students in a course?</b>
         <div class="helpSectionContent">
           Go to the ‘Courses’ page, click ‘View’ for the relevant course.
@@ -13,7 +13,7 @@
           <br>
         </div>
       </li>
-      <li id="faq2">
+      <li id="faq-change-details-after-enrolling">
         <b>How do I change student details after enrolling?</b>
         <div class="helpSectionContent">
           Choose to ‘Edit’ a student from the student list (see ‘How do I view a list of students in a course?’ given above).
@@ -23,7 +23,7 @@
           <br>
         </div>
       </li>
-      <li id="faq3">
+      <li id="faq-add-students-to-course">
         <b>How do I add more students to a course?</b>
         <div class="helpSectionContent">
           You can use the ‘Enrol’ feature to add more students. If a student you are adding has the same email address as an existing student in the class, they will be considered the same student and the name, team name and the comment will be updated to the new values.
@@ -31,7 +31,7 @@
           <br>
         </div>
       </li>
-      <li id="faq4">
+      <li id="faq-delete-students-from-course">
         <b>How do I delete students from a course?</b>
         <div class="helpSectionContent">
           The ‘Delete’ link is available from the student list (see ‘How do I view a list of students in a course?’ given above).
@@ -39,7 +39,7 @@
           <br>
         </div>
       </li>
-      <li id="faq5">
+      <li id="faq-change-googleID-of-student">
         <b>How do I change the Google ID associated with a student?</b>
         <div class="helpSectionContent">
           Please contact us for assistance.
@@ -47,7 +47,7 @@
           <br>
         </div>
       </li>
-      <li id="faq6">
+      <li id="faq-if-courses-displayed-to-students-disappear">
         <b>What to do if a student says his/her courses have disappeared from the system?</b>
         <div class="helpSectionContent">
           The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
@@ -56,7 +56,7 @@
           <br>
         </div>
       </li>
-      <li id="faq7">
+      <li id="faq-interpret-contribution-values-in-results">
         <b>How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</b>
         <div class="helpSectionContent">
           <ul>
@@ -86,7 +86,7 @@
         </div>
       </li>
 
-      <li id="faq8">
+      <li id="faq-if-students-cannot-submit-an-evaluation">
         <b>What to do if a student says he cannot submit an evaluation due to some technical glitch?</b>
         <div class="helpSectionContent">
           Please ask the student to contact us with the details.
@@ -95,7 +95,7 @@
           <br>
         </div>
       </li>
-      <li id="faq9">
+      <li id="faq-entered-contribution-differs-from-results">
         <b>How come the actual contribution values entered by the student is different from the values shown in the results?</b>
         <div class="helpSectionContent">
           This is because the system ‘normalizes’ those values so that there is no artificial inflation of contribution. For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalize it to ‘Equal share’ because in reality that is what the student means.
@@ -106,7 +106,7 @@
           <br>
         </div>
       </li>
-      <li id="faq10">
+      <li id="faq-can-student-influence-his-contribution">
         <b>Can a student influence his ‘perceived contribution’ value by awarding himself a larger contribution?</b>
         <div class="helpSectionContent">
           No. The perceived contribution is calculated based on what his team members perceive as his contribution. His own opinion about his own contribution is not considered for the calculation.
@@ -125,7 +125,7 @@
         </div>
       </li>
       <br>
-      <li id="faq11">
+      <li id="faq-how-contribution-numbers-calculated">
         <b>How are the contribution numbers calculated?</b>
         <div class="helpSectionContent">
           You can find the details of the contribution calculation scheme
@@ -133,7 +133,7 @@
         </div>
       </li>
       <br>
-      <li id="faq12">
+      <li id="faq-is-google-account-compulsory-for-student">
         <b>Is it compulsory for students to use Google accounts?</b>
         <div class="helpSectionContent">
           Student can submit feedback and view results without Google accounts. TEAMMATES send unique URL for each of those. But it is more convenient for them if they use Google accounts.
@@ -141,7 +141,7 @@
           <br>
         </div>
       </li>
-      <li id="faq13">
+      <li id="faq-if-course-has-no-teams">
         <b>What if my course doesn’t have teams?</b>
         <div class="helpSectionContent">
           They can use a dummy value for the ‘Team’ column.
@@ -149,7 +149,7 @@
           <br>
         </div>
       </li>
-      <li id="faq14">
+      <li id="faq-size-limit-for-course">
         <b>Is there a size limit for a course?</b>
         <div class="helpSectionContent">
           No. But courses bigger than 100 students need to divide the course into sections so that TEAMMATES know how to paginate reports when the entire report is too big to show in one go.

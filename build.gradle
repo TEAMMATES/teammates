@@ -135,6 +135,24 @@ eclipse {
         buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
         buildCommand "com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb"
+
+        // Exclude the CLI and IntelliJ build directories
+        // Gradle Eclipse plugin does not support generation of resource filters yet
+        // Use the method lined out in https://discuss.gradle.org/t/eclipse-pluging-adding-resource-filters/5408/2
+        file {
+            withXml { xmlProvider ->
+                Node node = xmlProvider.asNode().filteredResources[0]
+                ['build', 'out'].each { folder ->
+                    Node filter = node.appendNode('filter')
+                    filter.appendNode('id', folder.hashCode())
+                    filter.appendNode('name', '')
+                    filter.appendNode('type', 10)
+                    Node matcher = filter.appendNode('matcher')
+                    matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+                    matcher.appendNode('arguments', "1.0-name-matches-false-false-${folder}")
+                }
+            }
+        }
     }
     classpath {
         containers "org.eclipse.buildship.core.gradleclasspathcontainer",
@@ -198,7 +216,7 @@ task createEclipseLaunches {
 task setupEclipse {
     description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
-    dependsOn createEclipseLaunches
+    dependsOn eclipseClasspath, eclipseProject, createEclipseLaunches
 }
 
 String intellijSetupGroup = 'IntelliJ IDEA Setup'
@@ -497,7 +515,7 @@ task ciTests {
         } else if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
         }
-        finalizedBy "killFirefox${id}"
+        finalizedBy "killFirefox${id}", "killChromedriver${id}"
         onlyIf {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
@@ -510,6 +528,21 @@ task ciTests {
                 commandLine "taskkill", "/f", "/im", "firefox.exe"
             } else {
                 commandLine "pkill", "firefox"
+            }
+            // Silence output for this task
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = standardOutput
+        }
+        ignoreExitValue = true
+        outputs.upToDateWhen { false }
+    }
+
+    task "killChromedriver${id}"(type: Exec) {
+        doFirst {
+            if (isWindows) {
+                commandLine "taskkill", "/f", "/im", "chromedriver.exe"
+            } else {
+                commandLine "pkill", "chromedriver"
             }
             // Silence output for this task
             standardOutput = new ByteArrayOutputStream()

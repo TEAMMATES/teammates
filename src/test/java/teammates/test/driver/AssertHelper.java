@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -192,8 +191,8 @@ public final class AssertHelper {
         List<String> expectedStringTypeList = new ArrayList<>(Arrays.asList(expectedListAsString.split("\t")));
         List<String> actualStringTypeList = new ArrayList<>(Arrays.asList(actualListAsString.split("\t")));
 
-        Collections.sort(expectedStringTypeList);
-        Collections.sort(actualStringTypeList);
+        expectedStringTypeList.sort(null);
+        actualStringTypeList.sort(null);
 
         assertEquals(expectedStringTypeList, actualStringTypeList);
 

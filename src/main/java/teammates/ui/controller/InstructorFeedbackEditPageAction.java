@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -45,15 +44,8 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        Collections.sort(studentList, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                if (s1.team.equals(s2.team)) {
-                    return s1.name.compareToIgnoreCase(s2.name);
-                }
-                return s1.team.compareToIgnoreCase(s2.team);
-            }
-        });
+        studentList.sort(Comparator.comparing((StudentAttributes student) -> student.team.toLowerCase())
+                .thenComparing(student -> student.name.toLowerCase()));
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
@@ -62,12 +54,7 @@ public class InstructorFeedbackEditPageAction extends Action {
                 instructorsWhoCanSubmit.add(instructor);
             }
         }
-        Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
-            @Override
-            public int compare(InstructorAttributes i1, InstructorAttributes i2) {
-                return i1.name.compareToIgnoreCase(i2.name);
-            }
-        });
+        instructorList.sort(Comparator.comparing(instructor -> instructor.name.toLowerCase()));
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         int numOfInstructors = instructorList.size();
