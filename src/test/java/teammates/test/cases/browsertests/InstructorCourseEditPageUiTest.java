@@ -821,11 +821,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 false, "CS2105 Instructor 2", "Co-owner");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "CS2105 Instructor 2"));
 
-        //Test that you can make a visible instructor invisible if there are other visible instructors
-        //first make sure both instructors are visible
+        // Test that you can make a visible instructor invisible if there are other visible instructors
+        // first make sure both instructors are visible
         courseEditPage.editInstructor(2, "CS2105 Instructor 2", "insCrsEdit.instructor2@cs2105.tmt",
                 true, "CS2105 Instructor 2", "Co-owner");
-        //now set instructor 1 to false and change email
+        // now set instructor 1 to false and change email
         courseEditPage.editInstructor(1, "CS2105 Instructor 1", "new_email@email.tmt", false,
                 "CS2105 Instructor 1", "Co-owner");
         courseEditPage.verifyInstructorDetails(1, "CS2105 Instructor 1", "new_email@email.tmt",
