@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -937,7 +936,7 @@ public class FeedbackSessionResultsBundle {
             if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                 Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
                 possibleRecipients = new ArrayList<>(studentEmailsToNames);
-                Collections.sort(possibleRecipients);
+                possibleRecipients.sort(null);
             }
             break;
         case NONE:
@@ -965,7 +964,7 @@ public class FeedbackSessionResultsBundle {
     private List<String> getSortedListOfTeams() {
         List<String> teams = new ArrayList<>(rosterTeamNameMembersTable.keySet());
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
-        Collections.sort(teams);
+        teams.sort(null);
         return teams;
     }
 
@@ -980,7 +979,7 @@ public class FeedbackSessionResultsBundle {
         String teamName = student.team;
         Set<String> teamMembersEmailsToNames = rosterTeamNameMembersTable.get(teamName);
         List<String> teamMembers = new ArrayList<>(teamMembersEmailsToNames);
-        Collections.sort(teamMembers);
+        teamMembers.sort(null);
         return teamMembers;
     }
 
@@ -1020,7 +1019,7 @@ public class FeedbackSessionResultsBundle {
         for (InstructorAttributes instructor : instructors) {
             emailList.add(instructor.email);
         }
-        Collections.sort(emailList);
+        emailList.sort(null);
         return emailList;
     }
 
@@ -1198,7 +1197,7 @@ public class FeedbackSessionResultsBundle {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap = new LinkedHashMap<>();
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
-        Collections.sort(sortedQuestions);
+        sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
         }
@@ -1225,7 +1224,7 @@ public class FeedbackSessionResultsBundle {
 
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
-        Collections.sort(sortedQuestions);
+        sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
         }

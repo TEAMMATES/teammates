@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +76,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * Returns the list of points as as string to display.
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
-        Collections.sort(ranksReceived);
+        ranksReceived.sort(null);
         StringBuilder pointsReceived = new StringBuilder();
 
         if (ranksReceived.size() > 10) {
