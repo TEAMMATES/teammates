@@ -210,7 +210,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         newAllInstructors.removeIf((instructor) -> !instructor.getCourseId().equals(courseId));
         newAllInstructors.forEach((instructor) -> instructorsOfCourse.add(instructor));
-        
+
         return instructorsOfCourse;
     }
 

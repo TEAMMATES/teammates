@@ -254,7 +254,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"students\":{\n");
 
-        students.forEach((student)-> saveStudent(student));
+        students.forEach((student) -> saveStudent(student));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -268,11 +268,9 @@ public class OfflineBackup extends RemoteApiClient {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
         appendToFile(currentFileName, "\t\"profiles\":{\n");
-        
-        students.removeIf((student) -> student == null || student.googleId == null ||
-                student.googleId.isEmpty() || logic.getStudentProfile(student.googleId) == null);
+        students.removeIf((student) -> student == null || student.googleId == null
+                || student.googleId.isEmpty() || logic.getStudentProfile(student.googleId) == null);
         students.forEach((student) -> saveProfile(logic.getStudentProfile(student.googleId)));
-        
         appendToFile(currentFileName, "\n\t}\n");
         hasPreviousEntity = false;
     }

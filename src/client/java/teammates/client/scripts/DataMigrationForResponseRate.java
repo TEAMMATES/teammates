@@ -1,7 +1,6 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -58,10 +57,10 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     private List<FeedbackSessionAttributes> getFeedbackSessionsWithZeroResponseRate() {
         @SuppressWarnings("deprecation")
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
-        
+
         feedbackSessions.removeIf((feedbackSession) -> feedbackSession.getRespondingStudentList().size() != 0
                                                  || feedbackSession.getRespondingInstructorList().size() != 0);
-        
+
         return feedbackSessions;
     }
 

@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.JsonUtils;
@@ -555,7 +554,8 @@ public class PerformanceProfiler extends Thread {
     @PerformanceTest(name = "BD Delete Course")
     public String deleteCourse() {
         StringBuilder status = new StringBuilder();
-        data.courses.keySet().forEach((courseKey) -> status.append(' ').append(BackDoor.deleteCourse(data.courses.get(courseKey).getId())));
+        data.courses.keySet().forEach((courseKey) ->
+                status.append(' ').append(BackDoor.deleteCourse(data.courses.get(courseKey).getId())));
         return status.toString();
     }
 

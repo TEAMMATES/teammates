@@ -29,7 +29,7 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
         try {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             students.removeIf((student) -> student.googleId == null || student.googleId.isEmpty());
-            
+
             for (StudentAttributes student : students) {
 
                 AccountAttributes account = logic.getAccount(student.googleId);

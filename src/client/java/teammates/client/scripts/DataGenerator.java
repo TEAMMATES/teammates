@@ -184,11 +184,11 @@ public final class DataGenerator {
     private static String allAccounts() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"accounts\":{\n");
-        studentEmails.forEach((email) -> {
+        for (String email : studentEmails) {
             email = email.split("@")[0];
             outputBuilder.append('\t').append(account(email));
             outputBuilder.append(",\n");
-        });
+        }
         String output = outputBuilder.substring(0, outputBuilder.length() - 2);
         return output + "\n},";
     }
@@ -220,10 +220,11 @@ public final class DataGenerator {
     private static String allCourses() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"courses\":{\n");
-        courses.forEach((course) -> {
+        for (String course : courses) {
             String newCourse = PREFIX + course;
-            outputBuilder.append('\t').append(course(newCourse, "courseIdOf_" + newCourse, "nameOf_" + newCourse)).append(",\n");
-        });
+            outputBuilder.append('\t').append(course(newCourse, "courseIdOf_" + newCourse, "nameOf_" + newCourse));
+            outputBuilder.append(",\n");
+        }
         String output = outputBuilder.substring(0, outputBuilder.length() - 2);
         return output + "\n},";
     }
@@ -234,7 +235,7 @@ public final class DataGenerator {
     private static String allStudents() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"students\":{\n");
-        students.forEach((student) -> {
+        for (String student : students) {
             String index = student.split("Stu")[1].split("Team")[0];
             String team = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
@@ -243,7 +244,7 @@ public final class DataGenerator {
                          .append(student(student, email, "Student " + index + " in " + course,
                                         "Team " + team, email.split("@")[0], "comment",
                                         "courseIdOf_" + course)).append(",\n");
-        });
+        }
         String output = outputBuilder.substring(0, outputBuilder.length() - 2);
         return output + "\n},";
     }
