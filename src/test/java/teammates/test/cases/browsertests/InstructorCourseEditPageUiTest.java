@@ -814,6 +814,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("verify an invisible instructor can be modified, as long as one other instructor is visible");
         courseEditPage.editInstructor(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
                 false, "CS2105 Instructor 2", "Co-owner");
+
         courseEditPage.verifyInstructorDetails(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
                 false, "CS2105 Instructor 2", "Co-owner");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "CS2105 Instructor 2"));
@@ -824,6 +825,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // set instructor 1 to invisible and also change email (for variety)
         courseEditPage.editInstructor(1, "CS2105 Instructor 1", "new_email@email.tmt", false,
                 "CS2105 Instructor 1", "Co-owner");
+        
         courseEditPage.verifyInstructorDetails(1, "CS2105 Instructor 1", "new_email@email.tmt",
                 false, "CS2105 Instructor 1", "Co-owner");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "CS2105 Instructor 1"));
