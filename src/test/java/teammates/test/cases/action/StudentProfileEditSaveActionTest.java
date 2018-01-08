@@ -188,12 +188,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
         spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
         spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
-
-        String value = StringHelper.trimIfNotNull(submissionParams[9]);
-
-        if ("MALE".equalsIgnoreCase(value) || "FEMALE".equalsIgnoreCase(value) || "OTHER".equalsIgnoreCase(value)) {
-            spa.gender = Gender.valueOf(value);
-        }
+        spa.gender = Gender.valueOf(submissionParams[9]);
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;
 

@@ -36,7 +36,7 @@ public class StudentProfileEditSaveAction extends Action {
     private void validatePostParameters(StudentProfileAttributes studentProfile) {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_SHORT_NAME, studentProfile.shortName);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentProfile.email);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_GENDER, studentProfile.gender.name());
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_GENDER, studentProfile.gender);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_NATIONALITY, studentProfile.nationality);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, studentProfile.institute);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_PROFILE_MOREINFO, studentProfile.moreInfo);
@@ -54,14 +54,7 @@ public class StudentProfileEditSaveAction extends Action {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
 
-        String value = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER).toUpperCase();
-
-        if (value != null && ("MALE".equalsIgnoreCase(value) || "FEMALE".equalsIgnoreCase(value))) {
-            editedProfile.gender = Gender.valueOf(value.toUpperCase());
-        } else {
-            editedProfile.gender = Gender.OTHER;
-        }
-
+        editedProfile.gender = Gender.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER).toUpperCase());
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 

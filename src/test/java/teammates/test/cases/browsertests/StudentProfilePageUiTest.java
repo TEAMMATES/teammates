@@ -82,11 +82,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testContent() throws Exception {
         // assumes it is run after NavLinks Test
-        // (ie already logged in as studentWithEmptyProfile
-        ______TS("Typical case: empty profile values");
-
-        // This is the full HTML verification for Registered Student Profile Submit Page, the rest can all be verifyMainHtml
-        profilePage.verifyHtml("/studentProfilePageDefault.html");
 
         ______TS("Typical case: existing profile values");
         // this test uses actual user accounts
@@ -152,7 +147,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                           Gender.OTHER, "this is enough!$%&*</>");
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", Gender.OTHER,
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American", Gender.FEMALE,
                                          "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                                          Gender.FEMALE, "this is enough!$%&*</>");

@@ -54,7 +54,7 @@
         "email": "",
         "institute": "TEAMMATES Test Institute 7",
         "nationality": "Singaporean",
-        "gender": "male",
+        "gender": "MALE",
         "moreInfo": "This is a lot of info!",
         "pictureKey": ""
       }
@@ -78,7 +78,7 @@
         "email": "weird&'@gmail.tmt",
         "institute": "inst<script> alert('hi!'); </script>",
         "nationality": "American",
-        "gender": "other",
+        "gender": "OTHER",
         "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
         "pictureKey": ""
       }

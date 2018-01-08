@@ -254,7 +254,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
 
-        Gender gender = Gender.MALE;
+        Gender gender = Gender.OTHER;
 
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
