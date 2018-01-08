@@ -78,11 +78,7 @@ public class UploadBackupData extends RemoteApiClient {
     @Override
     protected void doOperation() {
         String[] folders = getFolders();
-
-        for (String folder : folders) {
-            String[] backupFiles = getBackupFilesInFolder(folder);
-            uploadData(backupFiles, folder);
-        }
+        Arrays.stream(folders).forEach((folder) -> uploadData(getBackupFilesInFolder(folder), folder));
     }
 
     private static String[] getFolders() {
@@ -222,10 +218,7 @@ public class UploadBackupData extends RemoteApiClient {
 
         try {
             fqDb.createFeedbackQuestions(questions.values());
-
-            for (FeedbackQuestionAttributes question : questions.values()) {
-                feedbackQuestionsPersisted.put(question.getId(), question);
-            }
+            questions.values().forEach((question) -> feedbackQuestionsPersisted.put(question.getId(), question));
 
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback questions: " + e.getMessage());
@@ -236,9 +229,7 @@ public class UploadBackupData extends RemoteApiClient {
         Map<String, FeedbackResponseAttributes> responses = map;
 
         try {
-            for (FeedbackResponseAttributes response : responses.values()) {
-                adjustFeedbackResponseId(response);
-            }
+            responses.values().forEach((response) -> adjustFeedbackResponseId(response));
 
             frDb.createFeedbackResponses(responses.values());
         } catch (InvalidParametersException e) {
@@ -250,9 +241,7 @@ public class UploadBackupData extends RemoteApiClient {
         Map<String, FeedbackResponseCommentAttributes> responseComments = map;
 
         try {
-            for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-                adjustFeedbackResponseCommentId(responseComment);
-            }
+            responseComments.values().forEach((responseComment) -> adjustFeedbackResponseCommentId(responseComment));
 
             fcDb.createFeedbackResponseComments(responseComments.values());
         } catch (InvalidParametersException e) {

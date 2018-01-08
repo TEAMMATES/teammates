@@ -28,13 +28,9 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
 
         try {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
-
+            students.removeIf((student) -> student.googleId == null || student.googleId.isEmpty());
+            
             for (StudentAttributes student : students) {
-
-                //Account might be null if student was enrolled but not joined yet
-                if (student.googleId == null || student.googleId.isEmpty()) {
-                    continue;
-                }
 
                 AccountAttributes account = logic.getAccount(student.googleId);
 

@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,10 +198,7 @@ public class PerformanceProfiler extends Thread {
             String[] durations = strs[2].split("\\,");
 
             ArrayList<Float> arr = new ArrayList<>();
-            for (String str : durations) {
-                Float f = Float.parseFloat(str);
-                arr.add(f);
-            }
+            Arrays.stream(durations).forEach((str) -> arr.add(Float.parseFloat(str)));
             results.put(testName, arr);
         }
         br.close();
@@ -212,9 +210,7 @@ public class PerformanceProfiler extends Thread {
      */
     private void printResult(String filePath) throws IOException {
         List<String> list = new ArrayList<>();
-        for (String str : results.keySet()) {
-            list.add(str);
-        }
+        list.addAll(results.keySet());
         list.sort(null);
         FileWriter fstream = new FileWriter(filePath);
         BufferedWriter out = new BufferedWriter(fstream);
@@ -559,11 +555,7 @@ public class PerformanceProfiler extends Thread {
     @PerformanceTest(name = "BD Delete Course")
     public String deleteCourse() {
         StringBuilder status = new StringBuilder();
-        Set<String> set = data.courses.keySet();
-        for (String courseKey : set) {
-            CourseAttributes course = data.courses.get(courseKey);
-            status.append(' ').append(BackDoor.deleteCourse(course.getId()));
-        }
+        data.courses.keySet().forEach((courseKey) -> status.append(' ').append(BackDoor.deleteCourse(data.courses.get(courseKey).getId())));
         return status.toString();
     }
 

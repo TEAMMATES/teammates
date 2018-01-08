@@ -206,12 +206,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private List<Instructor> getInstructorsOfCourse(List<Instructor> allInstructors, String courseId) {
         List<Instructor> instructorsOfCourse = new ArrayList<>();
-        for (Instructor instructor : allInstructors) {
-            if (instructor.getCourseId().equals(courseId)) {
-                instructorsOfCourse.add(instructor);
-            }
-        }
+        List<Instructor> newAllInstructors = new ArrayList<>(allInstructors);
 
+        newAllInstructors.removeIf((instructor) -> !instructor.getCourseId().equals(courseId));
+        newAllInstructors.forEach((instructor) -> instructorsOfCourse.add(instructor));
+        
         return instructorsOfCourse;
     }
 

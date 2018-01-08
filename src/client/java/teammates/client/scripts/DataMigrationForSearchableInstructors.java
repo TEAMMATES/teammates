@@ -19,9 +19,7 @@ public class DataMigrationForSearchableInstructors extends RemoteApiClient {
     @Override
     protected void doOperation() {
         List<InstructorAttributes> allInstructors = getAllInstructors();
-        for (InstructorAttributes instructor : allInstructors) {
-            updateDocumentForInstructor(instructor);
-        }
+        allInstructors.forEach((instructor) -> updateDocumentForInstructor(instructor));
     }
 
     @SuppressWarnings("deprecation")
