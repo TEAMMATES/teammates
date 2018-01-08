@@ -56,7 +56,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         testSanitization();
 
-        testEditInstructorDisplayedToStudents();
+        testEditingInstructorVisibility();
     }
 
     private void testContent() throws Exception {
@@ -797,35 +797,31 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(courseEditPageLink, InstructorCourseEditPage.class);
     }
 
-    private void testEditInstructorDisplayedToStudents() {
-        ______TS("verify that one instructor must be visible to students");
+    private void testEditingInstructorVisibility() {
 
         instructorId = testData.instructors.get("InsCrsEdit.instructor1OfCS2105").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2105").getId();
         courseEditPage = getCourseEditPage();
 
+        ______TS("verify sole visible instructor cannot be made invisible");
         courseEditPage.editInstructor(1, "Teammates Do Not Save", "insCrsEdit.instructor1@cs2105.tmt",
                 false, "CS2105 Instructor 1", "Co-owner");
 
-        // Test to verify that changes made to instructor are not saved if this is the only instructor displayed
-        // to students and you try to uncheck the box for "Display to students as:"
         courseEditPage.verifyInstructorDetails(1, "CS2105 Instructor 1",
                 "insCrsEdit.instructor1@cs2105.tmt", true, "CS2105 Instructor 1", "Co-owner");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
 
-        // Test that you can successfully edit a non-displayed instructor without receiving an error message,
-        // if at least one instructor is visible.
+        ______TS("verify an invisible instructor can be modified, as long as one other instructor is visible");
         courseEditPage.editInstructor(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
                 false, "CS2105 Instructor 2", "Co-owner");
         courseEditPage.verifyInstructorDetails(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
                 false, "CS2105 Instructor 2", "Co-owner");
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "CS2105 Instructor 2"));
 
-        // Test that you can make a visible instructor invisible if there are other visible instructors
-        // first make sure both instructors are visible
+        ______TS("verify an instructor can be made invisible if there are other visible instructors");
         courseEditPage.editInstructor(2, "CS2105 Instructor 2", "insCrsEdit.instructor2@cs2105.tmt",
                 true, "CS2105 Instructor 2", "Co-owner");
-        // now set instructor 1 to false and change email
+        // set instructor 1 to invisible and also change email (for variety)
         courseEditPage.editInstructor(1, "CS2105 Instructor 1", "new_email@email.tmt", false,
                 "CS2105 Instructor 1", "Co-owner");
         courseEditPage.verifyInstructorDetails(1, "CS2105 Instructor 1", "new_email@email.tmt",

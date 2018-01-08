@@ -35,8 +35,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
         boolean isDisplayedToStudentsAfterChanges =
                 getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
-        boolean isMakingInstructorInvisible = !isDisplayedToStudentsAfterChanges
-                && instructorToEdit.isDisplayedToStudents;
+        boolean isMakingInstructorInvisible = instructorToEdit.isDisplayedToStudents
+                && !isDisplayedToStudentsAfterChanges;
         if (isMakingInstructorInvisible) {
             long numberOfInstructorsDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId);
             boolean isSoleVisibleInstructor = numberOfInstructorsDisplayed == 1;
@@ -73,7 +73,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         return result;
     }
 
-    protected long getNumberOfInstructorsDisplayedToStudents(String courseId) {
+    private long getNumberOfInstructorsDisplayedToStudents(String courseId) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         return instructors.stream().filter(instructor -> instructor.isDisplayedToStudents).count();
     }
