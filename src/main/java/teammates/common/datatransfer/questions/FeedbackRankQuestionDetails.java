@@ -64,7 +64,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     protected void updateOptionRanksMapping(
             Map<String, List<Integer>> optionRanks,
             String optionReceivingRanks, int rankReceived) {
-        optionRanks.computeIfAbsent(optionReceivingRanks, (String key) -> new ArrayList<>())
+        optionRanks.computeIfAbsent(optionReceivingRanks, key -> new ArrayList<>())
                    .add(rankReceived);
     }
 
@@ -128,7 +128,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 continue;
             }
 
-            rankToAnswersMap.computeIfAbsent(rankGiven, (Integer key) -> new ArrayList<>())
+            rankToAnswersMap.computeIfAbsent(rankGiven, key -> new ArrayList<>())
                             .add(answer);
         }
 

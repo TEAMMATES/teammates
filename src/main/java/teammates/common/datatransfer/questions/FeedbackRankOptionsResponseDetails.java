@@ -120,7 +120,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         for (int i = 0; i < answers.size(); i++) {
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
-            orderedOptions.computeIfAbsent(answer, (Integer key) -> new ArrayList<>())
+            orderedOptions.computeIfAbsent(answer, key -> new ArrayList<>())
                           .add(option);
         }
         return orderedOptions;

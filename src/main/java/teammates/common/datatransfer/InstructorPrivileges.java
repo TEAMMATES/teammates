@@ -226,7 +226,7 @@ public final class InstructorPrivileges {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return;
         }
-        this.sectionLevel.computeIfAbsent(sectionName, (String key) -> new LinkedHashMap<>())
+        this.sectionLevel.computeIfAbsent(sectionName, key -> new LinkedHashMap<>())
                          .put(privilegeName, isAllowed);
     }
 
@@ -236,7 +236,7 @@ public final class InstructorPrivileges {
             return;
         }
         verifyExistenceOfsectionName(sectionName);
-        this.sessionLevel.get(sectionName).computeIfAbsent(sessionName, (String key) -> new LinkedHashMap<>())
+        this.sessionLevel.get(sectionName).computeIfAbsent(sessionName, key -> new LinkedHashMap<>())
                                           .put(privilegeName, isAllowed);
     }
 

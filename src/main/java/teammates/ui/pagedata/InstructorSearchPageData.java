@@ -198,11 +198,11 @@ public class InstructorSearchPageData extends PageData {
             String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());
             emailToPhotoUrlMap.put(student.email, viewPhotoLink);
 
-            teamNameToStudentsMap.computeIfAbsent(teamName, (String key) -> new ArrayList<>())
+            teamNameToStudentsMap.computeIfAbsent(teamName, key -> new ArrayList<>())
                                  .add(student);
 
             List<String> teamNamesInSection = sectionNameToTeamNameMap.computeIfAbsent(sectionName,
-                    (String key) -> new ArrayList<>());
+                    key -> new ArrayList<>());
             if (!teamNamesInSection.contains(teamName)) {
                 teamNamesInSection.add(teamName);
             }

@@ -1262,13 +1262,12 @@ public class FeedbackSessionResultsBundle {
             }
 
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient =
-                    sortedMap.computeIfAbsent(recipientTeam, (String key) -> new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(recipientTeam, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
 
             List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion =
-                    responsesForOneRecipient.computeIfAbsent(question,
-                            (FeedbackQuestionAttributes key) -> new ArrayList<>());
+                    responsesForOneRecipient.computeIfAbsent(question, key -> new ArrayList<>());
 
             responsesForOneRecipientOneQuestion.add(response);
         }
@@ -1294,11 +1293,11 @@ public class FeedbackSessionResultsBundle {
             }
 
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                    sortedMap.computeIfAbsent(giverTeam, (String key) -> new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(giverTeam, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
 
-            responsesFromOneGiver.computeIfAbsent(question, (FeedbackQuestionAttributes key) -> new ArrayList<>())
+            responsesFromOneGiver.computeIfAbsent(question, key -> new ArrayList<>())
                                  .add(response);
         }
 
@@ -1323,10 +1322,10 @@ public class FeedbackSessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             String recipientEmail = response.recipient;
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient =
-                    sortedMap.computeIfAbsent(recipientEmail, (String key) -> new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(recipientEmail, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            responsesForOneRecipient.computeIfAbsent(question, (FeedbackQuestionAttributes key) -> new ArrayList<>())
+            responsesForOneRecipient.computeIfAbsent(question, key -> new ArrayList<>())
                                     .add(response);
         }
 
@@ -1364,14 +1363,13 @@ public class FeedbackSessionResultsBundle {
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
 
             Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                    sortedMap.computeIfAbsent(recipientNameWithTeam, (String key) ->
-                            new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(recipientNameWithTeam, key -> new LinkedHashMap<>());
 
             String giverName = this.getGiverNameForResponse(response);
             String giverTeamName = this.getTeamNameForEmail(response.giver);
             String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
 
-            responsesToOneRecipient.computeIfAbsent(giverNameWithTeam, (String key) -> new ArrayList<>())
+            responsesToOneRecipient.computeIfAbsent(giverNameWithTeam, key -> new ArrayList<>())
                                    .add(response);
         }
 
@@ -1405,11 +1403,10 @@ public class FeedbackSessionResultsBundle {
             String recipientEmail = response.recipient;
 
             Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                    sortedMap.computeIfAbsent(recipientEmail, (String key) ->
-                            new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(recipientEmail, key -> new LinkedHashMap<>());
 
             String giverEmail = response.giver;
-            responsesToOneRecipient.computeIfAbsent(giverEmail, (String key) -> new ArrayList<>())
+            responsesToOneRecipient.computeIfAbsent(giverEmail, key -> new ArrayList<>())
                                    .add(response);
         }
 
@@ -1435,11 +1432,10 @@ public class FeedbackSessionResultsBundle {
             String giverEmail = response.giver;
 
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                    sortedMap.computeIfAbsent(giverEmail, (String key) ->
-                            new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(giverEmail, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            responsesFromOneGiver.computeIfAbsent(question, (FeedbackQuestionAttributes key) -> new ArrayList<>())
+            responsesFromOneGiver.computeIfAbsent(question, key -> new ArrayList<>())
                                  .add(response);
         }
 
@@ -1477,13 +1473,13 @@ public class FeedbackSessionResultsBundle {
             String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
 
             Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                    sortedMap.computeIfAbsent(giverNameWithTeam, (String key) -> new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(giverNameWithTeam, key -> new LinkedHashMap<>());
 
             String recipientName = this.getRecipientNameForResponse(response);
             String recipientTeamName = this.getTeamNameForEmail(response.recipient);
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
 
-            responsesFromOneGiver.computeIfAbsent(recipientNameWithTeam, (String key) -> new ArrayList<>())
+            responsesFromOneGiver.computeIfAbsent(recipientNameWithTeam, key -> new ArrayList<>())
                                  .add(response);
         }
 
@@ -1516,10 +1512,10 @@ public class FeedbackSessionResultsBundle {
             String giverEmail = response.giver;
 
             Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                    sortedMap.computeIfAbsent(giverEmail, (String key) -> new LinkedHashMap<>());
+                    sortedMap.computeIfAbsent(giverEmail, key -> new LinkedHashMap<>());
 
             String recipientEmail = response.recipient;
-            responsesFromOneGiver.computeIfAbsent(recipientEmail, (String key) -> new ArrayList<>())
+            responsesFromOneGiver.computeIfAbsent(recipientEmail, key -> new ArrayList<>())
                                  .add(response);
         }
 

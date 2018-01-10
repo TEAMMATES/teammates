@@ -1970,7 +1970,7 @@ public final class FeedbackSessionsLogic {
                                           || isStudentInSelectedSection)) {
                     String section = student.section;
 
-                    sectionTeamNameTable.computeIfAbsent(section, (String key) -> new HashSet<>())
+                    sectionTeamNameTable.computeIfAbsent(section, key -> new HashSet<>())
                                         .add(student.team);
 
                 }
