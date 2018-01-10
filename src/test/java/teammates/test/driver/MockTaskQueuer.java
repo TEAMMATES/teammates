@@ -50,7 +50,7 @@ public class MockTaskQueuer extends TaskQueuer {
         for (TaskWrapper task : tasksAdded) {
             String queueName = task.getQueueName();
 
-            int oldTaskCount = numberOfTasksAdded.computeIfAbsent(queueName, key -> 0);
+            int oldTaskCount = numberOfTasksAdded.getOrDefault(queueName, 0);
             numberOfTasksAdded.put(queueName, oldTaskCount + 1);
         }
         return numberOfTasksAdded;
