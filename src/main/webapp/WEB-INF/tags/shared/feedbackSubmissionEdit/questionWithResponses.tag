@@ -7,6 +7,8 @@
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
 
+<c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
+
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>-${questionWithResponses.question.qnIndx}"
     value="${questionWithResponses.question.questionType}">
 
@@ -54,6 +56,20 @@
         </ul>
       </c:if>
 
+      <c:if test="${not isRecipientNameHidden}">
+        <div class="col-sm-12 form-inline mobile-align-left">
+          <label for="input"
+              style="text-indent: 24px">
+              <span data-toggle="tooltip"
+                  data-placement="top"
+                  title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
+                  Evaluee/Recipient
+              </span>
+          </label>
+        </div>
+        <br>
+      </c:if>
+
       <c:if test="${questionWithResponses.question.giverTeam}">
         <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
       </c:if>
@@ -61,18 +77,6 @@
       <c:if test="${questionWithResponses.numOfResponseBoxes eq 0}">
         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
-
-      <div class="col-sm-12 form-inline mobile-align-left">
-        <label for="input"
-            style="text-indent: 24px">
-            <span data-toggle="tooltip"
-                data-placement="top"
-                title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
-                Evaluee/Recipient
-            </span>
-        </label>
-      </div>
-      <br>
 
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
