@@ -139,6 +139,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             if (!institutes.containsKey(institute)) {
                 institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }

@@ -71,18 +71,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
 
         if ("on".equals(HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
+                                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
             mcqOtherEnabled = true;
         }
 
         String generatedMcqOptions =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                        Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
 
         if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
             String numMcqChoicesCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
-                            Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
             int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
 
@@ -118,8 +118,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
-                        || generateOptionsFor == FeedbackParticipantType.TEAMS
-                        || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
+                || generateOptionsFor == FeedbackParticipantType.TEAMS
+                || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
 
     @Override
@@ -215,7 +215,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         if (otherEnabled) {
             String otherOptionFragmentTemplate = FormTemplates.MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
             String otherOptionFragment =
-                    Templates.populateTemplate(otherOptionFragmentTemplate,
+                       Templates.populateTemplate(otherOptionFragmentTemplate,
                             Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                             Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                             Slots.DISABLED, sessionIsOpen ? "" : "disabled",
@@ -455,7 +455,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                      .append(df.format(100 * (double) value / responses.size())).append(Const.EOL));
 
         return "Choice, Response Count, Percentage" + Const.EOL
-                + fragments.toString();
+               + fragments.toString();
     }
 
     @Override
@@ -466,7 +466,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionTypeChoiceOption() {
         return "<li data-questiontype = \"MCQ\"><a href=\"javascript:;\"> "
-                + Const.FeedbackQuestionTypeNames.MCQ + "</a></li>";
+               + Const.FeedbackQuestionTypeNames.MCQ + "</a></li>";
     }
 
     @Override
@@ -475,7 +475,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
-                    + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+                       + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?
 

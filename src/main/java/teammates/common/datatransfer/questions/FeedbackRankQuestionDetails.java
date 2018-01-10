@@ -47,9 +47,9 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     @Override
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            int totalNumRecipients,
-            FeedbackResponseDetails existingResponseDetails);
+                        boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+                        int totalNumRecipients,
+                        FeedbackResponseDetails existingResponseDetails);
 
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
@@ -115,8 +115,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * @return a map of the option to the normalised rank of the response
      */
     protected <K> Map<K, Integer> obtainMappingToNormalisedRanksForRanking(
-            Map<K, Integer> rankOfOption,
-            List<K> options) {
+                                                        Map<K, Integer> rankOfOption,
+                                                        List<K> options) {
         Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
 
         // group the options/feedback response by its rank
