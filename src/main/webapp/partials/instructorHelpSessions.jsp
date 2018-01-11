@@ -690,7 +690,7 @@
         Here, we set up a particular question after adding it to the session.
         <br> The following can be set:
       </p>
-      <ul>-path
+      <ul>
         <li>
           <b>Question text</b>
           <span class="text-muted"> - the question</span>
