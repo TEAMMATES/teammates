@@ -316,7 +316,7 @@ public abstract class AppPage {
      * Waits for a confirmation modal to appear and click the confirm button.
      */
     public void waitForConfirmationModalAndClickOk() {
-        waitForModalPresence();
+        waitForModalShown();
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         clickDismissModalButtonAndWaitForModalHidden(okayButton);
@@ -326,7 +326,7 @@ public abstract class AppPage {
      * Waits for a confirmation modal to appear and click the No button.
      */
     public void clickNoOnModal() {
-        waitForModalPresence();
+        waitForModalShown();
         WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
         waitForElementToBeClickable(noButton);
         clickDismissModalButtonAndWaitForModalHidden(noButton);
@@ -348,19 +348,19 @@ public abstract class AppPage {
      * Waits for a confirmation modal to appear and click the cancel button.
      */
     public void waitForConfirmationModalAndClickCancel() {
-        waitForModalPresence();
+        waitForModalShown();
         WebElement cancelButton = browser.driver.findElement(By.className("modal-btn-cancel"));
         waitForElementToBeClickable(cancelButton);
         clickDismissModalButtonAndWaitForModalHidden(cancelButton);
     }
 
-    private void waitForModalPresence() {
+    private void waitForModalShown() {
         // Possible exploration: Change to listening to modal shown event as
         // this is based on the implementation detail assumption that once modal-backdrop is added the modal is shown
         waitForElementVisibility(By.className("modal-backdrop"));
     }
 
-    void waitForModalToDisappear(WebElement modalBackdrop) {
+    void waitForModalHidden(WebElement modalBackdrop) {
         // Possible exploration: Change to listening to modal hidden event as
         // this is based on the implementation detail assumption that once modal-backdrop is removed the modal is hidden
         waitForElementStaleness(modalBackdrop);
@@ -732,7 +732,7 @@ public abstract class AppPage {
      */
     public void clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
         click(elementToClick);
-        waitForModalPresence();
+        waitForModalShown();
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         click(okayButton);
@@ -1148,6 +1148,6 @@ public abstract class AppPage {
         WebElement modalBackdrop = browser.driver.findElement(By.className("modal-backdrop"));
 
         click(dismissModalButton);
-        waitForModalToDisappear(modalBackdrop);
+        waitForModalHidden(modalBackdrop);
     }
 }

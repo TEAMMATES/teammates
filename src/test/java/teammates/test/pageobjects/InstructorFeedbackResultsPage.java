@@ -421,7 +421,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(deleteCommentButton);
 
         if (hasParentCommentModal) {
-            waitForModalToDisappear(modalBackdrop);
+            waitForModalHidden(modalBackdrop);
         }
 
         waitForConfirmationModalAndClickOk();
