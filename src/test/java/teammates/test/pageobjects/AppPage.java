@@ -360,7 +360,7 @@ public abstract class AppPage {
         waitForElementVisibility(By.className("modal-backdrop"));
     }
 
-    public void waitForModalToDisappear(WebElement modalBackdrop) {
+    void waitForModalToDisappear(WebElement modalBackdrop) {
         // Possible exploration: Change to listening to modal hidden event as
         // this is based on the implementation detail assumption that once modal-backdrop is removed the modal is hidden
         waitForElementStaleness(modalBackdrop);
