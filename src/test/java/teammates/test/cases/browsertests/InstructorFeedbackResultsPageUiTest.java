@@ -600,9 +600,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: remind all: click on remind with no students selected");
 
-        // clicking the Remind All button before the modal closes properly will cause inconsistency in the modal's state
-        resultsPage.waitForModalToDisappear();
-
         resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.deselectUsersInRemindAllForm();
         resultsPage.clickRemindButtonInModal();
@@ -611,9 +608,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
 
         ______TS("Typical case: remind all: click on remind with students selected");
-
-        // clicking the Remind All button before the modal closes properly will cause inconsistency in the modal's state
-        resultsPage.waitForModalToDisappear();
 
         resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.clickRemindButtonInModal();
@@ -653,7 +647,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "");
         resultsPage.verifyCommentFormErrorMessage("-2-1-0", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: add new feedback response comments using comment modal in questions's view");
 
@@ -663,7 +656,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.verifyContainsElement(By.id("visibility-options-2-1-0-1"));
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         resultsPage.clickCommentModalButton("-3-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-3-1-0", "test comment 2");
@@ -671,7 +663,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.verifyContainsElement(By.id("visibility-options-3-1-0-1"));
         resultsPage.closeCommentModal("-3-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: edit existing feedback response comment using comment modal in questions's view");
 
@@ -680,7 +671,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-2-1-0-1", "edited test comment", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: edit comment created by different instructor using comment modal in questions's view");
 
@@ -693,7 +683,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
         resultsPage.closeCommentModal("-1-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: delete existing feedback response comments using comment modal in questions's view");
 
@@ -706,13 +695,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyRowMissing("-3-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.closeCommentModal("-3-1-0");
-        resultsPage.waitForModalToDisappear();
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.deleteFeedbackResponseCommentInQuestionsView("-2-1-0-1");
         resultsPage.verifyRowMissing("-2-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: add edit and delete successively");
 

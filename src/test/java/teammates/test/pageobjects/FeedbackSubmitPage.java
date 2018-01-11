@@ -264,8 +264,7 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement modalMessage = browser.driver.findElement(By.xpath("//div[@class='bootbox-body']"));
         assertEquals(modalMessage.getText(), expectedModalMessage);
 
-        click(closeButton);
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
 
     private void closeMoreInfoAboutEqualShareModal() {

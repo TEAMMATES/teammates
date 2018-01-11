@@ -200,8 +200,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void cancelRemindAllForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        click(remindModal.findElement(By.tagName("button")));
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(remindModal.findElement(By.tagName("button")));
     }
 
     public void deselectUsersInRemindAllForm() {
@@ -213,7 +212,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickRemindButtonInModal() {
-        click(By.className("remind-particular-button"));
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+
+        clickDismissModalButtonAndWaitForModalHidden(remindModal.findElement(By.className("remind-particular-button")));
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
@@ -307,7 +308,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement commentModal = browser.driver.findElement(By.id("commentModal" + commentId));
         WebElement modalFooter = commentModal.findElement(By.className("modal-footer"));
         WebElement closeButton = modalFooter.findElement(By.className("commentModalClose"));
-        click(closeButton);
+
+        clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
 
     /**

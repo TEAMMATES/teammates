@@ -297,8 +297,7 @@ public abstract class AppPage {
         waitForModalPresence();
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
-        click(okayButton);
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(okayButton);
     }
 
     /**
@@ -308,8 +307,7 @@ public abstract class AppPage {
         waitForModalPresence();
         WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
         waitForElementToBeClickable(noButton);
-        click(noButton);
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(noButton);
     }
 
     public void cancelModalForm(WebElement modal) {
@@ -331,8 +329,7 @@ public abstract class AppPage {
         waitForModalPresence();
         WebElement cancelButton = browser.driver.findElement(By.className("modal-btn-cancel"));
         waitForElementToBeClickable(cancelButton);
-        click(cancelButton);
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(cancelButton);
     }
 
     private void waitForModalPresence() {
@@ -1099,5 +1096,18 @@ public abstract class AppPage {
 
     private void openNewWindow(String url) {
         executeScript("$(window.open('" + url + "'))");
+    }
+
+    /**
+     * Click a button (can be inside or outside the modal) that dismisses the modal and wait for the modal to be hidden.
+     * The caller must ensure the button is in the modal or a timeout will occur while waiting for the modal to be hidden.
+     * @param dismissModalButton a button that dismisses the modal
+     */
+    public void clickDismissModalButtonAndWaitForModalHidden(WebElement dismissModalButton) {
+        // Note: Should first check if the button can actually dismiss the modal otherwise the state will be consistent.
+        // However, it is too difficult to check.
+
+        click(dismissModalButton);
+        waitForModalToDisappear();
     }
 }
