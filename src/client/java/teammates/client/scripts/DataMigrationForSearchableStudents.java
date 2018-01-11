@@ -19,9 +19,7 @@ public class DataMigrationForSearchableStudents extends RemoteApiClient {
     @Override
     protected void doOperation() {
         List<StudentAttributes> allStudents = getAllStudents();
-        for (StudentAttributes student : allStudents) {
-            updateDocumentForStudent(student);
-        }
+        allStudents.forEach(student -> updateDocumentForStudent(student));
     }
 
     private List<StudentAttributes> getAllStudents() {

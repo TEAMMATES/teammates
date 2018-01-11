@@ -228,23 +228,21 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
             int studentEmailCount = 0;
             if (!studentEmailSet.isEmpty()) {
-                for (String email : studentEmailSet) {
-                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
-                        continue;
-                    }
+                HashSet<String> newStudentEmailSet = new HashSet<>(studentEmailSet);
+                newStudentEmailSet.removeIf((email) -> !shouldIncludeTestData && email.endsWith(".tmt"));
+                studentEmailCount = newStudentEmailSet.size();
+                for (String email : newStudentEmailSet) {
                     w.write(email + ",");
-                    studentEmailCount++;
                 }
             }
 
             int instructorEmailCount = 0;
             if (!instructorEmailSet.isEmpty()) {
-                for (String email : instructorEmailSet) {
-                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
-                        continue;
-                    }
+                HashSet<String> newInstructorEmailSet = new HashSet<>(instructorEmailSet);
+                newInstructorEmailSet.removeIf((email) -> !shouldIncludeTestData && email.endsWith(".tmt"));
+                instructorEmailCount = newInstructorEmailSet.size();
+                for (String email : newInstructorEmailSet) {
                     w.write(email + ",");
-                    instructorEmailCount++;
                 }
             }
 

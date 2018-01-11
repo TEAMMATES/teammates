@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -83,14 +84,8 @@ public class OfflineBackup extends RemoteApiClient {
     private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
 
         //Extracts the course Ids to be backup from the logs
-        Set<String> courses = new HashSet<>();
-        for (String course : modifiedLogs) {
-            course = course.trim();
-            if (!course.isEmpty()) {
-                courses.add(course);
-            }
-
-        }
+        Set<String> courses = modifiedLogs.stream().filter(course -> !course.trim().isEmpty())
+                                          .collect(Collectors.toSet());
         return courses;
     }
 

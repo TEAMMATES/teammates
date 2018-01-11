@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.test.driver.TestProperties;
 
@@ -141,10 +143,8 @@ public final class DataGenerator {
             studentIndexs.add(random.nextInt(NUM_OF_STUDENTS));
         }
 
-        ArrayList<String> studentEmailInCourse = new ArrayList<>();
-        for (Integer integer : studentIndexs) {
-            studentEmailInCourse.add(studentEmails.get(integer));
-        }
+        List<String> studentEmailInCourse = studentIndexs.stream().map(integer -> studentEmails.get(integer))
+                                                                  .collect(Collectors.toList());
         //=====================================================================
 
         //Add teams
@@ -186,13 +186,13 @@ public final class DataGenerator {
     private static String allAccounts() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"accounts\":{\n");
-        for (String email : studentEmails) {
+        studentEmails.forEach(email -> {
             email = email.split("@")[0];
             outputBuilder.append('\t').append(account(email));
             outputBuilder.append(",\n");
-        }
-        String output = outputBuilder.substring(0, outputBuilder.length() - 2);
-        return output + "\n},";
+        });
+        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
+        return output;
     }
 
     /**
@@ -211,8 +211,8 @@ public final class DataGenerator {
                                             "emailOf_" + instructorWithPrefix + "@gmail.com"))
                          .append(",\n");
         });
-        String output = outputBuilder.substring(0, outputBuilder.length() - 2);
-        return output + "\n},";
+        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
+        return output;
 
     }
 
@@ -220,17 +220,14 @@ public final class DataGenerator {
      * Returns Json string presentation for all courses.
      */
     private static String allCourses() {
-        StringBuilder output = new StringBuilder(100);
-        output.append("\"courses\":{\n");
-        for (int i = 0; i < courses.size(); i++) {
-            String course = PREFIX + courses.get(i);
-
-            output.append('\t').append(course(course, "courseIdOf_" + course, "nameOf_" + course));
-            if (i != courses.size() - 1) {
-                output.append(",\n");
-            }
-        }
-        return output.append("\n},").toString();
+        StringBuilder outputBuilder = new StringBuilder(100);
+        outputBuilder.append("\"courses\":{\n");
+        courses.forEach(course -> {
+            String newCourse = PREFIX + course;
+            outputBuilder.append('\t').append(course(newCourse, "courseIdOf_" + newCourse, "nameOf_" + newCourse));
+        });
+        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
+        return output;
     }
 
     /**
@@ -239,8 +236,7 @@ public final class DataGenerator {
     private static String allStudents() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"students\":{\n");
-        for (int i = 0; i < students.size(); i++) {
-            String student = students.get(i);
+        students.forEach(student -> {
             String index = student.split("Stu")[1].split("Team")[0];
             String team = student.split("Team")[1].split("_")[0];
             String course = PREFIX + student.split("_in_")[1];
@@ -250,11 +246,9 @@ public final class DataGenerator {
                          .append(student(student, email, "Student " + index + " in " + course,
                                         "Team " + team, email.split("@")[0], "comment",
                                         "courseIdOf_" + course));
-            if (i != students.size() - 1) {
-                outputBuilder.append(",\n");
-            }
-        }
-        return outputBuilder.append("\n},").toString();
+        });
+        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
+        return output;
     }
 
     private static String account(String acc) {
