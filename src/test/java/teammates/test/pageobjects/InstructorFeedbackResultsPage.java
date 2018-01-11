@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static com.google.common.base.Preconditions.checkState;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
@@ -192,6 +193,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickRemindAllButtonAndWaitForFormToLoad() {
+        checkState(isElementInvisibleOrStale(By.className("modal")),
+                "The Remind All button is not clickable when a modal is opened");
+
         click(remindAllButton);
         waitForElementVisibility(remindModal);
         WebElement remindButton = browser.driver.findElement(By.className("remind-particular-button"));

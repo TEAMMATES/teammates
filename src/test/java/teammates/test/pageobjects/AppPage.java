@@ -766,6 +766,20 @@ public abstract class AppPage {
     }
 
     /**
+     * Returns true if, and only if, element is invisible or stale as defined in the WebDriver specification.
+     * @param locator used to find the element
+     */
+    public boolean isElementInvisibleOrStale(By locator) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 0);
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    /**
      * Returns true if there exists an element with the given id and class name.
      *
      * @param elementId
