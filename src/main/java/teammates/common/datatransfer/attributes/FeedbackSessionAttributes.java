@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -416,30 +415,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * method is called with combined feedback sessions from many courses
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
-        Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
-            @Override
-            public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
-                int result = session1.courseId.compareTo(session2.courseId);
-
-                if (result == 0) {
-                    result = session1.createdTime.compareTo(session2.createdTime);
-                }
-
-                if (result == 0) {
-                    result = session1.endTime.compareTo(session2.endTime);
-                }
-
-                if (result == 0) {
-                    result = session1.startTime.compareTo(session2.startTime);
-                }
-
-                if (result == 0) {
-                    result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
-                }
-
-                return result;
-            }
-        });
+        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.courseId)
+                .thenComparing(session -> session.createdTime)
+                .thenComparing(session -> session.endTime)
+                .thenComparing(session -> session.startTime)
+                .thenComparing(session -> session.feedbackSessionName));
     }
 
     /**
@@ -449,37 +429,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * method is called with combined feedback sessions from many courses
      */
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
-        Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
-            @Override
-            public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
-                int result = session2.createdTime.compareTo(session1.createdTime);
-                if (result == 0) {
-                    if (session1.endTime == null || session2.endTime == null) {
-                        if (session1.endTime == null) {
-                            --result;
-                        }
-                        if (session2.endTime == null) {
-                            ++result;
-                        }
-                    } else {
-                        result = session2.endTime.compareTo(session1.endTime);
-                    }
-                }
-
-                if (result == 0) {
-                    result = session2.startTime.compareTo(session1.startTime);
-                }
-                if (result == 0) {
-                    result = session1.courseId.compareTo(session2.courseId);
-                }
-
-                if (result == 0) {
-                    result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
-                }
-
-                return result;
-            }
-        });
+        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) ->
+                session.createdTime, Comparator.reverseOrder())
+                .thenComparing(session -> session.endTime, Comparator.nullsFirst(Comparator.reverseOrder()))
+                .thenComparing(session -> session.startTime, Comparator.reverseOrder())
+                .thenComparing(session -> session.courseId)
+                .thenComparing(session -> session.feedbackSessionName));
     }
 
     @Override

@@ -12,7 +12,8 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 
 ## Step 1: Install necessary tools and languages
 
-1. Install Source Tree or other similar Git Client, or at least Git.
+1. Install Git.
+   1. (Optional but recommended) Install Sourcetree or other similar Git client.
 1. Install JDK 1.8.
 1. Install Python 2.7.
 1. Install Node.js (minimum version 4.x).
@@ -42,7 +43,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 3: Set up project-specific settings and dependencies
 
-1. Install Google Cloud SDK version 179.0.0. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
+1. Install Google Cloud SDK. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
    # This command is to be run at the Google Cloud SDK directory
@@ -75,8 +76,6 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Modify the following config file:
    * `gradle.properties`<br>
       If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
-      This value must be a valid **JDK 1.8** directory.
-      **Windows users** should use a **forward slash** (`/`) instead of the Windows default **backward slash** (`\`) while specifying the path.
 
 ## Step 4: (Optional but recommended) Set up an IDE
 
@@ -85,7 +84,7 @@ You are encouraged, but not required, to use an IDE to assist many development t
 We currently support two IDEs: Eclipse IDE and IntelliJ IDEA.
 Support requests related to other IDEs will not be entertained.
 
-Refer to [this document](ide-usage.md) if you wish to set up an IDE for developing TEAMMATES.
+Refer to [this document](ide-setup.md) if you wish to set up an IDE for developing TEAMMATES.
 
 ## Step 5: Start developing
 
