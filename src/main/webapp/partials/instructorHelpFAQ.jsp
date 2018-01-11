@@ -4,7 +4,7 @@
 </h4>
 <div id="contentHolder">
   <br>
-  <div class="bulletPointsIndent">
+  <div>
     <ul>
       <li id="faq1">
         <b>How do I view a list of students in a course?</b>

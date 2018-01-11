@@ -2,7 +2,7 @@
 <h4 class="text-color-primary" id="sections">Sections</h4>
 <div id="contentHolder">
   <br>
-  <div class="bulletPointsIndent">
+  <div>
   <ul>
     <li id="sectionsWhatIsItMeantFor">
       <span class="text-bold">

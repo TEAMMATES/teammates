@@ -5,7 +5,7 @@
   <p>Any evaluation system has both positive and negative effects on those being evaluated. As teachers, you are probably keen to maximize the positive effect of this system on your course while minimizing any negative effects. Here are some of the things you could do:</p>
   <br>
   <br>
-  <div class="bulletPointsIndent">
+  <div>
     <ul>
       <li>
         <span id="question"><b>Have frequent peer evaluations.</b>
@@ -34,7 +34,7 @@
         <div class="helpSectionContent">
           If you use ‘Team contribution’ type questions in your peer evaluations, keep in mind the contribution numbers reported by TEAMMATES are based on student perceptions and may not reflect the real contribution of a student. Therefore, use those numbers primarily to identify cases that need further investigation.
           <br> You may ignore minor variations in the contribution numbers reported by TEAMMATES. The difference between [Equal share] and [Equal share - 2%] is not significant and can very well be due to rounding off within the system.
-          <br> Keep in mind that it is human nature for one to downplay the value of contributions from others when one’s own contribution is being compared to that of others. As a result, it is common for the ‘perceived contribution’ to be somewhat lower than what the student actually did.
+          <br> <br>Keep in mind that it is human nature for one to downplay the value of contributions from others when one’s own contribution is being compared to that of others. As a result, it is common for the ‘perceived contribution’ to be somewhat lower than what the student actually did.
           <br> When taking further actions based on evaluation reports, also pay attention to the team’s consensus level about the contribution of a student. For example, you can take further actions with more confidence if all team members rated a certain student’s contribution low.
           <br>
           <br>
@@ -46,6 +46,7 @@
         </span>
         <div class="helpSectionContent">
           This may be a good policy to adopt (If students know this policy, they will be more honest in reporting contribution values):
+          <br>
           <br>
           <span class="italic">It is OK to do less than an equal share of the work, as long as you are willing to accept a lower grade than your team members. It is your right to decide how much time you allocate to this course. How you prioritize your work is your own business.</span>
           <br>

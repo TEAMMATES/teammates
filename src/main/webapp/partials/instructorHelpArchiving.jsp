@@ -2,7 +2,7 @@
 <h4 class="text-color-primary" id="archiving">Archiving</h4>
 <div id="contentHolder">
   <br>
-  <div class="bulletPointsIndent">
+  <div>
     <ol style="list-style-type:none;">
       <li id="archivingCourse">
         <span class="text-bold">

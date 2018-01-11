@@ -687,10 +687,10 @@
       <br>
       <br>
       <p>
-        Here, we set up a   particular question after adding it to the session.
+        Here, we set up a particular question after adding it to the session.
         <br> The following can be set:
       </p>
-      <ul>
+      <ul>-path
         <li>
           <b>Question text</b>
           <span class="text-muted"> - the question</span>
