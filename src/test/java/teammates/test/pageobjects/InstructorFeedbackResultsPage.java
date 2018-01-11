@@ -400,19 +400,32 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return pendingResponses.isEmpty();
     }
 
-    public void deleteFeedbackResponseComment(String commentIdSuffix) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
-        waitForConfirmationModalAndClickOk();
-        ThreadHelper.waitFor(1500);
+    public void deleteFeedbackResponseCommentInModal(String commentIdSuffix) {
+        deleteFeedbackResponseComment(commentIdSuffix, true);
     }
 
-    public void deleteFeedbackResponseCommentInQuestionsView(String commentIdSuffix) {
+    public void deleteFeedbackResponseCommentInline(String commentIdSuffix) {
+        deleteFeedbackResponseComment(commentIdSuffix, false);
+    }
+
+    private void deleteFeedbackResponseComment(String commentIdSuffix, boolean hasParentCommentModal) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        click(okayButton);
+        final WebElement deleteCommentButton =
+                commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix));
+
+        WebElement modalBackdrop = null;
+        if (hasParentCommentModal) {
+            modalBackdrop = browser.driver.findElement(By.className("modal-backdrop"));
+        }
+
+        click(deleteCommentButton);
+
+        if (hasParentCommentModal) {
+            waitForModalToDisappear(modalBackdrop);
+        }
+
+        waitForConfirmationModalAndClickOk();
+        ThreadHelper.waitFor(1500);
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {

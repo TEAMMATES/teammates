@@ -691,12 +691,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.loadResultQuestionPanel(1);
         resultsPage.clickCommentModalButton("-3-1-0");
-        resultsPage.deleteFeedbackResponseCommentInQuestionsView("-3-1-0-1");
+        resultsPage.deleteFeedbackResponseCommentInModal("-3-1-0-1");
         resultsPage.verifyRowMissing("-3-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.closeCommentModal("-3-1-0");
+
         resultsPage.clickCommentModalButton("-2-1-0");
-        resultsPage.deleteFeedbackResponseCommentInQuestionsView("-2-1-0-1");
+        resultsPage.deleteFeedbackResponseCommentInModal("-2-1-0-1");
         resultsPage.verifyRowMissing("-2-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
@@ -717,7 +718,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-2-1-0-1", 1);
 
-        resultsPage.deleteFeedbackResponseCommentInQuestionsView("-2-1-0-1");
+        resultsPage.deleteFeedbackResponseCommentInModal("-2-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
 
@@ -765,7 +766,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: delete existing feedback response comment");
 
-        resultsPage.deleteFeedbackResponseComment("-1-1-1-1-1");
+        resultsPage.deleteFeedbackResponseCommentInline("-1-1-1-1-1");
         resultsPage.verifyRowMissing("-1-1-1-1-1");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -785,7 +786,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-0-1-3");
+        resultsPage.deleteFeedbackResponseCommentInline("-0-1-0-1-3");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");

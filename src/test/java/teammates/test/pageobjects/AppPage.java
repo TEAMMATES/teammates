@@ -19,6 +19,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -260,6 +261,27 @@ public abstract class AppPage {
     }
 
     /**
+     * {@code locator} is mapped to an actual {@link WebElement}.
+     * @param locator used to find the element
+     * @see AppPage#waitForElementStaleness(WebElement)
+     */
+    public void waitForElementStaleness(By locator) {
+        waitForElementStaleness(browser.driver.findElement(locator));
+    }
+
+    /**
+     * Wait until an element is no longer attached to the DOM or the timeout expires.
+     * @param element the WebElement
+     * @throws org.openqa.selenium.TimeoutException if the timeout defined in
+     * {@link TestProperties#TEST_TIMEOUT} expires
+     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     */
+    public void waitForElementStaleness(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        wait.until(ExpectedConditions.stalenessOf(element));
+    }
+
+    /**
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by) {
@@ -333,13 +355,15 @@ public abstract class AppPage {
     }
 
     private void waitForModalPresence() {
-        WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
-        waitForElementToBeClickable(closeButton);
+        // Possible exploration: Change to listening to modal shown event as
+        // this is based on the implementation detail assumption that once modal-backdrop is added the modal is shown
+        waitForElementVisibility(By.className("modal-backdrop"));
     }
 
-    public void waitForModalToDisappear() {
-        By modalBackdrop = By.className("modal-backdrop");
-        waitForElementToDisappear(modalBackdrop);
+    public void waitForModalToDisappear(WebElement modalBackdrop) {
+        // Possible exploration: Change to listening to modal hidden event as
+        // this is based on the implementation detail assumption that once modal-backdrop is removed the modal is hidden
+        waitForElementStaleness(modalBackdrop);
     }
 
     /**
@@ -1121,7 +1145,9 @@ public abstract class AppPage {
         // Note: Should first check if the button can actually dismiss the modal otherwise the state will be consistent.
         // However, it is too difficult to check.
 
+        WebElement modalBackdrop = browser.driver.findElement(By.className("modal-backdrop"));
+
         click(dismissModalButton);
-        waitForModalToDisappear();
+        waitForModalToDisappear(modalBackdrop);
     }
 }
