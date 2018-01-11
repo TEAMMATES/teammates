@@ -2,8 +2,10 @@ package teammates.ui.pagedata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
@@ -189,7 +191,7 @@ public class InstructorSearchPageData extends PageData {
         List<StudentListSectionData> rows = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = filterStudentsByCourse(
                                                        courseId, studentSearchResultBundle);
-        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<>();
+        Map<String, Set<String>> sectionNameToTeamNameMap = new HashMap<>();
         Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<>();
         Map<String, String> emailToPhotoUrlMap = new HashMap<>();
         for (StudentAttributes student : studentsInCourse) {
@@ -201,11 +203,8 @@ public class InstructorSearchPageData extends PageData {
             teamNameToStudentsMap.computeIfAbsent(teamName, key -> new ArrayList<>())
                                  .add(student);
 
-            List<String> teamNamesInSection = sectionNameToTeamNameMap.computeIfAbsent(sectionName,
-                    key -> new ArrayList<>());
-            if (!teamNamesInSection.contains(teamName)) {
-                teamNamesInSection.add(teamName);
-            }
+            sectionNameToTeamNameMap.computeIfAbsent(sectionName, key -> new HashSet<>())
+                                    .add(teamName);
         }
         List<SectionDetailsBundle> sections = new ArrayList<>();
         sectionNameToTeamNameMap.forEach((sectionName, teamNameList) -> {
