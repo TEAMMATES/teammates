@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.appengine.api.modules.ModulesService;
@@ -24,7 +23,7 @@ public class GaeVersionApi {
         for (String versionInString : versionListInString) {
             versionList.add(new Version(versionInString));
         }
-        Collections.sort(versionList);
+        versionList.sort(null);
         return versionList;
     }
 

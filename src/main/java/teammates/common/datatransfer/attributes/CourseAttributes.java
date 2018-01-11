@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -17,18 +16,6 @@ import teammates.storage.entity.Course;
  * The data transfer object for Course entities.
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
-
-    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
-        @Override
-        public int compare(CourseAttributes course1, CourseAttributes course2) {
-            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
-                return course1.getId().compareTo(course2.getId());
-            }
-
-            // sort by newest course first
-            return -1 * course1.createdAt.compareTo(course2.createdAt);
-        }
-    };
 
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Date createdAt;
@@ -141,16 +128,12 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public static void sortById(List<CourseAttributes> courses) {
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.getId().compareTo(c2.getId());
-            }
-        });
+        courses.sort(Comparator.comparing(CourseAttributes::getId));
     }
 
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
-        Collections.sort(courses, createdDateComparator);
+        courses.sort(Comparator.comparing((CourseAttributes course) -> course.createdAt).reversed()
+                .thenComparing(course -> course.getId()));
     }
 
 }
