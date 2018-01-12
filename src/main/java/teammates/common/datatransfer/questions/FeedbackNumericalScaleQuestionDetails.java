@@ -470,7 +470,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
-System.lineSeparator() 
+ 
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
         DecimalFormat df = new DecimalFormat();
@@ -480,7 +480,7 @@ System.lineSeparator()
 
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
                          + (showAvgExcludingSelf ? ", Average excluding self response" : "")
-                         + ;
+                       System.lineSeparator()  + ;
 
         StringBuilder csvBody = new StringBuilder();
         for (String recipient : numResponses.keySet()) {
