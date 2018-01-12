@@ -148,45 +148,47 @@
         <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to edit.
         <br>A new page will open which displays editable fields to edit the student's profile. It should look something like this:
         <br><br>
-        <div class="panel panel-primary" id="studentEditProfile">
-          <div class="panel-body fill-plain">
-            <form class="form form-horizontal">
-              <div class="form-group">
-                <label class="col-sm-1 control-label">Student Name:</label>
-                <div class="col-sm-11">
-                  <input class="form-control" value="Alice Betsy">
+        <div class="bs-example">
+          <div class="panel panel-primary" id="studentEditProfile">
+            <div class="panel-body fill-plain">
+              <form class="form form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-1 control-label">Student Name:</label>
+                  <div class="col-sm-11">
+                    <input class="form-control" value="Alice Betsy">
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-1 control-label">Section Name:</label>
-                <div class="col-sm-11">
-                  <input class="form-control" value="Section A">
+                <div class="form-group">
+                  <label class="col-sm-1 control-label">Section Name:</label>
+                  <div class="col-sm-11">
+                    <input class="form-control" value="Section A">
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-1 control-label">Team Name:</label>
-                <div class="col-sm-11">
-                  <input class="form-control" value="Team A">
+                <div class="form-group">
+                  <label class="col-sm-1 control-label">Team Name:</label>
+                  <div class="col-sm-11">
+                    <input class="form-control" value="Team A">
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-1 control-label">E-mail Address:
-                </label>
-                <div class="col-sm-11">
-                  <input class="form-control" value="alice@email.com">
+                <div class="form-group">
+                  <label class="col-sm-1 control-label">E-mail Address:
+                  </label>
+                  <div class="col-sm-11">
+                    <input class="form-control" value="alice@email.com">
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-1 control-label">Comments:</label>
-                <div class="col-sm-11">
-                  <textarea class="form-control" rows="6">Alice is a transfer student.</textarea>
+                <div class="form-group">
+                  <label class="col-sm-1 control-label">Comments:</label>
+                  <div class="col-sm-11">
+                    <textarea class="form-control" rows="6">Alice is a transfer student.</textarea>
+                  </div>
                 </div>
-              </div>
-              <br>
-              <div class="align-center">
-                <input type="button" class="btn btn-primary" id="button_submit" value="Save Changes">
-              </div>
-            </form>
+                <br>
+                <div class="align-center">
+                  <input type="button" class="btn btn-primary" id="button_submit" value="Save Changes">
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         <br>After making the necessary changes, click on <b>'Save Changes'</b>.
