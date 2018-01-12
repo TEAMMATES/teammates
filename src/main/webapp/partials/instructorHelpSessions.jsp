@@ -2080,6 +2080,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbEssay">Essay Question</b>
+          <br>
           Essay questions are open ended questions that allow students to give text feedback for a question.
           <br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.
           <br>
@@ -2398,6 +2399,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbMcq">Multiple-choice (single answer) question</b>
+          <br>
           Multiple-choice (single answer) questions allows you to specify several options, and lets students select one of them as the answer.
           <br> Other than specifying several options by yourself, TEAMMATES also supports
           <b>generating options</b> based on the list of students, teams and instructors in the course.
@@ -3418,16 +3420,17 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbMsq">Multiple-choice (multiple answers) question</b>
-          Multiple-choice (multiple answers) question are similar to the single answer version, except that students are able to select multiple options as their response.
           <br>
+          Multiple-choice (multiple answers) question are similar to the single answer version, except that students are able to select multiple options as their response.
           <br> The setup and result statistics is similar to the single answer version. See
           <a href="#fbMcq">above</a> for details.
         </div>
       </div>
-
+      <br>
       <div class="row">
         <div class="col-sm-12">
             <b id="fbNumscale">Numerical scale question</b>
+          <br>
           Numerical scale questions are questions that allow numerical responses from students.
           <br> To set up the question, provide the question text as well as the minimum, maximum values the student can input, as well as the increment, or precision of the number that is required.
           <br> If this sounds confusing, you can fiddle with the numbers and see what the acceptable responses are.
@@ -3959,6 +3962,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbConstSumOptions">Distribute points (among options) question</b>
+          <br>
           Distribute points (among options) question allows you to specify some options, and allow the student to split some points among these options.
           <br> To setup the question, specify the options as well as the number of points to split among the options.
           <br>
@@ -5072,6 +5076,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbContrib">Team contribution question</b>
+          <br>
           Team contribution questions are a specialized question type designed for team contribution evaluations.
           <br> They allow estimation of perceived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
           <a href="#Top">here</a>.
@@ -6117,6 +6122,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbRubric">Rubric question</b>
+          <br>
           Rubric questions allow instructors to create multiple sub-questions, with highly customizable choices and descriptions.
           <br>
           <br> To the student, the question looks similar to:
@@ -6911,6 +6917,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbRankOptions">Rank Options question</b>
+          <br>
           Rank options questions are question where the students rank options that are created by you.
           <br>
 
@@ -7324,6 +7331,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbRankRecipients">Rank Recipients question</b>
+          <br>
           Rank recipients questions are questions where the students are to rank students, teams, or instructors.
           <br>
           <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
