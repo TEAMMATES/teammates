@@ -2,7 +2,6 @@ package teammates.ui.template;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,13 +57,8 @@ public class InstructorFeedbackResultsSectionPanel {
      */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
-        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
-
-        if (participantPanels.containsKey(currentTeam)) {
-            teamsMembersPanels = participantPanels.get(currentTeam);
-        } else {
-            teamsMembersPanels = new ArrayList<>();
-        }
+        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels =
+                participantPanels.getOrDefault(currentTeam, new ArrayList<>());
 
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);
@@ -172,7 +166,7 @@ public class InstructorFeedbackResultsSectionPanel {
         for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }
-        Collections.sort(sortedPanels);
+        sortedPanels.sort(null);
 
         return sortedPanels;
     }

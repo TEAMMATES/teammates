@@ -1,32 +1,28 @@
+# Managing Dependencies
 
-# Managing Server-Side Dependencies
+## Managing Server-Side Dependencies
 
-TEAMMATES uses Gradle to manage dependencies to external Java libraries.
+- Dependency management tool: Gradle
+- Library source: [JCenter](https://bintray.com/bintray/jcenter)
+- Configuration: `build.gradle`
 
-- [Adding new libraries](#adding-new-libraries)
-- [Updating libraries](#updating-libraries)
-
-## Adding new libraries
-
-There are two factors to consider:
-- Whether the library is for production or non-production code
-- Whether the library is needed for compile-time or runtime only
-
-Add the library based on the name listed in [Maven Central](http://search.maven.org) in the appropriate section in the `build.gradle` file.
-
-## Updating libraries
-
-To update a library's version, simply change the version number declared in `build.gradle` file.
+To update your local library configuration:
 
 - If you are using command line, your next build will automatically reflect the change.
 - If you are using Eclipse, right click on the project in the Project Explorer and select `Gradle → Refresh Gradle Project` for the changes to be reflected.
 - If you are using IntelliJ, dependencies are automatically refreshed as soon as changes to the file are detected (assuming auto-import is enabled).
 
-# Managing Client-Side Dependencies
+## Managing Client-Side Dependencies
 
-We use [NPM registry](https://www.npmjs.com) as the source of library codes.
+- Dependency management tool: NPM
+- Library source: [NPM registry](https://www.npmjs.com)
+- Configuration:
+  - Production dependencies: `src/main/resources/package.json`
+  - Development dependencies: `package.json`
 
-To add/update libraries for CSS/JS, modify the appropriate entry in `src/main/resources/package.json`.
-Additionally, when adding new libraries, find the files from the library that are necessary to be loaded to webpages, and add a new entry(ies) in `FrontEndLibrary.java`.
+If a library cannot be found in the NPM registry, simply host a local copy in the repository.
 
-If the library cannot be found in NPM, simply host a local copy in the repository.
+To update your local library configuration:
+
+- For production dependencies, only if you are adding/updating the library, find the files from the library that are necessary to be loaded to webpages, and add/update the entry(ies) in `FrontEndLibrary.java`.
+- For development dependencies, run `npm install` from the project root folder.
