@@ -1,14 +1,14 @@
 package teammates.client.scripts;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.logic.api.Logic;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Generates the feedback report as a csv.
@@ -45,11 +45,10 @@ public class GenerateFeedbackReport extends RemoteApiClient {
                 file.createNewFile();
             }
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fileContent);
-            bw.close();
-
+            try (FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                 BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write(fileContent);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
