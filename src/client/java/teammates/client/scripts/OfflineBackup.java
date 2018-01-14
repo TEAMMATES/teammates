@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -122,10 +121,8 @@ public class OfflineBackup extends RemoteApiClient {
      */
     protected void retrieveEntitiesByCourse(Set<String> coursesList) {
 
-        Iterator<String> it = coursesList.iterator();
+        coursesList.forEach(courseId -> {
 
-        while (it.hasNext()) {
-            String courseId = it.next();
             currentFileName = backupFileDirectory + "/" + courseId + ".json";
             appendToFile(currentFileName, "{\n");
 
@@ -140,7 +137,8 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveStudentProfilesByCourse(courseId);
 
             appendToFile(currentFileName, "\n}");
-        }
+        });
+
     }
 
     /**

@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -344,7 +343,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 optionList.add(student.name + " (" + student.team + ")");
             }
 
-            Collections.sort(optionList);
+            optionList.sort(null);
             break;
         case TEAMS:
             try {
@@ -355,7 +354,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     optionList.add(team.name);
                 }
 
-                Collections.sort(optionList);
+                optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
@@ -369,7 +368,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 optionList.add(instructor.name);
             }
 
-            Collections.sort(optionList);
+            optionList.sort(null);
             break;
         default:
             Assumption.fail("Trying to generate options for neither students, teams nor instructors");
