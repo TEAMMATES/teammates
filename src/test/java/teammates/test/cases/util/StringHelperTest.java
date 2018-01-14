@@ -375,7 +375,9 @@ public class StringHelperTest extends BaseTestCase {
         String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
                          + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
                          + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL
+                         + ",,," + Const.EOL
+                         + ",,,Data 5-4" + Const.EOL;
         String htmlText = StringHelper.csvToHtmlTable(csvText);
         String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
                                       + "<tr>"
@@ -402,66 +404,13 @@ public class StringHelperTest extends BaseTestCase {
                                           + "<td> Data 3-3</td>"
                                           + "<td>Data 3-4</td>"
                                       + "</tr>"
+                                      + "<tr>"
+                                          + "<td></td>"
+                                          + "<td></td>"
+                                          + "<td></td>"
+                                          + "<td>Data 5-4</td>"
+                                      + "</tr>"
                                   + "</table>";
-        assertEquals(expectedHtmlText, htmlText);
-
-        csvText = "ColHeader1, ColHeader2, ColHeader3" + Const.EOL
-                + Const.EOL
-                + "Data 2-1, Data 2-2, Data 2-3" + Const.EOL;
-        htmlText = StringHelper.csvToHtmlTable(csvText);
-        expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
-                               + "<tr>"
-                                   + "<td>ColHeader1</td>"
-                                   + "<td> ColHeader2</td>"
-                                   + "<td>ColHeader3</td>"
-                               + "</tr>"
-                               + "<tr>"
-                                   + "<td>Data 2-1</td>"
-                                   + "<td> Data 2-2</td>"
-                                   + "<td>Data 2-3</td>"
-                               + "</tr>"
-                           + "</table>";
-        assertEquals(expectedHtmlText, htmlText);
-
-        csvText = ",," + Const.EOL
-                + "Data 1-1, Data 1-2, Data 1-3" + Const.EOL
-                + "Data 2-1, Data 2-2, Data 2-3" + Const.EOL;
-        htmlText = StringHelper.csvToHtmlTable(csvText);
-        expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
-                               + "<tr>"
-                                   + "<td>Data 1-1</td>"
-                                   + "<td> Data 1-2</td>"
-                                   + "<td>Data 1-3</td>"
-                               + "</tr>"
-                               + "<tr>"
-                                   + "<td>Data 2-1</td>"
-                                   + "<td> Data 2-2</td>"
-                                   + "<td>Data 2-3</td>"
-                               + "</tr>"
-                           + "</table>";
-        assertEquals(expectedHtmlText, htmlText);
-
-        csvText = "ColHeader1, ColHeader2, ColHeader3" + Const.EOL
-                + ",, Data 1-3" + Const.EOL
-                + "Data 2-1, Data 2-2, Data 2-3" + Const.EOL;
-        htmlText = StringHelper.csvToHtmlTable(csvText);
-        expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
-                               + "<tr>"
-                                   + "<td>ColHeader1</td>"
-                                   + "<td> ColHeader2</td>"
-                                   + "<td>ColHeader3</td>"
-                               + "</tr>"
-                               + "<tr>"
-                                   + "<td></td>"
-                                   + "<td></td>"
-                                   + "<td>Data 1-3</td>"
-                               + "</tr>"
-                               + "<tr>"
-                                   + "<td>Data 2-1</td>"
-                                   + "<td> Data 2-2</td>"
-                                   + "<td>Data 2-3</td>"
-                               + "</tr>"
-                           + "</table>";
         assertEquals(expectedHtmlText, htmlText);
     }
 
