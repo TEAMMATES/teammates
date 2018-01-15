@@ -2076,7 +2076,7 @@
           <a href="#fbRankRecipients">Rank Recipients question</a>
         </li>
       </ul>
-
+      <br>
       <div class="row">
         <div class="col-sm-12">
             <b id="fbEssay">Essay Question</b>
@@ -4597,6 +4597,7 @@
       <div class="row">
         <div class="col-sm-12">
             <b id="fbConstSumRecipients">Distribute points (among recipients) question</b>
+          <br>
           Distribute points (among recipients) question is similar to Distribute points (among options) question. For this question type, students split points among the recipients of the question.
           <br> For example, if the question recipient is set to the giver's team members, and points to distribute in total is 100, students are required to split the 100 points among his team members.
           <br>
