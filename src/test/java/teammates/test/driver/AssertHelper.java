@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -13,7 +12,6 @@ import java.util.regex.Pattern;
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -179,7 +177,7 @@ public final class AssertHelper {
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEqualsIgnoreLogId(expected, actual);
         assertLogIdContainsUserId(actual,
-                StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
+                String.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
     }
 
     /**
@@ -193,8 +191,8 @@ public final class AssertHelper {
         List<String> expectedStringTypeList = new ArrayList<>(Arrays.asList(expectedListAsString.split("\t")));
         List<String> actualStringTypeList = new ArrayList<>(Arrays.asList(actualListAsString.split("\t")));
 
-        Collections.sort(expectedStringTypeList);
-        Collections.sort(actualStringTypeList);
+        expectedStringTypeList.sort(null);
+        actualStringTypeList.sort(null);
 
         assertEquals(expectedStringTypeList, actualStringTypeList);
 

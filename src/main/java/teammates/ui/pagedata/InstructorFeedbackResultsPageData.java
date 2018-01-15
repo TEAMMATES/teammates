@@ -1,7 +1,6 @@
 package teammates.ui.pagedata;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -115,11 +114,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // and load them by ajax question by question
         boolean isLoadingStructureOnly = questionToResponseMap.size() > 1;
 
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
-                     entry : questionToResponseMap.entrySet()) {
-            FeedbackQuestionAttributes question = entry.getKey();
-            List<FeedbackResponseAttributes> responses = entry.getValue();
-
+        questionToResponseMap.forEach((question, responses) -> {
             InstructorFeedbackResultsQuestionTable questionPanel;
             if (isLoadingStructureOnly) {
                 questionPanel = buildQuestionTableWithoutResponseRows(question, responses, "");
@@ -129,8 +124,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
 
             questionPanels.add(questionPanel);
-        }
-
+        });
     }
 
     private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
@@ -162,7 +156,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
 
-        Collections.sort(sectionNames);
+        sectionNames.sort(null);
         return sectionNames;
     }
 
@@ -649,7 +643,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // create for every remaining team in the section, participantResultsPanels for every team member
         for (String teamWithoutResponses : teamsWithoutResponses) {
             List<String> teamMembers = new ArrayList<>(bundle.getTeamMembersFromRoster(teamWithoutResponses));
-            Collections.sort(teamMembers);
+            teamMembers.sort(null);
             if (viewType.isPrimaryGroupingOfGiverType()) {
                 addMissingParticipantsPanelsWithModerationButtonForTeam(
                                                 sectionPanel, teamWithoutResponses, teamMembers);
@@ -687,7 +681,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         // Create missing participants panels for the previous team
         List<String> sortedTeamMembersWithoutResponses = new ArrayList<>(teamMembersWithoutResponses);
-        Collections.sort(sortedTeamMembersWithoutResponses);
+        sortedTeamMembersWithoutResponses.sort(null);
 
         if (viewType.isPrimaryGroupingOfGiverType()) {
             addMissingParticipantsPanelsWithModerationButtonForTeam(sectionPanel,
@@ -915,7 +909,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // If question specific sorting is not needed, responses are sorted
             // by default order (first by team name, then by display name)
             if (questionDetails.isQuestionSpecificSortingRequired()) {
-                Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
+                responseRows.sort(questionDetails.getResponseRowsSortOrder());
             } else {
                 responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
             }

@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -30,33 +29,11 @@ public class FeedbackSessionDetailsBundle {
      * method is called with combined feedback sessions from many courses
      */
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> sessions) {
-        Collections.sort(sessions, new Comparator<FeedbackSessionDetailsBundle>() {
-            @Override
-            public int compare(FeedbackSessionDetailsBundle fsd1, FeedbackSessionDetailsBundle fsd2) {
-                FeedbackSessionAttributes session1 = fsd1.feedbackSession;
-                FeedbackSessionAttributes session2 = fsd2.feedbackSession;
-                int result = 0;
-                if (result == 0) {
-                    result = session1.getCourseId().compareTo(session2.getCourseId());
-                }
-                if (result == 0) {
-                    result = session1.getCreatedTime().after(session2.getCreatedTime()) ? 1
-                            : session1.getCreatedTime().before(session2.getCreatedTime()) ? -1 : 0;
-                }
-                if (result == 0) {
-                    result = session1.getEndTime().after(session2.getEndTime()) ? 1
-                            : session1.getEndTime().before(session2.getEndTime()) ? -1 : 0;
-                }
-                if (result == 0) {
-                    result = session1.getStartTime().after(session2.getStartTime()) ? 1
-                            : session1.getStartTime().before(session2.getStartTime()) ? -1 : 0;
-                }
-                if (result == 0) {
-                    result = session1.getFeedbackSessionName().compareTo(session2.getFeedbackSessionName());
-                }
-                return result;
-            }
-        });
+        sessions.sort(Comparator.comparing((FeedbackSessionDetailsBundle fsd) -> fsd.feedbackSession.getCourseId())
+                .thenComparing(fsd -> fsd.feedbackSession.getCreatedTime())
+                .thenComparing(fsd -> fsd.feedbackSession.getEndTime())
+                .thenComparing(fsd -> fsd.feedbackSession.getStartTime())
+                .thenComparing(fsd -> fsd.feedbackSession.getFeedbackSessionName()));
     }
 
     @Override

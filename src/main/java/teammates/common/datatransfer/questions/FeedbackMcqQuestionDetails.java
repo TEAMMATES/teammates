@@ -2,13 +2,11 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -249,7 +247,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 optionList.add(student.name + " (" + student.team + ")");
             }
 
-            Collections.sort(optionList);
+            optionList.sort(null);
             break;
         case TEAMS:
             try {
@@ -259,7 +257,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     optionList.add(team.name);
                 }
 
-                Collections.sort(optionList);
+                optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
@@ -272,7 +270,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 optionList.add(instructor.name);
             }
 
-            Collections.sort(optionList);
+            optionList.sort(null);
             break;
         default:
             Assumption.fail("Trying to generate options for neither students, teams nor instructors");
@@ -384,45 +382,17 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-            } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-            }
-        }
+        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(entry.getKey()),
-                    Slots.COUNT, entry.getValue().toString(),
-                    Slots.PERCENTAGE, df.format(100 * (double) entry.getValue() / responses.size())));
-        }
+        answerFrequency.forEach((key, value) ->
+                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                        Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
+                        Slots.COUNT, value.toString(),
+                        Slots.PERCENTAGE, df.format(100 * (double) value / responses.size()))));
 
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
-                Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
 
     @Override
@@ -435,41 +405,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder fragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            String answerString = response.getResponseDetails().getAnswerString();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-
-            if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
-            } else {
-                if (!answerFrequency.containsKey(answerString)) {
-                    answerFrequency.put(answerString, 0);
-                }
-                answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
-            }
-        }
+        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey())).append(',')
-                     .append(entry.getValue().toString()).append(',')
-                     .append(df.format(100 * (double) entry.getValue() / responses.size())).append(Const.EOL);
-        }
+        answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
+                     .append(value.toString()).append(',')
+                     .append(df.format(100 * (double) value / responses.size())).append(Const.EOL));
 
         return "Choice, Response Count, Percentage" + Const.EOL
                + fragments.toString();
@@ -524,5 +466,28 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
+        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+
+        for (String option : mcqChoices) {
+            answerFrequency.put(option, 0);
+        }
+
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackResponseDetails responseDetails = response.getResponseDetails();
+            boolean isOtherOptionAnswer =
+                    ((FeedbackMcqResponseDetails) responseDetails).isOtherOptionAnswer();
+            String key = isOtherOptionAnswer ? "Other" : responseDetails.getAnswerString();
+
+            answerFrequency.put(key, answerFrequency.getOrDefault(key, 0) + 1);
+        }
+
+        return answerFrequency;
     }
 }
