@@ -37,9 +37,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     /**
      * Verifies that changes to instructor are successfully saved to the database
      * and that the success message is displayed in the browser.
-     **/
+     */
     private void verifyInstructorEditSuccess(int instructorIndex, String newName, String newEmail,
-                                            boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
+            boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
         courseEditPage.editInstructor(instructorIndex, newName, newEmail, newIsDisplayedToStudents, newDisplayName,
                 newRole);
         courseEditPage.verifyInstructorDetails(instructorIndex, newName, newEmail, newIsDisplayedToStudents,
