@@ -40,7 +40,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
    ./gradlew setupEclipse
    ```
 
-   **Verification:** The folder `.launches` should be added to the project root directory.
+   **Verification:** The folder `.launches` and files `.classpath`, `.project` should be added to the project root directory.
 
 1. Import the project to your Eclipse instance.
    * Go to `File → Import...`.
@@ -52,9 +52,13 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
    You need not be alarmed as these will be resolved in the next step.
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
-   * Text encoding: `Resources` → change the `Text file encoding` setting from `Default` to `Other: UTF-8`.
-
-     ![eclipsesetupguide-5.png](images/eclipsesetupguide-5.png)
+   * Text encoding: `UTF-8` is used for text encoding.
+     Configure for all the languages used in TEAMMATES in `Eclipse → Preferences → ...`. Change to `UTF-8` if it is not the default value.
+     * General: `General → Workspace → Text file encoding`.
+     * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
+     * CSS: `Web → CSS Files → Encoding`.
+     * JSP: `Web → JSP Files → Encoding`.
+     * HTML: `XML → XML Files → Encoding`.
 
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
 
@@ -64,15 +68,17 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
      ![eclipsesetupguide-7.png](images/eclipsesetupguide-7.png)
 
-   * Indentation: In TEAMMATES, we use 4 spaces in place of tabs for indentations.
+   * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      * Java: `Java → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      * JavaScript: `JavaScript → Code Style → Formatter → Edit → Tab policy → Spaces only`.
      
-     You can find the Web and XML options in `Eclipse → Preferences → ...`.
+     You can find the Web, XML, and JSON options in `Eclipse → Preferences → ...`.
      * HTML: `Web → HTML Files → Editor → Indent using spaces`.
      * CSS: `Web → CSS Files → Editor → Indent using spaces`.
      * XML: `XML → XML Files → Editor → Indent using spaces`.
+     * JSON: `JSON → JSON Files → Editor → Indent using spaces`.
+
    * Validation: Go to `Validation → ...`
      * Disable validation for HTML, JSP, and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, `XML Schema Validator`, and `XML Validator`.
      * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. Similarly for `JSON Validator`.
@@ -108,8 +114,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 1. You need the [Google Cloud Tools](https://cloud.google.com/tools/intellij/docs/quickstart-IDEA#install) plugin installed and configured:
 
    ![intellijsetupguide-2.png](images/intellijsetupguide-2.png)
-   * During installation, you may encounter two prompts: one to install the `Google Account` plugin dependency and
-     another to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes` to both prompts.
+   * During installation, you may encounter a prompt to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes`.
    * After installation, restart IntelliJ IDEA and configure the plugin.
      Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is currently open),
      go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
@@ -136,22 +141,20 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
       > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
         You should see the same message as the dialog box, click `Configure` and then `OK`.
 
-1. Configure the project settings as follows:
+1. Configure the following project-specific settings (all can be found in `IntelliJ IDEA → Preferences → ...`):
 
-   #### Indentation
-   In TEAMMATES, we have standards defined for indentation.
-   See [Coding standards in Supplementary documents](README.md#supplementary-documents).
-   1. Open `IntelliJ IDEA → Preferences`.
-   1. Go to `Editor → Code Style` and ensure that `Use tab character` is unchecked for `Java`, `JavaScript`, `JSON`, `CSS` and `XML`.
-   1. Ensure that `Tab size:`, `Indent:` and `Continuation indent:` are `4`, `4` and `8` respectively for the different languages.
-   1. Ensure `HTML` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
-   1. Ensure `JSP` has `Use tab character` unchecked and set `Tab Size:`, `Indent:` and `Continuation indent:` to `2`, `2` and `4` respectively.
+   * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
+     Configure for all the languages used in TEAMMATES:
+     1. Go to `Editor → Code Style`.
+     1. Select `Project` for `Scheme` if you do not wish to make the rules the default for your IDE.
+     1. For `Java`, `JavaScript`, `JSON`, `CSS`, `XML`, `HTML`, and `JSP`:
+        * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
+        * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.
 
-   #### Text Encoding
-   Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
+   * Text encoding: `UTF-8` is used for text encoding.
+     Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
 
-   #### Javascript
-   Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
+   * JavaScript: Go to `Languages & Frameworks → JavaScript` and select `ECMAScript 6` for the `JavaScript language version`.
 
 1. Click `OK`.
 

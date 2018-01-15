@@ -2,13 +2,11 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -345,7 +343,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 optionList.add(student.name + " (" + student.team + ")");
             }
 
-            Collections.sort(optionList);
+            optionList.sort(null);
             break;
         case TEAMS:
             try {
@@ -356,7 +354,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     optionList.add(team.name);
                 }
 
-                Collections.sort(optionList);
+                optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
@@ -370,7 +368,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 optionList.add(instructor.name);
             }
 
-            Collections.sort(optionList);
+            optionList.sort(null);
             break;
         default:
             Assumption.fail("Trying to generate options for neither students, teams nor instructors");
@@ -506,14 +504,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
 
         StringBuilder fragments = new StringBuilder();
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                                Slots.MCQ_CHOICE_VALUE, entry.getKey(),
-                                Slots.COUNT, entry.getValue().toString(),
+        answerFrequency.forEach((key, value) ->
+                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                                Slots.MCQ_CHOICE_VALUE, key,
+                                Slots.COUNT, value.toString(),
                                 Slots.PERCENTAGE,
-                                df.format(100 * divideOrReturnZero(entry.getValue(), numChoicesSelected))));
+                                df.format(100 * divideOrReturnZero(value, numChoicesSelected)))));
 
-        }
         //Use same template as MCQ for now, until they need to be different.
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
@@ -535,12 +532,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         DecimalFormat df = new DecimalFormat("#.##");
         StringBuilder fragments = new StringBuilder();
-        for (Entry<String, Integer> entry : answerFrequency.entrySet()) {
-            fragments.append(SanitizationHelper.sanitizeForCsv(entry.getKey()) + ','
-                             + entry.getValue().toString() + ','
-                             + df.format(100 * divideOrReturnZero(entry.getValue(), numChoicesSelected))
-                             + Const.EOL);
-        }
+        answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key) + ','
+                + value.toString() + ','
+                + df.format(100 * divideOrReturnZero(value, numChoicesSelected))
+                + Const.EOL));
 
         return "Choice, Response Count, Percentage" + Const.EOL
                + fragments + Const.EOL;
@@ -675,11 +670,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherAnswer = "";
 
             if (isOtherOptionAnswer) {
-                if (!answerFrequency.containsKey("Other")) {
-                    answerFrequency.put("Other", 0);
-                }
-
-                answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
 
                 numChoicesSelected++;
                 // remove other answer temporarily to calculate stats for other options
@@ -715,10 +706,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             numChoices++;
 
-            if (!answerFrequency.containsKey(answerString)) {
-                answerFrequency.put(answerString, 0);
-            }
-            answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+            answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
         }
         return numChoices;
     }

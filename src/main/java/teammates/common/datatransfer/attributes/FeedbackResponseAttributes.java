@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -224,12 +223,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
-            @Override
-            public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
-                return fr1.getId().compareTo(fr2.getId());
-            }
-        });
+        frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
 }

@@ -191,7 +191,7 @@ public class LogMessageGenerator {
     }
 
     private String generateLogIdForAutomatedAction(long time) {
-        return StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR,
+        return String.join(Const.ActivityLog.FIELD_CONNECTOR,
                 Const.ActivityLog.ROLE_AUTO, formatTimeForId(new Date(time)));
     }
 
@@ -199,15 +199,15 @@ public class LogMessageGenerator {
         String courseId = HttpRequestHelper.getValueFromParamMap(params, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromParamMap(params, Const.ParamsNames.STUDENT_EMAIL);
         if (courseId != null && studentEmail != null) {
-            return StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR,
+            return String.join(Const.ActivityLog.FIELD_CONNECTOR,
                     studentEmail, courseId, formatTimeForId(new Date(time)));
         }
-        return StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR,
+        return String.join(Const.ActivityLog.FIELD_CONNECTOR,
                 Const.ActivityLog.AUTH_NOT_LOGIN, formatTimeForId(new Date(time)));
     }
 
     private String generateLogIdWithGoogleId(String googleId, long time) {
-        return StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR, googleId, formatTimeForId(new Date(time)));
+        return String.join(Const.ActivityLog.FIELD_CONNECTOR, googleId, formatTimeForId(new Date(time)));
     }
 
     private String formatTimeForId(Date date) {

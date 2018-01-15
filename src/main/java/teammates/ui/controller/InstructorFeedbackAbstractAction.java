@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -140,12 +139,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
 
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.getId().compareTo(c2.getId());
-            }
-        });
+        courses.sort(Comparator.comparing(course -> course.getId()));
 
         return courses;
     }
