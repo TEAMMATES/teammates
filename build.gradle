@@ -12,7 +12,7 @@ apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.59"
+def appengineVersion = "1.9.+"
 def jsoupVersion = "1.10.3"
 def checkstyleVersion = "8.0"
 def pmdVersion = "5.8.1"
