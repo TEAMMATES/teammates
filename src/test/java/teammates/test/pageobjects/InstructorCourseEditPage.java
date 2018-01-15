@@ -212,12 +212,6 @@ public class InstructorCourseEditPage extends AppPage {
         assertEquals(newRole, getInstructorAccessLevel(instrNum));
     }
 
-    public void verifyInstructorDetailsAndStatus(int instrNum, String newName, String newEmail,
-            boolean newIsDisplayedToStudents, String newDisplayName, String newRole, String expectedStatus) {
-        verifyInstructorDetails(instrNum, newName, newEmail, newIsDisplayedToStudents, newDisplayName, newRole);
-        verifyStatus(expectedStatus);
-    }
-
     public void saveEditInstructor(int instrNum) {
         click(getSaveInstructorButton(instrNum));
     }
