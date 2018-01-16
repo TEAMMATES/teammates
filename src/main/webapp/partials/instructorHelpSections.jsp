@@ -2,10 +2,11 @@
 <h4 class="text-color-primary" id="sections">Sections</h4>
 <div id="contentHolder">
   <br>
-  <ol style="list-style-type: none;">
+  <div>
+  <ul>
     <li id="sectionsWhatIsItMeantFor">
       <span class="text-bold">
-          <h3>1. What are sections meant for?</h3>
+          <b>What are sections meant for?</b>
       </span>
       <p>
         Sections are meant for organizing students in courses with significantly large numbers of students. It is mandatory for courses with more than 100 students to organize students into sections.
@@ -14,7 +15,7 @@
     </li>
     <li id="sectionsEnrollingStudents">
       <span class="text-bold">
-          <h3>2. Enrolling students into sections</h3>
+          <b>Enrolling students into sections</b>
       </span>
       <p>
         You can specify the section of each student at the time of enrollment. You just have to include a
@@ -27,7 +28,7 @@
     </li>
     <li id="sectionsEditing">
       <span class="text-bold">
-          <h3>3. Editing a student's section</h3>
+          <b>Editing a student's section</b>
       </span>
       <p>
         Go to the
@@ -38,7 +39,8 @@
         <br>After editing the section name, click on <b>'Save Changes'</b>.
       </p>
     </li>
-  </ol>
+  </ul>
+  </div>
   <p align="right">
     <a href="#Top">Back to Top</a>
   </p>
