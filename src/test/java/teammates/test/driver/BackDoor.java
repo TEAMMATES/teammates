@@ -441,7 +441,7 @@ public final class BackDoor {
         conn.setReadTimeout(10000);
         InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
         StringBuilder sb = new StringBuilder();
-        try(BufferedReader rd = new BufferedReader(isr)) {
+        try (BufferedReader rd = new BufferedReader(isr)) {
             String line;
             while ((line = rd.readLine()) != null) {
                 sb.append(line);
@@ -451,7 +451,7 @@ public final class BackDoor {
     }
 
     private static void sendRequest(String paramString, URLConnection conn) throws IOException {
-        try(OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), Const.SystemParams.ENCODING)) {
+        try (OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), Const.SystemParams.ENCODING)) {
             wr.write(paramString);
             wr.flush();
         }

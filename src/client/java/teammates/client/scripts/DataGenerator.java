@@ -80,7 +80,7 @@ public final class DataGenerator {
         }
         //get the file writer
         FileWriter fstream = new FileWriter(filePath);
-        try(  BufferedWriter out= new BufferedWriter(fstream)){
+        try (BufferedWriter out = new BufferedWriter(fstream)) {
             out.write(data);
         }
 

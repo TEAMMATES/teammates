@@ -1,6 +1,12 @@
 package teammates.test.driver;
 
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -17,7 +23,7 @@ public final class FileHelper {
      */
     public static String readFile(String filePath) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath));
-             Scanner sc = new Scanner(br)) {
+                Scanner sc = new Scanner(br)) {
             return sc.useDelimiter("\\Z").next();
         }
     }

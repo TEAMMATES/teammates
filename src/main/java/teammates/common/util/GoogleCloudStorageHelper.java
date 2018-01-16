@@ -32,7 +32,7 @@ public final class GoogleCloudStorageHelper {
 
     /**
      * Returns true if a file with the specified {@link BlobKey} exists in the
-     *         Google Cloud Storage.
+     * Google Cloud Storage.
      */
     public static boolean doesFileExistInGcs(BlobKey fileKey) {
         try {
@@ -57,20 +57,21 @@ public final class GoogleCloudStorageHelper {
     /**
      * Writes a byte array {@code imageData} as image to the Google Cloud Storage,
      * with the {@code googleId} as the identifier name for the image.
+     *
      * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
      */
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
         GcsOutputChannel outputChannel =
                 GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                                 .createOrReplace(gcsFilename,
-                                                  new GcsFileOptions.Builder().mimeType("image/png").build());
+                .createOrReplace(gcsFilename,
+                    new GcsFileOptions.Builder().mimeType("image/png").build());
 
         outputChannel.write(ByteBuffer.wrap(imageData));
         outputChannel.close();
 
         return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
+            .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
     }
 
     /**
@@ -81,18 +82,18 @@ public final class GoogleCloudStorageHelper {
     public static String getNewUploadUrl(String callbackUrl) {
         UploadOptions uploadOptions =
                 UploadOptions.Builder.withDefaults()
-                             .googleStorageBucketName(Config.GCS_BUCKETNAME)
-                             .maxUploadSizeBytes(Const.SystemParams.MAX_FILE_LIMIT_FOR_BLOBSTOREAPI);
+                .googleStorageBucketName(Config.GCS_BUCKETNAME)
+                .maxUploadSizeBytes(Const.SystemParams.MAX_FILE_LIMIT_FOR_BLOBSTOREAPI);
 
         return BlobstoreServiceFactory.getBlobstoreService()
-                                      .createUploadUrl(callbackUrl, uploadOptions);
+            .createUploadUrl(callbackUrl, uploadOptions);
     }
 
     /**
      * Gets the file with the specified {@link BlobKey} in the Google Cloud Storage,
      * parses it and returns it as a list of list.<br>
      * Assumption: the file represented by {@code blobKey} is a valid txt file
-     *             that can be parsed into a comma-separated list
+     * that can be parsed into a comma-separated list
      */
     public static List<List<String>> getGroupReceiverList(BlobKey blobKey) throws IOException {
         Assumption.assertNotNull(blobKey);
@@ -131,47 +132,47 @@ public final class GoogleCloudStorageHelper {
         while (size > 0) {
             // Make sure not to over-read
             int bytesToRead = Math.min(size, MAX_READING_LENGTH);
-           try(InputStream blobStream = new BlobstoreInputStream(blobKey, offset)) {
-               byte[] array = new byte[bytesToRead];
+            try (InputStream blobStream = new BlobstoreInputStream(blobKey, offset)) {
+                byte[] array = new byte[bytesToRead];
 
-               blobStream.read(array);
+                blobStream.read(array);
 
-               // Remember where it stops reading
-               offset += MAX_READING_LENGTH;
-               // Decrease unread bytes
-               size -= MAX_READING_LENGTH;
+                // Remember where it stops reading
+                offset += MAX_READING_LENGTH;
+                // Decrease unread bytes
+                size -= MAX_READING_LENGTH;
 
-               // Get the read bytes into string and split it by ","
-               String readString = new String(array);
-               List<String> newList = Arrays.asList(readString.split(","));
+                // Get the read bytes into string and split it by ","
+                String readString = new String(array);
+                List<String> newList = Arrays.asList(readString.split(","));
 
-               if (listOfList.isEmpty()) {
-                   // This is the first time reading
-                   listOfList.add(newList);
-               } else {
-                   // Check if the last reading stopped in the middle of a email address string
-                   List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
-                   // Get the last item of the list from last reading
-                   String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
-                   // Get the first item of the list from current reading
-                   String firstStringOfNewList = newList.get(0);
+                if (listOfList.isEmpty()) {
+                    // This is the first time reading
+                    listOfList.add(newList);
+                } else {
+                    // Check if the last reading stopped in the middle of a email address string
+                    List<String> lastAddedList = listOfList.get(listOfList.size() - 1);
+                    // Get the last item of the list from last reading
+                    String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
+                    // Get the first item of the list from current reading
+                    String firstStringOfNewList = newList.get(0);
 
-                   if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
-                       // No broken email from last reading found, simply add the list
-                       // from current reading into the upper list.
-                       listOfList.add(newList);
-                   } else {
-                       // Either the left part or the right part of the broken email string does not contains a "@".
-                       // Simply append the right part to the left part (last item of the list from last reading).
-                       listOfList.get(listOfList.size() - 1)
-                               .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                    if (lastStringOfLastAddedList.contains("@") && firstStringOfNewList.contains("@")) {
+                        // No broken email from last reading found, simply add the list
+                        // from current reading into the upper list.
+                        listOfList.add(newList);
+                    } else {
+                        // Either the left part or the right part of the broken email string does not contains a "@".
+                        // Simply append the right part to the left part (last item of the list from last reading).
+                        listOfList.get(listOfList.size() - 1)
+                            .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
 
-                       // And also needs to delete the right part which is the first item of the list from current reading
-                       listOfList.add(newList.subList(1, newList.size() - 1));
-                   }
-               }
+                        // And also needs to delete the right part which is the first item of the list from current reading
+                        listOfList.add(newList.subList(1, newList.size() - 1));
+                    }
+                }
 
-           }
+            }
         }
 
         return listOfList;

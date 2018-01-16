@@ -196,7 +196,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         for (int studentNum : studentNums) {
             for (int questionNum : questionNums) {
-                try(Writer writer = new FileWriter(
+                try (Writer writer = new FileWriter(
                         folderPath
                         + "InstructorFeedbackResultsPageScaleTest-" + studentNum
                         + "Students" + questionNum + "Questions.json")) {

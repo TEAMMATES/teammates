@@ -69,7 +69,7 @@ public class StudentProfilePictureUploadAction extends Action {
 
         BlobKey blobKey = blobInfo.getBlobKey();
         byte[] imageData = new byte[(int) blobInfo.getSize()];
-        try(InputStream blobStream = new BlobstoreInputStream(blobKey)) {
+        try (InputStream blobStream = new BlobstoreInputStream(blobKey)) {
             blobStream.read(imageData);
         }
 

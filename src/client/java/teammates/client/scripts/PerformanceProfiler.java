@@ -187,7 +187,7 @@ public class PerformanceProfiler extends Thread {
         }
 
         //Import old data to the HashMap
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String strLine;
             while ((strLine = br.readLine()) != null) {
                 System.out.println(strLine);
@@ -217,7 +217,7 @@ public class PerformanceProfiler extends Thread {
         }
         list.sort(null);
         FileWriter fstream = new FileWriter(filePath);
-        try(BufferedWriter out = new BufferedWriter(fstream)) {
+        try (BufferedWriter out = new BufferedWriter(fstream)) {
 
             for (String str : list) {
                 StringBuilder lineStrBuilder = new StringBuilder();

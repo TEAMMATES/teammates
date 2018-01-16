@@ -1,13 +1,13 @@
 package teammates.client.scripts;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.logic.api.Logic;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
 
 public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
 
