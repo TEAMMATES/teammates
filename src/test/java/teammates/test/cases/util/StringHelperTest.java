@@ -44,8 +44,8 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace(""));
         assertTrue(StringHelper.isWhiteSpace("       "));
         assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
-        assertTrue(StringHelper.isWhiteSpace(Const.EOL));
-        assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
+        assertTrue(StringHelper.isWhiteSpace(System.lineSeparator()));
+        assertTrue(StringHelper.isWhiteSpace(System.lineSeparator() + "   "));
     }
 
     @Test
@@ -372,10 +372,10 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testCsvToHtmlTable() {
-        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
-                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
-                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
+        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + System.lineSeparator()
+                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" +System.lineSeparator()
+                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + System.lineSeparator()
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + System.lineSeparator();
         String htmlText = StringHelper.csvToHtmlTable(csvText);
         String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
                                       + "<tr>"
