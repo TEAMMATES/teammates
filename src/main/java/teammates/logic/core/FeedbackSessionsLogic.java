@@ -1021,7 +1021,7 @@ public final class FeedbackSessionsLogic {
                         + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
                         + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
                         + "," + questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)
-                        + Const.EOL);
+                        + System.lineSeparator());
             }
         }
         return exportBuilder;
