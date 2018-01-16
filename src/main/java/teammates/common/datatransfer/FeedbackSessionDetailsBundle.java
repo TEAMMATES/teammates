@@ -38,7 +38,7 @@ public class FeedbackSessionDetailsBundle {
 
     @Override
     public String toString() {
-        return "course:" + feedbackSession.getCourseId() + ", name:" + feedbackSession.getFeedbackSessionName() + Const.EOL
+        return "course:" + feedbackSession.getCourseId() + ", name:" + feedbackSession.getFeedbackSessionName() + System.lineSeparator()
                + "submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal;
     }
 }
