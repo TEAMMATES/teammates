@@ -155,8 +155,9 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         // another well-tested method.
 
         String courseId = "tmapitt.tcc.course";
-        CourseAttributes course = new CourseAttributes(courseId,
-                "Name of tmapitt.tcc.instructor", "UTC");
+        CourseAttributes course = CourseAttributes
+                .builder(courseId, "Name of tmapitt.tcc.instructor", "UTC")
+                .build();
 
         // Make sure not already inside
         BackDoor.deleteCourse(courseId);
