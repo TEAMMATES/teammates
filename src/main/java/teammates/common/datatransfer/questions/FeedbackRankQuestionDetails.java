@@ -77,29 +77,23 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
         ranksReceived.sort(null);
-        StringBuilder pointsReceived = new StringBuilder();
+        StringBuilder pointsReceivedBuilder = new StringBuilder();
 
         if (ranksReceived.size() > 10) {
             for (int i = 0; i < 5; i++) {
-                pointsReceived.append(ranksReceived.get(i)).append(" , ");
+                pointsReceivedBuilder.append(ranksReceived.get(i)).append(" , ");
             }
 
-            pointsReceived.append("...");
+            pointsReceivedBuilder.append("...");
 
             for (int i = ranksReceived.size() - 5; i < ranksReceived.size(); i++) {
-                pointsReceived.append(" , ").append(ranksReceived.get(i));
+                pointsReceivedBuilder.append(" , ").append(ranksReceived.get(i));
             }
         } else {
-            for (int i = 0; i < ranksReceived.size(); i++) {
-                pointsReceived.append(ranksReceived.get(i));
-
-                if (i != ranksReceived.size() - 1) {
-                    pointsReceived.append(" , ");
-                }
-            }
+            ranksReceived.forEach(rankReceived -> pointsReceivedBuilder.append(rankReceived));
         }
 
-        return pointsReceived.toString();
+        return pointsReceivedBuilder.toString().replaceAll(" , $", ""); // remove last comma
     }
 
     protected double computeAverage(List<Integer> values) {

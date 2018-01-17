@@ -70,9 +70,7 @@ public class CourseRoster {
             return;
         }
 
-        for (StudentAttributes s : students) {
-            studentListByEmail.put(s.email, s);
-        }
+        students.forEach(student -> studentListByEmail.put(student.email, student));
     }
 
     private void populateInstructorListByEmail(List<InstructorAttributes> instructors) {
@@ -81,9 +79,7 @@ public class CourseRoster {
             return;
         }
 
-        for (InstructorAttributes i : instructors) {
-            instructorListByEmail.put(i.email, i);
-        }
+        instructors.forEach(instructor -> instructorListByEmail.put(instructor.email, instructor));
     }
 
 }

@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -103,13 +104,8 @@ public final class HttpRequestHelper {
             return null;
         }
 
-        for (Cookie cookie : existingCookies) {
-            if (cookie.getName().equals(cookieName)) {
-                return cookie.getValue();
-            }
-        }
-
-        return null;
+        return Arrays.stream(existingCookies).filter(cookie -> cookie.getName().equals(cookieName))
+                                             .map(cookie -> cookie.getValue()).findFirst().orElse(null);
     }
 
 }

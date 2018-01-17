@@ -83,9 +83,8 @@ public class OfflineBackup extends RemoteApiClient {
     private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
 
         //Extracts the course Ids to be backup from the logs
-        Set<String> courses = modifiedLogs.stream().filter(course -> !course.trim().isEmpty())
+        return modifiedLogs.stream().filter(course -> !course.trim().isEmpty())
                                           .collect(Collectors.toSet());
-        return courses;
     }
 
     /**
@@ -147,13 +146,9 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"accounts\":{\n");
 
-        for (StudentAttributes student : students) {
-            saveStudentAccount(student);
-        }
+        students.forEach((student) -> saveStudentAccount(student));
 
-        for (InstructorAttributes instructor : instructors) {
-            saveInstructorAccount(instructor);
-        }
+        instructors.forEach((instructor) -> saveInstructorAccount(instructor));
 
         appendToFile(currentFileName, "\n\t},\n");
         hasPreviousEntity = false;
@@ -187,9 +182,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackQuestions\":{\n");
 
-        for (FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
-            saveFeedbackQuestion(feedbackQuestion);
-        }
+        feedbackQuestions.forEach((feedbackQuestion) -> saveFeedbackQuestion(feedbackQuestion));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -204,9 +197,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackResponses\":{\n");
 
-        for (FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
-            saveFeedbackResponse(feedbackResponse);
-        }
+        feedbackResponses.forEach((feedbackResponse) -> saveFeedbackResponse(feedbackResponse));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -222,9 +213,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
 
-        for (FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
-            saveFeedbackResponseComment(feedbackResponseComment);
-        }
+        feedbackResponseComments.forEach((feedbackResponseComment) -> saveFeedbackResponseComment(feedbackResponseComment));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -238,9 +227,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackSessions\":{\n");
 
-        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
-            saveFeedbackSession(feedbackSession);
-        }
+        feedbackSessions.forEach((feedbackSession) -> saveFeedbackSession(feedbackSession));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -254,9 +241,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"instructors\":{\n");
 
-        for (InstructorAttributes instructor : instructors) {
-            saveInstructor(instructor);
-        }
+        instructors.forEach((instructor) -> saveInstructor(instructor));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -270,9 +255,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"students\":{\n");
 
-        for (StudentAttributes student : students) {
-            saveStudent(student);
-        }
+        students.forEach((student) -> saveStudent(student));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -287,14 +270,9 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"profiles\":{\n");
 
-        for (StudentAttributes student : students) {
-            if (student != null && student.googleId != null && !student.googleId.isEmpty()) {
-                StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-                if (profile != null) {
-                    saveProfile(profile);
-                }
-            }
-        }
+        students.stream().filter(student -> student != null && student.googleId != null
+                && !student.googleId.isEmpty() && logic.getStudentProfile(student.googleId) != null)
+                .forEach((student) -> saveProfile(logic.getStudentProfile(student.googleId)));
 
         appendToFile(currentFileName, "\n\t}\n");
         hasPreviousEntity = false;

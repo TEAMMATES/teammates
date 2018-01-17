@@ -802,14 +802,12 @@ public final class FeedbackResponsesLogic {
 
         List<FeedbackResponseAttributes> teamResponses = new ArrayList<>();
 
-        for (StudentAttributes studentInTeam : studentsInTeam) {
-            if (studentInTeam.email.equals(student.email)) {
-                continue;
-            }
-            List<FeedbackResponseAttributes> responses =
-                    frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
-            teamResponses.addAll(responses);
-        }
+        studentsInTeam.stream().filter(studentInTeam -> !(studentInTeam.email.equals(student.email)))
+                      .forEach(studentInTeam -> {
+                          List<FeedbackResponseAttributes> responses =
+                                  frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
+                          teamResponses.addAll(responses);
+                      });
 
         return teamResponses;
     }

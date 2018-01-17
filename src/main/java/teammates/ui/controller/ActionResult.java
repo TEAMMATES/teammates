@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -61,11 +62,7 @@ public abstract class ActionResult {
      *         execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
-        List<String> statusMessageTexts = new ArrayList<>();
-
-        for (StatusMessage msg : statusToUser) {
-            statusMessageTexts.add(msg.getText());
-        }
+        List<String> statusMessageTexts = statusToUser.stream().map(msg -> msg.getText()).collect(Collectors.toList());
 
         return StringHelper.toString(statusMessageTexts, "<br>");
     }

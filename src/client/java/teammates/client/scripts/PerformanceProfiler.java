@@ -13,10 +13,12 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -196,11 +198,8 @@ public class PerformanceProfiler extends Thread {
             String testName = strs[0];
             String[] durations = strs[2].split("\\,");
 
-            ArrayList<Float> arr = new ArrayList<>();
-            for (String str : durations) {
-                Float f = Float.parseFloat(str);
-                arr.add(f);
-            }
+            ArrayList<Float> arr = (ArrayList<Float>) Arrays.stream(durations).map(element -> Float.parseFloat(element))
+                                    .collect(Collectors.toList());
             results.put(testName, arr);
         }
         br.close();
@@ -211,10 +210,7 @@ public class PerformanceProfiler extends Thread {
      * Writes the results to the file with path filePath.
      */
     private void printResult(String filePath) throws IOException {
-        List<String> list = new ArrayList<>();
-        for (String str : results.keySet()) {
-            list.add(str);
-        }
+        List<String> list = new ArrayList<>(results.keySet());
         list.sort(null);
         FileWriter fstream = new FileWriter(filePath);
         BufferedWriter out = new BufferedWriter(fstream);
@@ -227,7 +223,7 @@ public class PerformanceProfiler extends Thread {
                 total += f;
                 lineStrBuilder.append(f).append(" , ");
             }
-            String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
+            String lineStr = lineStrBuilder.toString().replaceAll(" , $", ""); //remove last comma
             Float average = total / arr.size();
             out.write(str + "| " + average + " | " + lineStr + "\n");
         }

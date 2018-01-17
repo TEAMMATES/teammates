@@ -3,6 +3,7 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -121,13 +122,8 @@ public class StudentFeedbackResultsPageData extends PageData {
                                     FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responsesBundle) {
 
         List<FeedbackResultsResponseTable> responseTables = new ArrayList<>();
-        List<String> recipients = new ArrayList<>();
-
-        for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (!recipients.contains(singleResponse.recipient)) {
-                recipients.add(singleResponse.recipient);
-            }
-        }
+        List<String> recipients = new ArrayList<>(responsesBundle.stream().map(response -> response.recipient)
+                .collect(Collectors.toSet()));
 
         for (String recipient : recipients) {
             List<FeedbackResponseAttributes> responsesForRecipient =
@@ -209,10 +205,9 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
 
         if (commentsBundle != null) {
-            for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
-                        bundle.getTimeZone()));
-            }
+            comments.addAll(commentsBundle.stream()
+                    .map(comment -> new FeedbackResponseCommentRow(comment, comment.giverEmail,
+                    bundle.instructorEmailNameTable, bundle.getTimeZone())).collect(Collectors.toList()));
         }
         return comments;
     }
@@ -226,13 +221,7 @@ public class StudentFeedbackResultsPageData extends PageData {
     private List<FeedbackResponseAttributes> filterResponsesByRecipientEmail(
                                     String recipientEmail, List<FeedbackResponseAttributes> responsesBundle) {
 
-        List<FeedbackResponseAttributes> responsesForRecipient = new ArrayList<>();
-
-        for (FeedbackResponseAttributes singleResponse : responsesBundle) {
-            if (singleResponse.recipient.equals(recipientEmail)) {
-                responsesForRecipient.add(singleResponse);
-            }
-        }
-        return responsesForRecipient;
+        return responsesBundle.stream().filter(resp -> resp.recipient.equals(recipientEmail))
+                .collect(Collectors.toList());
     }
 }

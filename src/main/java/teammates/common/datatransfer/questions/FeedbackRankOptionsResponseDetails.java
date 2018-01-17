@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -38,16 +39,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
      * Returns List of sorted answers, with uninitialised values filtered out.
      */
     public List<Integer> getFilteredSortedAnswerList() {
-        List<Integer> filteredAnswers = new ArrayList<>();
-
-        for (int answer : answers) {
-            if (answer != Const.POINTS_NOT_SUBMITTED) {
-                filteredAnswers.add(answer);
-            }
-        }
-
-        filteredAnswers.sort(null);
-        return filteredAnswers;
+        return answers.stream().filter(answer -> answer != Const.POINTS_NOT_SUBMITTED)
+                                               .sorted().collect(Collectors.toList());
     }
 
     public List<Integer> getAnswerList() {
@@ -120,9 +113,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
 
-            if (!orderedOptions.containsKey(answer)) {
-                orderedOptions.put(answer, new ArrayList<String>());
-            }
+            orderedOptions.putIfAbsent(answer, new ArrayList<String>());
             List<String> optionsWithGivenRank = orderedOptions.get(answer);
             optionsWithGivenRank.add(option);
         }

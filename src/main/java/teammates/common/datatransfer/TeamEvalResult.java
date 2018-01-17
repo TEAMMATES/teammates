@@ -170,12 +170,10 @@ public class TeamEvalResult {
     }
 
     public static boolean isSanitized(int[] array) {
-        for (int i = 0; i < array.length; i++) {
-            if (!isSanitized(array[i])) {
-                return false;
-            }
+        if (array == null || array.length == 0) {
+            return true;
         }
-        return true;
+        return Arrays.stream(array).filter(e -> !isSanitized(e)).count() == 0;
     }
 
     private static boolean isSanitized(int i) {

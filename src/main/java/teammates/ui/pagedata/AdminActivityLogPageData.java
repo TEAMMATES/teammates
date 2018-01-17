@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -140,12 +141,10 @@ public class AdminActivityLogPageData extends PageData {
      * (value is converted to lower case before comparing)
      */
     private boolean arrayContains(String[] array, String value) {
-        for (String element : array) {
-            if (element.equals(value.toLowerCase().trim())) {
-                return true;
-            }
+        if (array == null || array.length == 0) {
+            return false;
         }
-        return false;
+        return Arrays.stream(array).filter(element -> element.equals(value.toLowerCase().trim())).count() > 0;
     }
 
     /**

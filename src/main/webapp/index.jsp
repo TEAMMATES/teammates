@@ -40,7 +40,7 @@
       <p id="testimonialContainer"></p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
 
@@ -56,10 +56,10 @@
       </p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
- 
+
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Designed for simplicity, flexibility, power" src="images/overview_peerfeedback.png">
@@ -73,10 +73,10 @@
       </p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Powered by Google Infrastructure" src="images/overview_google.png">
@@ -89,10 +89,10 @@
       </p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Growing global community" src="images/overview_countries.png">
@@ -107,10 +107,10 @@
       </p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Not for Profit" src="images/overview_funding.png">
@@ -123,10 +123,10 @@
       </p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
-  
+
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Well received by Academic community" src="images/overview_conference.png">
@@ -142,8 +142,8 @@
       </p>
     </div>
   </div>
-  
+
   <br/>
   <br/>
-  
+
 </t:staticPage>

@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.StudentAttributesFactory;
@@ -165,12 +166,8 @@ public final class StudentsLogic {
         }
 
         List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);
-        for (StudentAttributes teammate : teammates) {
-            if (teammate.email.equals(student.email)) {
-                return true;
-            }
-        }
-        return false;
+
+        return teammates.stream().filter(teammate -> teammate.email.equals(student.email)).count() > 0;
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
@@ -373,18 +370,11 @@ public final class StudentsLogic {
 
     private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
-        List<StudentAttributes> mergedList = new ArrayList<>();
+        List<StudentAttributes> mergedList = new ArrayList<>(studentList);
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
 
-        for (StudentAttributes student : studentList) {
-            mergedList.add(student);
-        }
-
-        for (StudentAttributes student : studentsInCourse) {
-            if (!isInEnrollList(student, mergedList)) {
-                mergedList.add(student);
-            }
-        }
+        mergedList.addAll(studentsInCourse.stream().filter(student -> !isInEnrollList(student, mergedList))
+                .collect(Collectors.toList()));
         return mergedList;
     }
 
@@ -664,12 +654,8 @@ public final class StudentsLogic {
 
     private boolean isInEnrollList(StudentAttributes student,
             List<StudentAttributes> studentInfoList) {
-        for (StudentAttributes studentInfo : studentInfoList) {
-            if (studentInfo.email.equalsIgnoreCase(student.email)) {
-                return true;
-            }
-        }
-        return false;
+        return studentInfoList.stream().filter(studentInfo ->
+                studentInfo.email.equalsIgnoreCase(student.email)).count() > 0;
     }
 
     private boolean isTeamChanged(String originalTeam, String newTeam) {

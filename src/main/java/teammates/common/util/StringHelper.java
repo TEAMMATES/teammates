@@ -2,10 +2,12 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -63,12 +65,7 @@ public final class StringHelper {
      * @param regexList The regex list used for the matching
      */
     public static boolean isAnyMatching(String input, List<String> regexList) {
-        for (String regex : regexList) {
-            if (isMatching(input.trim().toLowerCase(), regex)) {
-                return true;
-            }
-        }
-        return false;
+        return regexList.stream().filter(regex -> isMatching(input.trim().toLowerCase(), regex)).count() > 0;
     }
 
     public static String getIndent(int length) {
@@ -182,13 +179,10 @@ public final class StringHelper {
         }
 
         StringBuilder returnValue = new StringBuilder();
-        for (int i = 0; i < list.size() - 1; i++) {
-            returnValue.append(list.get(i)).append(delimiter);
-        }
-        //append the last item
-        returnValue.append(list.get(list.size() - 1));
+        list.forEach(e -> returnValue.append(e).append(delimiter));
 
-        return returnValue.toString();
+        // Removing Last delimiter
+        return returnValue.toString().replaceAll(delimiter + "$", "");
     }
 
     public static String toDecimalFormatString(double doubleVal) {
@@ -289,11 +283,7 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<>();
-        for (String s : strSet) {
-            result.add(removeExtraSpace(s));
-        }
-        return result;
+        return (TreeSet<String>) strSet.stream().map(s -> removeExtraSpace(s)).collect(Collectors.toSet());
     }
 
     /**
@@ -347,25 +337,19 @@ public final class StringHelper {
      * Converts a csv string to a html table string for displaying.
      * @return html table string
      */
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
     public static String csvToHtmlTable(String str) {
         String[] lines = handleNewLine(str).split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
 
-        for (String line : lines) {
-
-            List<String> rowData = getTableData(line);
-
-            if (checkIfEmptyRow(rowData)) {
-                continue;
-            }
-
-            result.append("<tr>");
-            for (String td : rowData) {
-                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
-            }
-            result.append("</tr>");
-        }
+        Arrays.stream(lines).map(line -> getTableData(line)).filter(rowData -> !checkIfEmptyRow(rowData))
+                .forEach(rowData -> {
+                    result.append("<tr>");
+                    rowData.forEach(td -> result.append(
+                            String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td))));
+                    result.append("</tr>");
+                });
 
         return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
                              result.toString());
@@ -429,14 +413,10 @@ public final class StringHelper {
     }
 
     private static boolean checkIfEmptyRow(List<String> rowData) {
-
-        for (String td : rowData) {
-            if (!td.isEmpty()) {
-                return false;
-            }
+        if (rowData == null) {
+            return false;
         }
-
-        return true;
+        return rowData.stream().filter(td -> !td.isEmpty()).count() <= 0;
     }
 
     /**
@@ -525,12 +505,8 @@ public final class StringHelper {
      * trailing any string in the input array.
      */
     public static String[] trim(String[] stringsToTrim) {
-        String[] stringsAfterTrim = new String[stringsToTrim.length];
-        int i = 0;
-        for (String stringToTrim : stringsToTrim) {
-            stringsAfterTrim[i++] = stringToTrim.trim();
-        }
-        return stringsAfterTrim;
+        Object[] result = Arrays.stream(stringsToTrim).map(str -> str.trim()).toArray();
+        return Arrays.copyOf(result, result.length, String[].class);
     }
 
     /**
@@ -555,14 +531,9 @@ public final class StringHelper {
         if (elements == null) {
             throw new IllegalArgumentException("Provided arguments cannot be null");
         }
+        Object[] result = elements.stream().map(e -> String.valueOf(e)).toArray();
 
-        String[] elementsArr = new String[elements.size()];
-
-        for (int i = 0; i < elements.size(); i++) {
-            elementsArr[i] = String.valueOf(elements.get(i));
-        }
-
-        return elementsArr;
+        return Arrays.copyOf(result, result.length, String[].class);
     }
 
     /**
@@ -578,12 +549,7 @@ public final class StringHelper {
             return true;
         }
 
-        for (String string : strings) {
-            if (text.contains(string)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(strings).filter(str -> text.contains(str)).count() > 0;
     }
 
     /**

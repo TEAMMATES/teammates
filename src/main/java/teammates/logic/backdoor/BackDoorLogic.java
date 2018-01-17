@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.common.collect.HashMultimap;
@@ -567,10 +568,7 @@ public class BackDoorLogic extends Logic {
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
-        List<String> courseIds = new ArrayList<>();
-        for (CourseAttributes course : courses) {
-            courseIds.add(course.getId());
-        }
+        List<String> courseIds = courses.stream().map(course -> course.getId()).collect(Collectors.toList());
         if (!courseIds.isEmpty()) {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);

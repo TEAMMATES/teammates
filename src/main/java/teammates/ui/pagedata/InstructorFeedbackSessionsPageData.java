@@ -3,6 +3,7 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -86,14 +87,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                                     Map<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession,
                                     String feedbackSessionNameForSessionList) {
-        List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<>();
-        for (FeedbackSessionAttributes existingFeedbackSession : existingFeedbackSessions) {
-            if (instructors.get(existingFeedbackSession.getCourseId())
-                           .isAllowedForPrivilege(
-                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                filteredFeedbackSessions.add(existingFeedbackSession);
-            }
-        }
+        List<FeedbackSessionAttributes> filteredFeedbackSessions = existingFeedbackSessions.stream()
+                .filter(efs -> instructors.get(efs.getCourseId())
+                        .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION))
+                .collect(Collectors.toList());
 
         List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                         filteredFeedbackSessions,
@@ -125,10 +122,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
                               FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
-        List<String> courseIds = new ArrayList<>();
-        for (CourseAttributes course : courses) {
-            courseIds.add(course.getId());
-        }
+        List<String> courseIds = courses.stream().map(course -> course.getId()).collect(Collectors.toList());
 
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors,

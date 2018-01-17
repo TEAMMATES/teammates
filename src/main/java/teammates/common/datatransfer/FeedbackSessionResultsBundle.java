@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.google.appengine.api.datastore.Text;
@@ -731,15 +731,8 @@ public class FeedbackSessionResultsBundle {
             return allPossibleGivers;
         }
 
-        List<String> giversInSection = new ArrayList<>();
-
-        for (String giverIdentifier : allPossibleGivers) {
-            if (getSectionFromRoster(giverIdentifier).equals(section)) {
-                giversInSection.add(giverIdentifier);
-            }
-        }
-
-        return giversInSection;
+        return allPossibleGivers.stream().filter(
+                giverIdentifier -> getSectionFromRoster(giverIdentifier).equals(section)).collect(Collectors.toList());
     }
 
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
@@ -1001,24 +994,17 @@ public class FeedbackSessionResultsBundle {
      * Returns a list of student emails, sorted by section name.
      */
     private List<String> getSortedListOfStudentEmails() {
-        List<String> emailList = new ArrayList<>();
         List<StudentAttributes> students = roster.getStudents();
         StudentAttributes.sortBySectionName(students);
-        for (StudentAttributes student : students) {
-            emailList.add(student.email);
-        }
-        return emailList;
+        return students.stream().map(student -> student.email).collect(Collectors.toList());
     }
 
     /**
      * Returns a list of instructor emails, sorted alphabetically.
      */
     private List<String> getSortedListOfInstructorEmails() {
-        List<String> emailList = new ArrayList<>();
         List<InstructorAttributes> instructors = roster.getInstructors();
-        for (InstructorAttributes instructor : instructors) {
-            emailList.add(instructor.email);
-        }
+        List<String> emailList = instructors.stream().map(instructor -> instructor.email).collect(Collectors.toList());
         emailList.sort(null);
         return emailList;
     }
@@ -1037,14 +1023,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     public FeedbackResponseAttributes getActualResponse(FeedbackResponseAttributes response) {
-        FeedbackResponseAttributes actualResponse = null;
-        for (FeedbackResponseAttributes resp : actualResponses) {
-            if (resp.getId().equals(response.getId())) {
-                actualResponse = resp;
-                break;
-            }
-        }
-        return actualResponse;
+        return actualResponses.stream().filter(resp -> resp.getId().equals(response.getId())).findFirst().orElse(null);
     }
 
     public String getNameForEmail(String email) {
@@ -1198,9 +1177,7 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
-        for (FeedbackQuestionAttributes question : sortedQuestions) {
-            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
-        }
+        sortedQuestions.forEach((question) -> sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>()));
 
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
@@ -1208,9 +1185,7 @@ public class FeedbackSessionResultsBundle {
             responsesForQuestion.add(response);
         }
 
-        for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
-            responsesForQuestion.sort(compareByGiverRecipient);
-        }
+        sortedMap.values().forEach(responsesForQuestion -> responsesForQuestion.sort(compareByGiverRecipient));
 
         return sortedMap;
     }
@@ -1225,9 +1200,7 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
-        for (FeedbackQuestionAttributes question : sortedQuestions) {
-            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
-        }
+        sortedQuestions.forEach(question -> sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>()));
 
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
@@ -1235,9 +1208,8 @@ public class FeedbackSessionResultsBundle {
             responsesForQuestion.add(response);
         }
 
-        for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
-            responsesForQuestion.sort(compareByRecipientNameEmailGiverNameEmail);
-        }
+        sortedMap.values().forEach(responsesForQuestion ->
+                responsesForQuestion.sort(compareByRecipientNameEmailGiverNameEmail));
 
         return sortedMap;
     }
@@ -1555,17 +1527,11 @@ public class FeedbackSessionResultsBundle {
 
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giver;
-            if (!sortedMap.containsKey(giverEmail)) {
-                sortedMap.put(giverEmail,
-                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
-            }
+            sortedMap.putIfAbsent(giverEmail, new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
             Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverEmail);
 
             String recipientEmail = response.recipient;
-            if (!responsesFromOneGiver.containsKey(recipientEmail)) {
-                responsesFromOneGiver.put(recipientEmail,
-                                          new ArrayList<FeedbackResponseAttributes>());
-            }
+            responsesFromOneGiver.putIfAbsent(recipientEmail, new ArrayList<FeedbackResponseAttributes>());
             List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
                                             responsesFromOneGiver.get(recipientEmail);
             responsesFromOneGiverToOneRecipient.add(response);
@@ -1728,9 +1694,7 @@ public class FeedbackSessionResultsBundle {
     private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
         Map<String, String> instructorEmailNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = roster.getInstructors();
-        for (InstructorAttributes instructor : instructorList) {
-            instructorEmailNameTable.put(instructor.email, instructor.name);
-        }
+        instructorList.forEach(instructor -> instructorEmailNameTable.put(instructor.email, instructor.name));
         return instructorEmailNameTable;
     }
 
@@ -1751,9 +1715,7 @@ public class FeedbackSessionResultsBundle {
         if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
             comment.append("Images Link: ");
             Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
-            for (Element element : ele) {
-                comment.append(element.absUrl("src") + ' ');
-            }
+            ele.forEach(element -> comment.append(element.absUrl("src") + ' '));
         }
         return SanitizationHelper.sanitizeForCsv(comment.toString());
     }

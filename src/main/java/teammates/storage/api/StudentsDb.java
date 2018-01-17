@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -250,14 +251,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
-        ArrayList<StudentAttributes> unregistered = new ArrayList<>();
-
-        for (StudentAttributes s : allStudents) {
-            if (s.googleId == null || s.googleId.trim().isEmpty()) {
-                unregistered.add(s);
-            }
-        }
-        return unregistered;
+        return allStudents.stream().filter(s -> s.googleId == null
+                    || s.googleId.trim().isEmpty()).collect(Collectors.toList());
     }
 
     /**

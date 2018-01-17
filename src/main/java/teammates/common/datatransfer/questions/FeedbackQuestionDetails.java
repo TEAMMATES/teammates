@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -222,16 +223,7 @@ public abstract class FeedbackQuestionDetails {
             return true;
         }
 
-        boolean allAnswersEmpty = true;
-
-        for (int i = 0; i < answer.length; i++) {
-            if (answer[i] != null && !answer[i].trim().isEmpty()) {
-                allAnswersEmpty = false;
-                break;
-            }
-        }
-
-        return allAnswersEmpty;
+        return Arrays.stream(answer).filter((ans) -> ans != null && !ans.trim().isEmpty()).count() == 0;
     }
 
     public boolean isQuestionSpecificSortingRequired() {

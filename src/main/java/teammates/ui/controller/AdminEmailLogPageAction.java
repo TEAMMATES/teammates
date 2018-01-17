@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -137,21 +138,9 @@ public class AdminEmailLogPageAction extends Action {
 
     private List<EmailLogEntry> filterLogsForEmailLogPage(List<AppLogLine> appLogLines,
                                                           AdminEmailLogPageData data) {
-        List<EmailLogEntry> emailLogs = new LinkedList<>();
-
-        for (AppLogLine appLog : appLogLines) {
-            String logMsg = appLog.getLogMessage();
-            boolean isNotEmailLog = !logMsg.contains("TEAMMATESEMAILLOG");
-            if (isNotEmailLog) {
-                continue;
-            }
-
-            EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
-            if (data.shouldShowLog(emailLogEntry)) {
-                emailLogs.add(emailLogEntry);
-            }
-        }
-
-        return emailLogs;
+        return new LinkedList<EmailLogEntry>(appLogLines.stream()
+                .filter(appLog -> appLog.getLogMessage().contains("TEAMMATESEMAILLOG"))
+                .map(appLog -> new EmailLogEntry(appLog)).filter(emailLogEntry -> data.shouldShowLog(emailLogEntry))
+                .collect(Collectors.toList()));
     }
 }

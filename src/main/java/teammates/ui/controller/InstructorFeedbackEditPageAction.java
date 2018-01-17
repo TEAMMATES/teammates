@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -48,12 +48,10 @@ public class InstructorFeedbackEditPageAction extends Action {
                 .thenComparing(student -> student.name.toLowerCase()));
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
-        for (InstructorAttributes instructor : instructorList) {
-            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                instructorsWhoCanSubmit.add(instructor);
-            }
-        }
+        List<InstructorAttributes> instructorsWhoCanSubmit = instructorList.stream().filter(instructor ->
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))
+                .collect(Collectors.toList());
+
         instructorList.sort(Comparator.comparing(instructor -> instructor.name.toLowerCase()));
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);

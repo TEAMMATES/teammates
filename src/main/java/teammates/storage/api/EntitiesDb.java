@@ -221,14 +221,12 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
         List<Key<E>> keysToDelete = new ArrayList<>();
-        for (A entityToDelete : entitiesToDelete) {
-            Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
-            if (keyToDelete == null) {
-                continue;
-            }
-            keysToDelete.add(keyToDelete);
-            log.info(entityToDelete.getBackupIdentifier());
-        }
+        entitiesToDelete.stream().filter(entityToDelete -> getEntityQueryKeys(entityToDelete).first().now() != null)
+                .forEach(entityToDelete -> {
+                    Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
+                    keysToDelete.add(keyToDelete);
+                    log.info(entityToDelete.getBackupIdentifier());
+                });
 
         ofy().delete().keys(keysToDelete).now();
     }

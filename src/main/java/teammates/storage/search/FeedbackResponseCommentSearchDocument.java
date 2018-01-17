@@ -398,14 +398,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
     private static FeedbackQuestionAttributes getFeedbackQuestion(
             Map<String, List<FeedbackQuestionAttributes>> questions, FeedbackResponseAttributes response) {
-        FeedbackQuestionAttributes question = null;
-        for (FeedbackQuestionAttributes qn : questions.get(response.feedbackSessionName)) {
-            if (qn.getId().equals(response.feedbackQuestionId)) {
-                question = qn;
-                break;
-            }
-        }
-        return question;
+        return questions.get(response.feedbackSessionName).stream()
+                .filter(qn -> qn.getId().equals(response.feedbackQuestionId)).findFirst().orElse(null);
     }
 
     private static boolean isCommentGiverNameVisibleToInstructor(
@@ -534,13 +528,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     }
 
     private static InstructorAttributes getInstructorForCourseId(String courseId, List<InstructorAttributes> instructors) {
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.courseId.equals(courseId)) {
-                return instructor;
-            }
-        }
-
-        return null;
+        return instructors.stream().filter(instructor -> instructor.courseId.equals(courseId)).findFirst().orElse(null);
     }
 
     private static void removeQuestionsAndResponsesWithoutComments(

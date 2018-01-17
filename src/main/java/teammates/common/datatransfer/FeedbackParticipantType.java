@@ -1,8 +1,10 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum FeedbackParticipantType {
     // booleans represent: isValidGiver?, isValidRecipient? isValidViewer?
@@ -23,23 +25,15 @@ public enum FeedbackParticipantType {
 
     public static final List<FeedbackParticipantType> GIVERS;
     static {
-        List<FeedbackParticipantType> giverInitializer = new ArrayList<>();
-        for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
-            if (participantType.isValidGiver()) {
-                giverInitializer.add(participantType);
-            }
-        }
+        List<FeedbackParticipantType> giverInitializer = Arrays.stream(FeedbackParticipantType.values())
+                .filter(participantType -> participantType.isValidGiver()).collect(Collectors.toList());
         GIVERS = Collections.unmodifiableList(giverInitializer);
     }
 
     public static final List<FeedbackParticipantType> RECIPIENTS;
     static {
-        List<FeedbackParticipantType> recipientInitializer = new ArrayList<>();
-        for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
-            if (participantType.isValidRecipient()) {
-                recipientInitializer.add(participantType);
-            }
-        }
+        List<FeedbackParticipantType> recipientInitializer = Arrays.stream(FeedbackParticipantType.values())
+                    .filter(participantType -> participantType.isValidRecipient()).collect(Collectors.toList());
         RECIPIENTS = Collections.unmodifiableList(recipientInitializer);
     }
 
@@ -153,9 +147,8 @@ public enum FeedbackParticipantType {
             return participantList;
         }
 
-        for (String str : commaSeparatedValues.split(",")) {
-            participantList.add(FeedbackParticipantType.valueOf(str));
-        }
+        participantList = Arrays.stream(commaSeparatedValues.split(","))
+              .map(str -> FeedbackParticipantType.valueOf(str)).collect(Collectors.toList());
 
         return participantList;
     }

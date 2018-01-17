@@ -32,15 +32,13 @@ public final class StudentDataGenerator {
     }
 
     private static void print(List<String> lines) {
-        for (String line : lines) {
-            System.out.println(line);
-        }
+        lines.forEach((line) -> System.out.println(line));
     }
 
     private static void exitIfParametersMissing(String[] args) {
         if (args.length < 2) {
             System.out
-                    .println("Command arguments are java generateStudentData <number of students> <number of teams>");
+                  .println("Command arguments are java generateStudentData <number of students> <number of teams>");
             System.exit(0);
         }
     }

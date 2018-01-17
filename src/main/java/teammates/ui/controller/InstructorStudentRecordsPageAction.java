@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -66,10 +66,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                                                StatusMessageColor.WARNING));
         }
 
-        List<String> sessionNames = new ArrayList<>();
-        for (FeedbackSessionAttributes fsa : sessions) {
-            sessionNames.add(fsa.getFeedbackSessionName());
-        }
+        List<String> sessionNames = sessions.stream().map(fsa -> fsa.getFeedbackSessionName()).collect(Collectors.toList());
 
         InstructorStudentRecordsPageData data =
                 new InstructorStudentRecordsPageData(account, student, sessionToken, courseId, studentProfile, sessionNames);

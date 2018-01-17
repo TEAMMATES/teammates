@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -86,28 +85,15 @@ public class AdminSearchPageAction extends Action {
     private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students,
                                                      List<InstructorAttributes> instructors,
                                                      AdminSearchPageData data) {
-        for (StudentAttributes student : students) {
-            if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
-                CourseAttributes course = logic.getCourse(student.course);
-                if (course != null) {
-                    //TODO: [CourseAttribute] remove desanitization after data migration
-                    data.courseIdToCourseNameMap.put(
-                            student.course, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
-                }
-            }
-        }
+        students.stream().filter(student -> student.course != null
+                && !data.courseIdToCourseNameMap.containsKey(student.course) && logic.getCourse(student.course) != null)
+                .forEach(student -> data.courseIdToCourseNameMap.put(student.course, SanitizationHelper
+                        .desanitizeIfHtmlSanitized(logic.getCourse(student.course).getName())));
 
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)) {
-                CourseAttributes course = logic.getCourse(instructor.courseId);
-                if (course != null) {
-                    //TODO: [CourseAttribute] remove desanitization after data migration
-                    data.courseIdToCourseNameMap.put(
-                            instructor.courseId, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
-                }
-            }
-        }
-
+        instructors.stream().filter(inst -> inst.courseId != null
+                && !data.courseIdToCourseNameMap.containsKey(inst.courseId) && logic.getCourse(inst.courseId) != null)
+                .forEach(inst -> data.courseIdToCourseNameMap.put(inst.courseId, SanitizationHelper
+                        .desanitizeIfHtmlSanitized(logic.getCourse(inst.courseId).getName())));
         return data;
     }
 

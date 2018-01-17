@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -74,11 +75,7 @@ public class InstructorCourseAddAction extends Action {
             courseIdToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getId());
             courseNameToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getName());
 
-            List<String> statusMessageTexts = new ArrayList<>();
-
-            for (StatusMessage msg : statusToUser) {
-                statusMessageTexts.add(msg.getText());
-            }
+            List<String> statusMessageTexts = statusToUser.stream().map(msg -> msg.getText()).collect(Collectors.toList());
 
             statusToAdmin = StringHelper.toString(statusMessageTexts, "<br>");
         } else {

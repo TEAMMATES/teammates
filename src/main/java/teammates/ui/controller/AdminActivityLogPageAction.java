@@ -172,11 +172,7 @@ public class AdminActivityLogPageAction extends Action {
         status.append("Logs are from following version(s): ");
         for (int i = 0; i < versionToQuery.size(); i++) {
             String version = versionToQuery.get(i).replace('-', '.');
-            if (i < versionToQuery.size() - 1) {
-                status.append(version).append(", ");
-            } else {
-                status.append(version).append("<br>");
-            }
+            status.append(version).append(i < versionToQuery.size() - 1 ? ", " : "<br>");
         }
 
         status.append("All available version(s): ");
@@ -184,11 +180,7 @@ public class AdminActivityLogPageAction extends Action {
         List<Version> versionList = versionApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
-            if (i < versionList.size() - 1) {
-                status.append(version).append(", ");
-            } else {
-                status.append(version).append("<br>");
-            }
+            status.append(version).append(i < versionList.size() - 1 ? ", " : "<br>");
         }
 
         // the "Search More" button to continue searching from the previous fromDate
@@ -305,14 +297,9 @@ public class AdminActivityLogPageAction extends Action {
             return localTimeZone;
         }
 
-        for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId());
-            if (!fsl.isEmpty()) {
-                return fsl.get(0).getTimeZone();
-            }
-        }
-
-        return localTimeZone;
+        return courses.stream().map(course -> logic.getFeedbackSessionsForCourse(course.getId()))
+            .filter(fsl -> !fsl.isEmpty()).map(fsl -> fsl.get(0).getTimeZone())
+            .findFirst().orElse(Const.DOUBLE_UNINITIALIZED);
     }
 
     private double getLocalTimeZoneForUnregisteredUserRequest(String courseId) {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -186,12 +187,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         if (rubricDescriptions.size() != numOfRubricSubQuestions) {
             return false;
         }
-        for (int i = 0; i < rubricDescriptions.size(); i++) {
-            if (rubricDescriptions.get(i).size() != numOfRubricChoices) {
-                return false;
-            }
-        }
-        return true;
+        return rubricDescriptions.stream().filter(rubricDescription ->
+               rubricDescription.size() != numOfRubricChoices).count() <= 0;
     }
 
     private void setRubricQuestionDetails(boolean hasAssignedWeights,
@@ -499,12 +496,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     private void initializeRubricDescriptions() {
         rubricDescriptions = new ArrayList<>();
+        List<String> descList = new ArrayList<>();
+        for (int ch = 0; ch < numOfRubricChoices; ch++) {
+            descList.add("");
+        }
         for (int subQns = 0; subQns < numOfRubricSubQuestions; subQns++) {
-            List<String> descList = new ArrayList<>();
-            for (int ch = 0; ch < numOfRubricChoices; ch++) {
-                descList.add("");
-            }
-            rubricDescriptions.add(descList);
+            rubricDescriptions.add(new ArrayList<>(descList));
         }
     }
 
@@ -672,10 +669,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     getPerRecipientStatisticsSorted(responses, bundle);
             StringBuilder bodyBuilder = new StringBuilder(100);
 
-            for (Map.Entry<String, RubricRecipientStatistics> entry : recipientStatsList) {
-                RubricRecipientStatistics stats = entry.getValue();
-                bodyBuilder.append(stats.getHtmlForAllSubQuestions());
-            }
+            recipientStatsList.forEach(entry -> bodyBuilder.append(entry.getValue().getHtmlForAllSubQuestions()));
 
             recipientStatsHtml = Templates.populateTemplate(FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, getRecipientStatsHeaderHtml(),
@@ -716,17 +710,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean isFilteringByTeams = recipientType.equals(FeedbackParticipantType.OWN_TEAM)
                 || recipientType.equals(FeedbackParticipantType.TEAMS);
 
-        List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
         String recipientString = isFilteringByTeams ? bundle.getTeamNameForEmail(studentEmail) : studentEmail;
-
-        for (FeedbackResponseAttributes response : responses) {
-            boolean isReceivedResponse = response.recipient.equals(recipientString);
-            if (isReceivedResponse) {
-                receivedResponses.add(response);
-            }
-        }
-
-        return receivedResponses;
+        return responses.stream()
+                        .filter(response -> response.recipient.equals(recipientString)).collect(Collectors.toList());
     }
 
     @Override
@@ -828,9 +814,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
                 getPerRecipientStatisticsSorted(responses, bundle);
 
-        for (Map.Entry<String, RubricRecipientStatistics> entry : recipientStatsList) {
-            csv.append(entry.getValue().getCsvForAllSubQuestions());
-        }
+        recipientStatsList.forEach(entry -> csv.append(entry.getValue().getCsvForAllSubQuestions()));
 
         return csv.toString();
     }

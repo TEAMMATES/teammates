@@ -183,6 +183,7 @@ public final class DataGenerator {
         return "{\n" + allAccounts + "\n\n" + allCourses + "\n\n" + allInstructors + "\n\n" + allStudents + "\n\n}";
     }
 
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
     private static String allAccounts() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"accounts\":{\n");
@@ -191,8 +192,7 @@ public final class DataGenerator {
             outputBuilder.append('\t').append(account(email));
             outputBuilder.append(",\n");
         });
-        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
-        return output;
+        return outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
     }
 
     /**
@@ -211,14 +211,13 @@ public final class DataGenerator {
                                             "emailOf_" + instructorWithPrefix + "@gmail.com"))
                          .append(",\n");
         });
-        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
-        return output;
-
+        return outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
     }
 
     /**
      * Returns Json string presentation for all courses.
      */
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
     private static String allCourses() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"courses\":{\n");
@@ -226,13 +225,13 @@ public final class DataGenerator {
             String newCourse = PREFIX + course;
             outputBuilder.append('\t').append(course(newCourse, "courseIdOf_" + newCourse, "nameOf_" + newCourse));
         });
-        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
-        return output;
+        return outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
     }
 
     /**
      * Returns Json string presentation for all students.
      */
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
     private static String allStudents() {
         StringBuilder outputBuilder = new StringBuilder(100);
         outputBuilder.append("\"students\":{\n");
@@ -247,8 +246,7 @@ public final class DataGenerator {
                                         "Team " + team, email.split("@")[0], "comment",
                                         "courseIdOf_" + course));
         });
-        String output = outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
-        return output;
+        return outputBuilder.toString().replaceAll(",\n$", "") + "\n},";
     }
 
     private static String account(String acc) {

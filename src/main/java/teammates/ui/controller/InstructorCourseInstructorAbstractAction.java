@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -31,12 +32,9 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
             isSectionSpecialMappings.put(sectionName, false);
         }
 
-        List<String> feedbackNames = new ArrayList<>();
-
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes feedback : feedbacks) {
-            feedbackNames.add(feedback.getFeedbackSessionName());
-        }
+        List<String> feedbackNames = feedbacks.stream().map(feedback ->
+                feedback.getFeedbackSessionName()).collect(Collectors.toList());
         Map<String, List<String>> sectionNamesMap = getSectionsWithSpecialPrivilegesFromParameters(
                                                                 instructor, sectionNames,
                                                                 isSectionSpecialMappings);
