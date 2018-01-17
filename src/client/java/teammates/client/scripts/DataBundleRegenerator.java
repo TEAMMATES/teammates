@@ -69,9 +69,9 @@ public final class DataBundleRegenerator {
     private static JSONObject maintainKeyOrder(JSONObject json) {
         JSONObject reprintedJson = new JSONObject();
         List<String> keys = new ArrayList<>();
-        json.keySet().forEach((key) -> keys.add((String) key));
+        json.keySet().forEach(key -> keys.add((String) key));
         keys.sort(null);
-        keys.forEach((key) -> reprintedJson.put(key, json.get(key)));
+        keys.forEach(key -> reprintedJson.put(key, json.get(key)));
         return reprintedJson;
     }
 
@@ -88,7 +88,7 @@ public final class DataBundleRegenerator {
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
         List<FeedbackQuestionAttributes> template =
                 JsonUtils.fromJson(jsonString, new TypeToken<List<FeedbackQuestionAttributes>>(){}.getType());
-        template.forEach((question) -> fixQuestion(question));
+        template.forEach(question -> fixQuestion(question));
         String regeneratedJsonString = JsonUtils.toJson(template).replace("+0000", "UTC");
         saveFile(file.getCanonicalPath(), regeneratedJsonString);
     }

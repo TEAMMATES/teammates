@@ -146,9 +146,9 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"accounts\":{\n");
 
-        students.forEach((student) -> saveStudentAccount(student));
+        students.forEach(student -> saveStudentAccount(student));
 
-        instructors.forEach((instructor) -> saveInstructorAccount(instructor));
+        instructors.forEach(instructor -> saveInstructorAccount(instructor));
 
         appendToFile(currentFileName, "\n\t},\n");
         hasPreviousEntity = false;
@@ -182,7 +182,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackQuestions\":{\n");
 
-        feedbackQuestions.forEach((feedbackQuestion) -> saveFeedbackQuestion(feedbackQuestion));
+        feedbackQuestions.forEach(feedbackQuestion -> saveFeedbackQuestion(feedbackQuestion));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -197,7 +197,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackResponses\":{\n");
 
-        feedbackResponses.forEach((feedbackResponse) -> saveFeedbackResponse(feedbackResponse));
+        feedbackResponses.forEach(feedbackResponse -> saveFeedbackResponse(feedbackResponse));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -213,7 +213,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
 
-        feedbackResponseComments.forEach((feedbackResponseComment) -> saveFeedbackResponseComment(feedbackResponseComment));
+        feedbackResponseComments.forEach(feedbackResponseComment -> saveFeedbackResponseComment(feedbackResponseComment));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -227,7 +227,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"feedbackSessions\":{\n");
 
-        feedbackSessions.forEach((feedbackSession) -> saveFeedbackSession(feedbackSession));
+        feedbackSessions.forEach(feedbackSession -> saveFeedbackSession(feedbackSession));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -241,7 +241,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"instructors\":{\n");
 
-        instructors.forEach((instructor) -> saveInstructor(instructor));
+        instructors.forEach(instructor -> saveInstructor(instructor));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -255,7 +255,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         appendToFile(currentFileName, "\t\"students\":{\n");
 
-        students.forEach((student) -> saveStudent(student));
+        students.forEach(student -> saveStudent(student));
         hasPreviousEntity = false;
         appendToFile(currentFileName, "\n\t},\n");
     }
@@ -272,7 +272,7 @@ public class OfflineBackup extends RemoteApiClient {
 
         students.stream().filter(student -> student != null && student.googleId != null
                 && !student.googleId.isEmpty() && logic.getStudentProfile(student.googleId) != null)
-                .forEach((student) -> saveProfile(logic.getStudentProfile(student.googleId)));
+                .forEach(student -> saveProfile(logic.getStudentProfile(student.googleId)));
 
         appendToFile(currentFileName, "\n\t}\n");
         hasPreviousEntity = false;

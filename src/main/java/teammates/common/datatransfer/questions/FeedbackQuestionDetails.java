@@ -223,7 +223,7 @@ public abstract class FeedbackQuestionDetails {
             return true;
         }
 
-        return Arrays.stream(answer).filter((ans) -> ans != null && !ans.trim().isEmpty()).count() == 0;
+        return Arrays.stream(answer).filter(ans -> ans != null && !ans.trim().isEmpty()).count() == 0;
     }
 
     public boolean isQuestionSpecificSortingRequired() {

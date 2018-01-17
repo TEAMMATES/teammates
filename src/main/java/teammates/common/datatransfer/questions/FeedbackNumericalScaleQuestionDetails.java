@@ -213,7 +213,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         StringBuilder fragmentHtml = new StringBuilder();
 
-        numResponses.keySet().stream().filter(recipient -> !hiddenRecipients.contains(recipient)).forEach((recipient) -> {
+        numResponses.keySet().stream().filter(recipient -> !hiddenRecipients.contains(recipient)).forEach(recipient -> {
             Double userAverageExcludingSelf = averageExcludingSelf.get(recipient);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(showAvgExcludingSelf, df, userAverageExcludingSelf);
@@ -475,7 +475,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                          + Const.EOL;
 
         StringBuilder csvBody = new StringBuilder();
-        numResponses.keySet().stream().filter(recipient -> !hiddenRecipients.contains(recipient)).forEach((recipient) -> {
+        numResponses.keySet().stream().filter(recipient -> !hiddenRecipients.contains(recipient)).forEach(recipient -> {
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
             boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
 

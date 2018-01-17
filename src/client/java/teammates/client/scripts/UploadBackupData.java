@@ -78,7 +78,7 @@ public class UploadBackupData extends RemoteApiClient {
     @Override
     protected void doOperation() {
         String[] folders = getFolders();
-        Arrays.stream(folders).forEach((folder) -> uploadData(getBackupFilesInFolder(folder), folder));
+        Arrays.stream(folders).forEach(folder -> uploadData(getBackupFilesInFolder(folder), folder));
     }
 
     private static String[] getFolders() {

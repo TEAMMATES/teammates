@@ -32,7 +32,7 @@ public final class StudentDataGenerator {
     }
 
     private static void print(List<String> lines) {
-        lines.forEach((line) -> System.out.println(line));
+        lines.forEach(line -> System.out.println(line));
     }
 
     private static void exitIfParametersMissing(String[] args) {

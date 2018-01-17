@@ -1177,7 +1177,7 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
-        sortedQuestions.forEach((question) -> sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>()));
+        sortedQuestions.forEach(question -> sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>()));
 
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);

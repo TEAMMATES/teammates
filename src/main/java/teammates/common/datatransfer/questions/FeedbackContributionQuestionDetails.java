@@ -411,7 +411,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<>();
-        bundle.sectionTeamNameTable.values().forEach((teamNamesForSection) -> teamNames.addAll(teamNamesForSection));
+        bundle.sectionTeamNameTable.values().forEach(teamNamesForSection -> teamNames.addAll(teamNamesForSection));
         teamNames.sort(null);
         return teamNames;
     }
@@ -525,7 +525,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = new LinkedHashMap<>();
-        teamNames.forEach((teamName) -> teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>()));
+        teamNames.forEach(teamName -> teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>()));
         for (FeedbackResponseAttributes response : responses) {
             String team = bundle.emailTeamNameTable.get(response.giver);
             if (teamResponses.containsKey(team)) {
@@ -538,7 +538,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, List<String>> getTeamMembersEmail(
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
-        teamNames.stream().filter(teamName -> !Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)).forEach((teamName) -> {
+        teamNames.stream().filter(teamName -> !Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)).forEach(teamName -> {
             List<String> memberEmails = new ArrayList<>(bundle.rosterTeamNameMembersTable.get(teamName));
             memberEmails.sort(null);
             teamMembersEmail.put(teamName, memberEmails);
