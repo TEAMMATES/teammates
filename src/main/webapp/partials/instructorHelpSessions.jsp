@@ -1,23 +1,16 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="sessionTypes">Sessions</a>
-</h4>
+<h4 class="text-color-primary" id="sessionTypes">Sessions</h4>
 <div id="contentHolder">
   <br>
   <ol style="list-style-type: none;">
-    <li>
+    <li id="fbSetupSession">
       <span class="text-bold">
-        <a name="fbSetupSession">
-          <h3>1. Setting up a feedback session</h3>
-        </a>
+          <b>1. Setting up a feedback session</b>
+        <br>
       </span>
       <div class="row">
         <div class="col-lg-6">
-          <p>
-          </p>
-          <h4>
-            <b>To quickly create a session,</b>
-          </h4>
+          To quickly create a session,
           <p></p>
           <ol>
             <li>
@@ -66,12 +59,7 @@
           </span>
         </div>
         <div class="col-lg-6">
-          <p>
-          </p>
-          <h4>
             <b>Advanced options:</b>
-          </h4>
-          <p></p>
           <ul>
             <li>
               <b>Copy from previous feedback sessions</b>
@@ -592,19 +580,15 @@
     <br>
     <br>
     <br>
-    <li>
+    <li id="fbSetupQuestions">
       <span class="text-bold">
-        <a name="fbSetupQuestions">
-          <h3>2. Setting up questions</h3>
-        </a>
+          <b>2. Setting up questions</b>
       </span>
       <div>
 
         <p>
           After setting up a session, you will be brought to the session edit page to setup the questions. (You can also get here by clicking the edit button action for a particular session)
-          <br>
           <br> Depending on the session type that you selected, you might already see some questions.
-          <br>
           <br>
           <br> At the bottom of the page, you can add questions to the session:
         </p>
@@ -712,7 +696,7 @@
           <span class="text-muted"> - the question</span>
         </li>
         <li>
-          <b class="feedback-path-title">Feedback Path</b>
+          <b>Feedback Path</b>
           <span class="text-muted"> - you can select a common feedback path from the dropdown menu, or choose "Other predefined combinations..." to select the Feedback Giver and Recipient separately.</span>
           <ul>
             <li>
@@ -736,6 +720,7 @@
         <b>for instructors</b> (i.e. you, tutors, co-lecturers) to give feedback
         <b>to the class in general</b>.
         <br> As for visibility options, only the instructors can see all the feedback responses as well as who gave feedback to whom.
+        <br>
         <br>
       </p>
 
@@ -1024,7 +1009,7 @@
 
       <div class="bs-example">
         <form class="form-horizontal form_question" role="form">
-          <div class="panel panel-primary questionTable" id="questionTable1">
+          <div class="panel panel-primary questionTable" id="intrHelpQuestionTable">
             <div class="panel-heading">
               <div class="row">
                 <div class="col-sm-12">
@@ -1402,10 +1387,9 @@
     <br>
     <br>
     <br>
-    <li>
+    <li id="fbPreview">
       <span class="text-bold">
-        <a name="fbPreview">
-          <h3>3. Previewing a session</h3>
+          <b>3. Previewing a session</b>
         </a>
       </span>
 
@@ -1462,10 +1446,9 @@
     </li>
     <br>
     <br>
-    <li>
+    <li id="fbViewResults">
       <span class="text-bold">
-        <a name="fbViewResults">
-          <h3>4. Viewing results</h3>
+          <b>4. Viewing results</b>
         </a>
       </span>
 
@@ -2056,10 +2039,9 @@
       <br>
       <br>
     </li>
-    <li>
+    <li id="fbQuestionTypes">
       <span class="text-bold">
-        <a name="fbQuestionTypes">
-          <h3>5. Question Types</h3>
+          <b>5. Question Types</b>
         </a>
       </span> TEAMMATES currently provides the following question types. Click to see details for each question type.
       <ul>
@@ -2094,18 +2076,18 @@
           <a href="#fbRankRecipients">Rank Recipients question</a>
         </li>
       </ul>
-
+      <br>
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbEssay">
-            <h4>Essay Question</h4>
-          </a>
+            <b id="fbEssay">Essay Question</b>
+          <br>
           Essay questions are open ended questions that allow students to give text feedback for a question.
           <br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.
           <br>
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form">
-              <div class="panel panel-primary questionTable" id="questionTable1">
+              <div class="panel panel-primary questionTable" id="essayQuestionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -2416,16 +2398,17 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbMcq">
-            <h4>Multiple-choice (single answer) question</h4>
-          </a>
+            <b id="fbMcq">Multiple-choice (single answer) question</b>
+          <br>
           Multiple-choice (single answer) questions allows you to specify several options, and lets students select one of them as the answer.
           <br> Other than specifying several options by yourself, TEAMMATES also supports
           <b>generating options</b> based on the list of students, teams and instructors in the course.
           <br> Example with specified options:
+          <br>
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post">
-              <div class="panel panel-primary questionTable" id="questionTable7">
+              <div class="panel panel-primary questionTable" id="specifiedOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -2874,9 +2857,11 @@
           </div>
 
           Example with generated options:
+          <br>
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="questionTable4">
+              <div class="panel panel-primary questionTable" id="generatedOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -3297,6 +3282,8 @@
           </div>
 
           Multiple-choice (single answer) questions also provide some statistics for the results collected, which includes the response count for each option, and the percentage for which each option was chosen. An example for the above question:
+          <br>
+          <br>
           <div class="bs-example">
             <div class="panel panel-info">
               <div class="panel-heading" data-target="#panelBodyCollapse-4" style="cursor: pointer;">
@@ -3432,29 +3419,26 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbMsq">
-            <h4>Multiple-choice (multiple answers) question</h4>
-          </a>
-          Multiple-choice (multiple answers) question are similar to the single answer version, except that students are able to select multiple options as their response.
+            <b id="fbMsq">Multiple-choice (multiple answers) question</b>
           <br>
+          Multiple-choice (multiple answers) question are similar to the single answer version, except that students are able to select multiple options as their response.
           <br> The setup and result statistics is similar to the single answer version. See
           <a href="#fbMcq">above</a> for details.
         </div>
       </div>
-
+      <br>
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbNumscale">
-            <h4>Numerical scale question</h4>
-          </a>
+            <b id="fbNumscale">Numerical scale question</b>
+          <br>
           Numerical scale questions are questions that allow numerical responses from students.
           <br> To set up the question, provide the question text as well as the minimum, maximum values the student can input, as well as the increment, or precision of the number that is required.
           <br> If this sounds confusing, you can fiddle with the numbers and see what the acceptable responses are.
           <br>
-
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="questionTable3">
+              <div class="panel panel-primary questionTable" id="numericalQuestionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -3863,7 +3847,7 @@
 
           Statistics for numerical scale questions are also provided, including the average, minimum and maximum of the responses given.
           <br>
-
+          <br>
           <div class="bs-example">
             <div class="panel panel-info">
               <div class="panel-heading" data-target="#panelBodyCollapse-3" style="cursor: pointer;">
@@ -3977,9 +3961,8 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbConstSumOptions">
-            <h4>Distribute points (among options) question</h4>
-          </a>
+            <b id="fbConstSumOptions">Distribute points (among options) question</b>
+          <br>
           Distribute points (among options) question allows you to specify some options, and allow the student to split some points among these options.
           <br> To setup the question, specify the options as well as the number of points to split among the options.
           <br>
@@ -3987,10 +3970,11 @@
           <b>Points to distribute X number of options</b>, which multiplies the points specified by the number of options.
           <br> For example, if there are 5 options and
           <b>Points to distribute X number of options</b> is set to 100, students will have to split 500 points in total to the 5 options.
-
+          <br>
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="questionTable9">
+              <div class="panel panel-primary questionTable" id="amongOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -4472,6 +4456,8 @@
             </form>
 
             When viewing results, statistics on the average points for each option are provided.
+            <br>
+            <br>
             <div class="bs-example">
               <div class="panel panel-info">
                 <div class="panel-heading" data-target="#panelBodyCollapse-9" style="cursor: pointer;">
@@ -4610,9 +4596,8 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbConstSumRecipients">
-            <h4>Distribute points (among recipients) question</h4>
-          </a>
+            <b id="fbConstSumRecipients">Distribute points (among recipients) question</b>
+          <br>
           Distribute points (among recipients) question is similar to Distribute points (among options) question. For this question type, students split points among the recipients of the question.
           <br> For example, if the question recipient is set to the giver's team members, and points to distribute in total is 100, students are required to split the 100 points among his team members.
           <br>
@@ -4620,10 +4605,11 @@
           <b>Points to distribute X number of recipients</b>, which multiplies the points specified by the number of recipients.
           <br> For example, if there are 5 team members and
           <b>Points to distribute X number of recipients</b> is set to 100, students will have to split 500 points in total to the 5 members.
-
+          <br>
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="questionTable10">
+              <div class="panel panel-primary questionTable" id="amongRecipientTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -5090,9 +5076,8 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbContrib">
-            <h4>Team contribution question</h4>
-          </a>
+            <b id="fbContrib">Team contribution question</b>
+          <br>
           Team contribution questions are a specialized question type designed for team contribution evaluations.
           <br> They allow estimation of perceived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ
           <a href="#Top">here</a>.
@@ -5101,9 +5086,10 @@
           <br>
           <br> To setup the question, simply give some question text. The giver and recipient is fixed for this special question type.
           <br>
+          <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="questionTable11">
+              <div class="panel panel-primary questionTable" id="teamContributionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -5493,7 +5479,8 @@
             </form>
           </div>
           <br> The results and statistics are presented as follows. See
-          <a href="#faq7a">here</a> on how to use these results.
+          <a href="#faq-interpret-contribution-values-in-results">here</a> on how to use these results.
+          <br>
           <br>
           <div class="bs-example">
             <div class="panel panel-info">
@@ -5523,7 +5510,7 @@
                         </div>
                         <div class="col-sm-3 pull-right">
                           [
-                          <a href="#faq7a" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
+                          <a href="#faq-interpret-contribution-values-in-results" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                         </div>
                       </div>
                       <div class="row">
@@ -6132,11 +6119,11 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbRubric">
-            <h4>Rubric question</h4>
-          </a>
+            <b id="fbRubric">Rubric question</b>
+          <br>
           Rubric questions allow instructors to create multiple sub-questions, with highly customizable choices and descriptions.
           <br>
           <br> To the student, the question looks similar to:
@@ -6333,7 +6320,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
-              <div class="panel panel-primary questionTable" id="questionTable12">
+              <div class="panel panel-primary questionTable" id="rubricQuestionTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -6930,9 +6917,8 @@
 
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbRankOptions">
-            <h4>Rank Options question</h4>
-          </a>
+            <b id="fbRankOptions">Rank Options question</b>
+          <br>
           Rank options questions are question where the students rank options that are created by you.
           <br>
 
@@ -6946,7 +6932,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
-              <div class="panel panel-primary questionTable" id="questionTable3">
+              <div class="panel panel-primary questionTable" id="rankOptionsTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
@@ -7342,11 +7328,11 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-sm-12">
-          <a name="fbRankRecipients">
-            <h4>Rank Recipients question</h4>
-          </a>
+            <b id="fbRankRecipients">Rank Recipients question</b>
+          <br>
           Rank recipients questions are questions where the students are to rank students, teams, or instructors.
           <br>
           <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
@@ -7354,7 +7340,7 @@
           <br>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post">
-              <div class="panel panel-primary questionTable" id="questionTable4">
+              <div class="panel panel-primary questionTable" id="rankRecpientTable">
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-sm-7">
