@@ -3,7 +3,8 @@
   Frequently Asked Questions
 </h4>
 <div id="contentHolder">
-  <div class="bulletPointsIndent">
+  <br>
+  <div>
     <ul>
       <li id="faq-view-student-list-in-course">
         <b>How do I view a list of students in a course?</b>
