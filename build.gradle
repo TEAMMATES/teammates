@@ -35,6 +35,19 @@ configurations.all {
     resolutionStrategy {
         force "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
         force "org.jsoup:jsoup:${jsoupVersion}"
+        eachDependency { DependencyResolveDetails details ->
+            // Replace all instances of Guava JDK5 Backport with vanilla Guava.
+            // We have to be very careful when updating libraries that depend on Guava and make sure
+            // the Guava version used in every library is not too far away from the Guava JDK5 Backport
+            // because Guava is not fully backwards compatible due to its deprecation policy.
+            // Currently, the only instance of `guava-jdk5` is used by `google-api-client`.
+            // This has been fixed in https://github.com/google/google-api-java-client/pull/1070 but has
+            // not been released as of the time of writing. Once the new version (>1.23.0) is released,
+            // we can update the `google-api-client` dependency and remove this block of code.
+            if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava-jdk5') {
+                details.useTarget 'com.google.guava:guava:23.5-jre'
+            }
+        }
     }
 }
 
@@ -51,6 +64,7 @@ dependencies {
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.2",
+                    "com.google.guava:guava:23.5-jre",
                     "com.googlecode.objectify:objectify:5.1.21",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20171016.1",
                     "com.mailjet:mailjet-client:4.1.1",
