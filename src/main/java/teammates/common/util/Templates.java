@@ -42,8 +42,8 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSING =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
+        public static final String USER_FEEDBACK_SESSION_CLOSING_AND_REMINDER =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosingAndReminder.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
