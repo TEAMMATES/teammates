@@ -9,7 +9,7 @@ public class CreateImageUploadUrlAjaxPageData extends PageData {
     public String nextUploadUrl;
     public String ajaxStatus;
 
-    public CreateImageUploadUrlAjaxPageData(AccountAttributes account) {
-        super(account);
+    public CreateImageUploadUrlAjaxPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 }

@@ -10,6 +10,9 @@ import teammates.ui.controller.InstructorCourseStudentDetailsEditPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsEditPageAction}.
+ */
 public class InstructorCourseStudentDetailsEditPageActionTest extends BaseActionTest {
 
     @Override
@@ -21,8 +24,8 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     @Test
     public void testExecuteAndPostProcess() {
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         String instructorId = instructor1OfCourse1.googleId;
         gaeSimulation.loginAsInstructor(instructorId);
@@ -33,20 +36,20 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         verifyAssumptionFailure();
 
         //null student email
-        String[] invalidParams = new String[]{
+        String[] invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
         verifyAssumptionFailure(invalidParams);
 
         //null course id
-        invalidParams = new String[]{
+        invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
         verifyAssumptionFailure(invalidParams);
 
         ______TS("Typical case, edit student detail page");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
@@ -54,8 +57,9 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         InstructorCourseStudentDetailsEditPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT + "?error=false&"
-                + "user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -81,6 +85,21 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
     @Override
     protected InstructorCourseStudentDetailsEditPageAction getAction(String... params) {
         return (InstructorCourseStudentDetailsEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
 
 }

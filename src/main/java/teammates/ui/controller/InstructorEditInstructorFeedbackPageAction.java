@@ -34,11 +34,12 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
 
         String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
 
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, courseId);
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, instructorUnderModerationEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON,
+                instructorUnderModerationEmail);
 
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
 
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName,

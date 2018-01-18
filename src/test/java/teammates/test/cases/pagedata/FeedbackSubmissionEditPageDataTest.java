@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -20,18 +20,20 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
 
+/**
+ * SUT: {@link FeedbackSubmissionEditPageData}.
+ */
 public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private FeedbackSubmissionEditPageData pageData;
 
     private FeedbackQuestionAttributes question;
-    private List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+    private List<FeedbackResponseAttributes> responses = new ArrayList<>();
 
-    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle =
-                                    new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+    private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle = new HashMap<>();
 
-    private Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
-    private Map<String, String> recipients = new HashMap<String, String>();
+    private Map<String, Map<String, String>> recipientList = new HashMap<>();
+    private Map<String, String> recipients = new HashMap<>();
 
     private void createData(StudentAttributes student) {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -68,7 +70,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         AccountAttributes studentAccount = dataBundle.accounts.get("student1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
-        pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(studentAccount, student, dummySessionToken);
         createData(student);
 
         pageData.init(student.key, student.email, student.course);
@@ -93,7 +95,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         ______TS("student in unregistered course");
         student = dataBundle.students.get("student1InUnregisteredCourse");
 
-        pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(studentAccount, student, dummySessionToken);
         createData(student);
 
         pageData.init(student.key, student.email, student.course);
@@ -117,7 +119,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         ______TS("student in archived course");
         student = dataBundle.students.get("student1InArchivedCourse");
 
-        pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(studentAccount, student, dummySessionToken);
         createData(student);
 
         pageData.init(student.key, student.email, student.course);
@@ -140,7 +142,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         ______TS("student submission open");
         student = dataBundle.students.get("student1InCourse1");
 
-        pageData = new FeedbackSubmissionEditPageData(studentAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(studentAccount, student, dummySessionToken);
         createData(student);
 
         pageData.setSessionOpenForSubmission(true);
@@ -166,7 +168,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         student = dataBundle.students.get("student1InCourse1");
 
-        pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(instructorAccount, student, dummySessionToken);
         createData(student);
 
         pageData.setModeration(true);
@@ -183,7 +185,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         ______TS("instructor moderating a response - open for submission");
         student = dataBundle.students.get("student1InCourse1");
 
-        pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(instructorAccount, student, dummySessionToken);
         createData(student);
 
         pageData.setModeration(true);
@@ -199,7 +201,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         testQuestionAttributes();
 
         ______TS("instructor previewing a response");
-        pageData = new FeedbackSubmissionEditPageData(instructorAccount, student);
+        pageData = new FeedbackSubmissionEditPageData(instructorAccount, student, dummySessionToken);
         createData(student);
 
         pageData.setPreview(true);

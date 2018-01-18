@@ -2,13 +2,16 @@ package teammates.test.cases.pagedata;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseJoinConfirmationPageData;
 
+/**
+ * SUT: {@link InstructorCourseJoinConfirmationPageData}.
+ */
 public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -20,7 +23,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         String institute = "Institute Name";
 
         InstructorCourseJoinConfirmationPageData pageData =
-                new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
+                new InstructorCourseJoinConfirmationPageData(account, dummySessionToken, regkey, institute);
 
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());
@@ -38,7 +41,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         account = dataBundle.accounts.get("instructor1OfCourse1");
         regkey = "someRandomKey";
 
-        pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, null);
+        pageData = new InstructorCourseJoinConfirmationPageData(account, dummySessionToken, regkey, null);
 
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());

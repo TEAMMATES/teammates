@@ -4,67 +4,55 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
 
-import com.google.appengine.api.datastore.Text;
-
 /**
  * Represents an instructor-created Feedback Session.
  */
-@PersistenceCapable
-public class FeedbackSession {
+@Entity
+@Index
+public class FeedbackSession extends BaseEntity {
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
     // as feedbackSessionId is persisted to the database
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    @PrimaryKey
-    @Persistent
+    @Id
     private transient String feedbackSessionId;
 
-    @Persistent
     private String feedbackSessionName;
 
-    @Persistent
     private String courseId;
 
-    @Persistent
     private String creatorEmail; //TODO: should this be googleId?
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private Set<String> respondingInstructorList;
+    @Unindex
+    private Set<String> respondingInstructorList = new HashSet<>();
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private Set<String> respondingStudentList;
+    @Unindex
+    private Set<String> respondingStudentList = new HashSet<>();
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Text instructions;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Date createdTime;
 
-    @Persistent
     private Date startTime;
 
-    @Persistent
     private Date endTime;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Date sessionVisibleFromTime;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Date resultsVisibleFromTime;
 
     /** This is legacy data that is no longer used. <br>
@@ -72,45 +60,39 @@ public class FeedbackSession {
      * the old value if it hasn't. <br>
      * TODO Remove this field
      */
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private int timeZone;
 
     /** This replaces the legacy field timeZone. <br>
      * The value is null for legacy data. <br>
      * TODO Rename to timeZone after removing legacy field
      */
-    @Persistent
     private Double timeZoneDouble;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private int gracePeriod;
 
-    @Persistent
     private FeedbackSessionType feedbackSessionType;
 
-    @Persistent
     private boolean sentOpenEmail;
 
-    @Persistent
     private Boolean sentClosingEmail;
 
-    @Persistent
     private Boolean sentClosedEmail;
 
-    @Persistent
     private boolean sentPublishedEmail;
 
     //TODO change to primitive types and update getter
-    @Persistent
     private Boolean isOpeningEmailEnabled;
 
-    @Persistent
     private Boolean isClosingEmailEnabled;
 
-    @Persistent
     private Boolean isPublishedEmailEnabled;
+
+    @SuppressWarnings("unused")
+    private FeedbackSession() {
+        // required by Objectify
+    }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
@@ -152,8 +134,8 @@ public class FeedbackSession {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
-        this.respondingInstructorList = instructorList;
-        this.respondingStudentList = studentList;
+        this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
+        this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
     }
 
     public String getFeedbackSessionName() {
@@ -354,7 +336,7 @@ public class FeedbackSession {
         return this.respondingStudentList;
     }
 
-    public void setRespodingStudentList(Set<String> studentList) {
+    public void setRespondingStudentList(Set<String> studentList) {
         this.respondingStudentList = studentList;
     }
 

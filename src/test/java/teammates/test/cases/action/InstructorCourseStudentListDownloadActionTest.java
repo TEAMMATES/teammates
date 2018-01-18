@@ -10,6 +10,9 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorCourseStudentListDownloadAction;
 
+/**
+ * SUT: {@link InstructorCourseStudentListDownloadAction}.
+ */
 public class InstructorCourseStudentListDownloadActionTest extends BaseActionTest {
 
     @Override
@@ -20,8 +23,8 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
-        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        String instructorId = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
         gaeSimulation.loginAsInstructor(instructorId);
 
@@ -29,7 +32,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         String[] submissionParams = {};
         verifyAssumptionFailure(submissionParams);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId()
         };
 
@@ -63,7 +66,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         student1InCourse1.name = "new name {new last name}";
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
 
@@ -134,5 +137,17 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
     @Override
     protected InstructorCourseStudentListDownloadAction getAction(String... params) {
         return (InstructorCourseStudentListDownloadAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId()
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

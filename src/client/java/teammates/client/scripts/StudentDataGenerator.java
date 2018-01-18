@@ -1,7 +1,6 @@
 package teammates.client.scripts;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -51,7 +50,7 @@ public final class StudentDataGenerator {
      */
     private static List<String> generateEnrollText(int numberOfStudents,
             List<String> teamnames) {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         for (int i = 0; i < numberOfStudents; i++) {
 
             String name = generateRandomString(LENGTH_OF_STUDENT_NAME);
@@ -61,12 +60,12 @@ public final class StudentDataGenerator {
 
             lines.add(student);
         }
-        Collections.sort(lines);
+        lines.sort(null);
         return lines;
     }
 
     private static List<String> generateTeamNames(int numberOfTeams) {
-        ArrayList<String> teamnames = new ArrayList<String>();
+        ArrayList<String> teamnames = new ArrayList<>();
         for (int i = 0; i < numberOfTeams; i++) {
             String team = generateRandomString(LENGTH_OF_TEAM_SUFFIX);
             teamnames.add("Team " + team);

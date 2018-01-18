@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -14,16 +17,13 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
-
 public class AdminEmailComposeSendAction extends Action {
 
-    private List<String> addressReceiver = new ArrayList<String>();
-    private List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<>();
+    private List<String> groupReceiver = new ArrayList<>();
 
-    private boolean addressModeOn;
-    private boolean groupModeOn;
+    private boolean isAddressModeOn;
+    private boolean isGroupModeOn;
 
     //params needed to move heavy jobs into a address mode task
     private String addressReceiverListString;
@@ -36,18 +36,18 @@ public class AdminEmailComposeSendAction extends Action {
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, sessionToken);
 
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
 
         addressReceiverListString = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
-        addressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();
+        isAddressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();
         emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);
-        groupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
+        isGroupModeOn = groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty();
 
-        if (groupModeOn) {
+        if (isGroupModeOn) {
             try {
                 groupReceiver.add(groupReceiverListFileKey);
                 GoogleCloudStorageHelper.getGroupReceiverList(new BlobKey(groupReceiverListFileKey));
@@ -57,7 +57,7 @@ public class AdminEmailComposeSendAction extends Action {
             }
         }
 
-        if (addressModeOn) {
+        if (isAddressModeOn) {
             addressReceiver.add(addressReceiverListString);
             try {
                 checkAddressReceiverString(addressReceiverListString);
@@ -67,19 +67,18 @@ public class AdminEmailComposeSendAction extends Action {
             }
         }
 
-        if (!addressModeOn && !groupModeOn) {
+        if (!isAddressModeOn && !isGroupModeOn) {
             isError = true;
-            statusToAdmin = "Error : No reciver address or file given";
-            statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));
+            statusToAdmin = "Error : No receiver address or file given";
+            statusToUser.add(new StatusMessage("Error : No receiver address or file given", StatusMessageColor.DANGER));
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
+
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
 
@@ -92,12 +91,10 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
         }
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
@@ -119,17 +116,25 @@ public class AdminEmailComposeSendAction extends Action {
     }
 
     private void moveJobToGroupModeTaskQueue() {
-        if (!groupModeOn) {
+        if (!isGroupModeOn) {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInGroupMode(emailId, groupReceiverListFileKey, 0, 0);
+
+        statusToAdmin += "<br/>" + "Group receiver's list " + groupReceiverListFileKey;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to uploaded group receiver's list.",
+                     StatusMessageColor.SUCCESS));
     }
 
     private void moveJobToAddressModeTaskQueue() {
-        if (!addressModeOn) {
+        if (!isAddressModeOn) {
             return;
         }
         taskQueuer.scheduleAdminEmailPreparationInAddressMode(emailId, addressReceiverListString);
+
+        statusToAdmin += "<br/>" + "Recipient: " + addressReceiverListString;
+        statusToUser.add(new StatusMessage("Email will be sent within an hour to " + addressReceiverListString,
+                     StatusMessageColor.SUCCESS));
     }
 
     private void recordNewSentEmail(String subject,
@@ -137,11 +142,10 @@ public class AdminEmailComposeSendAction extends Action {
                                     List<String> groupReceiver,
                                     String content) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 new Date());
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .withSendDate(new Date())
+                .build();
         try {
             Date createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
@@ -150,6 +154,7 @@ public class AdminEmailComposeSendAction extends Action {
             setStatusForException(e, e.getMessage());
             return;
         }
+        statusToAdmin = "Email queued for sending.";
 
         moveJobToGroupModeTaskQueue();
         moveJobToAddressModeTaskQueue();
@@ -161,14 +166,13 @@ public class AdminEmailComposeSendAction extends Action {
                                         List<String> groupReceiver,
                                         String content) {
 
-        AdminEmailAttributes fanalisedEmail = new AdminEmailAttributes(subject,
-                                            addressReceiver,
-                                            groupReceiver,
-                                            new Text(content),
-                                            new Date());
+        AdminEmailAttributes finalisedEmail = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .withSendDate(new Date())
+                .build();
 
         try {
-            logic.updateAdminEmailById(fanalisedEmail, emailId);
+            logic.updateAdminEmailById(finalisedEmail, emailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             isError = true;
             setStatusForException(e);

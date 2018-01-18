@@ -10,6 +10,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FeedbackSessionStatsPageAction;
 import teammates.ui.pagedata.FeedbackSessionStatsPageData;
 
+/**
+ * SUT: {@link FeedbackSessionStatsPageAction}.
+ */
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 
     @Override
@@ -20,7 +23,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String[] submissionParams;
 
@@ -28,8 +31,8 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
 
         ______TS("typical: instructor accesses feedback stats of his/her course");
 
-        FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
-        submissionParams = new String[]{
+        FeedbackSessionAttributes accessableFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
@@ -38,7 +41,9 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         AjaxResult r = getAjaxResult(a);
         FeedbackSessionStatsPageData data = (FeedbackSessionStatsPageData) r.data;
 
-        assertEquals("?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination("", false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertEquals(10, data.sessionDetails.stats.expectedTotal);
         assertEquals(4, data.sessionDetails.stats.submittedTotal);
         assertEquals("", r.getStatusMessage());
@@ -51,7 +56,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };
 
-        boolean doesThrowUnauthorizedAccessException = false;
+        boolean hasThrownUnauthorizedAccessException = false;
         String exceptionMessage = "";
 
         a = getAction(addUserIdToParams(instructorId, submissionParams));
@@ -59,11 +64,11 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         try {
             r = getAjaxResult(a);
         } catch (UnauthorizedAccessException e) {
-            doesThrowUnauthorizedAccessException = true;
+            hasThrownUnauthorizedAccessException = true;
             exceptionMessage = e.getMessage();
         }
 
-        assertTrue(doesThrowUnauthorizedAccessException);
+        assertTrue(hasThrownUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
         assertEquals("", r.getStatusMessage());
     }
@@ -71,5 +76,18 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
     @Override
     protected FeedbackSessionStatsPageAction getAction(String... params) {
         return (FeedbackSessionStatsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

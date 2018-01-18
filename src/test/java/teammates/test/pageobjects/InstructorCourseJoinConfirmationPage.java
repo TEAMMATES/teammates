@@ -3,6 +3,10 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryableTask;
+
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
     private WebElement confirmButton;
@@ -20,9 +24,33 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
     }
 
     public InstructorHomePage clickConfirmButton() {
+        clickConfirmButtonAndWaitForPageToLoad();
+        return changePageType(InstructorHomePage.class);
+    }
+
+    public InstructorHomePage clickConfirmButtonWithRetry() throws MaximumRetriesExceededException {
+        persistenceRetryManager.runUntilSuccessful(new RetryableTask("Course join") {
+            @Override
+            public void run() {
+                clickConfirmButtonAndWaitForPageToLoad();
+            }
+
+            @Override
+            public boolean isSuccessful() {
+                return isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+            }
+
+            @Override
+            public void beforeRetry() {
+                browser.driver.navigate().back();
+            }
+        });
+        return changePageType(InstructorHomePage.class);
+    }
+
+    private void clickConfirmButtonAndWaitForPageToLoad() {
         click(confirmButton);
         waitForPageToLoad();
-        return changePageType(InstructorHomePage.class);
     }
 
     public HomePage clickCancelButton() {

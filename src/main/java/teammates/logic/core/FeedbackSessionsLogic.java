@@ -2,12 +2,10 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,19 +13,19 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.UserRole;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserRole;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
@@ -181,7 +179,7 @@ public final class FeedbackSessionsLogic {
             String courseId, String userEmail) {
         List<FeedbackSessionAttributes> sessions =
                 getFeedbackSessionsForCourse(courseId);
-        List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> viewableSessions = new ArrayList<>();
         if (!sessions.isEmpty()) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
             boolean isInstructorOfCourse = instructor != null;
@@ -234,7 +232,7 @@ public final class FeedbackSessionsLogic {
             String googleId, boolean omitArchived)
             throws EntityDoesNotExistException {
 
-        List<FeedbackSessionDetailsBundle> fsDetails = new ArrayList<FeedbackSessionDetailsBundle>();
+        List<FeedbackSessionDetailsBundle> fsDetails = new ArrayList<>();
         List<InstructorAttributes> instructors =
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
@@ -264,7 +262,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
             List<InstructorAttributes> instructorList) {
 
-        List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId, instructor.email));
@@ -295,9 +293,8 @@ public final class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
@@ -327,9 +324,8 @@ public final class FeedbackSessionsLogic {
         }
 
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -359,27 +355,19 @@ public final class FeedbackSessionsLogic {
                 fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
         // instructor can only see students in allowed sections for him/her
         if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
-            Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry<String, String> studentEntry = iter.next();
+            recipients.entrySet().removeIf(studentEntry -> {
                 StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
-                if (!instructor.isAllowedForPrivilege(student.section,
-                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                    iter.remove();
-                }
-            }
+                return !instructor.isAllowedForPrivilege(student.section,
+                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            });
         }
         // instructor can only see teams in allowed sections for him/her
         if (question.recipientType.equals(FeedbackParticipantType.TEAMS)) {
-            Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry<String, String> teamEntry = iter.next();
+            recipients.entrySet().removeIf(teamEntry -> {
                 String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
-                if (!instructor.isAllowedForPrivilege(teamSection,
-                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                    iter.remove();
-                }
-            }
+                return !instructor.isAllowedForPrivilege(teamSection,
+                        fsa.getFeedbackSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            });
         }
         normalizeMaximumResponseEntities(question, recipients);
 
@@ -407,9 +395,8 @@ public final class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
         }
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                 courseId);
@@ -448,9 +435,8 @@ public final class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_STUDENT);
         }
 
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle =
-                new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-        Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
+        Map<String, Map<String, String>> recipientList = new HashMap<>();
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -524,16 +510,7 @@ public final class FeedbackSessionsLogic {
             }
 
             // Remove responses to the hidden instructors if they have been stored already
-            Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
-
-            while (iterResponse.hasNext()) {
-
-                FeedbackResponseAttributes response = iterResponse.next();
-
-                if (response.recipient.equals(instructorEmail)) {
-                    iterResponse.remove();
-                }
-            }
+            responses.removeIf(response -> response.recipient.equals(instructorEmail));
         }
     }
 
@@ -592,7 +569,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "false");
@@ -616,7 +593,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -632,7 +609,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
@@ -643,16 +620,16 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "true");
-        params.put(PARAM_FROM_SECTION, "false");
+        params.put(PARAM_IN_SECTION, "false");
+        params.put(PARAM_FROM_SECTION, "true");
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
         if (range > 0) {
@@ -668,13 +645,13 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "true");
@@ -691,13 +668,13 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "false");
@@ -731,7 +708,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -752,7 +729,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "false");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "true");
@@ -773,7 +750,7 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "false");
         params.put(PARAM_FROM_SECTION, "false");
@@ -781,24 +758,6 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_SECTION, section);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
-    }
-
-    /**
-     * Gets results of a feedback session in a roster to show to an instructor.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(
-            String feedbackSessionName, String courseId, String userEmail,
-            CourseRoster roster, Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, String.valueOf(isIncludeResponseStatus));
-        params.put(PARAM_IN_SECTION, "true");
-        params.put(PARAM_FROM_SECTION, "false");
-        params.put(PARAM_TO_SECTION, "false");
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
-                courseId, userEmail,
-                UserRole.INSTRUCTOR, roster, params);
     }
 
     /**
@@ -825,26 +784,26 @@ public final class FeedbackSessionsLogic {
 
     public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
                 feedbackSessionName, courseId, userEmail, null, questionId,
-                filterText, isMissingResponsesShown, isStatsShown);
+                isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String questionId, String filterText, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
-        long indicatedRange = section == null ? 2000 : -1;
+        int indicatedRange = section == null ? Const.INSTRUCTOR_VIEW_RESPONSE_LIMIT : -1;
 
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
                 feedbackSessionName, courseId, userEmail, section,
-                indicatedRange, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+                indicatedRange, Const.FeedbackSessionResults.GRQ_SORT_TYPE);
         } else if (section == null) {
             results = getFeedbackSessionResultsForInstructorFromQuestion(
                     feedbackSessionName, courseId, userEmail, questionId);
@@ -857,8 +816,7 @@ public final class FeedbackSessionsLogic {
             throw new ExceedingRangeException(ERROR_NUMBER_OF_RESPONSES_EXCEEDS_RANGE);
         }
         // sort responses by giver > recipient > qnNumber
-        Collections.sort(results.responses,
-                results.compareByGiverRecipientQuestion);
+        results.responses.sort(results.compareByGiverRecipientQuestion);
 
         StringBuilder exportBuilder = new StringBuilder(100);
 
@@ -879,36 +837,18 @@ public final class FeedbackSessionsLogic {
         Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
 
-        if (filterText != null && !filterText.isEmpty()) {
-            entrySet = filterQuestions(entrySet, filterText.toLowerCase());
-        }
-
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
-                    results, entry, isMissingResponsesShown, isStatsShown));
+                    results, entry, isMissingResponsesShown, isStatsShown, section));
         }
+
         return exportBuilder.toString();
-    }
-
-    private Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> filterQuestions(
-            Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet,
-            String filterText) {
-
-        for (Iterator<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> it =
-                entrySet.iterator(); it.hasNext(); ) {
-            Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry = it.next();
-            if (!entry.getKey().getQuestionMetaData().getValue().toLowerCase().contains(filterText)) {
-                it.remove();
-            }
-        }
-
-        return entrySet;
     }
 
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
-            boolean isMissingResponsesShown, boolean isStatsShown) {
+            boolean isMissingResponsesShown, boolean isStatsShown, String section) {
 
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -927,15 +867,15 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(statistics).append(Const.EOL);
         }
 
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
-
-        List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
-        List<String> possibleRecipientsForGiver = new ArrayList<String>();
+        List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGiversInSection(question, section);
+        List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
+
+        int maxNumOfResponseComments = getMaxNumberOfResponseComments(allResponses, fsrBundle.getResponseComments());
+        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfResponseComments));
 
         for (FeedbackResponseAttributes response : allResponses) {
 
-            // do not show all possible givers and recipients if there are anonymous givers and recipients
             if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();
                 possibleRecipientsForGiver.clear();
@@ -947,7 +887,7 @@ public final class FeedbackSessionsLogic {
 
             boolean isNewGiver = !prevGiver.equals(response.giver);
             // print missing responses from the current giver
-            if (isNewGiver) {
+            if (isNewGiver && isMissingResponsesShown) {
                 exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
@@ -962,8 +902,11 @@ public final class FeedbackSessionsLogic {
                                                 response.recipient, fsrBundle);
             prevGiver = response.giver;
 
-            // Append row(s)
-            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
+            // do not show all possible givers and recipients if there are anonymous givers and recipients
+            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
+
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
+                    hasCommentsForResponses));
         }
 
         // add the rows for the possible givers and recipients who have missing responses
@@ -976,6 +919,24 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append(Const.EOL + Const.EOL);
         return exportBuilder;
+    }
+
+    private int getMaxNumberOfResponseComments(List<FeedbackResponseAttributes> allResponses,
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
+
+        if (allResponses == null || allResponses.isEmpty()) {
+            return 0;
+        }
+
+        int maxCommentsNum = 0;
+        for (FeedbackResponseAttributes response : allResponses) {
+            List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
+            if (commentAttributes != null && maxCommentsNum < commentAttributes.size()) {
+                maxCommentsNum = commentAttributes.size();
+            }
+        }
+
+        return maxCommentsNum;
     }
 
     /**
@@ -1076,8 +1037,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-                new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
@@ -1091,8 +1051,7 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
-        List<FeedbackSessionAttributes> sessionsToSendEmailsFor =
-                new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
@@ -1223,7 +1182,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
 
-        Map<String, List<String>> instructorQuestionsMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> instructorQuestionsMap = new HashMap<>();
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -1231,7 +1190,7 @@ public final class FeedbackSessionsLogic {
                             fsa.isCreator(instructor.email));
 
             if (!instructorQns.isEmpty()) {
-                List<String> questionIds = new ArrayList<String>();
+                List<String> questionIds = new ArrayList<>();
                 for (FeedbackQuestionAttributes question : instructorQns) {
                     questionIds.add(question.getId());
                 }
@@ -1239,8 +1198,8 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        Set<String> respondingStudentList = new HashSet<String>();
-        Set<String> respondingInstructorList = new HashSet<String>();
+        Set<String> respondingStudentList = new HashSet<>();
+        Set<String> respondingInstructorList = new HashSet<>();
         List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
         for (FeedbackResponseAttributes response : responses) {
             List<String> instructorQuestions = instructorQuestionsMap.get(response.giver);
@@ -1251,8 +1210,8 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        addInstructorRespondents(new ArrayList<String>(respondingInstructorList), feedbackSessionName, courseId);
-        addStudentRespondents(new ArrayList<String>(respondingStudentList), feedbackSessionName, courseId);
+        addInstructorRespondents(new ArrayList<>(respondingInstructorList), feedbackSessionName, courseId);
+        addStudentRespondents(new ArrayList<>(respondingStudentList), feedbackSessionName, courseId);
     }
 
     public void deleteInstructorFromRespondentsList(InstructorAttributes instructor) {
@@ -1449,8 +1408,7 @@ public final class FeedbackSessionsLogic {
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
-        ArrayList<FeedbackSessionAttributes> requiredSessions = new
-                ArrayList<FeedbackSessionAttributes>();
+        ArrayList<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
         List<FeedbackSessionAttributes> nonPrivateSessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
@@ -1469,7 +1427,7 @@ public final class FeedbackSessionsLogic {
      * Returns returns a list of sessions that were closed within past hour.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
-        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
         List<FeedbackSessionAttributes> nonPrivateSessions =
                 fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
@@ -1518,9 +1476,8 @@ public final class FeedbackSessionsLogic {
             log.warning(TeammatesException.toStringWithStackTrace(e));
         }
 
-        FeedbackSessionAttributes sessionToDelete = new FeedbackSessionAttributes();
-        sessionToDelete.setFeedbackSessionName(feedbackSessionName);
-        sessionToDelete.setCourseId(courseId);
+        FeedbackSessionAttributes sessionToDelete = FeedbackSessionAttributes
+                .builder(feedbackSessionName, courseId, "").build();
 
         fsDb.deleteEntity(sessionToDelete);
 
@@ -1560,12 +1517,12 @@ public final class FeedbackSessionsLogic {
             break;
 
         case PRIVATE:
-            List<FeedbackQuestionAttributes> instuctorQuestions =
+            List<FeedbackQuestionAttributes> instructorQuestions =
                     fqLogic.getFeedbackQuestionsForInstructor(fsa.getFeedbackSessionName(),
                                                               fsa.getCourseId(),
                                                               fsa.getCreatorEmail());
             List<FeedbackQuestionAttributes> validQuestions =
-                    fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.getCreatorEmail());
+                    fqLogic.getQuestionsWithRecipients(instructorQuestions, fsa.getCreatorEmail());
             if (validQuestions.isEmpty()) {
                 break;
             }
@@ -1614,22 +1571,14 @@ public final class FeedbackSessionsLogic {
         }
 
         // create empty data containers to store results
-        List<FeedbackResponseAttributes> responses =
-                new ArrayList<FeedbackResponseAttributes>();
-        Map<String, FeedbackQuestionAttributes> relevantQuestions =
-                new HashMap<String, FeedbackQuestionAttributes>();
-        Map<String, String> emailNameTable =
-                new HashMap<String, String>();
-        Map<String, String> emailLastNameTable =
-                new HashMap<String, String>();
-        Map<String, String> emailTeamNameTable =
-                new HashMap<String, String>();
-        Map<String, Set<String>> sectionTeamNameTable =
-                new HashMap<String, Set<String>>();
-        Map<String, boolean[]> visibilityTable =
-                new HashMap<String, boolean[]>();
-        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<>();
+        Map<String, String> emailNameTable = new HashMap<>();
+        Map<String, String> emailLastNameTable = new HashMap<>();
+        Map<String, String> emailTeamNameTable = new HashMap<>();
+        Map<String, Set<String>> sectionTeamNameTable = new HashMap<>();
+        Map<String, boolean[]> visibilityTable = new HashMap<>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
@@ -1645,7 +1594,7 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(
                                                                     feedbackSessionName, courseId);
-        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
+        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<>();
         for (FeedbackQuestionAttributes question : allQuestions) {
 
             List<FeedbackResponseAttributes> responsesForThisQn;
@@ -1661,8 +1610,8 @@ public final class FeedbackSessionsLogic {
                                 question, userEmail, role, section);
             }
 
-            boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-            if (thisQuestionHasResponses) {
+            boolean hasResponses = !responsesForThisQn.isEmpty();
+            if (hasResponses) {
                 relevantQuestions.put(question.getId(), question);
                 responses.addAll(responsesForThisQn);
                 for (FeedbackResponseAttributes response : responsesForThisQn) {
@@ -1680,7 +1629,7 @@ public final class FeedbackSessionsLogic {
         }
 
         StudentAttributes student = null;
-        Set<String> studentsEmailInTeam = new HashSet<String>();
+        Set<String> studentsEmailInTeam = new HashSet<>();
         if (isStudent(role)) {
             student = studentsLogic.getStudentForEmail(courseId, userEmail);
             List<StudentAttributes> studentsInTeam = studentsLogic
@@ -1700,7 +1649,7 @@ public final class FeedbackSessionsLogic {
                     role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (isVisibleResponseComment) {
                 if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                    frc.giverEmail = "Anonymous";
+                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 }
 
                 if (responseComments.get(frc.feedbackResponseId) == null) {
@@ -1757,13 +1706,13 @@ public final class FeedbackSessionsLogic {
                     allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId);
         }
 
-        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<String, FeedbackQuestionAttributes>();
+        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
         putQuestionsIntoMap(allQuestions, allQuestionsMap);
 
         List<FeedbackResponseAttributes> allResponses = getAllResponses(feedbackSessionName, courseId, params, section);
 
         String rangeString = params.get(PARAM_RANGE);
-        boolean isComplete = rangeString == null || allResponses.size() <= Long.parseLong(rangeString);
+        boolean isComplete = rangeString == null || allResponses.size() <= Integer.parseInt(rangeString);
 
         if (!isComplete) {
             putQuestionsIntoMap(allQuestions, relevantQuestions);
@@ -1785,7 +1734,7 @@ public final class FeedbackSessionsLogic {
 
         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
 
-        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
+        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<>();
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
@@ -1802,13 +1751,9 @@ public final class FeedbackSessionsLogic {
                 }
             }
         }
-
-        String viewType = params.get(PARAM_VIEW_TYPE);
-        boolean isGrqSortType = Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE));
-        boolean isRgqSortType = Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(params.get(PARAM_VIEW_TYPE));
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = getResponseComments(
                 feedbackSessionName, courseId, userEmail, role, roster, relevantQuestions, section, student,
-                studentsEmailInTeam, relevantResponse, viewType, isGrqSortType, isRgqSortType);
+                studentsEmailInTeam, relevantResponse);
 
         addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
@@ -1821,38 +1766,33 @@ public final class FeedbackSessionsLogic {
     private Map<String, List<FeedbackResponseCommentAttributes>> getResponseComments(
             String feedbackSessionName, String courseId, String userEmail, UserRole role, CourseRoster roster,
             Map<String, FeedbackQuestionAttributes> relevantQuestions, String section, StudentAttributes student,
-            Set<String> studentsEmailInTeam, Map<String, FeedbackResponseAttributes> relevantResponse, String viewType,
-            boolean isGrqSortType, boolean isRgqSortType) {
+            Set<String> studentsEmailInTeam, Map<String, FeedbackResponseAttributes> relevantResponse) {
 
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments = new HashMap<>();
-
-        if (viewType == null || isGrqSortType || isRgqSortType) {
-            List<FeedbackResponseCommentAttributes> allResponseComments =
-                    frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
-            for (FeedbackResponseCommentAttributes frc : allResponseComments) {
-                FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
-                FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
-                boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
-                        userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
-                if (isVisibleResponseComment) {
-                    if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
-                        frc.giverEmail = "Anonymous";
-                    }
-
-                    List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
-                    if (frcList == null) {
-                        frcList = new ArrayList<FeedbackResponseCommentAttributes>();
-                        frcList.add(frc);
-                        responseComments.put(frc.feedbackResponseId, frcList);
-                    } else {
-                        frcList.add(frc);
-                    }
+        List<FeedbackResponseCommentAttributes> allResponseComments =
+                frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
+        for (FeedbackResponseCommentAttributes frc : allResponseComments) {
+            FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
+            FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
+            boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
+                    userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+            if (isVisibleResponseComment) {
+                if (!frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster)) {
+                    frc.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+                }
+                List<FeedbackResponseCommentAttributes> frcList = responseComments.get(frc.feedbackResponseId);
+                if (frcList == null) {
+                    frcList = new ArrayList<>();
+                    frcList.add(frc);
+                    responseComments.put(frc.feedbackResponseId, frcList);
+                } else {
+                    frcList.add(frc);
                 }
             }
+        }
 
-            for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
-                sortByCreatedDate(responseCommentList);
-            }
+        for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments.values()) {
+            sortByCreatedDate(responseCommentList);
         }
         return responseComments;
     }
@@ -1926,13 +1866,18 @@ public final class FeedbackSessionsLogic {
                                                     question, userEmail, UserRole.INSTRUCTOR, section);
                 }
 
-                boolean thisQuestionHasResponses = !responsesForThisQn.isEmpty();
-                if (thisQuestionHasResponses) {
+                StudentAttributes student = getStudent(courseId, userEmail, role);
+                Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
+                boolean hasResponses = !responsesForThisQn.isEmpty();
+                if (hasResponses) {
+                    Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<>();
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
                         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
                         boolean isVisibleResponse = isResponseVisibleForUser(userEmail, role, null, null, response,
                                                                              question, instructor);
                         if (isVisibleResponse) {
+                            relevantResponse.put(response.getId(), response);
+                            relevantQuestions.put(question.getId(), question);
                             responses.add(response);
                             addEmailNamePairsToTable(emailNameTable, response, question, roster);
                             addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
@@ -1940,10 +1885,12 @@ public final class FeedbackSessionsLogic {
                             addVisibilityToTable(visibilityTable, question, response, userEmail, role, roster);
                         }
                     }
+                    responseComments = getResponseComments(
+                            feedbackSessionName, courseId, userEmail, role, roster, relevantQuestions, section, student,
+                            studentsEmailInTeam, relevantResponse);
                 }
             }
         }
-
         addSectionTeamNamesToTable(
                 sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
@@ -1988,7 +1935,7 @@ public final class FeedbackSessionsLogic {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         } else {
-            long range = Long.parseLong(params.get(PARAM_RANGE));
+            int range = Integer.parseInt(params.get(PARAM_RANGE));
             if (isInSection) {
                 return frLogic.getFeedbackResponsesForSessionInSectionWithinRange(
                         feedbackSessionName, courseId, section, range);
@@ -2002,7 +1949,7 @@ public final class FeedbackSessionsLogic {
                 Assumption.fail(ASSUMPTION_FAIL_RESPONSE_ORIGIN);
             }
         }
-        return new ArrayList<FeedbackResponseAttributes>();
+        return new ArrayList<>();
     }
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
@@ -2023,7 +1970,7 @@ public final class FeedbackSessionsLogic {
                                           || isStudentInSelectedSection)) {
                     String section = student.section;
                     if (!sectionTeamNameTable.containsKey(section)) {
-                        Set<String> teamNames = new HashSet<String>();
+                        Set<String> teamNames = new HashSet<>();
                         sectionTeamNameTable.put(section, teamNames);
                     }
 
@@ -2084,13 +2031,7 @@ public final class FeedbackSessionsLogic {
     }
 
     private void sortByCreatedDate(List<FeedbackResponseCommentAttributes> responseCommentList) {
-        Collections.sort(responseCommentList, new Comparator<FeedbackResponseCommentAttributes>() {
-            @Override
-            public int compare(FeedbackResponseCommentAttributes frc1,
-                               FeedbackResponseCommentAttributes frc2) {
-                return frc1.createdAt.compareTo(frc2.createdAt);
-            }
-        });
+        responseCommentList.sort(Comparator.comparing(responseComment -> responseComment.createdAt));
     }
 
     @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD
@@ -2178,8 +2119,7 @@ public final class FeedbackSessionsLogic {
             String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
 
-        List<FeedbackSessionDetailsBundle> fsDetailsWithoutPrivate =
-                new ArrayList<FeedbackSessionDetailsBundle>();
+        List<FeedbackSessionDetailsBundle> fsDetailsWithoutPrivate = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
@@ -2195,7 +2135,7 @@ public final class FeedbackSessionsLogic {
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
             String courseId, String instructorEmail) {
 
-        List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
@@ -2217,8 +2157,9 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> studentQns = fqLogic
                 .getFeedbackQuestionsForStudents(questions);
 
-        List<String> studentNoResponses = new ArrayList<String>();
-        List<String> instructorNoResponses = new ArrayList<String>();
+        List<String> studentNoResponses = new ArrayList<>();
+        List<String> studentResponded = new ArrayList<>();
+        List<String> instructorNoResponses = new ArrayList<>();
 
         if (!studentQns.isEmpty()) {
             for (StudentAttributes student : students) {
@@ -2229,6 +2170,7 @@ public final class FeedbackSessionsLogic {
             }
         }
         studentNoResponses.removeAll(fsa.getRespondingStudentList());
+        studentResponded.addAll(fsa.getRespondingStudentList());
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -2242,6 +2184,7 @@ public final class FeedbackSessionsLogic {
         instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
 
         responseStatus.noResponse.addAll(studentNoResponses);
+        responseStatus.studentsWhoResponded.addAll(studentResponded);
         responseStatus.noResponse.addAll(instructorNoResponses);
 
         return responseStatus;
@@ -2387,7 +2330,7 @@ public final class FeedbackSessionsLogic {
         // Allow students to view the feedback session
         // if there are any questions for instructors to answer
         // where the responses of the questions are visible to the students
-        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<>();
         List<FeedbackQuestionAttributes> questionsForInstructors =
                                         fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
         for (FeedbackQuestionAttributes question : questionsForInstructors) {

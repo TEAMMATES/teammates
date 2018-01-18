@@ -8,16 +8,15 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
 /**
- * Covers the 'Courses' page for instructors.
- * The main SUT is {@link InstructorCoursesPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSES_PAGE}.
  */
 public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     /* Comments given as 'Explanation:' are extra comments added to train
@@ -35,7 +34,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private String instructorId;
 
     private CourseAttributes validCourse =
-            new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore");
+            CourseAttributes
+                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore")
+                    .build();
 
     @Override
     protected void prepareTestData() {
@@ -197,23 +198,22 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         //one invalid case
         coursesPage.addCourse("", "").verifyStatus(
-                getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
-                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
-                + getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                      FieldValidator.COURSE_NAME_MAX_LENGTH));
+                getPopulatedEmptyStringErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
+                + getPopulatedEmptyStringErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
 
         //Checking max-length enforcement by the text boxes
-        String maxLengthCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
-        String longCourseId = StringHelper.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
+        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
+        String longCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
 
         assertEquals(maxLengthCourseId, coursesPage.fillCourseIdTextBox(maxLengthCourseId));
         assertEquals(longCourseId.substring(0, FieldValidator.COURSE_ID_MAX_LENGTH),
                      coursesPage.fillCourseIdTextBox(longCourseId));
 
-        String maxLengthCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
-        String longCourseName = StringHelper.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
+        String maxLengthCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH);
+        String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
 
         assertEquals(maxLengthCourseName, coursesPage.fillCourseNameTextBox(maxLengthCourseName));
         assertEquals(longCourseName.substring(0, FieldValidator.COURSE_NAME_MAX_LENGTH),

@@ -26,7 +26,6 @@
             </div>
           </div>
           <input name="searchstudents" type="hidden" value="true">
-          <input name="searchcommentforstudents" type="hidden" value="false">
           <input name="searchcommentforresponses" type="hidden" value="false">
           <input name="user" type="hidden" value="instructorOfCourse4">
         </form>
@@ -195,11 +194,6 @@
   </div>
   <div id="statusMessagesToUser" style="display: none;">
   </div>
-  <br>
-  <div class="text-muted">
-    Click on the panels below to expand
-  </div>
-  <br>
   <div class="panel panel-info">
     <div class="panel-heading" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
       <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
@@ -207,6 +201,10 @@
         <input name="user" type="hidden" value="instructorOfCourse4">
         <input id="numStudents-0" type="hidden" value="0">
       </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
       <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course1&user=instructorOfCourse4" id="enroll-0" title="">
         <span class="glyphicon glyphicon-list">
         </span>
@@ -240,6 +238,10 @@
         <input name="user" type="hidden" value="instructorOfCourse4">
         <input id="numStudents-1" type="hidden" value="4">
       </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
       <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course3&user=instructorOfCourse4" id="enroll-1" title="">
         <span class="glyphicon glyphicon-list">
         </span>
@@ -260,27 +262,27 @@
               <th>
                 Photo
               </th>
-              <th class="button-sort-none hidden" id="button_sortsection-1" onclick="toggleSort(this)">
+              <th class="toggle-sort button-sort-none hidden" id="button_sortsection-1">
                 Section
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortteam-1" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortteam-1">
                 Team
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentname-1" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentname-1">
                 Student Name
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
                 Status
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortemail-1" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortemail-1">
                 Email
                 <span class="icon-sort unsorted">
                 </span>
@@ -316,42 +318,18 @@
                 CCSDetailsUiT.alice.tmms@gmail.tmt
               </td>
               <td class="no-print align-center">
-                <a class="btn btn-default btn-xs" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   View
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   Edit
                 </a>
-                <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Alice</option></td>tags and char here</div>&\'\&quot;" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4" title="">
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Alice</option></td>tags and char here</div>&\'\&quot;" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
                   Delete
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   All Records
                 </a>
-                <div class="btn-group">
-                  <a class="btn btn-default btn-xs cursor-default" data-original-title="Give a comment for this student, his/her team/section" data-placement="top" data-toggle="tooltip" href="$javascript:;" title="">
-                    Add Comment
-                  </a>
-                  <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                    <span class="caret">
-                    </span>
-                    <span class="sr-only">
-                      Add comments
-                    </span>
-                  </a>
-                  <ul aria-labelledby="dLabel" class="dropdown-menu align-left" role="menu">
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=student" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on student: Alice&lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-                      </a>
-                    </li>
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=team" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on team: Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </td>
             </tr>
             <tr class="student_row" id="student-c1.1">
@@ -379,42 +357,18 @@
                 benny.c.tmms@gmail.tmt
               </td>
               <td class="no-print align-center">
-                <a class="btn btn-default btn-xs" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   View
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   Edit
                 </a>
-                <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4" title="">
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
                   Delete
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   All Records
                 </a>
-                <div class="btn-group">
-                  <a class="btn btn-default btn-xs cursor-default" data-original-title="Give a comment for this student, his/her team/section" data-placement="top" data-toggle="tooltip" href="$javascript:;" title="">
-                    Add Comment
-                  </a>
-                  <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                    <span class="caret">
-                    </span>
-                    <span class="sr-only">
-                      Add comments
-                    </span>
-                  </a>
-                  <ul aria-labelledby="dLabel" class="dropdown-menu align-left" role="menu">
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=student" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on student: Benny Charles
-                      </a>
-                    </li>
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=benny.c.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=team" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on team: Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </td>
             </tr>
             <tr class="student_row" id="student-c1.2">
@@ -442,42 +396,18 @@
                 CCSDetailsUiT.charlie.tmms@gmail.tmt
               </td>
               <td class="no-print align-center">
-                <a class="btn btn-default btn-xs" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   View
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   Edit
                 </a>
-                <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Charlie D" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4" title="">
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Charlie D" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
                   Delete
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   All Records
                 </a>
-                <div class="btn-group">
-                  <a class="btn btn-default btn-xs cursor-default" data-original-title="Give a comment for this student, his/her team/section" data-placement="top" data-toggle="tooltip" href="$javascript:;" title="">
-                    Add Comment
-                  </a>
-                  <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                    <span class="caret">
-                    </span>
-                    <span class="sr-only">
-                      Add comments
-                    </span>
-                  </a>
-                  <ul aria-labelledby="dLabel" class="dropdown-menu align-left" role="menu">
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=student" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on student: Charlie D
-                      </a>
-                    </li>
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=CCSDetailsUiT.charlie.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=team" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on team: Team 2
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </td>
             </tr>
             <tr class="student_row" id="student-c1.3">
@@ -505,42 +435,18 @@
                 denny.c.tmms@gmail.tmt
               </td>
               <td class="no-print align-center">
-                <a class="btn btn-default btn-xs" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   View
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   Edit
                 </a>
-                <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Denny Charlés" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4" title="">
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course3" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Denny Charlés" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
                   Delete
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   All Records
                 </a>
-                <div class="btn-group">
-                  <a class="btn btn-default btn-xs cursor-default" data-original-title="Give a comment for this student, his/her team/section" data-placement="top" data-toggle="tooltip" href="$javascript:;" title="">
-                    Add Comment
-                  </a>
-                  <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                    <span class="caret">
-                    </span>
-                    <span class="sr-only">
-                      Add comments
-                    </span>
-                  </a>
-                  <ul aria-labelledby="dLabel" class="dropdown-menu align-left" role="menu">
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=student" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on student: Denny Charlés
-                      </a>
-                    </li>
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course3&studentemail=denny.c.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=team" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on team: Team 2
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </td>
             </tr>
           </tbody>
@@ -555,6 +461,10 @@
         <input name="user" type="hidden" value="instructorOfCourse4">
         <input id="numStudents-2" type="hidden" value="1">
       </form>
+      <div class="pull-right margin-left-7px">
+        <span class="glyphicon glyphicon-chevron-up">
+        </span>
+      </div>
       <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=course4&user=instructorOfCourse4" id="enroll-2" title="">
         <span class="glyphicon glyphicon-list">
         </span>
@@ -575,27 +485,27 @@
               <th>
                 Photo
               </th>
-              <th class="button-sort-none hidden" id="button_sortsection-2" onclick="toggleSort(this)">
+              <th class="toggle-sort button-sort-none hidden" id="button_sortsection-2">
                 Section
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortteam-2" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortteam-2">
                 Team
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentname-2" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentname-2">
                 Student Name
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortstudentstatus" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
                 Status
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button-sort-none" id="button_sortemail-2" onclick="toggleSort(this)">
+              <th class="button-sort-none toggle-sort" id="button_sortemail-2">
                 Email
                 <span class="icon-sort unsorted">
                 </span>
@@ -631,42 +541,18 @@
                 ann.tmms@gmail.tmt
               </td>
               <td class="no-print align-center">
-                <a class="btn btn-default btn-xs" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View the details of the student" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   View
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   Edit
                 </a>
-                <a class="course-student-delete-link btn btn-default btn-xs" data-course-id="course4" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Ann" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4" title="">
+                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px" data-course-id="course4" data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" data-student-name="Ann" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" title="">
                   Delete
                 </a>
-                <a class="btn btn-default btn-xs" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4" rel="noopener noreferrer" target="_blank" title="">
+                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
                   All Records
                 </a>
-                <div class="btn-group">
-                  <a class="btn btn-default btn-xs cursor-default" data-original-title="Give a comment for this student, his/her team/section" data-placement="top" data-toggle="tooltip" href="$javascript:;" title="">
-                    Add Comment
-                  </a>
-                  <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                    <span class="caret">
-                    </span>
-                    <span class="sr-only">
-                      Add comments
-                    </span>
-                  </a>
-                  <ul aria-labelledby="dLabel" class="dropdown-menu align-left" role="menu">
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=student" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on student: Ann
-                      </a>
-                    </li>
-                    <li role="presentation">
-                      <a href="/page/instructorCourseStudentDetailsPage?courseid=course4&studentemail=ann.tmms%40gmail.tmt&user=instructorOfCourse4&addComment=team" rel="noopener noreferrer" role="menuitem" tabindex="-1" target="_blank">
-                        Comment on team: Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </td>
             </tr>
           </tbody>

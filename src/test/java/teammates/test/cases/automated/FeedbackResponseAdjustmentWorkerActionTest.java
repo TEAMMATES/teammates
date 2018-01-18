@@ -6,12 +6,12 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.JsonUtils;
@@ -58,7 +58,7 @@ public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedAct
         StudentEnrollDetails enrollDetails =
                 new StudentEnrollDetails(StudentUpdateStatus.MODIFIED, student.course, student.email,
                                          oldTeam, newTeam, oldSection, newSection);
-        List<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
+        List<StudentEnrollDetails> enrollList = new ArrayList<>();
         enrollList.add(enrollDetails);
 
         studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
@@ -85,7 +85,7 @@ public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedAct
 
     private List<FeedbackResponseAttributes> getAllResponsesForStudentForSession(StudentAttributes student,
             String feedbackSessionName) {
-        List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> returnList = new ArrayList<>();
         List<FeedbackResponseAttributes> allResponseOfStudent = getAllTeamResponsesForStudent(student);
 
         for (FeedbackResponseAttributes responseAttributes : allResponseOfStudent) {
@@ -97,7 +97,7 @@ public class FeedbackResponseAdjustmentWorkerActionTest extends BaseAutomatedAct
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
-        List<FeedbackResponseAttributes> returnList = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> returnList = new ArrayList<>();
         List<FeedbackResponseAttributes> studentReceiverResponses =
                 frLogic.getFeedbackResponsesForReceiverForCourse(student.course, student.email);
 

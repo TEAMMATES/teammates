@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
@@ -20,10 +20,10 @@ public class StudentHomePageData extends PageData {
 
     private List<CourseTable> courseTables;
 
-    public StudentHomePageData(AccountAttributes account,
+    public StudentHomePageData(AccountAttributes account, String sessionToken,
                                List<CourseDetailsBundle> courses,
                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        super(account);
+        super(account, sessionToken);
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
 
@@ -33,7 +33,7 @@ public class StudentHomePageData extends PageData {
 
     private void setCourseTables(List<CourseDetailsBundle> courses,
                                  Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
-        courseTables = new ArrayList<CourseTable>();
+        courseTables = new ArrayList<>();
         int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {
             CourseTable courseTable = new CourseTable(courseDetails.course,
@@ -47,7 +47,7 @@ public class StudentHomePageData extends PageData {
     }
 
     private List<ElementTag> createCourseTableLinks(String courseId) {
-        List<ElementTag> links = new ArrayList<ElementTag>();
+        List<ElementTag> links = new ArrayList<>();
         links.add(new ElementTag("View Team",
                                  "href", getStudentCourseDetailsLink(courseId),
                                  "title", Const.Tooltips.STUDENT_COURSE_DETAILS));
@@ -66,8 +66,10 @@ public class StudentHomePageData extends PageData {
 
             rows.add(new StudentHomeFeedbackSessionRow(
                     PageData.sanitizeForHtml(sessionName),
-                    getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
-                    getStudentStatusForSession(feedbackSession, hasSubmitted),
+                    getStudentSubmissionsTooltipForSession(feedbackSession, hasSubmitted),
+                    getStudentPublishedTooltipForSession(feedbackSession),
+                    getStudentSubmissionStatusForSession(feedbackSession, hasSubmitted),
+                    getStudentPublishedStatusForSession(feedbackSession),
                     TimeHelper.formatTime12H(feedbackSession.getEndTime()),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
@@ -84,7 +86,7 @@ public class StudentHomePageData extends PageData {
      * @param session The feedback session in question.
      * @param hasSubmitted Whether the student had submitted the session or not.
      */
-    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
+    private String getStudentSubmissionStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         if (session.isOpened()) {
             return hasSubmitted ? "Submitted" : "Pending";
         }
@@ -93,11 +95,19 @@ public class StudentHomePageData extends PageData {
             return "Awaiting";
         }
 
+        return "Closed";
+    }
+
+    private String getStudentPublishedStatusForSession(FeedbackSessionAttributes session) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return "-";
+        }
+
         if (session.isPublished()) {
             return "Published";
         }
 
-        return "Closed";
+        return "Not Published";
     }
 
     /**
@@ -106,7 +116,7 @@ public class StudentHomePageData extends PageData {
      * @param session The feedback session in question.
      * @param hasSubmitted Whether the student had submitted the session or not.
      */
-    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
+    private String getStudentSubmissionsTooltipForSession(FeedbackSessionAttributes session, boolean hasSubmitted) {
         StringBuilder msg = new StringBuilder();
 
         Boolean isAwaiting = session.isWaitingToOpen();
@@ -121,10 +131,17 @@ public class StudentHomePageData extends PageData {
         if (session.isClosed()) {
             msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED);
         }
-        if (session.isPublished()) {
-            msg.append(Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED);
-        }
         return msg.toString();
+    }
+
+    private String getStudentPublishedTooltipForSession(FeedbackSessionAttributes session) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
+        } else if (session.isPublished()) {
+            return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
+        } else {
+            return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
+        }
     }
 
     /**

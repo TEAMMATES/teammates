@@ -6,6 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.TaskWrapper;
@@ -14,6 +15,9 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackPublishAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorFeedbackPublishAction}.
+ */
 public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
     @Override
@@ -24,8 +28,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
+        gaeSimulation.loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
@@ -47,9 +51,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         InstructorFeedbackPublishAction publishAction = getAction(paramsNormal);
         RedirectResult result = getRedirectResult(publishAction);
 
-        String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                                     + "?error=false"
-                                     + "&user=idOfInstructor1OfCourse1";
+        String expectedDestination = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, false, "idOfInstructor1OfCourse1");
 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, result.getStatusMessage());
@@ -69,12 +72,14 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
         try {
             publishAction.executeAndPostProcess();
-            signalFailureToDetectException("AssertionError expected");
-        } catch (AssertionError e) {
+            signalFailureToDetectException("NullPostParameterException expected");
+        } catch (NullPostParameterException e) {
             errorMessage = e.getMessage();
         }
 
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, errorMessage);
+        assertEquals(
+                String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.COURSE_ID),
+                errorMessage);
 
         ______TS("Unsuccessful case 2: params with null feedback session name");
 
@@ -83,12 +88,14 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
         try {
             publishAction.executeAndPostProcess();
-            signalFailureToDetectException("AssertionError expected");
-        } catch (AssertionError e) {
+            signalFailureToDetectException("NullPostParameterException expected");
+        } catch (NullPostParameterException e) {
             errorMessage = e.getMessage();
         }
 
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, errorMessage);
+        assertEquals(
+                String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_NAME),
+                errorMessage);
 
         ______TS("Unsuccessful case 3: trying to publish a session not currently unpublished");
 
@@ -97,8 +104,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         publishAction = getAction(paramsNormal);
         result = getRedirectResult(publishAction);
 
-        expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=true"
-                              + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = getPageResultDestination(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, true, "idOfInstructor1OfCourse1");
 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Error publishing feedback session: Session has already been published.",
@@ -143,5 +150,29 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @Override
     protected InstructorFeedbackPublishAction getAction(String... params) {
         return (InstructorFeedbackPublishAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+        };
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
+
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

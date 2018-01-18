@@ -6,16 +6,19 @@ import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.StudentCourseDetailsPageData;
 
+/**
+ * SUT: {@link StudentCourseDetailsPageData}.
+ */
 public class StudentCourseDetailsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -24,14 +27,14 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         ______TS("typical success case");
 
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
-        StudentCourseDetailsPageData pageData = new StudentCourseDetailsPageData(account);
+        StudentCourseDetailsPageData pageData = new StudentCourseDetailsPageData(account, dummySessionToken);
 
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
 
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(course);
 
-        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructors = new ArrayList<>();
         instructors.add(dataBundle.instructors.get("instructor1OfCourse1"));
         instructors.add(dataBundle.instructors.get("instructor2OfCourse1"));
         instructors.add(dataBundle.instructors.get("helperOfCourse1"));
@@ -79,7 +82,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
 
         courseDetails = new CourseDetailsBundle(course);
 
-        instructors = new ArrayList<InstructorAttributes>();
+        instructors = new ArrayList<>();
         instructors.add(dataBundle.instructors.get("instructor5"));
 
         team = new TeamDetailsBundle();
@@ -121,7 +124,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
 
         courseDetails = new CourseDetailsBundle(course);
 
-        instructors = new ArrayList<InstructorAttributes>();
+        instructors = new ArrayList<>();
         instructors.add(dataBundle.instructors.get("instructorOfArchivedCourse"));
 
         team = new TeamDetailsBundle();

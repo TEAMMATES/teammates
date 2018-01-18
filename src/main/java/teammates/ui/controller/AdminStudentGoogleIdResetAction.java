@@ -26,7 +26,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         String studentCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String wrongGoogleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
 
-        AdminStudentGoogleIdResetPageData data = new AdminStudentGoogleIdResetPageData(account);
+        AdminStudentGoogleIdResetPageData data = new AdminStudentGoogleIdResetPageData(account, sessionToken);
 
         if (studentEmail != null && studentCourseId != null) {
             try {

@@ -6,14 +6,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 
 /**
- * Covers the 'edit student details' functionality for instructors.
- * SUT: {@link InstructorCourseStudentDetailsEditPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT}.
  */
 public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase {
     private InstructorCourseStudentDetailsEditPage editPage;
@@ -65,21 +64,19 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         ______TS("input validation");
 
         editPage.submitUnsuccessfully(null, "", null, null)
-                .verifyStatus(getPopulatedErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                                  FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                  FieldValidator.TEAM_NAME_MAX_LENGTH));
+                .verifyStatus(getPopulatedEmptyStringErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                  FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.TEAM_NAME_MAX_LENGTH));
 
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully("", newTeamName, null, null)
-                .verifyStatus(getPopulatedErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                                  FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                  FieldValidator.PERSON_NAME_MAX_LENGTH));
+                .verifyStatus(getPopulatedEmptyStringErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                  FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH));
 
         ______TS("long student name and the team field is not edited");
-        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        String invalidStudentName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
                 .verifyStatus(getPopulatedErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidStudentName,
@@ -87,7 +84,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                                   FieldValidator.PERSON_NAME_MAX_LENGTH));
 
         String newStudentName = "New guy";
-        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
                 .verifyStatus(getPopulatedErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidTeamName,

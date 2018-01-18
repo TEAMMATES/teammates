@@ -30,7 +30,7 @@ public class StudentFeedbackResultsPageAction extends Action {
         gateKeeper.verifyAccessible(getCurrentStudent(courseId),
                                     logic.getFeedbackSession(feedbackSessionName, courseId));
 
-        StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student);
+        StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student, sessionToken);
 
         data.student = getCurrentStudent(courseId);
         data.setBundle(logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email));
@@ -64,7 +64,7 @@ public class StudentFeedbackResultsPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
     }
 
-    protected StudentAttributes getCurrentStudent(String courseId) {
+    private StudentAttributes getCurrentStudent(String courseId) {
         if (student == null) {
             return logic.getStudentForGoogleId(courseId, account.googleId);
         }

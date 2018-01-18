@@ -6,21 +6,29 @@
   </h1>
   <br>
   <div class="well well-plain">
-    <form action="/page/instructorFeedbackEditSave" class="form-group" id="form_feedbacksession" method="post">
+    <form action="/page/instructorFeedbackEditSave" class="form-group" data-editsessiondetails="true" id="form_feedbacksession" method="post">
       <div class="row">
         <div class="col-sm-12">
           <span class="pull-right">
-            <a class="btn btn-primary btn-sm" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" onclick="enableEditFS()" title="">
+            <a class="btn btn-primary btn-sm enable-edit-fs" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="fsEditLink" style="display: none;" title="">
+              <span class="glyphicon glyphicon-pencil">
+              </span>
               Edit
             </a>
-            <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
-              Save Changes
+            <button class="btn btn-primary btn-sm" id="fsSaveLink" style="" type="submit">
+              <span class="glyphicon glyphicon-ok">
+              </span>
+              Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackEditUiT.instructor" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="CFeedbackEditUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackEditUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
+              <span class="glyphicon glyphicon-trash">
+              </span>
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy">
+                <span class="glyphicon glyphicon-file">
+                </span>
                 Copy
               </a>
             </span>
@@ -53,7 +61,7 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <select class="form-control" disabled="" id="timezone" name="timezone">
+                  <select class="form-control" id="timezone" name="timezone">
                     <option value="-12">
                       (UTC -12:00) Baker Island, Howland Island
                     </option>
@@ -203,9 +211,7 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
-                  <div class="panel panel-default panel-body mce-content-body content-editor" id="instructions" spellcheck="false">
+                  <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Please fill in the edited feedback session.
                     </p>
@@ -230,10 +236,10 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="startdate" name="startdate" placeholder="Date" type="text" value="01/04/2012">
+                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="01/04/2012">
                 </div>
                 <div class="col-xs-6">
-                  <select class="form-control" disabled="" id="starttime" name="starttime">
+                  <select class="form-control" id="starttime" name="starttime">
                     <option value="1">
                       0100H
                     </option>
@@ -320,10 +326,10 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="01/05/2026">
+                  <input class="form-control col-sm-2 hasDatepicker" id="enddate" name="enddate" placeholder="Date" type="text" value="01/05/2026">
                 </div>
                 <div class="col-xs-6">
-                  <select class="form-control" disabled="" id="endtime" name="endtime">
+                  <select class="form-control" id="endtime" name="endtime">
                     <option value="1">
                       0100H
                     </option>
@@ -410,7 +416,7 @@
               </div>
               <div class="row">
                 <div class="col-xs-12">
-                  <select class="form-control" disabled="" id="graceperiod" name="graceperiod">
+                  <select class="form-control" id="graceperiod" name="graceperiod">
                     <option value="0">
                       0 mins
                     </option>
@@ -456,7 +462,7 @@
                     <label for="sessionVisibleFromButton_custom">
                       At
                     </label>
-                    <input disabled="" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
+                    <input id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom">
                   </h5>
                   <div class="col-xs-5">
                     <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="">
@@ -543,7 +549,7 @@
                     <label for="sessionVisibleFromButton_atopen">
                       Submission opening time
                     </label>
-                    <input checked="" disabled="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
+                    <input checked="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
                   </div>
                 </div>
                 <div class="row radio">
@@ -551,7 +557,7 @@
                     <label for="sessionVisibleFromButton_never">
                       Never
                     </label>
-                    <input disabled="" id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
+                    <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -568,7 +574,7 @@
                     <label for="resultsVisibleFromButton_custom">
                       At
                     </label>
-                    <input disabled="" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
+                    <input id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
                   </h5>
                   <div class="col-xs-5">
                     <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="">
@@ -655,7 +661,7 @@
                     <label for="resultsVisibleFromButton_atvisible">
                       Immediately
                     </label>
-                    <input disabled="" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
+                    <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
                   </div>
                 </div>
                 <div class="row radio">
@@ -663,7 +669,7 @@
                     <label for="resultsVisibleFromButton_later">
                       Publish manually
                     </label>
-                    <input checked="" disabled="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
+                    <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
                   </div>
                 </div>
                 <div class="row radio">
@@ -671,7 +677,7 @@
                     <label for="resultsVisibleFromButton_never">
                       Never
                     </label>
-                    <input disabled="" id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
+                    <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -701,7 +707,7 @@
                   <label for="sendreminderemail_closing">
                     Session closing reminder
                   </label>
-                  <input checked="" disabled="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
+                  <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
                 </div>
               </div>
               <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
@@ -709,7 +715,7 @@
                   <label for="sendreminderemail_published">
                     Results published announcement
                   </label>
-                  <input checked="" disabled="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
+                  <input checked="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
                 </div>
               </div>
             </div>
@@ -719,7 +725,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -727,7 +733,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton" onclick="enableEditFS()">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -735,15 +741,16 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-offset-5 col-md-3">
-            <button class="btn btn-primary" disabled="" id="button_submit" style="display:none;" type="submit">
+            <button class="btn btn-primary" id="button_submit" style="" type="submit">
               Save Changes
             </button>
           </div>
         </div>
       </div>
-      <input disabled="" name="fsname" type="hidden" value="First Session">
-      <input disabled="" name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
-      <input disabled="" name="user" type="hidden" value="CFeedbackEditUiT.instructor">
+      <input name="fsname" type="hidden" value="First Session">
+      <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+      <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
+      <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <br>
@@ -752,7 +759,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -786,11 +793,15 @@
   </div>
   <br>
   <br>
-  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" id="form_editquestion--1" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('-1')" role="form">
-    <div class="well well-plain inputTable" id="addNewQuestionTable">
+  <input id="num-questions" type="hidden" value="0">
+  <input id="num-students" type="hidden" value="2">
+  <input id="num-teams" type="hidden" value="1">
+  <input id="num-instructors" type="hidden" value="2">
+  <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question tally-checkboxes" data-qnnumber="-1" id="form_editquestion--1" method="post" name="form_addquestions" role="form">
+    <div class="well well-plain" id="addNewQuestionTable">
       <div class="row">
-        <div class="col-sm-12 row">
-          <div class="col-sm-offset-3 col-sm-9">
+        <div class="col-sm-offset-3 col-sm-9">
+          <div class="btn-group">
             <button class="btn btn-primary margin-bottom-7px dropdown-toggle" data-toggle="dropdown" id="button_openframe" type="button">
               Add New Question
               <span class="caret">
@@ -848,17 +859,17 @@
                 </a>
               </li>
             </ul>
-            <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
-              <i class="glyphicon glyphicon-info-sign">
-              </i>
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
-              Copy Question
-            </a>
-            <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104&fsname=First+Session" id="button_done_editing">
-              Done Editing
-            </a>
           </div>
+          <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
+            <i class="glyphicon glyphicon-info-sign">
+            </i>
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
+            Copy Question
+          </a>
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=CFeedbackEditUiT.instructor&courseid=CFeedbackEditUiT.CS2104&fsname=First+Session" id="button_done_editing">
+            Done Editing
+          </a>
         </div>
       </div>
     </div>
@@ -882,7 +893,7 @@
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
             <span class="mobile-no-pull pull-right">
-              <a class="btn btn-primary btn-xs" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-toggle="tooltip" onclick="discardChanges(-1)" title="">
+              <a class="btn btn-primary btn-xs btn-discard-changes" data-original-title="Cancel adding new question. No new question will be added to the feedback session." data-placement="top" data-qnnumber="-1" data-toggle="tooltip" title="">
                 Cancel
               </a>
             </span>
@@ -911,8 +922,6 @@
               </label>
             </h5>
             <div class="col-sm-10">
-              <div id="rich-text-toolbar-q-descr-container">
-              </div>
               <div class="panel panel-default panel-body question-description" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription--1" tabindex="9" title="">
               </div>
               <input name="questiondescription" type="hidden">
@@ -990,7 +999,7 @@
                   <div class="checkbox padding-top-0">
                     <label class="bold-label">
                       <span class="inline-block">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMcqOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </span>
                     </label>
@@ -1066,12 +1075,12 @@
                   <div class="col-md-8 margin-bottom-7px">
                     <div class="checkbox">
                       <label class="bold-label">
-                        <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                        <input disabled="" id="generateMsqOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
                         Or, generate options from the list of all
                       </label>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4 margin-bottom-7px">
                     <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
                       <option value="STUDENTS">
                         students
@@ -1083,6 +1092,28 @@
                         instructors
                       </option>
                     </select>
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMaxSelectableChoices--1" name="msqEnableMaxSelectableChoices" type="checkbox">
+                        Maximum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMaxSelectableChoices--1" min="2" name="msqMaxSelectableChoices" type="number" value="2">
+                  </div>
+                  <div class="col-md-9 margin-bottom-7px">
+                    <div class="checkbox">
+                      <label class="bold-label">
+                        <input disabled="" id="msqEnableMinSelectableChoices--1" name="msqEnableMinSelectableChoices" type="checkbox">
+                        Minimum number of options a respondent is allowed to select
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" type="number" value="1">
                   </div>
                   <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
                 </div>
@@ -1266,40 +1297,16 @@
                           </span>
                         </th>
                         <th class="rubricCol--1-0">
-                          <div class="col-sm-12 input-group">
-                            <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
-                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-0" onclick="removeRubricCol(0, -1)" onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)">
-                              <span class="glyphicon glyphicon-remove">
-                              </span>
-                            </span>
-                          </div>
+                          <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
                         </th>
                         <th class="rubricCol--1-1">
-                          <div class="col-sm-12 input-group">
-                            <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Disagree">
-                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-1" onclick="removeRubricCol(1, -1)" onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)">
-                              <span class="glyphicon glyphicon-remove">
-                              </span>
-                            </span>
-                          </div>
+                          <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Disagree">
                         </th>
                         <th class="rubricCol--1-2">
-                          <div class="col-sm-12 input-group">
-                            <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Agree">
-                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-2" onclick="removeRubricCol(2, -1)" onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)">
-                              <span class="glyphicon glyphicon-remove">
-                              </span>
-                            </span>
-                          </div>
+                          <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Agree">
                         </th>
                         <th class="rubricCol--1-3">
-                          <div class="col-sm-12 input-group">
-                            <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
-                            <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-3" onclick="removeRubricCol(3, -1)" onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)">
-                              <span class="glyphicon glyphicon-remove">
-                              </span>
-                            </span>
-                          </div>
+                          <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
                         </th>
                       </tr>
                       <tr id="rubricWeights--1">
@@ -1327,7 +1334,7 @@
                               <span class="glyphicon glyphicon-remove">
                               </span>
                             </span>
-                            <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" rows="3">
+                            <textarea class="form-control" id="rubricSubQn--1-0" name="rubricSubQn-0" required="" rows="3">
                               This student participates well in online discussions.
                             </textarea>
                           </div>
@@ -1360,7 +1367,7 @@
                               <span class="glyphicon glyphicon-remove">
                               </span>
                             </span>
-                            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" rows="3">
+                            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" required="" rows="3">
                               This student completes assigned tasks on time.
                             </textarea>
                           </div>
@@ -1384,6 +1391,74 @@
                           <textarea class="form-control nonDestructive" id="rubricDesc--1-1-3" name="rubricDesc-1-3" rows="3">
                             Tasks are always completed before the deadline.
                           </textarea>
+                        </td>
+                      </tr>
+                      <tr class="rubricRemoveChoiceLink--1" id="rubric-options-row--1">
+                        <td>
+                        </td>
+                        <td class="align-center rubricCol--1-0" data-col="0">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-0" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-0" onclick="removeRubricCol(0, -1)" onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-0" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-1" data-col="1">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-1" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-1" onclick="removeRubricCol(1, -1)" onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-1" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-2" data-col="2">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-2" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-2" onclick="removeRubricCol(2, -1)" onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-2" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
+                        </td>
+                        <td class="align-center rubricCol--1-3" data-col="3">
+                          <div class="btn-group">
+                            <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" id="rubric-move-col-left--1-3" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-left">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" id="rubricRemoveChoiceLink--1-3" onclick="removeRubricCol(3, -1)" onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                            <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" id="rubric-move-col-right--1-3" title="" type="button">
+                              <span class="glyphicon glyphicon-arrow-right">
+                              </span>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -1454,6 +1529,38 @@
                       Allow response giver to give the same rank to multiple options
                     </label>
                   </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-9 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input id="minOptionsToBeRankedEnabled--1" name="minOptionsToBeRankedEnabled" type="checkbox">
+                          Minimum number of options a respondent must rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                      <div class="pull-right">
+                        <input class="form-control" id="minOptionsToBeRanked--1" min="1" name="minOptionsToBeRanked" type="number" value="1">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-9 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input id="maxOptionsToBeRankedEnabled--1" name="maxOptionsToBeRankedEnabled" type="checkbox">
+                          Maximum number of options a respondent can rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                      <div class="pull-right">
+                        <input class="form-control" id="maxOptionsToBeRanked--1" min="1" name="maxOptionsToBeRanked" type="number" value="1">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <br>
               </div>
@@ -1467,6 +1574,38 @@
                       Allow response giver to give the same rank to multiple options
                     </label>
                   </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input id="minRecipientsToBeRankedEnabled--1" name="minRecipientsToBeRankedEnabled" type="checkbox">
+                          Minimum number of options a respondent must rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="pull-left">
+                        <input class="form-control" id="minRecipientsToBeRanked--1" min="1" name="minRecipientsToBeRanked" type="number" value="1">
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
+                        <label class="bold-label">
+                          <input id="maxRecipientsToBeRankedEnabled--1" name="maxRecipientsToBeRankedEnabled" type="checkbox">
+                          Maximum number of options a respondent can rank
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                      <div class="pull-left">
+                        <input class="form-control" id="maxRecipientsToBeRanked--1" min="1" name="maxRecipientsToBeRanked" type="number" value="1">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <br>
               </div>
@@ -1474,13 +1613,13 @@
           </div>
         </div>
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="feedback-path-title">
               Feedback Path
             </b>
             (Who is giving feedback about whom?)
           </div>
-          <div class="feedback-path-dropdown col-sm-12 btn-group">
+          <div class="feedback-path-dropdown btn-group">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a feedback path
               <span class="caret">
@@ -1494,7 +1633,7 @@
                 <a>
                   Feedback session creator (i.e., me) will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="SELF" data-path-description="Feedback session creator (i.e., me) will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1512,7 +1651,7 @@
                 <a>
                   Students in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="STUDENTS" data-path-description="Students in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1536,7 +1675,7 @@
                 <a>
                   Instructors in this course will give feedback on...
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" data-container="body" data-original-title="Choose an option" data-placement="top" data-toggle="tooltip" data-trigger="manual" title="">
                   <li>
                     <a class="feedback-path-dropdown-option" data-giver-type="INSTRUCTORS" data-path-description="Instructors in this course will give feedback on <span class='glyphicon glyphicon-arrow-right'></span> Nobody specific (For general class feedback)" data-recipient-type="NONE" href="javascript:;">
                       Nobody specific (For general class feedback)
@@ -1565,7 +1704,7 @@
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype--1" name="givertype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="givertype--1" name="givertype">
                   <option value="SELF">
                     Feedback session creator (i.e., me)
                   </option>
@@ -1586,7 +1725,7 @@
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype" onchange="matchVisibilityOptionToFeedbackPath(this);getVisibilityMessage(this);">
+                <select class="form-control participantSelect" id="recipienttype--1" name="recipienttype">
                   <option value="SELF">
                     Giver (Self feedback)
                   </option>
@@ -1638,13 +1777,13 @@
         </div>
         <br>
         <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
-          <div class="col-sm-12 padding-0 margin-bottom-7px">
+          <div class="margin-bottom-7px">
             <b class="visibility-title">
               Visibility
             </b>
             (Who can see the responses?)
           </div>
-          <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+          <div class="visibility-options-dropdown btn-group margin-bottom-10px">
             <button aria-expanded="false" aria-haspopup="true" class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
               Please select a visibility option
               <span class="caret">
@@ -1688,7 +1827,7 @@
               </li>
             </ul>
           </div>
-          <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
+          <div class="visibilityOptions overflow-hidden" id="visibilityOptions--1" style="display:none;">
             <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
                 <tr>
@@ -1788,7 +1927,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">
+          <div class="visibilityMessage overflow-hidden" id="visibilityMessage--1">
             This is the visibility hint as seen by the feedback giver:
             <ul class="text-muted background-color-warning">
             </ul>
@@ -1812,6 +1951,7 @@
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
     <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE">
+    <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -1834,6 +1974,7 @@
             <input name="fsname" type="hidden" value="First Session">
             <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
             <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+            <input name="token" type="hidden" value="${sessionToken}">
           </form>
           <div id="question-copy-modal-status">
           </div>
@@ -1851,7 +1992,7 @@
   </div>
   <br>
   <br>
-  <div class="well well-plain inputTable" id="questionPreviewTable">
+  <div class="well well-plain" id="questionPreviewTable">
     <div class="row">
       <form class="form-horizontal">
         <label class="control-label col-xs-6 col-md-2 tablet-align-left text-right">
@@ -1878,7 +2019,7 @@
           <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
         </form>
       </div>
-      <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback." data-placement="top" data-toggle="tooltip" title="">
+      <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback.<br>Only instructors with submit privileges are included in the list." data-placement="top" data-toggle="tooltip" title="">
         <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">

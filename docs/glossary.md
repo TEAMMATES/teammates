@@ -32,7 +32,7 @@ This document lines out the common terms used in the project.
 ## Development-related
 
 + **Dev site**: [Our developer web site](https://github.com/TEAMMATES/teammates).
-+ **Main repo**: The repository containing the latest stable code. Used interchangeably with "committer repo", "upstream repo", "original repo".
++ **Main repo**: The repository containing the latest stable code.
 + **Specs**: System Specification.
 
 `* server`:

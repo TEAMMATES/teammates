@@ -8,7 +8,7 @@ public class AdminEmailSentPageAction extends Action {
     @Override
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailSentPageData data = new AdminEmailSentPageData(account);
+        AdminEmailSentPageData data = new AdminEmailSentPageData(account, sessionToken);
 
         data.adminSentEmailList = logic.getSentAdminEmails();
 

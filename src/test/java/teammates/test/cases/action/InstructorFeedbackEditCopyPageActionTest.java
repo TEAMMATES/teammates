@@ -12,6 +12,9 @@ import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackEditCopyPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackEditCopyPageAction}.
+ */
 public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
 
     @Override
@@ -48,7 +51,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
         InstructorFeedbackEditCopyPageData pageData = (InstructorFeedbackEditCopyPageData) r.data;
         assertEquals(4, pageData.getCourses().size());
 
-        List<String> idOfCourses = new ArrayList<String>();
+        List<String> idOfCourses = new ArrayList<>();
 
         for (CourseAttributes course : pageData.getCourses()) {
             idOfCourses.add(course.getId());
@@ -67,5 +70,11 @@ public class InstructorFeedbackEditCopyPageActionTest extends BaseActionTest {
     @Override
     protected InstructorFeedbackEditCopyPageAction getAction(String... params) {
         return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        //TODO: implement this
     }
 }

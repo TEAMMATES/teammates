@@ -8,6 +8,9 @@ import teammates.ui.controller.InstructorStudentListAjaxPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorStudentListAjaxPageData;
 
+/**
+ * SUT: {@link InstructorStudentListAjaxPageAction}.
+ */
 public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
 
     @Override
@@ -18,7 +21,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 
         gaeSimulation.loginAsInstructor(instructorId);
@@ -26,9 +29,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
 
         verifyAssumptionFailure();
 
-        String[] submissionParams = new String[] {
-
-        };
+        String[] submissionParams = new String[] {};
 
         verifyAssumptionFailure(submissionParams);
 
@@ -51,6 +52,17 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
     @Override
     protected InstructorStudentListAjaxPageAction getAction(String... params) {
         return (InstructorStudentListAjaxPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_INDEX, "1"
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

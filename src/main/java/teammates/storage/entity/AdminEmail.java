@@ -1,51 +1,48 @@
 package teammates.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 /**
  * Represents emails composed by Admin.
  */
-@PersistenceCapable
-public class AdminEmail {
+@Entity
+@Index
+public class AdminEmail extends BaseEntity {
 
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private String emailId;
+    @Id
+    private Long emailId;
 
-    @Persistent
     //this stores the address string eg."example1@test.com,example2@test.com...."
-    private List<String> addressReceiver;
+    private List<String> addressReceiver = new ArrayList<>();
 
-    @Persistent
     //this stores the blobkey string of the email list file uploaded to Google Cloud Storage
-    private List<String> groupReceiver;
+    private List<String> groupReceiver = new ArrayList<>();
 
-    @Persistent
     private String subject;
 
-    @Persistent
     //For draft emails,this is null. For sent emails, this is not null;
     private Date sendDate;
 
-    @Persistent
     private Date createDate;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Text content;
 
-    @Persistent
     private boolean isInTrashBin;
+
+    @SuppressWarnings("unused")
+    private AdminEmail() {
+        // required by Objectify
+    }
 
     /**
      * Instantiates a new AdminEmail.
@@ -57,8 +54,8 @@ public class AdminEmail {
     public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
                       Text content, Date sendDate) {
         this.emailId = null;
-        this.addressReceiver = addressReceiver;
-        this.groupReceiver = groupReceiver;
+        this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
+        this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;
         this.content = content;
         this.sendDate = sendDate;
@@ -91,7 +88,7 @@ public class AdminEmail {
     }
 
     public String getEmailId() {
-        return this.emailId;
+        return emailId == null ? null : Key.create(AdminEmail.class, this.emailId).toWebSafeString();
     }
 
     public List<String> getAddressReceiver() {

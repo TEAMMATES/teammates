@@ -2,28 +2,23 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CommentAttributes;
-import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
-import teammates.logic.core.CommentsLogic;
+import teammates.test.driver.StringHelperExtension;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.pagedata.AdminHomePageData;
 
+/**
+ * SUT: {@link AdminInstructorAccountAddAction}.
+ */
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-    }
-
-    @Override
-    protected void prepareTestData() {
-        // no test data used in this test
     }
 
     @Test
@@ -95,7 +90,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
         String expectedError =
                 "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                + "it contains invalid characters. All person name must start with an "
+                + "it contains invalid characters. A/An person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
 
         AjaxResult rInvalidParam = getAjaxResult(a);
@@ -127,11 +122,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                      emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
-        // delete the comment that was created
-        CommentAttributes comment =
-                CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email),
-                                                            CommentParticipantType.PERSON, "alice.b.tmms@gmail.tmt").get(0);
-        CommentsLogic.inst().deleteComment(comment);
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
 
@@ -140,13 +130,13 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         final String atEmail = "@gmail.tmt";
         final int normalIdSuffixLength = normalIdSuffix.length(); // 9
         final String strShortWithWordDemo =
-                StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
+                StringHelperExtension.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2) + "-demo";
         final String strWayShorterThanMaximum =
-                StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
+                StringHelperExtension.generateStringOfLength((maximumIdLength - normalIdSuffixLength) / 2);
         final String strOneCharShorterThanMaximum =
-                StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
+                StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
         final String strOneCharLongerThanMaximum =
-                StringHelper.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
+                StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
         assertEquals(strShortWithWordDemo + normalIdSuffix,
                      generateNextDemoCourseId(strShortWithWordDemo + atEmail, maximumIdLength));
         assertEquals(strShortWithWordDemo + normalIdSuffix + "0",
@@ -184,11 +174,18 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
+        final String[] splitEmail = instructorEmail.split("@");
+        final String head = splitEmail[0];
+        final String emailAbbreviation = splitEmail[1].substring(0, 3);
         return head + "." + emailAbbreviation
                 + "-demo";
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

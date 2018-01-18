@@ -1,21 +1,20 @@
 package teammates.storage.search;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+
+import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for students.
@@ -135,32 +134,11 @@ public class StudentSearchDocument extends SearchDocument {
 
     private static void sortStudentResultList(List<StudentAttributes> studentList) {
 
-        Collections.sort(studentList, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                int compareResult = s1.course.compareTo(s2.course);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = s1.section.compareTo(s2.section);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = s1.team.compareTo(s2.team);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = s1.name.compareTo(s2.name);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                return s1.email.compareTo(s2.email);
-            }
-        });
+        studentList.sort(Comparator.comparing((StudentAttributes student) -> student.course)
+                .thenComparing(student -> student.section)
+                .thenComparing(student -> student.team)
+                .thenComparing(student -> student.name)
+                .thenComparing(student -> student.email));
     }
 
 }

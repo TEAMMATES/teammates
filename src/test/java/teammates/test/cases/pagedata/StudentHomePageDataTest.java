@@ -7,14 +7,15 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.pagedata.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
@@ -22,6 +23,9 @@ import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
 import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
+/**
+ * SUT: {@link StudentHomePageData}.
+ */
 public class StudentHomePageDataTest extends BaseTestCase {
     private List<CourseDetailsBundle> courses;
 
@@ -83,11 +87,14 @@ public class StudentHomePageDataTest extends BaseTestCase {
         int index = 0;
 
         testFeedbackSession(index++, submittedRow, submittedSession,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Submitted", "Not Published");
         testFeedbackSession(index++, pendingRow, pendingSession,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING, "Pending");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Pending", "Not Published");
         testFeedbackSession(index++, awaitingRow, awaitingSession,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Awaiting", "Not Published");
     }
 
     private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
@@ -103,26 +110,31 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
         testFeedbackSession(index++, publishedRow, publishedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
-                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED
-                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
-                            "Published");
+                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
+                            "Closed", "Published");
         testFeedbackSession(index++, closedRow, closedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
-                            "Closed");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED,
+                            "Closed", "Not Published");
         testFeedbackSession(index++, submittedClosedRow, submittedClosedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
-                            "Closed");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED,
+                            "Closed", "Not Published");
     }
 
     private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
-            String expectedTooltip, String expectedStatus) {
+            String expectedSubmissionsTooltip, String expectedPublishedTooltip, String expectedSubmissionStatus,
+            String expectedPublishedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.getFeedbackSessionName(), studentRow.getName());
         assertEquals(TimeHelper.formatTime12H(session.getEndTime()), studentRow.getEndTime());
-        assertEquals(expectedTooltip, studentRow.getTooltip());
-        assertEquals(expectedStatus, studentRow.getStatus());
+        assertEquals(expectedSubmissionsTooltip, studentRow.getSubmissionsTooltip());
+        assertEquals(expectedPublishedTooltip, studentRow.getPublishedTooltip());
+        assertEquals(expectedSubmissionStatus, studentRow.getSubmissionStatus());
+        assertEquals(expectedPublishedStatus, studentRow.getPublishedStatus());
         assertEquals(index, studentRow.getIndex());
         testActions(studentRow.getActions(), session);
     }
@@ -136,8 +148,12 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     private StudentHomePageData createData() {
         // Courses
-        CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course", "UTC");
-        CourseAttributes course2 = new CourseAttributes("course-id-2", "new-course", "UTC");
+        CourseAttributes course1 = CourseAttributes
+                .builder("course-id-1", "old-course", "UTC")
+                .build();
+        CourseAttributes course2 = CourseAttributes
+                .builder("course-id-2", "new-course", "UTC")
+                .build();
 
         // Feedback sessions
         submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
@@ -157,8 +173,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
         sessionSubmissionStatusMap.put(submittedClosedSession, true);
 
         // Tooltip and button texts
-        tooltipTextMap = new HashMap<FeedbackSessionAttributes, String>();
-        buttonTextMap = new HashMap<FeedbackSessionAttributes, String>();
+        tooltipTextMap = new HashMap<>();
+        buttonTextMap = new HashMap<>();
         tooltipTextMap.put(submittedSession, Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE);
         buttonTextMap.put(submittedSession, "Edit Submission");
         tooltipTextMap.put(pendingSession, Const.Tooltips.FEEDBACK_SESSION_SUBMIT);
@@ -179,22 +195,21 @@ public class StudentHomePageDataTest extends BaseTestCase {
         CourseDetailsBundle oldCourseBundle = createCourseBundle(
                 course2, publishedSession, closedSession, submittedClosedSession);
 
-        courses = new ArrayList<CourseDetailsBundle>();
+        courses = new ArrayList<>();
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);
 
-        return new StudentHomePageData(new AccountAttributes(), courses, sessionSubmissionStatusMap);
+        return new StudentHomePageData(new AccountAttributes(), dummySessionToken, courses, sessionSubmissionStatusMap);
     }
 
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
-        FeedbackSessionAttributes session = new FeedbackSessionAttributes();
-        session.setFeedbackSessionName(name);
-        session.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(offsetStart));
-        session.setEndTime(TimeHelper.getHoursOffsetToCurrentTime(offsetEnd));
-        session.setResultsVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(offsetPublish));
-        session.setSessionVisibleFromTime(TimeHelper.getHoursOffsetToCurrentTime(-1));
-        return session;
+        return FeedbackSessionAttributes.builder(name, "", "")
+                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetStart))
+                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetEnd))
+                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetPublish))
+                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1))
+                .build();
     }
 
     private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sessions) {

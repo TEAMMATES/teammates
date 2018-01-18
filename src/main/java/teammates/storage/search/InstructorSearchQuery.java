@@ -4,10 +4,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 
-import com.google.appengine.api.search.Document;
-
 /**
- * The {@link SearchQuery} object that defines how we query {@link Document} for instructors.
+ * The {@link SearchQuery} object that defines how we query
+ * {@link com.google.appengine.api.search.Document} for instructors.
  */
 public class InstructorSearchQuery extends SearchQuery {
 

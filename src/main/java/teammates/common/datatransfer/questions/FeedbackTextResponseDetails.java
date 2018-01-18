@@ -32,7 +32,7 @@ public class FeedbackTextResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForRichText(answer);
     }
 

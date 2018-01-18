@@ -9,6 +9,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseInstructorDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseInstructorDeleteAction}.
+ */
 public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -21,7 +24,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes loginInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;
         String adminUserId = "admin.user";
@@ -30,10 +33,10 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         ______TS("Typical case: Delete other instructor successfully, redirect back to edit page");
 
-        InstructorAttributes instructorToDelete = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructor2OfCourse1");
         String instructorEmailToDelete = instructorToDelete.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
@@ -41,9 +44,13 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         InstructorCourseInstructorDeleteAction deleteAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
-                         + "?error=false&user=idOfInstructor1OfCourse1&courseid=idOfTypicalCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
+                        false,
+                        "idOfInstructor1OfCourse1",
+                        "idOfTypicalCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
@@ -57,7 +64,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         instructorEmailToDelete = loginInstructor.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
@@ -65,8 +72,9 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(submissionParams);
         redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                        redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, redirectResult.getStatusMessage());
 
@@ -78,13 +86,13 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode: delete instructor failed due to last instructor in course");
 
-        instructorToDelete = dataBundle.instructors.get("instructor4");
+        instructorToDelete = typicalBundle.instructors.get("instructor4");
         instructorEmailToDelete = instructorToDelete.email;
         courseId = instructorToDelete.courseId;
 
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete
         };
@@ -92,9 +100,13 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         deleteAction = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
         redirectResult = getRedirectResult(deleteAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE
-                             + "?error=true&user=idOfInstructor4&courseid=idOfCourseNoEvals",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
+                        true,
+                        "idOfInstructor4",
+                        "idOfCourseNoEvals"),
+                redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, redirectResult.getStatusMessage());
 
@@ -109,5 +121,26 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseInstructorDeleteAction getAction(String... params) {
         return (InstructorCourseInstructorDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email
+        };
+
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

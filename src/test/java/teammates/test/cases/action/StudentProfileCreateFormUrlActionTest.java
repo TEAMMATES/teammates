@@ -9,6 +9,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.StudentProfileCreateFormUrlAction;
 import teammates.ui.pagedata.StudentProfileCreateFormUrlAjaxPageData;
 
+/**
+ * SUT: {@link StudentProfileCreateFormUrlAction}.
+ */
 public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
     @Override
@@ -19,7 +22,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
 
         testGenerateUploadUrlSuccessTypical(student);
         testGenerateUploadUrlSuccessMasqueradeMode(student);
@@ -63,12 +66,19 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||" + student.name
                                   + "|||" + student.googleId + "|||" + student.email + "|||Created Url successfully: "
                                   + data.formUrl + "|||/page/studentProfileCreateFormUrl";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEqualsIgnoreLogId(expectedLogMessage, action.getLogMessage());
     }
 
     @Override
     protected StudentProfileCreateFormUrlAction getAction(String... params) {
         return (StudentProfileCreateFormUrlAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Test
+    @Override
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {};
+        verifyAccessibleForStudents(submissionParams);
     }
 
 }

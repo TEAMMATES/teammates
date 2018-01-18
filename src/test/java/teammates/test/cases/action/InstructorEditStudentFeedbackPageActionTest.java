@@ -11,6 +11,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorEditStudentFeedbackPageAction}.
+ */
 public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
 
     @Override
@@ -20,6 +23,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -41,7 +45,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         String courseId = student.course;
         String moderatedStudentEmail = student.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -50,9 +54,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
         ShowPageResult showPageResult = getShowPageResult(editPageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
-                + "?error=false"
-                + "&user=" + idOfInstructor,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, idOfInstructor),
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -70,7 +73,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -85,7 +88,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -94,9 +97,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         editPageAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editPageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
-                + "?error=false"
-                + "&user=" + idOfInstructor,
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        idOfInstructor),
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -116,9 +121,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         editPageAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editPageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT
-                + "?error=false"
-                + "&user=" + idOfInstructor,
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        idOfInstructor),
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
@@ -138,7 +145,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         courseId = "IESFPTCourse";
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -162,7 +169,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
 
         moderatedStudentEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
@@ -184,5 +191,25 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     @Override
     protected InstructorEditStudentFeedbackPageAction getAction(String... params) {
         return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+
+        String feedbackSessionName = "First feedback session";
+        String courseId = student.course;
+        String moderatedStudentEmail = student.email;
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
     }
 }

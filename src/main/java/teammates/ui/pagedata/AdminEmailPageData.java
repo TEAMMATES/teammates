@@ -24,8 +24,8 @@ public abstract class AdminEmailPageData extends PageData {
         COMPOSE, SENT, TRASH, DRAFT
     }
 
-    protected AdminEmailPageData(AccountAttributes account) {
-        super(account);
+    protected AdminEmailPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
     }
 
     public void init() {
@@ -85,7 +85,7 @@ public abstract class AdminEmailPageData extends PageData {
     // Sent email table
 
     private AdminSentEmailTable createAdminSentEmailTable() {
-        List<AdminSentEmailRow> rows = new ArrayList<AdminSentEmailRow>();
+        List<AdminSentEmailRow> rows = new ArrayList<>();
 
         if (state.equals(AdminEmailPageState.SENT)) {
             AdminEmailSentPageData sentPageData = (AdminEmailSentPageData) this;
@@ -111,14 +111,14 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
 
-        return new AdminSentEmailRow(emailId, new AdminEmailActions(emailId, "sentpage"), addressReceiver,
+        return new AdminSentEmailRow(emailId, new AdminEmailActions(emailId, "sentpage", getSessionToken()), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
 
     // Draft email table
 
     private AdminDraftEmailTable createAdminDraftEmailTable() {
-        List<AdminDraftEmailRow> rows = new ArrayList<AdminDraftEmailRow>();
+        List<AdminDraftEmailRow> rows = new ArrayList<>();
 
         if (state.equals(AdminEmailPageState.DRAFT)) {
             AdminEmailDraftPageData draftPageData = (AdminEmailDraftPageData) this;
@@ -144,14 +144,14 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
 
-        return new AdminDraftEmailRow(emailId, new AdminEmailActions(emailId, "draftpage"), addressReceiver,
-                                        groupReceiver, ae.getSubject(), ae.getCreateDateForDisplay());
+        return new AdminDraftEmailRow(emailId, new AdminEmailActions(emailId, "draftpage", getSessionToken()),
+                                      addressReceiver, groupReceiver, ae.getSubject(), ae.getCreateDateForDisplay());
     }
 
     // Trash email table
 
     private AdminTrashEmailTable createAdminTrashEmailTable() {
-        List<AdminTrashEmailRow> rows = new ArrayList<AdminTrashEmailRow>();
+        List<AdminTrashEmailRow> rows = new ArrayList<>();
 
         if (state.equals(AdminEmailPageState.TRASH)) {
             AdminEmailTrashPageData trashPageData = (AdminEmailTrashPageData) this;
@@ -185,7 +185,7 @@ public abstract class AdminEmailPageData extends PageData {
         String addressReceiver = ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "";
         String groupReceiver = ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "";
 
-        return new AdminTrashEmailRow(emailId, new AdminTrashEmailActions(emailId), addressReceiver,
+        return new AdminTrashEmailRow(emailId, new AdminTrashEmailActions(emailId, getSessionToken()), addressReceiver,
                                         groupReceiver, ae.getSubject(), ae.getSendDateForDisplay());
     }
 }

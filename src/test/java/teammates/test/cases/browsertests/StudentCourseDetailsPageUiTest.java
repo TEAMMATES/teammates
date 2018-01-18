@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 
 /**
- * Tests Student Course Details page.
+ * SUT: {@link Const.ActionURIs#STUDENT_COURSE_DETAILS_PAGE}.
  */
 public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 
@@ -29,6 +29,13 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         //without teammates
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie",
                       "/studentCourseDetailsWithoutTeammatesHTML.html", false);
+
+        ______TS("content: data requiring sanitization");
+
+        verifyContent("SCDetailsUiT.TSCourse",
+                "SCDetailsUiT.student1InTSCourse",
+                "/studentCourseDetailsTestingSanitization.html",
+                false);
 
         ______TS("links, inputValidation, actions");
 

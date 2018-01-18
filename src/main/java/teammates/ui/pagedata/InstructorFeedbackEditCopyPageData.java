@@ -10,9 +10,9 @@ public class InstructorFeedbackEditCopyPageData extends PageData {
     private String courseId;
     private String fsName;
 
-    public InstructorFeedbackEditCopyPageData(AccountAttributes account, List<CourseAttributes> courses,
-                                              String courseId, String fsName) {
-        super(account);
+    public InstructorFeedbackEditCopyPageData(AccountAttributes account, String sessionToken,
+            List<CourseAttributes> courses, String courseId, String fsName) {
+        super(account, sessionToken);
         this.courses = courses;
         this.courseId = courseId;
         this.fsName = fsName;

@@ -12,6 +12,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -22,25 +23,19 @@ import teammates.common.util.StatusMessageColor;
  * {@link StudentCourseJoinAction}. This action does the actual
  * joining of the student to the course.
  */
-public class StudentCourseJoinAuthenticatedAction extends Action {
+public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
+
+    private static final Logger log = Logger.getLogger();
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         Assumption.assertNotNull(regkey);
-        String nextUrl;
-        if (regkey.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
-            /*
-             * Here regkey may contain the nextUrl as well. This is due to
-             * a workaround which replaces "&" with a placeholder "${amp}", thus the
-             * next parameter, nextUrl, is treated as part of the "regkey".
-             * TODO move this process to Action class is possible.
-             */
-            String[] split = regkey.split("\\$\\{amp\\}" + Const.ParamsNames.NEXT_URL + "=");
-            regkey = split[0];
-            nextUrl = split[1];
-        } else {
-            nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        }
-        Assumption.assertNotNull(nextUrl);
+
+        // the next URL can be specified either in registration key
+        // (see {@link Action#parseAndInitializeRegkeyFromRequest()}
+        // or as a parameter in the request
+        String nextUrl = nextUrlFromRegkey == null ? getRequestParamValue(Const.ParamsNames.NEXT_URL) : nextUrlFromRegkey;
+        Assumption.assertPostParamNotNull(Const.ParamsNames.NEXT_URL, nextUrl);
         nextUrl = SanitizationHelper.desanitizeFromNextUrl(nextUrl);
 
         ensureStudentExists();
@@ -49,7 +44,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             logic.joinCourseForStudent(regkey, account.googleId);
         } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link
-            if (e.errorCode.equals(Const.StatusCodes.INVALID_KEY)) {
+            if (Const.StatusCodes.INVALID_KEY.equals(e.errorCode)) {
                 setStatusForException(e, String.format(e.getMessage(), requestUrl));
             } else {
                 setStatusForException(e, e.getMessage());
@@ -74,13 +69,14 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
 
         addStatusMessageToUser();
+        sendCourseRegisteredEmail(student.name, student.email, false, student.course);
 
         return response;
     }
 
     private void addStatusMessageToUser() throws EntityDoesNotExistException {
         CourseAttributes course = logic.getCourse(getStudent().course);
-        String courseDisplayText = "[" + course.getId() + "] " + course.getName();
+        String courseDisplayText = "[" + course.getId() + "] " + SanitizationHelper.sanitizeForHtml(course.getName());
 
         statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                                                            courseDisplayText), StatusMessageColor.SUCCESS));

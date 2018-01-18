@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -11,6 +12,10 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
+ *      specifically for rubric questions.
+ */
 public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -64,36 +69,35 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         InstructorFeedbackResultsPage instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2",
                                                                  false, "question");
-        instructorResultsPage.waitForPanelsToExpand();
-
+        instructorResultsPage.loadResultQuestionPanel(1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
 
         // Giver Recipient Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "giver-recipient-question");
-        instructorResultsPage.waitForPanelsToExpand();
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
 
         // Giver Question Recipient View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "giver-question-recipient");
-        instructorResultsPage.waitForPanelsToExpand();
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
 
         // Recipient Question Giver View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-question-giver");
-        instructorResultsPage.waitForPanelsToExpand();
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
 
         // Recipient Giver Question View
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false,
                                                                  "recipient-giver-question");
-        instructorResultsPage.waitForPanelsToExpand();
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
 
     }
@@ -192,6 +196,22 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+
+        ______TS("empty sub question test");
+        int questionNum = -1;
+        int subQuestionIndex = 1;
+
+        feedbackEditPage.fillRubricSubQuestionBox("", questionNum, subQuestionIndex);
+        feedbackEditPage.clickAddQuestionButton();
+        assertTrue(feedbackEditPage.isRubricSubQuestionBoxFocused(questionNum, subQuestionIndex));
+        feedbackEditPage.fillRubricSubQuestionBox("sub question text", questionNum, subQuestionIndex);
+        feedbackEditPage.clickAddRubricRowLink(questionNum);
+
+        subQuestionIndex += 1;
+
+        feedbackEditPage.clickAddQuestionButton();
+        assertTrue(feedbackEditPage.isRubricSubQuestionBoxFocused(questionNum, subQuestionIndex));
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(questionNum, subQuestionIndex);
 
         ______TS("empty weight test");
 
@@ -322,6 +342,113 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
+
+        ______TS("RUBRIC: move rubric column success");
+        feedbackEditPage.clickEditQuestionButton(1);
+        String[] col0 = feedbackEditPage.getRubricColValues(1, 0);
+        String[] col1 = feedbackEditPage.getRubricColValues(1, 1);
+        String[] col2 = feedbackEditPage.getRubricColValues(1, 2);
+        String[] col3 = feedbackEditPage.getRubricColValues(1, 3);
+
+        feedbackEditPage.verifyRubricColumnsMovability(1, new int[] {0, 1, 2, 3});
+        feedbackEditPage.clickAddRubricColLink(1); // new column index 4
+
+        String[] col4 = feedbackEditPage.getRubricColValues(1, 4);
+
+        feedbackEditPage.verifyRubricQuestion(1, new int[] {0, 1, 2, 3, 4}, col0, col1, col2, col3, col4);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
+        feedbackEditPage.verifyRubricQuestion(1, new int[] {0, 1, 2, 3}, col0, col1, col2, col3);
+
+        // checking move column for new column and row
+        feedbackEditPage.clickAddRubricColLink(1); // new column index 5
+        feedbackEditPage.clickAddRubricRowLink(1); // new row index 2
+        feedbackEditPage.fillRubricSubQuestionBox("SubQn 2", 1, 2);
+
+        col0 = new String[] {"Col 0 Choice", "0.10", "Col 0, SubQn 0", "Col 0, SubQn 1", "Col 0, SubQn 2"};
+        col1 = new String[] {"Col 1 Choice", "0.20", "Col 1, SubQn 0", "Col 1, SubQn 1", "Col 1, SubQn 2"};
+        col2 = new String[] {"Col 2 Choice", "0.30", "Col 2, SubQn 0", "Col 2, SubQn 1", "Col 2, SubQn 2"};
+        col3 = new String[] {"Col 3 Choice", "0.40", "Col 3, SubQn 0", "Col 3, SubQn 1", "Col 3, SubQn 2"};
+        String[] col5 = new String[] {"Col 5 Choice", "0.50", "Col 5, SubQn 0", "Col 5, SubQn 1", "Col 5, SubQn 2"};
+        int[] colIndexes = {0, 1, 2, 3, 5};
+
+        feedbackEditPage.fillAllRubricColumns(1, colIndexes, col0, col1, col2, col3, col5);
+
+        // move last column to first
+        moveRubricColumn(1, colIndexes, 4, 0, col0, col1, col2, col3, col5);
+        // move second column to last
+        moveRubricColumn(1, colIndexes, 1, 4, col5, col0, col1, col2, col3);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnSuccess.html");
+
+        // check buttons for new rubric question
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RUBRIC");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Edit rubric question 2");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details about this new question");
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        feedbackEditPage.clickAddRubricColLink(-1);
+        feedbackEditPage.clickAddRubricRowLink(-1);
+        feedbackEditPage.fillRubricSubQuestionBox("SubQn 2", -1, 2);
+
+        feedbackEditPage.fillAllRubricColumns(-1, new int[] {0, 1, 2, 3, 4}, col0, col1, col2, col3, col4);
+
+        feedbackEditPage.verifyRubricQuestion(-1, new int[] {0, 1, 2, 3, 4}, col0, col1, col2, col3, col4);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(-1, 4);
+        feedbackEditPage.clickAddRubricColLink(-1);
+        feedbackEditPage.fillRubricColumn(-1, 5, col5);
+        feedbackEditPage.verifyRubricQuestion(-1, new int[] {0, 1, 2, 3, 5}, col0, col1, col2, col3, col5);
+
+        // move last column to first
+        moveRubricColumn(-1, colIndexes, 4, 0, col0, col1, col2, col3, col5);
+        // move second column to last
+        moveRubricColumn(-1, colIndexes, 1, 4, col5, col0, col1, col2, col3);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnNewQuestionSuccess.html");
+        feedbackEditPage.clickDeleteQuestionLink(2);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+    }
+
+    /**
+     * Moves a rubric column to the left/right. Accomplishes this by clicking move
+     * column left/right buttons and also verifies the rubric question after each move.
+     * @param qnNumber question number.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param from Index of {@code colIndexes} array which corresponds to the column which is to be moved.
+     * @param to Index of {@code colIndexes} array which corresponds to the location to which the column needs to be moved.
+     * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
+     */
+    private void moveRubricColumn(int qnNumber, int[] colIndexes, int from, int to, String[]... columns) {
+        Assumption.assertEquals(colIndexes.length, columns.length);
+        Assumption.assertTrue(from >= 0 && from < colIndexes.length);
+        Assumption.assertTrue(to >= 0 && to < colIndexes.length);
+
+        // This determines which column needs to be swapped and compared with the current column.
+        // Value 1 indicates column needs to be moved right. Swaps and comparisons happen accordingly.
+        // Value -1 indicates column needs to be moved left. Swaps and comparisons happen accordingly.
+        int offset = from < to ? 1 : -1;
+        int i = from;
+
+        while (i != to) {
+            if (offset > 0) {
+                assertTrue(feedbackEditPage.moveRubricColRight(qnNumber, colIndexes[i]));
+            } else {
+                assertTrue(feedbackEditPage.moveRubricColLeft(qnNumber, colIndexes[i]));
+            }
+
+            // swap current column with column
+            // to the left/right depending on offset
+            String[] temp = columns[i];
+            columns[i] = columns[i + offset];
+            columns[i + offset] = temp;
+
+            feedbackEditPage.verifyRubricQuestion(qnNumber, colIndexes, columns);
+            i += offset;
+        }
     }
 
     @Override
@@ -377,8 +504,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
-                .withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).withUserId(instructorId)
+                .withCourseId(courseId).withSessionName(feedbackSessionName).withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

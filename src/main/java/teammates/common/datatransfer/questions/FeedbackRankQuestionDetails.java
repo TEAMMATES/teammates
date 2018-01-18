@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,14 +11,20 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
+    protected int minOptionsToBeRanked;
+    protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
+        minOptionsToBeRanked = Integer.MIN_VALUE;
+        maxOptionsToBeRanked = Integer.MIN_VALUE;
     }
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
+        minOptionsToBeRanked = Integer.MIN_VALUE;
+        maxOptionsToBeRanked = Integer.MIN_VALUE;
     }
 
     @Override
@@ -32,6 +37,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
 
         this.areDuplicatesAllowed = areDuplicatesAllowed;
+
         return true;
     }
 
@@ -58,7 +64,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                         Map<String, List<Integer>> optionRanks,
                         String optionReceivingRanks, int rankReceived) {
         if (!optionRanks.containsKey(optionReceivingRanks)) {
-            List<Integer> ranks = new ArrayList<Integer>();
+            List<Integer> ranks = new ArrayList<>();
             optionRanks.put(optionReceivingRanks, ranks);
         }
 
@@ -70,7 +76,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * Returns the list of points as as string to display.
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
-        Collections.sort(ranksReceived);
+        ranksReceived.sort(null);
         StringBuilder pointsReceived = new StringBuilder();
 
         if (ranksReceived.size() > 10) {

@@ -10,13 +10,12 @@ public class AdminHomePageAction extends Action {
 
         gateKeeper.verifyAdminPrivileges(account);
 
-        AdminHomePageData data = new AdminHomePageData(account);
+        AdminHomePageData data = new AdminHomePageData(account, sessionToken);
 
         data.instructorShortName = "";
         data.instructorName = "";
         data.instructorEmail = "";
         data.instructorInstitution = "";
-        data.instructorDetailsSingleLine = "";
 
         statusToAdmin = "Admin Home Page Load";
 

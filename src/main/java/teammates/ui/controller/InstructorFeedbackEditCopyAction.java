@@ -27,12 +27,12 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String originalCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
-        Assumption.assertNotNull("null course id", originalCourseId);
-        Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
-        Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, originalCourseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, newFeedbackSessionName);
 
         if (nextUrl == null) {
-            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         }
 
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
@@ -92,7 +92,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // Return with redirection url (handled in javascript) to the sessions page after copying,
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
-                       new InstructorFeedbackEditCopyData(account,
+                       new InstructorFeedbackEditCopyData(account, sessionToken,
                                                           Config.getAppUrl(nextUrl)
                                                                 .withParam(Const.ParamsNames.ERROR,
                                                                            Boolean.FALSE.toString())
@@ -116,14 +116,14 @@ public class InstructorFeedbackEditCopyAction extends Action {
      * an existing feedback session with a name conflicting with feedbackSessionName.
      */
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
-        List<String> courses = new ArrayList<String>();
+        List<String> courses = new ArrayList<>();
 
         for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =
                     logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
-            boolean fsAlreadyExists = existingFs != null;
+            boolean hasExistingFs = existingFs != null;
 
-            if (fsAlreadyExists) {
+            if (hasExistingFs) {
                 courses.add(existingFs.getCourseId());
             }
         }
@@ -133,6 +133,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
     private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
         isError = true;
-        return createAjaxResult(new InstructorFeedbackEditCopyData(account, errorToUser));
+        return createAjaxResult(new InstructorFeedbackEditCopyData(account, sessionToken, errorToUser));
     }
 }

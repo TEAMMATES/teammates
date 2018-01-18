@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.util.Const;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 import teammates.ui.pagedata.FileUploadPageData;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Action: uploads an image for admin email.
@@ -16,7 +16,7 @@ public class AdminEmailImageUploadAction extends ImageUploadAction {
         gateKeeper.verifyAdminPrivileges(account);
 
         FileUploadPageData uploadPageData = prepareData();
-        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, sessionToken);
         data.isFileUploaded = uploadPageData.isFileUploaded;
         data.fileSrcUrl = uploadPageData.fileSrcUrl;
         data.ajaxStatus = uploadPageData.ajaxStatus;

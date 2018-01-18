@@ -12,8 +12,8 @@ public class AdminEmailComposePageData extends AdminEmailPageData {
 
     public AdminEmailAttributes emailToEdit;
 
-    public AdminEmailComposePageData(AccountAttributes account) {
-        super(account);
+    public AdminEmailComposePageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
         state = AdminEmailPageState.COMPOSE;
     }
 

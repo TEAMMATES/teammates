@@ -6,9 +6,7 @@
   </h1>
   <br>
   <div id="student-motd-wrapper">
-    <script>
-      var motdUrl = window.location.origin + '/${studentmotd.url}';
-    </script>
+    <input id="motd-url" type="hidden" value="${studentmotd.url}">
     <script defer="" src="/js/studentMotd.js" type="text/javascript">
     </script>
     ${studentmotd.container}
@@ -16,6 +14,7 @@
   <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="SFSubmitUiT.alice.b">
     <div id="statusMessagesToUser" style="display: none;">
     </div>
@@ -49,7 +48,7 @@
               </label>
               <div class="col-sm-10">
                 <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                  Sun, 01 Apr 2012, 11:59 PM UTC+0800
                 </p>
               </div>
             </div>
@@ -58,8 +57,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Thu, 30 Apr 2026, 11:59 PM
+                <p class="form-control-static" data-end-time="2026-04-30T15:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM UTC+0800
                 </p>
               </div>
             </div>
@@ -110,9 +109,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                 <option value="">
@@ -126,9 +128,7 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <div id="rich-text-toolbar-response-text-container-1-0">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
                   Test Self Feedback
                 </p>
@@ -187,9 +187,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                 <option value="">
@@ -214,10 +217,8 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
-              <div id="rich-text-toolbar-response-text-container-2-0">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-7">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
                 <p>
                   Response to Benny.
                 </p>
@@ -244,9 +245,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
                 <option value="">
@@ -271,10 +275,8 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
-              <div id="rich-text-toolbar-response-text-container-2-1">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-7">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" spellcheck="false" style="position: relative;">
                 <p>
                   Response to student who is going to drop out.
                 </p>
@@ -301,9 +303,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
                 <option value="">
@@ -328,10 +333,8 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
-              <div id="rich-text-toolbar-response-text-container-2-2">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" spellcheck="false" style="position: relative;">
+            <div class="col-sm-7">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" spellcheck="false" style="position: relative;">
                 <p>
                   Response to extra guy.
                 </p>
@@ -387,9 +390,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -403,9 +409,7 @@
               </span>
             </div>
             <div class="col-sm-12">
-              <div id="rich-text-toolbar-response-text-container-3-0">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-3-0" data-recommended-text="0" id="responsetext-3-0" name="responsetext-3-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-3-0" data-recommended-text="0" id="responsetext-3-0" name="responsetext-3-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -460,9 +464,12 @@
           </p>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                 <option value="">
@@ -478,10 +485,8 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
-              <div id="rich-text-toolbar-response-text-container-4-0">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
                 <p>
                   Feedback to team 3
                 </p>
@@ -508,9 +513,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -526,10 +534,8 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
-              <div id="rich-text-toolbar-response-text-container-4-1">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -581,9 +587,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -596,10 +605,8 @@
                 Benny Charles
               </span>
             </div>
-            <div class="col-sm-10">
-              <div id="rich-text-toolbar-response-text-container-5-0">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-5-0" data-recommended-text="0" id="responsetext-5-0" name="responsetext-5-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-5-0" data-recommended-text="0" id="responsetext-5-0" name="responsetext-5-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -660,9 +667,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
                 <option value="">
@@ -746,9 +756,12 @@
           </p>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                 <option value="">
@@ -764,7 +777,7 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <table>
                 <tbody>
                   <tr>
@@ -794,9 +807,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -812,7 +828,7 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <table>
                 <tbody>
                   <tr>
@@ -876,9 +892,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
                 <option value="">
@@ -892,6 +911,12 @@
               </span>
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -950,6 +975,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-8" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-8" type="hidden" value="-1">
               <input name="responseid-8-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
@@ -984,9 +1011,12 @@
           </p>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                 <option value="">
@@ -1002,7 +1032,13 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1049,14 +1085,19 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-9" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-9" type="hidden" value="-1">
               <input name="responseid-9-0" type="hidden" value="${question.id}%Team >'&quot;< 1</td></div>'&quot;%Team 2">
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1072,7 +1113,13 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1119,6 +1166,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-9" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-9" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1158,9 +1207,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1287,9 +1339,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1303,6 +1358,12 @@
               </span>
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1389,6 +1450,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-11" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-11" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1428,9 +1491,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1517,9 +1583,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1533,6 +1602,12 @@
               </span>
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1579,6 +1654,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-13" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-13" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1618,9 +1695,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-14-0" style="display:none;max-width:125px">
                 <option value="">
@@ -1677,9 +1757,12 @@
           </p>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1695,7 +1778,7 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-15-0" onchange="validateNumScaleAnswer(15, 0)" step="0.5" type="number" value="">
                 <input name="numscalemin-15-0" type="hidden" value="1">
@@ -1709,9 +1792,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1727,7 +1813,7 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-15-1" onchange="validateNumScaleAnswer(15, 1)" step="0.5" type="number" value="">
                 <input name="numscalemin-15-1" type="hidden" value="1">
@@ -1776,9 +1862,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1865,9 +1954,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -1881,6 +1973,12 @@
               </span>
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1927,6 +2025,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-17" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-17" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1966,9 +2066,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
                 <option value="">
@@ -2000,7 +2103,7 @@
                   </div>
                 </div>
                 <div class="form-group" id="constSumInfo-18-0">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
+                  <div class="col-sm-12">
                     <hr class="margin-top-0">
                     <p class="text-color-green" id="constSumMessage-18-0">
                       All points distributed!
@@ -2051,9 +2154,12 @@
           </p>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2069,7 +2175,7 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10 width-auto">
+            <div class="col-sm-9 width-auto">
               <div>
                 <div class="margin-bottom-15px flex">
                   <label class="constSumOptionsLabel" style="display:none">
@@ -2079,7 +2185,7 @@
                   </div>
                 </div>
                 <div class="form-group" id="constSumInfo-19-0" style="display:none">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
+                  <div class="col-sm-12">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="constSumMessage-19-0">
                     </p>
@@ -2096,9 +2202,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2114,7 +2223,7 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10 width-auto">
+            <div class="col-sm-9 width-auto">
               <div>
                 <div class="margin-bottom-15px flex">
                   <label class="constSumOptionsLabel" style="display:none">
@@ -2124,7 +2233,7 @@
                   </div>
                 </div>
                 <div class="form-group" id="constSumInfo-19-1" style="">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
+                  <div class="col-sm-12">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="constSumMessage-19-1">
                       Please distribute 200 points among the above recipients.
@@ -2168,9 +2277,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
                 <option value="">
@@ -2186,7 +2298,7 @@
                 Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color_neutral" name="responsetext-20-0">
                   <option class="color_neutral" value="-999">
@@ -2259,14 +2371,79 @@
                   </option>
                 </select>
               </div>
+              <div>
+                <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
+                  <span class="glyphicon glyphicon-info-sign">
+                  </span>
+                  More info about the
+                  <code>
+                    Equal Share
+                  </code>
+                  scale
+                </a>
+              </div>
+              <div class="modal fade" id="more-info-equal-share-modal" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button class="close" data-dismiss="modal" type="button">
+                        ×
+                      </button>
+                      <h4 class="modal-title">
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
+                      </p>
+                      <p>
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <input name="responseid-20-0" type="hidden" value="${question.id}%SFSubmitUiT.alice.b@gmail.tmt%SFSubmitUiT.alice.b@gmail.tmt">
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2282,7 +2459,7 @@
                 Benny Charles
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color_neutral" name="responsetext-20-1">
                   <option class="color_neutral" selected="" value="-999">
@@ -2355,6 +2532,61 @@
                   </option>
                 </select>
               </div>
+              <div>
+                <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
+                </a>
+              </div>
+              <div class="modal fade" id="more-info-equal-share-modal" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button class="close" data-dismiss="modal" type="button">
+                        ×
+                      </button>
+                      <h4 class="modal-title">
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
+                      </p>
+                      <p>
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2388,9 +2620,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2406,7 +2641,7 @@
                 Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="row">
                 <div class="col-md-12">
                   <table class="table table-bordered margin-0 hidden-xs hidden-sm" id="rubricResponseTable-21-0">
@@ -2526,9 +2761,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -2544,7 +2782,7 @@
                 Benny Charles
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="row">
                 <div class="col-md-12">
                   <table class="table table-bordered margin-0 hidden-xs hidden-sm" id="rubricResponseTable-21-1">
@@ -2660,6 +2898,769 @@
                 </div>
               </div>
               <input id="rubricResponse-21-1" name="responsetext-21-1" type="hidden" value="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-22" type="hidden" value="MSQ">
+    <input name="questionid-22" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-22" type="hidden" value="1">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 22:
+          <br>
+          <span class="text-preserve-space">
+            Nominate and rank at least 2 students for prizes.
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, and your name.
+            </li>
+            <li class="unordered">
+              Other students in the course can see your response, and your name.
+            </li>
+          </ul>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-22-0" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option value="%GENERAL%">
+                  %GENERAL%
+                </option>
+              </select>
+              <span>
+                %GENERAL%
+              </span>
+            </div>
+            <div class="col-sm-12">
+              <p class="text-muted">
+                You need to choose at least 2 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Alice Betsy</option></td></div>'&quot; (Team >'&quot;< 1</td></div>'&quot;)">
+                          Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" (Team &gt;'"&lt; 1&lt;/td&gt;&lt;/div&gt;'")
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Benny Charles (Team >'&quot;< 1</td></div>'&quot;)">
+                          Benny Charles (Team &gt;'"&lt; 1&lt;/td&gt;&lt;/div&gt;'")
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Charlie Davis (Team 2)">
+                          Charlie Davis (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Danny Engrid (Team 2)">
+                          Danny Engrid (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Drop out (Team 2)">
+                          Drop out (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Emily (Team 3)">
+                          Emily (Team 3)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-22-0" type="checkbox" value="Extra guy (Team 2)">
+                          Extra guy (Team 2)
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-22" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-22" type="hidden" value="2">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <input name="questiontype-23" type="hidden" value="MSQ">
+    <input name="questionid-23" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-23" type="hidden" value="6">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 23:
+          <br>
+          <span class="text-preserve-space">
+            Rank exactly 3 options.
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              Instructors in this course can see your response, the name of the recipient, and your name.
+            </li>
+            <li class="unordered">
+              Other students in the course can see your response, the name of the recipient, and your name.
+            </li>
+          </ul>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-0" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option value="SFSubmitUiT.benny.c@gmail.tmt">
+                  Benny Charles
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.tmt">
+                  Charlie Davis
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.tmt">
+                  Danny Engrid
+                </option>
+                <option style="display: none;" value="drop.out@gmail.tmt">
+                  Drop out
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.emily.f@gmail.tmt">
+                  Emily
+                </option>
+                <option style="display: none;" value="extra.guy@gmail.tmt">
+                  Extra guy
+                </option>
+              </select>
+              <span>
+                Benny Charles
+              </span>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">
+                You need to choose at least 3 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-0" type="checkbox" value="A">
+                          A
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-0" type="checkbox" value="B">
+                          B
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-0" type="checkbox" value="C">
+                          C
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-0" type="checkbox" value="D">
+                          D
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-0" type="checkbox" value="E">
+                          E
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-23" type="hidden" value="3">
+            </div>
+          </div>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-1" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.tmt">
+                  Benny Charles
+                </option>
+                <option value="SFSubmitUiT.charlie.d@gmail.tmt">
+                  Charlie Davis
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.tmt">
+                  Danny Engrid
+                </option>
+                <option style="display: none;" value="drop.out@gmail.tmt">
+                  Drop out
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.emily.f@gmail.tmt">
+                  Emily
+                </option>
+                <option style="display: none;" value="extra.guy@gmail.tmt">
+                  Extra guy
+                </option>
+              </select>
+              <span>
+                Charlie Davis
+              </span>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">
+                You need to choose at least 3 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-1" type="checkbox" value="A">
+                          A
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-1" type="checkbox" value="B">
+                          B
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-1" type="checkbox" value="C">
+                          C
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-1" type="checkbox" value="D">
+                          D
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-1" type="checkbox" value="E">
+                          E
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-23" type="hidden" value="3">
+            </div>
+          </div>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-2" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.tmt">
+                  Benny Charles
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.tmt">
+                  Charlie Davis
+                </option>
+                <option value="SFSubmitUiT.danny.e@gmail.tmt">
+                  Danny Engrid
+                </option>
+                <option style="display: none;" value="drop.out@gmail.tmt">
+                  Drop out
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.emily.f@gmail.tmt">
+                  Emily
+                </option>
+                <option style="display: none;" value="extra.guy@gmail.tmt">
+                  Extra guy
+                </option>
+              </select>
+              <span>
+                Danny Engrid
+              </span>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">
+                You need to choose at least 3 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-2" type="checkbox" value="A">
+                          A
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-2" type="checkbox" value="B">
+                          B
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-2" type="checkbox" value="C">
+                          C
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-2" type="checkbox" value="D">
+                          D
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-2" type="checkbox" value="E">
+                          E
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-23" type="hidden" value="3">
+            </div>
+          </div>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-3" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.tmt">
+                  Benny Charles
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.tmt">
+                  Charlie Davis
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.tmt">
+                  Danny Engrid
+                </option>
+                <option value="drop.out@gmail.tmt">
+                  Drop out
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.emily.f@gmail.tmt">
+                  Emily
+                </option>
+                <option style="display: none;" value="extra.guy@gmail.tmt">
+                  Extra guy
+                </option>
+              </select>
+              <span>
+                Drop out
+              </span>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">
+                You need to choose at least 3 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-3" type="checkbox" value="A">
+                          A
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-3" type="checkbox" value="B">
+                          B
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-3" type="checkbox" value="C">
+                          C
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-3" type="checkbox" value="D">
+                          D
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-3" type="checkbox" value="E">
+                          E
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-23" type="hidden" value="3">
+            </div>
+          </div>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-4" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.tmt">
+                  Benny Charles
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.tmt">
+                  Charlie Davis
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.tmt">
+                  Danny Engrid
+                </option>
+                <option style="display: none;" value="drop.out@gmail.tmt">
+                  Drop out
+                </option>
+                <option value="SFSubmitUiT.emily.f@gmail.tmt">
+                  Emily
+                </option>
+                <option style="display: none;" value="extra.guy@gmail.tmt">
+                  Extra guy
+                </option>
+              </select>
+              <span>
+                Emily
+              </span>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">
+                You need to choose at least 3 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-4" type="checkbox" value="A">
+                          A
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-4" type="checkbox" value="B">
+                          B
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-4" type="checkbox" value="C">
+                          C
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-4" type="checkbox" value="D">
+                          D
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-4" type="checkbox" value="E">
+                          E
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-23" type="hidden" value="3">
+            </div>
+          </div>
+          <br>
+          <div class="form-group margin-0">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label for="input">
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
+              </label>
+              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-5" style="display:none;max-width:125px">
+                <option selected="" value="">
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.tmt">
+                  Benny Charles
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.tmt">
+                  Charlie Davis
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.danny.e@gmail.tmt">
+                  Danny Engrid
+                </option>
+                <option style="display: none;" value="drop.out@gmail.tmt">
+                  Drop out
+                </option>
+                <option style="display: none;" value="SFSubmitUiT.emily.f@gmail.tmt">
+                  Emily
+                </option>
+                <option value="extra.guy@gmail.tmt">
+                  Extra guy
+                </option>
+              </select>
+              <span>
+                Extra guy
+              </span>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted">
+                You need to choose at least 3 options.
+              </p>
+              <p class="text-muted">
+                You cannot choose more than 3 options.
+              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-5" type="checkbox" value="A">
+                          A
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-5" type="checkbox" value="B">
+                          B
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-5" type="checkbox" value="C">
+                          C
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-5" type="checkbox" value="D">
+                          D
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label class="bold-label">
+                          <input name="responsetext-23-5" type="checkbox" value="E">
+                          E
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input name="msqMaxSelectableChoices-23" type="hidden" value="3">
+              <input name="msqMinSelectableChoices-23" type="hidden" value="3">
             </div>
           </div>
         </div>

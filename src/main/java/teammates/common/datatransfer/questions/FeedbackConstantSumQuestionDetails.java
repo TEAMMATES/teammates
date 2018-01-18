@@ -2,13 +2,11 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -17,13 +15,13 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
@@ -39,7 +37,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         super(FeedbackQuestionType.CONSTSUM);
 
         this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<String>();
+        this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
@@ -65,49 +63,40 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
 
-        String distributeToRecipientsString = null;
-        String pointsPerOptionString = null;
-        String pointsString = null;
-        String pointsForEachOptionString = null;
-        String pointsForEachRecipientString = null;
-        String forceUnevenDistributionString = null;
-        boolean distributeToRecipients = false;
-        boolean pointsPerOption = false;
-        boolean forceUnevenDistribution = false;
-        int points = 0;
-
-        distributeToRecipientsString =
+        String distributeToRecipientsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        pointsPerOptionString =
+        String pointsPerOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        pointsString =
+        String pointsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        pointsForEachOptionString =
+        String pointsForEachOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
-        pointsForEachRecipientString =
+        String pointsForEachRecipientString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
         Assumption.assertNotNull("Null points in total", pointsString);
         Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
         Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
-        forceUnevenDistributionString =
+        String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
 
-        distributeToRecipients = "true".equals(distributeToRecipientsString);
-        pointsPerOption = "true".equals(pointsPerOptionString);
+        boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
+        boolean pointsPerOption = "true".equals(pointsPerOptionString);
+
+        int points = 0;
         if (pointsPerOption) {
             points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
                                             : Integer.parseInt(pointsForEachOptionString);
         } else {
             points = Integer.parseInt(pointsString);
         }
-        forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
+        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
@@ -149,7 +138,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             int points, boolean unevenDistribution) {
 
         this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<String>();
+        this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = true;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
@@ -162,6 +151,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT;
         }
         return Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION;
+    }
+
+    @Override
+    public List<String> getInstructions() {
+        return null;
     }
 
     @Override
@@ -403,9 +397,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
-        Map<String, String> identifierMap = new HashMap<String, String>();
+        Map<String, String> identifierMap = new HashMap<>();
 
         if (distributeToRecipients) {
             putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
@@ -413,14 +407,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
-        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
+        sortedOptionPoints.forEach((option, points) -> {
 
-            List<Integer> points = entry.getValue();
             double average = computeAverage(points);
+            int total = computeTotal(points);
             String pointsReceived = getListOfPointsAsString(points);
 
             if (distributeToRecipients) {
-                String participantIdentifier = identifierMap.get(entry.getKey());
+                String participantIdentifier = identifierMap.get(option);
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
 
@@ -428,16 +422,17 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                         Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
+                        Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             } else {
-                String option = entry.getKey();
 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
+                        Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
                         Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
             }
-        }
+        });
 
         if (distributeToRecipients) {
             return Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
@@ -464,9 +459,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<String, List<Integer>>();
+        Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
-        Map<String, String> identifierMap = new HashMap<String, String>();
+        Map<String, String> identifierMap = new HashMap<>();
 
         if (distributeToRecipients) {
             putRecipientsInSortedMap(optionPoints, identifierMap, sortedOptionPoints, bundle);
@@ -474,27 +469,32 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             putOptionsInSortedMap(optionPoints, options, sortedOptionPoints);
         }
 
-        for (Entry<String, List<Integer>> entry : sortedOptionPoints.entrySet()) {
+        sortedOptionPoints.forEach((key, points) -> {
             String option;
             if (distributeToRecipients) {
-                String participantIdentifier = identifierMap.get(entry.getKey());
+                String participantIdentifier = identifierMap.get(key);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
                 String recipientName = bundle.getNameForEmail(participantIdentifier);
 
                 option = SanitizationHelper.sanitizeForCsv(teamName)
                          + "," + SanitizationHelper.sanitizeForCsv(recipientName);
             } else {
-                option = SanitizationHelper.sanitizeForCsv(entry.getKey());
+                option = SanitizationHelper.sanitizeForCsv(key);
             }
 
-            List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
+            double total = computeTotal(points);
 
-        }
+            fragments.append(option)
+                    .append(',').append(df.format(average))
+                    .append(',').append(df.format(total))
+                    .append(',').append(StringHelper.join(",", points))
+                    .append(Const.EOL);
+
+        });
 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
-               + ", Average Points" + Const.EOL
+               + ", Average Points, Total Points, Received Points" + Const.EOL
                + fragments + Const.EOL;
     }
 
@@ -509,14 +509,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, List<Integer>> recipientMapping, Map<String, String> identifierMap,
             Map<String, List<Integer>> sortedOptionPoints, FeedbackSessionResultsBundle bundle) {
 
-        for (Entry<String, List<Integer>> entry : recipientMapping.entrySet()) {
-            String participantIdentifier = entry.getKey();
+        recipientMapping.forEach((participantIdentifier, value) -> {
             String name = bundle.getNameForEmail(participantIdentifier);
             String nameEmail = name + participantIdentifier;
 
             identifierMap.put(nameEmail, participantIdentifier);
-            sortedOptionPoints.put(nameEmail, entry.getValue());
-        }
+            sortedOptionPoints.put(nameEmail, value);
+        });
     }
 
     /**
@@ -530,11 +529,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, List<Integer>> optionPoints, List<String> optionList,
             Map<String, List<Integer>> sortedOptionPoints) {
 
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
-            String option = optionList.get(Integer.parseInt(entry.getKey()));
+        optionPoints.forEach((key, value) -> {
+            String option = optionList.get(Integer.parseInt(key));
 
-            sortedOptionPoints.put(option, entry.getValue());
-        }
+            sortedOptionPoints.put(option, value);
+        });
     }
 
     /**
@@ -546,7 +545,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private Map<String, List<Integer>> generateOptionPointsMapping(
             List<FeedbackResponseAttributes> responses) {
 
-        Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
+        Map<String, List<Integer>> optionPoints = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
 
@@ -569,7 +568,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String optionReceivingPoints, int pointsReceived) {
         List<Integer> points = optionPoints.get(optionReceivingPoints);
         if (points == null) {
-            points = new ArrayList<Integer>();
+            points = new ArrayList<>();
             optionPoints.put(optionReceivingPoints, points);
         }
 
@@ -580,7 +579,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * Returns the list of points as as string to display.
      */
     private String getListOfPointsAsString(List<Integer> points) {
-        Collections.sort(points);
+        points.sort(null);
         StringBuilder pointsReceived = new StringBuilder();
         if (points.size() > 10) {
             for (int i = 0; i < 5; i++) {
@@ -601,13 +600,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return pointsReceived.toString();
     }
 
-    private double computeAverage(List<Integer> points) {
-        double average = 0;
+    private int computeTotal(List<Integer> points) {
+        int total = 0;
         for (Integer point : points) {
-            average += point;
+            total += point;
         }
-        average = average / points.size();
-        return average;
+        return total;
+    }
+
+    private double computeAverage(List<Integer> points) {
+        return (double) computeTotal(points) / points.size();
     }
 
     @Override
@@ -658,7 +660,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
@@ -680,7 +682,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (responses.isEmpty()) {
             //No responses, no errors.
@@ -726,7 +728,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
             }
 
-            Set<Integer> answerSet = new HashSet<Integer>();
+            Set<Integer> answerSet = new HashSet<>();
             if (this.forceUnevenDistribution) {
                 for (int i : frd.getAnswerList()) {
                     if (answerSet.contains(i)) {

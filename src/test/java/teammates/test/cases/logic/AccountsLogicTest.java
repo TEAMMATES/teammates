@@ -23,6 +23,9 @@ import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 
+/**
+ * SUT: {@link AccountsLogic}.
+ */
 public class AccountsLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
@@ -52,7 +55,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "id";
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
@@ -106,11 +109,11 @@ public class AccountsLogicTest extends BaseLogicTest {
             ______TS(aa.toString());
         }
 
-        assertEquals(11, accountsLogic.getInstructorAccounts().size());
+        assertEquals(12, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test updateAccount");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "idOfInstructor1OfCourse1";
         spa.institute = "dev";
         spa.shortName = "nam";
@@ -172,8 +175,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
-        StudentAttributes studentData = new StudentAttributes(null,
-                originalEmail, "name", "", courseId, "teamName", "sectionName");
+        StudentAttributes studentData = StudentAttributes
+                .builder(courseId, "name", originalEmail)
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -204,8 +211,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: googleID belongs to an existing student in the course");
 
         String existingId = "AccLogicT.existing.studentId";
-        StudentAttributes existingStudent = new StudentAttributes(existingId,
-                "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
+        StudentAttributes existingStudent = StudentAttributes
+                .builder(courseId, "name", "differentEmail@email.com")
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
+                .withGoogleId(existingId)
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
 
         try {
@@ -218,8 +230,9 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
+        StudentProfileAttributes spa = StudentProfileAttributes.builder()
+                .withGoogleId(correctStudentId).withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
         AccountAttributes accountData = new AccountAttributes(correctStudentId,
                 "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);
@@ -265,8 +278,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         logic.deleteAccount(correctStudentId);
 
         originalEmail = "email2@gmail.com";
-        studentData = new StudentAttributes(null, originalEmail, "name", "",
-                courseId, "teamName", "sectionName");
+        studentData = StudentAttributes
+                .builder(courseId, "name", originalEmail)
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -357,8 +374,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but account already exists");
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns =
-                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns = InstructorAttributes
+                .builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -374,8 +392,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
-                                          "anInstructorWithoutGoogleId@gmail.com");
+        newIns = InstructorAttributes
+                .builder(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
+                .build();
 
         instructorsLogic.createInstructor(newIns);
 
@@ -383,7 +402,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = InstructorAttributes.builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -455,8 +475,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes account = dataBundle.accounts.get("instructor5");
 
         // Make instructor account id a student too.
-        StudentAttributes student = new StudentAttributes(instructor.googleId,
-                "email@com", instructor.name, "", instructor.courseId, "team", "section");
+        StudentAttributes student = StudentAttributes
+                .builder(instructor.courseId, instructor.name, "email@com")
+                .withSection("section")
+                .withTeam("team")
+                .withComments("")
+                .withGoogleId(instructor.googleId)
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(student);
         verifyPresentInDatastore(account);
         verifyPresentInDatastore(instructor);

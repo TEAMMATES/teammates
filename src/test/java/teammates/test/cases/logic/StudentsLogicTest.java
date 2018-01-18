@@ -1,27 +1,28 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.StudentAttributesFactory;
+import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentAttributesFactory;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.StudentUpdateStatus;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,7 +31,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -38,12 +38,13 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.CourseStudent;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
+import teammates.test.driver.TimeHelperExtension;
 
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link StudentsLogic}.
+ */
 public class StudentsLogicTest extends BaseLogicTest {
 
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -72,7 +73,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         testValidateSections();
         testupdateStudentCascadeWithoutDocument();
-        testKeyGeneration();
         testEnrollLinesChecking();
         testEnrollStudents();
 
@@ -104,7 +104,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
         team = StudentsLogic.inst().getTeamDetailsForStudent(student);
 
-        assertEquals(null, team);
+        assertNull(team);
 
     }
 
@@ -121,12 +121,17 @@ public class StudentsLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
                         "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
+                        StudentProfileAttributes.builder().withGoogleId(instructorId).withShortName("ICET").build()));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
 
-        StudentAttributes student1 = new StudentAttributes("sect 1", "t1", "n", "e@g", "c", instructorCourse);
+        StudentAttributes student1 = StudentAttributes
+                .builder(instructorCourse, "n", "e@g")
+                .withSection("sect 1")
+                .withTeam("t1")
+                .withComments("c")
+                .build();
 
         // check if the course is empty
         assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
@@ -147,15 +152,30 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
-        StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
+        StudentAttributes student2 = StudentAttributes
+                .builder(instructorCourse, "n2", "e2@g")
+                .withSection("sect 1")
+                .withTeam("t1")
+                .withComments("c")
+                .build();
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentUpdateStatus.NEW);
 
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
-        enrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
-        enrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
+        enrollStudent(StudentAttributes
+                .builder(instructorCourse, "n3", "e3@g")
+                .withSection("sect 2")
+                .withTeam("t2")
+                .withComments("c")
+                .build());
+        enrollStudent(StudentAttributes
+                .builder(instructorCourse, "n4", "e4@g")
+                .withSection("sect 2")
+                .withTeam("t2")
+                .withComments("")
+                .build());
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("modify info of existing student");
@@ -183,7 +203,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("success: edited profile");
 
-        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder().build();
 
         expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
@@ -208,20 +228,32 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Typical case");
 
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
-        studentList.add(
-                new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
-                                      "student2InCourse1@gmail.tmt", "", courseId));
+        List<StudentAttributes> studentList = new ArrayList<>();
+        studentList.add(StudentAttributes
+                .builder(courseId, "New Student", "emailNew@com")
+                .withSection("Section 3")
+                .withTeam("Team 1.3")
+                .withComments("")
+                .build());
+        studentList.add(StudentAttributes
+                .builder(courseId, "student2 In Course1", "student2InCourse1@gmail.tmt")
+                .withSection("Section 2")
+                .withTeam("Team 1.4")
+                .withComments("")
+                .build());
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
         ______TS("Failure case: invalid section");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            StudentAttributes addedStudent =
-                    new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
+            StudentAttributes addedStudent = StudentAttributes
+                    .builder(courseId, "Name " + i, "email@com" + i)
+                    .withSection("Section 1")
+                    .withTeam("Team " + i)
+                    .withComments("cmt" + i)
+                    .build();
             studentList.add(addedStudent);
         }
         try {
@@ -232,8 +264,13 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid team");
 
-        studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
+        studentList = new ArrayList<>();
+        studentList.add(StudentAttributes
+                .builder(courseId, "New Student", "newemail@com")
+                .withSection("Section 2")
+                .withTeam("Team 1.1")
+                .withComments("")
+                .build());
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {
@@ -265,14 +302,16 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("check for KeepExistingPolicy : change email only");
 
-        // create an empty student and then copy course and email attributes
-        StudentAttributes copyOfStudent1 = new StudentAttributes();
-        copyOfStudent1.course = student4InCourse1.course;
         originalEmail = student4InCourse1.email;
-
         String newEmail = student4InCourse1.email + "y";
         student4InCourse1.email = newEmail;
-        copyOfStudent1.email = newEmail;
+
+        // create an empty student and then copy course and email attributes
+        StudentAttributes copyOfStudent1 = StudentAttributes
+                .builder(student4InCourse1.course, student4InCourse1.name, newEmail)
+                .build();
+        student4InCourse1.googleId = "";
+        student4InCourse1.section = "None";
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         verifyPresentInDatastore(student4InCourse1);
@@ -309,17 +348,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testKeyGeneration() {
-
-        ______TS("key generation");
-
-        long key = 5;
-        String longKey = KeyFactory.createKeyString(CourseStudent.class.getSimpleName(), key);
-        long reverseKey = KeyFactory.stringToKey(longKey).getId();
-        assertEquals(key, reverseKey);
-        assertEquals("CourseStudent", KeyFactory.stringToKey(longKey).getKind());
-    }
-
     private void testAdjustFeedbackResponseForEnrollments() throws Exception {
 
         // the case below will not cause the response to be deleted
@@ -329,7 +357,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
         StudentEnrollDetails studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
                                          course1Id, student1InCourse1.email, student1InCourse1.team,
@@ -359,7 +387,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: unmodified status");
 
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
                                          student1InCourse1.email, student1InCourse1.team,
@@ -388,7 +416,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student2InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         enrollmentList.add(studentDetails1);
 
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
@@ -400,7 +428,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(null, responseAfter);
+        assertNull(responseAfter);
 
     }
 
@@ -411,11 +439,11 @@ public class StudentsLogicTest extends BaseLogicTest {
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
         String invalidInfoString = null;
         String expectedInvalidInfoString;
-        List<String> expectedInvalidInfoList = new ArrayList<String>();
+        List<String> expectedInvalidInfoList = new ArrayList<>();
 
         ______TS("enrollLines with invalid parameters");
-        String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
-        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
+        String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        String invalidStudentName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         String headerLine = "Team | Name | Email";
         String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
@@ -496,7 +524,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         expectedInvalidInfoString = StringHelper.toString(expectedInvalidInfoList, "<br>");
         assertEquals(expectedInvalidInfoString, invalidInfoString);
-
 
         ______TS("enrollLines with some empty fields");
 
@@ -588,7 +615,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     /**
      * Returns the error message of EnrollException thrown when trying to call
-     * {@link teammates.logic.core.StudentsLogic#createStudents(String, String)} method with
+     * {@link StudentsLogic#createStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
      * {@link #signalFailureToDetectException()}.
      *
@@ -610,19 +637,32 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+                .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
+                .build();
         AccountAttributes accountToAdd = new AccountAttributes(instructorId,
                 "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
+                profileAttributes);
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
-                courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TimeHelper.getHoursOffsetToCurrentTime(0), TimeHelper.getHoursOffsetToCurrentTime(2),
-                TimeHelper.getHoursOffsetToCurrentTime(5), TimeHelper.getHoursOffsetToCurrentTime(1),
-                TimeHelper.getHoursOffsetToCurrentTime(6),
-                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
+
+        FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
+                .builder("newFeedbackSessionName", courseIdForEnrollTest, instructorEmail)
+                .withInstructions(new Text("default instructions"))
+                .withCreatedTime(TimeHelperExtension.getHoursOffsetToCurrentTime(0))
+                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(2))
+                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(6))
+                .withTimeZone(8)
+                .withGracePeriod(0)
+                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withOpeningEmailEnabled(false)
+                .withClosingEmailEnabled(false)
+                .withPublishedEmailEnabled(false)
+                .build();
         fsLogic.createFeedbackSession(fsAttr);
 
         ______TS("all valid students, but contains blank lines and trailing spaces");
@@ -699,9 +739,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
+        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
+                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
+                .build();
         accountToAdd = new AccountAttributes("tes.instructor",
                 "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
+                studentAttributes);
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 
@@ -779,7 +822,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String nonExistStudentEmail = "nonExist@google.tmt";
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        assertEquals(null, studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
+        assertNull(studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
 
         ______TS("typical case");
 
@@ -802,7 +845,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("non-exist student");
 
         String nonExistStudentKey = StringHelper.encrypt("nonExistKey");
-        assertEquals(null, studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
+        assertNull(studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
 
         ______TS("typical case");
 
@@ -847,12 +890,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // check the content from first list (we assume the content of the
         // second list is similar.
 
-        Collections.sort(listReceivedUsingStudentInCourse1, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return o1.course.compareTo(o2.course);
-            }
-        });
+        listReceivedUsingStudentInCourse1.sort(Comparator.comparing(student -> student.course));
 
         StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2
@@ -909,7 +947,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("student in zero courses");
 
-        assertEquals(null, studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
+        assertNull(studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
                 "random-google-id"));
 
         ______TS("null parameters");
@@ -1076,9 +1114,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyPresentInDatastore(student1InCourse1);
-
-        // verify comments made to this student are gone
-        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 

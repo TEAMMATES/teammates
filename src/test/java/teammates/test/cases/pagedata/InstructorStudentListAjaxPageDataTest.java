@@ -7,10 +7,10 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
@@ -20,6 +20,9 @@ import teammates.ui.template.StudentListSectionData;
 import teammates.ui.template.StudentListStudentData;
 import teammates.ui.template.StudentListTeamData;
 
+/**
+ * SUT: {@link InstructorStudentListAjaxPageData}.
+ */
 public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
 
     private AccountAttributes acct;
@@ -49,10 +52,6 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)
                                       .booleanValue(),
                      section.isAllowedToModifyStudent());
-        assertEquals(sectionPrivileges.get(sampleSection.name)
-                                      .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)
-                                      .booleanValue(),
-                     section.isAllowedToGiveCommentInSection());
         for (StudentListTeamData team : section.getTeams()) {
             testTeamContent(team);
         }
@@ -87,10 +86,9 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         acct = new AccountAttributes();
         acct.googleId = "valid.id"; // only googleId is needed
 
-        sampleStudent = new StudentAttributes();
-        sampleStudent.name = "<script>alert(\"Valid name\");</script>";
-        sampleStudent.email = "1+1@email.com";
-        sampleStudent.course = "valid course"; // only three fields needed
+        sampleStudent = StudentAttributes
+                .builder("valid course", "1+1@email.com", "<script>alert(\"Valid name\");</script>")
+                .build(); // only three fields needed
 
         sampleTeam = new TeamDetailsBundle();
         sampleTeam.students.add(sampleStudent);
@@ -100,20 +98,19 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         sampleSection.teams.add(sampleTeam);
         sampleSection.name = "<valid section name>";
 
-        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        List<SectionDetailsBundle> sections = new ArrayList<>();
         sections.add(sampleSection);
 
-        sectionPrivileges = new HashMap<String, Map<String, Boolean>>();
-        Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();
+        sectionPrivileges = new HashMap<>();
+        Map<String, Boolean> sectionPrivilege = new HashMap<>();
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, true);
         sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, false);
-        sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, true);
         sectionPrivileges.put(sampleSection.name, sectionPrivilege);
 
-        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, String> emailPhotoUrlMapping = new HashMap<>();
         emailPhotoUrlMapping.put(sampleStudent.email, photoUrl);
 
-        return new InstructorStudentListAjaxPageData(acct, "valid course id", 1, true, sections,
+        return new InstructorStudentListAjaxPageData(acct, dummySessionToken, "valid course id", 1, true, sections,
                                                      sectionPrivileges, emailPhotoUrlMapping);
     }
 

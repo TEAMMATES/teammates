@@ -18,7 +18,6 @@ public class CourseEditInstructorPanel {
     private ElementTag editButton;
     private ElementTag cancelButton;
     private ElementTag deleteButton;
-    private ElementTag addSectionLevelForInstructorButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
     private int firstBlankSectionRowIndex;
@@ -39,26 +38,13 @@ public class CourseEditInstructorPanel {
         permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel();
         permissionInputGroup2 = createPermissionInputGroup2ForInstructorPanel();
         permissionInputGroup3 = createPermissionInputGroup3ForInstructorPanel();
-
-        if (instructor != null) {
-            String style = null;
-            if (instructor.privileges.numberOfSectionsSpecial() >= sectionNames.size()) {
-                style = "display: none;";
-            }
-            String onClick = "showTuneSectionPermissionsDiv(" + index + ", "
-                             + firstBlankSectionRowIndex + ")";
-            String content = "Give different permissions for a specific section";
-            String id = "addSectionLevelForInstructor" + index;
-            addSectionLevelForInstructorButton = createButton(content, "small", id, "javascript:;",
-                                                              style, onClick);
-        }
     }
 
     private List<CourseEditSectionRow> createSectionRows(
             int instructorIndex, List<String> sectionNames, List<String> feedbackNames) {
         firstBlankSectionRowIndex = sectionNames.size();
-        Map<Integer, String> specialSectionNames = new TreeMap<Integer, String>();
-        Map<Integer, String> nonSpecialSectionNames = new TreeMap<Integer, String>();
+        Map<Integer, String> specialSectionNames = new TreeMap<>();
+        Map<Integer, String> nonSpecialSectionNames = new TreeMap<>();
 
         distinguishSpecialAndNonSpecialSections(sectionNames, specialSectionNames, nonSpecialSectionNames);
 
@@ -91,7 +77,7 @@ public class CourseEditInstructorPanel {
     private List<CourseEditSectionRow> createSpecialAndNonSpecialSectionRowsInOrder(
             int instructorIndex, List<String> sectionNames, List<String> feedbackNames,
             Map<Integer, String> specialSectionNames, Map<Integer, String> nonSpecialSectionNames) {
-        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
+        List<CourseEditSectionRow> rows = new ArrayList<>();
 
         createSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, specialSectionNames);
         createNonSpecialSectionRows(instructorIndex, sectionNames, feedbackNames, rows, nonSpecialSectionNames);
@@ -149,6 +135,10 @@ public class CourseEditInstructorPanel {
         return index;
     }
 
+    public int getFirstBlankSectionRowIndex() {
+        return firstBlankSectionRowIndex;
+    }
+
     public void setResendInviteButton(ElementTag resendInviteButton) {
         this.resendInviteButton = resendInviteButton;
     }
@@ -185,10 +175,6 @@ public class CourseEditInstructorPanel {
         return instructor;
     }
 
-    public ElementTag getAddSectionLevelForInstructorButton() {
-        return addSectionLevelForInstructorButton;
-    }
-
     public boolean isAccessControlDisplayed() {
         return isAccessControlDisplayed;
     }
@@ -210,7 +196,7 @@ public class CourseEditInstructorPanel {
     }
 
     private List<ElementTag> createPermissionInputGroup3ForInstructorPanel() {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         permissionInputGroup.add(createCheckBox("Sessions: Submit Responses and Add Comments",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
@@ -226,25 +212,16 @@ public class CourseEditInstructorPanel {
     }
 
     private List<ElementTag> createPermissionInputGroup2ForInstructorPanel() {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         permissionInputGroup.add(createCheckBox("View Students' Details",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-
-        permissionInputGroup.add(createCheckBox("Give Comments for Students",
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-
-        permissionInputGroup.add(createCheckBox("View Others' Comments on Students",
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
-
-        permissionInputGroup.add(createCheckBox("Edit/Delete Others' Comments on Students",
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
 
         return permissionInputGroup;
     }
 
     private List<ElementTag> createPermissionInputGroup1ForInstructorPanel() {
-        List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
+        List<ElementTag> permissionInputGroup = new ArrayList<>();
 
         permissionInputGroup.add(createCheckBox("Edit/Delete Course",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
@@ -270,30 +247,4 @@ public class CourseEditInstructorPanel {
         return result;
     }
 
-    private ElementTag createButton(String content, String buttonClass, String id, String href, String style,
-                                    String onClick) {
-        ElementTag button = new ElementTag(content);
-
-        if (buttonClass != null) {
-            button.setAttribute("class", buttonClass);
-        }
-
-        if (id != null) {
-            button.setAttribute("id", id);
-        }
-
-        if (href != null) {
-            button.setAttribute("href", href);
-        }
-
-        if (style != null) {
-            button.setAttribute("style", style);
-        }
-
-        if (onClick != null) {
-            button.setAttribute("onclick", onClick);
-        }
-
-        return button;
-    }
 }

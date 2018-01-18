@@ -6,19 +6,19 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 public class StudentCourseJoinConfirmationPageData extends PageData {
     private String confirmUrl;
     private String logoutUrl;
-    private boolean redirectResult;
-    private boolean nextUrlAccessibleWithoutLogin;
+    private boolean isRedirectResult;
+    private boolean isNextUrlAccessibleWithoutLogin;
     private String courseId;
 
-    public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student,
+    public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                                  String confirmUrl, String logoutUrl, boolean redirectResult,
                                                  String courseId, boolean nextUrlAccessibleWithoutLogin) {
-        super(account, student);
+        super(account, student, sessionToken);
         this.confirmUrl = confirmUrl;
         this.logoutUrl = logoutUrl;
-        this.redirectResult = redirectResult;
+        this.isRedirectResult = redirectResult;
         this.courseId = courseId;
-        this.nextUrlAccessibleWithoutLogin = nextUrlAccessibleWithoutLogin;
+        this.isNextUrlAccessibleWithoutLogin = nextUrlAccessibleWithoutLogin;
     }
 
     public String getConfirmUrl() {
@@ -30,7 +30,7 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     }
 
     public boolean isRedirectResult() {
-        return redirectResult;
+        return isRedirectResult;
     }
 
     public String getCourseId() {
@@ -38,7 +38,7 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     }
 
     public boolean isNextUrlAccessibleWithoutLogin() {
-        return nextUrlAccessibleWithoutLogin;
+        return isNextUrlAccessibleWithoutLogin;
     }
 
 }

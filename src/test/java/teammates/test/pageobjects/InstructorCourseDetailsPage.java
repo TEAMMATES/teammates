@@ -75,29 +75,6 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
-    public InstructorCourseStudentDetailsViewPage clickAddCommentStudent(String studentName) {
-        int rowId = getStudentRowId(studentName);
-        click(getAddCommentDropDownLink(rowId));
-        click(getAddCommentToStudentLink(rowId));
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsViewPage.class);
-    }
-
-    public void submitCommentToCourse(String comment) {
-        clickAddCommentToCourseButton();
-        WebElement textarea = browser.driver.findElement(By.id("commenttext"));
-        waitForRichTextEditorToLoad("commenttext");
-        click(textarea);
-        fillRichTextEditor(textarea.getAttribute("id"), comment);
-        browser.driver.findElement(By.id("button_save_comment")).click();
-        waitForPageToLoad();
-    }
-
-    public void clickAddCommentToCourseButton() {
-        click(browser.driver.findElement(By.id("button_add_comment")));
-    }
-
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
         int rowId = getStudentRowId(studentName);
         click(getEditLink(rowId));
@@ -142,6 +119,18 @@ public class InstructorCourseDetailsPage extends AppPage {
         return this;
     }
 
+    public InstructorCourseDetailsPage clickDeleteAllAndCancel() {
+        click(getDeleteAllLink());
+        waitForConfirmationModalAndClickCancel();
+        return this;
+    }
+
+    public InstructorCourseDetailsPage clickDeleteAllAndConfirm() {
+        click(getDeleteAllLink());
+        waitForConfirmationModalAndClickOk();
+        return this;
+    }
+
     private WebElement getViewLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
@@ -167,6 +156,10 @@ public class InstructorCourseDetailsPage extends AppPage {
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
     }
 
+    private WebElement getDeleteAllLink() {
+        return browser.driver.findElement(By.id("button-delete-all"));
+    }
+
     private WebElement getAllRecordsLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
@@ -175,17 +168,6 @@ public class InstructorCourseDetailsPage extends AppPage {
             return fourthLink;
         }
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
-    }
-
-    private WebElement getAddCommentDropDownLink(int studentNum) {
-        WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > a.dropdown-toggle"));
-    }
-
-    private WebElement getAddCommentToStudentLink(int studentNum) {
-        WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > div.btn-group > ul.dropdown-menu"
-                                                                            + "> li:nth-child(1) > a"));
     }
 
     private int getStudentRowId(String studentName) {

@@ -2,18 +2,34 @@ package teammates.test.cases.action;
 
 import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseJoinAction;
 import teammates.ui.pagedata.StudentCourseJoinConfirmationPageData;
 
+/**
+ * SUT: {@link StudentCourseJoinAction}.
+ */
 public class StudentCourseJoinActionTest extends BaseActionTest {
+
+    @BeforeClass
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
 
     @Override
     protected String getActionUri() {
@@ -28,7 +44,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         RedirectResult redirectResult;
         String[] submissionParams;
 
-        StudentAttributes student1InCourse1 = dataBundle.students
+        StudentAttributes student1InCourse1 = typicalBundle.students
                 .get("student1InCourse1");
         StudentsDb studentsDb = new StudentsDb();
         student1InCourse1 = studentsDb.getStudentForGoogleId(
@@ -43,11 +59,13 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         ______TS("typical case");
 
         String idOfNewStudent = "idOfNewStudent";
-        StudentAttributes newStudentData = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNewStudent", "newStudent@course1.com",
-                "This is a new student", student1InCourse1.course);
+        StudentAttributes newStudentData = StudentAttributes
+                .builder(student1InCourse1.course, "nameOfNewStudent", "newStudent@course1.com")
+                .withSection(student1InCourse1.section)
+                .withTeam(student1InCourse1.team)
+                .withComments("This is a new student")
+                .build();
+
         studentsDb.createEntity(newStudentData);
 
         gaeSimulation.loginUser(idOfNewStudent);
@@ -68,14 +86,15 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         joinAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(joinAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "?" + Const.ParamsNames.ERROR + "=false"
-                + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, false, idOfNewStudent),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
-                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE,
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                        newStudentKey,
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE),
                 ((StudentCourseJoinConfirmationPageData) pageResult.data).getConfirmUrl());
         assertEquals("", pageResult.getStatusMessage());
 
@@ -93,10 +112,12 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         joinAction = getAction(submissionParams);
         redirectResult = getRedirectResult(joinAction);
 
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
-                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE.replace("/", "%2F")
-                + "&" + Const.ParamsNames.ERROR + "=false",
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                        newStudentKey,
+                        Const.ActionURIs.STUDENT_PROFILE_PAGE.replace("/", "%2F"),
+                        false),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
 
@@ -144,4 +165,39 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         return (StudentCourseJoinAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    protected String getPageResultDestination(String parentUri, String regKey, String nextUrl, boolean isError) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, regKey);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.NEXT_URL, nextUrl);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        return pageDestination;
+    }
+
+    protected String getPageResultDestination(String parentUri, String regKey, String nextUrl) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, regKey);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.NEXT_URL, nextUrl);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.courses.get("typicalCourse1").getId()
+        };
+        verifyAccessibleWithoutLogin(submissionParams);
+
+        StudentAttributes unregStudent1 = typicalBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.COURSE_ID, unregStudent1.course,
+                Const.ParamsNames.STUDENT_EMAIL, unregStudent1.email
+        };
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+        verifyAccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+    }
 }

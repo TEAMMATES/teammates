@@ -3,10 +3,11 @@ package teammates.ui.pagedata;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.template.EnrollResultPanel;
 
 /**
@@ -14,21 +15,23 @@ import teammates.ui.template.EnrollResultPanel;
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
 
+    private static final Logger log = Logger.getLogger();
+
     private String courseId;
     private List<StudentAttributes>[] students;
     private boolean hasSection;
     private String enrollStudents;
     private List<EnrollResultPanel> enrollResultPanelList;
 
-    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId,
+    public InstructorCourseEnrollResultPageData(AccountAttributes account, String sessionToken, String courseId,
                                                 List<StudentAttributes>[] students, boolean hasSection,
                                                 String enrollStudents) {
-        super(account);
+        super(account, sessionToken);
         this.courseId = courseId;
         this.students = students;
         this.hasSection = hasSection;
         this.enrollStudents = enrollStudents;
-        enrollResultPanelList = new ArrayList<EnrollResultPanel>();
+        enrollResultPanelList = new ArrayList<>();
 
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             String panelClass = "";

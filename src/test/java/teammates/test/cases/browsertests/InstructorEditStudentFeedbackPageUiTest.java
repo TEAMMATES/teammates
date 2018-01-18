@@ -10,8 +10,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
- * Tests Edit(Moderate) Student's Feedback Page of instructors.
- *
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE}.
  */
 public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
@@ -68,6 +67,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
 
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
 
@@ -94,6 +94,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
     }
 
     private void testDeleteResponse() {
@@ -105,6 +106,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
 
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),

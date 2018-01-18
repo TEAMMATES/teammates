@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="PDMPlugin">
+    <option name="customRuleSets">
+      <list>
+        <option value="$PROJECT_DIR$/static-analysis/teammates-pmd.xml" />
+        <option value="$PROJECT_DIR$/static-analysis/teammates-pmdMain.xml" />
+      </list>
+    </option>
+    <option name="options">
+      <map>
+        <entry key="Encoding" value="" />
+        <entry key="Target JDK" value="1.8" />
+      </map>
+    </option>
+    <option name="skipTestSources" value="false" />
+  </component>
+  <component name="ProjectResources">
+    <resource url="http://pmd.sourceforge.net/ruleset_2_0_0.xsd" location="$PROJECT_DIR$/static-analysis/pmd_ruleset_2_0_0.xsd" />
+    <resource url="http://www.puppycrawl.com/dtds/configuration_1_3.dtd" location="$PROJECT_DIR$/static-analysis/checkstyle_configuration_1_3.dtd" />
+    <resource url="http://www.puppycrawl.com/dtds/suppressions_1_1.dtd" location="$PROJECT_DIR$/static-analysis/checkstyle_suppressions_1_1.dtd" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

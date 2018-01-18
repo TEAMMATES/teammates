@@ -1,40 +1,45 @@
 apply plugin: "eclipse"
+apply plugin: "eclipse-wtp"
+apply plugin: "idea"
+
 apply plugin: "war"
-apply plugin: "appengine"
+// apply plugin: "com.google.cloud.tools.appengine"
+// see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
+project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
+
 apply plugin: "checkstyle"
 apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.27"
-def checkstyleVersion = "6.19"
-def pmdVersion = "5.5.4"
+def appengineVersion = "1.9.+"
+def jsoupVersion = "1.10.3"
+def checkstyleVersion = "8.7"
+def pmdVersion = "5.8.1"
 def findbugsVersion = "3.0.1"
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath "com.google.appengine:gradle-appengine-plugin:1.9.27"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.4"
     }
 }
 
 configurations {
     staticAnalysis
-    enhancer
-    exclude
-    testExclude
 }
 
 configurations.all {
     resolutionStrategy {
         force "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
+        force "org.jsoup:jsoup:${jsoupVersion}"
     }
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -43,54 +48,33 @@ dependencies {
                     "com.google.code.findbugs:findbugs:${findbugsVersion}",
                     "de.andrena.tools.macker:macker:1.0.1"
 
-    appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
-
-    compile         "com.google.appengine.tools:appengine-gcs-client:0.4.4",
-                    "com.google.appengine:appengine-api-labs:${appengineVersion}",
-                    "com.google.code.gson:gson:2.8.0",
-                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20160924.1",
-                    "com.mailjet:mailjet-client:4.0.5",
+    compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+                    "com.google.appengine.tools:appengine-gcs-client:0.7",
+                    "com.google.code.gson:gson:2.8.2",
+                    "com.googlecode.objectify:objectify:5.1.21",
+                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20171016.1",
+                    "com.mailjet:mailjet-client:4.1.1",
                     "com.sendgrid:sendgrid-java:2.2.2",
-                    "com.sun.jersey:jersey-client:1.19.3",
-                    "com.sun.jersey:jersey-core:1.19.3",
-                    "com.sun.jersey.contribs:jersey-multipart:1.19.3",
-                    "joda-time:joda-time:2.9.7",
+                    "com.sun.jersey:jersey-client:1.19.4",
+                    "com.sun.jersey:jersey-core:1.19.4",
+                    "com.sun.jersey.contribs:jersey-multipart:1.19.4",
+                    "joda-time:joda-time:2.9.9",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.10.2"
-
-    exclude         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
-                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
-                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "javax.jdo:jdo2-api:2.3-eb",
-                    "net.sf.jsr107cache:jsr107cache:1.1",
-                    "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
-                    "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
-                    "org.datanucleus:datanucleus-core:1.1.5",
-                    "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "xerces:xercesImpl:2.11.0"
-
-    runtime         configurations.exclude
-
-    enhancer        "javax.jdo:jdo2-api:2.3-eb",
-                    "joda-time:joda-time:2.9.7",
-                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
-                    "org.datanucleus:datanucleus-core:1.1.5",
-                    "org.datanucleus:datanucleus-jpa:1.1.5",
-                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
+                    "org.jsoup:jsoup:${jsoupVersion}"
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "httpunit:httpunit:1.7",
-                    "javax.mail:mail:1.4.7",
                     "org.seleniumhq.selenium:selenium-java:2.53.1",
-                    "org.testng:testng:6.9.4"
-
-    testExclude     "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
-
-    testRuntime     configurations.testExclude
+                    "org.testng:testng:6.9.4",
+                    "org.kohsuke:wordnet-random-name:1.3",
+                    // For access of Google APIs such as HTTP transport, authentication and JSON parsing
+                    "com.google.api-client:google-api-client:1.23.0",
+                    // For supporting authorization code flow locally
+                    "com.google.oauth-client:google-oauth-client-jetty:1.23.0",
+                    // For using Gmail API
+                    "com.google.apis:google-api-services-gmail:v1-rev73-1.23.0"
 
 }
 
@@ -120,36 +104,75 @@ sourceSets {
 
 // SETUP TASKS
 
+task createConfigs {
+    description "Sets up the project by obtaining necessary files and configurations points."
+    group "Setup"
+    doLast {
+        def templatesToCopy = [
+            "gradle.template.properties",
+            "src/main/resources/build.template.properties",
+            "src/test/resources/test.template.properties",
+            "src/main/webapp/WEB-INF/appengine-web.template.xml"
+        ]
+        templatesToCopy.findAll {
+            !(new File(it.replace(".template", ""))).exists()
+        }.each {
+            filename -> copy {
+                from filename
+                into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
+                rename '(.*).template(.*)', '$1$2'
+            }
+        }
+    }
+}
+
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
 eclipse {
     project {
-        natures "org.eclipse.jdt.core.javanature", "com.google.appengine.eclipse.core.gaeNature", "org.eclipse.wst.jsdt.core.jsNature"
+        natures "org.eclipse.jdt.core.javanature", "org.eclipse.buildship.core.gradleprojectnature", "org.eclipse.wst.jsdt.core.jsNature"
         buildCommand "org.eclipse.jdt.core.javabuilder"
-        buildCommand "com.google.gdt.eclipse.core.webAppProjectValidator"
-        buildCommand "com.google.appengine.eclipse.core.enhancerbuilder"
-        buildCommand "com.google.appengine.eclipse.core.projectValidator"
+        buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
+        buildCommand "com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb"
+
+        // Exclude the CLI and IntelliJ build directories
+        // Gradle Eclipse plugin does not support generation of resource filters yet
+        // Use the method lined out in https://discuss.gradle.org/t/eclipse-pluging-adding-resource-filters/5408/2
+        file {
+            withXml { xmlProvider ->
+                Node node = xmlProvider.asNode().filteredResources[0]
+                ['build', 'out'].each { folder ->
+                    Node filter = node.appendNode('filter')
+                    filter.appendNode('id', folder.hashCode())
+                    filter.appendNode('name', '')
+                    filter.appendNode('type', 10)
+                    Node matcher = filter.appendNode('matcher')
+                    matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+                    matcher.appendNode('arguments', "1.0-name-matches-false-false-${folder}")
+                }
+            }
+        }
     }
     classpath {
-        containers "com.google.appengine.eclipse.core.GAE_CONTAINER"
-        defaultOutputDir = file("src/main/webapp/WEB-INF/classes")
-        sourceSets = [sourceSets.main, sourceSets.test]
-        minusConfigurations = [configurations.exclude, configurations.testExclude]
+        containers "org.eclipse.buildship.core.gradleclasspathcontainer",
+                   "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
+        defaultOutputDir = file("build-eclipse/classes")
         file {
             whenMerged { cp ->
                 cp.entries.findAll {
                     it instanceof SourceFolder && !it.path.startsWith("src/main/")
-                }*.output = "target/test-classes"
-
-                // Method to put mail.jar on top of the classpath
-                // This is necessary because placing it in its default place causes unintended name clash
-                def nonMailEntries = cp.entries.findAll{ entry ->
-                    !entry.path.contains("mail-1.4.7")
-                }
-                cp.entries.removeAll(nonMailEntries)
-                cp.entries.addAll(nonMailEntries)
+                }*.output = "build-eclipse/test-classes"
             }
+        }
+    }
+    wtp {
+        facet {
+            facets = []
+            facet name: "jst.web", version: "3.1"
+            facet name: "jst.java", version: "1.8"
+            facet name: "wst.jsdt.web", version: "1.0"
+            facet name: "com.google.cloud.tools.eclipse.appengine.facets.standard", version: "JRE8"
         }
     }
 }
@@ -166,76 +189,101 @@ eclipseClasspath {
     }
 }
 
-task createConfigs << {
-    def templatesToCopy = [
-        "gradle.template.properties",
-        "src/main/resources/build.template.properties",
-        "src/test/resources/test.template.properties",
-        "src/main/webapp/WEB-INF/appengine-web.template.xml"
-    ]
-    templatesToCopy.findAll {
-        !(new File(it.replace(".template", ""))).exists()
-    }.each {
-        filename -> copy {
-            from filename
-            into filename.startsWith("src/") ? new File(filename).getParent() : "${projectDir}"
-            rename '(.*).template(.*)', '$1$2'
+task createEclipseLaunches {
+    doLast {
+        def templatesToCopy = [
+                ".templates/eclipseLaunches/All tests.launch.xml",
+                ".templates/eclipseLaunches/CI tests.launch.xml",
+                ".templates/eclipseLaunches/Failed tests.launch.xml",
+                ".templates/eclipseLaunches/Local tests.launch.xml"
+        ]
+        templatesToCopy.findAll {
+            !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
+        }.each { filename ->
+            copy {
+                from filename
+                into ".launches"
+                rename '(.*).xml', '$1'
+            }
+            filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
+            def fileContents = new File(filename).getText("UTF-8")
+            def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
+            new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
         }
     }
 }
 
-task createLaunches << {
-    def templatesToCopy = [
-        ".launches/All tests.launch.xml",
-        ".launches/All tests (GodMode).launch.xml",
-        ".launches/Failed tests.launch.xml",
-        ".launches/Failed tests (GodMode).launch.xml",
-        ".launches/Local tests.launch.xml",
-        ".launches/CI tests.launch.xml",
-        ".launches/Staging tests.launch.xml"
-    ]
-    templatesToCopy.findAll {
-        !(new File(it.replace(".xml", ""))).exists()
-    }.each {
-        filename -> copy {
-            from filename
-            into new File(filename).getParent()
-            rename '(.*).xml', '$1'
-        }
-        filename = filename.replace(".xml", "")
-        def fileContents = new File(filename).getText("UTF-8")
-        def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
-        new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
-    }
-}
-
-task copyDepsToWebInfLib(type: Copy) {
-    from configurations.runtime
-    into "src/main/webapp/WEB-INF/lib/"
-    rename("datanucleus-appengine-1.0.10.jar", "datanucleus-appengine-1.0.10.final.jar")
-    rename("appengine-endpoints-deps-1.9.27.jar", "appengine-endpoints-deps.jar")
-    rename("appengine-endpoints-1.9.27.jar", "appengine-endpoints.jar")
-    rename("appengine-api-labs-1.9.27.jar", "appengine-api-labs.jar")
-}
-
-task resetEclipseDeps {
-    description "Updates the project's dependencies to be used by Eclipse configurations"
+task setupEclipse {
+    description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
+    dependsOn eclipseClasspath, eclipseProject, createEclipseLaunches
+}
+
+String intellijSetupGroup = 'IntelliJ IDEA Setup'
+
+// IntelliJ Project Setup
+
+// Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
+// IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
+// Note that this property is not documented and may change anytime.
+if (System.getProperty('idea.paths.selector') != null) {
+    // Nest the buildDir inside IntelliJ's default project compiler output directory
+    buildDir = new File(projectDir, 'out/build')
+}
+
+idea {
+    module {
+        // Exclude the CLI and Eclipse build directories
+        excludeDirs += [file('build'), file('build-eclipse')]
+    }
+}
+
+task setupIntellijRunConfigs(type: Copy) {
+    description 'Sets up the run configurations in the IntelliJ project.'
+    group intellijSetupGroup
     doFirst {
-        delete  ".classpath",
-                "src/main/webapp/WEB-INF/lib"
+        if (!file('.idea').exists()) {
+            throw new GradleException('Please import the project into IntelliJ first.')
+        }
     }
-    finalizedBy eclipseClasspath, copyDepsToWebInfLib
+    from '.templates/ideaRunConfigurations'
+    into '.idea/runConfigurations'
 }
 
-task printUserHomeDir << {
-    println "Your Gradle user directory is: ${gradle.gradleUserHomeDir}"
+task setupIntellij {
+    description 'Sets up the IntelliJ-specific configurations for the project.'
+    group intellijSetupGroup
+    dependsOn setupIntellijRunConfigs
 }
 
-task setup {
-    description "Sets up the project by obtaining necessary files and configurations points."
-    group "Setup"
-    dependsOn eclipseProject, createConfigs, createLaunches
+// IntelliJ project static analysis plugins setup
+
+task copyStylelintConfiguration {
+    // Cannot use copy task directly when copying to project root on Windows due to the
+    // file-locking mechanism interfering with the way inputs and outputs are monitored
+    // (see https://issues.gradle.org/browse/GRADLE-3002).
+    // We use the copy method instead, which works because it does not do incremental
+    // building (inputs and outputs are not monitored).
+    group intellijSetupGroup
+    doLast {
+        copy {
+            from 'static-analysis/teammates-stylelint.yml'
+            into projectDir
+            rename { '.stylelintrc.yml' }
+        }
+    }
+}
+
+task copyIntelliJProjectPluginsSettings(type: Copy) {
+    group intellijSetupGroup
+    from '.templates/ideaPlugins'
+    into '.idea'
+    mustRunAfter copyStylelintConfiguration
+}
+
+task setupIntellijStaticAnalysis {
+    description 'Sets up the static analysis plugins in the IntelliJ project.'
+    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
 }
 
 // RUN SERVER TASKS
@@ -244,69 +292,33 @@ compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 appengine {
-    httpPort = 8888
-    downloadSdk = true
-    jvmFlags = ["-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"]
-    appcfg {
-        oauth2 = true
+    run {
+        port = 8080
+        jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
+                // Absolute paths are not supported, the following is relative to the project directory
+                // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
+                "-Ddatastore.backing_store=appengine-generated/local_db.bin",
+                "-Dblobstore.backing_store=appengine-generated"]
+    }
+    deploy {
+        String appengineWebXmlPath = "${projectDir}/src/main/webapp/WEB-INF/appengine-web.xml"
+        Node appengineWebXml = new File(appengineWebXmlPath).exists() ? new XmlParser().parse(appengineWebXmlPath) : null
+        project = appengineWebXml == null ? null : appengineWebXml.application.text()
+        version = appengineWebXml == null ? null : appengineWebXml.version.text()
+        stopPreviousVersion = false
+        promote = false
     }
 }
 
-appengineRun {
-    if (project.hasProperty("disable_daemon")) {
-        daemon = false
-    } else {
-        daemon = true
-    }
+task appengineDeployAll {
+    description "Deploy an App Engine application and all its extended configurations"
+    group "App Engine Standard environment"
+    dependsOn appengineDeploy, appengineDeployIndex, appengineDeployCron, appengineDeployQueue
 }
-
-task removeDuplicateLibs(type: Delete) {
-    delete  "${buildDir}/exploded-app/WEB-INF/lib/datanucleus-appengine-1.0.10.final.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints-deps.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-endpoints.jar",
-            "${buildDir}/exploded-app/WEB-INF/lib/appengine-api-labs.jar"
-}
-
-appengineExplodeApp.finalizedBy removeDuplicateLibs
-
-task enhancerRun << {
-    def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
-    ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
-    ant.enhance(failonerror: true, verbose: true) {
-        classpath {
-            pathelement(path: path)
-            pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
-            pathelement(path: project.configurations.enhancer.asPath)
-        }
-        fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
-        arg(value: "-enhancerVersion"); arg(value: "v1")
-        arg(value: "-api"); arg(value: "JPA")
-    }
-}
-
-enhancerRun.dependsOn appengineDownloadSdk
-enhancerRun.dependsOn project.classes
-enhancerRun.shouldRunAfter project.testClasses
-war.dependsOn enhancerRun
 
 // STATIC ANALYSIS TASKS
 
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
-
-task eslint(type: Exec) {
-    def command = ["eslint"]
-    def jsDirs = ["src/main/webapp/js/*.js", "src/main/webapp/dev/*.js"]
-    def jsonDirs = ["src/main/webapp/js/*.json", "src/main/resources/*.json", "src/test/resources/data/*.json"]
-    def configFile = ["-c", "static-analysis/teammates-eslint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + jsDirs + jsonDirs + configFile
-}
-
-task stylelint(type: Exec) {
-    def command = ["stylelint"]
-    def cssDirs = ["src/main/webapp/stylesheets/*.css"]
-    def configFile = ["--config", "static-analysis/teammates-stylelint.yml"]
-    commandLine = (isWindows ? ["cmd", "/c"] : []) + command + cssDirs + configFile
-}
 
 checkstyle {
     toolVersion = checkstyleVersion
@@ -342,32 +354,34 @@ task downloadStaticAnalysisTools {
     }
 }
 
-task staticAnalysisMain {
+task lintMain {
     dependsOn checkstyleMain, pmdMain, findbugsMain
 }
 
-task staticAnalysisTest {
+task lintTest {
     dependsOn checkstyleTest, pmdTest, findbugsTest
 }
 
-task macker << {
-    logging.setLevel(LogLevel.INFO)
-    ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
-    ant.macker(failonerror: true, verbose: false) {
-        rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
-        classes(dir: "${buildDir}/classes") {
-            include(name: "**/*.class")
+task macker {
+    doLast {
+        logging.setLevel(LogLevel.INFO)
+        ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
+        ant.macker(failonerror: true, verbose: false) {
+            rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
+            classes(dir: "${buildDir}/classes") {
+                include(name: "**/*.class")
+            }
         }
     }
 }
 
 macker.dependsOn testClasses
-macker.shouldRunAfter staticAnalysisMain, staticAnalysisTest
+macker.shouldRunAfter lintMain, lintTest
 
-task staticAnalysis {
-    description "Runs the entire static analysis tasks."
+task lint {
+    description "Runs the entire static analysis tasks for back-end."
     group "Static analysis"
-    dependsOn eslint, stylelint, staticAnalysisMain, staticAnalysisTest, macker
+    dependsOn lintMain, lintTest, macker
 }
 
 // TEST TASKS
@@ -415,10 +429,59 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
-def checkConfigFailureClosure = { descriptor, result ->
-    if (result.exception instanceof org.gradle.messaging.remote.internal.PlaceholderException
+import org.gradle.internal.serialize.PlaceholderException
+
+def checkTestNgFailureClosure = { descriptor, result ->
+    if (result.exception instanceof PlaceholderException
             && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
-        throw new GradleException('Detected TestNG configuration failure - check src/test/testng-ci.xml')
+        result.exception.printStackTrace()
+        throw new GradleException("Detected TestNG failure")
+    }
+}
+
+test {
+    useTestNG()
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+task localTests(type: Test) {
+    useTestNG()
+    options.suites "src/test/testng-local.xml"
+    options.outputDirectory = file("build/reports/test-local")
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+task failedTests(type: Test) {
+    useTestNG()
+    options.suites "test-output/testng-failed.xml"
+    options.outputDirectory = file("build/reports/test-failed")
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    testLogging {
+        events "passed"
     }
 }
 
@@ -440,9 +503,9 @@ task ciTests {
         reports.html.enabled = false
         reports.junitXml.enabled = false
         if (isTravis) {
-            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
         } else {
-            jvmArgs "-Duser.timezone=UTC", "-Xss2m", "-Dfile.encoding=UTF-8"
+            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
         }
         testLogging {
             events "passed"
@@ -450,10 +513,9 @@ task ciTests {
         if (isLastRetry) {
             afterTest afterTestClosure
         } else if (isFirstTry) {
-            afterSuite checkConfigFailureClosure
+            afterSuite checkTestNgFailureClosure
         }
-        finalizedBy "killFirefox${id}"
-        dependsOn enhancerRun
+        finalizedBy "killFirefox${id}", "killChromedriver${id}"
         onlyIf {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
@@ -466,6 +528,21 @@ task ciTests {
                 commandLine "taskkill", "/f", "/im", "firefox.exe"
             } else {
                 commandLine "pkill", "firefox"
+            }
+            // Silence output for this task
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = standardOutput
+        }
+        ignoreExitValue = true
+        outputs.upToDateWhen { false }
+    }
+
+    task "killChromedriver${id}"(type: Exec) {
+        doFirst {
+            if (isWindows) {
+                commandLine "taskkill", "/f", "/im", "chromedriver.exe"
+            } else {
+                commandLine "pkill", "chromedriver"
             }
             // Silence output for this task
             standardOutput = new ByteArrayOutputStream()
@@ -488,13 +565,17 @@ task generateFailedCmd(type: Exec) {
         println "Run failed tests locally by downloading the XML file containing the failed tests using the command:"
         println "Windows: gradlew.bat -Pgist=${gistHash} downloadFailedXml"
         println "Linux/OS X: ./gradlew -Pgist=${gistHash} downloadFailedXml"
-        println "followed by running \"Failed tests\" in Eclipse."
+        println "followed by running \"Failed tests\" in Eclipse/IntelliJ or using the following command:"
+        println "Windows: gradlew.bat failedTests"
+        println "Linux/OS X: ./gradlew failedTests"
     }
 }
 
-task cleanTestOutputDir << {
-    def testOutputDir = new File("test-output")
-    testOutputDir.deleteDir()
+task cleanTestOutputDir {
+    doLast {
+        def testOutputDir = new File("test-output")
+        testOutputDir.deleteDir()
+    }
 }
 
 task downloadFailedXml {
@@ -511,7 +592,7 @@ task downloadFailedXml {
     }
     doLast {
         println "The XML file containing the failed tests has been downloaded successfully."
-        println "You can now run the failed tests from Eclipse."
+        println "You can now run the failed tests locally."
     }
     dependsOn cleanTestOutputDir
 }
@@ -519,7 +600,7 @@ task downloadFailedXml {
 // COVERAGE TASKS
 
 jacoco {
-    toolVersion = "0.7.8"
+    toolVersion = "0.7.9"
 }
 
 task jacocoMerge(type: JacocoMerge) {

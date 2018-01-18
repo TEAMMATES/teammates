@@ -10,12 +10,15 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends feedback session reminder email to a course.
  */
 public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {
@@ -30,17 +33,17 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String feedbackSessionName = getRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
 
         String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_COURSE, courseId);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
-            List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+            List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             for (StudentAttributes student : studentList) {
                 if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
                     studentsToRemindList.add(student);
@@ -48,7 +51,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             }
 
             // Filter out instructors who have submitted the feedback session
-            List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+            List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
             for (InstructorAttributes instructor : instructorList) {
                 if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.email)) {
                     instructorsToRemindList.add(instructor);

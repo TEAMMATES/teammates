@@ -7,16 +7,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -25,20 +27,25 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
-import com.google.appengine.api.datastore.Text;
-
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
+
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
     protected boolean isSendSubmissionEmail;
+    protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<>();
+    protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<>();
+    protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -48,11 +55,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         setAdditionalParameters();
-        verifyAccesibleForSpecificUser();
+        verifyAccessibleForSpecificUser();
 
         String userEmailForCourse = getUserEmailForCourse();
 
-        data = new FeedbackSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
         Assumption.assertNotNull("Feedback session " + feedbackSessionName
                                  + " does not exist in " + courseId + ".", data.bundle);
@@ -72,6 +79,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String userSectionForCourse = getUserSectionForCourse();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
+
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String totalResponsesForQuestion = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
@@ -80,7 +88,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 continue; // question has been skipped (not displayed).
             }
 
-            List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
+            List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<>();
             String questionId = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
@@ -103,8 +111,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             emailSet.add("");
             emailSet = SanitizationHelper.desanitizeFromHtml(emailSet);
 
-            ArrayList<String> responsesRecipients = new ArrayList<String>();
-            List<String> errors = new ArrayList<String>();
+            ArrayList<String> responsesRecipients = new ArrayList<>();
+            List<String> errors = new ArrayList<>();
 
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response =
@@ -130,7 +138,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
                 if (response.responseMetaData.getValue().isEmpty()) {
                     // deletes the response since answer is empty
-                    saveResponse(response);
+                    addToPendingResponses(response);
                 } else {
                     response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
@@ -150,10 +158,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
-                    saveResponse(response);
+                    addToPendingResponses(response);
                 }
             } else {
-                List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
+                List<StatusMessage> errorMessages = new ArrayList<>();
 
                 for (String error : errors) {
                     errorMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
@@ -162,8 +170,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 statusToUser.addAll(errorMessages);
                 isError = true;
             }
-
         }
+
+        saveNewReponses(responsesToSave);
+        deleteResponses(responsesToDelete);
+        updateResponses(responsesToUpdate);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -190,10 +201,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 instructor = logic.getInstructorForGoogleId(courseId, user);
             }
             if (student == null && unregisteredStudentEmail != null) {
-                student = new StudentAttributes();
-                student.email = unregisteredStudentEmail;
-                student.name = unregisteredStudentEmail;
-                student.key = unregisteredStudentRegisterationKey;
+                student = StudentAttributes
+                        .builder("", unregisteredStudentEmail, unregisteredStudentEmail)
+                        .withKey(unregisteredStudentRegisterationKey)
+                        .build();
             }
             Assumption.assertFalse(student == null && instructor == null);
 
@@ -230,7 +241,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         List<FeedbackResponseAttributes> existingResponses = data.bundle.questionResponseBundle.get(question);
-        List<String> existingResponsesId = new ArrayList<String>();
+        List<String> existingResponsesId = new ArrayList<>();
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             existingResponsesId.add(existingResponse.getId());
         }
@@ -239,27 +250,44 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return existingResponsesId.contains(response.getId());
     }
 
-    private void saveResponse(FeedbackResponseAttributes response)
-            throws EntityDoesNotExistException {
+    private void addToPendingResponses(FeedbackResponseAttributes response) {
         boolean isExistingResponse = response.getId() != null;
         if (isExistingResponse) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() || response.recipient.isEmpty()) {
-                logic.deleteFeedbackResponse(response);
+                responsesToDelete.add(response);
                 return;
             }
+            responsesToUpdate.add(response);
+        } else if (!response.responseMetaData.getValue().isEmpty()
+                   && !response.recipient.isEmpty()) {
+            responsesToSave.add(response);
+        }
+    }
+
+    private void saveNewReponses(List<FeedbackResponseAttributes> responsesToSave)
+            throws EntityDoesNotExistException {
+        try {
+            logic.createFeedbackResponses(responsesToSave);
+            hasValidResponse = true;
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+        }
+    }
+
+    private void deleteResponses(List<FeedbackResponseAttributes> responsesToDelete) {
+        for (FeedbackResponseAttributes response : responsesToDelete) {
+            logic.deleteFeedbackResponse(response);
+        }
+    }
+
+    private void updateResponses(List<FeedbackResponseAttributes> responsesToUpdate)
+            throws EntityDoesNotExistException {
+        for (FeedbackResponseAttributes response : responsesToUpdate) {
             try {
                 logic.updateFeedbackResponse(response);
                 hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
-                setStatusForException(e);
-            }
-        } else if (!response.responseMetaData.getValue().isEmpty()
-                   && !response.recipient.isEmpty()) {
-            try {
-                logic.createFeedbackResponse(response);
-                hasValidResponse = true;
-            } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
         }
@@ -277,24 +305,27 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
 
         response.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, response.feedbackSessionName);
 
         response.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull("Null feedback courseId", response.courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, response.courseId);
 
         response.feedbackQuestionId = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
-        Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx,
+                response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
                                 response.feedbackQuestionId);
 
         response.recipient = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
-        Assumption.assertNotNull("Null feedback recipientEmail", response.recipient);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-"
+                + responseIndx, response.recipient);
 
         String feedbackQuestionType = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
-        Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx,
+                feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
 
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
@@ -361,7 +392,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     protected abstract void removeRespondent();
 
-    protected abstract void verifyAccesibleForSpecificUser();
+    protected abstract void verifyAccessibleForSpecificUser();
 
     protected abstract String getUserEmailForCourse();
 

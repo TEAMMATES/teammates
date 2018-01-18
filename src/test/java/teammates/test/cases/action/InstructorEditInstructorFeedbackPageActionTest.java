@@ -4,12 +4,14 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditInstructorFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorEditInstructorFeedbackPageAction}.
+ */
 public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTest {
 
     @Override
@@ -19,6 +21,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -40,7 +43,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         ______TS("typical success case");
         feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -49,8 +52,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         editInstructorFpAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editInstructorFpAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        instructor.googleId),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         AssertHelper.assertLogMessageEquals(
                 "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||instructorEditInstructorFeedbackPage"
@@ -62,7 +69,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         ______TS("success: another feedback");
         feedbackSessionName = "Another feedback session";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -71,8 +78,12 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         editInstructorFpAction = getAction(submissionParams);
         showPageResult = getShowPageResult(editInstructorFpAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false&user=" + instructor.googleId,
-                     showPageResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT,
+                        false,
+                        instructor.googleId),
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         String logMessage = "TEAMMATESLOG|||instructorEditInstructorFeedbackPage|||"
                             + "instructorEditInstructorFeedbackPage|||true|||Instructor|||IEIFPTCourseinstr|||"
@@ -82,29 +93,10 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
                             + "/page/instructorEditInstructorFeedbackPage";
         AssertHelper.assertLogMessageEquals(logMessage, editInstructorFpAction.getLogMessage());
 
-        ______TS("failure: does not have privilege (helper can't moderate instructor)");
-        gaeSimulation.loginAsInstructor(moderatedInstructor.googleId);
-        feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
-        };
-
-        try {
-            editInstructorFpAction = getAction(submissionParams);
-            editInstructorFpAction.executeAndPostProcess();
-            signalFailureToDetectException();
-        } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible "
-                         + "to instructor [" + moderatedInstructor.email + "] "
-                         + "for privilege [canmodifysession]", e.getMessage());
-        }
-
         ______TS("failure: accessing non-existent moderatedinstructor email");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         moderatedInstructorEmail = "non-exIstentEmail@gsail.tmt";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -123,5 +115,22 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     @Override
     protected InstructorEditInstructorFeedbackPageAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
+        String courseId = moderatedInstructor.courseId;
+        String feedbackSessionName = "First feedback session";
+        String moderatedInstructorEmail = "helper@course1.tmt";
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

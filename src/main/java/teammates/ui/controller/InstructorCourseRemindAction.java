@@ -2,8 +2,6 @@ package teammates.ui.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -26,7 +24,7 @@ public class InstructorCourseRemindAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
@@ -53,7 +51,7 @@ public class InstructorCourseRemindAction extends Action {
         }
 
         /* Process sending emails and setup status to be shown to user and admin */
-        Map<String, JoinEmailData> emailDataMap = new TreeMap<String, JoinEmailData>();
+        Map<String, JoinEmailData> emailDataMap = new TreeMap<>();
 
         String redirectUrl = "";
         if (isSendingToStudent) {
@@ -113,17 +111,9 @@ public class InstructorCourseRemindAction extends Action {
                      .append(courseId)
                      .append("]</span>:<br>");
 
-        Set<Entry<String, JoinEmailData>> entries = emailDataMap.entrySet();
-
-        for (Entry<String, JoinEmailData> entry : entries) {
-
-            String userEmail = entry.getKey();
-            JoinEmailData joinEmailData = entry.getValue();
-
-            statusToAdmin.append(joinEmailData.userName)
+        emailDataMap.forEach((userEmail, joinEmailData) -> statusToAdmin.append(joinEmailData.userName)
                          .append("<span class=\"bold\"> (").append(userEmail).append(")</span>.<br>")
-                         .append(joinEmailData.regKey).append("<br>");
-        }
+                         .append(joinEmailData.regKey).append("<br>"));
 
         return statusToAdmin.toString();
     }

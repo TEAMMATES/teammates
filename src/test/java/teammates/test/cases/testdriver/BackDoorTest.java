@@ -3,32 +3,38 @@ package teammates.test.cases.testdriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link BackDoor}.
+ */
 @Priority(2)
-public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
+public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
-    private DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle;
 
     @BeforeClass
     public void classSetup() {
+        dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 
         // verifies that typical bundle is restored by the above operation
-        verifyPresentInDatastore(dataBundle);
+        DataBundle expected = getTypicalDataBundle();
+        expected.sanitizeForSaving();
+        verifyPresentInDatastore(expected);
     }
 
     @Test
@@ -126,8 +132,8 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         String courseId = "tmapitt.tcc.course";
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
-        @SuppressWarnings("deprecation")
-        InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
+        InstructorAttributes instructor = InstructorAttributes.builder(instructorId, courseId, name, email)
+                .build();
 
         // Make sure not already inside
         BackDoor.deleteInstructor(courseId, email);
@@ -149,8 +155,9 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         // another well-tested method.
 
         String courseId = "tmapitt.tcc.course";
-        CourseAttributes course = new CourseAttributes(courseId,
-                "Name of tmapitt.tcc.instructor", "UTC");
+        CourseAttributes course = CourseAttributes
+                .builder(courseId, "Name of tmapitt.tcc.instructor", "UTC")
+                .build();
 
         // Make sure not already inside
         BackDoor.deleteCourse(courseId);
@@ -170,9 +177,12 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
         // only minimal testing because this is a wrapper method for
         // another well-tested method.
 
-        StudentAttributes student = new StudentAttributes(
-                "section name", "team name", "name of tcs student", "tcsStudent@gmail.tmt", "",
-                "tmapit.tcs.course");
+        StudentAttributes student = StudentAttributes
+                .builder("tmapit.tcs.course", "name of tcs student", "tcsStudent@gmail.tmt")
+                .withSection("section name")
+                .withTeam("team name")
+                .withComments("")
+                .build();
         BackDoor.deleteStudent(student.course, student.email);
         verifyAbsentInDatastore(student);
         BackDoor.createStudent(student);
@@ -184,8 +194,13 @@ public class BackDoorTest extends BaseTestCaseWithDatastoreAccess {
     @Test
     public void testGetEncryptedKeyForStudent() {
 
-        StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student",
-                                                          "tgsr@gmail.tmt", "", "course1");
+        StudentAttributes student = StudentAttributes
+                .builder("course1", "name of tgsr student", "tgsr@gmail.tmt")
+                .withSection("sect1")
+                .withTeam("t1")
+                .withComments("")
+                .build();
+
         BackDoor.createStudent(student);
         String key = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
         int retryLimit = 5;

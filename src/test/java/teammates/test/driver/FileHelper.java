@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * File-related helper methods used for testing. There is another FileHelper on
- * the server side.
+ * File-related helper methods used for testing.
  */
 public final class FileHelper {
 

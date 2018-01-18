@@ -81,7 +81,7 @@ public class AdminAccountManagementPage extends AppPage {
     }
 
     public List<String> getTableHeaders() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         List<WebElement> tableHeaders = browser.driver.findElements(By.cssSelector("table > thead > tr > th"));
         for (int i = 0; i < tableHeaders.size(); i++) {
             WebElement header = tableHeaders.get(i);

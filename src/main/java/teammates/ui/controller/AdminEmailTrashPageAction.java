@@ -8,7 +8,7 @@ public class AdminEmailTrashPageAction extends Action {
     @Override
     protected ActionResult execute() {
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailTrashPageData data = new AdminEmailTrashPageData(account);
+        AdminEmailTrashPageData data = new AdminEmailTrashPageData(account, sessionToken);
 
         data.adminTrashEmailList = logic.getAdminEmailsInTrashBin();
         statusToAdmin = "adminEmailTrashPage Page Load";

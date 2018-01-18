@@ -1,23 +1,41 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.StringHelperExtension;
 
+/**
+ * SUT: {@link StringHelper}.
+ */
 public class StringHelperTest extends BaseTestCase {
+
+    @Test
+    public void testIsEmpty() {
+        assertTrue(StringHelper.isEmpty(null));
+        assertTrue(StringHelper.isEmpty(""));
+        assertFalse(StringHelper.isEmpty("test"));
+        assertFalse(StringHelper.isEmpty("     "));
+    }
 
     @Test
     public void testGenerateStringOfLength() {
 
-        assertEquals(5, StringHelper.generateStringOfLength(5).length());
-        assertEquals(0, StringHelper.generateStringOfLength(0).length());
+        assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());
+        assertEquals(0, StringHelperExtension.generateStringOfLength(0).length());
     }
 
     @Test
@@ -43,59 +61,69 @@ public class StringHelperTest extends BaseTestCase {
         //so use this to test the various header field regex expressions here
 
         List<String> regexList = FieldValidator.REGEX_COLUMN_NAME;
-        String[] stringsToMatch = {"names", "name", " name ", " names ", "student name", "students names",
-                                   "student names", "students name", "full name", "full names", "full   names",
-                                   "student full names", "students full    names", "Names", "NAMES", "Full Names",
-                                   "FULL NAMES", "Full Name", "Student Full Name", "Name"};
+        String[] stringsToMatch = {
+                "names", "name", " name ", " names ", "student name", "students names",
+                "student names", "students name", "full name", "full names", "full   names",
+                "student full names", "students full    names", "Names", "NAMES", "Full Names",
+                "FULL NAMES", "Full Name", "Student Full Name", "Name"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"namess", "nam", "student", "full"};
+        stringsToMatch = new String[] {"namess", "nam", "student", "full"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_SECTION;
-        stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
-                                      "course section", "course sections", "course sec", "courses sec", "Section",
-                                      "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"};
+        stringsToMatch = new String[] {
+                "section", "sections", "sect", "sec", "course sections", "courses sections",
+                "course section", "course sections", "course sec", "courses sec", "Section",
+                "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
+        stringsToMatch = new String[] {"secc", "Section 1", "Course 1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_TEAM;
-        stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
-                                      "Groups", "GROUPS", "student teams", "students teams ", "student team",
-                                      "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
-                                      "Student Groups", "student   groups", "student   teams", "Course Teams",
-                                      "courses teams", "course   team", "courses team", "COURSE TEAM"};
+        stringsToMatch = new String[] {
+                "team", "teams", "Team", "TEAMS", "group", "Group",
+                "Groups", "GROUPS", "student teams", "students teams ", "student team",
+                "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
+                "Student Groups", "student   groups", "student   teams", "Course Teams",
+                "courses teams", "course   team", "courses team", "COURSE TEAM"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
+        stringsToMatch = new String[] {"tea", "Team 1", "Group 1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_EMAIL;
-        stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
-                                      "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
-                                      "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
-                                      "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
-                                      "E-mail  addresses", "Contact", "CONTACT", "contacts"};
+        stringsToMatch = new String[] {
+                "email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
+                "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
+                "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
+                "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
+                "E-mail  addresses", "Contact", "CONTACT", "contacts"
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"emai", "test@gmail.com", "address1"};
+        stringsToMatch = new String[] {"emai", "test@gmail.com", "address1"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
         regexList = FieldValidator.REGEX_COLUMN_COMMENT;
-        stringsToMatch = new String[]{"comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
-                                      "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "};
+        stringsToMatch = new String[] {
+                "comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
+                "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "
+        };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
-        stringsToMatch = new String[]{"this is a comment", "this is a note", "one comment, one note"};
+        stringsToMatch = new String[] {"this is a comment", "this is a note", "one comment, one note"};
         verifyRegexMatch(stringsToMatch, regexList, false);
 
     }
 
     @Test
     public void testToString() {
-        ArrayList<String> strings = new ArrayList<String>();
+        ArrayList<String> strings = new ArrayList<>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
 
@@ -109,7 +137,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
         assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
 
-        ArrayList<Integer> ints = new ArrayList<Integer>();
+        ArrayList<Integer> ints = new ArrayList<>();
         ints.add(1);
         ints.add(44);
         assertEquals("1\n44", StringHelper.toString(ints, "\n"));
@@ -122,6 +150,47 @@ public class StringHelperTest extends BaseTestCase {
 
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
         assertEquals(msg, decrptedMsg);
+    }
+
+    @Test
+    public void testDefaultAesCipherParams() throws Exception {
+        //plaintext is less than 1 block long
+        String plaintextLength124 = StringHelper.generateStringOfLength(31, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength124);
+
+        //plaintext is equal to 1 block
+        String plaintextLength128 = StringHelper.generateStringOfLength(32, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength128);
+
+        //plaintext is more than 1 block long
+        String plaintextLength132 = StringHelper.generateStringOfLength(33, 'A');
+        assertEncryptionUsesExpectedDefaultParams(plaintextLength132);
+    }
+
+    /**
+    * Verifies that encrypting with and without specifying algorithm parameters produce the same ciphertext.
+    * This ensures parameters being specified for encryption are the same as the defaults.
+    *
+    * @param plaintext the plaintext to encrypt, as a hexadecimal string.
+    */
+    private static void assertEncryptionUsesExpectedDefaultParams(String plaintext) throws Exception {
+        String actualCiphertext = encryptWithoutSpecifyingAlgorithmParams(plaintext);
+        String expectedCiphertext = StringHelper.encrypt(plaintext);
+        assertEquals(expectedCiphertext, actualCiphertext);
+    }
+
+    /**
+     * Encrypts plaintext without specifying mode and padding scheme during  {@link Cipher} initialization.
+     *
+     * @param plaintext the plaintext to encrypt as a hexadecimal string
+     * @return ciphertext the ciphertext as a hexadecimal string.
+     */
+    private static String encryptWithoutSpecifyingAlgorithmParams(String plaintext) throws Exception {
+        SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+        byte[] encrypted = cipher.doFinal(plaintext.getBytes());
+        return StringHelper.byteArrayToHexString(encrypted);
     }
 
     @Test
@@ -194,7 +263,7 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testRemoveExtraSpace() {
 
-        assertEquals(null, StringHelper.removeExtraSpace((String) null));
+        assertNull(StringHelper.removeExtraSpace((String) null));
 
         String str = "";
         assertEquals("", StringHelper.removeExtraSpace(str));
@@ -216,7 +285,7 @@ public class StringHelperTest extends BaseTestCase {
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
 
-        assertEquals(null, StringHelper.replaceIllegalChars(null, regex, '_'));
+        assertNull(StringHelper.replaceIllegalChars(null, regex, '_'));
 
         String str = "";
         assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
@@ -292,7 +361,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
 
         // input null, expected null
-        assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
+        assertNull(StringHelper.removeEnclosingSquareBrackets(null));
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, List<String> regexList, boolean expectedResult) {
@@ -306,7 +375,9 @@ public class StringHelperTest extends BaseTestCase {
         String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
                          + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
                          + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL
+                         + ",,," + Const.EOL
+                         + ",,,Data 5-4" + Const.EOL;
         String htmlText = StringHelper.csvToHtmlTable(csvText);
         String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
                                       + "<tr>"
@@ -333,6 +404,12 @@ public class StringHelperTest extends BaseTestCase {
                                           + "<td> Data 3-3</td>"
                                           + "<td>Data 3-4</td>"
                                       + "</tr>"
+                                      + "<tr>"
+                                          + "<td></td>"
+                                          + "<td></td>"
+                                          + "<td></td>"
+                                          + "<td>Data 5-4</td>"
+                                      + "</tr>"
                                   + "</table>";
         assertEquals(expectedHtmlText, htmlText);
     }
@@ -348,20 +425,45 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testJoin() {
-        assertEquals("", StringHelper.join("", new String[] {}));
-        assertEquals("", StringHelper.join(",", new String[] {}));
-        assertEquals("", StringHelper.join("||", new String[] {}));
-
-        assertEquals("test", StringHelper.join("", new String[] {"test"}));
-        assertEquals("test", StringHelper.join(",", new String[] {"test"}));
-        assertEquals("test", StringHelper.join("||", new String[] {"test"}));
-        assertEquals("testdata", StringHelper.join("", new String[] {"test", "data"}));
-
-        assertEquals("test,data", StringHelper.join(",", new String[] {"test", "data"}));
-        assertEquals("test||data", StringHelper.join("||", new String[] {"test", "data"}));
-        assertEquals("test|||data|||testdata",
-                StringHelper.join("|||", new String[] {"test", "data", "testdata"}));
+    public void testJoinWithListOfIntegers() {
+        assertEquals("", StringHelper.join(",", new ArrayList<Integer>()));
+        assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
+        assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
+        assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testJoinWithNullElements() {
+        StringHelper.join(",", (List<Integer>) null);
+    }
+
+    @Test
+    public void testIsTextContainingAny() {
+        assertFalse("null text should return false", StringHelper.isTextContainingAny(null));
+        assertFalse("null text should return false", StringHelper.isTextContainingAny(null, ""));
+        assertFalse("null text should return false",
+                StringHelper.isTextContainingAny(null, "a string", "another string"));
+
+        assertTrue("any string should contain empty string", StringHelper.isTextContainingAny("String", ""));
+
+        String text = "The quick brown fox jumps over the lazy dog.";
+
+        assertTrue("should return true if there exists a string which is contained in text",
+                StringHelper.isTextContainingAny(text, "not contained", "isNotInText", "brown"));
+        assertFalse("should return false if no strings are contained in text",
+                StringHelper.isTextContainingAny(text, "not contained", "notInside", "NotInText"));
+
+        assertTrue("should return true if no strings are given",
+                StringHelper.isTextContainingAny(""));
+        assertTrue("should return true if no strings are given",
+                StringHelper.isTextContainingAny(text));
+    }
+
+    @Test
+    public void testExtractContentFromQuotedString() {
+        assertEquals(StringHelper.extractContentFromQuotedString("\"data\""), "data");
+        assertEquals(StringHelper.extractContentFromQuotedString("data without quotes"), "data without quotes");
+        assertEquals(StringHelper.extractContentFromQuotedString(null), null);
+        assertEquals(StringHelper.extractContentFromQuotedString(""), "");
+    }
 }

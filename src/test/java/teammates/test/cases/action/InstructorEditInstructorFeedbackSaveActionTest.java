@@ -13,6 +13,9 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorEditInstructorFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorEditInstructorFeedbackSaveAction}.
+ */
 public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTest {
 
     @Override
@@ -22,6 +25,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -31,7 +35,6 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     public void testExecuteAndPostProcess() {
         testModifyResponses();
         testIncorrectParameters();
-        testDifferentPrivileges();
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
     }
@@ -72,10 +75,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email not sent if parameter does not exist
@@ -100,10 +108,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
@@ -126,10 +139,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("new response");
@@ -149,10 +167,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCoursehelper1%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCoursehelper1%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
@@ -189,9 +212,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
 
         ______TS("Unsuccessful case: test empty course id parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                        dataBundle.feedbackResponses.get("response1ForQ1") .feedbackSessionName,
+                        dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
@@ -205,7 +228,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
 
         ______TS("Unsuccessful case: test no moderated student parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -227,7 +250,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
     }
 
-    private void testDifferentPrivileges() {
+    private void testDifferentPrivilegesWithEditedFeedback() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -251,7 +274,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -282,7 +305,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -299,10 +322,15 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCourseintr%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=First+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCourseintr%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "First+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
@@ -329,7 +357,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -359,7 +387,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -400,7 +428,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Success case: modifying responses in closed session");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -417,15 +445,51 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, redirectResult.getStatusMessage());
-        assertEquals("/page/instructorEditInstructorFeedbackPage?error=false"
-                     + "&moderatedperson=IEIFPTCourseintr%40gmail.tmt&user=IEIFPTCourseinstr"
-                     + "&courseid=IEIFPTCourse&fsname=Closed+feedback+session",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE,
+                        false,
+                        "IEIFPTCourseintr%40gmail.tmt",
+                        "IEIFPTCourseinstr",
+                        "IEIFPTCourse",
+                        "Closed+feedback+session"),
+                redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
     }
 
     @Override
     protected InstructorEditInstructorFeedbackSaveAction getAction(String... params) {
         return (InstructorEditInstructorFeedbackSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    protected String getPageResultDestination(
+            String parentUri, boolean isError, String moderatedPerson, String userId, String courseId, String fsName) {
+        String pageDestination = parentUri;
+        pageDestination = addParamToUrl(
+                pageDestination, Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
+        return pageDestination;
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        testDifferentPrivilegesWithEditedFeedback();
+
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
+        String courseId = moderatedInstructor.courseId;
+        String feedbackSessionName = "First feedback session";
+        String moderatedInstructorEmail = "helper@course1.tmt";
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

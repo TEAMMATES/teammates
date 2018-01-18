@@ -9,7 +9,7 @@ public class InstructorFeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    private boolean privateSession;
+    private boolean isPrivateSession;
 
     private String courseId;
     private String fsName;
@@ -22,10 +22,10 @@ public class InstructorFeedbackSessionActions {
     private String remindParticularStudentsPageLink;
     private String editCopyLink;
 
-    private boolean allowedToEdit;
-    private boolean allowedToDelete;
-    private boolean allowedToSubmit;
-    private boolean allowedToRemind;
+    private boolean isAllowedToEdit;
+    private boolean isAllowedToDelete;
+    private boolean isAllowedToSubmit;
+    private boolean isAllowedToRemind;
 
     private FeedbackSessionPublishButton publishButton;
 
@@ -34,13 +34,13 @@ public class InstructorFeedbackSessionActions {
         String courseId = session.getCourseId();
         String feedbackSessionName = session.getFeedbackSessionName();
 
-        this.privateSession = session.isPrivateSession();
+        this.isPrivateSession = session.isPrivateSession();
 
         this.courseId = courseId;
         this.fsName = feedbackSessionName;
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
-        this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
+        this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName, true);
         this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
         this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
@@ -48,8 +48,8 @@ public class InstructorFeedbackSessionActions {
                 data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
-        this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        this.isAllowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        this.isAllowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         boolean shouldEnableSubmitLink =
                 instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         if (!shouldEnableSubmitLink) {
@@ -58,9 +58,9 @@ public class InstructorFeedbackSessionActions {
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
 
-        this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
-        this.allowedToRemind =
-                session.isOpened()
+        this.isAllowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
+        this.isAllowedToRemind =
+                (session.isOpened() || session.isClosed() && !session.isPublished())
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
@@ -68,7 +68,7 @@ public class InstructorFeedbackSessionActions {
     }
 
     public boolean isPrivateSession() {
-        return privateSession;
+        return isPrivateSession;
     }
 
     public String getCourseId() {
@@ -108,19 +108,19 @@ public class InstructorFeedbackSessionActions {
     }
 
     public boolean isAllowedToEdit() {
-        return allowedToEdit;
+        return isAllowedToEdit;
     }
 
     public boolean isAllowedToDelete() {
-        return allowedToDelete;
+        return isAllowedToDelete;
     }
 
     public boolean isAllowedToSubmit() {
-        return allowedToSubmit;
+        return isAllowedToSubmit;
     }
 
     public boolean isAllowedToRemind() {
-        return allowedToRemind;
+        return isAllowedToRemind;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {

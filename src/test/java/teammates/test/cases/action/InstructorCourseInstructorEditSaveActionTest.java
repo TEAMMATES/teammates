@@ -12,6 +12,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseInstructorEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseInstructorEditSaveAction}.
+ */
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -24,7 +27,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;
 
@@ -37,7 +40,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         String newInstructorName = "newName";
         String newInstructorEmail = "newEmail@email.com";
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
@@ -76,7 +79,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
 
         String invalidEmail = "wrongEmail.com";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
@@ -113,7 +116,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         newInstructorName = "newName2";
         newInstructorEmail = "newEmail2@email.com";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
@@ -154,7 +157,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
 
         ______TS("Unsuccessful case: test null course id parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
@@ -180,7 +183,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         }
 
         ______TS("Unsuccessful case: test null instructor name parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
@@ -206,7 +209,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         }
 
         ______TS("Unsuccessful case: test null instructor email parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
@@ -235,5 +238,31 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
     @Override
     protected InstructorCourseInstructorEditSaveAction getAction(String... params) {
         return (InstructorCourseInstructorEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
+                Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
     }
 }

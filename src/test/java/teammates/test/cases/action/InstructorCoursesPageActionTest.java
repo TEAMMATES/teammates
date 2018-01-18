@@ -10,6 +10,9 @@ import teammates.ui.controller.InstructorCoursesPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
+/**
+ * SUT: {@link InstructorCoursesPageAction}.
+ */
 public class InstructorCoursesPageActionTest extends BaseActionTest {
 
     @Override
@@ -21,12 +24,12 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
 
-        String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
+        String[] submissionParams = new String[] {Const.ParamsNames.IS_USING_AJAX, "true"};
 
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         /* Explanation: If the action is supposed to verify parameters,
          * we should check here the correctness of parameter verification.
@@ -34,10 +37,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 
              ______TS("Invalid parameters");
             //both parameters missing.
-            verifyAssumptionFailure(new String[]{});
+            verifyAssumptionFailure(new String[] {});
 
             //null student email, only course ID is set
-            String[] invalidParams = new String[]{
+            String[] invalidParams = new String[] {
                     Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
             };
             verifyAssumptionFailure(invalidParams);
@@ -55,8 +58,9 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         InstructorCoursesPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1",
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false, "idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -75,14 +79,17 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode, 0 courses");
 
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
+
         CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        gaeSimulation.loginAsAdmin("admin.user");
+
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = getShowPageResult(a);
 
         assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1",
+                getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false, "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
         assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
         assertFalse(r.isError);
@@ -98,7 +105,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 + "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
                 + "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0"
                 + "|||/page/instructorCoursesPage";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
     }
 
     @Override
@@ -106,4 +113,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         return (InstructorCoursesPageAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {};
+        verifyOnlyInstructorsCanAccess(submissionParams);
+    }
 }

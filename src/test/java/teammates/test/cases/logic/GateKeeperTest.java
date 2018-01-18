@@ -2,13 +2,16 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
+/**
+ * SUT: {@link GateKeeper}.
+ */
 public class GateKeeperTest extends BaseLogicTest {
 
     private static GateKeeper gateKeeper = new GateKeeper();
@@ -36,8 +39,12 @@ public class GateKeeperTest extends BaseLogicTest {
         CourseAttributes course = dataBundle.courses.get("typicalCourse2");
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
-        StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course.getId());
+        StudentAttributes instructorAsStudent = StudentAttributes
+                .builder(course.getId(), "Instructor As Student", "instructorasstudent@yahoo.com")
+                .withSection("Section 1")
+                .withTeam("Team 1")
+                .withComments("")
+                .build();
         instructorAsStudent.googleId = instructor.googleId;
         new Logic().createStudentWithoutDocument(instructorAsStudent);
 
@@ -61,7 +68,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
         // check for user not logged in
         gaeSimulation.logoutUser();
-        assertEquals(null, gateKeeper.getCurrentUser());
+        assertNull(gateKeeper.getCurrentUser());
     }
 
 }

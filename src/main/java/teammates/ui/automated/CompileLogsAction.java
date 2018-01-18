@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.util.EmailWrapper;
-import teammates.logic.api.EmailGenerator;
-
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService;
 import com.google.appengine.api.log.LogService.LogLevel;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
+
+import teammates.common.util.EmailWrapper;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Cron job: compiles application logs and sends severe logs compilation to the support email.
@@ -50,7 +50,7 @@ public class CompileLogsAction extends AutomatedAction {
                                      .minLogLevel(LogLevel.ERROR);
 
         Iterable<RequestLogs> logs = logService.fetch(q);
-        List<AppLogLine> errorLogs = new ArrayList<AppLogLine>();
+        List<AppLogLine> errorLogs = new ArrayList<>();
 
         for (RequestLogs requestLogs : logs) {
             List<AppLogLine> logList = requestLogs.getAppLogLines();

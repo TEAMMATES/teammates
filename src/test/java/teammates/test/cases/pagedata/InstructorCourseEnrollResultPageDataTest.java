@@ -5,13 +5,16 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
+/**
+ * SUT: {@link InstructorCourseEnrollResultPageData}.
+ */
 public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
 
@@ -24,7 +27,7 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         @SuppressWarnings("unchecked")
         List<StudentAttributes>[] students = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            students[i] = new ArrayList<StudentAttributes>();
+            students[i] = new ArrayList<>();
         }
         students[StudentUpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student1InCourse1"));
         students[StudentUpdateStatus.NEW.numericRepresentation].add(dataBundle.students.get("student2InCourse1"));
@@ -35,7 +38,7 @@ public class InstructorCourseEnrollResultPageDataTest extends BaseTestCase {
         boolean hasSection = true;
         String enrollStudents = "enrollString";
 
-        InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
+        InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, dummySessionToken,
                                                                 courseId, students, hasSection, enrollStudents);
 
         assertNotNull(pageData.getCourseId());

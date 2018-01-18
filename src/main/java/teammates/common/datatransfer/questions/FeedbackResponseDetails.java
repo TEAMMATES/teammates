@@ -1,10 +1,10 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Map;
+
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-
-import java.util.Map;
 
 /** A class holding the details for the response of a specific question type.
  * This abstract class is inherited by concrete Feedback*ResponseDetails
@@ -29,7 +29,11 @@ public abstract class FeedbackResponseDetails {
 
     public abstract String getAnswerString();
 
-    public abstract String getAnswerHtml(FeedbackQuestionDetails questionDetails);
+    public abstract String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails);
+
+    public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
+        return getAnswerHtmlInstructorView(questionDetails);
+    }
 
     public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
 
@@ -41,7 +45,7 @@ public abstract class FeedbackResponseDetails {
      */
     public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                 FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getAnswerHtml(question.getQuestionDetails());
+        return getAnswerHtmlInstructorView(question.getQuestionDetails());
     }
 
     /**

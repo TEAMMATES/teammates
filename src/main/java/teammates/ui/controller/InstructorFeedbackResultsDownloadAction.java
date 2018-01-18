@@ -18,7 +18,6 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
-        String filterText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_FILTER_TEXT);
         boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String questionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
@@ -32,8 +31,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
         gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
 
-        String fileContent = "";
-        String fileName = "";
+        String fileContent;
+        String fileName;
 
         try {
             String questionName = "";
@@ -43,7 +42,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
 
             if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
-                        courseId, feedbackSessionName, instructor.email, filterText,
+                        courseId, feedbackSessionName, instructor.email,
                         isMissingResponsesShown, isStatsShown, questionId);
 
                 fileName = courseId + "_" + feedbackSessionName + questionName;
@@ -52,7 +51,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                         courseId, feedbackSessionName, instructor.email, section,
-                        questionId, filterText, isMissingResponsesShown, isStatsShown);
+                        questionId, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
                               + " in Course " + courseId + " within " + section + " was downloaded";

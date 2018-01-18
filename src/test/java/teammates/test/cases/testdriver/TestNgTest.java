@@ -3,13 +3,15 @@ package teammates.test.cases.testdriver;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
 
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.FileHelper;
 
+/**
+ * Verifies that the TestNG configuration files contains all the test cases in the project.
+ */
 public class TestNgTest extends BaseTestCase {
 
     @Test
@@ -31,9 +33,7 @@ public class TestNgTest extends BaseTestCase {
                                             "GodModeTest"
                                             );
 
-        for (Entry<String, String> testFileName : testFiles.entrySet()) {
-            assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
-        }
+        testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
     }
 
     /**
@@ -88,7 +88,7 @@ public class TestNgTest extends BaseTestCase {
                                                                boolean areFilesInCurrentDirExcluded,
                                                                String packageName, String testNgXml) {
 
-        HashMap<String, String> testFiles = new HashMap<String, String>();
+        HashMap<String, String> testFiles = new HashMap<>();
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {

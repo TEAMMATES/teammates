@@ -5,13 +5,15 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.SanitizationHelper;
+import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends queued admin email.
  */
 public class AdminSendEmailWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {
@@ -26,20 +28,20 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String receiverEmail = getRequestParamValue(ParamsNames.ADMIN_EMAIL_RECEIVER);
-        Assumption.assertNotNull(receiverEmail);
+        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_RECEIVER, receiverEmail);
 
         String emailContent = getRequestParamValue(ParamsNames.ADMIN_EMAIL_CONTENT);
         String emailSubject = getRequestParamValue(ParamsNames.ADMIN_EMAIL_SUBJECT);
 
         if (emailContent == null || emailSubject == null) {
             String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
-            Assumption.assertNotNull(emailId);
+            Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ID, emailId);
 
             log.info("Sending large email. Going to retrieve email content and subject from datastore.");
             AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
             Assumption.assertNotNull(adminEmail);
 
-            emailContent = adminEmail.getContent().getValue();
+            emailContent = adminEmail.getContentValue();
             emailSubject = adminEmail.getSubject();
         }
 
@@ -48,8 +50,7 @@ public class AdminSendEmailWorkerAction extends AutomatedAction {
 
         try {
             EmailWrapper email =
-                    new EmailGenerator().generateAdminEmail(SanitizationHelper.desanitizeFromHtml(emailContent),
-                                                            emailSubject, receiverEmail);
+                    new EmailGenerator().generateAdminEmail(emailContent, emailSubject, receiverEmail);
             emailSender.sendEmail(email);
             log.info("Email sent to " + receiverEmail);
         } catch (Exception e) {

@@ -9,6 +9,9 @@ import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackQuestionCopyPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorFeedbackQuestionCopyPageAction}.
+ */
 public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest {
 
     @Override
@@ -19,13 +22,13 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
 
         ______TS("typical success case");
 
         FeedbackSessionAttributes feedbackSessionAttributes =
-                dataBundle.feedbackSessions.get("session1InCourse1");
+                typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
@@ -35,8 +38,8 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         InstructorFeedbackQuestionCopyPageAction action = getAction(submissionParams);
         ShowPageResult result = getShowPageResult(action);
 
-        String expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL
-                         + "?error=false&user=" + instructor1OfCourse1.googleId;
+        String expectedString = getPageResultDestination(
+                Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_MODAL, false, instructor1OfCourse1.googleId);
         assertEquals(expectedString, result.getDestinationWithParams());
 
         assertTrue(result.getStatusMessage().isEmpty());
@@ -58,7 +61,7 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
         }
 
         ______TS("failure: unsufficient permissions");
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("helperOfCourse1").googleId);
+        gaeSimulation.loginAsInstructor(typicalBundle.accounts.get("helperOfCourse1").googleId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
@@ -79,5 +82,17 @@ public class InstructorFeedbackQuestionCopyPageActionTest extends BaseActionTest
     @Override
     protected InstructorFeedbackQuestionCopyPageAction getAction(String... params) {
         return (InstructorFeedbackQuestionCopyPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+        verifyUnaccessibleWithoutModifySessionPrivilege(params);
     }
 }

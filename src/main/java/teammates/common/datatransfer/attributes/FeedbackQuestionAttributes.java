@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -17,9 +19,8 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
-import com.google.appengine.api.datastore.Text;
-
-public class FeedbackQuestionAttributes extends EntityAttributes implements Comparable<FeedbackQuestionAttributes> {
+public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
+        implements Comparable<FeedbackQuestionAttributes> {
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
@@ -59,9 +60,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.giverType = fq.getGiverType();
         this.recipientType = fq.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowRecipientNameTo());
+        this.showResponsesTo = new ArrayList<>(fq.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<>(fq.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<>(fq.getShowRecipientNameTo());
 
         this.createdAt = fq.getCreatedAt();
         this.updatedAt = fq.getUpdatedAt();
@@ -80,9 +81,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.giverType = other.getGiverType();
         this.recipientType = other.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = other.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(other.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(other.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(other.getShowRecipientNameTo());
+        this.showResponsesTo = new ArrayList<>(other.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<>(other.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<>(other.getShowRecipientNameTo());
 
         this.createdAt = other.getCreatedAt();
         this.updatedAt = other.getUpdatedAt();
@@ -158,23 +159,21 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
-        String error;
+        List<String> errors = new ArrayList<>();
 
-        error = validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        error = validator.getInvalidityInfoForCourseId(courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
-        error = validator.getInvalidityInfoForEmail(creatorEmail);
+        // special case when additional text should be added to error text
+        String error = validator.getInvalidityInfoForEmail(creatorEmail);
         if (!error.isEmpty()) {
-            errors.add("Invalid creator's email: " + error);
+            error = new StringBuffer()
+                    .append("Invalid creator's email: ")
+                    .append(error)
+                    .toString();
         }
+        addNonEmptyError(error, errors);
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
@@ -188,7 +187,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     // TODO: move following methods to PageData?
     // Answer: OK to move to the respective PageData class. Unit test this thoroughly.
     public List<String> getVisibilityMessage() {
-        List<String> message = new ArrayList<String>();
+        List<String> message = new ArrayList<>();
 
         for (FeedbackParticipantType participant : showResponsesTo) {
             StringBuilder line = new StringBuilder(100);
@@ -280,6 +279,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
+    public boolean isRecipientInstructor() {
+        return recipientType == FeedbackParticipantType.INSTRUCTORS;
+    }
+
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }
@@ -292,12 +295,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public boolean areResponseDeletionsRequiredForChanges(FeedbackQuestionAttributes newAttributes) {
         if (!newAttributes.giverType.equals(this.giverType)
                 || !newAttributes.recipientType.equals(this.recipientType)) {
-            return true;
-        }
-
-        if (!this.showResponsesTo.containsAll(newAttributes.showResponsesTo)
-                || !this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo)
-                || !this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo)) {
             return true;
         }
 
@@ -500,7 +497,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public void removeIrrelevantVisibilityOptions() {
-        List<FeedbackParticipantType> optionsToRemove = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> optionsToRemove = new ArrayList<>();
 
         switch (recipientType) {
         case NONE:

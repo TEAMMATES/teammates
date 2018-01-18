@@ -6,14 +6,17 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TaskWrapper;
-import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseInstructorAddAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseInstructorAddAction}.
+ */
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
@@ -25,7 +28,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
         String adminUserId = "admin.user";
@@ -37,7 +40,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         String newInstructorName = "New Instructor Name";
         String newInstructorEmail = "ICIAAT.newInstructor@email.tmt";
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
@@ -103,7 +106,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         ______TS("Error: try to add an instructor with invalid email");
         String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.tmt";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
@@ -141,7 +144,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         instructorsLogic.deleteInstructorCascade(courseId, newInstructorEmail);
 
         gaeSimulation.loginAsAdmin(adminUserId);
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
@@ -188,6 +191,33 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseInstructorAddAction getAction(String... params) {
         return (InstructorCourseInstructorAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.tmt",
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+
+        // remove the newly added instructor
+        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");
     }
 
 }

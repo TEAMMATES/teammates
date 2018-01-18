@@ -25,8 +25,12 @@ public final class StringHelper {
         // utility class
     }
 
-    public static String generateStringOfLength(int length) {
-        return StringHelper.generateStringOfLength(length, 'a');
+    /**
+     * Checks whether the input string is empty or equals {@code null}.
+     * @param s The string to be checked
+     */
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
     public static String generateStringOfLength(int length, char character) {
@@ -126,7 +130,7 @@ public final class StringHelper {
     public static String encrypt(String value) {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
@@ -146,7 +150,7 @@ public final class StringHelper {
     public static String decrypt(String message) throws InvalidParametersException {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
@@ -160,7 +164,7 @@ public final class StringHelper {
 
     /**
      * Converts and concatenates a list of objects to a single string, separated by line breaks.
-     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
+     * The conversion is done by using the {@link Object#toString()} method.
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list) {
@@ -169,7 +173,7 @@ public final class StringHelper {
 
     /**
      * Converts and concatenates a list of objects to a single string, separated by the given delimiter.
-     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
+     * The conversion is done by using the {@link Object#toString()} method.
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list, String delimiter) {
@@ -206,29 +210,6 @@ public final class StringHelper {
                                     " %+03d:%02d",
                                     (int) hourOffsetTimeZone,
                                     (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
-    }
-
-    //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
-    public static int countWords(String s) {
-        int wordCount = 0;
-        boolean word = false;
-        int endOfLine = s.length() - 1;
-        for (int i = 0; i < s.length(); i++) {
-            // if the char is a letter, word = true.
-            if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
-                word = true;
-                // if char isn't a letter and there have been letters before,
-                // counter goes up.
-            } else if (!Character.isLetter(s.charAt(i)) && word) {
-                wordCount++;
-                word = false;
-                // last word of String; if it doesn't end with a non letter, it
-                // wouldn't count without this.
-            } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
-                wordCount++;
-            }
-        }
-        return wordCount;
     }
 
     /**
@@ -308,7 +289,7 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<String>();
+        Set<String> result = new TreeSet<>();
         for (String s : strSet) {
             result.add(removeExtraSpace(s));
         }
@@ -340,7 +321,7 @@ public final class StringHelper {
         return String.valueOf(charArray);
     }
 
-    private static String byteArrayToHexString(byte[] bytes) {
+    public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
             int v = b & 0xff;
@@ -352,7 +333,7 @@ public final class StringHelper {
         return sb.toString().toUpperCase();
     }
 
-    private static byte[] hexStringToByteArray(String s) {
+    public static byte[] hexStringToByteArray(String s) {
         byte[] b = new byte[s.length() / 2];
         for (int i = 0; i < b.length; i++) {
             int index = i * 2;
@@ -395,14 +376,14 @@ public final class StringHelper {
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        boolean inquote = false;
+        boolean isInQuote = false;
 
         for (char c : chars) {
             if (c == '"') {
-                inquote = !inquote;
+                isInQuote = !isInQuote;
             }
 
-            if (c == '\n' && inquote) {
+            if (c == '\n' && isInQuote) {
                 buffer.append("<br>");
             } else {
                 buffer.append(c);
@@ -413,7 +394,7 @@ public final class StringHelper {
     }
 
     private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<String>();
+        List<String> data = new ArrayList<>();
 
         boolean inquote = false;
         StringBuilder buffer = new StringBuilder();
@@ -502,7 +483,7 @@ public final class StringHelper {
     public static int countEmptyStrings(String... strings) {
         int numOfEmptyStrings = 0;
         for (String s : strings) {
-            if (s == null || s.isEmpty()) {
+            if (isEmpty(s)) {
                 numOfEmptyStrings += 1;
             }
         }
@@ -559,20 +540,66 @@ public final class StringHelper {
         return text.replaceAll("[^\\x00-\\x7F]", "");
     }
 
-
     /**
      * Returns a new String composed of copies of the String elements joined together
      * with a copy of the specified delimiter.
      */
-    public static String join(String delimiter, String... elements) {
-        StringBuffer result = new StringBuffer();
-        for (String element : elements) {
-            result.append(element).append(delimiter);
-        }
-        if (result.length() > 0 && delimiter.length() > 0) {
-            result.delete(result.length() - delimiter.length(), result.length());
-        }
-        return result.toString();
+    public static String join(String delimiter, List<Integer> elements) {
+        return String.join(delimiter, toStringArray(elements));
     }
 
+    /**
+     * Converts list of integer to array of strings.
+     */
+    private static String[] toStringArray(List<Integer> elements) {
+        if (elements == null) {
+            throw new IllegalArgumentException("Provided arguments cannot be null");
+        }
+
+        String[] elementsArr = new String[elements.size()];
+
+        for (int i = 0; i < elements.size(); i++) {
+            elementsArr[i] = String.valueOf(elements.get(i));
+        }
+
+        return elementsArr;
+    }
+
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    public static boolean isTextContainingAny(String text, String... strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.length == 0) {
+            return true;
+        }
+
+        for (String string : strings) {
+            if (text.contains(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Extract data from quoted string.
+     *
+     * @param quotedString string to extract data from
+     * @return string without quotes
+     */
+    public static String extractContentFromQuotedString(String quotedString) {
+        if (quotedString == null) {
+            return null;
+        }
+
+        if (quotedString.matches("^\".*\"$")) {
+            return quotedString.substring(1, quotedString.length() - 1);
+        }
+        return quotedString;
+    }
 }

@@ -20,6 +20,11 @@ import teammates.test.driver.TestProperties;
 public class BaseTestCase {
 
     /**
+     * Dummy session token for use in tests that depend on, but don't use, it (e.g. page data tests).
+     */
+    protected static final String dummySessionToken = null;
+
+    /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
      *
@@ -106,6 +111,10 @@ public class BaseTestCase {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
+    }
+
+    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength) {
+        return FieldValidator.getPopulatedEmptyStringErrorMessage(messageTemplate, fieldName, maxLength);
     }
 
     /*

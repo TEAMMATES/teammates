@@ -2,13 +2,16 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.ProfilesLogic;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
+/**
+ * SUT: {@link ProfilesLogic}.
+ */
 public class ProfilesLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
@@ -28,9 +31,16 @@ public class ProfilesLogicTest extends BaseLogicTest {
         //      => It saves time during tests
 
         ______TS("get SP");
-        StudentProfileAttributes expectedSpa =
-                new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                                             "institute", "American", "female", "moreInfo", "");
+        StudentProfileAttributes expectedSpa = StudentProfileAttributes.builder()
+                .withGoogleId("id")
+                .withShortName("shortName")
+                .withEmail("personal@email.com")
+                .withInstitute("institute")
+                .withNationality("American")
+                .withGender("female")
+                .withMoreInfo("moreInfo")
+                .build();
+
         AccountAttributes accountWithStudentProfile =
                 new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
 

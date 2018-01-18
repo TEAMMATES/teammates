@@ -1,17 +1,16 @@
 <html>
 <head>
 <title>
-  TEAMMATES - Instructor
+  Add New Feedback Session [Instructor]
 </title>
 <link href="/favicon.png" rel="shortcut icon">
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<link href="/stylesheets/datepicker.css" media="screen" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/tinymce@4.5.5/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/tinymce@4.5.5/skins/lightgray/content.inline.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.1/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.1/skins/lightgray/content.inline.min.css" id="u1" rel="stylesheet" type="text/css">
 </head>
 <body spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -28,8 +27,8 @@
         <span class="icon-bar">
         </span>
       </button>
-      <a class="navbar-brand" href="/index.jsp">
-        TEAMMATES
+      <a class="navbar-brand" href="/">
+        <img alt="TEAMMATES[Logo] - Online Peer Feedback/Evaluation System for Student Team Projects" height="100%" src="/images/teammateslogo.png">
       </a>
     </div>
     <div class="collapse navbar-collapse" id="contentLinks">
@@ -45,18 +44,13 @@
           </a>
         </li>
         <li class="active">
-          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbacksPage?user=CFeedbackUiT.nocourses">
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=CFeedbackUiT.nocourses">
             Sessions
           </a>
         </li>
         <li>
           <a class="nav students" data-link="instructorStudent" href="/page/instructorStudentListPage?user=CFeedbackUiT.nocourses">
             Students
-          </a>
-        </li>
-        <li>
-          <a class="nav comments" data-link="instructorComments" href="/page/instructorCommentsPage?user=CFeedbackUiT.nocourses">
-            Comments
           </a>
         </li>
         <li>
@@ -302,8 +296,6 @@
                   </label>
                 </h5>
                 <div class="col-sm-10">
-                  <div id="richtext-toolbar-container">
-                  </div>
                   <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" id="instructions" spellcheck="false" style="position: relative;">
                     <p>
                       Please answer all the given questions.
@@ -818,7 +810,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -826,7 +818,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -848,15 +840,16 @@
         </div>
       </div>
       <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
+      <input name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
-  <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+  <form action="/page/instructorFeedbackSessionsPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
     <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
     <input name="isusingAjax" type="hidden" value="on">
   </form>
   <br>
   <div id="statusMessagesToUser" style="display: block;">
-    <div class="overflow-auto alert alert-warning statusMessage">
+    <div class="overflow-auto alert alert-warning icon-warning statusMessage">
       You have not created any courses yet, or you have no active courses. Go
       <a href="/page/instructorCoursesPage?user=CFeedbackUiT.nocourses">
         here
@@ -871,18 +864,21 @@
     <table class="table-responsive table table-striped table-bordered" id="table-sessions">
       <thead>
         <tr class="fill-primary">
-          <th class="button-sort-ascending course-id-table-width" id="button_sortid" onclick="toggleSort(this);">
+          <th class="button-sort-ascending course-id-table-width toggle-sort" id="button_sortid">
             Course ID
             <span class="icon-sort unsorted">
             </span>
           </th>
-          <th class="button-sort-none session-name-table-width" id="button_sortname" onclick="toggleSort(this)">
+          <th class="button-sort-none session-name-table-width toggle-sort" id="button_sortname">
             Session Name
             <span class="icon-sort unsorted">
             </span>
           </th>
           <th>
-            Status
+            Submissions
+          </th>
+          <th>
+            Responses
           </th>
           <th>
             <span class="tool-tip-decorate" data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
@@ -923,9 +919,9 @@
     <br>
   </div>
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbacksPage" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -945,7 +941,7 @@
             <button class="btn btn-default" data-dismiss="modal" type="button">
               Cancel
             </button>
-            <input class="btn btn-primary" type="submit" value="Remind">
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
             <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
           </div>
         </form>
@@ -1007,6 +1003,7 @@
             <input id="modalSessionName" name="fsname" type="hidden" value="">
             <input id="modalCourseId" name="courseid" type="hidden" value="">
             <input name="user" type="hidden" value="CFeedbackUiT.nocourses">
+            <input name="token" type="hidden" value="${sessionToken}">
           </form>
         </div>
         <div class="modal-footer margin-0">
@@ -1023,7 +1020,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbackSessionsPage&token=${sessionToken}" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -1058,7 +1055,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -1087,35 +1084,17 @@
 </script>
 <script src="/js/googleAnalytics.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
-</script>
-<script src="/js/richTextEditor.js" type="text/javascript">
-</script>
-<script src="/js/datepicker.js" type="text/javascript">
-</script>
-<script src="/js/instructor.js" type="text/javascript">
-</script>
-<script src="/js/ajaxResponseRate.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbackAjaxRemindModal.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacksAjax.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/tinymce@4.7.1/tinymce.min.js" type="text/javascript">
 </script>
 <script src="/js/instructorFeedbacks.js" type="text/javascript">
-</script>
-<script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
 </script>
 <div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div">
 </div>

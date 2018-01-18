@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 public class AdminEmailTrashDeleteAction extends Action {
 
@@ -13,9 +13,9 @@ public class AdminEmailTrashDeleteAction extends Action {
 
         gateKeeper.verifyAdminPrivileges(account);
 
-        boolean emptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
+        boolean shouldEmptyTrashBin = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_EMAIL_EMPTY_TRASH_BIN);
 
-        if (emptyTrashBin) {
+        if (shouldEmptyTrashBin) {
             try {
                 logic.deleteAllEmailsInTrashBin();
                 statusToAdmin = "All emails in trash bin has been deleted";

@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,10 +13,9 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -30,7 +27,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
@@ -59,14 +55,12 @@ public class UploadBackupData extends RemoteApiClient {
     private static DataBundle data;
     private static String jsonString;
 
-    private static Set<String> coursesPersisted = new HashSet<String>();
-    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted =
-            new HashMap<String, FeedbackQuestionAttributes>();
-    private static HashMap<String, String> feedbackQuestionIds = new HashMap<String, String>();
+    private static Set<String> coursesPersisted = new HashSet<>();
+    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted = new HashMap<>();
+    private static HashMap<String, String> feedbackQuestionIds = new HashMap<>();
 
     private static Logic logic = new Logic();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
@@ -98,19 +92,17 @@ public class UploadBackupData extends RemoteApiClient {
             return new String[] {};
         }
         List<String> listOfFolders = Arrays.asList(folders);
-        Collections.sort(listOfFolders, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
-                try {
-                    Date firstDate = dateFormat.parse(o1);
 
-                    Date secondDate = dateFormat.parse(o2);
+        listOfFolders.sort((o1, o2) -> {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
+            try {
+                Date firstDate = dateFormat.parse(o1);
 
-                    return secondDate.compareTo(firstDate);
-                } catch (ParseException e) {
-                    return 0;
-                }
+                Date secondDate = dateFormat.parse(o2);
+
+                return secondDate.compareTo(firstDate);
+            } catch (ParseException e) {
+                return 0;
             }
         });
         listOfFolders.toArray(folders);
@@ -135,8 +127,8 @@ public class UploadBackupData extends RemoteApiClient {
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
                 data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
-                feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
-                feedbackQuestionIds = new HashMap<String, String>();
+                feedbackQuestionsPersisted = new HashMap<>();
+                feedbackQuestionIds = new HashMap<>();
 
                 if (!data.accounts.isEmpty()) {
                     // Accounts
@@ -169,10 +161,6 @@ public class UploadBackupData extends RemoteApiClient {
                 if (!data.feedbackResponseComments.isEmpty()) {
                     // Feedback response comments
                     persistFeedbackResponseComments(data.feedbackResponseComments);
-                }
-                if (!data.comments.isEmpty()) {
-                    // Comments
-                    persistComments(data.comments);
                 }
                 if (!data.profiles.isEmpty()) {
                     // Profiles
@@ -269,15 +257,6 @@ public class UploadBackupData extends RemoteApiClient {
             fcDb.createFeedbackResponseComments(responseComments.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback response comments: " + e.getMessage());
-        }
-    }
-
-    private static void persistComments(Map<String, CommentAttributes> map) {
-        Map<String, CommentAttributes> comments = map;
-        try {
-            commentsDb.createComments(comments.values());
-        } catch (InvalidParametersException e) {
-            System.out.println("Error in uploading comments: " + e.getMessage());
         }
     }
 

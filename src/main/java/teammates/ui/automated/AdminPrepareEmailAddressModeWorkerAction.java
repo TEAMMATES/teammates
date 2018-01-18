@@ -7,12 +7,15 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: prepares admin email to be sent via task queue in address mode,
  * i.e. using the address list given directly.
  */
 public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected String getActionDescription() {
@@ -29,14 +32,14 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
         log.info("Preparing admin email task queue in address mode...");
 
         String emailId = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ID);
-        Assumption.assertNotNull(emailId);
+        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ID, emailId);
 
         String addressReceiverListString = getRequestParamValue(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS);
-        Assumption.assertNotNull(addressReceiverListString);
+        Assumption.assertPostParamNotNull(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
 
         AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
-        List<String> addressList = new ArrayList<String>();
+        List<String> addressList = new ArrayList<>();
 
         if (addressReceiverListString.contains(",")) {
             addressList.addAll(Arrays.asList(addressReceiverListString.split(",")));
@@ -46,7 +49,7 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
 
         for (String emailAddress : addressList) {
             taskQueuer.scheduleAdminEmailForSending(emailId, emailAddress, adminEmail.getSubject(),
-                                                    adminEmail.getContent().getValue());
+                                                    adminEmail.getContentValue());
         }
     }
 

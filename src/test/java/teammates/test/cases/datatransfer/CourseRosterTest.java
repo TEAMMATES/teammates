@@ -10,6 +10,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 
+/**
+ * SUT: {@link CourseRoster}.
+ */
 public class CourseRosterTest extends BaseTestCase {
 
     @Test
@@ -75,9 +78,11 @@ public class CourseRosterTest extends BaseTestCase {
     }
 
     private List<StudentAttributes> createStudentList(String... studentData) {
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> students = new ArrayList<>();
         for (int i = 0; i < studentData.length; i += 2) {
-            StudentAttributes student = new StudentAttributes();
+            StudentAttributes student = StudentAttributes
+                    .builder("", "", "")
+                    .build();
             student.team = studentData[i];
             student.email = studentData[i + 1];
             students.add(student);
@@ -86,11 +91,12 @@ public class CourseRosterTest extends BaseTestCase {
     }
 
     private List<InstructorAttributes> createInstructorList(String... instructorData) {
-        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructors = new ArrayList<>();
         for (int i = 0; i < instructorData.length; i += 2) {
             @SuppressWarnings("deprecation")
-            InstructorAttributes instructor =
-                    new InstructorAttributes("googleId", "courseId", instructorData[i], instructorData[i + 1]);
+            InstructorAttributes instructor = InstructorAttributes
+                    .builder("googleId", "courseId", instructorData[i], instructorData[i + 1])
+                    .build();
             instructors.add(instructor);
         }
         return instructors;

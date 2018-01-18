@@ -2,11 +2,11 @@ package teammates.logic.core;
 
 import java.util.Map;
 
-import teammates.common.util.TaskWrapper;
-
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+
+import teammates.common.util.TaskWrapper;
 
 /**
  * Handles operations related to task queues.

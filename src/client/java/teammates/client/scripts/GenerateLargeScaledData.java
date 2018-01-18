@@ -62,7 +62,7 @@ public class GenerateLargeScaledData extends RemoteApiClient {
         return response;
     }
 
-    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
+    private static DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
             String pathToJsonFile = (pathToJsonFileParam.startsWith("/") ? TestProperties.TEST_DATA_FOLDER : "")
                                   + pathToJsonFileParam;

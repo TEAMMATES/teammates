@@ -7,8 +7,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 
 /**
- * Covers the 'student details' view for instructors.
- * SUT: {@link InstructorCourseStudentDetailsViewPage}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE}.
  */
 public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 
@@ -50,6 +49,14 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 
         viewPage = getCourseStudentDetailsPage("registeredStudent");
         viewPage.verifyHtmlMainContent("/instructorCourseStudentDetailsRegisteredWithHelperView.html");
+
+        ______TS("content: registered student with attempted script and html injection");
+
+        instructorId = testData.instructors.get("instructor1OfTestingSanitizationCourse").googleId;
+        courseId = testData.courses.get("testingSanitizationCourse").getId();
+
+        viewPage = getCourseStudentDetailsPage("student1InTestingSanitizationCourse");
+        viewPage.verifyHtmlMainContent("/instructorCourseStudentDetailsRegisteredWithAttemptedScriptInjection.html");
 
         // TODO: add test for the comment box in this page
     }

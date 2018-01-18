@@ -155,15 +155,15 @@ public class TeamEvalResult {
                 normalizedAveragePerceivedAsDouble,
                 intToDouble(claimedSanitizedRow)));
 
-        double sumOfperceived = sum(filteredPerceived);
+        double sumOfPerceived = sum(filteredPerceived);
         double sumOfActual = sum(filteredSanitizedActual);
 
         // if the student did not submit
         if (sumOfActual == NA) {
-            sumOfActual = sumOfperceived;
+            sumOfActual = sumOfPerceived;
         }
 
-        double factor = sumOfActual / sumOfperceived;
+        double factor = sumOfActual / sumOfPerceived;
 
         return doubleToInt(multiplyByFactor(factor,
                 normalizedAveragePerceivedAsDouble));

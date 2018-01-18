@@ -10,10 +10,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.StringHelperExtension;
 
-public class AccountAttributesTest extends BaseTestCase {
+/**
+ * SUT: {@link AccountAttributes}.
+ */
+public class AccountAttributesTest extends BaseAttributesTest {
 
     //TODO: test toString() method
 
@@ -38,10 +40,9 @@ public class AccountAttributesTest extends BaseTestCase {
 
         account = createInvalidAccountAttributesObject();
         String expectedError =
-                getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                getPopulatedEmptyStringErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
                 + getPopulatedErrorMessage(
                       FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
                       FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
@@ -66,12 +67,13 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals("Account", account.getEntityTypeAsString());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount =
-                new Account(account.googleId, account.name, account.isInstructor, account.email,
-                            account.institute, (StudentProfile) new StudentProfileAttributes().toEntity());
+        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
+                account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
+
         Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
@@ -79,8 +81,8 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-        String expectedProfile = new StudentProfileAttributes(expectedAccount.getStudentProfile()).toString();
-        String actualProfile = new StudentProfileAttributes(actualAccount.getStudentProfile()).toString();
+        String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
+        String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
     }
 
@@ -126,8 +128,8 @@ public class AccountAttributesTest extends BaseTestCase {
         assertEquals(a.getEmail(), attr.email);
         assertEquals(a.getInstitute(), attr.institute);
         assertEquals(a.getName(), attr.name);
-        assertEquals(null, a.getStudentProfile());
-        assertEquals(null, attr.studentProfile);
+        assertNull(a.getStudentProfile());
+        assertNull(attr.studentProfile);
 
     }
 
@@ -137,8 +139,8 @@ public class AccountAttributesTest extends BaseTestCase {
         String name = ""; //invalid name
         boolean isInstructor = false;
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = new StudentProfileAttributes();
+        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
         return new AccountAttributes(googleId, name, isInstructor, email, institute, studentProfile);
     }
@@ -172,8 +174,16 @@ public class AccountAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        account.studentProfile = new StudentProfileAttributes(account.googleId, shortName, personalEmail,
-                profileInstitute, nationality, gender, moreInfo, pictureKey);
+        account.studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(account.googleId)
+                .withShortName(shortName)
+                .withEmail(personalEmail)
+                .withInstitute(profileInstitute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
 
         return account;
 

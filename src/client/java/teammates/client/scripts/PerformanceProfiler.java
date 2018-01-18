@@ -13,14 +13,13 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.JsonUtils;
@@ -66,7 +65,7 @@ public class PerformanceProfiler extends Thread {
 
     private String reportFilePath;
     private DataBundle data;
-    private Map<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
+    private Map<String, ArrayList<Float>> results = new HashMap<>();
 
     protected PerformanceProfiler(String path) {
         reportFilePath = path;
@@ -174,7 +173,7 @@ public class PerformanceProfiler extends Thread {
      * @return {@code HashMap<nameOfTest, durations>} of the report stored in filePath
      */
     private static HashMap<String, ArrayList<Float>> importReportFile(String filePath) throws IOException {
-        HashMap<String, ArrayList<Float>> results = new HashMap<String, ArrayList<Float>>();
+        HashMap<String, ArrayList<Float>> results = new HashMap<>();
         File reportFile = new File(filePath);
 
         // Create the report file if not existed
@@ -197,7 +196,7 @@ public class PerformanceProfiler extends Thread {
             String testName = strs[0];
             String[] durations = strs[2].split("\\,");
 
-            ArrayList<Float> arr = new ArrayList<Float>();
+            ArrayList<Float> arr = new ArrayList<>();
             for (String str : durations) {
                 Float f = Float.parseFloat(str);
                 arr.add(f);
@@ -212,11 +211,11 @@ public class PerformanceProfiler extends Thread {
      * Writes the results to the file with path filePath.
      */
     private void printResult(String filePath) throws IOException {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (String str : results.keySet()) {
             list.add(str);
         }
-        Collections.sort(list);
+        list.sort(null);
         FileWriter fstream = new FileWriter(filePath);
         BufferedWriter out = new BufferedWriter(fstream);
 

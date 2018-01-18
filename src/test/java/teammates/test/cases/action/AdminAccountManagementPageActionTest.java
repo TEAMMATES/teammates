@@ -6,6 +6,9 @@ import teammates.common.util.Const;
 import teammates.ui.controller.AdminAccountManagementPageAction;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link AdminAccountManagementPageAction}.
+ */
 public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
     @Override
@@ -14,18 +17,12 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     }
 
     @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
-
-    @Override
     @Test
     public void testExecuteAndPostProcess() {
 
         ______TS("case: view admin acount management page");
 
-        String[] submissionParams = new String[] {
-        };
+        String[] submissionParams = new String[] {};
 
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -34,8 +31,9 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         ShowPageResult result = getShowPageResult(action);
 
         assertEquals("", result.getStatusMessage());
-        assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user",
-                     result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, false, adminUserId),
+                result.getDestinationWithParams());
         assertFalse(result.isError);
 
     }
@@ -43,6 +41,13 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     @Override
     protected AdminAccountManagementPageAction getAction(String... params) {
         return (AdminAccountManagementPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

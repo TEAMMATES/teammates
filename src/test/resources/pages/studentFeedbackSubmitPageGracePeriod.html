@@ -6,9 +6,7 @@
   </h1>
   <br>
   <div id="student-motd-wrapper">
-    <script>
-      var motdUrl = window.location.origin + '/${studentmotd.url}';
-    </script>
+    <input id="motd-url" type="hidden" value="${studentmotd.url}">
     <script defer="" src="/js/studentMotd.js" type="text/javascript">
     </script>
     ${studentmotd.container}
@@ -16,9 +14,10 @@
   <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="Grace Period Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="SFSubmitUiT.alice.b">
     <div id="statusMessagesToUser">
-      <div class="overflow-auto alert alert-warning statusMessage">
+      <div class="overflow-auto alert alert-warning icon-warning statusMessage">
         <strong>
           The feedback session is currently not open for submissions.
         </strong>
@@ -57,7 +56,7 @@
               </label>
               <div class="col-sm-10">
                 <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                  Sun, 01 Apr 2012, 11:59 PM UTC+0800
                 </p>
               </div>
             </div>
@@ -66,8 +65,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  ${datetime.now}
+                <p class="form-control-static" data-end-time="${datetime.now.iso8601utc}" id="end-time">
+                  ${datetime.now} UTC+0800
                 </p>
               </div>
             </div>
@@ -118,9 +117,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -176,9 +178,12 @@
           </p>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-2-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -194,7 +199,7 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" disabled="" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="">
                 <input name="numscalemin-2-0" type="hidden" value="1">
@@ -208,9 +213,12 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-2-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -226,7 +234,7 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" disabled="" max="5" min="1" name="responsetext-2-1" onchange="validateNumScaleAnswer(2, 1)" step="0.5" type="number" value="">
                 <input name="numscalemin-2-1" type="hidden" value="1">
@@ -266,9 +274,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-3-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -284,7 +295,7 @@
                 Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color_neutral" disabled="" name="responsetext-3-0">
                   <option class="color_neutral" selected="" value="-999">
@@ -354,13 +365,78 @@
                   </option>
                 </select>
               </div>
+              <div>
+                <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
+                  <span class="glyphicon glyphicon-info-sign">
+                  </span>
+                  More info about the
+                  <code>
+                    Equal Share
+                  </code>
+                  scale
+                </a>
+              </div>
+              <div class="modal fade" id="more-info-equal-share-modal" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button class="close" data-dismiss="modal" type="button">
+                        ×
+                      </button>
+                      <h4 class="modal-title">
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
+                      </p>
+                      <p>
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-3-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -376,7 +452,7 @@
                 Benny Charles
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color_neutral" disabled="" name="responsetext-3-1">
                   <option class="color_neutral" selected="" value="-999">
@@ -445,6 +521,61 @@
                     0%
                   </option>
                 </select>
+              </div>
+              <div>
+                <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
+                </a>
+              </div>
+              <div class="modal fade" id="more-info-equal-share-modal" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button class="close" data-dismiss="modal" type="button">
+                        ×
+                      </button>
+                      <h4 class="modal-title">
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
+                      </p>
+                      <p>
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -14,6 +15,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackResponseCommentDeleteAction}.
+ */
 public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 
     @Override
@@ -24,6 +28,8 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+        removeAndRestoreTypicalDataBundle();
+
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
@@ -37,14 +43,14 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
+        FeedbackResponseCommentAttributes feedbackResponseComment = typicalBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C1");
 
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Unsuccessful case: not enough parameters");
@@ -114,7 +120,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
         giverEmail = "student2InCourse1@gmail.tmt";
         feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail,
                                                                    receiverEmail);
-        feedbackResponseComment = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        feedbackResponseComment = typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
@@ -141,5 +147,40 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActio
     @Override
     protected InstructorFeedbackResponseCommentDeleteAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentDeleteAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+
+        int questionNumber = 2;
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        FeedbackResponseAttributes response = typicalBundle.feedbackResponses.get("response1ForQ2S1C1");
+
+        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+                fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
+        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.giverEmail, comment.createdAt);
+        comment.feedbackResponseId = response.getId();
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId())
+        };
+        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

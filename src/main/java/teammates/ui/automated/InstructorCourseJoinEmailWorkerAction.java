@@ -26,11 +26,11 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String inviterId = getRequestParamValue(ParamsNames.INVITER_ID);
-        Assumption.assertNotNull(inviterId);
+        Assumption.assertPostParamNotNull(ParamsNames.INVITER_ID, inviterId);
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.COURSE_ID, courseId);
         String instructorEmail = getRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertNotNull(instructorEmail);
+        Assumption.assertPostParamNotNull(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
 
         AccountAttributes inviter = logic.getAccount(inviterId);
         Assumption.assertNotNull(inviter);

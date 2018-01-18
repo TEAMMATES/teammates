@@ -3,26 +3,27 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.AdminEmailComposePageData;
 
-import com.google.appengine.api.datastore.Text;
-
 public class AdminEmailComposeSaveAction extends Action {
 
-    List<String> addressReceiver = new ArrayList<String>();
-    List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<>();
+    private List<String> groupReceiver = new ArrayList<>();
 
     @Override
     protected ActionResult execute() {
 
         gateKeeper.verifyAdminPrivileges(account);
-        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account, sessionToken);
 
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
@@ -60,15 +61,13 @@ public class AdminEmailComposeSaveAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
         } else {
             statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>"
-                    + "Subject: " + subject;
+                    + "Subject: " + SanitizationHelper.sanitizeForHtml(subject);
             statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS));
         }
 
@@ -82,11 +81,9 @@ public class AdminEmailComposeSaveAction extends Action {
                                           String content
                                           ) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 null);
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .build();
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
@@ -101,11 +98,9 @@ public class AdminEmailComposeSaveAction extends Action {
                                        List<String> groupReceiver,
                                        String content) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 null);
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .build();
         try {
             logic.createAdminEmail(newDraft);
         } catch (InvalidParametersException e) {

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -38,7 +38,6 @@ public final class StudentsLogic {
 
     private static final StudentsDb studentsDb = new StudentsDb();
 
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -213,11 +212,6 @@ public final class StudentsLogic {
                             ? originalEmail
                             : student.email;
 
-        // cascade email changes to comments
-        if (!originalStudent.email.equals(finalEmail)) {
-            commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
-        }
-
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
@@ -303,8 +297,8 @@ public final class StudentsLogic {
         }
 
         List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
-        ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentAttributes> returnList = new ArrayList<>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -379,7 +373,7 @@ public final class StudentsLogic {
 
     private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
-        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> mergedList = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
 
         for (StudentAttributes student : studentList) {
@@ -407,7 +401,7 @@ public final class StudentsLogic {
 
         StudentAttributes.sortBySectionName(mergedList);
 
-        List<String> invalidSectionList = new ArrayList<String>();
+        List<String> invalidSectionList = new ArrayList<>();
         int studentsCount = 1;
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
@@ -438,7 +432,7 @@ public final class StudentsLogic {
 
         StudentAttributes.sortByTeamName(mergedList);
 
-        List<String> invalidTeamList = new ArrayList<String>();
+        List<String> invalidTeamList = new ArrayList<>();
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
@@ -462,6 +456,13 @@ public final class StudentsLogic {
         return errorMessage.toString();
     }
 
+    public void deleteAllStudentsInCourse(String courseId) {
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        for (StudentAttributes student : studentsInCourse) {
+            deleteStudentCascade(courseId, student.email);
+        }
+    }
+
     public void deleteStudentCascade(String courseId, String studentEmail) {
         deleteStudentCascade(courseId, studentEmail, true);
     }
@@ -473,7 +474,6 @@ public final class StudentsLogic {
     public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
-        commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
@@ -534,6 +534,13 @@ public final class StudentsLogic {
         studentsDb.putDocument(student);
     }
 
+    /**
+     * Batch creates or updates documents for the given students.
+     */
+    public void putDocuments(List<StudentAttributes> students) {
+        studentsDb.putDocuments(students);
+    }
+
     private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         StudentAttributes originalStudentAttributes = getStudentForEmail(
@@ -576,41 +583,33 @@ public final class StudentsLogic {
      *         invalidity info for all invalid student instances in HTML format.
      */
     public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
-        List<String> invalidityInfo = new ArrayList<String>();
+        List<String> invalidityInfo = new ArrayList<>();
         String[] linesArray = lines.split(Const.EOL);
-        ArrayList<String> studentEmailList = new ArrayList<String>();
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> studentList = new ArrayList<>();
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
 
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
+            if (StringHelper.isWhiteSpace(line)) {
+                continue;
+            }
             try {
-                if (StringHelper.isWhiteSpace(line)) {
-                    continue;
-                }
                 StudentAttributes student = saf.makeStudent(line, courseId);
 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
-                                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                    invalidityInfo.add(invalidStudentInfo(sanitizedLine, student));
                 }
 
-                if (isStudentEmailDuplicated(student.email, studentEmailList)) {
-                    String info =
-                            StringHelper.toString(
-                                    getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
-                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
+                if (duplicateEmailIndex != -1) {
+                    invalidityInfo.add(duplicateEmailInfo(sanitizedLine, linesArray[duplicateEmailIndex + 1]));
                 }
 
-                studentEmailList.add(student.email);
                 studentList.add(student);
             } catch (EnrollException e) {
-                String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
-                invalidityInfo.add(info);
+                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, e.getMessage()));
             }
         }
 
@@ -621,16 +620,46 @@ public final class StudentsLogic {
         return studentList;
     }
 
-    private List<String> getInvalidityInfoInDuplicatedEmail(String email,
-            ArrayList<String> studentEmailList, String[] linesArray) {
-        List<String> info = new ArrayList<String>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1] + "\"");
-        return info;
+    /**
+     * Returns a {@code String} containing the invalid information of the {@code student}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String invalidStudentInfo(String userInput, StudentAttributes student) {
+        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
+                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
     }
 
-    private boolean isStudentEmailDuplicated(String email,
-            ArrayList<String> studentEmailList) {
-        return studentEmailList.contains(email);
+    /**
+     * Returns the index of the first occurrence of the duplicate {@code email} in
+     * {@code studentList}, or -1 if {@code email} is not a duplicate in {@code studentList}.
+     */
+    private int getDuplicateEmailIndex(String email, List<StudentAttributes> studentList) {
+        for (int index = 0; index < studentList.size(); index++) {
+            if (studentList.get(index).email.equals(email)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
+     * the corresponding sanitized invalid {@code userInput}.
+     */
+    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
+        String info =
+                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
+                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
+    }
+
+    /**
+     * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String enrollExceptionInfo(String userInput, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
     }
 
     private boolean isInEnrollList(StudentAttributes student,

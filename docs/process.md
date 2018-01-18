@@ -13,7 +13,7 @@ This is the project-wide development workflow for TEAMMATES.
 
 * This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/).
 * If you need any help regarding the workflow, please [post a new issue in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
-* It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](settingUp.md).<br>
+* It is assumed that the development environment has been correctly set up. If this step has not been completed, refer to [this document](setting-up.md).<br>
   You are also encouraged to be reasonably familiar with how to [work with your own local copy of TEAMMATES](development.md).
 
 The following are the roles involved:
@@ -47,13 +47,13 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
 
 ### Step 2: Start clean from a new branch
 
-1. Start off from your `master` branch and make sure it is up-to-date with the latest version of the committer repo's `master` branch.
+1. Start off from your `master` branch and make sure it is up-to-date with the latest version of the main repo's `master` branch.
    ```sh
    git checkout master
    git pull
    ```
 
-1. Create a new branch to push your commits into. If you have push access, name it `{IssueNumber}-{some-keywords}`,
+1. Create a new branch to push your commits into. If you have commit access and need to push into the main repo for some reason, name it `{IssueNumber}-{some-keywords}`,
    where `some-keywords` are representative keywords taken from the issue title.
    ```sh
    git checkout -b 3942-remove-unnecessary-println
@@ -62,7 +62,7 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
 Notes:
 
 1. **Do not** combine fixes for multiple issues in one branch, unless they are tightly related.
-1. Your `master` branch must never be ahead of the committer repo's `master` branch at all times.
+1. Your `master` branch must never be ahead of the main repo's `master` branch at all times.
 
 ### Step 3: Fix the issue
 
@@ -80,13 +80,13 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * Use meaningful commit messages (e.g. `Add tests for the truncate method`).
      [Here](http://chris.beams.io/posts/git-commit/) is a good reference.
 
-1. Sync with the committer repo frequently. While you were fixing the issue, others might have pushed new code to the committer repo.
-   * Update your repo's `master` branch with any new changes from committer repo, then switch back to your work branch.
+1. Sync with the main repo frequently. While you were fixing the issue, others might have pushed new code to the main repo.
+   * Update your repo's `master` branch with any new changes from main repo, then switch back to your work branch.
 
      ```sh
      git checkout master
      git pull
-     git checkout -b 3942-remove-unnecessary-println
+     git checkout 3942-remove-unnecessary-println
      ```
    * Option 1: merge those updates to the branch you are working on.
 
@@ -102,12 +102,14 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      The details on the steps can be found on [this document](dependencies.md).
 
 1. <a name="things-to-check"></a>Before submitting your work for review, here are some things to check (non-exhaustive):
-   * The code is **properly formatted for readability**.<br>
-     Select the code segments you modified and apply the code formatting function of Eclipse (`Source → Format`).
-     You may tweak the code further to improve readability as auto-format does not always result in a good layout.
-   * The code base passes **static analysis** (i.e. code quality check).<br>
-     The details on how to run static analysis locally is given on [this document](staticAnalysis.md).
-   * **Dev green**, i.e. all *local tests* are passing on your dev server. Local tests can be run using the "Local Tests" run configuration in Eclipse.<br>
+   * The code is **properly formatted for readability**.
+   * The code base passes **static analysis** (i.e. code quality check):
+
+     ```sh
+     ./gradlew lint
+     npm run lint
+     ```
+   * **Dev green**, i.e. all *local tests* are passing on your dev server.<br>
      You are more than welcome to also ensure all *CI tests* are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
      ensure that the affected tests are passing against the updated app running on your own GAE staging server.
@@ -116,7 +118,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    * All new public APIs (methods, classes) are **documented with header comments**.
    * **Documentations are updated** when necessary, particularly when there are changes or additions to software design as well as user-facing features.
 
-1. Push your branch to your fork, or to the committer repo if you have push access.
+1. Push your branch to your fork, or to the main repo only if necessary.
    ```sh
    git push {remote-name} 3942-remove-unnecessary-println
    ```
@@ -125,15 +127,21 @@ Make the changes to the code, tests, and documentations as needed by the issue.
    git push -f {remote-name} 3942-remove-unnecessary-println
    ```
 
+   > Anyone working on an issue, including core team members, should use branches in his/her own fork instead unless the branch needs to be in the main repo.
+   > Such cases include:
+   >
+   > * The branch is being worked on by multiple people.
+   > * The branch contains changes that need to be trialled by other core team member.
+
 ### Step 4: Submit a PR
 
 [Create a PR](https://help.github.com/articles/creating-a-pull-request/) with the following configuration:
-* The base branch is the committer repo's `master` branch (except for hot patches in which it will be the `release` branch).
+* The base branch is the main repo's `master` branch (except for hot patches in which it will be the `release` branch).
 * PR name: copy-and-paste the relevant issue name and include the issue number as well,
   e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
-  Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).<br>
-  You are also welcome to describe the changes you have made in your branch and how they resolve the issue.
+  Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
+* You are encouraged to describe the changes you have made in your branch and how they resolve the issue.
 
 It is not required that you submit a PR only when your work is ready for review;
 make it clear in the PR (e.g. in the description, in a comment, or as an `s.*` label) whether it is still a work-in-progress or is ready for review.
@@ -172,8 +180,8 @@ Your code will be reviewed, in this sequence, by:
 
 #### Updating the PR
 
-If you are tasked to update your PR either by Travis CI or by your reviewer, there is no need to close the PR and open a new one.
-You will simply make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
+If you are tasked to update your PR either by Travis CI or by your reviewer, **do not** close the PR and open a new one.
+You should make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
 
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
 If you have permission to change labels, you may additionally change the `s.*` PR label as appropriate.
@@ -185,7 +193,7 @@ The cycle of "code review" - "updating the PR" will be repeated until your PR is
 The core team member responsible for merging your PR might contact you for reasons such as syncing your PR with the latest `master` branch or resolving merge conflicts.
 Depending on the situation, this may necessitate more changes to be made in your PR (e.g. if your PR is functionally conflicting with a recent change), however this rarely happens.
 
-Your work on the issue is done when your PR is successfully merged to the committer repo's `master` or `release` branch.
+Your work on the issue is done when your PR is successfully merged to the main repo's `master` or `release` branch.
 
 ## Reviewing a PR
 

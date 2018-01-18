@@ -7,16 +7,14 @@ import teammates.ui.controller.AdminHomePageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminHomePageData;
 
+/**
+ * SUT: {@link AdminHomePageAction}.
+ */
 public class AdminHomePageActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.ADMIN_HOME_PAGE;
-    }
-
-    @Override
-    protected void prepareTestData() {
-        // no test data used in this test
     }
 
     @Override
@@ -31,7 +29,6 @@ public class AdminHomePageActionTest extends BaseActionTest {
         final ShowPageResult result = getShowPageResult(a);
         assertEquals(Const.ViewURIs.ADMIN_HOME, result.destination);
         final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
-        assertEquals("", startingPageData.instructorDetailsSingleLine);
         assertEquals("", startingPageData.instructorEmail);
         assertEquals("", startingPageData.instructorShortName);
         assertEquals("", startingPageData.instructorInstitution);
@@ -43,6 +40,13 @@ public class AdminHomePageActionTest extends BaseActionTest {
     @Override
     protected AdminHomePageAction getAction(String... params) {
         return (AdminHomePageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

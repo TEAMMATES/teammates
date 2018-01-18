@@ -1,12 +1,13 @@
 <div id="mainContent">
     <h2>Injected values</h2>
     <ul>
-        <li>window.location.origin + '/${studentmotd.url}';</li>
+        <li><input id="motd-url" type="hidden" value="${studentmotd.url}"></li>
         <li>V${version}</li>
         <li>${test.student1}</li>
         <li>${test.student2}</li>
         <li>${test.instructor}</li>
         <li>${test.admin}</li>
+        <li>${support.email}</li>
     </ul>
     <h2>Variations in injected values</h2>
     <ul>
@@ -36,8 +37,13 @@
         <li>plainCommentText-${comment.id}</li>
         <li>${date.nexthour}</li>
         <li>${datetime.now}</li>
-        <li>${datetime.now}</li>
+        <li>${datetime.now} UTC+0000</li>
+        <li>${datetime.now.iso8601utc}</li>
+        <li>${datetime.now.courses}</li>
         <li>${admin.institute}</li>
         <li>${admin.institute}</li>
+        <li><input name="token" type="hidden" value="${sessionToken}"></li>
+        <li>/page/instructorCourseDelete?courseid=abcdef&token=${sessionToken}</li>
+        <li>/page/instructorCourseDelete?token=${sessionToken}</li>
     </ul>
 </div>

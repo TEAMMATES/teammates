@@ -3,8 +3,8 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -29,7 +29,6 @@ public final class InstructorsLogic {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -53,6 +52,14 @@ public final class InstructorsLogic {
      */
     public void putDocument(InstructorAttributes instructor) {
         instructorsDb.putDocument(instructor);
+    }
+
+    /**
+     * Batch creates or updates documents for the given Instructors.
+     * @param instructors a list of instructors to be put into documents
+     */
+    public void putDocuments(List<InstructorAttributes> instructors) {
+        instructorsDb.putDocuments(instructors);
     }
 
     /**
@@ -88,7 +95,7 @@ public final class InstructorsLogic {
     }
 
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
-           throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = archiveStatus;
@@ -111,8 +118,10 @@ public final class InstructorsLogic {
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
+        instructorReturnList.sort(InstructorAttributes.compareByName);
 
-        return instructorsDb.getInstructorsForCourse(courseId);
+        return instructorReturnList;
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
@@ -133,11 +142,6 @@ public final class InstructorsLogic {
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
 
         return StringHelper.encrypt(instructor.key);
-    }
-
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-
-        return instructorsDb.getInstructorsForEmail(email);
     }
 
     /**
@@ -227,7 +231,6 @@ public final class InstructorsLogic {
         }
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
-            commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
             frcLogic.updateFeedbackResponseCommentsEmails(
                     instructor.courseId, instructorInDb.email, instructor.email);
         }
@@ -252,7 +255,7 @@ public final class InstructorsLogic {
                                                               String institute, String email) {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         String error;
 
         error = validator.getInvalidityInfoForPersonName(shortName);
@@ -280,7 +283,6 @@ public final class InstructorsLogic {
     }
 
     public void deleteInstructorCascade(String courseId, String email) {
-        commentsLogic.deleteCommentsForInstructor(courseId, email);
         fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
         instructorsDb.deleteInstructor(courseId, email);
     }
@@ -299,6 +301,18 @@ public final class InstructorsLogic {
     public void deleteInstructorsForCourse(String courseId) {
 
         instructorsDb.deleteInstructorsForCourse(courseId);
+    }
+
+    public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            instructorsWithCoOwnerPrivileges.add(instructor);
+        }
+        return instructorsWithCoOwnerPrivileges;
     }
 
 }

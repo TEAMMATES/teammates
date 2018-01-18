@@ -18,8 +18,10 @@ import teammates.common.util.Const.SystemParams;
  */
 public final class TimeHelper {
 
-    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
-    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
+    private static final Logger log = Logger.getLogger();
+
+    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<>();
+    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<>();
 
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
@@ -80,12 +82,25 @@ public final class TimeHelper {
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
     }
 
+    /**
+     * Sets the system time zone if it differs from the standard one defined in {@link SystemParams#TIME_ZONE}.
+     */
+    public static void setSystemTimeZoneIfRequired() {
+        TimeZone originalTimeZone = TimeZone.getDefault();
+        if (SystemParams.TIME_ZONE.equals(originalTimeZone)) {
+            return;
+        }
+
+        TimeZone.setDefault(SystemParams.TIME_ZONE);
+        log.info("Time zone set to " + SystemParams.TIME_ZONE.getID() + " (was " + originalTimeZone.getID() + ")");
+    }
+
     public static String getCitiesForTimeZone(String zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
     public static List<Double> getTimeZoneValues() {
-        return new ArrayList<Double>(TIME_ZONE_VALUES);
+        return new ArrayList<>(TIME_ZONE_VALUES);
     }
 
     /**
@@ -93,7 +108,7 @@ public final class TimeHelper {
      */
     public static Calendar now(double timeZone) {
         return TimeHelper.convertToUserTimeZone(
-                Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
+                Calendar.getInstance(SystemParams.TIME_ZONE), timeZone);
     }
 
     /**
@@ -119,20 +134,10 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object with specified offset in number of hours from now.
-     */
-    public static Date getHoursOffsetToCurrentTime(int offsetHours) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.setTime(cal.getTime());
-        cal.add(Calendar.HOUR, +offsetHours);
-        return cal.getTime();
-    }
-
-    /**
      * Returns the date object with specified offset in number of days from now.
      */
     public static Date getDateOffsetToCurrentTime(int offsetDays) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
         cal.setTime(cal.getTime());
         cal.add(Calendar.DATE, +offsetDays);
         return cal.getTime();
@@ -142,7 +147,7 @@ public final class TimeHelper {
      * Returns the date object with specified offset in number of ms from now.
      */
     public static Date getMsOffsetToCurrentTime(int offsetMilliseconds) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
         cal.setTime(cal.getTime());
         cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
         return cal.getTime();
@@ -150,7 +155,7 @@ public final class TimeHelper {
 
     public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset, double timeZone) {
         Date d = getMsOffsetToCurrentTime(offset);
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(d);
         return convertToUserTimeZone(c, timeZone).getTime();
     }
@@ -162,36 +167,34 @@ public final class TimeHelper {
     }
 
     /**
+     * Converts the {@code localDate} from {@code localTimeZone}) to UTC through shifting by the offset.
+     *
+     * @deprecated Method should be removed once all time data is migrated to UTC.
+     */
+    @Deprecated
+    public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
+        if (localDate == null) {
+            return null;
+        }
+        Calendar localCal = dateToCalendar(localDate);
+        localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
+        return localCal.getTime();
+    }
+
+    /**
      * Formats a date in the corresponding option value in 'Time' dropdowns The
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
     public static int convertToOptionValueInTimeDropDown(Date date) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes = c.get(Calendar.MINUTE);
         hour = hour == 0 ? 24 : hour;
         hour = hour == 23 && minutes == 59 ? 24 : hour;
         return hour;
-    }
-
-    /**
-     * Returns one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
-     *         Note the last one is different from the others.
-     */
-    public static String convertToDisplayValueInTimeDropDown(Date date) {
-        int optionValue = convertToOptionValueInTimeDropDown(date);
-        if (optionValue == 24) {
-            return "2359H";
-        } else if (optionValue >= 0 && optionValue < 10) {
-            return "0" + optionValue + "00H";
-        } else if (optionValue >= 10 && optionValue < 24) {
-            return optionValue + "00H";
-        } else {
-            throw new RuntimeException("Unrecognized time option: " + optionValue);
-        }
     }
 
     /**
@@ -202,7 +205,7 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
     }
 
@@ -214,29 +217,33 @@ public final class TimeHelper {
         if (date == null) {
             return "";
         }
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
-        }
-        return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
-    }
-
-    public static String formatDateTimeForComments(Date date) {
-        if (date == null) {
-            return "";
-        }
         SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf.format(date) + " NOON UTC";
+            sdf.setTimeZone(SystemParams.TIME_ZONE);
+            return sdf.format(date) + " NOON";
         }
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
+    }
+
+    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
+        if (dateInUtc == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
+        TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
+        c.setTimeZone(timeZone);
+        c.setTime(dateInUtc);
+        String periodIndicator =
+                c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0 ? "'NOON'" : "a";
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm " + periodIndicator + " 'UTC'Z");
+        sdf.setTimeZone(timeZone);
+        return sdf.format(dateInUtc);
     }
 
     /**
@@ -247,16 +254,43 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         c.setTime(date);
         if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("d MMM h:mm");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            sdf.setTimeZone(SystemParams.TIME_ZONE);
             return sdf.format(date) + " NOON";
         }
         sdf = new SimpleDateFormat("d MMM h:mm a");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
+    }
+
+    /**
+     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
+     */
+    public static String formatDateTimeForInstructorCoursesPage(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
+        c.setTime(date);
+        sdf = new SimpleDateFormat("d MMM yyyy");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(date);
+    }
+
+    /**
+     * Formats {@code dateInUtc} according to the ISO8601 format.
+     */
+    public static String formatDateToIso8601Utc(Date dateInUtc) {
+        if (dateInUtc == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(dateInUtc);
     }
 
     public static String calendarToString(Calendar c) {
@@ -282,7 +316,7 @@ public final class TimeHelper {
     }
 
     public static Calendar dateToCalendar(Date date) {
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         if (date == null) {
             return c;
         }
@@ -295,7 +329,7 @@ public final class TimeHelper {
      * Example: If now is 1055, this will return 1100
      */
     public static Date getNextHour() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
         cal.add(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -346,10 +380,10 @@ public final class TimeHelper {
      * Precision is at millisecond level.
      */
     public static boolean isWithinPastHour(Date time1, Date time2) {
-        Calendar calendarTime1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar calendarTime1 = Calendar.getInstance(SystemParams.TIME_ZONE);
         calendarTime1.setTime(time1);
 
-        Calendar calendarTime2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar calendarTime2 = Calendar.getInstance(SystemParams.TIME_ZONE);
         calendarTime2.setTime(time2);
 
         long time1Millis = calendarTime1.getTimeInMillis();
@@ -393,8 +427,8 @@ public final class TimeHelper {
 
     private static Date convertToDate(String date, int time) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        Calendar calendar = Calendar.getInstance(SystemParams.TIME_ZONE);
 
         // Perform date manipulation
         try {
@@ -463,6 +497,12 @@ public final class TimeHelper {
             return null;
         }
 
+    }
+
+    public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {
+        int hours = (int) sessionTimeZone;
+        int minutes = (int) ((Math.abs(sessionTimeZone) - Math.floor(Math.abs(sessionTimeZone))) * 60);
+        return TimeZone.getTimeZone(String.format("GMT%+03d:%02d", hours, minutes));
     }
 
 }

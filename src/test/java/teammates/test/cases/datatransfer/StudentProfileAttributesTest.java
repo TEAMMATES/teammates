@@ -1,30 +1,32 @@
 package teammates.test.cases.datatransfer;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
-import teammates.storage.entity.StudentProfile;
-import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.AssertHelper;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
-public class StudentProfileAttributesTest extends BaseTestCase {
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
+import teammates.storage.entity.StudentProfile;
+import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
+
+/**
+ * SUT: {@link StudentProfileAttributes}.
+ */
+public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     private StudentProfileAttributes profile;
 
     @BeforeClass
     public void classSetup() {
-        profile = new StudentProfileAttributes();
+        profile = StudentProfileAttributes.builder().build();
         profile.googleId = "valid.googleId";
         profile.shortName = "shor";
         profile.institute = "institute";
@@ -33,6 +35,50 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         profile.gender = "female";
         profile.moreInfo = "moreInfo can have a lot more than this...";
         profile.pictureKey = "profile Pic Key";
+    }
+
+    @Test
+    public void testBuilderWithDefaultOptionalValues() {
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder().build();
+        assertIsDefaultValues(profileAttributes);
+    }
+
+    @Test
+    public void testDefaultValueForGenderIfNullPassed() {
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+                .withGender(null)
+                .build();
+
+        assertIsDefaultValues(profileAttributes);
+    }
+
+    private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
+        assertEquals("other", profileAttributes.gender);
+        assertEquals("", profileAttributes.googleId);
+        assertEquals("", profileAttributes.shortName);
+        assertEquals("", profileAttributes.email);
+        assertEquals("", profileAttributes.institute);
+        assertEquals("", profileAttributes.nationality);
+        assertEquals("", profileAttributes.moreInfo);
+        assertEquals("", profileAttributes.pictureKey);
+    }
+
+    @Test
+    public void testValueOf() {
+        StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
+                "Teammates Institute", "American", "male",
+                new Text("hello"), new BlobKey("key"));
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
+
+        assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
+        assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
+        assertEquals(studentProfile.getEmail(), profileAttributes.email);
+        assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
+        assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
+        assertEquals(studentProfile.getGender(), profileAttributes.gender);
+        assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
+        assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
+
     }
 
     @Test
@@ -52,19 +98,13 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testGetJsonString() throws Exception {
-        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
+        spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
                      + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
-                     /*
-                      *  Be careful:
-                      *  This comparison will fail if the test is run without
-                      *  the VM argument -Duser.timezone=UTC.
-                      */
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
                      spa.getJsonString());
     }
@@ -72,20 +112,20 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfo() throws Exception {
         testGetInvalidityInfoForValidProfileWithValues();
-        testGetInvalidtyInfoForValidProfileWithEmptyValues();
+        testGetInvalidityInfoForValidProfileWithEmptyValues();
         testInvalidityInfoForInvalidProfile();
     }
 
-    protected void testGetInvalidityInfoForValidProfileWithValues() {
-        StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
+    private void testGetInvalidityInfoForValidProfileWithValues() {
+        StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile attributes");
         assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    protected void testGetInvalidtyInfoForValidProfileWithEmptyValues() {
-        StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
+    private void testGetInvalidityInfoForValidProfileWithEmptyValues() {
+        StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile with empty attributes");
         validProfile.shortName = "";
@@ -97,7 +137,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
-    protected void testInvalidityInfoForInvalidProfile() throws Exception {
+    private void testInvalidityInfoForInvalidProfile() throws Exception {
         StudentProfileAttributes invalidProfile = getInvalidStudentProfileAttributes();
 
         ______TS("Failure case: invalid profile attributes");
@@ -115,25 +155,21 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
         assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.googleId),
                      profileToSanitize.googleId);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.shortName),
-                     profileToSanitize.shortName);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.institute),
-                     profileToSanitize.institute);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.email),
-                     profileToSanitize.email);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.nationality),
-                     profileToSanitize.nationality);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.gender),
-                     profileToSanitize.gender);
-        assertEquals(SanitizationHelper.sanitizeForHtml(profileToSanitizeExpected.moreInfo),
-                     profileToSanitize.moreInfo);
+        assertEquals(profileToSanitizeExpected.shortName, profileToSanitize.shortName);
+        assertEquals(profileToSanitizeExpected.institute, profileToSanitize.institute);
+        assertEquals(profileToSanitizeExpected.email, profileToSanitize.email);
+        assertEquals(profileToSanitizeExpected.nationality, profileToSanitize.nationality);
+        assertEquals(profileToSanitizeExpected.gender, profileToSanitize.gender);
+        assertEquals(profileToSanitizeExpected.moreInfo, profileToSanitize.moreInfo);
+        assertEquals(profileToSanitizeExpected.pictureKey, profileToSanitize.pictureKey);
     }
 
+    @Override
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
-        StudentProfileAttributes testProfile = new StudentProfileAttributes(expectedEntity);
-        StudentProfile actualEntity = (StudentProfile) testProfile.toEntity();
+        StudentProfileAttributes testProfile = StudentProfileAttributes.valueOf(expectedEntity);
+        StudentProfile actualEntity = testProfile.toEntity();
 
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
         assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
@@ -148,7 +184,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
 
         // the toString must be unique to the values in the object
@@ -167,15 +203,8 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                                   new Text(profile.moreInfo), new BlobKey(profile.pictureKey));
     }
 
-    private StudentProfileAttributes createNewProfileAttributesFrom(
-            StudentProfileAttributes profile) {
-        return new StudentProfileAttributes(profile.googleId, profile.shortName, profile.email,
-                                            profile.institute, profile.nationality, profile.gender,
-                                            profile.moreInfo, profile.pictureKey);
-    }
-
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         // tests both the constructor and the invalidity info
         expectedErrorMessages.add(
@@ -195,22 +224,30 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                     FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                     FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.nationality));
-        expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
+
         return expectedErrorMessages;
     }
 
     private StudentProfileAttributes getInvalidStudentProfileAttributes() {
-        String googleId = StringHelper.generateStringOfLength(46);
+        String googleId = StringHelperExtension.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
-        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
-        return new StudentProfileAttributes(googleId, shortName, email, institute, nationality, gender,
-                                            moreInfo, pictureKey);
+        return StudentProfileAttributes.builder()
+                .withGoogleId(googleId)
+                .withShortName(shortName)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
     }
 
     private StudentProfileAttributes getStudentProfileAttributesToSanitize() {
@@ -223,8 +260,16 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 
-        return new StudentProfileAttributes(googleId, shortName, email, institute, nationality, gender,
-                                            moreInfo, pictureKey);
+        return StudentProfileAttributes.builder()
+                .withGoogleId(googleId)
+                .withShortName(shortName)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withNationality(nationality)
+                .withGender(gender)
+                .withMoreInfo(moreInfo)
+                .withPictureKey(pictureKey)
+                .build();
     }
 
 }

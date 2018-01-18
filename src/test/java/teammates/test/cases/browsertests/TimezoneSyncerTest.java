@@ -8,6 +8,11 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
 
+/**
+ * Verifies that both timezone libraries, jodatime and momentjs are in sync.
+ *
+ * <p>Implemented as a browser test as both back-end and front-end methods are involved.
+ */
 public class TimezoneSyncerTest extends BaseUiTestCase {
 
     private AppPage page;

@@ -1,12 +1,10 @@
 package teammates.ui.datatransfer;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.ui.controller.InstructorStudentListPageAction;
-import teammates.ui.pagedata.InstructorStudentListPageData;
 
 /**
- * Serves as a datatransfer class between {@link InstructorStudentListPageAction}
- * and {@link InstructorStudentListPageData}.
+ * Serves as a datatransfer class between {@link teammates.ui.controller.InstructorStudentListPageAction}
+ * and {@link teammates.ui.pagedata.InstructorStudentListPageData}.
  */
 public class InstructorStudentListPageCourseData {
 

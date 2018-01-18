@@ -11,6 +11,9 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackEditSaveAction}.
+ */
 public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
     @Override
@@ -21,8 +24,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String expectedString = "";
 
@@ -138,7 +141,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
 
-        gaeSimulation.loginAsAdmin("admin.user");
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
@@ -167,11 +171,22 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
     }
 
     @Override
     protected InstructorFeedbackEditSaveAction getAction(String... params) {
         return (InstructorFeedbackEditSaveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams =
+                createParamsForTypicalFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

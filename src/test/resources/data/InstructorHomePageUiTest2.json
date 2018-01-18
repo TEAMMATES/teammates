@@ -27,6 +27,13 @@
       "isInstructor": true,
       "email": "newIns.withoutSample@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CHomeUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -46,6 +53,12 @@
       "id": "newIns.wit-demo",
       "name": "Sample Course 101",
       "timeZone": "UTC"
+    },
+    "CHomeUiT.testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
     }
   },
   "instructors": {
@@ -60,14 +73,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -86,14 +96,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -112,14 +119,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -135,6 +139,30 @@
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CHomeUiT.instructor1OfTestingSanitizationCourse": {
+      "googleId": "CHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "CHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CHomeUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -360,10 +388,33 @@
         "INSTRUCTORS",
         "RECEIVER"
       ]
+    },
+    "CHomeUiT.CS2104:Third Feedback Session:Q1": {
+      "feedbackSessionName": "Third Feedback Session",
+      "courseId": "CHomeUiT.CS2104",
+      "creatorEmail": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "questionMetaData": {
+        "value": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

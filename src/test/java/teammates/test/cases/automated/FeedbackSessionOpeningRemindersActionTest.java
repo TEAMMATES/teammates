@@ -13,6 +13,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.automated.FeedbackSessionOpeningRemindersAction;
 
 /**
@@ -46,7 +47,7 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
         session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
         session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         fsLogic.updateFeedbackSession(session1);
-        session1.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(-47));
+        session1.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
         fsLogic.updateFeedbackSession(session1);
 
         // Ditto, but disable the opening reminder, but currently open emails will still be sent regardless
@@ -56,7 +57,7 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
         session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         session2.setOpeningEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
-        session2.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(-47));
+        session2.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
         fsLogic.updateFeedbackSession(session2);
 
         action = getAction();

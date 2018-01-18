@@ -6,7 +6,10 @@
     <description>
         This is the PMD ruleset for all TEAMMATES Java code.
     </description>
-
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
     <rule ref="rulesets/java/basic.xml"/>
 
     <rule ref="rulesets/java/design.xml">
@@ -14,11 +17,12 @@
         <exclude name="AvoidSynchronizedAtMethodLevel"/>
         <exclude name="NonThreadSafeSingleton"/>
 
-        <!-- Very difficult to enforce -->        
+        <!-- Very difficult to enforce -->
         <exclude name="GodClass"/>
         <exclude name="ImmutableField"/>
 
         <!-- Not worth the added safety -->
+        <exclude name="AccessorMethodGeneration"/>
         <exclude name="ConstructorCallsOverridableMethod"/>
         <exclude name="SimpleDateFormatNeedsLocale"/>
         <exclude name="UseLocaleWithCaseConversions"/>
@@ -30,8 +34,6 @@
         <exclude name="EmptyIfStmt"/>
         <exclude name="EmptyCatchBlock"/>
     </rule>
-
-    <rule ref="rulesets/java/imports.xml"/>
 
     <rule ref="rulesets/java/junit.xml">
         <!-- Not worth the benefit -->
@@ -64,6 +66,9 @@
     <rule ref="rulesets/java/strings.xml">
         <!-- Very difficult to enforce -->
         <exclude name="AvoidDuplicateLiterals"/>
+
+        <!-- Not worth the optimization -->
+        <exclude name="InefficientEmptyStringCheck"/>
     </rule>
 
     <rule ref="rulesets/java/unnecessary.xml"/>
@@ -80,11 +85,12 @@
     <!--<rule ref="rulesets/java/controversial.xml"/>-->
     <!--<rule ref="rulesets/java/coupling.xml"/>-->
     <!--<rule ref="rulesets/java/sunsecure.xml"/>-->
-    
+
     <!-- Handled by Checkstyle -->
     <!--<rule ref="rulesets/java/braces.xml"/>-->
+    <!--<rule ref="rulesets/java/imports.xml"/>-->
     <!--<rule ref="rulesets/java/naming.xml"/>-->
-    
+
     <!-- Irrelevant for our code -->
     <!--<rule ref="rulesets/java/clone.xml"/>-->
     <!--<rule ref="rulesets/java/finalizers.xml"/>-->

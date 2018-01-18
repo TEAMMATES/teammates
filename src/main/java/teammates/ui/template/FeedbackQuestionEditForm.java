@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 
 /**
@@ -74,9 +74,9 @@ public class FeedbackQuestionEditForm {
     }
 
     private static FeedbackQuestionVisibilitySettings getDefaultVisibilityOptions() {
-        Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
-        Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
-        Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
+        Map<String, Boolean> isGiverNameVisible = new HashMap<>();
+        Map<String, Boolean> isRecipientNameVisible = new HashMap<>();
+        Map<String, Boolean> isResponsesVisible = new HashMap<>();
 
         FeedbackParticipantType[] participantTypes = {
                 FeedbackParticipantType.INSTRUCTORS,

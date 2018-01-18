@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.common.util.Url;
 
 /**
  * Action: creates a URL for uploading an image in admin email.
@@ -20,7 +21,9 @@ public class AdminEmailCreateImageUploadUrlAction extends CreateImageUploadUrlAc
 
     @Override
     protected String getUploadUrl() {
-        return GoogleCloudStorageHelper.getNewUploadUrl(Const.ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD);
+        String callbackUrl =
+                Url.addParamToUrl(Const.ActionURIs.ADMIN_EMAIL_IMAGE_UPLOAD, Const.ParamsNames.SESSION_TOKEN, sessionToken);
+        return GoogleCloudStorageHelper.getNewUploadUrl(callbackUrl);
     }
 
 }

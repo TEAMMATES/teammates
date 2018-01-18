@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,9 +19,11 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
+/**
+ * SUT: {@link AccountsDb}.
+ */
 public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountsDb accountsDb = new AccountsDb();
@@ -61,13 +65,18 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         List<AccountAttributes> instructorAccountsExpected = createInstructorAccounts(numOfInstructors);
         List<AccountAttributes> instructorAccountsActual = accountsDb.getInstructorAccounts();
-        for (AccountAttributes aa : instructorAccountsActual) {
-            // remove the created/modified dates due to their unpredictable nature
-            aa.createdAt = null;
-            aa.studentProfile.modifiedDate = null;
-        }
 
         assertEquals(numOfInstructors, instructorAccountsActual.size());
+
+        for (int i = 0; i < numOfInstructors; i++) {
+            // remove the created/modified dates due to their unpredictable nature
+            instructorAccountsExpected.get(i).createdAt = null;
+            instructorAccountsExpected.get(i).studentProfile.modifiedDate = null;
+
+            instructorAccountsActual.get(i).createdAt = null;
+            instructorAccountsActual.get(i).studentProfile.modifiedDate = null;
+        }
+
         AssertHelper.assertSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
 
         deleteInstructorAccounts(numOfInstructors);
@@ -76,7 +85,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
     private List<AccountAttributes> createInstructorAccounts(
             int numOfInstructors) throws Exception {
         AccountAttributes a;
-        List<AccountAttributes> result = new ArrayList<AccountAttributes>();
+        List<AccountAttributes> result = new ArrayList<>();
         for (int i = 0; i < numOfInstructors; i++) {
             a = getNewAccountAttributes();
             a.googleId = "id." + i;
@@ -111,7 +120,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountsDb.createAccount(a);
 
         ______TS("success case: duplicate account");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
@@ -235,7 +244,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.googleId = "";
         a.email = "test-no-at-funny.com";
         a.name = "%asdf";
-        a.institute = StringHelper.generateStringOfLength(65);
+        a.institute = StringHelperExtension.generateStringOfLength(65);
         a.studentProfile.shortName = "??";
 
         try {
@@ -302,7 +311,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.isInstructor = false;
         a.email = "valid@email.com";
         a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = new StudentProfileAttributes();
+        a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = a.googleId;
         a.studentProfile.institute = "TEAMMATES Test Institute 1";
 

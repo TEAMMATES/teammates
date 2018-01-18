@@ -7,6 +7,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_COPY}.
+ */
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private String instructorId;
     private String courseId;
@@ -72,7 +75,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.getFsCopyToModal().verifyStatusMessage(
                 "\"" + invalidNameforFs + "\" is not acceptable to TEAMMATES as a/an "
                 + "feedback session name because it contains invalid characters. "
-                + "All feedback session name must start with an alphanumeric character, "
+                + "A/An feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
 
         feedbackEditPage.getFsCopyToModal().clickCloseButton();
@@ -97,7 +100,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                              .withUserId(instructorId)
                                              .withCourseId(courseId)
-                                             .withSessionName(feedbackSessionName);
+                                             .withSessionName(feedbackSessionName)
+                                             .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

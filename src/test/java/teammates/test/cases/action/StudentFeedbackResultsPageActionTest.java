@@ -3,21 +3,37 @@ package teammates.test.cases.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackResultsPageAction;
 import teammates.ui.pagedata.StudentFeedbackResultsPageData;
 
+/**
+ * SUT: {@link StudentFeedbackResultsPageAction}.
+ */
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
+
+    @BeforeClass
+    public void classSetup() throws Exception {
+        addUnregStudentToCourse1();
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
+    }
 
     @Override
     protected String getActionUri() {
@@ -27,15 +43,15 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionAttributes emptySession = dataBundle.feedbackSessions.get("empty.session");
-        FeedbackSessionAttributes closedSession = dataBundle.feedbackSessions.get("closedSession");
-        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes emptySession = typicalBundle.feedbackSessions.get("empty.session");
+        FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
+        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
 
         session1InCourse1.setResultsVisibleFromTime(session1InCourse1.getStartTime());
         FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
@@ -177,8 +193,8 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData = (StudentFeedbackResultsPageData) pageResult.data;
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
-        dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
-                TimeHelper.now(dataBundle.feedbackSessions.get("session1InCourse1").getTimeZone()).getTime());
+        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
+                TimeHelper.now(typicalBundle.feedbackSessions.get("session1InCourse1").getTimeZone()).getTime());
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
@@ -187,18 +203,18 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
          * fails after all) and if it does, change the value in the dataBundle to match.
          */
         long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTime().getTime();
-        long dataBundleResultsVisibleFromTime = dataBundle.feedbackSessions.get("session1InCourse1")
+        long dataBundleResultsVisibleFromTime = typicalBundle.feedbackSessions.get("session1InCourse1")
                                                                            .getResultsVisibleFromTime().getTime();
         long toleranceTimeInMs = 1000;
         if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
             // change to the value that will never make the test fail
-            dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
+            typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
                     pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
         }
 
-        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<FeedbackSessionAttributes>();
-        expectedInfoList.add(dataBundle.feedbackSessions.get("session1InCourse1"));
+        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<>();
+        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<>();
+        expectedInfoList.add(typicalBundle.feedbackSessions.get("session1InCourse1"));
         actualInfoList.add(pageData.getBundle().feedbackSession);
 
         AssertHelper.assertSameContentIgnoreOrder(expectedInfoList, actualInfoList);
@@ -209,5 +225,24 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     protected StudentFeedbackResultsPageAction getAction(String... params) {
         return (StudentFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions
+                .get("session1InCourse1");
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.getFeedbackSessionName()
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+
+        // TODO: test no questions -> redirect after moving detection logic to
+        // proper access control level.
     }
 }

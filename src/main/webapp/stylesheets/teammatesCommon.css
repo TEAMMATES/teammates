@@ -1,8 +1,6 @@
-@charset 'UTF-8';
-
-/*////////////////////////////////////////////////////////////
-/////////////////// Atomic Classes //////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+/////////////////// Atomic Classes /////////////////////////
+///////////////////////////////////////////////////////// */
 
 body {
     padding: 60px 0 30px;
@@ -10,6 +8,21 @@ body {
 
 .editUncommonSettingsButton:hover {
     cursor: pointer;
+}
+
+/*
+Apply to alert to override Bootstrap's default 3d alerts
+*/
+.alert {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.alert-warning,
+.alert-success,
+.alert-info,
+.alert-danger {
+    background-image: none;
 }
 
 .align-center {
@@ -33,35 +46,35 @@ body {
 }
 
 .background-color-light-blue {
-    background-color: #eaeff5;
+    background-color: #EAEFF5;
 }
 
 .background-color-light-green {
-    background-color: #e0eeee;
+    background-color: #E0EEEE;
 }
 
 .background-color-medium-gray {
-    background-color: #e5e5e6;
+    background-color: #E5E5E6;
 }
 
 .background-color-warning {
-    background-color: #fcf8e3;
+    background-color: #FCF8E3;
 }
 
 .border-gray {
-    border: 1px solid #ddd;
+    border: 1px solid #DDD;
 }
 
 .border-left-gray {
-    border-left: 1px solid #ddd;
+    border-left: 1px solid #DDD;
 }
 
 .border-right-gray {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #DDD;
 }
 
 .border-top-gray {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #DDD;
     padding-top: 10px;
 }
 
@@ -70,15 +83,15 @@ body {
 }
 
 .cell-hover {
-    background-color: #d9edf7 !important;
+    background-color: #D9EDF7 !important;
 }
 
 .cell-selected {
-    background-color: #d9edf7 !important;
+    background-color: #D9EDF7 !important;
 }
 
 .cell-selected-negative {
-    background-color: #fea3a3 !important;
+    background-color: #FEA3A3 !important;
 }
 
 .color-white {
@@ -90,7 +103,7 @@ body {
 }
 
 .color-negative {
-    color: #e74c3c;
+    color: #E74C3C;
 }
 
 .color_neutral {
@@ -98,7 +111,7 @@ body {
 }
 
 .color_orange {
-    color: #e46d0b;
+    color: #E46D0B;
 }
 
 .color_blue {
@@ -111,26 +124,31 @@ body {
 
 .cursor-pointer {
     cursor: pointer;
-    cursor: hand;
 }
 
 .constSumOptionsLabel {
-    padding-right: 15px;
     max-width: 75%;
+    padding-right: 15px;
 }
 
 .ordered-table {
     counter-reset: rownumber;
 }
 
-.ordered-table tr:not(.skip) {
+.ordered-table > tr:not(.skip) {
     counter-increment: rownumber;
 }
 
-.ordered-table tr td:first-child::before {
-    content: counter(rownumber) ".";
-    min-width: 1em;
+.ordered-table > tr > td:first-child::before {
+    content: counter(rownumber) '.';
     margin-right: .5em;
+    min-width: 1em;
+}
+
+.separate-content-holder {
+    height: 5em;
+    padding-top: 1em;
+    width: 100%;
 }
 
 /*
@@ -147,26 +165,34 @@ which usually match 2 classes (eg .btn.disabled)
 }
 
 .row-answered {
-    background-color: #dff0d8;
+    background-color: #DFF0D8;
 }
 
 .row-selected {
-    background-color: #f5f5f5;
+    background-color: #F5F5F5;
+}
+
+/*
+To show tooltip in comment modal
+*/
+.tooltip {
+    z-index: 1151 !important;
 }
 
 /*
 Apply to thead to make headers not bold.
 */
-.font-weight-normal, .font-weight-normal > tr > th {
+.font-weight-normal,
+.font-weight-normal > tr > th {
     font-weight: normal;
 }
 
 .fill-plain {
-    background-color: #eaeff5;
+    background-color: #EAEFF5;
 }
 
 .fill-primary {
-    background-color: #428bca;
+    background-color: #428BCA;
     color: white;
 }
 
@@ -176,11 +202,11 @@ Apply to thead to make headers not bold.
 }
 
 .fill-info {
-    background-color: #c4e3f3;
+    background-color: #C4E3F3;
 }
 
 .glyphicon-primary {
-    color: #428bca;
+    color: #428BCA;
 }
 
 .glyphicon-danger {
@@ -188,19 +214,19 @@ Apply to thead to make headers not bold.
 }
 
 .glyphicon-gold {
-    color: #ffd700;
+    color: #FFD700;
 }
 
 .glyphicon-flipped {
-    transform: scaleX(-1);
     -moz-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
     -ms-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 .height-fixed-md {
-    min-height: 150px;
     max-height: 250px;
+    min-height: 150px;
     overflow: auto;
 }
 
@@ -208,7 +234,8 @@ Apply to thead to make headers not bold.
     color: white;
 }
 
-.inline, input.inline {
+.inline,
+input.inline {
     display: inline;
 }
 
@@ -232,12 +259,12 @@ Apply to thead to make headers not bold.
     margin-bottom: 15px;
 }
 
-.margin-center-horizontal {
-    margin: 0 auto;
+.margin-bottom-35px {
+    margin-bottom: 35px;
 }
 
-.min-height-0.checkbox, .min-height-0 {
-    min-height: 0;
+.margin-center-horizontal {
+    margin: 0 auto;
 }
 
 .margin-right-10px {
@@ -280,6 +307,10 @@ Apply to thead to make headers not bold.
     padding-left: 7px;
 }
 
+.margin-left-7px {
+    margin-left: 7px;
+}
+
 .margin-left-auto {
     margin-left: auto;
 }
@@ -300,7 +331,8 @@ Apply to thead to make headers not bold.
     overflow: auto;
 }
 
-.padding-top-0, .padding-top-0.checkbox {
+.padding-top-0,
+.padding-top-0.checkbox {
     padding-top: 0;
 }
 
@@ -321,7 +353,7 @@ Apply to thead to make headers not bold.
 }
 
 .text-color-primary {
-    color: #428bca;
+    color: #428BCA;
 }
 
 .text-color-gray {
@@ -356,7 +388,8 @@ Apply to thead to make headers not bold.
     display: flex;
 }
 
-.form-control.width-100-pc, .width-100-pc {
+.form-control.width-100-pc,
+.width-100-pc {
     width: 100%;
 }
 
@@ -369,7 +402,7 @@ Apply to thead to make headers not bold.
 }
 
 @media print {
-    a[href]:after {
+    a[href]::after {
         content: none;
     }
 
@@ -378,20 +411,20 @@ Apply to thead to make headers not bold.
     }
 }
 
-/*////////////////////////////////////////////////////////////
+/* //////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////
-//////////////////////////////////////////////////////////*/
+////////////////////////////////////////////////////////// */
 
 .comment-list {
     padding-top: 15px;
 }
 
 .well-default {
-    background-color: #d9edf7;
+    background-color: #D9EDF7;
     background-image: none;
     border: 0;
-    -webkit-box-shadow: 0 0 0 0;
     -moz-box-shadow: 0 0 0 0;
+    -webkit-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0;
 }
 
@@ -407,11 +440,11 @@ Apply to thead to make headers not bold.
 }
 
 .well-plain {
-    background-color: #eaeff5;
+    background-color: #EAEFF5;
     background-image: none;
     border: 0;
-    -webkit-box-shadow: 0 0 0 0;
     -moz-box-shadow: 0 0 0 0;
+    -webkit-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0;
 }
 
@@ -421,7 +454,7 @@ Apply to thead to make headers not bold.
 }
 
 .link-in-dark-bg:link {
-    color: #f2fcac;
+    color: #F2FCAC;
 }
 
 .link-in-dark-bg:active {
@@ -450,8 +483,8 @@ Apply to thead to make headers not bold.
     border: 2px solid red;
 }
 
-/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
-/* Prevents content overflow in navbar*/
+/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px).
+Prevents content overflow in navbar. */
 
 @media (min-width: 768px) and (max-width: 991px) {
     .container > .navbar-header {
@@ -471,19 +504,19 @@ Apply to thead to make headers not bold.
     .container > .navbar-collapse {
         border-top: 1px solid transparent;
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
-        max-height: 345px; /* Avoids scrollbar from showing up */
-        margin-right: -15px;
         margin-left: -15px;
+        margin-right: -15px;
+        max-height: 345px; /* Avoids scrollbar from showing up */
     }
 
     /* Since the original bootstrap code has !important,
     we need to match with !important to override */
     .navbar-collapse.collapse {
-        display: none!important;
+        display: none !important;
     }
 
     .navbar-nav {
-        float: none!important;
+        float: none !important;
         margin: 7.5px -15px;
     }
 
@@ -494,8 +527,8 @@ Apply to thead to make headers not bold.
     }
 
     .navbar-nav > li > a {
-        padding-top: 10px;
         padding-bottom: 10px;
+        padding-top: 10px;
     }
 
     .navbar-text {
@@ -504,11 +537,11 @@ Apply to thead to make headers not bold.
     }
 
     .navbar-collapse.collapse.in {
-        display: block!important;
+        display: block !important;
     }
 
     .collapsing {
-        overflow: hidden!important;
+        overflow: hidden !important;
     }
 
     /* Makes container exhibit container-fluid behavior */
@@ -523,9 +556,9 @@ Apply to thead to make headers not bold.
     }
 }
 
-/*////////////////////////////////////////////////////////////
-///////////////////////// Affix /////////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+///////////////////////// Affix ////////////////////////////
+///////////////////////////////////////////////////////// */
 
 .affix {
     position: fixed;
@@ -534,14 +567,14 @@ Apply to thead to make headers not bold.
 
 .affix > li > a {
     color: gray;
-    padding-top: 5px;
     padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .affix > li.active > a {
-    color: #31708f;
+    border-left: 2px solid #31708F;
+    color: #31708F;
     font-weight: 700;
-    border-left: 2px solid #31708f;
 }
 
 .affix > li > .nav {
@@ -550,9 +583,9 @@ Apply to thead to make headers not bold.
 
 .affix > li > .nav > li > a {
     color: gray;
-    padding-top: 1px;
     padding-bottom: 1px;
     padding-left: 30px;
+    padding-top: 1px;
 }
 
 .affix > li.active > .nav {
@@ -561,12 +594,12 @@ Apply to thead to make headers not bold.
 }
 
 .affix > li > .nav > li.active > a {
-    color: #31708f;
+    border-left: 2px solid #31708F;
+    color: #31708F;
     font-weight: 700;
-    border-left: 2px solid #31708f;
 }
 
-.affix > li:not (.active ) > .nav {
+.affix > li:not(.active) > .nav {
     display: none;
 }
 
@@ -578,27 +611,30 @@ Apply to thead to make headers not bold.
     position: absolute;
 }
 
-/*////////////////////////////////////////////////////////////
-/////////////////////// Static page /////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+/////////////////////// Static page ////////////////////////
+///////////////////////////////////////////////////////// */
 .navbar-brand {
     padding: 0;
 }
 
 .btn-login {
-    color: #00FF00;
     background-color: transparent;
     box-shadow: none;
+    color: #0F0;
 }
 
-.btn-login:focus, .btn-login:hover, .btn-login:active {
-    color: #00FF00;
+.btn-login:focus,
+.btn-login:hover,
+.btn-login:active {
+    color: #0F0;
 }
 
 @media (max-width: 768px) {
     .btn-login {
+        padding: 6px 0;
+        text-align: left;
         width: 100%;
-        text-align: right;
     }
 }
 
@@ -610,29 +646,322 @@ Apply to thead to make headers not bold.
 #raisedEdge {
     position: relative;
     z-index: -1;
-    top: -2em;
 }
 
-/*////////////////////////////////////////////////////////////
-/////////////////////// Main Content ////////////////////////
-//////////////////////////////////////////////////////////*/
+@media screen and (min-width: 768px) {
+    #raisedEdge {
+        top: -2em;
+    }
+}
+
+/* /////////////////////////////////////////////////////////
+/////////////////////// Main Content ///////////////////////
+///////////////////////////////////////////////////////// */
+
+.courseCount {
+    font-style: italic;
+    margin: 0 auto;
+    width: 900px;
+}
+
+.dataTable {
+    line-height: 1.5;
+}
+
+/* DatePicker Container */
+.ui-datepicker {
+    -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+    font: 9pt Arial, sans-serif;
+    height: auto;
+    margin: 5px auto 0;
+    width: 216px;
+}
+
+.ui-datepicker a {
+    text-decoration: none;
+}
+
+/* DatePicker Table */
+.ui-datepicker table {
+    width: 100%;
+}
+
+.ui-datepicker-header {
+    background: url(../images/dark_leather.png) repeat 0 0 #000;
+    border-color: #111;
+    border-style: solid;
+    border-width: 1px 0 0;
+    -moz-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, .2);
+    -webkit-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 2);
+    box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, .2);
+    color: #E0E0E0;
+    filter: dropshadow(color=#000, offx=1, offy=-1);
+    font-weight: bold;
+    line-height: 30px;
+    text-shadow: 1px -1px 0 #000;
+}
+
+.ui-datepicker-title {
+    text-align: center;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    background-image: url(../images/arrow.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 600%;
+    overflow: hidden;
+    text-align: center;
+    width: 30px;
+}
+
+.ui-datepicker-prev {
+    background-position: center -30px;
+    float: left;
+}
+
+.ui-datepicker-next {
+    background-position: center 0;
+    float: right;
+}
+
+.ui-datepicker thead {
+    background-color: #F7F7F7;
+    background-image: -moz-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: -ms-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: -o-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F7F7F7), color-stop(100%, #F1F1F1));
+    background-image: -webkit-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: linear-gradient(to top, #F7F7F7 0%, #F1F1F1 100%);
+    border-bottom: 1px solid #BBB;
+}
+
+.ui-datepicker th {
+    color: #666;
+    filter: dropshadow(color=#FFF, offx=1, offy=0);
+    font-size: 6pt;
+    padding: 5px 0;
+    text-shadow: 1px 0 0 #FFF;
+    text-transform: uppercase;
+}
+
+.ui-datepicker tbody td {
+    border-right: 1px solid #BBB;
+    padding: 0;
+}
+
+.ui-datepicker tbody td:last-child {
+    border-right: 0;
+}
+
+.ui-datepicker tbody tr {
+    border-bottom: 1px solid #BBB;
+}
+
+.ui-datepicker tbody tr:last-child {
+    border-bottom: 0;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    color: #666;
+    display: inline-block;
+    font-weight: bold;
+    filter: dropshadow(color=#FFF, offx=1, offy=1);
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 0 #FFF;
+    width: 30px;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+    background: #EDEDED;
+    background: -moz-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -ms-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -o-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -webkit-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #EDEDED), color-stop(100%, #DEDEDE));
+    background: linear-gradient(to top, #EDEDED 0%, #DEDEDE 100%);
+    -moz-box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
+    -webkit-box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
+    box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
+}
+
+.ui-datepicker-calendar .ui-state-hover {
+    background: #F7F7F7;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: #6EAFBF;
+    border: 1px solid #55838F;
+    -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
+    box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
+    color: #E0E0E0;
+    filter: dropshadow(color=#4D7A85, offx=0, offy=1);
+    margin: -1px;
+    position: relative;
+    text-shadow: 0 1px 0 #4D7A85;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+    background: #F4F4F4;
+    color: #B4B3B3;
+}
+
+.ui-datepicker-calendar td:first-child .ui-state-active {
+    margin-left: 0;
+    width: 29px;
+}
+
+.ui-datepicker-calendar td:last-child .ui-state-active {
+    margin-right: 0;
+    width: 29px;
+}
+
+.ui-datepicker-calendar tr:last-child .ui-state-active {
+    height: 29px;
+    margin-bottom: 0;
+}
+
+.moreInfo {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.moreInfoPointTitle {
+    display: block;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.moreInfoPointDetails {
+    margin-left: 50px;
+}
+
+.moreInfoColumnInfo,
+.moreInfoMassEditInfo {
+    list-style: circle;
+}
+
+.moreInfoEmailDetails {
+    list-style: disc;
+    margin-left: -20px;
+}
+
+#moreInfoEnrollWOSpreadSheetEg {
+    border: thin solid grey;
+    display: inline-block;
+    padding: 20px 40px;
+}
+
+#omni-comment-dropdown-trigger {
+    color: #898989;
+    padding-bottom: 20px;
+    padding-top: 16px;
+}
+
+#omni-comment-dropdown-trigger:hover {
+    color: #FFF;
+}
+
+.open #omni-comment-dropdown-trigger {
+    color: #428BCA;
+}
+
+.omni-comment-dropdown-body {
+    border: none;
+    min-width: 310px;
+}
+
+#omni-comment-recipient-input {
+    min-width: 280px;
+}
+
+.tt-dropdown-menu {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, .2);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    margin-top: 10px;
+    min-width: 280px;
+    padding: 5px 0;
+}
+
+.tt-suggestion {
+    line-height: 24px;
+    padding: 3px 12px;
+}
+
+.tt-suggestion.tt-cursor {
+    background-color: #428BCA;
+    color: #FFF;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
+#more-options {
+    display: none;
+}
+
+.feedback-response-comments,
+.student-record-comments,
+.drafts {
+    margin-top: 10px;
+}
+
+#editor {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, .2);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    margin-bottom: 15px;
+    margin-top: 10px;
+    padding: 15px;
+}
+
+.wysihtml5-toolbar {
+    clear: both;
+}
+
+#visibility-options {
+    display: none;
+}
 
 .bs-example {
-    background-color: #fafafa;
-    border-color: #e5e5e5 #eee #eee;
+    background-color: #FAFAFA;
+    border-color: #E5E5E5 #EEE #EEE;
     border-style: solid;
     border-width: 1px 0;
-    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     -moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     margin: 0 -15px 15px;
     padding: 45px 15px 15px;
     position: relative;
 }
 
-.bs-example:after {
-    color: #bbb;
-    content: "Example";
+.bs-example::after {
+    color: #BBB;
+    content: 'Example';
     font-size: 12px;
     font-weight: 700;
     left: 15px;
@@ -647,9 +976,9 @@ Apply to thead to make headers not bold.
 }
 
 .bs-example + .highlight {
-    margin: -15px -15px 15px;
     border-radius: 0;
     border-width: 0 0 1px;
+    margin: -15px -15px 15px;
 }
 
 .course-id-table-width {
@@ -661,13 +990,13 @@ Apply to thead to make headers not bold.
 }
 
 .question-recommended-length > span {
-    margin-left: 7px;
     border-bottom: 1px dotted;
+    margin-left: 7px;
 }
 
 .question-recommended-length > input {
-    width: 80px;
     display: inline;
+    width: 80px;
 }
 
 .session-name-table-width {
@@ -675,8 +1004,8 @@ Apply to thead to make headers not bold.
 }
 
 .teamMembersDetailsCell {
-    vertical-align: middle;
     padding-left: 30px;
+    vertical-align: middle;
 }
 
 .teamMembersPhotoCell {
@@ -698,26 +1027,26 @@ Apply to thead to make headers not bold.
 
 @media (min-width: 768px) {
     .bs-example {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        -webkit-border-radius: 4px 4px 0 0;
+        background-color: #FFF;
+        border: 1px solid #DDD;
         -moz-border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
         border-radius: 4px 4px 0 0;
-        -webkit-box-shadow: none;
         -moz-box-shadow: none;
+        -webkit-box-shadow: none;
         box-shadow: none;
         margin-left: 0;
         margin-right: 0;
     }
 
     .bs-example + .highlight {
-        border-width: 1px;
-        -webkit-border-bottom-left-radius: 4px;
         -moz-border-radius-bottomleft: 4px;
+        -webkit-border-bottom-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        -webkit-border-bottom-right-radius: 4px;
         -moz-border-radius-bottomright: 4px;
+        -webkit-border-bottom-right-radius: 4px;
         border-bottom-right-radius: 4px;
+        border-width: 1px;
         margin-left: 0;
         margin-right: 0;
         margin-top: -16px;
@@ -734,36 +1063,43 @@ Apply to thead to make headers not bold.
 
 .feedback-path-title,
 .visibility-title {
-    color: #2aabd2;
+    color: #2AABD2;
+}
+
+/*
+Default to alert color for visibility titles used within an alert context.
+*/
+.alert .visibility-title {
+    color: inherit;
 }
 
 .filename-preview {
-    border: 0;
     background-color: white;
+    border: 0;
     text-overflow: ellipsis;
 }
 
 .profile-pic {
-    width: 130px;
     height: 130px;
+    width: 130px;
 }
 
 .profile-pic-edit {
+    display: table;
     max-height: 450px;
     width: 100%;
-    display: table;
 }
 
-.profile-pic-edit [class*="col-"] {
-    float: none;
+.profile-pic-edit [class*='col-'] {
     display: table-cell;
-    vertical-align: middle;
+    float: none;
     text-align: center;
+    vertical-align: middle;
 }
 
 .profile-pic-edit > img {
-    max-width: 100%;
     max-height: 80%;
+    max-width: 100%;
 }
 
 .profile-pic-edit-col {
@@ -775,14 +1111,14 @@ Apply to thead to make headers not bold.
 /* used on the div/td that contains the img */
 .profile-pic-icon-hover,
 .profile-pic-icon-click {
-    overflow: hidden;
     cursor: default;
+    overflow: hidden;
 }
 
 .profile-pic-icon-hover > img,
 .profile-pic-icon-click > img {
-    width: 40px;
     height: 40px;
+    width: 40px;
 }
 
 .profile-pic-icon-hidden {
@@ -794,10 +1130,10 @@ Apply to thead to make headers not bold.
 }
 
 .profile-pic-edit-container {
-    width: 75%;
     margin: 0 auto;
     margin-bottom: 10px;
     margin-top: 10px;
+    width: 75%;
 }
 
 .profile-pic-file-selector {
@@ -806,25 +1142,25 @@ Apply to thead to make headers not bold.
 }
 
 .profile-pic-file-selector > #studentPhoto {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    filter: alpha(opacity=0);
-    opacity: 0;
     cursor: inherit;
     display: block;
+    filter: alpha(opacity=0);
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .questionType {
     display: inline-block;
-    width: 90%;
     margin-right: 5px;
+    width: 90%;
 }
 
 .time-zone-info-box {
-    margin: 7px 0 0 0;
+    margin: 7px 0 0;
     padding: 10px;
 }
 
@@ -840,14 +1176,16 @@ Apply to thead to make headers not bold.
     background: url(../images/sortDownButton.png);
 }
 
-.button-sort-ascending:hover, .button-sort-none:hover, .button-sort-descending:hover {
+.button-sort-ascending:hover,
+.button-sort-none:hover,
+.button-sort-descending:hover {
     cursor: pointer;
 }
 
 .link-disabled {
-    pointer-events: none;
     cursor: default;
     opacity: .5;
+    pointer-events: none;
 }
 
 .link-disabled:hover {
@@ -878,19 +1216,41 @@ Apply to thead to make headers not bold.
     padding: 5px 10px;
 }
 
-.content-editor:before {
+.content-editor::before {
     display: none;
 }
 
-.content-editor.empty:before {
-    display: block;
+.content-editor.empty::before {
     color: gray;
     content: attr(data-placeholder);
+    display: block;
 }
 
-/*////////////////////////////////////////////////////////////
-/////////////////////// Modal Dialogs ///////////////////////
-//////////////////////////////////////////////////////////*/
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+/* features page */
+
+.img-responsive.features-page-img {
+    max-width: 75%;
+}
+
+@media screen and (min-width: 480px) {
+    .features-page-text {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.features-page-text-bottom {
+    margin-top: 15px;
+}
+
+/* /////////////////////////////////////////////////////////
+/////////////////////// Modal Dialogs //////////////////////
+///////////////////////////////////////////////////////// */
 
 .modal-header {
     border-top-left-radius: 5px;
@@ -898,48 +1258,48 @@ Apply to thead to make headers not bold.
 }
 
 .modal-footer {
-    padding: 14px 15px 15px;
     margin-top: 0;
+    padding: 14px 15px 15px;
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////// Dropdowns with Submenus //////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////// Dropdowns with Submenus /////////////////
+///////////////////////////////////////////////////////// */
 
 .dropdown-submenu {
     position: relative;
 }
 
 .dropdown-submenu > .dropdown-menu {
-    top: 0;
+    -moz-border-radius: 0 6px 6px;
+    -webkit-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px;
     left: 100%;
-    margin-top: -6px;
     margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px 6px;
-    border-radius: 0 6px 6px 6px;
+    margin-top: -6px;
+    top: 0;
 }
 
 .dropdown-submenu:hover > .dropdown-menu {
     display: block;
 }
 
-.dropdown-submenu > a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
+.dropdown-submenu > a::after {
     border-color: transparent;
+    border-left-color: #CCC;
     border-style: solid;
     border-width: 5px 0 5px 5px;
-    border-left-color: #cccccc;
-    margin-top: 5px;
+    content: ' ';
+    display: block;
+    float: right;
+    height: 0;
     margin-right: -10px;
+    margin-top: 5px;
+    width: 0;
 }
 
-.dropdown-submenu:hover > a:after {
-    border-left-color: #ffffff;
+.dropdown-submenu:hover > a::after {
+    border-left-color: #FFF;
 }
 
 .dropdown-submenu.pull-left {
@@ -947,20 +1307,20 @@ Apply to thead to make headers not bold.
 }
 
 .dropdown-submenu.pull-left > .dropdown-menu {
+    -moz-border-radius: 6px 0 6px 6px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
     left: -100%;
     margin-left: 10px;
-    -webkit-border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
-    border-radius: 6px 0 6px 6px;
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////////////// Footer ///////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////////////// Footer //////////////////////////
+///////////////////////////////////////////////////////// */
 
 #footerComponent {
     background-color: black;
-    background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
+    background-image: linear-gradient(to bottom, #3C3C3C 0, #222 100%);
     bottom: 0;
     color: gray;
     height: 20px;
@@ -971,32 +1331,32 @@ Apply to thead to make headers not bold.
     z-index: 999;
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////////////// Back To Top ///////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////////////// Back To Top /////////////////////
+///////////////////////////////////////////////////////// */
 
 .back-to-top-left {
-    position: fixed;
-    bottom: 8em;
-    left: 0;
-    text-decoration: none;
-    color: #000000;
     background-color: rgba(235, 235, 235, .8);
-    font-size: 12px;
-    padding: .8em;
+    bottom: 8em;
+    color: #000;
     display: none;
+    font-size: 12px;
+    left: 0;
+    padding: .8em;
+    position: fixed;
+    text-decoration: none;
 }
 
 .back-to-top-right {
-    position: fixed;
-    bottom: 8em;
-    right: 0;
-    text-decoration: none;
-    color: #000000;
     background-color: rgba(235, 235, 235, .8);
+    bottom: 8em;
+    color: #000;
+    display: none;
     font-size: 12px;
     padding: .8em;
-    display: none;
+    position: fixed;
+    right: 0;
+    text-decoration: none;
 }
 
 .back-to-top-left:hover {
@@ -1007,31 +1367,33 @@ Apply to thead to make headers not bold.
     background-color: rgba(135, 135, 135, .5);
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////////////// Email Log Text ///////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////////////// Email Log Text //////////////////
+///////////////////////////////////////////////////////// */
 
 /*
 Prevent Long URL From Breaking Out of Container
 */
 .emailLog-text {
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
     -ms-word-break: break-all;
+
     /* Be VERY careful with this, breaks normal words wh_erever */
     word-break: break-all;
+
     /* Non standard for webkit */
     word-break: break-word;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
 }
 
 .highlight {
-    background-color: #FFFF88;
+    background-color: #FF8;
 }
 
-/*//////////////////////////////////////////////////////////
+/* /////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
-//////////////////////////////////////////////////////////*/
+///////////////////////////////////////////////////////// */
 
 @media (max-width: 767px) {
     .mobile-no-padding {
@@ -1113,4 +1475,37 @@ Prevent Long URL From Breaking Out of Container
 .courses-table-dropdown {
     float: left;
     margin-right: 5px;
+}
+
+/* /////////////////////////////////////////////////////////
+/////////////////////// Status Icons ///////////////////////
+///////////////////////////////////////////////////////// */
+
+.icon-success::before,
+.icon-warning::before,
+.icon-danger::before,
+.icon-info::before {
+    /* Icon font has no generic fallback */
+
+    /* noinspection CssNoGenericFontName */
+    font-family: 'Glyphicons Halflings';
+    display: inline-block;
+    padding-right: .5em;
+    vertical-align: top;
+}
+
+.icon-success::before {
+    content: '\e084';
+}
+
+.icon-warning::before {
+    content: '\e101';
+}
+
+.icon-danger::before {
+    content: '\e083';
+}
+
+.icon-info::before {
+    content: '\e086';
 }

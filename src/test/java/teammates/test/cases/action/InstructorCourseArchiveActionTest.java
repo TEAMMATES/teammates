@@ -8,6 +8,9 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseArchiveAction;
 import teammates.ui.controller.RedirectResult;
 
+/**
+ * SUT: {@link InstructorCourseArchiveAction}.
+ */
 public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
     @Override
@@ -18,9 +21,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
         gaeSimulation.loginAsInstructor(instructorId);
@@ -33,7 +36,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Typical case: archive a course, redirect to homepage");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
@@ -42,8 +45,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId),
                      redirectResult.getStatusMessage());
@@ -53,7 +57,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Rare case: archive an already archived course, redirect to homepage");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_HOME_PAGE
@@ -62,7 +66,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId),
@@ -73,7 +77,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Typical case: unarchive a course, redirect to Courses page");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -82,8 +86,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
                      redirectResult.getStatusMessage());
@@ -93,7 +98,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Rare case: unarchive an active course, redirect to Courses page");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -102,7 +107,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
@@ -113,7 +118,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
         ______TS("Rare case: unarchive an active course, no next URL, redirect to Courses page");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
         };
@@ -121,7 +126,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
+        assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId),
@@ -133,7 +138,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         ______TS("Masquerade mode: archive course, redirect to Courses page");
 
         gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -141,8 +146,9 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(archiveAction);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId),
                      redirectResult.getStatusMessage());
@@ -153,7 +159,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         ______TS("Rare case: empty course ID");
 
         gaeSimulation.loginAsAdmin("admin.user");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "",
                 Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
@@ -167,14 +173,15 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
             AssertHelper.assertContains("name cannot be null or empty", e.getMessage());
         }
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1",
-                     redirectResult.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
+                redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseArchive|||instructorCourseArchive|||true|||"
                              + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                             + "instr1@course1.tmt|||null|||/page/instructorCourseArchive";
+                             + "instr1@course1.tmt|||Unknown|||/page/instructorCourseArchive";
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
 
     }
@@ -182,6 +189,17 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
     @Override
     protected InstructorCourseArchiveAction getAction(String... params) {
         return (InstructorCourseArchiveAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

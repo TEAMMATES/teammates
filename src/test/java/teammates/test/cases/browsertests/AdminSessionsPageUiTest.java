@@ -13,8 +13,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminSessionsPage;
 
 /**
- * Covers the home page for admins.
- * SUT: {@link AdminSessionsPage}
+ * SUT: {@link Const.ActionURIs#ADMIN_SESSIONS_PAGE}.
  */
 public class AdminSessionsPageUiTest extends BaseUiTestCase {
     private AdminSessionsPage sessionsPage;
@@ -90,7 +89,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
                                                                "Start Time ",
                                                                "End Time ",
                                                                "Creator");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(sessionsPage.getHeaderValueFromDataTable(tableNum, 0, i));
         }

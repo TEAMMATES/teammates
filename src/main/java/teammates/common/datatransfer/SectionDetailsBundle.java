@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents details of teams in a section.
@@ -11,6 +12,6 @@ import java.util.ArrayList;
 public class SectionDetailsBundle {
 
     public String name;
-    public ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+    public List<TeamDetailsBundle> teams = new ArrayList<>();
 
 }

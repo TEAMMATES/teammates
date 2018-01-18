@@ -41,7 +41,7 @@ public final class EmailChecker {
     }
 
     private static boolean testAndRunGodMode(String filePath, String emailContent) throws IOException {
-        return Boolean.parseBoolean(System.getProperty("godmode")) && regenerateEmailFile(filePath, emailContent);
+        return TestProperties.IS_GODMODE_ENABLED && regenerateEmailFile(filePath, emailContent);
     }
 
     private static boolean regenerateEmailFile(String filePath, String emailContent) throws IOException {
@@ -49,7 +49,7 @@ public final class EmailChecker {
             return false;
         }
 
-        String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent);
+        String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent) + Const.EOL;
         FileHelper.saveFile(filePath, processedEmailContent);
         return true;
     }

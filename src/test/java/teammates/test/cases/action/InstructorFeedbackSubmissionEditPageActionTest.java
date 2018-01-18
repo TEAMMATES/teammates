@@ -11,6 +11,9 @@ import teammates.ui.controller.InstructorFeedbackSubmissionEditPageAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
+/**
+ * SUT: {@link InstructorFeedbackSubmissionEditPageAction}.
+ */
 public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTest {
 
     @Override
@@ -21,16 +24,16 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("not enough parameters");
 
-        String[] paramsWithoutCourseId = new String[]{
+        String[] paramsWithoutCourseId = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        String[] paramsWithoutFeedbackSessionName = new String[]{
+        String[] paramsWithoutFeedbackSessionName = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId()
         };
 
@@ -39,7 +42,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         ______TS("Test null feedback session name parameter");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
@@ -58,7 +61,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         ______TS("Test null course id parameter");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
@@ -74,10 +77,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         ______TS("Test insufficient authorization");
 
-        instructor = dataBundle.instructors.get("helperOfCourse1");
+        instructor = typicalBundle.instructors.get("helperOfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -94,10 +97,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         ______TS("Test feedback session that does not exist");
 
-        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "feedback session that does not exist",
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -106,16 +109,16 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(submissionParams);
         RedirectResult rr = getRedirectResult(a);
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     rr.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, instructor.googleId),
+                rr.getDestinationWithParams());
         assertFalse(rr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
                      rr.getStatusMessage());
 
         ______TS("typical success case");
 
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -124,9 +127,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -137,9 +141,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
@@ -147,9 +152,9 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        session = dataBundle.feedbackSessions.get("closedSession");
+        session = typicalBundle.feedbackSessions.get("closedSession");
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -158,19 +163,20 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
 
         ______TS("private session case");
 
-        instructor = dataBundle.instructors.get("instructor1OfCourse2");
-        session = dataBundle.feedbackSessions.get("session1InCourse2");
+        instructor = typicalBundle.instructors.get("instructor1OfCourse2");
+        session = typicalBundle.feedbackSessions.get("session1InCourse2");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -179,9 +185,10 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = getShowPageResult(a);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT + "?error=false"
-                     + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
-                     r.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
+                r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
     }
@@ -189,5 +196,18 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
     @Override
     protected InstructorFeedbackSubmissionEditPageAction getAction(String... params) {
         return (InstructorFeedbackSubmissionEditPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+        };
+        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 }

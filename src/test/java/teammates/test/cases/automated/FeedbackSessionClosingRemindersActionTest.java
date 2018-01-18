@@ -13,6 +13,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.automated.FeedbackSessionClosingRemindersAction;
 
 /**
@@ -64,7 +65,7 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
 
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
         session3.setTimeZone(0);
-        session3.setStartTime(TimeHelper.getHoursOffsetToCurrentTime(1));
+        session3.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1));
         session3.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
         fsLogic.updateFeedbackSession(session3);
         verifyPresentInDatastore(session3);

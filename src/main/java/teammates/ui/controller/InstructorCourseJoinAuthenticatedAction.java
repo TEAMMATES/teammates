@@ -6,6 +6,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
 /**
@@ -14,7 +15,9 @@ import teammates.common.util.StringHelper;
  * {@link InstructorCourseJoinAction}. This action does the actual
  * joining of the instructor to the course.
  */
-public class InstructorCourseJoinAuthenticatedAction extends Action {
+public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -60,6 +63,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
         if (instructor != null) {
             response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);
+            sendCourseRegisteredEmail(instructor.name, instructor.email, true, instructor.courseId);
         }
 
         return response;

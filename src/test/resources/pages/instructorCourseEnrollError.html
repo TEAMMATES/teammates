@@ -26,6 +26,7 @@
       </div>
       <br>
       <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" method="post" role="form">
+        <input name="token" type="hidden" value="${sessionToken}">
         <div class="col-md-12">
           <div class="form-group">
             <label class="col-sm-1 control-label" for="instructions">
@@ -37,7 +38,7 @@
               </textarea>
               <br>
               <div id="statusMessagesToUser">
-                <div class="overflow-auto alert alert-danger statusMessage">
+                <div class="overflow-auto alert alert-danger icon-danger statusMessage">
                   <p>
                     <span class="bold">
                       Problem in line :

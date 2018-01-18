@@ -6,19 +6,21 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.StudentUpdateStatus;
-import teammates.common.datatransfer.UserRole;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -31,8 +33,9 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.api.datastore.Text;
-
+/**
+ * SUT: {@link FeedbackResponsesLogic}.
+ */
 public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -376,8 +379,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         List<FeedbackResponseAttributes> responsesFromGiver =
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         studentToUpdate.course, studentToUpdate.email);
-        List<FeedbackResponseAttributes> responsesToAndFromStudent =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
@@ -394,7 +396,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentToUpdate.course, studentToUpdate.email);
         responsesFromGiver = frLogic.getFeedbackResponsesFromGiverForCourse(
                 studentToUpdate.course, studentToUpdate.email);
-        responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         responseCommentsForStudent =
@@ -408,7 +410,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentToUpdate.course, "new@email.tmt");
         responsesFromGiver = frLogic.getFeedbackResponsesFromGiverForCourse(
                 studentToUpdate.course, "new@email.tmt");
-        responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         responseCommentsForStudent =
@@ -586,14 +588,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
 
-        List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> remainingResponses = new ArrayList<>();
         remainingResponses.addAll(
                 frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
         remainingResponses.addAll(
                 frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         assertEquals(remainingResponses.size(), 0);
 
-        List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<>();
         for (FeedbackResponseAttributes response : responsesForStudent1) {
             remainingComments.addAll(frcLogic.getFeedbackResponseCommentForResponse(response.getId()));
         }
@@ -690,8 +692,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatastore(
             List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseCommentAttributes> responseComments =
-                new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> responseComments = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             List<FeedbackResponseCommentAttributes> responseCommentsForResponse =
                     frcLogic.getFeedbackResponseCommentForResponse(response.getId());

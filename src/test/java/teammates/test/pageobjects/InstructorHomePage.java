@@ -53,7 +53,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h1>Instructor Home</h1>");
+        return pageSource.contains("<h1>Home</h1>");
     }
 
     public void clickSortByIdButton() {
@@ -89,7 +89,7 @@ public class InstructorHomePage extends AppPage {
         clickElements(tablesSortByEndDate);
     }
 
-    public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
+    public InstructorCourseEnrollPage clickCourseEnrollLink(String courseId) {
         click(getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
@@ -112,11 +112,11 @@ public class InstructorHomePage extends AppPage {
     }
 
     //TODO: rename course-add-eval-for-test
-    public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
+    public InstructorFeedbackSessionsPage clickCourseAddEvaluationLink(String courseId) {
         click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         ThreadHelper.waitBriefly();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
@@ -131,11 +131,11 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorFeedbackEditPage.class);
     }
 
-    public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
+    public InstructorFeedbackSessionsPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
         clickAndConfirm(getDeleteEvalLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
@@ -244,6 +244,13 @@ public class InstructorHomePage extends AppPage {
     public void submitRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         remindModal.findElement(By.name("form_remind_list")).submit();
+    }
+
+    public WebElement getSessionResultsOptionsCaretElement(String courseId, String evalName) {
+        int sessionRowId = getEvaluationRowId(courseId, evalName);
+        return browser.driver.findElement(
+                By.xpath("//tbody/tr[" + (sessionRowId + 1)
+                    + "]//button[contains(@class,'session-results-options')]"));
     }
 
     public WebElement getPublishLink(String courseId, String evalName) {

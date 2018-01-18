@@ -8,6 +8,9 @@ import teammates.ui.controller.AdminAccountDetailsPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
+/**
+ * SUT: {@link AdminAccountDetailsPageAction}.
+ */
 public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
     @Override
@@ -21,7 +24,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
         ______TS("case: view instructor account details");
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.googleId
@@ -34,8 +37,9 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         ShowPageResult result = getShowPageResult(action);
 
         assertEquals("", result.getStatusMessage());
-        assertEquals("/jsp/adminAccountDetails.jsp?error=false&user=admin.user",
-                     result.getDestinationWithParams());
+        assertEquals(
+                getPageResultDestination(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, false, adminUserId),
+                result.getDestinationWithParams());
         assertFalse(result.isError);
 
         AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) result.data;
@@ -46,6 +50,13 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     @Override
     protected AdminAccountDetailsPageAction getAction(String... params) {
         return (AdminAccountDetailsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        String[] submissionParams = new String[] {};
+        verifyOnlyAdminsCanAccess(submissionParams);
     }
 
 }

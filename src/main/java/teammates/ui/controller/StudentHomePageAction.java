@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -24,14 +24,14 @@ public class StudentHomePageAction extends Action {
 
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
 
-        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> courses = new ArrayList<>();
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
 
         try {
             courses = logic.getCourseDetailsListForStudent(account.googleId);
             sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(courses, account.googleId);
 
-            CourseDetailsBundle.sortDetailedCourses(courses);
+            CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
 
             statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + courses.size();
 
@@ -53,7 +53,7 @@ public class StudentHomePageAction extends Action {
             }
         }
 
-        StudentHomePageData data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
+        StudentHomePageData data = new StudentHomePageData(account, sessionToken, courses, sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
     }

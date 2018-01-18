@@ -6,7 +6,12 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.UrlExtension;
 
+/**
+ * SUT: {@link Url},
+ *      {@link AppUrl}.
+ */
 public class UrlTest extends BaseTestCase {
 
     @Test
@@ -62,8 +67,8 @@ public class UrlTest extends BaseTestCase {
         Url url = new Url("http://www.google.com/page?key1=value1&key2=value2&key1=newvalue1");
         assertEquals("value1", url.get("key1"));
         assertEquals("value2", url.get("key2"));
-        assertEquals(null, url.get("y1"));
-        assertEquals(null, url.get("key4"));
+        assertNull(url.get("y1"));
+        assertNull(url.get("key4"));
     }
 
     @Test
@@ -125,12 +130,12 @@ public class UrlTest extends BaseTestCase {
         ______TS("web URL with no relative path");
 
         String url = "http://www.google.com";
-        assertEquals("", Url.getRelativePath(url));
+        assertEquals("", UrlExtension.getRelativePath(url));
 
         ______TS("typical web URL");
 
         url = "http://www.google.com/page?key1=value1";
-        assertEquals("/page?key1=value1", Url.getRelativePath(url));
+        assertEquals("/page?key1=value1", UrlExtension.getRelativePath(url));
 
     }
 

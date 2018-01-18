@@ -10,18 +10,15 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
 
     private StudentProfile studentProfile;
     private StudentInfoTable studentInfoTable;
-    private String commentRecipient;
 
-    public InstructorCourseStudentDetailsPageData(AccountAttributes account, StudentAttributes student,
-            StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection,
-            String commentRecipient) {
-        super(account);
+    public InstructorCourseStudentDetailsPageData(AccountAttributes account, String sessionToken, StudentAttributes student,
+            StudentProfileAttributes studentProfile, boolean hasSection) {
+        super(account, sessionToken);
         if (studentProfile != null) {
             String pictureUrl = getPictureUrl(studentProfile.pictureKey);
             this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
         }
-        this.studentInfoTable = new StudentInfoTable(student, isAbleToAddComment, hasSection);
-        this.commentRecipient = commentRecipient;
+        this.studentInfoTable = new StudentInfoTable(student, hasSection);
     }
 
     public StudentProfile getStudentProfile() {
@@ -32,13 +29,4 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
         return studentInfoTable;
     }
 
-    public String getCommentRecipient() {
-        return commentRecipient;
-    }
-
-    public boolean isCommentBoxShown() {
-        return "student".equals(commentRecipient)
-               || "team".equals(commentRecipient)
-               || "section".equals(commentRecipient);
-    }
 }

@@ -7,12 +7,36 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "SHomeUiT.instructor1OfTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "SHomeUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
     "alice.tmms": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Alice B",
       "isInstructor": false,
       "email": "${value.injected.in.testfile}",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "SHomeUiT.student1InTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTestingSanitizationCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
@@ -35,6 +59,12 @@
       "id": "SHomeUiT.CS4221",
       "name": "Database Design",
       "timeZone": "UTC"
+    },
+    "SHomeUiT.testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "SHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
     }
   },
   "instructors": {
@@ -49,14 +79,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -75,14 +102,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -101,14 +125,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -124,6 +145,30 @@
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SHomeUiT.instructor1OfTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
+      "courseId": "SHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "SHomeUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -222,6 +267,15 @@
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1</td></div>'\""
+    },
+    "SHomeUiT.student1InTestingSanitizationCourse": {
+      "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
+      "email": "SHomeUiT.normal@sanitization.tmt",
+      "course": "SHomeUiT.idOfTestingSanitizationCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</td>",
+      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {
@@ -537,6 +591,5 @@
   },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

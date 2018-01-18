@@ -13,8 +13,7 @@ import teammates.test.pageobjects.AdminAccountManagementPage;
 import teammates.test.pageobjects.AdminActivityLogPage;
 
 /**
- * Covers the 'accounts management' view for admins.
- * SUT: {@link AdminAccountManagementPage}
+ * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_MANAGEMENT_PAGE}.
  */
 public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
     private AdminAccountManagementPage accountsPage;

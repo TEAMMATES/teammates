@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
@@ -21,8 +20,6 @@ import teammates.logic.api.TaskQueuer;
  * </p>
  */
 public abstract class AutomatedAction {
-
-    protected static final Logger log = Logger.getLogger();
 
     protected Logic logic;
     protected TaskQueuer taskQueuer;
@@ -63,7 +60,7 @@ public abstract class AutomatedAction {
      * Returns the value for the specified parameter expected to be present in the http request.
      * Assumption: the requested parameter is not null.
      *
-     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     * @param paramName  a constant from the {@link teammates.common.util.Const.ParamsNames} class.
      */
     protected String getNonNullRequestParamValue(String paramName) {
         return getNonNullRequestParamValues(paramName)[0];
@@ -77,7 +74,7 @@ public abstract class AutomatedAction {
      * Returns the values for the specified parameter expected to be present in the http request.
      * Assumption: the requested parameter is not null.
      *
-     * @param paramName  a constant from the {@link Const.ParamsNames} class.
+     * @param paramName  a constant from the {@link teammates.common.util.Const.ParamsNames} class.
      */
     protected String[] getNonNullRequestParamValues(String paramName) {
         String[] values = getRequestParamValues(paramName);
@@ -94,6 +91,7 @@ public abstract class AutomatedAction {
 
     protected abstract String getActionMessage();
 
+    /** Executes the action. */
     public abstract void execute();
 
 }

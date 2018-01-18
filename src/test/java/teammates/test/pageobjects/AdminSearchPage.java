@@ -3,6 +3,10 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.ui.pagedata.AdminSearchPageData;
+
 public class AdminSearchPage extends AppPage {
 
     public AdminSearchPage(Browser browser) {
@@ -31,6 +35,17 @@ public class AdminSearchPage extends AppPage {
 
     public String getPageTitle() {
         return browser.driver.findElement(By.tagName("h1")).getText();
+    }
+
+    public WebElement getStudentRow(StudentAttributes student) {
+        By by = By.xpath("//table[@id = 'search_table']/tbody/tr[@id='" + AdminSearchPageData.createId(student) + "']");
+        return browser.driver.findElement(by);
+    }
+
+    public WebElement getInstructorRow(InstructorAttributes instructor) {
+        By by = By.xpath("//table[@id = 'search_table_instructor']/tbody/tr[@id='"
+                + AdminSearchPageData.createId(instructor) + "']");
+        return browser.driver.findElement(by);
     }
 
     private WebElement getSearchBox() {

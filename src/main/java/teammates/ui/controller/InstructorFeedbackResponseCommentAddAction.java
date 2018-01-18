@@ -3,12 +3,13 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Date;
 
-import teammates.common.datatransfer.CommentSendingState;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -16,8 +17,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
-
-import com.google.appengine.api.datastore.Text;
 
 /**
  * Action: Create a new {@link FeedbackResponseCommentAttributes}.
@@ -27,15 +26,15 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull("null course id", courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull("null feedback session name", feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         String feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        Assumption.assertNotNull("null feedback question id", feedbackQuestionId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        Assumption.assertNotNull("null feedback response id", feedbackResponseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
-        Assumption.assertNotNull("null comment id", commentId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -49,7 +48,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
 
         InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account);
+                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         String giverEmail = response.giver;
         String recipientEmail = response.recipient;
@@ -66,28 +65,33 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
         //Set up comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
-        Assumption.assertNotNull("null comment text", commentText);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, commentText);
         if (commentText.trim().isEmpty()) {
             data.errorMessage = Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY;
             data.isError = true;
             return createAjaxResult(data);
         }
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
-                feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .withFeedbackQuestionId(feedbackQuestionId)
+                .withFeedbackResponseId(feedbackResponseId)
+                .withCreatedAt(new Date())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .build();
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
-        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {
                 feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
         if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
             for (String viewer : showGiverNameToArray) {
@@ -95,12 +99,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             }
         }
 
-        //Set up sending state
-        if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
-            feedbackResponseComment.sendingState = CommentSendingState.PENDING;
-        }
-
-        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
+        FeedbackResponseCommentAttributes createdComment = null;
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             logic.putDocument(createdComment);
@@ -120,19 +119,21 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
 
+        if (createdComment == null) {
+            data.showCommentToString = "";
+            data.showGiverNameToString = "";
+        } else {
+            data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
+            data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        }
+
         data.comment = createdComment;
         data.commentId = commentId;
-        data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
-        data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.question = logic.getFeedbackQuestion(feedbackQuestionId);
+        data.sessionTimeZone = session.getTimeZone();
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
-    private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.isVisibleTo(FeedbackParticipantType.GIVER)
-             || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
-             || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS);
-    }
 }

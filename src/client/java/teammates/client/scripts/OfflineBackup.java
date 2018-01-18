@@ -13,13 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CommentAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -29,7 +27,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.Logic;
-import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -37,9 +34,9 @@ import teammates.test.driver.TestProperties;
 
 public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
-    protected String currentFileName = "";
-    protected boolean hasPreviousEntity;
-    protected Set<String> accountsSaved = new HashSet<String>();
+    private String currentFileName = "";
+    private boolean hasPreviousEntity;
+    private Set<String> accountsSaved = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         OfflineBackup offlineBackup = new OfflineBackup();
@@ -59,7 +56,7 @@ public class OfflineBackup extends RemoteApiClient {
      * Opens a connection to the entityModifiedLogs servlet to retrieve a log of all recently modified entities.
      */
     private List<String> getModifiedLogs() {
-        List<String> modifiedLogs = new ArrayList<String>();
+        List<String> modifiedLogs = new ArrayList<>();
         try {
             //Opens a URL connection to obtain the entity modified logs
             URL url = new URL(TestProperties.TEAMMATES_URL + "/entityModifiedLogs");
@@ -85,7 +82,7 @@ public class OfflineBackup extends RemoteApiClient {
     private Set<String> extractModifiedCourseIds(List<String> modifiedLogs) {
 
         //Extracts the course Ids to be backup from the logs
-        Set<String> courses = new HashSet<String>();
+        Set<String> courses = new HashSet<>();
         for (String course : modifiedLogs) {
             course = course.trim();
             if (!course.isEmpty()) {
@@ -124,15 +121,12 @@ public class OfflineBackup extends RemoteApiClient {
      */
     protected void retrieveEntitiesByCourse(Set<String> coursesList) {
 
-        Iterator<String> it = coursesList.iterator();
+        coursesList.forEach(courseId -> {
 
-        while (it.hasNext()) {
-            String courseId = it.next();
             currentFileName = backupFileDirectory + "/" + courseId + ".json";
             appendToFile(currentFileName, "{\n");
 
             retrieveAndSaveAccountsByCourse(courseId);
-            retrieveAndSaveCommentsByCourse(courseId);
             retrieveAndSaveCourse(courseId);
             retrieveAndSaveFeedbackQuestionsByCourse(courseId);
             retrieveAndSaveFeedbackResponsesByCourse(courseId);
@@ -143,13 +137,14 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveStudentProfilesByCourse(courseId);
 
             appendToFile(currentFileName, "\n}");
-        }
+        });
+
     }
 
     /**
      * Retrieves all the accounts from a course and saves them.
      */
-    protected void retrieveAndSaveAccountsByCourse(String courseId) {
+    private void retrieveAndSaveAccountsByCourse(String courseId) {
 
         Logic logic = new Logic();
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
@@ -170,25 +165,9 @@ public class OfflineBackup extends RemoteApiClient {
     }
 
     /**
-     * Retrieves all the comments from a course and saves them.
-     */
-    protected void retrieveAndSaveCommentsByCourse(String courseId) {
-        CommentsDb commentsDb = new CommentsDb();
-        List<CommentAttributes> comments = commentsDb.getCommentsForCourse(courseId);
-
-        appendToFile(currentFileName, "\t\"comments\":{\n");
-
-        for (CommentAttributes comment : comments) {
-            saveComment(comment);
-        }
-        hasPreviousEntity = false;
-        appendToFile(currentFileName, "\n\t},\n");
-    }
-
-    /**
      * Retrieves the course and saves them.
      */
-    protected void retrieveAndSaveCourse(String courseId) {
+    private void retrieveAndSaveCourse(String courseId) {
         Logic logic = new Logic();
         CourseAttributes course = logic.getCourse(courseId);
 
@@ -206,7 +185,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the feedback questions from a course and saves them.
      */
-    protected void retrieveAndSaveFeedbackQuestionsByCourse(String courseId) {
+    private void retrieveAndSaveFeedbackQuestionsByCourse(String courseId) {
 
         FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
         List<FeedbackQuestionAttributes> feedbackQuestions = feedbackQuestionDb.getFeedbackQuestionsForCourse(courseId);
@@ -223,7 +202,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the feedback responses from a course and saves them.
      */
-    protected void retrieveAndSaveFeedbackResponsesByCourse(String courseId) {
+    private void retrieveAndSaveFeedbackResponsesByCourse(String courseId) {
 
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         List<FeedbackResponseAttributes> feedbackResponses = feedbackResponsesDb.getFeedbackResponsesForCourse(courseId);
@@ -240,7 +219,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the feedback responses comments from a course and saves them.
      */
-    protected void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
+    private void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
 
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
         List<FeedbackResponseCommentAttributes> feedbackResponseComments =
@@ -258,7 +237,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the feedback sessions from a course and saves them.
      */
-    protected void retrieveAndSaveFeedbackSessionsByCourse(String courseId) {
+    private void retrieveAndSaveFeedbackSessionsByCourse(String courseId) {
         Logic logic = new Logic();
         List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
 
@@ -274,7 +253,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the instructors from a course and saves them.
      */
-    protected void retrieveAndSaveInstructorsByCourse(String courseId) {
+    private void retrieveAndSaveInstructorsByCourse(String courseId) {
         Logic logic = new Logic();
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
@@ -290,7 +269,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the students from a course and saves them.
      */
-    protected void retrieveAndSaveStudentsByCourse(String courseId) {
+    private void retrieveAndSaveStudentsByCourse(String courseId) {
         Logic logic = new Logic();
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
@@ -306,7 +285,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the submissions from a course and saves them.
      */
-    protected void retrieveAndSaveStudentProfilesByCourse(String courseId) {
+    private void retrieveAndSaveStudentProfilesByCourse(String courseId) {
 
         Logic logic = new Logic();
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
@@ -329,7 +308,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Performs formatting of the string to ensure that it conforms to json formatting.
      */
-    protected String formatJsonString(String entityJsonString, String name) {
+    private String formatJsonString(String entityJsonString, String name) {
         StringBuilder formattedString = new StringBuilder();
 
         if (hasPreviousEntity) {
@@ -346,7 +325,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the student accounts and saves them.
      */
-    protected void saveStudentAccount(StudentAttributes student) {
+    private void saveStudentAccount(StudentAttributes student) {
         if (student == null) {
             return;
         }
@@ -365,7 +344,7 @@ public class OfflineBackup extends RemoteApiClient {
     /**
      * Retrieves all the instructor accounts and saves them.
      */
-    protected void saveInstructorAccount(InstructorAttributes instructor) {
+    private void saveInstructorAccount(InstructorAttributes instructor) {
         if (instructor == null) {
             return;
         }
@@ -381,39 +360,35 @@ public class OfflineBackup extends RemoteApiClient {
         accountsSaved.add(account.email);
     }
 
-    protected void saveComment(CommentAttributes comment) {
-        appendToFile(currentFileName, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
-    }
-
-    protected void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    private void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         appendToFile(currentFileName, formatJsonString(feedbackQuestion.getJsonString(), feedbackQuestion.getId()));
     }
 
-    protected void saveFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
+    private void saveFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         appendToFile(currentFileName, formatJsonString(feedbackResponse.getJsonString(), feedbackResponse.getId()));
     }
 
-    protected void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
+    private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
         appendToFile(currentFileName,
                      formatJsonString(feedbackResponseComment.getJsonString(),
                                       feedbackResponseComment.getId().toString()));
     }
 
-    protected void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
+    private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         appendToFile(currentFileName,
                      formatJsonString(feedbackSession.getJsonString(),
                                       feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
     }
 
-    protected void saveInstructor(InstructorAttributes instructor) {
+    private void saveInstructor(InstructorAttributes instructor) {
         appendToFile(currentFileName, formatJsonString(instructor.getJsonString(), instructor.googleId));
     }
 
-    protected void saveStudent(StudentAttributes student) {
+    private void saveStudent(StudentAttributes student) {
         appendToFile(currentFileName, formatJsonString(student.getJsonString(), student.googleId));
     }
 
-    protected void saveProfile(StudentProfileAttributes studentProfile) {
+    private void saveProfile(StudentProfileAttributes studentProfile) {
         appendToFile(currentFileName, formatJsonString(studentProfile.getJsonString(), studentProfile.googleId));
     }
 

@@ -1,21 +1,21 @@
 package teammates.test.cases.browsertests;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -23,11 +23,9 @@ import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * Tests 'Submit Feedback' view of students.
+ * SUT: {@link Const.ActionURIs#STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE}.
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
- *
- * <p>SUT: {@link FeedbackSubmitPage}.
  */
 public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
@@ -53,14 +51,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.loadStudentHomeTab();
         submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
         submitPage.loadProfileTab();
-        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.loadStudentCommentsTab();
 
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
         submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
         submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentCommentsNavLink")));
     }
 
     private void testContent() throws Exception {
@@ -88,13 +83,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageOpen.html");
+        submitPage.verifyVisibilityAndCloseMoreInfoAboutEqualShareModal();
 
         ______TS("Grace period session");
 
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFSubmitUiT.CS2104",
                                                                    "Grace Period Session");
 
-        Calendar endDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        Calendar endDate = TimeHelper.now(fs.getTimeZone());
         endDate.add(Calendar.MINUTE, -1);
         fs.setGracePeriod(10);
         fs.setEndTime(endDate.getTime());
@@ -171,6 +167,24 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(18, 0, 0, "90");
         submitPage.fillResponseTextBox(18, 0, 1, "10");
 
+        // total sums up to expected value, verify empty entries are filled with 0
+        submitPage.fillResponseTextBox(19, 1, 0, "200");
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
+        // delete an auto-filled 0, verify it's auto-filled again
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+        assertEquals(submitPage.getResponseTextBoxValue(19, 0, 0), "0");
+
+        // modify a non-zero value and remove a 0
+        submitPage.fillResponseTextBox(19, 1, 0, "100");
+        submitPage.clearResponseTextBoxValue(19, 0, 0);
+
+        // verify no longer auto-filled with 0
+        assertTrue(submitPage.isTextBoxValueEmpty(19, 0, 0));
+
+        // clear both input box for successful form submission.
+        submitPage.clearResponseTextBoxValue(19, 1, 0);
+
         submitPage.chooseContribOption(20, 0, "Equal share");
 
         // Just check that some of the responses persisted.
@@ -218,6 +232,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "SFSubmitUiT.benny.c@gmail.tmt"));
         submitPage.submitWithoutConfirmationEmail();
 
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
@@ -256,6 +271,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
 
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), aliceTeam, "Team 3"));
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
@@ -339,6 +355,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                    "Team 2"));
 
         //check edited
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
@@ -392,6 +409,52 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
 
+        ______TS("MSQ: min/max selectable choices test");
+        int qnNumber = 22;
+
+        // Submit response with 1 option checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Charlie Davis (Team 2)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MIN_CHECK, qnNumber, 2));
+
+        // Submit response with 2 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Drop out (Team 2)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit response with 3 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Emily (Team 3)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit response with 4 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "Extra guy (Team 2)");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MAX_CHECK, qnNumber, 3));
+
+        // Uncheck an option so that response is valid
+        submitPage.toggleMsqOption(qnNumber, 0, "Extra guy (Team 2)");
+
+        qnNumber = 23;
+        // Submit response for 1st recipient with 2 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "B");
+        submitPage.toggleMsqOption(qnNumber, 0, "C");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MIN_CHECK, qnNumber, 3));
+
+        // Submit response for 1st recipient with 3 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "E");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForConfirmationModalAndClickOk();
+
+        // Submit response for 1st recipient with 4 options checked
+        submitPage.toggleMsqOption(qnNumber, 0, "A");
+        submitPage.clickSubmitButton();
+        submitPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MSQ_MAX_CHECK, qnNumber, 3));
+
         ______TS("create new response for unreg student");
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
@@ -440,6 +503,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
@@ -463,6 +527,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
         submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         FeedbackQuestionAttributes fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
@@ -480,6 +545,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "50000");
         submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
@@ -499,6 +565,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "-99999");
         submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
@@ -516,6 +583,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
             submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
             submitPage.fillResponseTextBox(14, 0, "5");
             submitPage.submitWithoutConfirmationEmail();
+            submitPage.verifyAndCloseSuccessfulSubmissionModal();
             submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
 
@@ -582,6 +650,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                         "drop.out@gmail.tmt",
                                         "SFSubmitUiT.charlie.d@gmail.tmt"));
         submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         assertEquals("[-1, 1]", BackDoor.getFeedbackResponse(fqRubric.getId(),
                                         "drop.out@gmail.tmt",
                                         "SFSubmitUiT.danny.e@gmail.tmt").getResponseDetails().getAnswerString());
@@ -628,6 +697,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // verify submission with no-response questions are possible
         submitPage.fillResponseTextBox(19, 2, "100");
         submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         ______TS("Responses with invalid recipients do not prevent submission");
@@ -650,6 +720,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         // verify that existing responses with invalid recipients do not affect submission
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
     }

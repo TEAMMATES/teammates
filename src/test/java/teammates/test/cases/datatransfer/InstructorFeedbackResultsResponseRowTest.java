@@ -8,11 +8,14 @@ import org.testng.annotations.Test;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
+/**
+ * SUT: {@link InstructorFeedbackResultsResponseRow}.
+ */
 public class InstructorFeedbackResultsResponseRowTest extends BaseTestCase {
 
     @Test
     public void testDefaultSortOrderWithSameTeam() {
-        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<>();
         responseRows.add(createNewFeedbackResponseRow("Team1", "Alice Betsy"));
         responseRows.add(createNewFeedbackResponseRow("Team1", "Emma Farrell"));
         responseRows.add(createNewFeedbackResponseRow("Team1", "Benny Charles"));
@@ -29,7 +32,7 @@ public class InstructorFeedbackResultsResponseRowTest extends BaseTestCase {
 
     @Test
     public void testDefaultSortOrderWithDifferentTeams() {
-        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<InstructorFeedbackResultsResponseRow>();
+        List<InstructorFeedbackResultsResponseRow> responseRows = new ArrayList<>();
         responseRows.add(createNewFeedbackResponseRow("Team1", "Alice Betsy"));
         responseRows.add(createNewFeedbackResponseRow("Team2", "Emma Farrell"));
         responseRows.add(createNewFeedbackResponseRow("Team3", "Benny Charles"));

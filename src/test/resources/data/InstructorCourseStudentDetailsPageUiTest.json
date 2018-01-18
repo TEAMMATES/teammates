@@ -30,12 +30,42 @@
         "moreInfo": "This is a lot of info...",
         "pictureKey": ""
       }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationInstruct",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CCSDetailsUiT.instruct@sanitization.tmt",
+      "institute": "inst\"</td></div>"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationStud",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "CCSDetailsUiT.stud@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "CCSDetailsUiT.sanitizationStud",
+        "shortName": "name\"/><script>alert('hi!');</script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "school'/><script>alert('hi!');</script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
     "CCSDetailsUiT.CS2104": {
       "id": "CCSDetailsUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "testingSanitizationCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CCSDetailsUiT.sanitizationCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -51,14 +81,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -77,16 +104,37 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationInstruct",
+      "courseId": "CCSDetailsUiT.sanitizationCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CCSDetailsUiT.instruct@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -98,9 +146,9 @@
       "googleId": "CCSDetailsUiT.jose.tmms",
       "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
       "course": "CCSDetailsUiT.CS2104",
-      "name": "José Gómez</option></td></div>'\"",
-      "comments": "This student's name is José Gómez</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
+      "team": "Team 1"
     },
     "unregisteredStudent": {
       "googleId": "",
@@ -108,13 +156,21 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1"
+    },
+    "student1InTestingSanitizationCourse": {
+      "googleId": "CCSDetailsUiT.sanitizationStud",
+      "email": "CCSDetailsUiT.stud@sanitization.tmt",
+      "course": "CCSDetailsUiT.sanitizationCourse",
+      "name": "Stud1</option></td></div>'\"",
+      "comments": "</p></div>'\"<script> alert('hi!'); </script>",
+      "team": "Team tags&\"</option></td>",
+      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {},
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

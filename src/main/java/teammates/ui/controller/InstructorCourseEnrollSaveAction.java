@@ -1,21 +1,21 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
+import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -27,11 +27,13 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
  */
 public class InstructorCourseEnrollSaveAction extends Action {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
         String sanitizedStudentsInfo = SanitizationHelper.sanitizeForHtml(studentsInfo);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
@@ -45,7 +47,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
             boolean hasSection = hasSections(students);
 
-            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
+            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, sessionToken,
                                                                     courseId, students, hasSection, studentsInfo);
 
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
@@ -58,7 +60,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
-            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
+            InstructorCourseEnrollPageData pageData =
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
@@ -70,7 +73,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
                                       + "servers. Please try again after about 10 minutes. If the problem persists, "
                                       + "please contact TEAMMATES support", StatusMessageColor.DANGER));
 
-            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
+            InstructorCourseEnrollPageData pageData =
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
@@ -101,12 +105,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
                     courseId, session.getFeedbackSessionName(), enrollResult.enrollmentList);
         }
 
-        Collections.sort(students, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return o1.updateStatus.numericRepresentation - o2.updateStatus.numericRepresentation;
-            }
-        });
+        students.sort(Comparator.comparing(obj -> obj.updateStatus.numericRepresentation));
 
         return separateStudents(students);
     }
@@ -123,7 +122,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
         ArrayList<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            lists[i] = new ArrayList<StudentAttributes>();
+            lists[i] = new ArrayList<>();
         }
 
         for (StudentAttributes student : students) {

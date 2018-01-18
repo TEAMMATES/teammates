@@ -18,6 +18,9 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+/**
+ * SUT: {@link FeedbackQuestionsDb}.
+ */
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
@@ -358,16 +361,16 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.questionType = FeedbackQuestionType.TEXT;
         fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
-        fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+        fqa.showGiverNameTo = new ArrayList<>();
+        fqa.showRecipientNameTo = new ArrayList<>();
+        fqa.showResponsesTo = new ArrayList<>();
 
         return fqa;
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
         FeedbackQuestionAttributes fqa;
-        List<FeedbackQuestionAttributes> returnVal = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> returnVal = new ArrayList<>();
 
         for (int i = 1; i <= num; i++) {
             fqa = getNewFeedbackQuestionAttributes();

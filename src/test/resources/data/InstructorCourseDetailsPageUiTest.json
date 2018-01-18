@@ -28,6 +28,13 @@
       "email": "CCDetailsUiT.coord@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "CCDetailsUiT.instructor1OfTSCourse": {
+      "googleId": "CCDetailsUiT.idOfInstructor1OfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "isInstructor": true,
+      "email": "CCDetailsUiT.instructor1@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>"
+    },
     "Alice": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Alice Betsy",
@@ -41,6 +48,23 @@
       "isInstructor": false,
       "email": "charlie.d.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "CCDetailsUiT.student1InTSCourse": {
+      "googleId": "CCDetailsUiT.student1InTSCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "isInstructor": false,
+      "email": "CCDetailsUiT.normal@sanitization.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "studentProfile": {
+        "googleId": "student1InTSCourse",
+        "shortName": "Stud1<script> alert('hi!'); </script>",
+        "email": "weird&'@gmail.tmt",
+        "institute": "inst<script> alert('hi!'); </script>",
+        "nationality": "American",
+        "gender": "other",
+        "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+        "pictureKey": ""
+      }
     }
   },
   "courses": {
@@ -58,6 +82,12 @@
       "id": "CCDetailsUiT.CourseWithoutStudents",
       "name": "A course with no students",
       "timeZone": "UTC"
+    },
+    "CCDetailsUiT.TSCourse": {
+      "createdAt": "2012-04-01 11:58 PM UTC",
+      "id": "CCDetailsUiT.idOfTSCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
     }
   },
   "instructors": {
@@ -72,14 +102,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -98,14 +125,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -124,14 +148,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -150,14 +171,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": false,
-          "cangivecommentinsection": false,
           "cansubmitsessioninsection": false,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": false,
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canviewcommentinsection": false,
           "canmodifystudent": false,
           "canmodifyinstructor": false
         },
@@ -173,6 +191,30 @@
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "CCDetailsUiT.instructor1OfTSCourse": {
+      "googleId": "CCDetailsUiT.idOfInstructor1OfTSCourse",
+      "courseId": "CCDetailsUiT.idOfTSCourse",
+      "name": "Instructor<script> alert('hi!'); </script>",
+      "email": "CCDetailsUiT.instructor1@sanitization.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "inst<script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -231,7 +273,7 @@
       "course": "CCDetailsUiT.CS2103",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "team": "Team 1",
       "section": "Tut Group 1"
     },
     "benny.tmms@CCDetailsUiT.CS2103": {
@@ -249,14 +291,22 @@
       "course": "CCDetailsUiT.CS2103",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "team": "Team 1",
       "section": "Tut Group 1"
+    },
+    "CCDetailsUiT.student1InTSCourse": {
+      "googleId": "CCDetailsUiT.student1InTSCourse",
+      "email": "CCDetailsUiT.normal@sanitization.tmt",
+      "course": "CCDetailsUiT.idOfTSCourse",
+      "name": "Stud1<script> alert('hi!'); </script>",
+      "comments": "<script> alert('hi!'); </script>",
+      "team": "Team tags</option><option value=\"dump\"></td><td>'\"&\"</td>",
+      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {},
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

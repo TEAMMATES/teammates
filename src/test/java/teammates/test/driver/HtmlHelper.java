@@ -4,6 +4,9 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
@@ -17,20 +20,31 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
+/**
+ * Provides mechanism for HTML comparison during testing.
+ * GodMode is also configured here.
+ */
 public final class HtmlHelper {
 
     private static final String INDENTATION_STEP = "  ";
 
+    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI = "[A-F0-9]{32,}";
+    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32 = "[A-F0-9]{32}";
+
     private static final String REGEX_CONTINUE_URL = ".*?";
-    private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
+    private static final String REGEX_ENCRYPTED_COURSE_ID = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
+    private static final String REGEX_ENCRYPTED_REGKEY = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
-    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
+    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
+    private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC =
+            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
+    private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
+    private static final String REGEX_TIMEZONE_OFFSET = "UTC([+-]\\d{4})";
 
     private HtmlHelper() {
         // utility class
@@ -334,6 +348,7 @@ public final class HtmlHelper {
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                      .replace("${support.email}", Config.SUPPORT_EMAIL)
                       .replace("${version}", TestProperties.TEAMMATES_VERSION)
                       .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
@@ -377,7 +392,14 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
+        // get session's time zone from content.
+        // this method is not applicable for pages with multiple time zones like InstructorSearchPage
+        sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
+        SimpleDateFormat sdfForIso8601 = new SimpleDateFormat("yyyy-MM-dd'T'");
+        String dateTimeNowInIso8601 = sdfForIso8601.format(now);
+        SimpleDateFormat sdfForCoursesPage = new SimpleDateFormat("d MMM yyyy");
+        String dateTimeNowInCoursesPageFormat = sdfForCoursesPage.format(now);
         String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
                       .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
@@ -412,8 +434,9 @@ public final class HtmlHelper {
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                       // anonymous student identifier on results page
-                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
-                                  "Anonymous $1 \\${participant\\.hash}")
+                      .replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                                  + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT
+                                  + " $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
@@ -428,12 +451,23 @@ public final class HtmlHelper {
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
                       // date of next hour (datepicker's date is generated based on next hour's date)
                       .replace(dateOfNextHour, "${date.nexthour}")
-                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
+                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
+                      .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
+                      .replaceAll(dateTimeNowInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
                                   "\\${admin\\.institute}")
+                      // sessionToken in form inputs
+                      .replaceAll("( type=\"hidden\"|"
+                                   + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
+                                   + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
+                                   " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
+                                   + " type=\"hidden\" value=\"\\${sessionToken}\"")
+                      // sessionToken in URL parameters
+                      .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
+                                  "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
                       // top HTML tag with xmlns defined
                       // TODO check if this is necessary
                       .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
@@ -443,13 +477,15 @@ public final class HtmlHelper {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace("window.location.origin + '/" + Config.STUDENT_MOTD_URL + "';",
-                               "window.location.origin + '/${studentmotd.url}';")
+        return content.replaceAll("( type=\"hidden\"| id=\"motd-url\"|"
+                                      + " value=\"" + Config.STUDENT_MOTD_URL + "\"){3}",
+                                  " id=\"motd-url\" type=\"hidden\" value=\"\\${studentmotd\\.url}\"")
                       .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**
@@ -459,6 +495,7 @@ public final class HtmlHelper {
         Date now = new Date();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                      .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                       .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
                       .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("<!-- test.student1.truncated -->",
@@ -474,7 +511,21 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
+                      .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
+                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
+    }
+
+    private static TimeZone getTimeZone(String content) {
+        // searches for first String of pattern "UTC+xxxx" in the content.
+        Pattern pattern = Pattern.compile(REGEX_TIMEZONE_OFFSET);
+        Matcher matcher = pattern.matcher(content);
+        // set default time zone offset.
+        String timeZoneOffset = "+0000";
+        if (matcher.find()) {
+            timeZoneOffset = matcher.group(1);
+        }
+        return TimeZone.getTimeZone("GMT" + timeZoneOffset);
     }
 
 }

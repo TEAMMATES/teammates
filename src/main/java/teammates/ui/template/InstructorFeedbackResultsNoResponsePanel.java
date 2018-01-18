@@ -15,17 +15,22 @@ public class InstructorFeedbackResultsNoResponsePanel {
     private Map<String, String> names;
     private Map<String, String> teams;
     private Map<String, Boolean> instructorStatus;
-
+    private InstructorFeedbackResultsRemindButton remindButton;
+    private String remindParticularStudentsLink;
     private Map<String, InstructorFeedbackResultsModerationButton> moderationButtons;
 
     public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus,
-                                    Map<String, InstructorFeedbackResultsModerationButton> moderationButtons) {
-        this.instructorStatus = new HashMap<String, Boolean>();
+            Map<String, InstructorFeedbackResultsModerationButton> moderationButtons,
+            InstructorFeedbackResultsRemindButton remindButton,
+            String remindParticularStudentsLink) {
+        this.instructorStatus = new HashMap<>();
         this.names = Collections.unmodifiableMap(responseStatus.emailNameTable);
         this.emails = getFilteredEmails(responseStatus.getStudentsWhoDidNotRespondToAnyQuestion());
         this.teams = getTeamsWithInstructorTeam(responseStatus.emailTeamNameTable,
                                                 Const.USER_TEAM_FOR_INSTRUCTOR);
         this.moderationButtons = moderationButtons;
+        this.remindButton = remindButton;
+        this.remindParticularStudentsLink = remindParticularStudentsLink;
     }
 
     public List<String> getEmails() {
@@ -79,4 +84,11 @@ public class InstructorFeedbackResultsNoResponsePanel {
         return moderationButtons;
     }
 
+    public InstructorFeedbackResultsRemindButton getRemindButton() {
+        return remindButton;
+    }
+
+    public String getRemindParticularStudentsLink() {
+        return remindParticularStudentsLink;
+    }
 }

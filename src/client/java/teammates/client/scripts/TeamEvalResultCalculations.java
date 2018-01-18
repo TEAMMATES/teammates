@@ -2,6 +2,7 @@ package teammates.client.scripts;
 
 import static teammates.common.datatransfer.TeamEvalResult.NSB;
 import static teammates.common.datatransfer.TeamEvalResult.NSU;
+
 import teammates.common.datatransfer.TeamEvalResult;
 
 /**

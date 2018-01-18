@@ -14,17 +14,17 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
     @Override
     protected ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
         Assumption.assertNotNull(instructors);
 
         List<CourseAttributes> allCourses = logic.getCoursesForInstructor(account.googleId);
 
-        List<CourseAttributes> coursesToAddToData = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> coursesToAddToData = new ArrayList<>();
 
         // Only add courses to data if the course is not archived and instructor has sufficient permissions
         for (CourseAttributes course : allCourses) {
@@ -40,8 +40,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
 
         CourseAttributes.sortByCreatedDate(coursesToAddToData);
 
-        InstructorFeedbackEditCopyPageData data =
-                new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, feedbackSessionName);
+        InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account, sessionToken,
+                coursesToAddToData, courseId, feedbackSessionName);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_COPY_MODAL, data);
     }

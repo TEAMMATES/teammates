@@ -10,8 +10,15 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminEmailPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_EMAIL_COMPOSE_PAGE},
+ *      {@link Const.ActionURIs#ADMIN_EMAIL_SENT_PAGE},
+ *      {@link Const.ActionURIs#ADMIN_EMAIL_DRAFT_PAGE},
+ *      {@link Const.ActionURIs#ADMIN_EMAIL_TRASH_PAGE}.
+ */
 public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     private static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
@@ -41,7 +48,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("send email - no recipient");
 
         emailPage.clickSendButton();
-        emailPage.verifyStatus("Error : No reciver address or file given");
+        emailPage.verifyStatus("Error : No receiver address or file given");
 
         ______TS("send email - recipient email format error");
 
@@ -53,6 +60,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
         ______TS("send email - no subject");
 
+        emailPage.clearRecipientBox();
         emailPage.inputRecipient("recipient@email.tmt");
         emailPage.clearSubjectBox();
         emailPage.clickSendButton();
@@ -64,6 +72,74 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.clickSendButton();
         assertFalse(hasErrorMessage());
         assertTrue(isEmailComposeElementsPresent());
+        emailPage.verifyStatus("Email will be sent within an hour to recipient@email.tmt");
+
+        ______TS("send email to group - invalid file type");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputGroupRecipient("invalidGroupList.xlsx");
+        emailPage.verifyStatus("Group receiver list upload failed. Please try again.");
+
+        ______TS("send email to group - no subject");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        emailPage.inputEmailContent("Email Content");
+        String groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.clickSendButton();
+        assertTrue(hasStatusMessageNoSubject());
+        deleteGroupListFile(groupListFileKey);
+
+        ______TS("send email to group - success");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.inputSubject("Email Subject");
+        emailPage.inputEmailContent("Email Content");
+        emailPage.clickSendButton();
+        assertFalse(hasErrorMessage());
+        assertTrue(isEmailComposeElementsPresent());
+        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.");
+        deleteGroupListFile(groupListFileKey);
+
+        ______TS("send email to groupmode and addressmode - no subject");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputRecipient("recipient@email.tmt");
+        emailPage.inputEmailContent("Email Content");
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.clearSubjectBox();
+        emailPage.clickSendButton();
+        assertTrue(hasStatusMessageNoSubject());
+        deleteGroupListFile(groupListFileKey);
+
+        ______TS("send email to groupmode and addressmode - success");
+
+        emailPage.clearRecipientBox();
+        emailPage.clearSubjectBox();
+        emailPage.inputRecipient("recipient@email.tmt");
+        emailPage.inputSubject("Email Subject");
+        emailPage.inputEmailContent("Email Content");
+        emailPage.inputGroupRecipient("validGroupList.txt");
+        groupListFileKey = emailPage.getGroupListFileKey();
+        emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
+        verifyGroupListFileKey(groupListFileKey);
+        emailPage.clickSendButton();
+        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.\n"
+                + "Email will be sent within an hour to recipient@email.tmt");
+        deleteGroupListFile(groupListFileKey);
 
         ______TS("save email - success");
 
@@ -108,10 +184,9 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
 
     private boolean hasStatusMessageNoSubject() throws Exception {
         return emailPage.getStatus().equals(
-                getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));
+                getPopulatedEmptyStringErrorMessage(
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                    FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));
     }
 
     private boolean hasErrorMessage() {
@@ -159,7 +234,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                                                                  "Group Receiver",
                                                                  "Subject",
                                                                  "Date");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
 
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailPage.getHeaderValueFromDataTable(0, 0, i));
@@ -176,6 +251,14 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         WebElement trashButton = browser.driver.findElement(By.className("btn-danger"));
 
         return trashButton.getText().contains("Empty Trash");
+    }
+
+    private void verifyGroupListFileKey(String key) {
+        assertTrue(BackDoor.isGroupListFileKeyPresentInGcs(key));
+    }
+
+    private void deleteGroupListFile(String key) {
+        BackDoor.deleteGroupListFile(key);
     }
 
 }

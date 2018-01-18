@@ -100,14 +100,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -126,14 +123,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": false,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": false,
           "canmodifysession": true,
-          "canviewcommentinsection": false,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -152,14 +146,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -178,14 +169,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -204,14 +192,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -230,14 +215,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -256,26 +238,20 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
         "sectionLevel": {
           "Section 1": {
             "canviewstudentinsection": false,
-            "cangivecommentinsection": false,
             "cansubmitsessioninsection": false,
             "canmodifysessioncommentinsection": false,
-            "canmodifycommentinsection": false,
-            "canviewsessioninsection": false,
-            "canviewcommentinsection": false
+            "canviewsessioninsection": false
           }
         },
         "sessionLevel": {}
@@ -1613,6 +1589,50 @@
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
       }
     },
+    "response5ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response6ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response7ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response8ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student4InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
     "response1ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1670,6 +1690,5 @@
     }
   },
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

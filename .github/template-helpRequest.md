@@ -4,7 +4,7 @@ Copy-and-paste the following template to the issue tracker and fill it in with r
 ```markdown
 - **Operating System:**
 - **JDK Version:**
-- **Eclipse Version:**
+- **Eclipse / IntelliJ Version (if applicable):**
 - **Firefox / Chrome Version (where applicable):**
 
 **What I was trying to do / What I need help with**

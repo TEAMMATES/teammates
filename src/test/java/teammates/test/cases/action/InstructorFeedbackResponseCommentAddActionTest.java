@@ -2,20 +2,26 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CommentSendingState;
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAddAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
 
+/**
+ * SUT: {@link InstructorFeedbackResponseCommentAddAction}.
+ */
 public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTest {
 
     @Override
@@ -29,7 +35,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         int questionNumber = 1;
         FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
@@ -40,7 +46,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         FeedbackResponseAttributes response = feedbackResponsesDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Unsuccessful case: not enough parameters");
@@ -74,7 +80,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("typical successful case for unpublished session empty giver permissions");
 
@@ -94,7 +99,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("typical successful case for unpublished session shown to various recipients");
 
@@ -113,7 +117,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -131,7 +134,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -149,7 +151,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -167,7 +168,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -185,7 +185,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -203,7 +202,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -221,7 +219,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
 
         ______TS("typical successful case for published session");
 
@@ -243,7 +240,6 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
-        assertEquals(CommentSendingState.PENDING, data.comment.sendingState);
 
         ______TS("Unsuccessful case: empty comment text");
 
@@ -269,5 +265,47 @@ public class InstructorFeedbackResponseCommentAddActionTest extends BaseActionTe
     @Override
     protected InstructorFeedbackResponseCommentAddAction getAction(String... params) {
         return (InstructorFeedbackResponseCommentAddAction) gaeSimulation.getActionObject(getActionUri(), params);
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() throws Exception {
+        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+
+        int questionNumber = 1;
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+                fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
+        String giverEmail = "student1InCourse1@gmail.tmt";
+        String receiverEmail = "student1InCourse1@gmail.tmt";
+        FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
+                giverEmail, receiverEmail);
+        FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
+                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, new Text(""))
+                .withFeedbackQuestionId(question.getId())
+                .withFeedbackResponseId(response.getId())
+                .build();
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, comment.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
+        };
+
+        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyUnaccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        // remove the comment
+        frcDb.deleteEntity(comment);
     }
 }

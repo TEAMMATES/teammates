@@ -10,7 +10,6 @@ import java.util.List;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
-import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
@@ -77,7 +76,7 @@ public final class GoogleCloudStorageHelper {
     /**
      * Creates and invokes a URL for uploading a large blob to Google Cloud Storage.
      * Upon completion of the upload, a callback is made to the specified {@code callbackUrl}.<br>
-     * Refer to {@link BlobstoreService#createUploadUrl}.
+     * Refer to {@link com.google.appengine.api.blobstore.BlobstoreService#createUploadUrl}.
      */
     public static String getNewUploadUrl(String callbackUrl) {
         UploadOptions uploadOptions =
@@ -121,7 +120,7 @@ public final class GoogleCloudStorageHelper {
         //                            ...
 
         // This is the list of list
-        List<List<String>> listOfList = new LinkedList<List<String>>();
+        List<List<String>> listOfList = new LinkedList<>();
 
         // Offset is needed for remembering where it stops from last reading
         int offset = 0;

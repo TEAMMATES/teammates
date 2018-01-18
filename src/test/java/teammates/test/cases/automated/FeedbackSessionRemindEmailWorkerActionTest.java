@@ -55,15 +55,15 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         // 2 students and 4 instructors sent reminder, 5 instructors notified
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 11);
 
-        List<String> studentRecipientList = new ArrayList<String>();
+        List<String> studentRecipientList = new ArrayList<>();
         for (StudentAttributes student : studentsLogic.getStudentsForCourse(session1.getCourseId())) {
             if (!fsLogic.isFeedbackSessionCompletedByStudent(session1, student.email)) {
                 studentRecipientList.add(student.email);
             }
         }
 
-        List<String> instructorRecipientList = new ArrayList<String>();
-        List<String> instructorNotifiedList = new ArrayList<String>();
+        List<String> instructorRecipientList = new ArrayList<>();
+        List<String> instructorNotifiedList = new ArrayList<>();
         for (InstructorAttributes instructor : instructorsLogic.getInstructorsForCourse(session1.getCourseId())) {
             if (!fsLogic.isFeedbackSessionCompletedByInstructor(session1, instructor.email)) {
                 instructorRecipientList.add(instructor.email);
@@ -79,7 +79,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
                                        session1.getSessionName()),
                          paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
 
-            String header = "The email below has been sent to students of course: " + session1.getCourseId();
+            String header = "The email below has been sent to students of course: [" + session1.getCourseId() + "]";
             String content = paramMap.get(ParamsNames.EMAIL_CONTENT)[0];
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
 

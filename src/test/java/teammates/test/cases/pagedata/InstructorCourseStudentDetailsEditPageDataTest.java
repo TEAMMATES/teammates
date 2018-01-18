@@ -8,6 +8,9 @@ import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.template.StudentInfoTable;
 
+/**
+ * SUT: {@link InstructorCourseStudentDetailsEditPageData}.
+ */
 public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase {
 
     private StudentAttributes inputStudent;
@@ -33,23 +36,28 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
-    protected InstructorCourseStudentDetailsEditPageData createData() {
+    private InstructorCourseStudentDetailsEditPageData createData() {
         String name = "John Doe";
         String email = "john@doe.com";
 
         createStudent(name, email);
 
-        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), inputStudent, email,
-                hasSection, isOpenOrPublishedEmailSentForTheCourse);
+        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), dummySessionToken, inputStudent,
+                email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
-    protected void createStudent(String name, String email) {
+    private void createStudent(String name, String email) {
         String comments = "This is a comment for John Doe.";
         String courseId = "CourseForJohnDoe";
         String team = "TeamForJohnDoe";
         String section = "SectionForJohnDoe";
 
-        inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
+        inputStudent = StudentAttributes
+                .builder(courseId, name, email)
+                .withSection(section)
+                .withTeam(team)
+                .withComments(comments)
+                .build();
     }
 
 }

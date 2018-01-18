@@ -11,6 +11,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailLogPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#ADMIN_EMAIL_LOG_PAGE}.
+ */
 public class AdminEmailLogPageUiTest extends BaseUiTestCase {
 
     private static final int ADMIN_EMAIL_LOG_TABLE_NUM_COLUMNS = 3;
@@ -62,7 +65,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         List<String> expectedSessionTableHeaders = Arrays.asList("Receiver",
                                                                  "Subject",
                                                                  "Date");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
 
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailLogPage.getHeaderValueFromDataTable(0, 0, i));

@@ -8,6 +8,7 @@
   <form action="/page/instructorFeedbackSubmissionEditSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="Instructor Session">
     <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="FRankUiT.instructor">
     <div id="statusMessagesToUser" style="display: none;">
     </div>
@@ -41,7 +42,7 @@
               </label>
               <div class="col-sm-10">
                 <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                  Sun, 01 Apr 2012, 11:59 PM UTC+0200
                 </p>
               </div>
             </div>
@@ -50,8 +51,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Thu, 30 Apr 2026, 11:59 PM
+                <p class="form-control-static" data-end-time="2026-04-30T21:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM UTC+0200
                 </p>
               </div>
             </div>
@@ -96,9 +97,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -117,7 +121,7 @@
                 Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -193,14 +197,19 @@
                 <input id="rankToRecipients-1" type="hidden" value="false">
                 <input id="rankNumOptions-1" type="hidden" value="3">
                 <input id="rankAreDuplicatesAllowed-1" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-1" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-1" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -219,7 +228,7 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -295,14 +304,19 @@
                 <input id="rankToRecipients-1" type="hidden" value="false">
                 <input id="rankNumOptions-1" type="hidden" value="3">
                 <input id="rankAreDuplicatesAllowed-1" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-1" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-1" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-2" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -321,7 +335,7 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -397,6 +411,8 @@
                 <input id="rankToRecipients-1" type="hidden" value="false">
                 <input id="rankNumOptions-1" type="hidden" value="3">
                 <input id="rankAreDuplicatesAllowed-1" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-1" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-1" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -431,9 +447,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                 <option selected="" value="">
@@ -455,7 +474,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -1213,14 +1232,19 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
                 <option selected="" value="">
@@ -1242,7 +1266,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -2000,14 +2024,19 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
                 <option selected="" value="">
@@ -2029,7 +2058,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -2787,14 +2816,19 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-3" style="width:275px;max-width:275px">
                 <option selected="" value="">
@@ -2816,7 +2850,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -3574,6 +3608,8 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -3608,9 +3644,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3635,7 +3674,7 @@
                 Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3675,14 +3714,19 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3707,7 +3751,7 @@
                 Benny Charles
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3747,14 +3791,19 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-2" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3779,7 +3828,7 @@
                 Charlie Davis
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3819,14 +3868,19 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-3" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3851,7 +3905,7 @@
                 Danny Engrid
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3891,14 +3945,19 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Student) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-4" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -3923,7 +3982,7 @@
                 Emily F.
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3964,6 +4023,8 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -3998,9 +4059,12 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -4019,7 +4083,7 @@
                 Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -4053,14 +4117,19 @@
                 <input id="rankToRecipients-4" type="hidden" value="true">
                 <input id="rankNumOptions-4" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-4" type="hidden" value="true">
+                <input disabled="" id="minOptionsToBeRanked-4" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-4" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -4079,7 +4148,7 @@
                 Team 2
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -4113,14 +4182,19 @@
                 <input id="rankToRecipients-4" type="hidden" value="true">
                 <input id="rankNumOptions-4" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-4" type="hidden" value="true">
+                <input disabled="" id="minOptionsToBeRanked-4" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-4" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label for="input">
-                To Team:
+                <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                  Evaluee
+                </span>
+                (Team) :
               </label>
               <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
                 <option selected="" value="">
@@ -4139,7 +4213,7 @@
                 Team 3
               </span>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -4174,6 +4248,8 @@
                 <input id="rankToRecipients-4" type="hidden" value="true">
                 <input id="rankNumOptions-4" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-4" type="hidden" value="true">
+                <input disabled="" id="minOptionsToBeRanked-4" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-4" type="hidden" value="">
               </div>
             </div>
           </div>

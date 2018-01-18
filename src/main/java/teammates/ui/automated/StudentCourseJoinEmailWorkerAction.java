@@ -25,11 +25,11 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
     @Override
     public void execute() {
         String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(ParamsNames.COURSE_ID, courseId);
         String studentEmail = getRequestParamValue(ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertPostParamNotNull(ParamsNames.STUDENT_EMAIL, studentEmail);
         String isRejoinString = getRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
-        Assumption.assertNotNull(isRejoinString);
+        Assumption.assertPostParamNotNull(ParamsNames.IS_STUDENT_REJOINING, isRejoinString);
         boolean isRejoin = Boolean.parseBoolean(isRejoinString);
 
         CourseAttributes course = logic.getCourse(courseId);
