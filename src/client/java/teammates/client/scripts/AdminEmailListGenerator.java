@@ -262,7 +262,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
 
         if (emailListConfig.instructorCreatedDateRangeEnd == null
-                 && emailListConfig.instructorCreatedDateRangeStart == null) {
+                && emailListConfig.instructorCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
@@ -322,19 +322,19 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             //no range set
             return true;
         } else if (emailListConfig.studentCreatedDateRangeStart != null
-                && emailListConfig.studentCreatedDateRangeEnd == null) {
+                   && emailListConfig.studentCreatedDateRangeEnd == null) {
             //after a specific date
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart);
 
         } else if (emailListConfig.studentCreatedDateRangeStart == null
-                && emailListConfig.studentCreatedDateRangeEnd != null) {
+                   && emailListConfig.studentCreatedDateRangeEnd != null) {
             //before a specific date
             return studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
         } else if (emailListConfig.studentCreatedDateRangeStart != null
-                && emailListConfig.studentCreatedDateRangeEnd != null) {
+                   && emailListConfig.studentCreatedDateRangeEnd != null) {
             //within a date interval
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
-                    && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+                && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
         }
 
         return false;
