@@ -61,15 +61,10 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * Updates the mapping of ranks for the option optionReceivingPoints.
      */
     protected void updateOptionRanksMapping(
-                        Map<String, List<Integer>> optionRanks,
-                        String optionReceivingRanks, int rankReceived) {
-        if (!optionRanks.containsKey(optionReceivingRanks)) {
-            List<Integer> ranks = new ArrayList<>();
-            optionRanks.put(optionReceivingRanks, ranks);
-        }
-
-        List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
-        ranksReceived.add(rankReceived);
+            Map<String, List<Integer>> optionRanks,
+            String optionReceivingRanks, int rankReceived) {
+        optionRanks.computeIfAbsent(optionReceivingRanks, key -> new ArrayList<>())
+                   .add(rankReceived);
     }
 
     /**
@@ -132,10 +127,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 continue;
             }
 
-            if (!rankToAnswersMap.containsKey(rankGiven)) {
-                rankToAnswersMap.put(rankGiven, new ArrayList<K>());
-            }
-            rankToAnswersMap.get(rankGiven).add(answer);
+            rankToAnswersMap.computeIfAbsent(rankGiven, key -> new ArrayList<>())
+                            .add(answer);
         }
 
         // every answer in the same group is given the same rank

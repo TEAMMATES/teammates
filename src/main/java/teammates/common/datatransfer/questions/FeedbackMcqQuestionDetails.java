@@ -70,7 +70,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
 
         if ("on".equals(HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
+                                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
             mcqOtherEnabled = true;
         }
 
