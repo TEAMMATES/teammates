@@ -549,9 +549,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             numResponses.put(recipientEmail, numOfResponses);
 
             // Compute number of responses excluding user's self response
-            if (!numResponsesExcludingSelf.containsKey(recipientEmail)) {
-                numResponsesExcludingSelf.put(recipientEmail, 0);
-            }
+            numResponsesExcludingSelf.putIfAbsent(recipientEmail, 0);
             boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
             if (!isSelfResponse) {
                 int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
@@ -571,9 +569,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             total.put(recipientEmail, totalScore);
 
             // Compute total score received excluding self
-            if (!totalExcludingSelf.containsKey(recipientEmail)) {
-                totalExcludingSelf.put(recipientEmail, null);
-            }
+            totalExcludingSelf.putIfAbsent(recipientEmail, null);
+
             if (!isSelfResponse) {
                 Double totalScoreExcludingSelf = totalExcludingSelf.get(recipientEmail);
 
@@ -587,9 +584,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             average.put(recipientEmail, averageReceived);
 
             // Compute average score received excluding self
-            if (!averageExcludingSelf.containsKey(recipientEmail)) {
-                averageExcludingSelf.put(recipientEmail, null);
-            }
+            averageExcludingSelf.putIfAbsent(recipientEmail, null);
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
                 double averageReceivedExcludingSelf =
                         totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
