@@ -402,7 +402,6 @@ public class OfflineBackup extends RemoteApiClient {
                 file.createNewFile();
             }
 
-
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true))) {
                 bw.write(fileContent);
             }

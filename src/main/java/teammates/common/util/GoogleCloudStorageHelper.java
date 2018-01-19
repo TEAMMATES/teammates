@@ -170,8 +170,6 @@ public final class GoogleCloudStorageHelper {
                     listOfList.add(newList.subList(1, newList.size() - 1));
                 }
             }
-
-
         }
 
         return listOfList;
