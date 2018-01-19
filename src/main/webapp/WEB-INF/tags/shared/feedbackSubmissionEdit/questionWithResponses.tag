@@ -60,7 +60,7 @@
         <div class="col-sm-12 form-inline mobile-align-left">
           <label for="input" style="text-indent: 24px">
             <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
-                Evaluee/Recipient
+              Evaluee/Recipient
             </span>
           </label>
         </div>
