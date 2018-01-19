@@ -86,7 +86,8 @@ public class EmailGenerator {
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_AND_REMINDER.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_AND_REMINDER
+                .replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
