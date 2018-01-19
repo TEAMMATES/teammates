@@ -262,23 +262,23 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
 
         if (emailListConfig.instructorCreatedDateRangeEnd == null
-                  && emailListConfig.instructorCreatedDateRangeStart == null) {
+                 && emailListConfig.instructorCreatedDateRangeStart == null) {
             //no range set
             return true;
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
-                  && emailListConfig.instructorCreatedDateRangeEnd == null) {
+                   && emailListConfig.instructorCreatedDateRangeEnd == null) {
             //after a specific date
             return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart);
         } else if (emailListConfig.instructorCreatedDateRangeStart == null
-                  && emailListConfig.instructorCreatedDateRangeEnd != null) {
+                   && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //before a specific date
             return instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
 
         } else if (emailListConfig.instructorCreatedDateRangeStart != null
-                  && emailListConfig.instructorCreatedDateRangeEnd != null) {
+                   && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //within a date interval
             return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
-                 && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+                && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
         }
 
         return false;
