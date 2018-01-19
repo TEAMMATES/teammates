@@ -186,8 +186,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
         for (Instructor instructor : allInstructors) {
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
-                       || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
-                       || emailListConfig.instructorStatus == InstructorStatus.ALL)
+                        || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
+                        || emailListConfig.instructorStatus == InstructorStatus.ALL)
                     && isInstructorCreatedInRange(instructor)) {
                 instructorEmailSet.add(instructor.getEmail());
             }
@@ -202,8 +202,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
         for (CourseStudent student : allStudents) {
             if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
-                      || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
-                      || emailListConfig.studentStatus == StudentStatus.ALL)
+                        || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
+                        || emailListConfig.studentStatus == StudentStatus.ALL)
                     && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
             }
