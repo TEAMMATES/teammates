@@ -127,9 +127,7 @@ public class PerformanceProfiler extends Thread {
             String name = test.name();
             boolean customTimer = test.customTimer();
             Type type = method.getReturnType();
-            if (!results.containsKey(name)) {
-                results.put(name, new ArrayList<Float>());
-            }
+            results.putIfAbsent(name, new ArrayList<>());
             try {
                 float duration = 0;
                 if (type.equals(String.class) && !customTimer) {
