@@ -216,8 +216,8 @@ public class PerformanceProfiler extends Thread {
             list.add(str);
         }
         list.sort(null);
-        FileWriter fstream = new FileWriter(filePath);
-        try (BufferedWriter out = new BufferedWriter(fstream)) {
+
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath))) {
 
             for (String str : list) {
                 StringBuilder lineStrBuilder = new StringBuilder();

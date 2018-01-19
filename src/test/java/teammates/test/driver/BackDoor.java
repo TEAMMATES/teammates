@@ -439,9 +439,9 @@ public final class BackDoor {
 
     private static String readResponse(URLConnection conn) throws IOException {
         conn.setReadTimeout(10000);
-        InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader rd = new BufferedReader(isr)) {
+        try (InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
+                BufferedReader rd = new BufferedReader(isr)) {
             String line;
             while ((line = rd.readLine()) != null) {
                 sb.append(line);

@@ -19,32 +19,35 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
     @Override
     protected void doOperation() {
         Logic logic = new Logic();
-
         try (Scanner scanner = new Scanner(System.in)) {
+
             System.out.println("Enter course to edit: ");
             String courseId = scanner.nextLine();
             System.out.println("Enter new institute name: ");
             String institute = scanner.nextLine();
 
-            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+            try {
+                List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
-            for (StudentAttributes student : students) {
+                for (StudentAttributes student : students) {
 
-                //Account might be null if student was enrolled but not joined yet
-                if (student.googleId == null || student.googleId.isEmpty()) {
-                    continue;
+                    //Account might be null if student was enrolled but not joined yet
+                    if (student.googleId == null || student.googleId.isEmpty()) {
+                        continue;
+                    }
+
+                    AccountAttributes account = logic.getAccount(student.googleId);
+
+                    System.out.println("changed for " + account.email + " from " + account.institute + " to " + institute);
+                    account.institute = institute;
+                    logic.updateAccount(account);
                 }
 
-                AccountAttributes account = logic.getAccount(student.googleId);
-
-                System.out.println("changed for " + account.email + " from " + account.institute + " to " + institute);
-                account.institute = institute;
-                logic.updateAccount(account);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
     }
+
 }

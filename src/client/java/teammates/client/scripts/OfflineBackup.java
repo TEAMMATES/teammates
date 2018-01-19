@@ -371,13 +371,13 @@ public class OfflineBackup extends RemoteApiClient {
     private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
         appendToFile(currentFileName,
                 formatJsonString(feedbackResponseComment.getJsonString(),
-                feedbackResponseComment.getId().toString()));
+                        feedbackResponseComment.getId().toString()));
     }
 
     private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         appendToFile(currentFileName,
                 formatJsonString(feedbackSession.getJsonString(),
-                feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
+                        feedbackSession.getFeedbackSessionName() + "%" + feedbackSession.getCourseId()));
     }
 
     private void saveInstructor(InstructorAttributes instructor) {
@@ -402,8 +402,8 @@ public class OfflineBackup extends RemoteApiClient {
                 file.createNewFile();
             }
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            try (BufferedWriter bw = new BufferedWriter(fw)) {
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true))) {
                 bw.write(fileContent);
             }
 

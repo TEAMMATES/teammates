@@ -186,8 +186,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
         for (Instructor instructor : allInstructors) {
             if ((instructor.getGoogleId() != null && emailListConfig.instructorStatus == InstructorStatus.REG
-                    || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
-                    || emailListConfig.instructorStatus == InstructorStatus.ALL)
+                       || instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG
+                       || emailListConfig.instructorStatus == InstructorStatus.ALL)
                     && isInstructorCreatedInRange(instructor)) {
                 instructorEmailSet.add(instructor.getEmail());
             }
@@ -202,8 +202,8 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
         for (CourseStudent student : allStudents) {
             if ((isRegistered(student) && emailListConfig.studentStatus == StudentStatus.REG
-                    || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
-                    || emailListConfig.studentStatus == StudentStatus.ALL)
+                      || !isRegistered(student) && emailListConfig.studentStatus == StudentStatus.UNREG
+                      || emailListConfig.studentStatus == StudentStatus.ALL)
                     && isStudentCreatedInRange(student)) {
                 studentEmailSet.add(student.getEmail());
             }
@@ -222,30 +222,26 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         try {
 
             File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
-            FileOutputStream fos = new FileOutputStream(newFile);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            try (Writer w = new BufferedWriter(osw)) {
+
+            try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(newFile));
+                    Writer w = new BufferedWriter(osw)) {
 
                 int studentEmailCount = 0;
-                if (!studentEmailSet.isEmpty()) {
-                    for (String email : studentEmailSet) {
-                        if (!shouldIncludeTestData && email.endsWith(".tmt")) {
-                            continue;
-                        }
-                        w.write(email + ",");
-                        studentEmailCount++;
+                for (String email : studentEmailSet) {
+                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
+                        continue;
                     }
+                    w.write(email + ",");
+                    studentEmailCount++;
                 }
 
                 int instructorEmailCount = 0;
-                if (!instructorEmailSet.isEmpty()) {
-                    for (String email : instructorEmailSet) {
-                        if (!shouldIncludeTestData && email.endsWith(".tmt")) {
-                            continue;
-                        }
-                        w.write(email + ",");
-                        instructorEmailCount++;
+                for (String email : instructorEmailSet) {
+                    if (!shouldIncludeTestData && email.endsWith(".tmt")) {
+                        continue;
                     }
+                    w.write(email + ",");
+                    instructorEmailCount++;
                 }
 
                 System.out.print("Student email num: " + studentEmailCount + "\n");
@@ -282,7 +278,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 && emailListConfig.instructorCreatedDateRangeEnd != null) {
             //within a date interval
             return instructorCreatedAt.after(emailListConfig.instructorCreatedDateRangeStart)
-                && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
+                    && instructorCreatedAt.before(emailListConfig.instructorCreatedDateRangeEnd);
         }
 
         return false;
@@ -338,7 +334,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 && emailListConfig.studentCreatedDateRangeEnd != null) {
             //within a date interval
             return studentCreatedAt.after(emailListConfig.studentCreatedDateRangeStart)
-                && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
+                    && studentCreatedAt.before(emailListConfig.studentCreatedDateRangeEnd);
         }
 
         return false;
