@@ -271,7 +271,7 @@ public class StringHelperTest extends BaseTestCase {
         str = "a    a";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
 
-        str = "  a    a   ";
+        str = " \u00A0 a    a   ";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
 
         str = "    ";
