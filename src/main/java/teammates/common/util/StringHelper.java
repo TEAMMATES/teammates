@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -37,12 +38,9 @@ public final class StringHelper {
     public static boolean isEmpty(String s) {
         return s == null || s.isEmpty();
     }
-
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
-        char[] chars = new char[length];
-        Arrays.fill(chars, character);
-        return new String(chars);
+        return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 
     public static boolean isWhiteSpace(String string) {
