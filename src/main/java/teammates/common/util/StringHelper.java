@@ -409,10 +409,6 @@ public final class StringHelper {
     }
 
     private static boolean checkIfEmptyRow(List<String> rowData) {
-        if (rowData.isEmpty()) {
-            return true;
-        }
-
         return rowData.stream()
                 .allMatch(r -> r.isEmpty());
     }
