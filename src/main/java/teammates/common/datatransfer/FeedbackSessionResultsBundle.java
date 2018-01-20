@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,7 +72,7 @@ public class FeedbackSessionResultsBundle {
      * whereas rosterSectionTeamNameTable contains all sections in the course.
      * As sectionTeamNameTable is dependent on instructor privileges,
      * it can only be used for instructor pages and not for student pages
-    */
+     */
     public Map<String, Set<String>> sectionTeamNameTable;
 
     private Comparator<FeedbackResponseAttributes> compareByGiverSection =
@@ -255,11 +254,11 @@ public class FeedbackSessionResultsBundle {
                     .thenComparing(compareByFeedbackResponseAttributeId);
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
-            Map<String, FeedbackQuestionAttributes> questions, CourseRoster roster) {
+                                        Map<String, FeedbackQuestionAttributes> questions, CourseRoster roster) {
         this(feedbackSession, new ArrayList<FeedbackResponseAttributes>(), questions, new HashMap<String, String>(),
-             new HashMap<String, String>(), new HashMap<String, String>(), new HashMap<String, Set<String>>(),
-             new HashMap<String, boolean[]>(), new FeedbackSessionResponseStatus(), roster,
-             new HashMap<String, List<FeedbackResponseCommentAttributes>>());
+                new HashMap<String, String>(), new HashMap<String, String>(), new HashMap<String, Set<String>>(),
+                new HashMap<String, boolean[]>(), new FeedbackSessionResponseStatus(), roster,
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>());
     }
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
@@ -274,7 +273,7 @@ public class FeedbackSessionResultsBundle {
                                         CourseRoster roster,
                                         Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
         this(feedbackSession, responses, questions, emailNameTable, emailLastNameTable,
-             emailTeamNameTable, sectionTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
+                emailTeamNameTable, sectionTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
     }
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
@@ -336,6 +335,10 @@ public class FeedbackSessionResultsBundle {
             String name = emailNameTable.get(response.recipient);
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             FeedbackParticipantType participantType = question.recipientType;
+            if (participantType == FeedbackParticipantType.SELF) {
+                // recipient type for self-feedback is the same as the giver type
+                participantType = question.giverType;
+            }
 
             if (!isRecipientVisible(response)) {
                 String anonEmail = getAnonEmail(participantType, name);
@@ -381,10 +384,9 @@ public class FeedbackSessionResultsBundle {
             isVisible = visibilityTable.get(responseId)[Const.VISIBILITY_TABLE_RECIPIENT];
             participantType = question.recipientType;
         }
-        boolean isTypeSelf = participantType == FeedbackParticipantType.SELF;
         boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
 
-        return isVisible || isTypeSelf || isTypeNone;
+        return isVisible || isTypeNone;
     }
 
     /**
@@ -411,10 +413,6 @@ public class FeedbackSessionResultsBundle {
     public String getAnonEmailFromStudentEmail(String studentEmail) {
         String name = roster.getStudentForEmail(studentEmail).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
-    }
-
-    public String getAnonNameWithoutNumericalId(FeedbackParticipantType type) {
-        return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " " + type.toSingularFormString();
     }
 
     public static String getAnonName(FeedbackParticipantType type, String name) {
@@ -449,7 +447,7 @@ public class FeedbackSessionResultsBundle {
         // return person name if participant is an instructor
         if (isParticipantIdentifierInstructor(participantIdentifier)) {
             return roster.getInstructorForEmail(participantIdentifier)
-                         .name;
+                    .name;
         }
 
         // return team name if participantIdentifier is a team name
@@ -557,7 +555,7 @@ public class FeedbackSessionResultsBundle {
 
         if (isStudent) {
             return roster.getStudentForEmail(participantIdentifier)
-                         .section;
+                    .section;
         } else if (isInstructor || participantIsGeneral) {
             return Const.NO_SPECIFIC_RECIPIENT;
         } else {
@@ -938,7 +936,7 @@ public class FeedbackSessionResultsBundle {
             if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                 Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
                 possibleRecipients = new ArrayList<>(studentEmailsToNames);
-                Collections.sort(possibleRecipients);
+                possibleRecipients.sort(null);
             }
             break;
         case NONE:
@@ -966,7 +964,7 @@ public class FeedbackSessionResultsBundle {
     private List<String> getSortedListOfTeams() {
         List<String> teams = new ArrayList<>(rosterTeamNameMembersTable.keySet());
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
-        Collections.sort(teams);
+        teams.sort(null);
         return teams;
     }
 
@@ -981,7 +979,7 @@ public class FeedbackSessionResultsBundle {
         String teamName = student.team;
         Set<String> teamMembersEmailsToNames = rosterTeamNameMembersTable.get(teamName);
         List<String> teamMembers = new ArrayList<>(teamMembersEmailsToNames);
-        Collections.sort(teamMembers);
+        teamMembers.sort(null);
         return teamMembers;
     }
 
@@ -1021,7 +1019,7 @@ public class FeedbackSessionResultsBundle {
         for (InstructorAttributes instructor : instructors) {
             emailList.add(instructor.email);
         }
-        Collections.sort(emailList);
+        emailList.sort(null);
         return emailList;
     }
 
@@ -1178,8 +1176,8 @@ public class FeedbackSessionResultsBundle {
     // TODO consider removing this to increase cohesion
     public String getQuestionText(String feedbackQuestionId) {
         return SanitizationHelper.sanitizeForHtml(questions.get(feedbackQuestionId)
-                                                  .getQuestionDetails()
-                                                  .getQuestionText());
+                .getQuestionDetails()
+                .getQuestionText());
     }
 
     // TODO: make responses to the student calling this method always on top.
@@ -1199,7 +1197,7 @@ public class FeedbackSessionResultsBundle {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap = new LinkedHashMap<>();
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
-        Collections.sort(sortedQuestions);
+        sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
         }
@@ -1226,7 +1224,7 @@ public class FeedbackSessionResultsBundle {
 
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
         // sorts the questions by its natural ordering, which is by question number
-        Collections.sort(sortedQuestions);
+        sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
         }
@@ -1261,20 +1259,14 @@ public class FeedbackSessionResultsBundle {
                 recipientTeam = getNameForEmail(response.recipient);
             }
 
-            if (!sortedMap.containsKey(recipientTeam)) {
-                sortedMap.put(recipientTeam,
-                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
-            }
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient =
-                                            sortedMap.get(recipientTeam);
+                    sortedMap.computeIfAbsent(recipientTeam, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            if (!responsesForOneRecipient.containsKey(question)) {
-                responsesForOneRecipient.put(question, new ArrayList<FeedbackResponseAttributes>());
-            }
 
             List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion =
-                                            responsesForOneRecipient.get(question);
+                    responsesForOneRecipient.computeIfAbsent(question, key -> new ArrayList<>());
+
             responsesForOneRecipientOneQuestion.add(response);
         }
 
@@ -1298,20 +1290,13 @@ public class FeedbackSessionResultsBundle {
                 giverTeam = getNameForEmail(response.giver);
             }
 
-            if (!sortedMap.containsKey(giverTeam)) {
-                sortedMap.put(giverTeam,
-                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
-            }
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                                            sortedMap.get(giverTeam);
+                    sortedMap.computeIfAbsent(giverTeam, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            if (!responsesFromOneGiver.containsKey(question)) {
-                responsesFromOneGiver.put(question, new ArrayList<FeedbackResponseAttributes>());
-            }
 
-            List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = responsesFromOneGiver.get(question);
-            responsesFromOneGiverOneQuestion.add(response);
+            responsesFromOneGiver.computeIfAbsent(question, key -> new ArrayList<>())
+                                 .add(response);
         }
 
         return sortedMap;
@@ -1334,20 +1319,12 @@ public class FeedbackSessionResultsBundle {
 
         for (FeedbackResponseAttributes response : responses) {
             String recipientEmail = response.recipient;
-            if (!sortedMap.containsKey(recipientEmail)) {
-                sortedMap.put(recipientEmail,
-                              new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
-            }
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient =
-                                            sortedMap.get(recipientEmail);
+                    sortedMap.computeIfAbsent(recipientEmail, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            if (!responsesForOneRecipient.containsKey(question)) {
-                responsesForOneRecipient.put(question, new ArrayList<FeedbackResponseAttributes>());
-            }
-            List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion =
-                                            responsesForOneRecipient.get(question);
-            responsesForOneRecipientOneQuestion.add(response);
+            responsesForOneRecipient.computeIfAbsent(question, key -> new ArrayList<>())
+                                    .add(response);
         }
 
         return sortedMap;
@@ -1382,22 +1359,16 @@ public class FeedbackSessionResultsBundle {
             String recipientName = this.getRecipientNameForResponse(response);
             String recipientTeamName = this.getTeamNameForEmail(response.recipient);
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
-            if (!sortedMap.containsKey(recipientNameWithTeam)) {
-                sortedMap.put(recipientNameWithTeam,
-                        new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
-            }
+
             Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                                            sortedMap.get(recipientNameWithTeam);
+                    sortedMap.computeIfAbsent(recipientNameWithTeam, key -> new LinkedHashMap<>());
 
             String giverName = this.getGiverNameForResponse(response);
             String giverTeamName = this.getTeamNameForEmail(response.giver);
             String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
-            if (!responsesToOneRecipient.containsKey(giverNameWithTeam)) {
-                responsesToOneRecipient.put(giverNameWithTeam, new ArrayList<FeedbackResponseAttributes>());
-            }
-            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                                            responsesToOneRecipient.get(giverNameWithTeam);
-            responsesFromOneGiverToOneRecipient.add(response);
+
+            responsesToOneRecipient.computeIfAbsent(giverNameWithTeam, key -> new ArrayList<>())
+                                   .add(response);
         }
 
         return sortedMap;
@@ -1428,20 +1399,13 @@ public class FeedbackSessionResultsBundle {
 
         for (FeedbackResponseAttributes response : responses) {
             String recipientEmail = response.recipient;
-            if (!sortedMap.containsKey(recipientEmail)) {
-                sortedMap.put(recipientEmail,
-                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
-            }
+
             Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
-                                            sortedMap.get(recipientEmail);
+                    sortedMap.computeIfAbsent(recipientEmail, key -> new LinkedHashMap<>());
 
             String giverEmail = response.giver;
-            if (!responsesToOneRecipient.containsKey(giverEmail)) {
-                responsesToOneRecipient.put(giverEmail, new ArrayList<FeedbackResponseAttributes>());
-            }
-            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                                            responsesToOneRecipient.get(giverEmail);
-            responsesFromOneGiverToOneRecipient.add(response);
+            responsesToOneRecipient.computeIfAbsent(giverEmail, key -> new ArrayList<>())
+                                   .add(response);
         }
 
         return sortedMap;
@@ -1453,7 +1417,7 @@ public class FeedbackSessionResultsBundle {
      * @return responses sorted by Giver > Question > Recipient
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
-                getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
+            getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
@@ -1464,20 +1428,13 @@ public class FeedbackSessionResultsBundle {
 
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giver;
-            if (!sortedMap.containsKey(giverEmail)) {
-                sortedMap.put(giverEmail,
-                        new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>());
-            }
+
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver =
-                                            sortedMap.get(giverEmail);
+                    sortedMap.computeIfAbsent(giverEmail, key -> new LinkedHashMap<>());
 
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            if (!responsesFromOneGiver.containsKey(question)) {
-                responsesFromOneGiver.put(question, new ArrayList<FeedbackResponseAttributes>());
-            }
-            List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion =
-                                            responsesFromOneGiver.get(question);
-            responsesFromOneGiverOneQuestion.add(response);
+            responsesFromOneGiver.computeIfAbsent(question, key -> new ArrayList<>())
+                                 .add(response);
         }
 
         return sortedMap;
@@ -1512,22 +1469,16 @@ public class FeedbackSessionResultsBundle {
             String giverName = this.getGiverNameForResponse(response);
             String giverTeamName = this.getTeamNameForEmail(response.giver);
             String giverNameWithTeam = this.appendTeamNameToName(giverName, giverTeamName);
-            if (!sortedMap.containsKey(giverNameWithTeam)) {
-                sortedMap.put(giverNameWithTeam,
-                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
-            }
-            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverNameWithTeam);
+
+            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
+                    sortedMap.computeIfAbsent(giverNameWithTeam, key -> new LinkedHashMap<>());
 
             String recipientName = this.getRecipientNameForResponse(response);
             String recipientTeamName = this.getTeamNameForEmail(response.recipient);
             String recipientNameWithTeam = this.appendTeamNameToName(recipientName, recipientTeamName);
-            if (!responsesFromOneGiver.containsKey(recipientNameWithTeam)) {
-                responsesFromOneGiver.put(recipientNameWithTeam,
-                                          new ArrayList<FeedbackResponseAttributes>());
-            }
-            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                    responsesFromOneGiver.get(recipientNameWithTeam);
-            responsesFromOneGiverToOneRecipient.add(response);
+
+            responsesFromOneGiver.computeIfAbsent(recipientNameWithTeam, key -> new ArrayList<>())
+                                 .add(response);
         }
 
         return sortedMap;
@@ -1546,7 +1497,7 @@ public class FeedbackSessionResultsBundle {
      * @see #getResponsesSortedByGiver
      */
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
-                getResponsesSortedByGiverRecipientQuestion(boolean sortByTeam) {
+            getResponsesSortedByGiverRecipientQuestion(boolean sortByTeam) {
         if (sortByTeam) {
             responses.sort(compareByTeamGiverRecipientQuestion);
         } else {
@@ -1557,20 +1508,13 @@ public class FeedbackSessionResultsBundle {
 
         for (FeedbackResponseAttributes response : responses) {
             String giverEmail = response.giver;
-            if (!sortedMap.containsKey(giverEmail)) {
-                sortedMap.put(giverEmail,
-                              new LinkedHashMap<String, List<FeedbackResponseAttributes>>());
-            }
-            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver = sortedMap.get(giverEmail);
+
+            Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
+                    sortedMap.computeIfAbsent(giverEmail, key -> new LinkedHashMap<>());
 
             String recipientEmail = response.recipient;
-            if (!responsesFromOneGiver.containsKey(recipientEmail)) {
-                responsesFromOneGiver.put(recipientEmail,
-                                          new ArrayList<FeedbackResponseAttributes>());
-            }
-            List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
-                                            responsesFromOneGiver.get(recipientEmail);
-            responsesFromOneGiverToOneRecipient.add(response);
+            responsesFromOneGiver.computeIfAbsent(recipientEmail, key -> new ArrayList<>())
+                                 .add(response);
         }
 
         return sortedMap;

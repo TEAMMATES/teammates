@@ -342,7 +342,8 @@
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS"
+        "INSTRUCTORS",
+        "STUDENTS"
       ]
     },
     "qn2InSession1": {

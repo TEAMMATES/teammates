@@ -49,10 +49,8 @@ public class MockTaskQueuer extends TaskQueuer {
         Map<String, Integer> numberOfTasksAdded = new HashMap<>();
         for (TaskWrapper task : tasksAdded) {
             String queueName = task.getQueueName();
-            if (!numberOfTasksAdded.containsKey(queueName)) {
-                numberOfTasksAdded.put(queueName, 0);
-            }
-            int oldTaskCount = numberOfTasksAdded.get(queueName);
+
+            int oldTaskCount = numberOfTasksAdded.getOrDefault(queueName, 0);
             numberOfTasksAdded.put(queueName, oldTaskCount + 1);
         }
         return numberOfTasksAdded;
