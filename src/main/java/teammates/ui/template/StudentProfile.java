@@ -1,8 +1,8 @@
 package teammates.ui.template;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.Const;
-import teammates.common.util.Const.Gender;
 
 public class StudentProfile {
     private String pictureUrl;

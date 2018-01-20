@@ -9,7 +9,6 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.Gender;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -26,6 +25,28 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String email;
     public String institute;
     public String nationality;
+
+    /**
+     *  Gender that can be used.
+     *  <li>{@link #MALE}</li>
+     *  <li>{@link #FEMALE}</li>
+     *  <li>{@link #OTHER}</li>
+     */
+
+    public enum Gender {
+     /**
+      *MALE.
+      */
+     MALE,
+     /**
+      *FEMALE.
+      */
+     FEMALE,
+     /**
+      * OTHER.
+      */
+     OTHER
+    }
 
     public Gender gender;
 
@@ -243,6 +264,10 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         public StudentProfileAttributes build() {
             return profileAttributes;
+        }
+
+        private boolean isGenderValid(String gender) {
+            return "MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender) || "OTHER".equalsIgnoreCase(gender);
         }
     }
 }

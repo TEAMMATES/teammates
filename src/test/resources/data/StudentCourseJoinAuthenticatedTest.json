@@ -26,7 +26,7 @@
         "email": "i.m.stud1@gmail.tmt",
         "institute": "TEAMMATES Test Institute 3",
         "nationality": "American",
-        "gender": "MALE",
+        "gender": "male",
         "moreInfo": "I am just a student :P",
         "pictureKey": "asdf34&hfn3!@"
       }
@@ -50,7 +50,7 @@
         "email": "noFSStudent2@gmail.tmt",
         "institute": "TEAMMATES Test Institute 5",
         "nationality": "Singaporean",
-        "gender": "MALE",
+        "gender": "male",
         "moreInfo": "I am a student",
         "pictureKey": ""
       }
@@ -67,7 +67,7 @@
         "email": "noFSStudent3@gmail.tmt",
         "institute": "TEAMMATES Test Institute 5",
         "nationality": "Singaporean",
-        "gender": "MALE",
+        "gender": "male",
         "moreInfo": "I am a student",
         "pictureKey": "asdf34&hfn3!@"
       }
@@ -84,7 +84,7 @@
         "email": "weird&'@gmail.tmt",
         "institute": "inst<script> alert('hi!'); </script>",
         "nationality": "American",
-        "gender": "OTHER",
+        "gender": "other",
         "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
         "pictureKey": ""
       }

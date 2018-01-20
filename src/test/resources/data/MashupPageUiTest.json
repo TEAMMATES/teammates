@@ -26,7 +26,7 @@
         "email": "",
         "institute": "TEAMMATES Test Institute 10",
         "nationality": "",
-        "gender": "FEMALE",
+        "gender": "female",
         "moreInfo": "Some info",
         "pictureKey": ""
       }
@@ -43,7 +43,7 @@
         "email": "",
         "institute": "TEAMMATES Test Institute 4",
         "nationality": "",
-        "gender": "MALE",
+        "gender": "male",
         "moreInfo": "This is a lot more info so that the instructor can see the extent of info that can be given",
         "pictureKey": ""
       }

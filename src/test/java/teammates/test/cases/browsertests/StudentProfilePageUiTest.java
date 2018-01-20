@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.Const.Gender;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
@@ -82,11 +82,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testContent() throws Exception {
         // assumes it is run after NavLinks Test
-        // (ie already logged in as studentWithEmptyProfile
-        ______TS("Typical case: empty profile values");
-
-        // This is the full HTML verification for Registered Student Profile Submit Page, the rest can all be verifyMainHtml
-        profilePage.verifyHtml("/studentProfilePageDefault.html");
 
         ______TS("Typical case: existing profile values");
         // this test uses actual user accounts

@@ -3,7 +3,7 @@ package teammates.ui.template;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.util.Const.Gender;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.StringHelper;
 import teammates.ui.pagedata.PageData;
 

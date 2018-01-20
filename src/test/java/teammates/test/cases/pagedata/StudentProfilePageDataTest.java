@@ -4,8 +4,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.Const;
-import teammates.common.util.Const.Gender;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.StudentProfilePageData;
@@ -83,7 +83,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.institute), profileEditBox.getInstitute());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
-        assertEquals(spa.gender, profileEditBox.getGender());
+        assertEquals(spa.gender.name(), profileEditBox.getGender().name());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.moreInfo), profileEditBox.getMoreInfo());
         /*
          * Currently across the application googleId is always taken from Account.
