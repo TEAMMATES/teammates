@@ -181,7 +181,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         private final StudentProfileAttributes profileAttributes;
 
-        public Builder(String googleId){
+        public Builder(String googleId) {
             Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, googleId);
             profileAttributes = new StudentProfileAttributes(googleId);
         }
