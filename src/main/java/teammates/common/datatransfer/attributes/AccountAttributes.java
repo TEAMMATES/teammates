@@ -60,8 +60,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.isInstructor = isInstructor;
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = StudentProfileAttributes.builder().build();
-        this.studentProfile.googleId = this.googleId;
+        this.studentProfile = StudentProfileAttributes.builder(this.googleId).build();
     }
 
     /**

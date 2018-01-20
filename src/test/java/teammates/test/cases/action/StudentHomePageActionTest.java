@@ -72,8 +72,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         studentWithoutCourses.email = "googleId.without.courses@email.tmt";
         studentWithoutCourses.institute = "TEAMMATES Test Institute 5";
         studentWithoutCourses.isInstructor = false;
-        studentWithoutCourses.studentProfile = StudentProfileAttributes.builder().build();
-        studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
+        studentWithoutCourses.studentProfile = StudentProfileAttributes.builder(studentWithoutCourses.googleId).build();
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));

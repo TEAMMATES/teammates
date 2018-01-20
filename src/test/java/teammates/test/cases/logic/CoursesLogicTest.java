@@ -242,8 +242,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
@@ -298,8 +297,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
@@ -358,8 +356,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
@@ -410,8 +407,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
 
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
                 "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
@@ -818,8 +814,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         a.email = i.email;
         a.institute = "TEAMMATES Test Institute 5";
         a.isInstructor = false;
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = i.googleId;
+        a.studentProfile = StudentProfileAttributes.builder(i.googleId).build();
         accountsDb.createAccount(a);
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());
