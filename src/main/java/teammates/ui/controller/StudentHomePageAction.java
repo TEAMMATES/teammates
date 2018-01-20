@@ -31,7 +31,7 @@ public class StudentHomePageAction extends Action {
             courses = logic.getCourseDetailsListForStudent(account.googleId);
             sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(courses, account.googleId);
 
-            CourseDetailsBundle.sortDetailedCourses(courses);
+            CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
 
             statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + courses.size();
 

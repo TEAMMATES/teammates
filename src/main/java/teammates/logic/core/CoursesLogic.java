@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -69,7 +68,9 @@ public final class CoursesLogic {
     public void createCourse(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        CourseAttributes courseToAdd = new CourseAttributes(courseId, courseName, courseTimeZone);
+        CourseAttributes courseToAdd = CourseAttributes
+                .builder(courseId, courseName, courseTimeZone)
+                .build();
         coursesDb.createEntity(courseToAdd);
     }
 
@@ -228,7 +229,7 @@ public final class CoursesLogic {
         }
 
         List<String> sectionNameList = new ArrayList<>(sectionNameSet);
-        Collections.sort(sectionNameList);
+        sectionNameList.sort(null);
 
         return sectionNameList;
     }

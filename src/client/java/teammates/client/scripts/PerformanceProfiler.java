@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,9 +127,7 @@ public class PerformanceProfiler extends Thread {
             String name = test.name();
             boolean customTimer = test.customTimer();
             Type type = method.getReturnType();
-            if (!results.containsKey(name)) {
-                results.put(name, new ArrayList<Float>());
-            }
+            results.putIfAbsent(name, new ArrayList<>());
             try {
                 float duration = 0;
                 if (type.equals(String.class) && !customTimer) {
@@ -216,7 +213,7 @@ public class PerformanceProfiler extends Thread {
         for (String str : results.keySet()) {
             list.add(str);
         }
-        Collections.sort(list);
+        list.sort(null);
         FileWriter fstream = new FileWriter(filePath);
         BufferedWriter out = new BufferedWriter(fstream);
 

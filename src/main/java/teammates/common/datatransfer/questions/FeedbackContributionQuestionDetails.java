@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -411,9 +410,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         }
 
-        for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
-            contribFragments.append(entry.getValue());
-        }
+        sortedMap.forEach((key, value) -> contribFragments.append(value));
 
         String csvPointsExplanation =
                 "In the points given below, an equal share is equal to 100 points. "
@@ -430,7 +427,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for (Set<String> teamNamesForSection : bundle.sectionTeamNameTable.values()) {
             teamNames.addAll(teamNamesForSection);
         }
-        Collections.sort(teamNames);
+        teamNames.sort(null);
         return teamNames;
     }
 
@@ -482,9 +479,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             Map<String, List<String>> teamMembersEmail,
             Map<String, TeamEvalResult> teamResults) {
         Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
-        for (Map.Entry<String, TeamEvalResult> entry : teamResults.entrySet()) {
-            TeamEvalResult teamResult = entry.getValue();
-            List<String> teamEmails = teamMembersEmail.get(entry.getKey());
+        teamResults.forEach((key, teamResult) -> {
+            List<String> teamEmails = teamMembersEmail.get(key);
             int i = 0;
             for (String studentEmail : teamEmails) {
                 StudentResultSummary summary = new StudentResultSummary();
@@ -495,7 +491,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
                 i++;
             }
-        }
+        });
         return studentResults;
     }
 
@@ -565,7 +561,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 continue;
             }
             List<String> memberEmails = new ArrayList<>(bundle.rosterTeamNameMembersTable.get(teamName));
-            Collections.sort(memberEmails);
+            memberEmails.sort(null);
             teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;
@@ -596,7 +592,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 responses.add(response);
             }
         }
-        Collections.sort(responses, bundle.compareByGiverRecipientQuestion);
+        responses.sort(bundle.compareByGiverRecipientQuestion);
         return responses;
     }
 
@@ -612,8 +608,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (result.isEmpty()) {
             return getPointsAsColorizedHtml(Const.POINTS_NOT_SUBMITTED);
         }
-        Collections.sort(result);
-        Collections.reverse(result);
+        result.sort(Comparator.reverseOrder());
 
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
@@ -636,8 +631,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (result.isEmpty()) {
             return Integer.toString(Const.INT_UNINITIALIZED);
         }
-        Collections.sort(result);
-        Collections.reverse(result);
+        result.sort(Comparator.reverseOrder());
 
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {

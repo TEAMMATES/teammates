@@ -20,13 +20,10 @@ skip_commits:
     - docs/**/*
     - .templates/**/*
 
-install:
-  - npm install
-
 build_script:
   - set PATH=C:\google-cloud-sdk\bin;%PATH%
 
-  - curl -fsS -o C:\google-cloud-sdk.zip https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-179.0.0-windows-x86_64.zip
+  - curl -fsS -o C:\google-cloud-sdk.zip https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip
   - cd C:\
   - 7z x google-cloud-sdk.zip
   - google-cloud-sdk/install.bat --usage-reporting false --path-update false --command-completion false
@@ -34,6 +31,10 @@ build_script:
   - gcloud -q components install app-engine-java
 
   - gradlew.bat createConfigs testClasses
+  - gradlew.bat downloadStaticAnalysisTools
+  - gradlew.bat lint --continue
+  - npm install
+  - npm run lint
 
 test_script:
   - npm run build

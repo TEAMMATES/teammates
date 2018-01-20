@@ -28,7 +28,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring Checkstyle Eclipse plugin
 
-The plugin for Eclipse can be found [here](http://eclipse-cs.sourceforge.net/#!/).
+The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/checkstyle-plug). **Install version 8.7.0**.
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
@@ -76,7 +76,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring PMD Eclipse plugin
 
-The plugin for Eclipse can be found [here](http://www.acanda.ch/eclipse-pmd/release/latest).
+The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/eclipse-pmd).
 
 1. In `Project > Properties`, go to the `PMD` tab.
 1. Check `Enable PMD for this project`.
@@ -98,7 +98,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 
 ##### Suppressing PMD warnings
 
-To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](http://pmd.sourceforge.net/snapshot/usage/suppressing.html).
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](https://pmd.github.io/pmd-5.8.1/usage/suppressing.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs

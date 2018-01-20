@@ -69,7 +69,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("success: typical case");
 
-        CourseAttributes c = new CourseAttributes("Computing101-getthis", "Basic Computing Getting", "UTC");
+        CourseAttributes c = CourseAttributes
+                .builder("Computing101-getthis", "Basic Computing Getting", "UTC")
+                .build();
         coursesDb.createEntity(c);
 
         assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
@@ -132,19 +134,24 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: not a sample course");
 
-        CourseAttributes notSampleCourse = new CourseAttributes("course.id", "not sample course", "UTC");
+        CourseAttributes notSampleCourse = CourseAttributes
+                .builder("course.id", "not sample course", "UTC")
+                .build();
 
         assertFalse(coursesLogic.isSampleCourse(notSampleCourse.getId()));
 
         ______TS("typical case: is a sample course");
 
-        CourseAttributes sampleCourse = new CourseAttributes("course.id-demo3", "sample course", "UTC");
+        CourseAttributes sampleCourse = CourseAttributes
+                .builder("course.id-demo3", "sample course", "UTC")
+                .build();
         assertTrue(coursesLogic.isSampleCourse(sampleCourse.getId()));
 
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
 
-        CourseAttributes sampleCourse2 = new CourseAttributes("course.id-demo3-demo33",
-                                                              "sample course with additional -demo", "UTC");
+        CourseAttributes sampleCourse2 = CourseAttributes
+                .builder("course.id-demo3-demo33", "sample course with additional -demo", "UTC")
+                .build();
         assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
 
         ______TS("Null parameter");
@@ -161,13 +168,17 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: not an existent course");
 
-        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course", "UTC");
+        CourseAttributes nonExistentCourse = CourseAttributes
+                .builder("non-existent-course", "non existent course", "UTC")
+                .build();
 
         assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
 
         ______TS("typical case: an existent course");
 
-        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course", "UTC");
+        CourseAttributes existingCourse = CourseAttributes
+                .builder("idOfTypicalCourse1", "existing course", "UTC")
+                .build();
 
         assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
 
@@ -185,7 +196,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: verify a non-existent course");
 
-        CourseAttributes nonExistentCourse = new CourseAttributes("non-existent-course", "non existent course", "UTC");
+        CourseAttributes nonExistentCourse = CourseAttributes
+                .builder("non-existent-course", "non existent course", "UTC")
+                .build();
 
         try {
             coursesLogic.verifyCourseIsPresent(nonExistentCourse.getId());
@@ -196,7 +209,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("typical case: verify an existent course");
 
-        CourseAttributes existingCourse = new CourseAttributes("idOfTypicalCourse1", "existing course", "UTC");
+        CourseAttributes existingCourse = CourseAttributes
+                .builder("idOfTypicalCourse1", "existing course", "UTC")
+                .build();
         coursesLogic.verifyCourseIsPresent(existingCourse.getId());
 
         ______TS("Null parameter");
@@ -748,7 +763,9 @@ public class CoursesLogicTest extends BaseLogicTest {
          */
         ______TS("typical case");
 
-        CourseAttributes c = new CourseAttributes("Computing101-fresh", "Basic Computing", "Asia/Singapore");
+        CourseAttributes c = CourseAttributes
+                .builder("Computing101-fresh", "Basic Computing", "Asia/Singapore")
+                .build();
         coursesLogic.createCourse(c.getId(), c.getName(), c.getTimeZone());
         verifyPresentInDatastore(c);
         coursesLogic.deleteCourseCascade(c.getId());
@@ -775,7 +792,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: account doesn't exist");
 
-        CourseAttributes c = new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles");
+        CourseAttributes c = CourseAttributes
+                .builder("fresh-course-tccai", "Fresh course for tccai", "America/Los Angeles")
+                .build();
 
         @SuppressWarnings("deprecation")
         InstructorAttributes i = InstructorAttributes
@@ -816,7 +835,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         a.isInstructor = true;
         accountsDb.updateAccount(a);
 
-        CourseAttributes invalidCourse = new CourseAttributes("invalid id", "Fresh course for tccai", "InvalidTimeZone");
+        CourseAttributes invalidCourse = CourseAttributes
+                .builder("invalid id", "Fresh course for tccai", "InvalidTimeZone")
+                .build();
 
         String expectedError =
                 "\"" + invalidCourse.getId() + "\" is not acceptable to TEAMMATES as a/an course ID because"
@@ -839,8 +860,9 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during instructor creation due to duplicate instructor");
 
-        CourseAttributes courseWithDuplicateInstructor =
-                new CourseAttributes("fresh-course-tccai", "Fresh course for tccai", "UTC");
+        CourseAttributes courseWithDuplicateInstructor = CourseAttributes
+                .builder("fresh-course-tccai", "Fresh course for tccai", "UTC")
+                .build();
         instructorsDb.createEntity(i); //create a duplicate instructor
 
         try {

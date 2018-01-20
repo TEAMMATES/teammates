@@ -12,9 +12,9 @@ apply plugin: "pmd"
 apply plugin: "findbugs"
 apply plugin: "jacoco"
 
-def appengineVersion = "1.9.59"
+def appengineVersion = "1.9.+"
 def jsoupVersion = "1.10.3"
-def checkstyleVersion = "8.0"
+def checkstyleVersion = "8.7"
 def pmdVersion = "5.8.1"
 def findbugsVersion = "3.0.1"
 
@@ -35,6 +35,19 @@ configurations.all {
     resolutionStrategy {
         force "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
         force "org.jsoup:jsoup:${jsoupVersion}"
+        eachDependency { DependencyResolveDetails details ->
+            // Replace all instances of Guava JDK5 Backport with vanilla Guava.
+            // We have to be very careful when updating libraries that depend on Guava and make sure
+            // the Guava version used in every library is not too far away from the Guava JDK5 Backport
+            // because Guava is not fully backwards compatible due to its deprecation policy.
+            // Currently, the only instance of `guava-jdk5` is used by `google-api-client`.
+            // This has been fixed in https://github.com/google/google-api-java-client/pull/1070 but has
+            // not been released as of the time of writing. Once the new version (>1.23.0) is released,
+            // we can update the `google-api-client` dependency and remove this block of code.
+            if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava-jdk5') {
+                details.useTarget 'com.google.guava:guava:23.5-jre'
+            }
+        }
     }
 }
 
@@ -51,6 +64,7 @@ dependencies {
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.2",
+                    "com.google.guava:guava:23.5-jre",
                     "com.googlecode.objectify:objectify:5.1.21",
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20171016.1",
                     "com.mailjet:mailjet-client:4.1.1",
@@ -135,6 +149,24 @@ eclipse {
         buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
         buildCommand "org.eclipse.wst.validation.validationbuilder"
         buildCommand "com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb"
+
+        // Exclude the CLI and IntelliJ build directories
+        // Gradle Eclipse plugin does not support generation of resource filters yet
+        // Use the method lined out in https://discuss.gradle.org/t/eclipse-pluging-adding-resource-filters/5408/2
+        file {
+            withXml { xmlProvider ->
+                Node node = xmlProvider.asNode().filteredResources[0]
+                ['build', 'out'].each { folder ->
+                    Node filter = node.appendNode('filter')
+                    filter.appendNode('id', folder.hashCode())
+                    filter.appendNode('name', '')
+                    filter.appendNode('type', 10)
+                    Node matcher = filter.appendNode('matcher')
+                    matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+                    matcher.appendNode('arguments', "1.0-name-matches-false-false-${folder}")
+                }
+            }
+        }
     }
     classpath {
         containers "org.eclipse.buildship.core.gradleclasspathcontainer",
@@ -198,7 +230,7 @@ task createEclipseLaunches {
 task setupEclipse {
     description "Sets up the Eclipse-specific configurations for the project."
     group "Setup"
-    dependsOn createEclipseLaunches
+    dependsOn eclipseClasspath, eclipseProject, createEclipseLaunches
 }
 
 String intellijSetupGroup = 'IntelliJ IDEA Setup'
@@ -290,6 +322,12 @@ appengine {
         stopPreviousVersion = false
         promote = false
     }
+}
+
+task appengineDeployAll {
+    description "Deploy an App Engine application and all its extended configurations"
+    group "App Engine Standard environment"
+    dependsOn appengineDeploy, appengineDeployIndex, appengineDeployCron, appengineDeployQueue
 }
 
 // STATIC ANALYSIS TASKS
@@ -491,7 +529,7 @@ task ciTests {
         } else if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
         }
-        finalizedBy "killFirefox${id}"
+        finalizedBy "killFirefox${id}", "killChromedriver${id}"
         onlyIf {
             isFirstTry || file("build/reports/test-try-${id - 1}/testng-failed.xml").exists()
         }
@@ -504,6 +542,21 @@ task ciTests {
                 commandLine "taskkill", "/f", "/im", "firefox.exe"
             } else {
                 commandLine "pkill", "firefox"
+            }
+            // Silence output for this task
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = standardOutput
+        }
+        ignoreExitValue = true
+        outputs.upToDateWhen { false }
+    }
+
+    task "killChromedriver${id}"(type: Exec) {
+        doFirst {
+            if (isWindows) {
+                commandLine "taskkill", "/f", "/im", "chromedriver.exe"
+            } else {
+                commandLine "pkill", "chromedriver"
             }
             // Silence output for this task
             standardOutput = new ByteArrayOutputStream()
