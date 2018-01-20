@@ -16,7 +16,8 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.StringHelperExtension;
+
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * SUT: {@link StringHelper}.
@@ -417,6 +418,19 @@ public class StringHelperTest extends BaseTestCase {
                                       + "</tr>"
                                   + "</table>";
         assertEquals(expectedHtmlText, htmlText);
+    }
+
+    @Test
+    public void testTrim() {
+        String[] input = {"  apple tea", "banana  ", "   carrot cake      ", "magnesium & hydroxide     -"};
+        String[] expected = {"apple tea", "banana", "carrot cake", "magnesium & hydroxide     -"};
+        assertArrayEquals(expected, StringHelper.trim(input));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testTrimWithNullString() {
+        String[] input = {"  apple tea", "banana  ", "   carrot cake      ", null};
+        StringHelper.trim(input);
     }
 
     @Test
