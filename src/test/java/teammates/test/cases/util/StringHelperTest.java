@@ -48,6 +48,11 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
     }
 
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testIsWhiteSpaceNull() {
+        StringHelper.isWhiteSpace(null);
+    }
+
     @Test
     public void testIsMatching() {
         assertTrue(StringHelper.isMatching("\u00E0", "à"));
