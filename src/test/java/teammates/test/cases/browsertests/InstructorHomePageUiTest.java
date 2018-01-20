@@ -125,7 +125,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.loadInstructorHomeTab();
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
 
-        CourseAttributes newCourse = new CourseAttributes("newIns.wit-demo", "Sample Course 101", "UTC");
+        CourseAttributes newCourse = CourseAttributes
+                .builder("newIns.wit-demo", "Sample Course 101", "UTC")
+                .build();
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
         InstructorAttributes instr = InstructorAttributes
