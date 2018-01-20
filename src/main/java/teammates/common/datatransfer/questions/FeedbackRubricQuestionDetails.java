@@ -802,16 +802,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         Map<String, RubricRecipientStatistics> recipientToRecipientStats = new HashMap<>();
 
         for (FeedbackResponseAttributes response : responses) {
-            if (!recipientToRecipientStats.containsKey(response.recipient)) {
-                String recipient = response.recipient;
+            recipientToRecipientStats.computeIfAbsent(response.recipient, recipient -> {
                 String recipientTeam = bundle.getTeamNameForEmail(recipient);
                 String recipientName = bundle.getNameForEmail(recipient);
-                RubricRecipientStatistics recipientStats =
-                        new RubricRecipientStatistics(recipient, recipientName, recipientTeam);
-                recipientToRecipientStats.put(recipient, recipientStats);
-            }
-
-            recipientToRecipientStats.get(response.recipient).addResponseToRecipientStats(response);
+                return new RubricRecipientStatistics(recipient, recipientName, recipientTeam);
+            })
+                .addResponseToRecipientStats(response);
         }
 
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
