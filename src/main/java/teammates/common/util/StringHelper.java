@@ -14,6 +14,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.common.base.CharMatcher;
+
 import teammates.common.exception.InvalidParametersException;
 
 /**
@@ -273,7 +275,7 @@ public final class StringHelper {
         if (str == null) {
             return null;
         }
-        return str.trim().replaceAll("\\s+", " ");
+        return CharMatcher.whitespace().trimFrom(str).replaceAll("\\s+", " ");
     }
 
     /**
