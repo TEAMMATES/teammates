@@ -35,8 +35,8 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testGenerateStringOfLength() {
 
-        assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());
-        assertEquals(0, StringHelperExtension.generateStringOfLength(0).length());
+        assertEquals("sssss", StringHelper.generateStringOfLength(5, 's'));
+        assertEquals("", StringHelper.generateStringOfLength(0, 's'));
     }
 
     @Test
