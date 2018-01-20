@@ -38,6 +38,12 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .build();
     }
 
+    @Test(expectedExceptions = AssertionError.class)
+    public void testBuilderWithNullValuesForRequiredFields() {
+        StudentProfileAttributes.builder(null)
+                .build();
+    }
+
     @Test
     public void testBuilderWithDefaultOptionalValues() {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID).build();
