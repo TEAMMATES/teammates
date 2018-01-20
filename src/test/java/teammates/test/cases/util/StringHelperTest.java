@@ -449,6 +449,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
+        assertEquals("5||14||null", StringHelper.join("||", Arrays.asList(5, 14, null)));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
