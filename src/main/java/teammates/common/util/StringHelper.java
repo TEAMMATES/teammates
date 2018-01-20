@@ -308,7 +308,6 @@ public final class StringHelper {
 
     public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
-
         for (byte b : bytes) {
             int v = b & 0xff;
             if (v < 16) {
@@ -316,7 +315,6 @@ public final class StringHelper {
             }
             sb.append(Integer.toHexString(v));
         }
-
         return sb.toString().toUpperCase();
     }
 
@@ -418,7 +416,7 @@ public final class StringHelper {
         }
 
         return rowData.stream()
-                .anyMatch(r -> r.isEmpty());
+                .allMatch(r -> r.isEmpty());
     }
 
     /**
