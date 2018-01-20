@@ -6,7 +6,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
+import teammates.common.util.Const.Gender;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.ProfilesLogic;
 

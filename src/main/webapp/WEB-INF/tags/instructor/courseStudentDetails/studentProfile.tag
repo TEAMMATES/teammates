@@ -27,10 +27,10 @@
                   <c:choose>
                     <c:when test="${student.gender == OTHER or student.gender == null}">
                       <span class="text-muted">
-                        ${student.displayedGenderType}
-                          </span>
-                         </c:when>
-                        <c:otherwise>
+                         ${student.displayedGenderType}
+                       </span>
+                      </c:when>
+                    <c:otherwise>
                           ${student.displayedGenderType}
                     </c:otherwise>
                   </c:choose>

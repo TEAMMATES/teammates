@@ -10,7 +10,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
+import teammates.common.util.Const.Gender;
 import teammates.common.util.NationalityHelper;
 
 public class StudentProfilePage extends AppPage {

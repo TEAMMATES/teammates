@@ -5,15 +5,13 @@ import java.util.Date;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.AlsoLoad;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.IgnoreLoad;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
+import teammates.common.util.Const.Gender;
 
 /**
  * Represents profile details for student entities associated with an
@@ -37,7 +35,6 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
-    @IgnoreLoad
     private Gender gender;
 
     /* must be html sanitized before saving */
@@ -175,7 +172,7 @@ public class StudentProfile extends BaseEntity {
     }
 
     // Equalizes Objectify and GenderType enum
-    public void importGender(@AlsoLoad("gender") String gender) {
+    public void importGender(String gender) {
         if (gender == null) {
             return;
         }

@@ -1,11 +1,11 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.Gender;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -54,7 +54,13 @@ public class StudentProfileEditSaveAction extends Action {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
 
-        editedProfile.gender = Gender.valueOf(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER).toUpperCase());
+        String value = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER).toUpperCase();
+
+        if ("MALE".equals(value) || "FEMALE".equals(value)) {
+            editedProfile.gender = Gender.valueOf(value);
+        } else {
+            editedProfile.gender = Gender.OTHER;
+        }
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
