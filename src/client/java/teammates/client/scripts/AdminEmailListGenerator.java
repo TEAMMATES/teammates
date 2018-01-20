@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -223,8 +222,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
 
             File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
 
-            try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(newFile));
-                    Writer w = new BufferedWriter(osw)) {
+            try (BufferedWriter w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(newFile)))) {
 
                 int studentEmailCount = 0;
                 for (String email : studentEmailSet) {

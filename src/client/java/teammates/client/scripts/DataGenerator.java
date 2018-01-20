@@ -78,7 +78,6 @@ public final class DataGenerator {
                 e.printStackTrace();
             }
         }
-        //get the file writer
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath))) {
             out.write(data);
