@@ -226,10 +226,8 @@ public final class InstructorPrivileges {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return;
         }
-        if (!this.sectionLevel.containsKey(sectionName)) {
-            sectionLevel.put(sectionName, new LinkedHashMap<String, Boolean>());
-        }
-        sectionLevel.get(sectionName).put(privilegeName, isAllowed);
+        this.sectionLevel.computeIfAbsent(sectionName, key -> new LinkedHashMap<>())
+                         .put(privilegeName, isAllowed);
     }
 
     private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,
@@ -238,10 +236,8 @@ public final class InstructorPrivileges {
             return;
         }
         verifyExistenceOfsectionName(sectionName);
-        if (!this.sessionLevel.get(sectionName).containsKey(sessionName)) {
-            this.sessionLevel.get(sectionName).put(sessionName, new LinkedHashMap<String, Boolean>());
-        }
-        this.sessionLevel.get(sectionName).get(sessionName).put(privilegeName, isAllowed);
+        this.sessionLevel.get(sectionName).computeIfAbsent(sessionName, key -> new LinkedHashMap<>())
+                                          .put(privilegeName, isAllowed);
     }
 
     public void updatePrivileges(String sectionName, Map<String, Boolean> privileges) {
@@ -280,18 +276,13 @@ public final class InstructorPrivileges {
     }
 
     public void addSectionWithDefaultPrivileges(String sectionName) {
-        if (this.sectionLevel.containsKey(sectionName)) {
-            return;
-        }
-        this.sectionLevel.put(sectionName, getOverallPrivilegesForSections());
+        this.sectionLevel.putIfAbsent(sectionName, getOverallPrivilegesForSections());
     }
 
     public void addSessionWithDefaultPrivileges(String sectionName, String sessionName) {
         verifyExistenceOfsectionName(sectionName);
-        if (this.sessionLevel.get(sectionName).containsKey(sessionName)) {
-            return;
-        }
-        this.sessionLevel.get(sectionName).put(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
+        this.sessionLevel.get(sectionName)
+                .putIfAbsent(sessionName, getOverallPrivilegesForSessionsInSection(sectionName));
     }
 
     /**
