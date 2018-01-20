@@ -324,7 +324,7 @@ public class GateKeeper {
     }
 
     public void verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(AccountAttributes account, String courseId,
-                                                                              String section, String email) {
+            String section, String email) {
         if (isAdministrator()) {
             return;
         }
