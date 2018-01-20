@@ -38,6 +38,7 @@ public final class StringHelper {
     public static boolean isEmpty(String s) {
         return s == null || s.isEmpty();
     }
+
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         return String.join("", Collections.nCopies(length, String.valueOf(character)));
