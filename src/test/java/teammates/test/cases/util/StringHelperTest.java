@@ -1,5 +1,7 @@
 package teammates.test.cases.util;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +19,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
-import static org.junit.Assert.assertArrayEquals;
 
 /**
  * SUT: {@link StringHelper}.
