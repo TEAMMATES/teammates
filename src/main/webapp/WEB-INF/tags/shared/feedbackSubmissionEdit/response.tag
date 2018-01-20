@@ -26,29 +26,24 @@
   <div ${isNumResponsesMax ? 'class="col-sm-3 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
-    <label for="input">
-      <span data-toggle="tooltip"
-        data-placement="top"
-        title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
-        Evaluee
-      </span>
+    <label>
+      <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
+          name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
+          style="${isNumResponsesMax ? 'display:none;max-width:125px' : 'width:275px;max-width:275px'}"
+          ${isSessionOpenForSubmission ? '' : 'disabled' }>
+
+        <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
+          ${option}
+        </c:forEach>
+      </select>
+    </label>
       <c:choose>
         <c:when test="${recipientType == 'STUDENT'}"> (Student)</c:when>
         <c:when test="${recipientType == 'INSTRUCTOR'}"> (Instructor)</c:when>
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
-    </label>
-
-    <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
-        name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-        ${isNumResponsesMax ? 'style="display:none;max-width:125px"' : 'style="width:275px;max-width:275px"'}
-        ${isSessionOpenForSubmission ? '' : 'disabled' }>
-
-      <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
-        ${option}
-      </c:forEach>
-    </select>
   </div>
+
   <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
     ${response.submissionFormHtml}
     <c:if test="${response.existingResponse}">
