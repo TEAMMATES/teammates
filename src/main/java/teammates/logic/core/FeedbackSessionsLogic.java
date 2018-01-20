@@ -1969,12 +1969,10 @@ public final class FeedbackSessionsLogic {
                 if (isVisibleResponse && (isViewingAllSections
                                           || isStudentInSelectedSection)) {
                     String section = student.section;
-                    if (!sectionTeamNameTable.containsKey(section)) {
-                        Set<String> teamNames = new HashSet<>();
-                        sectionTeamNameTable.put(section, teamNames);
-                    }
 
-                    sectionTeamNameTable.get(section).add(student.team);
+                    sectionTeamNameTable.computeIfAbsent(section, key -> new HashSet<>())
+                                        .add(student.team);
+
                 }
             }
         }
@@ -2080,21 +2078,19 @@ public final class FeedbackSessionsLogic {
             int pairType) {
         if (question.giverType == FeedbackParticipantType.TEAMS
                 && roster.isStudentInCourse(response.giver)) {
-            if (!emailNameTable.containsKey(response.giver + Const.TEAM_OF_EMAIL_OWNER)) {
-                emailNameTable.put(
+            emailNameTable.putIfAbsent(
                         response.giver + Const.TEAM_OF_EMAIL_OWNER,
                         getNameTeamNamePairForEmail(question.giverType,
                                 response.giver, roster)[pairType]);
-            }
 
             StudentAttributes studentGiver = roster.getStudentForEmail(response.giver);
-            if (studentGiver != null && !emailNameTable.containsKey(studentGiver.team)) {
-                emailNameTable.put(studentGiver.team, getNameTeamNamePairForEmail(
-                                                        question.giverType,
-                                                        response.giver, roster)[pairType]);
+            if (studentGiver != null) {
+                emailNameTable.putIfAbsent(studentGiver.team, getNameTeamNamePairForEmail(
+                        question.giverType,
+                        response.giver, roster)[pairType]);
             }
-        } else if (!emailNameTable.containsKey(response.giver)) {
-            emailNameTable.put(
+        } else {
+            emailNameTable.putIfAbsent(
                     response.giver,
                     getNameTeamNamePairForEmail(question.giverType,
                             response.giver, roster)[pairType]);
@@ -2106,13 +2102,11 @@ public final class FeedbackSessionsLogic {
         } else {
             recipientType = question.recipientType;
         }
-        if (!emailNameTable.containsKey(response.recipient)) {
-            emailNameTable.put(
+
+        emailNameTable.putIfAbsent(
                     response.recipient,
                     getNameTeamNamePairForEmail(recipientType,
                                                 response.recipient, roster)[pairType]);
-
-        }
     }
 
     private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(
