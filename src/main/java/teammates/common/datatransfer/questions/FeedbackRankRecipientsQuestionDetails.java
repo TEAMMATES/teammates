@@ -1,13 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -288,6 +282,23 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                 Slots.FRAGMENTS, fragments.toString());
 
+    }
+
+    public Map<String, Integer> generateOverallRankMapping(Map<String, List<Integer>> recipientRanks) {
+        Map<String, Double> recipientAverageRank = new HashMap<>();
+        recipientRanks.forEach((participantIdentifier, ranks) -> {
+            double average = computeAverage(ranks);
+            recipientAverageRank.put(participantIdentifier, average);
+        });
+        List<Map.Entry<String, Double>> recipientAverageRankList = new ArrayList<>(recipientAverageRank.entrySet());
+        recipientAverageRankList.sort((Map.Entry<String, Double> o1, Map.Entry<String, Double> o2)
+                -> (o1.getValue().compareTo(o2.getValue())));
+
+        Map<String, Integer> recipientOverallRank = new HashMap<>();
+        for (Map.Entry entry: recipientAverageRankList) {
+            recipientOverallRank.put((String)entry.getKey(), (Integer)entry.getValue());
+        }
+        return recipientOverallRank;
     }
 
     @Override

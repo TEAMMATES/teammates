@@ -98,11 +98,11 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     }
 
     protected double computeAverage(List<Integer> values) {
-        double average = 0;
+        double total = 0;
         for (double value : values) {
-            average = average + value;
+            total = total + value;
         }
-        return average / values.size();
+        return total / values.size();
     }
 
     /**
