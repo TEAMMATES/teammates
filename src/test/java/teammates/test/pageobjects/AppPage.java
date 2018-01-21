@@ -27,6 +27,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
@@ -1159,7 +1160,10 @@ public abstract class AppPage {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
+                    // Scroll to status message because it must be visible in order to get its text
+                    new Actions(browser.driver).moveToElement(statusMessage).perform();
                     waitForElementVisibility(statusMessage);
+
                     assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
                 }
             }, WebDriverException.class, AssertionError.class);
