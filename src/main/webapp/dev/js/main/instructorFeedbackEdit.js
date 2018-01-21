@@ -1176,7 +1176,7 @@ $(document).ready(() => {
 
     $(document).on('click', '.btn-edit-qn', (e) => {
         const maxQuestions = parseInt($('#num-questions').val(), 10);
-        enableEdit($(e.target).data('qnnumber'), maxQuestions);
+        enableEdit($(e.currentTarget).data('qnnumber'), maxQuestions);
     });
 
     $(document).on('click', '.btn-delete-qn', (e) => {
