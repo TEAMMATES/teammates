@@ -148,8 +148,12 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     private StudentHomePageData createData() {
         // Courses
-        CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course", "UTC");
-        CourseAttributes course2 = new CourseAttributes("course-id-2", "new-course", "UTC");
+        CourseAttributes course1 = CourseAttributes
+                .builder("course-id-1", "old-course", "UTC")
+                .build();
+        CourseAttributes course2 = CourseAttributes
+                .builder("course-id-2", "new-course", "UTC")
+                .build();
 
         // Feedback sessions
         submittedSession = createFeedbackSession("submitted session", -1, 1, 1);

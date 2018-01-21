@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.base.Function;
+
 import teammates.test.driver.TestProperties;
 
 public class GoogleLoginPage extends LoginPage {
@@ -97,7 +99,7 @@ public class GoogleLoginPage extends LoginPage {
     private void waitForRedirectIfAny() {
         String loginRedirectUrl = TestProperties.TEAMMATES_URL + "/_ah/conflogin";
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until((WebDriver d) -> {
+        wait.until((Function<WebDriver, Boolean>) d -> {
             String url = d.getCurrentUrl();
             boolean isTeammatesPage = url.startsWith(TestProperties.TEAMMATES_URL) && !url.startsWith(loginRedirectUrl);
             boolean isApprovalPage = d.getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
