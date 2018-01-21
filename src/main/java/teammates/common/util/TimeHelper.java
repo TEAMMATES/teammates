@@ -209,6 +209,16 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
+    public static String formatDateNew(Date date) {
+        if(date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM, yyyy");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(date);
+    }
+
+
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
      * 2:04 PM<br>
@@ -426,7 +436,7 @@ public final class TimeHelper {
     }
 
     private static Date convertToDate(String date, int time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM, yyyy");
         sdf.setTimeZone(SystemParams.TIME_ZONE);
         Calendar calendar = Calendar.getInstance(SystemParams.TIME_ZONE);
 
