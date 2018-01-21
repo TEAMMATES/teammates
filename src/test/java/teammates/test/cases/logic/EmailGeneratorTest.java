@@ -282,7 +282,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course join email");
 
-        CourseAttributes course = new CourseAttributes("course-id", "Course Name", "UTC");
+        CourseAttributes course = CourseAttributes
+                .builder("course-id", "Course Name", "UTC")
+                .build();
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -328,7 +330,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course join email");
 
-        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
+        CourseAttributes course = CourseAttributes
+                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .build();
 
         StudentAttributes student = StudentAttributes
                 .builder("", "Student Name", "student@email.tmt")
@@ -350,7 +354,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = new CourseAttributes("course-id", "Course Name", "UTC");
+        course = CourseAttributes.builder("course-id", "Course Name", "UTC").build();
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -393,7 +397,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course register email");
 
-        CourseAttributes course = new CourseAttributes("idOfTypicalCourse1", "Course Name", "UTC");
+        CourseAttributes course = CourseAttributes
+                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";
         String googleId = "user.googleid";

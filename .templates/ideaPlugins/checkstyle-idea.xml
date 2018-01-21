@@ -4,7 +4,7 @@
     <option name="configuration">
       <map>
         <entry key="active-configuration" value="PROJECT_RELATIVE:$PRJ_DIR$/static-analysis/teammates-checkstyle.xml:teammates" />
-        <entry key="checkstyle-version" value="8.0" />
+        <entry key="checkstyle-version" value="8.7" />
         <entry key="location-0" value="CLASSPATH:/sun_checks.xml:The default Checkstyle rules" />
         <entry key="location-1" value="PROJECT_RELATIVE:$PRJ_DIR$/static-analysis/teammates-checkstyle.xml:teammates" />
         <entry key="property-1.basedir" value="$PROJECT_DIR$" />
