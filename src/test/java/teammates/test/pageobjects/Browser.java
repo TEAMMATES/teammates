@@ -75,6 +75,8 @@ public class Browser {
                 System.out.println("Custom path: " + firefoxPath);
                 System.setProperty("webdriver.firefox.bin", firefoxPath);
             }
+            System.setProperty("webdriver.gecko.driver",
+                    TestProperties.GECKODRIVER_PATH);
 
             // Allow CSV files to be download automatically, without a download popup.
             // This method is used because Selenium cannot directly interact with the download dialog.
