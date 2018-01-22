@@ -1171,7 +1171,7 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.btn-discard-changes', (e) => {
-        discardChanges($(e.target).data('qnnumber'));
+        discardChanges($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('click', '.btn-edit-qn', (e) => {
