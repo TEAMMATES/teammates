@@ -21,7 +21,6 @@
       <table class="table table-striped table-hover" id="addInstructorResultTable">
         <thead>
           <tr>
-            <th>Short Name</th>
             <th>Name</th>
             <th>Email</th>
             <th>Institution</th>
