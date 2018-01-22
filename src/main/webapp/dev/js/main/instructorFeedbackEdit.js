@@ -1162,7 +1162,7 @@ $(document).ready(() => {
     setTooltipTriggerOnFeedbackPathMenuOptions();
 
     $('#fsSaveLink').on('click', (e) => {
-        checkEditFeedbackSession(e.target.form);
+        checkEditFeedbackSession(e.currentTarget.form);
     });
 
     $(document).on('change', '.participantSelect', (e) => {
@@ -1180,7 +1180,7 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.btn-delete-qn', (e) => {
-        deleteQuestion($(e.target).data('qnnumber'));
+        deleteQuestion($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('submit', '.tally-checkboxes', (e) => {
