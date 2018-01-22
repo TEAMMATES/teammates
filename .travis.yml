@@ -14,7 +14,7 @@ sudo: required
 dist: trusty
 
 addons:
-  firefox: "46.0"
+  firefox: "56.0"
 
 before_install:
   - |
@@ -25,6 +25,7 @@ before_install:
         echo "Only doc files or IDE configurations were updated in PR, not running the CI."
         exit
       fi
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
   - nvm install node
