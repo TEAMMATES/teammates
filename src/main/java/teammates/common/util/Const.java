@@ -640,7 +640,6 @@ public final class Const {
         public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
-        public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
