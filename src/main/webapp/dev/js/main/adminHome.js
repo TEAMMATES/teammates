@@ -77,16 +77,15 @@ class InstructorError {
 
 /**
  * Represents an instructor.
- * Contains the shortname, name, email and institution fields.
+ * Contains the name, email and institution fields.
  * Static "constructor" functions are used since constructors cannot be overloaded in ES6.
  */
 class Instructor {
     /**
      * Takes in several instructor attributes and constructs an instructor.
      */
-    static create(shortName, name, email, institution) {
+    static create(name, email, institution) {
         const instructor = new Instructor();
-        instructor.shortName = shortName;
         instructor.name = name;
         instructor.email = email;
         instructor.institution = institution;
@@ -118,18 +117,16 @@ class Instructor {
             return new InstructorError(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, str);
         }
 
-        const shortName = instructorData[1];
         const name = instructorData[1];
         const email = instructorData[2];
         const institution = instructorData[3];
-        return Instructor.create(shortName, name, email, institution);
+        return Instructor.create(name, email, institution);
     }
     toString() {
         return `${this.name} | ${this.email} | ${this.institution}`;
     }
     getParamString() {
         return $.param({
-            instructorshortname: this.shortName,
             instructorname: this.name,
             instructoremail: this.email,
             instructorinstitution: this.institution,
@@ -158,7 +155,6 @@ class Instructor {
  * Generates HTML text for a row containing instructor's information
  * and status of the action.
  *
- * @param {String} shortName
  * @param {String} name
  * @param {String} email
  * @param {String} institution
@@ -167,10 +163,9 @@ class Instructor {
  * @param {String} status
  * @returns {String} a HTML row of action result table
  */
-function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
+function createRowForResultTable(name, email, institution, isSuccess, status) {
     return `
     <tr class="${isSuccess ? 'success' : 'danger'}">
-        <td>${encodeHtmlString(shortName)}</td>
         <td>${encodeHtmlString(name)}</td>
         <td>${encodeHtmlString(email)}</td>
         <td>${encodeHtmlString(institution)}</td>
@@ -213,14 +208,13 @@ function enableAddInstructorForm() {
  * and updates the view to show progress.
  */
 function updateInstructorAddStatus(ajaxResult, numInstructors, numInstructorsProcessed) {
-    const shortName = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorShortName;
     const name = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorName;
     const email = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorEmail;
     const institution = ajaxResult.isError() ? '-' : ajaxResult.responseData.instructorInstitution;
     const isSuccess = !ajaxResult.isError() && !ajaxResult.isAddFailed();
     const status = ajaxResult.getStatusMessage();
 
-    const rowText = createRowForResultTable(shortName, name, email, institution, isSuccess, status);
+    const rowText = createRowForResultTable(name, email, institution, isSuccess, status);
     $('#addInstructorResultTable tbody').append(rowText);
     const panelHeader = `<strong>Result (${numInstructorsProcessed}/${numInstructors})</strong>`;
     $('#addInstructorResultPanel div.panel-heading').html(panelHeader);
@@ -314,7 +308,6 @@ function addInstructorFromSecondFormByAjax() {
     $('#addInstructorResultPanel div.panel-heading').html('<strong>Result</strong>'); // clear panel header
 
     const instructorToAdd = Instructor.create(
-            $('#instructorShortName').val(),
             $('#instructorName').val(),
             $('#instructorEmail').val(),
             $('#instructorInstitution').val());
