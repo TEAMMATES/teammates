@@ -101,14 +101,11 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](https://pmd.github.io/pmd-5.8.1/usage/suppressing.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
-### FindBugs
+### SpotBugs
 
-[FindBugs](http://findbugs.sourceforge.net) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
+[SpotBugs](https://spotbugs.github.io/) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
-The plugin for Eclipse can be found [here](http://findbugs.cs.umd.edu/eclipse/).
-The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/plugin/3847-findbugs-idea).
-
-> You can also [configure all the static analysis tools automatically](#intellij-automatic-setup) for IntelliJ IDEA.
+The plugin for Eclipse can be found [here](http://spotbugs.readthedocs.io/en/latest/eclipse.html).
 
 ### Macker
 
@@ -190,7 +187,6 @@ It is immediately enabled for all scripts with the `data-cover` attribute (confi
 ## IntelliJ automatic setup
 1. Ensure the following plugins are installed. [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea),
 [PMDPlugin](https://plugins.jetbrains.com/plugin/1137-pmdplugin),
-[FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea),
 [NodeJS](https://plugins.jetbrains.com/plugin/6098-nodejs) (Optional)
 
 1. Run the command to setup the settings for the various plugins:
@@ -220,7 +216,7 @@ You can run the static analysis tools via Gradle or NPM. The violations caught, 
 ```
 ./gradlew {toolType}{sourceCodeType}
 ```
-where `{toolType}` = checkstyle, pmd, findbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
+where `{toolType}` = checkstyle, pmd, spotbugs (lowercase), and `{sourceCodeType}` = Main, Test (Pascal Case).
 
 To run Macker analysis on all Java source files, run the following command:
 ```
@@ -240,7 +236,7 @@ npm run lint
 
 ### Eclipse
 
-Eclipse allows CheckStyle, PMD, and FindBugs analysis on the spot;
+Eclipse allows CheckStyle, PMD, and SpotBugs analysis on the spot;
 just right-click on the source class or folder and select the appropriate commands.
 Remember to configure the tools to use the ruleset provided.
 The analysis results are immediately reported in Eclipse and you can traverse to the violating lines with just a click.
@@ -259,17 +255,9 @@ This means they automatically run on every open file in the editor. Any code iss
 editor and you can also see the analysis status of the whole file from by hovering over the icon on the top-right of the
 editor. You may also be able to see some code inspection status on the line itself (e.g. wriggly red lines).
 
-`FindBugs` is also an inspection tool but it does not run automatically. You can run it by going to `Analyze → FindBugs`
-and choosing the option you want. Alternatively, you can select a number of files and right click, select `FindBugs` and
-the option you want.
-
 If you wish to run inspections for the whole project, you can do `Analyze → Inspect Code... → Whole project`. You may
 also wish to learn more about code inspections by referring to
 [IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/2017.1/code-inspection.html).
-
-**NOTE**
-> `FindBugs` will only appear in the inspection results if you ran it manually before running
-> `Analyze → Inspect Code... → Whole project`.
 
 `PMD` is provided as a plugin and does not run automatically. You can run it by selecting a number of files, right clicking,
 selecting `Run PMD` and then choosing the option you want.
