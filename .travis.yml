@@ -31,7 +31,9 @@ before_install:
   - ls
   - cd geckodriver
   - ls
+  - cd geckodriver
   - ls
+  - cd geckodriver
   - export PATH=$PATH:$PWD/geckodriver
   - echo $PATH | tr ":" "\n" | nl
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
