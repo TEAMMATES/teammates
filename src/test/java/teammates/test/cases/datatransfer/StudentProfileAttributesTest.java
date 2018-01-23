@@ -10,7 +10,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
+import teammates.common.util.Const.Gender;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -76,7 +76,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getEmail(), profileAttributes.email);
         assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
-        assertEquals(studentProfile.getGender().name(), profileAttributes.gender.name());
+        assertEquals(studentProfile.getGender(), profileAttributes.gender);
         assertEquals(studentProfile.getMoreInfo().getValue(), profileAttributes.moreInfo);
         assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
 

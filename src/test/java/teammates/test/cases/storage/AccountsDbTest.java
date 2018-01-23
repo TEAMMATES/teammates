@@ -10,10 +10,10 @@ import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.Gender;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
@@ -138,7 +138,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         AccountAttributes accountDataTest = accountsDb.getAccount(a.googleId, true);
 
         assertEquals(spa.shortName, accountDataTest.studentProfile.shortName);
-        assertEquals(spa.gender.name(), accountDataTest.studentProfile.gender.name());
+        assertEquals(spa.gender, accountDataTest.studentProfile.gender);
         assertEquals(spa.institute, accountDataTest.studentProfile.institute);
         assertEquals(a.institute, accountDataTest.institute);
         assertEquals(spa.email, accountDataTest.studentProfile.email);

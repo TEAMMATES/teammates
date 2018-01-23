@@ -13,7 +13,7 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
+import teammates.common.util.Const.Gender;
 
 /**
  * Represents profile details for student entities associated with an

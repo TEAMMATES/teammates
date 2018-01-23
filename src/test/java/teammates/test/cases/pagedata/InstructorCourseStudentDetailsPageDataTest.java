@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
 import teammates.common.util.Const;
+import teammates.common.util.Const.Gender;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 import teammates.ui.template.StudentInfoTable;
@@ -54,7 +54,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(pictureUrl, studentProfile.getPictureUrl());
         assertEquals(inputStudent.name, studentProfile.getName());
         assertEquals(inputStudentProfile.shortName, studentProfile.getShortName());
-        assertEquals(inputStudentProfile.gender.name(), studentProfile.getGender().toString());
+        assertEquals(inputStudentProfile.gender, studentProfile.getGender());
         assertEquals(inputStudentProfile.email, studentProfile.getEmail());
         assertEquals(inputStudentProfile.institute, studentProfile.getInstitute());
         assertEquals(inputStudentProfile.nationality, studentProfile.getNationality());

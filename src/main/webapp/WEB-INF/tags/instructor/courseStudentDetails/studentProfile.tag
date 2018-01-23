@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
-<%@ tag import= "teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.util.Const.Gender" %>
 <c:set var="none"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
 <c:set var="OTHER"><%= Gender.OTHER %></c:set>
 <div class="row">
@@ -27,11 +27,11 @@
                   <c:choose>
                     <c:when test="${student.gender == OTHER or student.gender == null}">
                       <span class="text-muted">
-                        ${student.displayedGenderType}
-                          </span>
-                         </c:when>
-                        <c:otherwise>
-                          ${student.displayedGenderType}
+                         ${student.displayedGenderType}
+                      </span>
+                    </c:when>
+                    <c:otherwise>
+                         ${student.displayedGenderType}
                     </c:otherwise>
                   </c:choose>
                 </i>)
