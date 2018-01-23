@@ -13,6 +13,7 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.EntityNotFoundPage;
 import teammates.test.pageobjects.GenericAppPage;
+import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -284,10 +285,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private <T extends AppPage> T getProfilePicturePage(String instructorId, String email, String courseId,
                                                         Class<T> typeOfPage) {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                                   .withUserId(testData.accounts.get(instructorId).googleId)
                                    .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                                    .withParam(Const.ParamsNames.COURSE_ID, courseId);
-        return loginAdminToPage(profileUrl, typeOfPage);
+        return loginAsInstructorToPage(instructorId, profileUrl, typeOfPage);
     }
 
     private <T extends AppPage> T getProfilePicturePage(String studentId, String pictureKey, Class<T> typeOfPage) {
@@ -295,6 +295,23 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                    .withUserId(testData.accounts.get(studentId).googleId)
                                    .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
         return loginAdminToPage(profileUrl, typeOfPage);
+    }
+
+    private <T extends AppPage> T loginAsInstructorToPage(String instructorId, AppUrl url, Class<T> typeOfPage) {
+        //logout
+        logout();
+
+        //login
+        getHomePage().clickInstructorLogin();
+
+        //login based on the login page type
+        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        loginPage.loginAsInstructor(instructorId, TestProperties.TEST_INSTRUCTOR_PASSWORD);
+
+        //load the page to be checked
+        browser.driver.get(url.toAbsoluteString());
+        return AppPage.getNewPageInstance(browser, typeOfPage);
+
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
