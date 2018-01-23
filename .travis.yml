@@ -28,6 +28,10 @@ before_install:
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
   - mkdir geckodriver
   - tar -xzf geckodriver-v0.19.1-linux64.tar.gz -C geckodriver
+  - ls
+  - cd geckodriver
+  - ls
+  - ls
   - export PATH=$PATH:$PWD/geckodriver
   - echo $PATH | tr ":" "\n" | nl
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
@@ -38,7 +42,7 @@ before_script:
   - export DISPLAY=:99.0
   - tar -xjf /tmp/firefox-57.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH=$TRAVIS_BUILD_DIR/firefox:./node_modules/.bin:$HOME/google-cloud-sdk/bin:$PATH
-
+  - echo $PATH | tr ":" "\n" | nl
   - curl -fsS -o $HOME/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
   - cd $HOME
   - tar -xzf google-cloud-sdk.tar.gz
