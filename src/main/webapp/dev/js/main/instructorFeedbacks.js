@@ -72,10 +72,16 @@ function formatDigit(num) {
  * @param date
  * @returns {String}
  */
+var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+function convertDateToDDMMYYYY(date) {
+    return `${days[date.getDay()]}, ${formatDigit(date.getDate())} ${month_names_short[date.getMonth()]}, ${date.getFullYear()}`;
+}
+/**
 function convertDateToDDMMYYYY(date) {
     return `${formatDigit(date.getDate())}/${formatDigit(date.getMonth() + 1)}/${date.getFullYear()}`;
 }
-
+*/
 /**
  * Format a date object into HHMM format
  * @param date
