@@ -14,7 +14,7 @@ sudo: required
 dist: trusty
 
 addons:
-  firefox: "56.0"
+  firefox: "57.0"
 
 before_install:
   - |
@@ -34,7 +34,7 @@ before_install:
 
 before_script:
   - export DISPLAY=:99.0
-  - tar -xjf /tmp/firefox-56.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - tar -xjf /tmp/firefox-57.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH=$TRAVIS_BUILD_DIR/firefox:./node_modules/.bin:$HOME/google-cloud-sdk/bin:$PATH
 
   - curl -fsS -o $HOME/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
