@@ -76,11 +76,11 @@ public class Browser {
                 System.setProperty("webdriver.firefox.bin", firefoxPath);
             }
             System.setProperty("webdriver.gecko.driver",
-                    TestProperties.GECKODRIVER_PATH + "/geckodriver/geckodriver.exe");
+                    TestProperties.GECKODRIVER_PATH);
 
             // Allow CSV files to be download automatically, without a download popup.
             // This method is used because Selenium cannot directly interact with the download dialog.
-            // Taken from http://stackoverflow.com/questions/24852709
+            // Taken from http://stackoverflow.com/questions/248527com09
 
             FirefoxProfile profile = new FirefoxProfile();
             profile.setPreference("browser.download.panel.shown", false);
