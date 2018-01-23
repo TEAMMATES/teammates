@@ -1487,7 +1487,6 @@ public class FeedbackSessionResultsBundle {
             String recipientEmail = response.recipient;
             responsesFromOneGiver.computeIfAbsent(recipientEmail, key -> new ArrayList<>())
                                  .add(response);
-
         }
 
         return sortedMap;
