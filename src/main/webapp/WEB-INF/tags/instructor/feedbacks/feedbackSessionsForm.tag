@@ -7,6 +7,7 @@
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 <%@ attribute name="fsEnableEdit" %>
+<%@ attribute name="courseName" %>
 
 <div class="well well-plain">
   <form class="form-group" method="post"
@@ -73,6 +74,23 @@
                   </c:forEach>
 
                 </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br class="hidden-xs">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <h5 class="col-sm-2">
+                <label class="control-label" for="<%= Const.ParamsNames.COURSE_NAME %>">
+                  Course name
+                </label>
+              </h5>
+              <div class="col-sm-10">
+                <h5 class="form-control-static font-weight-normal">
+                  ${courseName}
+                </h5>
               </div>
             </div>
           </div>
