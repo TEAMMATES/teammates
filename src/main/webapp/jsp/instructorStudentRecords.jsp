@@ -15,7 +15,7 @@
   <div class="container-fluid">
     <c:if test="${not empty data.studentProfile}">
       <ticsd:studentProfile student="${data.studentProfile}"/>
-      <ti:more-info student="${data.studentProfile}" />
+      <ti:moreInfo student="${data.studentProfile}" />
     </c:if>
     <div class="row">
       <div class="col-md-12">

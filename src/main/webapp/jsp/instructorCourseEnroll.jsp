@@ -46,7 +46,7 @@
 
   <br>
 
-  <div class="more-info">
+  <div class="moreInfo">
     <h2> More info </h2>
     <hr style="width: 80%; margin-left: 0px;">
     <ul>
