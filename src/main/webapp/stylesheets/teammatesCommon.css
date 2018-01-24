@@ -813,7 +813,7 @@ Prevents content overflow in navbar. */
     text-shadow: 0 1px 0 #4D7A85;
 }
 
-.ui-datepicker-unselectable
+.ui-datepicker-unselectable,
 .ui-state-default {
     background: #F4F4F4;
     color: #B4B3B3;
