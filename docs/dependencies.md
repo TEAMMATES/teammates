@@ -25,4 +25,4 @@ If a library cannot be found in the NPM registry, simply host a local copy in th
 To update your local library configuration:
 
 - For production dependencies, only if you are adding/updating the library, find the files from the library that are necessary to be loaded to webpages, and add/update the entry(ies) in `FrontEndLibrary.java`.
-- For development dependencies, run `npm install` from the project root folder.
+- For development dependencies, run `npm install` from the project root folder and this will make changes made to the `package-lock.json` file which should be commited.
