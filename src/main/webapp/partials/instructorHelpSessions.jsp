@@ -5552,18 +5552,18 @@
                                   Emma Farrell
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5572,18 +5572,18 @@
                                   Danny Engrid
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5592,18 +5592,18 @@
                                   Alice Betsy
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5612,18 +5612,18 @@
                                   Benny Charles
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5641,7 +5641,7 @@
                                   <span class="color-positive">+1%</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
                                   <span class="color-positive">E +9%</span>,
                                   <span class="color-positive">E +7%</span>
                                 </td>
@@ -5661,7 +5661,7 @@
                                   <span class="color-positive">+1%</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
                                   <span class="color-positive">E +7%</span>,
                                   <span class="color-positive">E +10%</span>
                                 </td>
@@ -5681,7 +5681,7 @@
                                   <span class="color-positive">+2%</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
                                   <span class="color-positive">E +9%</span>,
                                   <span class="color-positive">E +12%</span>
                                 </td>
@@ -5747,9 +5747,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -5761,7 +5761,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5772,7 +5772,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5783,7 +5783,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5794,7 +5794,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5805,9 +5805,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -5819,7 +5819,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5830,7 +5830,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5888,7 +5888,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5899,7 +5899,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5910,9 +5910,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -5924,7 +5924,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5935,7 +5935,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5946,7 +5946,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5957,7 +5957,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5968,9 +5968,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -6188,19 +6188,19 @@
                                 </td>
                                 <td class="col-md-1 cell-selected">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-0" name="rubricChoice-10-0-0" value="0-0" checked="">
-                                  <span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
+                                  <span class="color-neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-1" name="rubricChoice-10-0-0" value="0-1">
-                                  <span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
+                                  <span class="color-neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-2" name="rubricChoice-10-0-0" value="0-2">
-                                  <span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
+                                  <span class="color-neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-3" name="rubricChoice-10-0-0" value="0-3">
-                                  <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
+                                  <span class="color-neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
                                 </td>
 
                               </tr>
@@ -6210,19 +6210,19 @@
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-0" name="rubricChoice-10-0-1" value="1-0">
-                                  <span class="color_neutral overlay"> Provides work of the highest quality.</span>
+                                  <span class="color-neutral overlay"> Provides work of the highest quality.</span>
                                 </td>
                                 <td class="col-md-1 cell-selected">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-1" name="rubricChoice-10-0-1" value="1-1" checked="">
-                                  <span class="color_neutral overlay"> Provides high quality work.</span>
+                                  <span class="color-neutral overlay"> Provides high quality work.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-2" name="rubricChoice-10-0-1" value="1-2">
-                                  <span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-3" name="rubricChoice-10-0-1" value="1-3">
-                                  <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
                                 </td>
 
                               </tr>
@@ -6270,19 +6270,19 @@
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-0" name="rubricChoice-10-1-0" value="0-0">
-                                  <span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
+                                  <span class="color-neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-1" name="rubricChoice-10-1-0" value="0-1">
-                                  <span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
+                                  <span class="color-neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
                                 </td>
                                 <td class="col-md-1 cell-selected">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-2" name="rubricChoice-10-1-0" value="0-2" checked="">
-                                  <span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
+                                  <span class="color-neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-3" name="rubricChoice-10-1-0" value="0-3">
-                                  <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
+                                  <span class="color-neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
                                 </td>
 
                               </tr>
@@ -6292,19 +6292,19 @@
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-0" name="rubricChoice-10-1-1" value="1-0">
-                                  <span class="color_neutral overlay"> Provides work of the highest quality.</span>
+                                  <span class="color-neutral overlay"> Provides work of the highest quality.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-1" name="rubricChoice-10-1-1" value="1-1">
-                                  <span class="color_neutral overlay"> Provides high quality work.</span>
+                                  <span class="color-neutral overlay"> Provides high quality work.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-2" name="rubricChoice-10-1-1" value="1-2">
-                                  <span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-3" name="rubricChoice-10-1-1" value="1-3">
-                                  <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
                                 </td>
 
                               </tr>
