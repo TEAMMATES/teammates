@@ -780,8 +780,7 @@ Prevents content overflow in navbar. */
     width: 30px;
 }
 
-.ui-datepicker-calendar,
-.ui-state-default {
+.ui-datepicker-calendar .ui-state-default {
     background: #EDEDED;
     background: -moz-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
     background: -ms-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
@@ -794,13 +793,11 @@ Prevents content overflow in navbar. */
     box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
 }
 
-.ui-datepicker-calendar,
-.ui-state-hover {
+.ui-datepicker-calendar .ui-state-hover {
     background: #F7F7F7;
 }
 
-.ui-datepicker-calendar,
-.ui-state-active {
+.ui-datepicker-calendar .ui-state-active {
     background: #6EAFBF;
     border: 1px solid #55838F;
     -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
@@ -813,26 +810,22 @@ Prevents content overflow in navbar. */
     text-shadow: 0 1px 0 #4D7A85;
 }
 
-.ui-datepicker-unselectable,
-.ui-state-default {
+.ui-datepicker-unselectable .ui-state-default {
     background: #F4F4F4;
     color: #B4B3B3;
 }
 
-.ui-datepicker-calendar td:first-child,
-.ui-state-active {
+.ui-datepicker-calendar td:first-child .ui-state-active {
     margin-left: 0;
     width: 29px;
 }
 
-.ui-datepicker-calendar td:last-child,
-.ui-state-active {
+.ui-datepicker-calendar td:last-child .ui-state-active {
     margin-right: 0;
     width: 29px;
 }
 
-.ui-datepicker-calendar tr:last-child,
-.ui-state-active {
+.ui-datepicker-calendar tr:last-child .ui-state-active {
     height: 29px;
     margin-bottom: 0;
 }
