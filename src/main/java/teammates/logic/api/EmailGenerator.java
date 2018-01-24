@@ -46,6 +46,7 @@ public class EmailGenerator {
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT = "submit";
     private static final String FEEDBACK_ACTION_VIEW = "view";
+    private static final String HTML_NO_ACTION_REQUIRED = "<p>No action is required if you have already submitted.</p>\n";
 
     private static final Logger log = Logger.getLogger();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -86,13 +87,16 @@ public class EmailGenerator {
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_AND_REMINDER
+        String template = EmailTemplates.USER_FEEDBACK_SESSION
                 .replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        StringBuffer additionalContactInformation = new StringBuffer(getAdditionalContactInformationFragment(course));
+        additionalContactInformation.insert(0, HTML_NO_ACTION_REQUIRED);
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
-                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject()));
+                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                                                        FEEDBACK_ACTION_SUBMIT, additionalContactInformation.toString()));
 
         return emails;
     }
@@ -301,16 +305,16 @@ public class EmailGenerator {
             }
         }
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_AND_REMINDER
-                .replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<InstructorAttributes>();
-        String additionalContactInformation = getAdditionalContactInformationFragment(course);
+        StringBuffer additionalContactInformation = new StringBuffer(getAdditionalContactInformationFragment(course));
+        additionalContactInformation.insert(0, HTML_NO_ACTION_REQUIRED);
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
+                EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT, additionalContactInformation.toString());
     }
 
     /**
