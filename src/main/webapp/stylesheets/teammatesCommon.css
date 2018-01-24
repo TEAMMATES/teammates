@@ -1153,12 +1153,6 @@ Default to alert color for visibility titles used within an alert context.
     top: 0;
 }
 
-.questionType {
-    display: inline-block;
-    margin-right: 5px;
-    width: 90%;
-}
-
 .time-zone-info-box {
     margin: 7px 0 0;
     padding: 10px;
