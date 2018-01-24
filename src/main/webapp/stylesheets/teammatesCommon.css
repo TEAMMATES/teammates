@@ -971,8 +971,7 @@ Prevents content overflow in navbar. */
     top: 15px;
 }
 
-.bs-example,
-.container {
+.bs-example .container {
     width: auto;
 }
 
@@ -1070,8 +1069,7 @@ Prevents content overflow in navbar. */
 /*
 Default to alert color for visibility titles used within an alert context.
 */
-.alert,
-.visibility-title {
+.alert .visibility-title {
     color: inherit;
 }
 
