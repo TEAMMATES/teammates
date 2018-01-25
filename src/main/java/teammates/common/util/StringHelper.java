@@ -15,6 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.common.base.CharMatcher;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 
 /**
  * Holds String-related helper functions.
@@ -137,7 +138,8 @@ public final class StringHelper {
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
 
@@ -160,7 +162,8 @@ public final class StringHelper {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
 
