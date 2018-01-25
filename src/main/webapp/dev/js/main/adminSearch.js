@@ -120,7 +120,7 @@ $(document).ready(() => {
 
     $('.resetGoogleIdButton').click((e) => {
         e.stopPropagation();
-        const $entry = $(e.target);
+        const $entry = $(e.currentTarget);
         const courseId = $entry.data('courseid');
         const studentEmail = $entry.data('studentemail');
         const googleId = $entry.data('googleid');
@@ -145,7 +145,7 @@ $(document).ready(() => {
 
     $('.open-email-application-default-values').submit((e) => {
         e.preventDefault();
-        const $entry = $(e.target);
+        const $entry = $(e.currentTarget);
         const crlf = encodeURIComponent('\r\n');
         const studentEmail = $entry.parentsUntil('.fslink_student').find('input[name=studentEmail]').val();
         const supportEmail = $entry.parentsUntil('.fslink_student').find('input[name=supportEmail]').val();

@@ -59,7 +59,7 @@ function hideSingleCollapse(e) {
  * Changes the state of the panel (collapsed/expanded).
  */
 function toggleSingleCollapse(e) {
-    if ($(e.target).is('a') || $(e.target).is('input')) {
+    if ($(e.currentTarget).is('a') || $(e.currentTarget).is('input')) {
         return;
     }
     const glyphIcon = $(this).find('.glyphicon');
