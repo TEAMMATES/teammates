@@ -144,6 +144,35 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         return normalisedRankForSingleSetOfRankings;
     }
 
+    /**
+     * Generate the normalized overall ranking from the ranks of the recipients or options
+     * by comparing the average ranks of the recipients or options
+     * E.g. A and B received (1,2) and C received (1,2,3),
+     * so A and B have the average rank of 1.5 and C's average rank is 2
+     * After normalization, the overall rank of A, B and C will be 1, 1 and 3
+     * @param recipientRanks is a map
+     *                       with key being the recipient identifier and the value the list of ranks of the recipient
+     */
+    protected Map<String, Integer> generateNormalizedOverallRankMapping(Map<String, List<Integer>> recipientRanks) {
+        TreeMap<Double, List<String>> recipientAverageRank = new TreeMap<>();
+        recipientRanks.forEach((recipientIdentifier, ranks) -> {
+            double average = computeAverage(ranks);
+            recipientAverageRank.computeIfAbsent(average, key -> new ArrayList<>())
+                    .add(recipientIdentifier);
+        });
+
+        Map<String, Integer> normalizedOverallRanking = new HashMap<>();
+        int currentRank = 1;
+        for (List<String> recipientsWithSameRank : recipientAverageRank.values()) {
+            for (String recipient : recipientsWithSameRank) {
+                normalizedOverallRanking.put(recipient, currentRank);
+            }
+            currentRank += recipientsWithSameRank.size();
+        }
+
+        return normalizedOverallRanking;
+    }
+
     public boolean isAreDuplicatesAllowed() {
         return areDuplicatesAllowed;
     }
