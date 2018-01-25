@@ -442,7 +442,6 @@ public class TeamEvalResult {
     }
 
     private static void verify(String message, boolean condition) {
-        Assumption.assertTrue("Internal assertion failuer : " + message, condition);
+        Assumption.assertTrue("Internal assertion failure : " + message, condition);
     }
-
 }
