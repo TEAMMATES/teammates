@@ -179,7 +179,6 @@ public final class SanitizationHelper {
         if (unsanitizedStringSet == null) {
             return null;
         }
-
         return unsanitizedStringSet.stream()
                 .map(s -> sanitizeForHtml(s))
                 .collect(Collectors.toCollection(HashSet::new));
@@ -219,7 +218,6 @@ public final class SanitizationHelper {
         if (sanitizedStringSet == null) {
             return null;
         }
-
         return sanitizedStringSet.stream()
                 .map(s -> desanitizeFromHtml(s))
                 .collect(Collectors.toCollection(HashSet::new));
