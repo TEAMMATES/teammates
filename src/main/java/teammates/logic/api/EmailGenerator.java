@@ -683,8 +683,7 @@ public class EmailGenerator {
 
     /**
      * Generates additional contact information for User Email Templates.
-     * @param course Details in {@code course}.
-     * @return A String containing the contact information after replacing the placeholders.
+     * @return The contact information after replacing the placeholders.
      */
     private String getAdditionalContactInformationFragment(CourseAttributes course) {
 
