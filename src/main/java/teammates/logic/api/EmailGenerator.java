@@ -46,7 +46,8 @@ public class EmailGenerator {
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT = "submit";
     private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String HTML_NO_ACTION_REQUIRED = "<p>No action is required if you have already submitted.</p>\n";
+    private static final String HTML_NO_ACTION_REQUIRED = "<p>No action is required if you have already submitted.</p>"
+                                                          +Const.EOL;
 
     private static final Logger log = Logger.getLogger();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
