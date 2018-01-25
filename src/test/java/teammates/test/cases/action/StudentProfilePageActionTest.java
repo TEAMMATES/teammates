@@ -81,7 +81,6 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         PageData data = result.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
         student.createdAt = data.account.createdAt;
-        student.studentProfile.gender = data.account.studentProfile.gender;
         assertEquals(student.toString(), data.account.toString());
     }
 

@@ -47,7 +47,7 @@
         "email": "i.m.stud1@gmail.tmt",
         "institute": "TEAMMATES Test Institute 3",
         "nationality": "",
-        "gender": "male",
+        "gender": "MALE",
         "moreInfo": "I am just a student :P",
         "pictureKey": ""
       }
@@ -85,7 +85,7 @@
         "email": "weird&'@gmail.tmt",
         "institute": "inst<script> alert('hi!'); </script>",
         "nationality": "American",
-        "gender": "other",
+        "gender": "OTHER",
         "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
         "pictureKey": ""
       }
