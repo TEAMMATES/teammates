@@ -87,8 +87,7 @@ public class EmailGenerator {
             List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String template = EmailTemplates.USER_FEEDBACK_SESSION
-                .replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         StringBuffer additionalContactInformation = new StringBuffer(getAdditionalContactInformationFragment(course));
         additionalContactInformation.insert(0, HTML_NO_ACTION_REQUIRED);
         List<EmailWrapper> emails =
@@ -340,8 +339,7 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<StudentAttributes>();
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION
-                .replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
 
