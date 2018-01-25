@@ -132,7 +132,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     public void testInValidImportGender() {
         StudentProfileAttributes spa2 = StudentProfileAttributes.valueOf(profile.toEntity());
         StudentProfile studentProfile2 = new StudentProfile(spa2.googleId);
-        studentProfile2.importGender("banana"); // throws expected exception
+        studentProfile2.importGender("InvalidGender");
     }
 
     private void testGetInvalidityInfoForValidProfileWithValues() {
