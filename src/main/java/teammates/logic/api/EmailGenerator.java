@@ -88,14 +88,13 @@ public class EmailGenerator {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
-        StringBuffer additionalContactInformation = new StringBuffer(getAdditionalContactInformationFragment(course));
-        additionalContactInformation.insert(0, HTML_NO_ACTION_REQUIRED);
+        String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
-                                                        FEEDBACK_ACTION_SUBMIT, additionalContactInformation.toString()));
+                                                        FEEDBACK_ACTION_SUBMIT, additionalContactInformation));
 
         return emails;
     }
@@ -309,11 +308,10 @@ public class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<InstructorAttributes>();
-        StringBuffer additionalContactInformation = new StringBuffer(getAdditionalContactInformationFragment(course));
-        additionalContactInformation.insert(0, HTML_NO_ACTION_REQUIRED);
+        String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT, additionalContactInformation.toString());
+                EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
     }
 
     /**
