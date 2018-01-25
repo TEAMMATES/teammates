@@ -270,7 +270,7 @@ function bindFeedbackSessionEditFormSubmission() {
         if (typeof tinymce !== 'undefined') {
             tinymce.get('instructions').save();
         }
-        const $form = $(event.target);
+        const $form = $(event.currentTarget);
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -1166,8 +1166,8 @@ $(document).ready(() => {
     });
 
     $(document).on('change', '.participantSelect', (e) => {
-        matchVisibilityOptionToFeedbackPath(e.target);
-        getVisibilityMessage(e.target);
+        matchVisibilityOptionToFeedbackPath(e.currentTarget);
+        getVisibilityMessage(e.currentTarget);
     });
 
     $(document).on('click', '.btn-discard-changes', (e) => {
@@ -1184,7 +1184,7 @@ $(document).ready(() => {
     });
 
     $(document).on('submit', '.tally-checkboxes', (e) => {
-        tallyCheckboxes($(e.target).data('qnnumber'));
+        tallyCheckboxes($(e.currentTarget).data('qnnumber'));
     });
 });
 
