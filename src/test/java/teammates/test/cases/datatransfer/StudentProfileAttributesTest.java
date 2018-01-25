@@ -54,7 +54,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     }
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
-        assertEquals("OTHER", profileAttributes.gender.name());
+        assertEquals(Gender.OTHER, profileAttributes.gender);
         assertEquals("", profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
         assertEquals("", profileAttributes.email);

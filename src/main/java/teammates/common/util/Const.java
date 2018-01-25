@@ -613,26 +613,9 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
-    /**
-     *  Gender that can be used.
-     *  <li>{@link #MALE}</li>
-     *  <li>{@link #FEMALE}</li>
-     *  <li>{@link #OTHER}</li>
-     */
 
     public enum Gender {
-     /**
-      *MALE.
-      */
-     MALE,
-     /**
-      *FEMALE.
-      */
-     FEMALE,
-     /**
-      * OTHER.
-      */
-     OTHER
+     MALE, FEMALE, OTHER
     }
 
     public static class ParamsNames {

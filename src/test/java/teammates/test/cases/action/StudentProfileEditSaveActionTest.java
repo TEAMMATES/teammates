@@ -213,7 +213,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_GENDER, "FEMALE",
+                Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>"
         };
     }
