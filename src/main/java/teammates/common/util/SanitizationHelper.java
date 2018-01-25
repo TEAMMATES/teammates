@@ -214,11 +214,13 @@ public final class SanitizationHelper {
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
-        Set<String> textSetTemp = new HashSet<>();
-        for (String text : sanitizedStringSet) {
-            textSetTemp.add(desanitizeFromHtml(text));
+        if (sanitizedStringSet == null) {
+            return null;
         }
-        return textSetTemp;
+
+        return sanitizedStringSet.stream()
+                .map(s -> desanitizeFromHtml(s))
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**

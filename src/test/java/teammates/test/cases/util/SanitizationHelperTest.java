@@ -1,7 +1,9 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -115,6 +117,32 @@ public class SanitizationHelperTest extends BaseTestCase {
         String text = "<text><div> 'param' &&& \\//\\ \" <The quick brown fox jumps over the lazy dog.>";
         String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
         assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
+    }
+
+    @Test
+    public void testDesanitizeFromHtmlSet() {
+        Set<String> input = new HashSet<>();
+        input.add("apple &lt;");
+        input.add("banana &#39; dogs ");
+        input.add("rollercoasters &amp; tycoons");
+        input.add("");
+        input.add(null);
+
+        Set<String> expected = new HashSet<>();
+        expected.add("apple <");
+        expected.add("banana ' dogs ");
+        expected.add("rollercoasters & tycoons");
+        expected.add("");
+        expected.add(null);
+
+        // standard case
+        assertEquals(expected, SanitizationHelper.desanitizeFromHtml(input));
+
+        // empty input set
+        assertEquals(new HashSet<String>(), SanitizationHelper.desanitizeFromHtml(new HashSet<String>()));
+
+        // null input set
+        assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));
     }
 
     @Test
