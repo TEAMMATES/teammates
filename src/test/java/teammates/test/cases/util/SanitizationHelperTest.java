@@ -98,6 +98,32 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testSanitizeForHtmlSet() {
+        Set<String> input = new HashSet<>();
+        input.add("apple <");
+        input.add("banana ' dogs ");
+        input.add("rollercoasters & tycoons");
+        input.add("");
+        input.add(null);
+
+        Set<String> expected = new HashSet<>();
+        expected.add("apple &lt;");
+        expected.add("banana &#39; dogs ");
+        expected.add("rollercoasters &amp; tycoons");
+        expected.add("");
+        expected.add(null);
+
+        // standard case
+        assertEquals(expected, SanitizationHelper.sanitizeForHtml(input));
+
+        // empty input set
+        assertEquals(new HashSet<String>(), SanitizationHelper.sanitizeForHtml(new HashSet<>()));
+
+        // null input set
+        assertEquals(null, SanitizationHelper.sanitizeForHtml((Set<String>) null));
+    }
+
+    @Test
     public void testDesanitizeFromHtml() {
         desanitizeFromHtml_receivesNull_returnsNull();
         desanitizeFromHtml_recievesEmpty_returnsEmpty();
@@ -139,7 +165,7 @@ public class SanitizationHelperTest extends BaseTestCase {
         assertEquals(expected, SanitizationHelper.desanitizeFromHtml(input));
 
         // empty input set
-        assertEquals(new HashSet<String>(), SanitizationHelper.desanitizeFromHtml(new HashSet<String>()));
+        assertEquals(new HashSet<String>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
 
         // null input set
         assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));

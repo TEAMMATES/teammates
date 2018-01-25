@@ -175,12 +175,14 @@ public final class SanitizationHelper {
     /**
      * Sanitizes a set of strings for inserting into HTML.
      */
-    public static Set<String> sanitizeForHtml(Set<String> set) {
-        Set<String> sanitizedSet = new TreeSet<>();
-        for (String str : set) {
-            sanitizedSet.add(sanitizeForHtml(str));
+    public static Set<String> sanitizeForHtml(Set<String> unsanitizedStringSet) {
+        if (unsanitizedStringSet == null) {
+            return null;
         }
-        return sanitizedSet;
+
+        return unsanitizedStringSet.stream()
+                .map(s -> sanitizeForHtml(s))
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
