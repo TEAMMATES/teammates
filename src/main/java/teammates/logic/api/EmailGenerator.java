@@ -161,7 +161,6 @@ public class EmailGenerator {
                     "${reportUrl}", reportUrlHtml));
         }
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${userEmail}", student.email,
@@ -310,7 +309,6 @@ public class EmailGenerator {
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<InstructorAttributes>();
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
-
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
     }
@@ -339,9 +337,7 @@ public class EmailGenerator {
                                            : new ArrayList<StudentAttributes>();
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
-
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_CLOSED.getSubject(), FEEDBACK_ACTION_VIEW, additionalContactInformation);
     }
@@ -363,7 +359,6 @@ public class EmailGenerator {
                                            : new ArrayList<StudentAttributes>();
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_PUBLISHED.getSubject(), FEEDBACK_ACTION_VIEW, additionalContactInformation);
     }
@@ -392,7 +387,6 @@ public class EmailGenerator {
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject) {
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template, subject,
                 FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
     }
@@ -683,7 +677,6 @@ public class EmailGenerator {
      * @return The contact information after replacing the placeholders.
      */
     private String getAdditionalContactInformationFragment(CourseAttributes course) {
-
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
