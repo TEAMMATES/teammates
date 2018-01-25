@@ -98,6 +98,32 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testSanitizeForHtmlList() {
+        List<String> input = new ArrayList<>();
+        input.add("apple <");
+        input.add("banana ' dogs ");
+        input.add("rollercoasters & tycoons");
+        input.add("");
+        input.add(null);
+
+        List<String> expected = new ArrayList<>();
+        expected.add("apple &lt;");
+        expected.add("banana &#39; dogs ");
+        expected.add("rollercoasters &amp; tycoons");
+        expected.add("");
+        expected.add(null);
+
+        // standard case
+        assertEquals(expected, SanitizationHelper.sanitizeForHtml(input));
+
+        // empty input list
+        assertEquals(new ArrayList<String>(), SanitizationHelper.sanitizeForHtml(new ArrayList<>()));
+
+        // null input list
+        assertEquals(null, SanitizationHelper.sanitizeForHtml((List<String>) null));
+    }
+
+    @Test
     public void testSanitizeForHtmlSet() {
         Set<String> input = new HashSet<>();
         input.add("apple <");

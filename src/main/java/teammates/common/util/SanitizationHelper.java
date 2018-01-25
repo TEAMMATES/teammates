@@ -164,12 +164,13 @@ public final class SanitizationHelper {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list) {
-        List<String> sanitizedList = new ArrayList<>();
-        for (String str : list) {
-            sanitizedList.add(sanitizeForHtml(str));
+    public static List<String> sanitizeForHtml(List<String> unsanitizedStringList) {
+        if (unsanitizedStringList == null) {
+            return null;
         }
-        return sanitizedList;
+        return unsanitizedStringList.stream()
+                .map(s -> sanitizeForHtml(s))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
