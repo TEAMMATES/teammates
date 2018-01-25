@@ -68,7 +68,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
 
-        String dateAsString = TimeHelper.formatDate(TimeHelper.getNextHour());
+        String dateAsString = TimeHelper.formatDateNew(TimeHelper.getNextHour());
 
         assertEquals(dateAsString, formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
@@ -265,11 +265,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
 
-        assertEquals("30/04/2027", formModel.getFsEndDate());
+        assertEquals("Fri, 30 Apr, 2027", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("First feedback session", formModel.getFsName());
 
-        assertEquals("01/04/2012", formModel.getFsStartDate());
+        assertEquals("Sun, 01 Apr, 2012", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
@@ -283,9 +283,9 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
                             .getAttributes().containsKey("selected"));
 
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
-        assertEquals("01/05/2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
+        assertEquals("Sat, 01 May, 2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
-        assertEquals("28/03/2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
+        assertEquals("Wed, 28 Mar, 2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
 
         assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
