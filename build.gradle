@@ -298,6 +298,7 @@ task copyIntelliJProjectPluginsSettings(type: Copy) {
 
 task setupIntellijStaticAnalysis {
     description 'Sets up the static analysis plugins in the IntelliJ project.'
+    group intellijSetupGroup
     dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
 }
 
