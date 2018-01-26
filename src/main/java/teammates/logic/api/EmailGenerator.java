@@ -665,7 +665,7 @@ public class EmailGenerator {
         for (InstructorAttributes coOwner : coOwners) {
             coOwnersEmailsLine
                     .append(coOwner.getName())
-                    .append('(')
+                    .append(" (")
                     .append(coOwner.getEmail())
                     .append("), ");
         }
