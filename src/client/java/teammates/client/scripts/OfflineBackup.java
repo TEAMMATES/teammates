@@ -63,12 +63,12 @@ public class OfflineBackup extends RemoteApiClient {
 
             URLConnection urlConn = url.openConnection();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-            String logMessage;
-            while ((logMessage = in.readLine()) != null) {
-                modifiedLogs.add(logMessage);
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()))) {
+                String logMessage;
+                while ((logMessage = in.readLine()) != null) {
+                    modifiedLogs.add(logMessage);
+                }
             }
-            in.close();
         } catch (IOException e) {
             System.out.println("Error occurred while trying to access modified entity logs: " + e.getMessage());
         }
@@ -402,10 +402,9 @@ public class OfflineBackup extends RemoteApiClient {
                 file.createNewFile();
             }
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fileContent);
-            bw.close();
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true))) {
+                bw.write(fileContent);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
