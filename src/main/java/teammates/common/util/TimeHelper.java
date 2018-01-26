@@ -218,7 +218,6 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
      * 2:04 PM<br>

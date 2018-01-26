@@ -76,8 +76,8 @@ function formatDigit(num) {
  */
 
 function convertDateToDddMMMYYYY(date) {
-    return `${days[date.getDay()]}, ${formatDigit(date.getDate())} 
-            ${monthNameShort[date.getMonth()]}, ${date.getFullYear()}`;
+    return `${days[date.getDay()]}, ${formatDigit(date.getDate())} ${monthNameShort[date.getMonth()]},
+            ${date.getFullYear()}`;
 }
 /**
 function convertDateToDDMMYYYY(date) {
