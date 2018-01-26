@@ -992,22 +992,18 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     const $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
     const recipientType = $recipientSelect.val();
     const qnType = $giverSelect.closest('.form_question').find('[name="questiontype"]').val();
+    // For question type "RANK_RECIPIENTS", hide recipient options "SELF" and "NONE"
+    if (qnType === 'RANK_RECIPIENTS') {
+        hideOption($recipientSelect, 'SELF');
+        hideOption($recipientSelect, 'NONE');
+    }
     switch (giverType) {
     case 'STUDENTS':
-        /* all recipientType options enabled
-         * except that when the question type is Rank Recipient, SELF and NONE cannot be chosen
-         */
-        if (qnType === 'RANK_RECIPIENTS') {
-            hideOption($recipientSelect, 'SELF');
-            hideOption($recipientSelect, 'NONE');
-        }
+        // all recipientType options enabled
+        // except for 'SELF' and 'NONE' options in 'RANK_RECIPIENTS' questions
         break;
     case 'SELF':
     case 'INSTRUCTORS':
-        if (qnType === 'RANK_RECIPIENTS') {
-            hideOption($recipientSelect, 'SELF');
-            hideOption($recipientSelect, 'NONE');
-        }
         hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
         hideOption($recipientSelect, 'OWN_TEAM_MEMBERS_INCLUDING_SELF');
         if (recipientType === 'OWN_TEAM_MEMBERS' || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
@@ -1015,10 +1011,6 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
         }
         break;
     case 'TEAMS':
-        if (qnType === 'RANK_RECIPIENTS') {
-            hideOption($recipientSelect, 'SELF');
-            hideOption($recipientSelect, 'NONE');
-        }
         hideOption($recipientSelect, 'OWN_TEAM');
         hideOption($recipientSelect, 'OWN_TEAM_MEMBERS');
         if (recipientType === 'OWN_TEAM' || recipientType === 'OWN_TEAM_MEMBERS') {
