@@ -55,6 +55,8 @@ const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 const DISPLAY_FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
 const DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
+const monthNameShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 function isTimeZoneIntialized() {
     return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
@@ -68,14 +70,14 @@ function formatDigit(num) {
 }
 
 /**
- * Format a date object into DD/MM/YYYY format
+ * Format a date object into D, dd M, yy format
  * @param date
  * @returns {String}
  */
-var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-function convertDateToDDMMYYYY(date) {
-    return `${days[date.getDay()]}, ${formatDigit(date.getDate())} ${month_names_short[date.getMonth()]}, ${date.getFullYear()}`;
+
+function convertDateToDddMMMYYYY(date) {
+    return `${days[date.getDay()]}, ${formatDigit(date.getDate())} 
+            ${monthNameShort[date.getMonth()]}, ${date.getFullYear()}`;
 }
 /**
 function convertDateToDDMMYYYY(date) {
@@ -101,7 +103,7 @@ function convertDateToHHMM(date) {
 function selectDefaultTimeOptions() {
     const now = new Date();
 
-    const currentDate = convertDateToDDMMYYYY(now);
+    const currentDate = convertDateToDddMMMYYYY(now);
     const hours = convertDateToHHMM(now).substring(0, 2);
     const currentTime = parseInt(hours, 10) + 1;
     const timeZone = -now.getTimezoneOffset() / 60;
