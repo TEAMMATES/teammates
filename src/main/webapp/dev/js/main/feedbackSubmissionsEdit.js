@@ -356,7 +356,7 @@ function prepareDesktopRubricQuestions() {
                 return;
             }
 
-            if (event.currentTarget === this) {
+            if (event.target === this) {
                 $radioInput.prop('checked', !$radioInput.prop('checked'));
                 $radioInput.trigger('change');
             }

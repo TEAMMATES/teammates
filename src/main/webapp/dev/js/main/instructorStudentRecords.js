@@ -39,7 +39,7 @@ $(document).ready(() => {
     $('.panel-heading.student_feedback').click(toggleSingleCollapse);
 
     $('.load-feedback-session').on('click', (e) => {
-        const $entry = $(e.currentTarget);
+        const $entry = $(e.target);
         const courseId = $entry.data('courseid');
         const studentEmail = $entry.data('studentemail');
         const googleId = $entry.data('googleid');
