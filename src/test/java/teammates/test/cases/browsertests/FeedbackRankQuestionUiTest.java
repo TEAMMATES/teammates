@@ -77,7 +77,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Submit
         submitPage.clickSubmitButton();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
+                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
