@@ -210,7 +210,7 @@ public final class TimeHelper {
     }
 
     public static String formatDateNew(Date date) {
-        if(date == null) {
+        if (date == null) {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM, yyyy");

@@ -338,10 +338,10 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        String[] strDays = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-        dateInputElement.sendKeys(new SimpleDateFormat("EE").format(newValue.getTime()) + ", " + newValue.get(Calendar.DATE) +
-                                    " " + new SimpleDateFormat("MMM").format(newValue.getTime()) +
-                                    ", " + newValue.get(Calendar.YEAR));
+        dateInputElement.sendKeys(new SimpleDateFormat("EE").format(newValue.getTime()) + ", "
+                                    + newValue.get(Calendar.DATE) + " "
+                                    + new SimpleDateFormat("MMM").format(newValue.getTime())
+                                    + ", " + newValue.get(Calendar.YEAR));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {
