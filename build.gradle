@@ -296,16 +296,9 @@ task copyIntelliJProjectPluginsSettings(type: Copy) {
     mustRunAfter copyStylelintConfiguration
 }
 
-task setupIntellijStaticAnalysis {
-    description 'Sets up the static analysis plugins in the IntelliJ project.'
-    group intellijSetupGroup
-    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
-}
-
-// IntelliJ project static analysis plugins version sync
 task syncIntelliJCheckStyleVersion {
-    description 'Syncs the CheckStyle-IDEA version automatically (during configuration phase) to the same with' +
-            ' the build script'
+    description 'Syncs the CheckStyle-IDEA version to the same with the build script.' +
+            'Also executes automatically during configuration phase'
     group intellijSetupGroup
 
     if (file('.idea/checkstyle-idea.xml').exists()) {
@@ -320,6 +313,14 @@ task syncIntelliJCheckStyleVersion {
 
         writeXmlToPath(xml, filePath)
     }
+}
+
+task setupIntellijStaticAnalysis {
+    description 'Sets up the static analysis plugins in the IntelliJ project.'
+    group intellijSetupGroup
+
+    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
+    finalizedBy syncIntelliJCheckStyleVersion
 }
 
 // RUN SERVER TASKS
