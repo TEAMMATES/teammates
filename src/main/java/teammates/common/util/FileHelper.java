@@ -26,12 +26,9 @@ public final class FileHelper {
      * @param file The file name, which must be in the {@code resources} folder.
      */
     public static String readResourceFile(String file) {
-        InputStream is = getResourceAsStream(file);
-        Scanner scanner = new Scanner(is, Const.SystemParams.ENCODING);
-        try {
+
+        try (Scanner scanner = new Scanner(getResourceAsStream(file), Const.SystemParams.ENCODING)) {
             return scanner.useDelimiter("\\Z").next();
-        } finally {
-            scanner.close();
         }
     }
 
