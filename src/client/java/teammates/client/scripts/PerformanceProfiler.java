@@ -185,23 +185,23 @@ public class PerformanceProfiler extends Thread {
         }
 
         //Import old data to the HashMap
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String strLine;
-        while ((strLine = br.readLine()) != null) {
-            System.out.println(strLine);
-            String[] strs = strLine.split("\\|");
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                System.out.println(strLine);
+                String[] strs = strLine.split("\\|");
 
-            String testName = strs[0];
-            String[] durations = strs[2].split("\\,");
+                String testName = strs[0];
+                String[] durations = strs[2].split("\\,");
 
-            ArrayList<Float> arr = new ArrayList<>();
-            for (String str : durations) {
-                Float f = Float.parseFloat(str);
-                arr.add(f);
+                ArrayList<Float> arr = new ArrayList<>();
+                for (String str : durations) {
+                    Float f = Float.parseFloat(str);
+                    arr.add(f);
+                }
+                results.put(testName, arr);
             }
-            results.put(testName, arr);
         }
-        br.close();
         return results;
     }
 
@@ -214,22 +214,22 @@ public class PerformanceProfiler extends Thread {
             list.add(str);
         }
         list.sort(null);
-        FileWriter fstream = new FileWriter(filePath);
-        BufferedWriter out = new BufferedWriter(fstream);
 
-        for (String str : list) {
-            StringBuilder lineStrBuilder = new StringBuilder();
-            ArrayList<Float> arr = results.get(str);
-            Float total = 0.0f;
-            for (Float f : arr) {
-                total += f;
-                lineStrBuilder.append(f).append(" , ");
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filePath))) {
+
+            for (String str : list) {
+                StringBuilder lineStrBuilder = new StringBuilder();
+                ArrayList<Float> arr = results.get(str);
+                Float total = 0.0f;
+                for (Float f : arr) {
+                    total += f;
+                    lineStrBuilder.append(f).append(" , ");
+                }
+                String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
+                Float average = total / arr.size();
+                out.write(str + "| " + average + " | " + lineStr + "\n");
             }
-            String lineStr = lineStrBuilder.substring(0, lineStrBuilder.length() - 3); //remove last comma
-            Float average = total / arr.size();
-            out.write(str + "| " + average + " | " + lineStr + "\n");
         }
-        out.close();
     }
 
     // TODO: this class needs to be tweaked to work with the new Browser class

@@ -68,10 +68,10 @@ public class StudentProfilePictureUploadAction extends Action {
         Assumption.assertNotNull(blobInfo);
 
         BlobKey blobKey = blobInfo.getBlobKey();
-        InputStream blobStream = new BlobstoreInputStream(blobKey);
         byte[] imageData = new byte[(int) blobInfo.getSize()];
-        blobStream.read(imageData);
-        blobStream.close();
+        try (InputStream blobStream = new BlobstoreInputStream(blobKey)) {
+            blobStream.read(imageData);
+        }
 
         deletePicture(blobKey);
         return GoogleCloudStorageHelper.writeImageDataToGcs(account.googleId, imageData);
