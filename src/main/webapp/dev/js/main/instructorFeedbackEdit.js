@@ -78,6 +78,7 @@ import {
 import {
     addRankOption,
     bindRankEvents,
+    hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
     toggleMaxOptionsToBeRanked,
@@ -341,6 +342,8 @@ function disableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
     $(`#button_question_submit-${questionNum}`).hide();
+
+    hideInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -472,6 +475,7 @@ function enableQuestion(questionNum) {
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
+    hideInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -550,6 +554,7 @@ function enableNewQuestion() {
     disableCornerMoveRubricColumnButtons(NEW_QUESTION);
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
+    hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
 /**
@@ -986,9 +991,16 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     const giverType = $giverSelect.val();
     const $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
     const recipientType = $recipientSelect.val();
+    const qnType = $giverSelect.closest('.form_question').find('[name="questiontype"]').val();
+    // For question type "RANK_RECIPIENTS", hide recipient options "SELF" and "NONE"
+    if (qnType === 'RANK_RECIPIENTS') {
+        hideOption($recipientSelect, 'SELF');
+        hideOption($recipientSelect, 'NONE');
+    }
     switch (giverType) {
     case 'STUDENTS':
         // all recipientType options enabled
+        // except for 'SELF' and 'NONE' options in 'RANK_RECIPIENTS' questions
         break;
     case 'SELF':
     case 'INSTRUCTORS':
