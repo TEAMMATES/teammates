@@ -296,10 +296,31 @@ task copyIntelliJProjectPluginsSettings(type: Copy) {
     mustRunAfter copyStylelintConfiguration
 }
 
+task syncIntelliJCheckStyleVersion {
+    description 'Syncs the CheckStyle-IDEA version to the same with the build script.' +
+            'Also executes automatically during configuration phase'
+    group intellijSetupGroup
+
+    if (file('.idea/checkstyle-idea.xml').exists()) {
+        String filePath = '.idea/checkstyle-idea.xml'
+        Node xml = new XmlParser().parse(filePath)
+        Node checkStyleComponent = (Node) (xml.component.find { it.@name == 'CheckStyle-IDEA' })
+        Node checkStyleConfigurationMap = (Node) (checkStyleComponent.option.find { it.@name == 'configuration' })
+        Node checkStyleVersionEntry =
+                (Node) (checkStyleConfigurationMap.map.entry.find { it.@key == 'checkstyle-version' })
+
+        checkStyleVersionEntry.@value = checkstyleVersion
+
+        writeXmlToPath(xml, filePath)
+    }
+}
+
 task setupIntellijStaticAnalysis {
     description 'Sets up the static analysis plugins in the IntelliJ project.'
     group intellijSetupGroup
+
     dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
+    finalizedBy syncIntelliJCheckStyleVersion
 }
 
 // RUN SERVER TASKS
@@ -640,4 +661,17 @@ task jacocoReport(type: JacocoReport) {
         })
     }
     dependsOn jacocoMerge
+}
+
+// Helper methods
+import groovy.xml.StreamingMarkupBuilder
+import java.nio.charset.StandardCharsets
+
+void writeXmlToPath(Node xml, String pathToWrite) {
+    new File(pathToWrite).withWriter(StandardCharsets.UTF_8.name()) { out ->
+        out << new StreamingMarkupBuilder().bind { mkp.xmlDeclaration() }
+        def xmlNodePrinter = new XmlNodePrinter(new PrintWriter(out))
+        xmlNodePrinter.preserveWhitespace = true
+        xmlNodePrinter.print(xml)
+    }
 }
