@@ -35,7 +35,7 @@ public class AdminExceptionTestAction extends Action {
             throw new NullPostParameterException("test null post param exception");
         }
 
-        statusToAdmin = "adminExceptionTest";
+        statusToAdmin.add("adminExceptionTest");
 
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
     }

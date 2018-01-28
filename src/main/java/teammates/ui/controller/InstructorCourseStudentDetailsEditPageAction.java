@@ -40,9 +40,9 @@ public class InstructorCourseStudentDetailsEditPageAction extends Action {
                 new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, student.email, hasSection,
                         isOpenOrPublishedEmailSentForTheCourse);
 
-        statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
+        statusToAdmin.add("instructorCourseStudentEdit Page Load<br>"
                         + "Editing Student <span class=\"bold\">" + studentEmail + "'s</span> details "
-                        + "in Course <span class=\"bold\">[" + courseId + "]</span>";
+                        + "in Course <span class=\"bold\">[" + courseId + "]</span>");
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
 

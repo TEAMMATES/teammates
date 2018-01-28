@@ -32,7 +32,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             data.fileSrcUrl = null;
 
             log.info("Group Receiver List Upload Failed");
-            statusToAdmin = "Group Receiver List Upload Failed";
+            statusToAdmin.add("Group Receiver List Upload Failed");
             data.ajaxStatus = "Group receiver list upload failed. Please try again.";
             return createAjaxResult(data);
         }
@@ -55,7 +55,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             data.fileSrcUrl = null;
 
             log.info("Group Receiver List Upload Failed: uploaded file is corrupted");
-            statusToAdmin = "Group Receiver List Upload Failed: uploaded file is corrupted";
+            statusToAdmin.add("Group Receiver List Upload Failed: uploaded file is corrupted");
             data.ajaxStatus = "Group receiver list upload failed: uploaded file is corrupted. "
                               + "Please make sure the txt file contains only email addresses "
                               + "separated by comma";
@@ -68,7 +68,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         data.groupReceiverListFileKey = blobKey.getKeyString();
 
         data.isFileUploaded = true;
-        statusToAdmin = "New Group Receiver List Uploaded";
+        statusToAdmin.add("New Group Receiver List Uploaded");
         data.ajaxStatus = "Group receiver list successfully uploaded to Google Cloud Storage";
 
         return createAjaxResult(data);
@@ -111,11 +111,11 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         try {
             logic.deleteAdminEmailUploadedFile(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
+            statusToAdmin.add(Const.ACTION_RESULT_FAILURE
                     + " : Unable to delete group receiver list file (possible unused file with key: "
                     + blobKey.getKeyString()
                     + " || Error Message: "
-                    + bfe.getMessage() + Const.EOL;
+                    + bfe.getMessage() + Const.EOL);
         }
     }
 

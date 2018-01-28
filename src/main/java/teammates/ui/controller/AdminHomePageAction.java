@@ -17,7 +17,7 @@ public class AdminHomePageAction extends Action {
         data.instructorEmail = "";
         data.instructorInstitution = "";
 
-        statusToAdmin = "Admin Home Page Load";
+        statusToAdmin.add("Admin Home Page Load");
 
         return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
     }

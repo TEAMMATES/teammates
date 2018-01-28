@@ -11,6 +11,7 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
  * Action: Delete {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFeedbackResponseCommentAbstractAction {
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() {
@@ -36,13 +37,14 @@ public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFee
         logic.deleteDocumentByCommentId(commentId);
         logic.deleteFeedbackResponseCommentById(commentId);
 
-        statusToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
+        statusMessageToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
 
         InstructorFeedbackResponseCommentAjaxPageData data =
                 new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
 
+        statusToAdmin.add(statusMessageToAdmin);
         return createAjaxResult(data);
     }
 }

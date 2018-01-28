@@ -21,11 +21,11 @@ public class AdminEmailComposePageAction extends Action {
         if (isEmailEdit) {
 
             data.emailToEdit = logic.getAdminEmailById(idOfEmailToEdit);
-            statusToAdmin =
+            statusToAdmin.add(
                     data.emailToEdit == null
                     ? "adminEmailComposePage Page Load : " + Const.StatusMessages.EMAIL_NOT_FOUND
                     : "adminEmailComposePage Page Load : Edit Email "
-                      + "[" + SanitizationHelper.sanitizeForHtml(data.emailToEdit.getSubject()) + "]";
+                      + "[" + SanitizationHelper.sanitizeForHtml(data.emailToEdit.getSubject()) + "]");
 
             if (data.emailToEdit == null) {
                 isError = true;
@@ -34,7 +34,7 @@ public class AdminEmailComposePageAction extends Action {
 
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
-        statusToAdmin = "adminEmailComposePage Page Load";
+        statusToAdmin.add("adminEmailComposePage Page Load");
         data.init();
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);

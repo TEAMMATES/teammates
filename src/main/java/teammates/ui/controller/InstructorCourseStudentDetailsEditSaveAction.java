@@ -91,10 +91,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
                                 ? Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT
                                 : Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
 
-            statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
+            statusToAdmin.add("Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                             + "New Email: " + student.email + "<br>New Team: " + student.team + "<br>"
-                            + "Comments: " + student.comments;
+                            + "Comments: " + student.comments);
 
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
@@ -115,7 +115,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
 
     private RedirectResult redirectWithError(String errorToUser, String errorToAdmin, String courseId) {
         statusToUser.add(new StatusMessage(errorToUser, StatusMessageColor.DANGER));
-        statusToAdmin = errorToAdmin;
+        statusToAdmin.add(errorToAdmin);
         isError = true;
 
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);

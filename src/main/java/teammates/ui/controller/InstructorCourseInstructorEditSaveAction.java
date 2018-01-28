@@ -42,9 +42,9 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
                                                StatusMessageColor.SUCCESS));
-            statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
+            statusToAdmin.add("Instructor <span class=\"bold\"> " + instructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                    + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;
+                    + "New Name: " + instructorName + "<br>New Email: " + instructorEmail);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }

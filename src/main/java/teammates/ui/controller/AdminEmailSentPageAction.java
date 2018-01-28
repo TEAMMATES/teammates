@@ -12,7 +12,7 @@ public class AdminEmailSentPageAction extends Action {
 
         data.adminSentEmailList = logic.getSentAdminEmails();
 
-        statusToAdmin = "adminEmailSentPage Page Load";
+        statusToAdmin.add("adminEmailSentPage Page Load");
 
         data.init();
 

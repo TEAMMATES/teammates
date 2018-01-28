@@ -29,10 +29,10 @@ public class StudentProfilePictureAction extends Action {
         ActionResult result = null;
         if (isRequestFromStudent) {
             result = handleRequestWithBlobKey();
-            statusToAdmin = "Requested Profile Picture by student directly";
+            statusToAdmin.add("Requested Profile Picture by student directly");
         } else if (isRequestFromInstructorOrOtherStudent) {
             result = handleRequestWithEmailAndCourse();
-            statusToAdmin = "Requested Profile Picture by instructor/other students";
+            statusToAdmin.add("Requested Profile Picture by instructor/other students");
         }
 
         return result;

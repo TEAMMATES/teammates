@@ -59,10 +59,10 @@ public class InstructorFeedbackEditPageAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         int numOfInstructors = instructorList.size();
 
-        statusToAdmin = "instructorFeedbackEdit Page Load<br>"
+        statusToAdmin.add("instructorFeedbackEdit Page Load<br>"
                         + "Editing information for Feedback Session "
                         + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
-                        + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
+                        + "in Course: <span class=\"bold\">[" + courseId + "]</span>");
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
 

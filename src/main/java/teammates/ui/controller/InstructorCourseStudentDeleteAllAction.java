@@ -20,8 +20,8 @@ public class InstructorCourseStudentDeleteAllAction extends Action {
 
         logic.deleteAllStudentsInCourse(courseId);
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENTS_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "All the Students "
-                + "in Course <span class=\"bold\">[" + courseId + "]</span> are deleted.";
+        statusToAdmin.add("All the Students "
+                + "in Course <span class=\"bold\">[" + courseId + "]</span> are deleted.");
 
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);

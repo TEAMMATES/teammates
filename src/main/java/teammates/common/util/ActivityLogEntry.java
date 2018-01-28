@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -268,6 +269,12 @@ public final class ActivityLogEntry {
             if (val != null) {
                 logMessage = val;
             }
+            return this;
+        }
+
+        public Builder generateMessage(List<String> statusToAdmin) {
+            logMessage = statusToAdmin.isEmpty() ? Const.ActivityLog.UNKNOWN : StringHelper.join(
+                    "", statusToAdmin.toArray(new String[statusToAdmin.size()]));
             return this;
         }
 

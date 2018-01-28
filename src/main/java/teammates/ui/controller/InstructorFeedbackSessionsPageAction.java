@@ -57,7 +57,7 @@ public class InstructorFeedbackSessionsPageAction extends InstructorFeedbackAbst
                                                StatusMessageColor.WARNING));
         }
 
-        statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
+        statusToAdmin.add("Number of feedback sessions: " + existingFeedbackSessions.size());
 
         data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
                                         instructors, feedbackSessionToHighlight);

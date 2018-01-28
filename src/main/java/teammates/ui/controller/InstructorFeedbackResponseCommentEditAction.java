@@ -20,6 +20,8 @@ import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
+    private String statusMessageToAdmin = "";
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -93,7 +95,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         }
 
         if (!data.isError) {
-            statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
+            statusMessageToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
                            + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
@@ -111,6 +113,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
             data.editedCommentDetails = data.createEditedCommentDetails(commentGiverName, commentEditorName);
         }
 
+        statusToAdmin.add(statusMessageToAdmin);
         return createAjaxResult(data);
     }
 }

@@ -6,6 +6,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 public class InstructorFeedbackRemindParticularStudentsAction extends Action {
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() {
@@ -27,7 +28,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         if (!feedbackSession.isOpened()) {
             statusToUser.add(new StatusMessage(
                     Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN, StatusMessageColor.DANGER));
-            statusToAdmin = "Reminder email could not be sent out as the feedback session is not open for submissions.";
+            statusToAdmin.add("Reminder email could not be sent out as the feedback session is not open for submissions.");
             return createRedirectResult(nextUrl);
         }
 
@@ -41,13 +42,14 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName, usersToRemind);
 
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Email sent out to the selected user(s): ";
+        statusToAdmin.add("Email sent out to the selected user(s): ");
         for (String user : usersToRemind) {
-            statusToAdmin += "<br>" + user;
+            statusMessageToAdmin += "<br>" + user;
         }
-        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
-                         + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
+        statusMessageToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
+                + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
 
+        statusToAdmin.add(statusMessageToAdmin);
         return createRedirectResult(nextUrl);
     }
 }

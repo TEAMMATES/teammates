@@ -31,11 +31,11 @@ public class InstructorCourseArchiveAction extends Action {
                     statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_ARCHIVED,
                                                                        idOfCourseToArchive), StatusMessageColor.SUCCESS));
                 }
-                statusToAdmin = "Course archived: " + idOfCourseToArchive;
+                statusToAdmin.add("Course archived: " + idOfCourseToArchive);
             } else {
                 statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_UNARCHIVED,
                                                                        idOfCourseToArchive), StatusMessageColor.SUCCESS));
-                statusToAdmin = "Course unarchived: " + idOfCourseToArchive;
+                statusToAdmin.add("Course unarchived: " + idOfCourseToArchive);
             }
         } catch (Exception e) {
             setStatusForException(e);

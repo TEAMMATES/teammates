@@ -27,16 +27,16 @@ public class InstructorFeedbackRemindAction extends Action {
         if (!feedbackSession.isOpened()) {
             statusToUser.add(new StatusMessage(
                     Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN, StatusMessageColor.DANGER));
-            statusToAdmin = "Reminder email could not be sent out as the feedback session is not open for submissions.";
+            statusToAdmin.add("Reminder email could not be sent out as the feedback session is not open for submissions.");
             return createRedirectResult(nextUrl);
         }
 
         taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
 
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Email sent out to all students who have not completed "
+        statusToAdmin.add("Email sent out to all students who have not completed "
                       + "Feedback Session <span class=\"bold\">(" + feedbackSessionName
-                      + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
+                      + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>");
 
         return createRedirectResult(nextUrl);
     }

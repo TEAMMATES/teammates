@@ -18,10 +18,10 @@ public class AdminEmailTrashDeleteAction extends Action {
         if (shouldEmptyTrashBin) {
             try {
                 logic.deleteAllEmailsInTrashBin();
-                statusToAdmin = "All emails in trash bin has been deleted";
+                statusToAdmin.add("All emails in trash bin has been deleted");
                 statusToUser.add(new StatusMessage("All emails in trash bin has been deleted", StatusMessageColor.SUCCESS));
             } catch (BlobstoreFailureException e) {
-                statusToAdmin = "Blobstore connection failure";
+                statusToAdmin.add("Blobstore connection failure");
                 statusToUser.add(new StatusMessage("Blobstore connection failure", StatusMessageColor.DANGER));
             }
         }

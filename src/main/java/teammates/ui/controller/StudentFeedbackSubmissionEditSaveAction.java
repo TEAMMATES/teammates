@@ -59,8 +59,8 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show student feedback edit result page<br>" + "Session Name: "
-                        + feedbackSessionName + "<br>" + "Course ID: " + courseId;
+        statusToAdmin.add("Show student feedback edit result page<br>" + "Session Name: "
+                        + feedbackSessionName + "<br>" + "Course ID: " + courseId);
     }
 
     @Override

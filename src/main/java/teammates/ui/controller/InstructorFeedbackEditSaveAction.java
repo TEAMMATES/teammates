@@ -36,7 +36,7 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         try {
             logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));
-            statusToAdmin =
+            statusToAdmin.add(
                     "Updated Feedback Session "
                     + "<span class=\"bold\">(" + feedbackSession.getFeedbackSessionName() + ")</span> for Course "
                     + "<span class=\"bold\">[" + feedbackSession.getCourseId() + "]</span> created.<br>"
@@ -44,7 +44,7 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
                     + "<span class=\"bold\"> to</span> " + feedbackSession.getEndTime()
                     + "<br><span class=\"bold\">Session visible from:</span> " + feedbackSession.getSessionVisibleFromTime()
                     + "<br><span class=\"bold\">Results visible from:</span> " + feedbackSession.getResultsVisibleFromTime()
-                    + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.getInstructions();
+                    + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.getInstructions());
             data.setStatusForAjax(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
             data.setHasError(false);
         } catch (InvalidParametersException e) {

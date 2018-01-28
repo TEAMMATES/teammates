@@ -24,7 +24,7 @@ public class InstructorCourseDeleteAction extends Action {
         logic.deleteCourse(idOfCourseToDelete);
         String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
         statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Course deleted: " + idOfCourseToDelete;
+        statusToAdmin.add("Course deleted: " + idOfCourseToDelete);
 
         if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);

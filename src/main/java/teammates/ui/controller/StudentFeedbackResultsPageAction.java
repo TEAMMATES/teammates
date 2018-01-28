@@ -54,9 +54,9 @@ public class StudentFeedbackResultsPageAction extends Action {
                                                StatusMessageColor.WARNING));
         }
 
-        statusToAdmin = "Show student feedback result page<br>"
+        statusToAdmin.add("Show student feedback result page<br>"
                         + "Session Name: " + feedbackSessionName + "<br>"
-                        + "Course ID: " + courseId;
+                        + "Course ID: " + courseId);
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
                                         data.getBundle().getQuestionResponseMapSortedByRecipient();

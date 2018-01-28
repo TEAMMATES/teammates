@@ -44,9 +44,9 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE);
         data.bundle.resetAllResponses();
 
-        statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>"
+        statusToAdmin.add("Preview feedback session as instructor (" + previewInstructor.email + ")<br>"
                       + "Session Name: " + feedbackSessionName + "<br>"
-                      + "Course ID: " + courseId;
+                      + "Course ID: " + courseId);
 
         data.init("", "", courseId);
 

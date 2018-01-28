@@ -26,6 +26,7 @@ import teammates.common.util.StatusMessageColor;
 public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
 
     private static final Logger log = Logger.getLogger();
+    private String statusMessageToAdmin = "";
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -62,15 +63,16 @@ public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticate
         response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
         excludeStudentDetailsFromResponseParams();
 
-        if (statusToAdmin == null || statusToAdmin.trim().isEmpty()) {
-            statusToAdmin = studentInfo;
+        if (statusToAdmin == null || statusToAdmin.isEmpty()) {
+            statusMessageToAdmin += studentInfo;
         } else {
-            statusToAdmin += "<br><br>" + studentInfo;
+            statusMessageToAdmin += "<br><br>" + studentInfo;
         }
 
         addStatusMessageToUser();
         sendCourseRegisteredEmail(student.name, student.email, false, student.course);
 
+        statusToAdmin.add(statusMessageToAdmin);
         return response;
     }
 
