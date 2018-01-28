@@ -9,6 +9,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.StudentsDb;
 
+/**
+ * Script to desanitize content of {@link StudentAttributes} if it is sanitized.
+ */
 public class DataMigrationForSanitizedDataInStudentAttributes extends DataMigrationBaseScript<StudentAttributes> {
 
     private StudentsDb studentsDb = new StudentsDb();

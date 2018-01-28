@@ -6,6 +6,11 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 
+/**
+ * Base script to be used as template for all data migration scripts.
+ *
+ * @param <T> The entity type to be migrated by the script.
+ */
 public abstract class DataMigrationBaseScript<T extends EntityAttributes<?>> extends RemoteApiClient {
 
     /**
