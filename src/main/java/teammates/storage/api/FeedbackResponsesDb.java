@@ -447,18 +447,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         return load().filter("courseId in", courseIds);
     }
 
-    public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
-        return getFeedbackResponsesForCoursesQuery(courseIds).list();
-    }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
-        return makeAttributes(getFeedbackResponseEntitiesForCourse(courseId));
-    }
-
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
-        return load().filter("courseId =", courseId).list();
-    }
-
     /**
      * Returns true if there are existing responses in any feedback session in the course.
      */
