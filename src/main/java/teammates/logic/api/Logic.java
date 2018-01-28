@@ -2004,16 +2004,6 @@ public class Logic {
     }
 
     /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     * <br> Empty List if no admin email found
-     */
-    @SuppressWarnings("deprecation")
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return adminEmailsLogic.getAllAdminEmails();
-    }
-
-    /**
      * Gets an admin email by email id.
      *
      * @see AdminEmailsLogic#getAdminEmailById(String)
