@@ -530,10 +530,6 @@ public final class StudentsLogic {
         }
     }
 
-    public void putDocument(StudentAttributes student) {
-        studentsDb.putDocument(student);
-    }
-
     /**
      * Batch creates or updates documents for the given students.
      */

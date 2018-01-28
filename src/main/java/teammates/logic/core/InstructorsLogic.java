@@ -47,14 +47,6 @@ public final class InstructorsLogic {
      */
 
     /**
-     * Creates or updates document for the given Instructor.
-     * @param instructor to be put into documents
-     */
-    public void putDocument(InstructorAttributes instructor) {
-        instructorsDb.putDocument(instructor);
-    }
-
-    /**
      * Batch creates or updates documents for the given Instructors.
      * @param instructors a list of instructors to be put into documents
      */
@@ -142,17 +134,6 @@ public final class InstructorsLogic {
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
 
         return StringHelper.encrypt(instructor.key);
-    }
-
-    /**
-     * Gets all instructors in the Datastore.
-     *
-     * @deprecated Not scalable. Use only for admin features.
-     */
-    @Deprecated
-    public List<InstructorAttributes> getAllInstructors() {
-
-        return instructorsDb.getAllInstructors();
     }
 
     public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
