@@ -125,6 +125,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
         verifyNoEmailsSent(a);
 
+        // delete respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("skipped question");
 
         submissionParams = new String[] {
@@ -182,6 +185,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                         "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+
+        // append respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
     }
 
     private void testIncorrectParameters() {
