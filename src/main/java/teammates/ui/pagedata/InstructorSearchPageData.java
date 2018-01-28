@@ -2,8 +2,10 @@ package teammates.ui.pagedata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
@@ -189,7 +191,7 @@ public class InstructorSearchPageData extends PageData {
         List<StudentListSectionData> rows = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = filterStudentsByCourse(
                                                        courseId, studentSearchResultBundle);
-        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<>();
+        Map<String, Set<String>> sectionNameToTeamNameMap = new HashMap<>();
         Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<>();
         Map<String, String> emailToPhotoUrlMap = new HashMap<>();
         for (StudentAttributes student : studentsInCourse) {
@@ -197,23 +199,19 @@ public class InstructorSearchPageData extends PageData {
             String sectionName = student.section;
             String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());
             emailToPhotoUrlMap.put(student.email, viewPhotoLink);
-            if (!teamNameToStudentsMap.containsKey(teamName)) {
-                teamNameToStudentsMap.put(teamName, new ArrayList<StudentAttributes>());
-            }
-            teamNameToStudentsMap.get(teamName).add(student);
-            if (!sectionNameToTeamNameMap.containsKey(sectionName)) {
-                sectionNameToTeamNameMap.put(sectionName, new ArrayList<String>());
-            }
-            if (!sectionNameToTeamNameMap.get(sectionName).contains(teamName)) {
-                sectionNameToTeamNameMap.get(sectionName).add(teamName);
-            }
+
+            teamNameToStudentsMap.computeIfAbsent(teamName, key -> new ArrayList<>())
+                                 .add(student);
+
+            sectionNameToTeamNameMap.computeIfAbsent(sectionName, key -> new HashSet<>())
+                                    .add(teamName);
         }
         List<SectionDetailsBundle> sections = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : sectionNameToTeamNameMap.entrySet()) {
+        sectionNameToTeamNameMap.forEach((sectionName, teamNameList) -> {
             SectionDetailsBundle sdb = new SectionDetailsBundle();
-            sdb.name = entry.getKey();
+            sdb.name = sectionName;
             ArrayList<TeamDetailsBundle> teams = new ArrayList<>();
-            for (String teamName : entry.getValue()) {
+            for (String teamName : teamNameList) {
                 TeamDetailsBundle tdb = new TeamDetailsBundle();
                 tdb.name = teamName;
                 tdb.students = teamNameToStudentsMap.get(teamName);
@@ -221,7 +219,7 @@ public class InstructorSearchPageData extends PageData {
             }
             sdb.teams = teams;
             sections.add(sdb);
-        }
+        });
         for (SectionDetailsBundle section : sections) {
             InstructorAttributes instructor = studentSearchResultBundle.courseIdInstructorMap.get(courseId);
             boolean isAllowedToViewStudentInSection =

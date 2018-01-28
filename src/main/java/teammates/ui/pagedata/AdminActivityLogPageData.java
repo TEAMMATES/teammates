@@ -384,7 +384,7 @@ public class AdminActivityLogPageData extends PageData {
             return "";
         }
 
-        return StringHelper.join(",", q.infoValues);
+        return String.join(",", q.infoValues);
     }
 
     /**

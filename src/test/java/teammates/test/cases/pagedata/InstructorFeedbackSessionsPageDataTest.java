@@ -3,7 +3,6 @@ package teammates.test.cases.pagedata;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -361,19 +360,14 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
     private List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
         List<InstructorAttributes> instructors = new ArrayList<>(dataBundle.instructors.values());
 
-        Iterator<InstructorAttributes> iter = instructors.iterator();
-        while (iter.hasNext()) {
-            InstructorAttributes instructor = iter.next();
-
+        instructors.removeIf(instructor -> {
             boolean isGoogleIdSame = instructor.googleId != null
-                                     && instructor.googleId.equals(googleId);
+                    && instructor.googleId.equals(googleId);
             boolean isOmittedDueToArchiveStatus = isOmitArchived
-                                                  && instructor.isArchived != null
-                                                  && instructor.isArchived;
-            if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
-                iter.remove();
-            }
-        }
+                    && instructor.isArchived != null
+                    && instructor.isArchived;
+            return !isGoogleIdSame || isOmittedDueToArchiveStatus;
+        });
 
         return instructors;
     }
@@ -383,13 +377,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         List<CourseAttributes> courses = new ArrayList<>(dataBundle.courses.values());
 
-        Iterator<CourseAttributes> iter = courses.iterator();
-        while (iter.hasNext()) {
-            CourseAttributes course = iter.next();
-            if (!courseIdsOfUser.contains(course.getId())) {
-                iter.remove();
-            }
-        }
+        courses.removeIf(course -> !courseIdsOfUser.contains(course.getId()));
 
         return courses;
     }
@@ -400,13 +388,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
 
-        Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
-        while (iter.hasNext()) {
-            FeedbackSessionAttributes fs = iter.next();
-            if (!courseIdsOfUser.contains(fs.getCourseId())) {
-                iter.remove();
-            }
-        }
+        feedbackSessions.removeIf(fs -> !courseIdsOfUser.contains(fs.getCourseId()));
 
         return feedbackSessions;
     }

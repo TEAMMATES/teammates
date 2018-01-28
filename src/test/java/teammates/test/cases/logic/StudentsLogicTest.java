@@ -1,7 +1,6 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -671,7 +670,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String headerLine = "team | name | email | comment";
         String line0 = "t1   |  n1   |   e1@g  |   c1";
         String line1 = " t2|  n2|  e2@g|  c2";
-        String line2 = "t3  |n3|  e3@g|c3  ";
+        String line2 = "\u00A0t3  |n3|  e3@g|c3  ";
         String line3 = "t4|n4|  e4@g|c4";
         String line4 = "t5|  n5|e5@g  |c5";
         String lines = headerLine + Const.EOL + line0 + Const.EOL + line1 + Const.EOL + line2 + Const.EOL
@@ -891,12 +890,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // check the content from first list (we assume the content of the
         // second list is similar.
 
-        Collections.sort(listReceivedUsingStudentInCourse1, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return o1.course.compareTo(o2.course);
-            }
-        });
+        listReceivedUsingStudentInCourse1.sort(Comparator.comparing(student -> student.course));
 
         StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2
