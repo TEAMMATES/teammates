@@ -22,7 +22,7 @@ The syntax for the pre-configured settings found below are as follows:
 | IntelliJ Setting                      | Node                                 | Value               |
 |---------------------------------------|--------------------------------------|---------------------|
 | `Active` `Configuration File`         | `entry[@key='active-configuration']` | `PROJECT_RELATIVE:$PRJ_DIR$/static-analysis/teammates-checkstyle.xml:teammates` |
-| `Checkstyle version:`                 | `entry[@key='checkstyle-version']`   | `8.7`               |
+| `Checkstyle version:`                 | `entry[@key='checkstyle-version']`   | `Automatic replacement: `checkStyleVersion` in build script` [[1]](#versions-sync-with-tools-used-in-build-script) |
 | `basedir` `Value`                     | `entry[@key='property-1.basedir']`   | `$PROJECT_DIR$`     |
 | `Scan Scope:`                         | `entry[@key='scanscope']`            | `JavaOnlyWithTests` |
 | `Treat Checkstyle errors as warnings` | `entry[@key='suppress-errors']`      | `false`             |
@@ -101,3 +101,11 @@ The syntax for the pre-configured settings found below are as follows:
 | `RuleSets`             | `/option[@name='customRuleSets']/list/option[@value]`   | `$PROJECT_DIR$/static-analysis/teammates-pmdMain.xml` |
 | `Target JDK` `Options` | `/option[@name='options']/map/entry[@key='Target JDK']` | `1.8`                                                 |
 | `Skip Test Sources`    | `/option[@name='skipTestSources']`                      | `false`                                               |
+
+# Versions sync with tools used in build script
+
+The `CheckStyle-IDEA` plugin has the ability to select versions so its specified version will be automatically synced with the build script. This is achieved by the task `syncIntelliJCheckStyleVersion` which runs after `setupIntellijStaticAnalysis`. The task also executes automatically during configuration phase in which IntelliJ IDEA automatically goes through when `Use auto-import` is enabled.
+
+For `ESLint` and `Stylelint`, the installed packages in `node_modules` are directly referenced in IntelliJ IDEA.
+
+For `FindBugs-IDEA` and `PMD`, they are to be manually kept in sync by the user.
