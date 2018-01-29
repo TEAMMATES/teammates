@@ -209,7 +209,10 @@ public final class TimeHelper {
         return sdf.format(date);
     }
 
-    public static String formatDateNew(Date date) {
+    /**
+     * Formats a date in the format D, dd MMM, yyyy. Example: Tue, 23 May, 2018
+     */
+    public static String formatDateForSessionForm(Date date) {
         if (date == null) {
             return "";
         }

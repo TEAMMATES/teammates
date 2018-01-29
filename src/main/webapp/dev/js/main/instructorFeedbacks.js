@@ -47,6 +47,8 @@ import {
     addLoadingIndicator,
 } from '../common/ui';
 
+/* global moment:false */
+
 let isSessionsAjaxSending = false;
 let oldStatus = null;
 
@@ -55,8 +57,6 @@ const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 const DISPLAY_FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
 const DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
-const monthNameShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 function isTimeZoneIntialized() {
     return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
@@ -70,20 +70,16 @@ function formatDigit(num) {
 }
 
 /**
- * Format a date object into D, dd M, yy format
+ * Format a date object into D, dd M, yy format (Tue, 23 Jan, 2018)
  * @param date
  * @returns {String}
  */
 
 function convertDateToDddMMMYYYY(date) {
-    return `${days[date.getDay()]}, ${formatDigit(date.getDate())} ${monthNameShort[date.getMonth()]},
+    return `${moment(date).format('ddd')}, ${formatDigit(date.getDate())} ${moment(date).format('MMM')},
             ${date.getFullYear()}`;
 }
-/**
-function convertDateToDDMMYYYY(date) {
-    return `${formatDigit(date.getDate())}/${formatDigit(date.getMonth() + 1)}/${date.getFullYear()}`;
-}
-*/
+
 /**
  * Format a date object into HHMM format
  * @param date

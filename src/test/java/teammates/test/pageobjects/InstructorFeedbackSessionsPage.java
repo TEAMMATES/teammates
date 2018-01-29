@@ -321,7 +321,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateNew(datetimeValue) + "');");
+            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionForm(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
             int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
