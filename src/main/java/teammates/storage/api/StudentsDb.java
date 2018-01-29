@@ -3,11 +3,9 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -100,30 +98,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             key = student.key;
         }
         deleteDocument(Const.SearchIndex.STUDENT, key);
-    }
-
-    /**
-     * Creates students' records without searchability.
-     */
-    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd)
-            throws InvalidParametersException {
-
-        List<StudentAttributes> studentsToUpdate = createEntities(studentsToAdd);
-        for (StudentAttributes student : studentsToUpdate) {
-            try {
-                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
-                                                  student.section, student.email, student.googleId, student.comments);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
-
-    public void createStudent(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createStudent(student, true);
     }
 
     public void createStudentWithoutDocument(StudentAttributes student)
@@ -251,8 +225,14 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
-        return allStudents.stream().filter(s -> s.googleId == null
-                    || s.googleId.trim().isEmpty()).collect(Collectors.toList());
+        ArrayList<StudentAttributes> unregistered = new ArrayList<>();
+
+        for (StudentAttributes s : allStudents) {
+            if (s.googleId == null || s.googleId.trim().isEmpty()) {
+                unregistered.add(s);
+            }
+        }
+        return unregistered;
     }
 
     /**
