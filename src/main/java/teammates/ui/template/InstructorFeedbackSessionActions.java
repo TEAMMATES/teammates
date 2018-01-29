@@ -58,7 +58,9 @@ public class InstructorFeedbackSessionActions {
                             Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
 
-        this.isAllowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
+        this.isAllowedToSubmit =
+                session.isOpened() && (session.isVisible() || session.isPrivateSession())
+                && shouldEnableSubmitLink && !session.isClosed();
         this.isAllowedToRemind =
                 (session.isOpened() || session.isClosed() && !session.isPublished())
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
