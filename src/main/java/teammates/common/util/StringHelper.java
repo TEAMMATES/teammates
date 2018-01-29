@@ -517,7 +517,6 @@ public final class StringHelper {
         if (elements == null) {
             throw new IllegalArgumentException("Provided arguments cannot be null");
         }
-        Object[] result = elements.stream().map(e -> String.valueOf(e)).toArray();
 
         return elements.stream()
                 .map(s -> String.valueOf(s))
