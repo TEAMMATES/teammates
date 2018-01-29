@@ -3,11 +3,13 @@ package teammates.common.util;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -39,11 +41,7 @@ public final class StringHelper {
 
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(character);
-        }
-        return sb.toString();
+        return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 
     public static boolean isWhiteSpace(String string) {
@@ -67,7 +65,8 @@ public final class StringHelper {
      * @param regexList The regex list used for the matching
      */
     public static boolean isAnyMatching(String input, List<String> regexList) {
-        return regexList.stream().filter(regex -> isMatching(input.trim().toLowerCase(), regex)).count() > 0;
+        return regexList.stream()
+                .anyMatch(r -> isMatching(input.trim().toLowerCase(), r));
     }
 
     public static String getIndent(int length) {
@@ -84,11 +83,8 @@ public final class StringHelper {
         if (inputString.length() <= truncateLength) {
             return inputString;
         }
-        String result = inputString;
-        if (inputString.length() > truncateLength) {
-            result = inputString.substring(0, truncateLength - 3) + "...";
-        }
-        return result;
+
+        return inputString.substring(0, truncateLength - 3) + "...";
     }
 
     /**
@@ -176,15 +172,11 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list, String delimiter) {
-        if (list.isEmpty()) {
-            return "";
-        }
 
-        StringBuilder returnValue = new StringBuilder();
-        list.forEach(e -> returnValue.append(e).append(delimiter));
+        return list.stream()
+                .map(s -> s.toString())
+                .collect(Collectors.joining(delimiter));
 
-        // Removing Last delimiter
-        return returnValue.toString().replaceAll(delimiter + "$", "");
     }
 
     public static String toDecimalFormatString(double doubleVal) {
@@ -304,11 +296,9 @@ public final class StringHelper {
 
         char[] charArray = str.toCharArray();
 
-        for (int i = 0; i < charArray.length; i++) {
-            if (!isMatching(Character.toString(charArray[i]), regex)) {
-                charArray[i] = replacement;
-            }
-        }
+        IntStream.range(0, charArray.length)
+                .filter(i -> !isMatching(Character.toString(charArray[i]), regex))
+                .forEach(i -> charArray[i] = replacement);
 
         return String.valueOf(charArray);
     }
@@ -327,11 +317,8 @@ public final class StringHelper {
 
     public static byte[] hexStringToByteArray(String s) {
         byte[] b = new byte[s.length() / 2];
-        for (int i = 0; i < b.length; i++) {
-            int index = i * 2;
-            int v = Integer.parseInt(s.substring(index, index + 2), 16);
-            b[i] = (byte) v;
-        }
+        IntStream.range(0, b.length)
+                .forEach(i -> b[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
         return b;
     }
 
@@ -415,10 +402,9 @@ public final class StringHelper {
     }
 
     private static boolean checkIfEmptyRow(List<String> rowData) {
-        if (rowData == null) {
-            return false;
-        }
-        return rowData.stream().filter(td -> !td.isEmpty()).count() <= 0;
+        return rowData.stream()
+                .allMatch(r -> r.isEmpty());
+
     }
 
     /**
@@ -463,13 +449,9 @@ public final class StringHelper {
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
-        int numOfEmptyStrings = 0;
-        for (String s : strings) {
-            if (isEmpty(s)) {
-                numOfEmptyStrings += 1;
-            }
-        }
-        return numOfEmptyStrings;
+        return Math.toIntExact(Arrays.stream(strings)
+                .filter(s -> isEmpty(s))
+                .count());
     }
 
     /**
@@ -507,8 +489,10 @@ public final class StringHelper {
      * trailing any string in the input array.
      */
     public static String[] trim(String[] stringsToTrim) {
-        Object[] result = Arrays.stream(stringsToTrim).map(str -> str.trim()).toArray();
-        return Arrays.copyOf(result, result.length, String[].class);
+        return Arrays.stream(stringsToTrim)
+                .map(s -> s.trim())
+                .toArray(size -> new String[size]);
+
     }
 
     /**
@@ -535,7 +519,10 @@ public final class StringHelper {
         }
         Object[] result = elements.stream().map(e -> String.valueOf(e)).toArray();
 
-        return Arrays.copyOf(result, result.length, String[].class);
+        return elements.stream()
+                .map(s -> String.valueOf(s))
+                .toArray(size -> new String[size]);
+
     }
 
     /**
@@ -551,7 +538,9 @@ public final class StringHelper {
             return true;
         }
 
-        return Arrays.stream(strings).filter(str -> text.contains(str)).count() > 0;
+        return Arrays.stream(strings)
+                .anyMatch(s -> text.contains(s));
+
     }
 
     /**

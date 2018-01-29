@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
 
@@ -17,7 +16,7 @@ import teammates.test.driver.AssertHelper;
  */
 public class InstructorSearchTest extends BaseSearchTest {
     @Test
-    public void allTests() throws InvalidParametersException {
+    public void allTests() throws Exception {
         InstructorsDb instructorsDb = new InstructorsDb();
 
         InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -100,7 +99,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes assistantProf = helperInCourse1.getCopy();
         String displayedName = "Assistant Prof Smith";
         assistantProf.displayedName = displayedName;
-        instructorsDb.createInstructors(Arrays.asList(assistantProf));
+        instructorsDb.updateInstructorByEmail(assistantProf);
         results = instructorsDb.searchInstructorsInWholeSystem(displayedName);
         verifySearchResults(results, assistantProf);
 
