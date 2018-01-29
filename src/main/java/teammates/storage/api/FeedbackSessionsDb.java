@@ -5,7 +5,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,20 +30,6 @@ import teammates.storage.entity.FeedbackSession;
 public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
-
-    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
-            throws InvalidParametersException {
-        List<FeedbackSessionAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
-        for (FeedbackSessionAttributes session : feedbackSessionsToUpdate) {
-            try {
-                updateFeedbackSession(session);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
 
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
