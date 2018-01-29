@@ -67,15 +67,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>EntityModifiedLogs</servlet-name>
-        <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EntityModifiedLogs</servlet-name>
-        <url-pattern>/entityModifiedLogs</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
@@ -153,7 +144,6 @@
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
             <url-pattern>/admin/*</url-pattern>
-            <url-pattern>/entityModifiedLogs</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
