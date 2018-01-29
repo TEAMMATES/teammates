@@ -1,7 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<h4>
-  <a name="gs">Getting Started</a>
-</h4>
+<h4 class="text-color-primary" id="gs">Getting Started</h4>
 <div id="contentHolder">
   <br>
   <ol type="1">
@@ -67,6 +65,8 @@
         </div>
       </div>
       <br>
+    </li>
+    <li>
       <span class="text-bold">Adding more instructors</span>
       <div class="helpSectionContent">
         More instructors (e.g. tutors) can be added to a course by going to the ‘edit’ link of the course.
@@ -423,8 +423,8 @@
       <span class="text-bold">When you need help</span>
       <div class="helpSectionContent">
         If you have a doubt or need our help, just
-        <a href="mailto:teammates@comp.nus.edu.sg">email us
-        </a>. We respond within 24 hours.
+        <a href="mailto:teammates@comp.nus.edu.sg">email us</a>.
+        We respond within 24 hours.
         <br>
         <br>
       </div>

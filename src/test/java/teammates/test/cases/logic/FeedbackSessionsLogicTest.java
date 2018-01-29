@@ -1841,8 +1841,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Summary Statistics,",
                 "Team, Recipient, Self Rank, Average Rank, Average Rank Excluding Self, Ranks Received",
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",1,2,3,3,1",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4,4,-,4",
                 "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1,1.33,1,1,2,1",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4,4,-,4",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",1,1.5,2,2,1",
                 "",
                 "",
@@ -2151,11 +2151,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     // Stringifies the visibility table for easy testing/comparison.
     private String tableToString(Map<String, boolean[]> table) {
         StringBuilder tableStringBuilder = new StringBuilder();
-        for (Map.Entry<String, boolean[]> entry : table.entrySet()) {
-            tableStringBuilder.append('{' + entry.getKey() + "={"
-                                      + entry.getValue()[0] + ','
-                                      + entry.getValue()[1] + "}},");
-        }
+        table.forEach((key, value) -> tableStringBuilder.append('{' + key + "={" + value[0] + ',' + value[1] + "}},"));
         String tableString = tableStringBuilder.toString();
         if (!tableString.isEmpty()) {
             tableString = tableString.substring(0, tableString.length() - 1);

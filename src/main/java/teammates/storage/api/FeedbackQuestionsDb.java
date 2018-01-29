@@ -28,20 +28,6 @@ import teammates.storage.entity.FeedbackQuestion;
 public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
 
-    public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd)
-            throws InvalidParametersException {
-        List<FeedbackQuestionAttributes> questionsToUpdate = createEntities(questionsToAdd);
-        for (FeedbackQuestionAttributes question : questionsToUpdate) {
-            try {
-                updateFeedbackQuestion(question);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
-
     /**
      * Creates multiple questions without checking for existence. Also calls {@link #flush()},
      * leading to any previously deferred operations being written immediately. This is needed
@@ -114,17 +100,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverType);
 
         return makeAttributes(getFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType));
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return An empty list if no such questions are found.
-     */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        return makeAttributes(getFeedbackQuestionEntitiesForCourse(courseId));
     }
 
     /**
@@ -222,12 +197,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
             String feedbackSessionName, String courseId) {
         return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .list();
-    }
-
-    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourse(String courseId) {
-        return load()
                 .filter("courseId =", courseId)
                 .list();
     }

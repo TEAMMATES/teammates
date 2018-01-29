@@ -3,7 +3,6 @@ package teammates.common.datatransfer.attributes;
 import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -189,56 +188,19 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     public static void sortBySectionName(List<StudentAttributes> students) {
-        Collections.sort(students, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes student1, StudentAttributes student2) {
-                String sect1 = student1.section;
-                String sect2 = student2.section;
-
-                // If the section name is the same, reorder by team name
-                if (sect1.compareTo(sect2) == 0) {
-                    if (student1.team.compareTo(student2.team) == 0) {
-                        return student1.name.compareTo(student2.name);
-                    }
-
-                    return student1.team.compareTo(student2.team);
-                }
-
-                return sect1.compareTo(sect2);
-            }
-        });
+        students.sort(Comparator.comparing((StudentAttributes student) -> student.section)
+                .thenComparing(student -> student.team)
+                .thenComparing(student -> student.name));
     }
 
     public static void sortByTeamName(List<StudentAttributes> students) {
-        Collections.sort(students, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes student1, StudentAttributes student2) {
-                String team1 = student1.team;
-                String team2 = student2.team;
-
-                // If the team name is the same, reorder by student name
-                if (team1.compareTo(team2) == 0) {
-                    return student1.name.compareTo(student2.name);
-                }
-
-                return team1.compareTo(team2);
-            }
-        });
+        students.sort(Comparator.comparing((StudentAttributes student) -> student.team)
+                .thenComparing(student -> student.name));
     }
 
     public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
-        Collections.sort(students, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes student1, StudentAttributes student2) {
-                int result = student1.name.compareTo(student2.name);
-
-                if (result == 0) {
-                    result = student1.email.compareTo(student2.email);
-                }
-
-                return result;
-            }
-        });
+        students.sort(Comparator.comparing((StudentAttributes student) -> student.name)
+                .thenComparing(student -> student.email));
     }
 
     public void updateWithExistingRecord(StudentAttributes originalStudent) {
