@@ -1,3 +1,5 @@
+/* global moment:false */
+
 import {
     linkAjaxForResponseRate,
 } from '../common/ajaxResponseRate';
@@ -47,7 +49,6 @@ import {
     addLoadingIndicator,
 } from '../common/ui';
 
-/* global moment:false */
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
@@ -74,10 +75,8 @@ function formatDigit(num) {
  * @param date
  * @returns {String}
  */
-
 function convertDateToDddMMMYYYY(date) {
-    return `${moment(date).format('ddd')}, ${formatDigit(date.getDate())} ${moment(date).format('MMM')},
-            ${date.getFullYear()}`;
+    return `${moment(date).format('ddd, DD MMM, yyyy')}`;
 }
 
 /**
