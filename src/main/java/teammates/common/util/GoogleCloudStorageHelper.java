@@ -57,17 +57,17 @@ public final class GoogleCloudStorageHelper {
     /**
      * Writes a byte array {@code imageData} as image to the Google Cloud Storage,
      * with the {@code googleId} as the identifier name for the image.
+     *
      * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
      */
     public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.GCS_BUCKETNAME, googleId);
-        GcsOutputChannel outputChannel =
+        try (GcsOutputChannel outputChannel =
                 GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                                 .createOrReplace(gcsFilename,
-                                                  new GcsFileOptions.Builder().mimeType("image/png").build());
+                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build())) {
 
-        outputChannel.write(ByteBuffer.wrap(imageData));
-        outputChannel.close();
+            outputChannel.write(ByteBuffer.wrap(imageData));
+        }
 
         return BlobstoreServiceFactory.getBlobstoreService()
                 .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + googleId).getKeyString();
@@ -131,11 +131,11 @@ public final class GoogleCloudStorageHelper {
         while (size > 0) {
             // Make sure not to over-read
             int bytesToRead = Math.min(size, MAX_READING_LENGTH);
-            InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
             byte[] array = new byte[bytesToRead];
+            try (InputStream blobStream = new BlobstoreInputStream(blobKey, offset)) {
 
-            blobStream.read(array);
-
+                blobStream.read(array);
+            }
             // Remember where it stops reading
             offset += MAX_READING_LENGTH;
             // Decrease unread bytes
@@ -164,14 +164,12 @@ public final class GoogleCloudStorageHelper {
                     // Either the left part or the right part of the broken email string does not contains a "@".
                     // Simply append the right part to the left part (last item of the list from last reading).
                     listOfList.get(listOfList.size() - 1)
-                              .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
+                            .set(lastAddedList.size() - 1, lastStringOfLastAddedList + firstStringOfNewList);
 
                     // And also needs to delete the right part which is the first item of the list from current reading
                     listOfList.add(newList.subList(1, newList.size() - 1));
                 }
             }
-
-            blobStream.close();
         }
 
         return listOfList;
