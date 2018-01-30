@@ -296,7 +296,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         return loginAdminToPage(profileUrl, typeOfPage);
     }
 
-
     private void verifyPictureIsPresent(String pictureKey) {
         assertTrue(BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
     }
