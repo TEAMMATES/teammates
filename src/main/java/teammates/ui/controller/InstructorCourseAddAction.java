@@ -37,7 +37,9 @@ public class InstructorCourseAddAction extends Action {
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account, sessionToken);
-        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
+        CourseAttributes newCourse = CourseAttributes
+                .builder(newCourseId, newCourseName, newCourseTimeZone)
+                .build();
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */

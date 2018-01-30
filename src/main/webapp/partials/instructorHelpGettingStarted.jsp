@@ -65,6 +65,8 @@
         </div>
       </div>
       <br>
+    </li>
+    <li>
       <span class="text-bold">Adding more instructors</span>
       <div class="helpSectionContent">
         More instructors (e.g. tutors) can be added to a course by going to the ‘edit’ link of the course.

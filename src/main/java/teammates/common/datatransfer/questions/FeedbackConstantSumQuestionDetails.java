@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -580,7 +579,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * Returns the list of points as as string to display.
      */
     private String getListOfPointsAsString(List<Integer> points) {
-        Collections.sort(points);
+        points.sort(null);
         StringBuilder pointsReceived = new StringBuilder();
         if (points.size() > 10) {
             for (int i = 0; i < 5; i++) {

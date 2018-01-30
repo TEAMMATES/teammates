@@ -41,20 +41,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private static final Logger log = Logger.getLogger();
 
-    public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd)
-            throws InvalidParametersException {
-        List<FeedbackResponseCommentAttributes> commentsToUpdate = createEntities(commentsToAdd);
-        for (FeedbackResponseCommentAttributes comment : commentsToUpdate) {
-            try {
-                updateFeedbackResponseComment(comment);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
-
     /**
      * Preconditions:
      * <br> * {@code entityToAdd} is not null and has valid data.
@@ -184,13 +170,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private Query<FeedbackResponseComment> getFeedbackResponseCommentsForCoursesQuery(List<String> courseIds) {
         return load().filter("courseId in", courseIds);
-    }
-
-    /*
-     * Get response comments for the course
-     */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForCourse(String courseId) {
-        return makeAttributes(getFeedbackResponseCommentEntitiesForCourse(courseId));
     }
 
     /**
@@ -406,12 +385,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
-                .list();
-    }
-
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourse(String courseId) {
-        return load()
-                .filter("courseId =", courseId)
                 .list();
     }
 
