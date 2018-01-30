@@ -286,7 +286,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                                    .withParam(Const.ParamsNames.COURSE_ID, courseId);
-        return loginAsInstructorToPage(instructorId, profileUrl, typeOfPage);
+        return loginInstructorToPage(instructorId, profileUrl, typeOfPage);
     }
 
     private <T extends AppPage> T getProfilePicturePage(String studentId, String pictureKey, Class<T> typeOfPage) {
