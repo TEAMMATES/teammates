@@ -220,9 +220,21 @@ function bindRankEvents() {
             });
 }
 
+function hideInvalidRankRecipientFeedbackPaths(qnNum) {
+    const $form = $(`#form_editquestion-${qnNum}`);
+    const qnType = $form.find('[name="questiontype"]').val();
+
+    if (qnType === 'RANK_RECIPIENTS') {
+        $form.find('[data-recipient-type="NONE"],[data-recipient-type="SELF"]').hide();
+    } else {
+        $form.find('[data-recipient-type="NONE"],[data-recipient-type="SELF"]').show();
+    }
+}
+
 export {
     addRankOption,
     bindRankEvents,
+    hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
     toggleMaxOptionsToBeRanked,

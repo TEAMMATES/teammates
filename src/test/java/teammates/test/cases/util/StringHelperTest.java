@@ -1,5 +1,7 @@
 package teammates.test.cases.util;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StringHelper}.
@@ -34,8 +35,8 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testGenerateStringOfLength() {
 
-        assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());
-        assertEquals(0, StringHelperExtension.generateStringOfLength(0).length());
+        assertEquals("sssss", StringHelper.generateStringOfLength(5, 's'));
+        assertEquals("", StringHelper.generateStringOfLength(0, 's'));
     }
 
     @Test
@@ -46,6 +47,11 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
         assertTrue(StringHelper.isWhiteSpace(Const.EOL));
         assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testIsWhiteSpaceNull() {
+        StringHelper.isWhiteSpace(null);
     }
 
     @Test
@@ -271,7 +277,7 @@ public class StringHelperTest extends BaseTestCase {
         str = "a    a";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
 
-        str = "  a    a   ";
+        str = " \u00A0 a    a   ";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
 
         str = "    ";
@@ -375,7 +381,9 @@ public class StringHelperTest extends BaseTestCase {
         String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
                          + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
                          + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL
+                         + ",,," + Const.EOL
+                         + ",,,Data 5-4" + Const.EOL;
         String htmlText = StringHelper.csvToHtmlTable(csvText);
         String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
                                       + "<tr>"
@@ -402,8 +410,27 @@ public class StringHelperTest extends BaseTestCase {
                                           + "<td> Data 3-3</td>"
                                           + "<td>Data 3-4</td>"
                                       + "</tr>"
+                                      + "<tr>"
+                                          + "<td></td>"
+                                          + "<td></td>"
+                                          + "<td></td>"
+                                          + "<td>Data 5-4</td>"
+                                      + "</tr>"
                                   + "</table>";
         assertEquals(expectedHtmlText, htmlText);
+    }
+
+    @Test
+    public void testTrim() {
+        String[] input = {"  apple tea", "banana  ", "   carrot cake      ", "magnesium & hydroxide     -"};
+        String[] expected = {"apple tea", "banana", "carrot cake", "magnesium & hydroxide     -"};
+        assertArrayEquals(expected, StringHelper.trim(input));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testTrimWithNullString() {
+        String[] input = {"  apple tea", "banana  ", "   carrot cake      ", null};
+        StringHelper.trim(input);
     }
 
     @Test
@@ -422,6 +449,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
+        assertEquals("5||14||null", StringHelper.join("||", Arrays.asList(5, 14, null)));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

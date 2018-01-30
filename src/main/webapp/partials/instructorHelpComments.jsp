@@ -5,10 +5,10 @@
   <ol style="list-style-type:none;">
     <li id="addResponseComments">
       <span class="text-bold">
-          <h3>1. Create comments for response</h3>
+          <b>1. Create comments for response</b>
       </span>
-      <div class="row">
-        <br> To create comments for response, go to the
+      <div>
+        To create comments for response, go to the
         <b>‘Sessions’</b> page, click
         <b>'View Results'</b> for the relevant session.
         <br> Change the view type to
@@ -147,10 +147,10 @@
     </li>
     <li id="editDeleteComments">
       <span class="text-bold">
-          <h3>2. Edit and delete comments</h3>
+        <b>2. Edit and delete comments</b>
       </span>
-      <div class="row">
-        <br> Go to the same page used for adding a comment, then hover the mouse upon a comment.
+      <div>
+        Go to the same page used for adding a comment, then hover the mouse upon a comment.
         <br> The
         <b>'Edit'</b>
         <span class="glyphicon glyphicon-pencil glyphicon-primary"></span> and '
@@ -162,10 +162,10 @@
     </li>
     <li id="searchComments">
       <span class="text-bold">
-          <h3>3. Search for comments</h3>
+          <b>3. Search for comments</b>
       </span>
-      <div class="row">
-        <br> Go to the
+      <div>
+        Go to the
         <b>'Search'</b> page, tick the checkbox for comments.
         <br> Type the keywords in the input, then click the search button on the right-hand side or press the Enter key to start searching.
         <br>

@@ -36,8 +36,6 @@ This command needs to be run before starting the dev server if there are updates
 
 ### With command line
 
-* Change the value of `org.gradle.daemon` in `gradle.properties` to `true`.
-
 #### Starting the dev server
 
 To start the server in the background, run the following command

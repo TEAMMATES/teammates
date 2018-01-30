@@ -69,10 +69,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         testDeleteFeedbackResponseCommentsForResponse();
 
-        testGetFeedbackResponseCommentsForCourse();
-
-        testGetAndDeleteFeedbackResponseCommentsForCourses();
-
     }
 
     private void testEntityCreationAndDeletion() throws Exception {
@@ -390,43 +386,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-        }
-    }
-
-    private void testGetFeedbackResponseCommentsForCourse() {
-        String courseId = "idOfTypicalCourse1";
-        List<FeedbackResponseCommentAttributes> expectedFrcs = new ArrayList<>();
-        expectedFrcs.add(frcaData);
-        expectedFrcs.add(anotherFrcaData);
-
-        ______TS("successful get feedback response comment for course");
-
-        List<FeedbackResponseCommentAttributes> actualFrcs =
-                frcDb.getFeedbackResponseCommentsForCourse(courseId);
-        verifyListsContainSameResponseCommentAttributes(expectedFrcs, actualFrcs);
-    }
-
-    private void testGetAndDeleteFeedbackResponseCommentsForCourses() {
-        List<String> courseIds = new ArrayList<>();
-        courseIds.add("idOfTypicalCourse1");
-        List<FeedbackResponseCommentAttributes> expectedFrcas = new ArrayList<>();
-        expectedFrcas.add(frcaData);
-        expectedFrcas.add(anotherFrcaData);
-
-        ______TS("successful get feedback response comment for courses");
-
-        List<FeedbackResponseCommentAttributes> actualFrcas = new ArrayList<>();
-        for (String courseId : courseIds) {
-            actualFrcas.addAll(frcDb.getFeedbackResponseCommentsForCourse(courseId));
-        }
-
-        verifyListsContainSameResponseCommentAttributes(expectedFrcas, actualFrcas);
-
-        ______TS("successful delete feedback response comment for courses");
-
-        frcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
-        for (String courseId : courseIds) {
-            assertTrue(frcDb.getFeedbackResponseCommentsForCourse(courseId).isEmpty());
         }
     }
 
