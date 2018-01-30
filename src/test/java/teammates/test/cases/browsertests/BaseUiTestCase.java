@@ -130,6 +130,26 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     }
 
     /**
+     * Logs in a page as an instructor.
+     */
+    protected <T extends AppPage> T loginAsInstructorToPage(String instructorId, AppUrl url, Class<T> typeOfPage) {
+        //logout
+        logout();
+
+        //login
+        getHomePage().clickInstructorLogin();
+
+        //login based on the login page type
+        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        loginPage.loginAsInstructor(instructorId, TestProperties.TEST_INSTRUCTOR_PASSWORD);
+
+        //load the page to be checked
+        browser.driver.get(url.toAbsoluteString());
+        return AppPage.getNewPageInstance(browser, typeOfPage);
+
+    }
+
+    /**
      * Navigates to the application's home page (as defined in test.properties)
      * and gives the {@link HomePage} instance based on it.
      */
