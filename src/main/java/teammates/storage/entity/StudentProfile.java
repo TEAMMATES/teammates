@@ -37,7 +37,6 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
-    @IgnoreLoad
     private Gender gender;
 
     /* must be html sanitized before saving */
@@ -175,7 +174,7 @@ public class StudentProfile extends BaseEntity {
     }
 
     // Equalizes Objectify and GenderType enum
-    public void importGender(@AlsoLoad("gender") String gender) {
+    public void importGender(String gender) {
         if (gender == null) {
             return;
         }
