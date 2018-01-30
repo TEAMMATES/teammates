@@ -49,7 +49,6 @@ import {
     addLoadingIndicator,
 } from '../common/ui';
 
-
 let isSessionsAjaxSending = false;
 let oldStatus = null;
 
