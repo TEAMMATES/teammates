@@ -136,15 +136,14 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
         //logout
         logout();
 
-        //login
-        getHomePage().clickInstructorLogin();
+        //load the page to be checked
+        browser.driver.get(url.toAbsoluteString());
 
         //login based on the login page type
         LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
-        loginPage.loginAsInstructor(instructorId, TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        loginPage.loginAsInstructor(instructorId, TestProperties.TEST_INSTRUCTOR_PASSWORD, typeOfPage);
 
-        //load the page to be checked
-        browser.driver.get(url.toAbsoluteString());
+        //After login, the browser will redirect to the original page requested
         return AppPage.getNewPageInstance(browser, typeOfPage);
 
     }
