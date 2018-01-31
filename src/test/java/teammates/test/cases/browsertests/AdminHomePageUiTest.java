@@ -67,7 +67,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         InstructorAttributes instructor = new InstructorAttributes();
 
-        String shortName = "Instrúctör";
         instructor.name = "AHPUiT Instrúctör WithPlusInEmail";
         instructor.email = "AHPUiT+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
@@ -102,7 +101,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         InstructorAttributes dangerousInstructor = new InstructorAttributes();
 
-        String shortNameDangerous = "<b>MaliciousInstrúctör</b>";
         dangerousInstructor.name = "Malicious <script>alert('dangerous');</script>Instrúctör";
         dangerousInstructor.email = "malicious.instr1<>!@gmail.tmt";
         String dangerousInstitute = "TEAMMATES Malicious Institute <!@!@!>";
@@ -112,9 +110,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(dangerousDemoCourseId);
         BackDoor.deleteInstructor(dangerousDemoCourseId, dangerousInstructor.email);
 
-        homePage.createInstructor(shortNameDangerous, dangerousInstructor, dangerousInstitute);
+        homePage.createInstructor(dangerousInstructor, dangerousInstitute);
 
-        assertEquals(shortNameDangerous, homePage.getShortNameFromResultTable(1));
         assertEquals(dangerousInstructor.name, homePage.getNameFromResultTable(1));
         assertEquals(dangerousInstructor.email, homePage.getEmailFromResultTable(1));
         assertEquals(dangerousInstitute, homePage.getInstitutionFromResultTable(1));
@@ -126,7 +123,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
 
-        homePage.createInstructor(shortName, instructor, institute);
+        homePage.createInstructor(instructor, institute);
 
         encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
         // use AppUrl from Config because the join link takes its base URL from build.properties
@@ -203,7 +200,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
 
         instructor.email = "AHPUiT.email.tmt";
-        homePage.createInstructor(shortName, instructor, institute);
+        homePage.createInstructor(instructor, institute);
         assertEquals(getPopulatedErrorMessage(
                          FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email,
                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,

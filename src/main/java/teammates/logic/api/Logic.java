@@ -462,10 +462,10 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
-    public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email)
+    public void verifyInputForAdminHomePage(String name, String institute, String email)
             throws InvalidParametersException {
 
-        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name,
+        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(name,
                                                                                               institute, email);
 
         if (!invalidityInfo.isEmpty()) {

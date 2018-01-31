@@ -27,14 +27,12 @@ public class AdminHomePageDataTest extends BaseTestCase {
     }
 
     private void setHomePageAttributes() {
-        pageData.instructorShortName = "Inst1";
         pageData.instructorName = "Instructor1";
         pageData.instructorEmail = "instructor1@email.tmt";
         pageData.instructorInstitution = "Teammates";
     }
 
     private void testHomePageAttributes() {
-        assertEquals("Inst1", pageData.getInstructorShortName());
         assertEquals("Instructor1", pageData.getInstructorName());
         assertEquals("instructor1@email.tmt", pageData.getInstructorEmail());
         assertEquals("Teammates", pageData.getInstructorInstitution());
