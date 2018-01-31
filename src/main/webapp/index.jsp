@@ -124,5 +124,4 @@
       </p>
     </div>
   </div>
-
 </t:staticPage>
