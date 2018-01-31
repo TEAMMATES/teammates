@@ -28,7 +28,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring Checkstyle Eclipse plugin
 
-The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/checkstyle-plug). **Install version 8.0.0**.
+The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/checkstyle-plug). **Install version 8.7.0**.
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
@@ -43,12 +43,16 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 > You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
 
 1. Go to `File → Settings → Other Settings → Checkstyle`.
+1. Set `CheckStyle version` as specified in the build script (`build.gradle`).
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
 1. Click the `+` to add a new configuration file. Click the `Browse` button, navigate to the `static-analysis` folder, and choose the `teammates-checkstyle.xml` file.
 1. Fill in the `Description` field with the name of your project (e.g. teammates).
 1. Click `Next`. Set the value of `basedir` to the path of your project folder.
 1. Click `Finish`.
 1. Check the box next to the newly added rule to activate it.
+
+**NOTE**
+> Once CheckStyle is set-up, the version used will be kept in sync with the build script. See [Versions sync with tools used in build script](intellij-automated-setup-behavior.md#versions-sync-with-tools-used-in-build-script).
 
 ##### Suppressing Checkstyle warnings
 

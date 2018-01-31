@@ -41,20 +41,18 @@ public class AdminInstructorAccountAddAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account, sessionToken);
 
-        data.instructorShortName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME).trim();
         data.instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
         data.instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
         data.instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();
         data.isInstructorAddingResultForAjax = true;
         data.statusForAjax = "";
 
-        data.instructorShortName = data.instructorShortName.trim();
         data.instructorName = data.instructorName.trim();
         data.instructorEmail = data.instructorEmail.trim();
         data.instructorInstitution = data.instructorInstitution.trim();
 
         try {
-            logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName,
+            logic.verifyInputForAdminHomePage(data.instructorName,
                                               data.instructorInstitution, data.instructorEmail);
         } catch (InvalidParametersException e) {
             data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
@@ -70,7 +68,6 @@ public class AdminInstructorAccountAddAction extends Action {
         } catch (Exception e) {
 
             String retryUrl = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
@@ -100,7 +97,7 @@ public class AdminInstructorAccountAddAction extends Action {
                                 .withInstructorInstitution(data.instructorInstitution)
                                 .toAbsoluteString();
         EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).email, data.instructorShortName, joinLink);
+                instructorList.get(0).email, data.instructorName, joinLink);
         try {
             emailSender.sendEmail(email);
         } catch (EmailSendingException e) {
