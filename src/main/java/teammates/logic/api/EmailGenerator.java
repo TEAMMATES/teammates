@@ -493,15 +493,15 @@ public class EmailGenerator {
      * Generates the new instructor account join email for the given {@code instructor}.
      */
     public EmailWrapper generateNewInstructorAccountJoinEmail(
-            String instructorEmail, String instructorShortName, String joinUrl) {
+            String instructorEmail, String instructorName, String joinUrl) {
 
         String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
-                "${userName}", SanitizationHelper.sanitizeForHtml(instructorShortName),
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructorName),
                 "${joinUrl}", joinUrl);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
-        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructorShortName));
+        email.setSubject(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructorName));
         email.setContent(emailBody);
         return email;
     }
