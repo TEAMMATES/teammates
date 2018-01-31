@@ -251,17 +251,12 @@ public final class InstructorsLogic {
         instructorsDb.updateInstructorByEmail(instructor);
     }
 
-    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
+    public List<String> getInvalidityInfoForNewInstructorData(String name,
                                                               String institute, String email) {
 
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
         String error;
-
-        error = validator.getInvalidityInfoForPersonName(shortName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
 
         error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) {
