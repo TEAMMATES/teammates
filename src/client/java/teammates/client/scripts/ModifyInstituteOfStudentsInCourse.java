@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -30,11 +29,15 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
             institute = scanner.nextLine();
         }
         try {
-            List<StudentAttributes> students = logic.getStudentsForCourse(courseId).stream()
-                        .filter(student -> !(student.googleId == null || student.googleId.isEmpty()))
-                        .collect(Collectors.toList());
+            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
             for (StudentAttributes student : students) {
+
+                //Account might be null if student was enrolled but not joined yet
+                if (student.googleId == null || student.googleId.isEmpty()) {
+                    continue;
+                }
+
                 AccountAttributes account = logic.getAccount(student.googleId);
 
                 System.out.println("changed for " + account.email + " from " + account.institute + " to " + institute);
