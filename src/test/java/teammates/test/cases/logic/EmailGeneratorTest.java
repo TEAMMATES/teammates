@@ -255,7 +255,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor new account email");
 
         String instructorEmail = "instructor@email.tmt";
-        String shortName = "Instr";
+        String instructorName = "Instr";
         String regkey = "skxxxxxxxxxks";
 
         @SuppressWarnings("deprecation")
@@ -274,8 +274,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()
-                .generateNewInstructorAccountJoinEmail(instructorEmail, shortName, joinLink);
-        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), shortName);
+                .generateNewInstructorAccountJoinEmail(instructorEmail, instructorName, joinLink);
+        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructorName);
 
         verifyEmail(email, instructorEmail, subject, "/instructorNewAccountEmail.html");
         assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);

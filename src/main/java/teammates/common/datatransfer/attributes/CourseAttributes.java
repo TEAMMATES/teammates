@@ -51,6 +51,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getTimeZone() {
         return timeZone;
     }
