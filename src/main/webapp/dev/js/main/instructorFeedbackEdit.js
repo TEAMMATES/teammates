@@ -271,7 +271,7 @@ function bindFeedbackSessionEditFormSubmission() {
         if (typeof tinymce !== 'undefined') {
             tinymce.get('instructions').save();
         }
-        const $form = $(event.target);
+        const $form = $(event.currentTarget);
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -1174,12 +1174,12 @@ $(document).ready(() => {
     setTooltipTriggerOnFeedbackPathMenuOptions();
 
     $('#fsSaveLink').on('click', (e) => {
-        checkEditFeedbackSession(e.target.form);
+        checkEditFeedbackSession(e.currentTarget.form);
     });
 
     $(document).on('change', '.participantSelect', (e) => {
-        matchVisibilityOptionToFeedbackPath(e.target);
-        getVisibilityMessage(e.target);
+        matchVisibilityOptionToFeedbackPath(e.currentTarget);
+        getVisibilityMessage(e.currentTarget);
     });
 
     $(document).on('click', '.btn-discard-changes', (e) => {
@@ -1192,11 +1192,11 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.btn-delete-qn', (e) => {
-        deleteQuestion($(e.target).data('qnnumber'));
+        deleteQuestion($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('submit', '.tally-checkboxes', (e) => {
-        tallyCheckboxes($(e.target).data('qnnumber'));
+        tallyCheckboxes($(e.currentTarget).data('qnnumber'));
     });
 });
 

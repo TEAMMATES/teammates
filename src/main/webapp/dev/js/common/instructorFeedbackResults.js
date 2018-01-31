@@ -242,7 +242,7 @@ function getAppendedResponseRateData(data) {
 }
 
 function toggleNoResponsePanel(e) {
-    const $targetElement = $(e.target);
+    const $targetElement = $(e.currentTarget);
     if ($targetElement.is('a') || $targetElement.is('input')) {
         return;
     }
@@ -344,7 +344,7 @@ function prepareInstructorFeedbackResultsPage() {
     $responseRatePanel.click(responseRateRequest);
 
     $('#collapse-panels-button').on('click', (e) => {
-        expandOrCollapsePanels(e.target);
+        expandOrCollapsePanels(e.currentTarget);
     });
 
     $('#btn-select-element-contents').on('click', () => {
