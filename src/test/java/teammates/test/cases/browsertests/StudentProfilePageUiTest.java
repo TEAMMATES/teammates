@@ -284,10 +284,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private <T extends AppPage> T getProfilePicturePage(String instructorId, String email, String courseId,
                                                         Class<T> typeOfPage) {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                                   .withUserId(testData.accounts.get(instructorId).googleId)
                                    .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                                    .withParam(Const.ParamsNames.COURSE_ID, courseId);
-        return loginAdminToPage(profileUrl, typeOfPage);
+        return loginInstructorToPage(instructorId, profileUrl, typeOfPage);
     }
 
     private <T extends AppPage> T getProfilePicturePage(String studentId, String pictureKey, Class<T> typeOfPage) {

@@ -39,9 +39,14 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     public InstructorHomePage loginAsInstructor(String username, String password) {
+        return loginAsInstructor(username, password, InstructorHomePage.class);
+    }
+
+    @Override
+    public <T extends AppPage> T loginAsInstructor(String username, String password, Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
         browser.isAdminLoggedIn = false;
-        return changePageType(InstructorHomePage.class);
+        return changePageType(typeOfPage);
     }
 
     @Override

@@ -275,34 +275,6 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                     + " idOfInstructor1OfCourse1 without admin permission.", uae.getMessage());
         }
 
-        gaeSimulation.loginAsAdmin("admin.user");
-        ______TS("Failure case: masqueraded instructor not from same course");
-        StudentProfilePictureAction action = getAction(addUserIdToParams(unauthInstructor.googleId, submissionParams));
-        try {
-            action.executeAndPostProcess();
-            signalFailureToDetectException("Unauthorised Access");
-        } catch (UnauthorizedAccessException uae) {
-            assertEquals("User is not in the course that student belongs to", uae.getMessage());
-        }
-
-        ______TS("Failure case: masqueraded student not from same course");
-        action = getAction(addUserIdToParams(unauthStudent.googleId, submissionParams));
-        try {
-            action.executeAndPostProcess();
-            signalFailureToDetectException("Unauthorised Access");
-        } catch (UnauthorizedAccessException uae) {
-            assertEquals("User is not in the course that student belongs to", uae.getMessage());
-        }
-
-        ______TS("Failure case: masqueraded student not from same team");
-        StudentAttributes studentFromDifferentTeam = typicalBundle.students.get("student5InCourse1");
-        action = getAction(addUserIdToParams(studentFromDifferentTeam.googleId, submissionParams));
-        try {
-            action.executeAndPostProcess();
-            signalFailureToDetectException("Unauthorised Access");
-        } catch (UnauthorizedAccessException uae) {
-            assertEquals("Student does not have enough privileges to view the photo", uae.getMessage());
-        }
     }
 
     // -------------------------------------------------------------------------------------------------------
