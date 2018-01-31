@@ -3,7 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,30 +98,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             key = student.key;
         }
         deleteDocument(Const.SearchIndex.STUDENT, key);
-    }
-
-    /**
-     * Creates students' records without searchability.
-     */
-    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd)
-            throws InvalidParametersException {
-
-        List<StudentAttributes> studentsToUpdate = createEntities(studentsToAdd);
-        for (StudentAttributes student : studentsToUpdate) {
-            try {
-                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team,
-                                                  student.section, student.email, student.googleId, student.comments);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
-
-    public void createStudent(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createStudent(student, true);
     }
 
     public void createStudentWithoutDocument(StudentAttributes student)
