@@ -41,9 +41,6 @@
     </div>
   </div>
 
-  <br/>
-  <br/>
-
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Award winning, mature, field-tested and improving all the time" src="images/award_winning.png">
@@ -56,9 +53,6 @@
       </p>
     </div>
   </div>
-
-  <br/>
-  <br/>
 
   <div class="row">
     <div class="col-xs-12 col-sm-3">
@@ -74,9 +68,6 @@
     </div>
   </div>
 
-  <br/>
-  <br/>
-
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Powered by Google Infrastructure" src="images/overview_google.png">
@@ -89,9 +80,6 @@
       </p>
     </div>
   </div>
-
-  <br/>
-  <br/>
 
   <div class="row">
     <div class="col-xs-12 col-sm-3">
@@ -108,9 +96,6 @@
     </div>
   </div>
 
-  <br/>
-  <br/>
-
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Not for Profit" src="images/overview_funding.png">
@@ -123,9 +108,6 @@
       </p>
     </div>
   </div>
-
-  <br/>
-  <br/>
 
   <div class="row">
     <div class="col-xs-12 col-sm-3">
@@ -142,8 +124,5 @@
       </p>
     </div>
   </div>
-
-  <br/>
-  <br/>
 
 </t:staticPage>
