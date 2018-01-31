@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -39,11 +40,8 @@ public class CourseDetailsBundle {
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsList() {
-        List<FeedbackSessionAttributes> feedbackSessionAttributes = new ArrayList<>();
-        for (FeedbackSessionDetailsBundle feedbackSessionDetails : feedbackSessions) {
-            feedbackSessionAttributes.add(feedbackSessionDetails.feedbackSession);
-        }
-        return feedbackSessionAttributes;
+        return feedbackSessions.stream()
+                .map(feedbackSessionDetails -> feedbackSessionDetails.feedbackSession).collect(Collectors.toList());
     }
 
     /**

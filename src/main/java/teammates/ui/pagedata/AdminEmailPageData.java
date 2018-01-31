@@ -2,6 +2,7 @@ package teammates.ui.pagedata;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
@@ -90,9 +91,8 @@ public abstract class AdminEmailPageData extends PageData {
         if (state.equals(AdminEmailPageState.SENT)) {
             AdminEmailSentPageData sentPageData = (AdminEmailSentPageData) this;
 
-            for (AdminEmailAttributes ae : sentPageData.adminSentEmailList) {
-                rows.add(createAdminSentEmailRow(ae));
-            }
+            rows.addAll(sentPageData.adminSentEmailList.stream()
+                    .map(ae -> createAdminSentEmailRow(ae)).collect(Collectors.toList()));
         }
 
         return new AdminSentEmailTable(getNumEmailsSent(), rows);
@@ -156,9 +156,8 @@ public abstract class AdminEmailPageData extends PageData {
         if (state.equals(AdminEmailPageState.TRASH)) {
             AdminEmailTrashPageData trashPageData = (AdminEmailTrashPageData) this;
 
-            for (AdminEmailAttributes ae : trashPageData.adminTrashEmailList) {
-                rows.add(createAdminTrashEmailRow(ae));
-            }
+            rows.addAll(trashPageData.adminTrashEmailList.stream()
+                    .map(ae -> createAdminTrashEmailRow(ae)).collect(Collectors.toList()));
         }
 
         return new AdminTrashEmailTable(getNumEmailsTrash(), rows, getEmptyTrashActionUrl());

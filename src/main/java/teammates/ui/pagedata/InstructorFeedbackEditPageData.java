@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -310,25 +311,13 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {
-        List<ElementTag> results = new ArrayList<>();
-
-        for (InstructorAttributes instructor : instructorList) {
-            ElementTag option = createOption(instructor.name, instructor.email);
-            results.add(option);
-        }
-
-        return results;
+        return instructorList.stream().map(inst -> createOption(inst.name, inst.email))
+                .collect(Collectors.toList());
     }
 
     private List<ElementTag> getPreviewAsStudentOptions(List<StudentAttributes> studentList) {
-        List<ElementTag> results = new ArrayList<>();
-
-        for (StudentAttributes student : studentList) {
-            ElementTag option = createOption("[" + student.team + "] " + student.name, student.email);
-            results.add(option);
-        }
-
-        return results;
+        return studentList.stream().map(student ->
+                createOption("[" + student.team + "] " + student.name, student.email)).collect(Collectors.toList());
     }
 
     public CourseDetailsBundle getCourseDetails() {

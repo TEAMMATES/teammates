@@ -64,18 +64,7 @@ public class InstructorCourseInstructorDeleteAction extends Action {
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        for (InstructorAttributes instr : instructors) {
-
-            boolean isAlternativeInstructor =
-                        instr.isRegistered()
-                        && !instr.getEmail().equals(instructorToDeleteEmail)
-                        && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-
-            if (isAlternativeInstructor) {
-                return true;
-            }
-        }
-
-        return false;
+        return instructors.stream().filter(inst -> inst.isRegistered() && !inst.getEmail().equals(instructorToDeleteEmail)
+                && inst.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)).count() > 0;
     }
 }

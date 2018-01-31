@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -116,19 +117,13 @@ public class InstructorFeedbackEditCopyAction extends Action {
      * an existing feedback session with a name conflicting with feedbackSessionName.
      */
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
-        List<String> courses = new ArrayList<>();
-
-        for (String courseIdToCopy : coursesIdToCopyTo) {
-            FeedbackSessionAttributes existingFs =
-                    logic.getFeedbackSession(feedbackSessionName, courseIdToCopy);
-            boolean hasExistingFs = existingFs != null;
-
-            if (hasExistingFs) {
-                courses.add(existingFs.getCourseId());
-            }
+        if (coursesIdToCopyTo.length == 0 || coursesIdToCopyTo == null) {
+            return new ArrayList<String>();
         }
 
-        return courses;
+        return Arrays.stream(coursesIdToCopyTo).map(courseIdToCopy ->
+                logic.getFeedbackSession(feedbackSessionName, courseIdToCopy)).filter(existingFs -> existingFs != null)
+                .map(existingFs -> existingFs.getCourseId()).collect(Collectors.toList());
     }
 
     private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {

@@ -86,11 +86,8 @@ public class StudentHomePageAction extends Action {
         if (recentlyJoinedCourseId == null) {
             isCourseIncluded = true;
         } else {
-            for (CourseDetailsBundle currentCourse : courses) {
-                if (currentCourse.course.getId().equals(recentlyJoinedCourseId)) {
-                    isCourseIncluded = true;
-                }
-            }
+            isCourseIncluded = courses.stream().filter(currentCourse ->
+                currentCourse.course.getId().equals(recentlyJoinedCourseId)).count() > 0;
         }
 
         return isCourseIncluded;

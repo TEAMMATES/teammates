@@ -1,9 +1,9 @@
 package teammates.storage.search;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
@@ -49,10 +49,7 @@ public abstract class SearchDocument {
      */
     protected static List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
                                                             List<InstructorAttributes> instructors) {
-        Set<String> courseIdSet = new HashSet<>();
-        for (InstructorAttributes ins : instructors) {
-            courseIdSet.add(ins.courseId);
-        }
+        Set<String> courseIdSet = instructors.stream().map(ins -> ins.courseId).collect(Collectors.toSet());
 
         List<ScoredDocument> filteredResults = new ArrayList<>();
         for (ScoredDocument document : results) {

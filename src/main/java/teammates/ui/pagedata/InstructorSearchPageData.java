@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
@@ -102,13 +103,10 @@ public class InstructorSearchPageData extends PageData {
 
     private void setSearchStudentsTables(StudentSearchResultBundle studentSearchResultBundle) {
 
-        searchStudentsTables = new ArrayList<>(); // 1 table for each course
         List<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(studentSearchResultBundle);
+        searchStudentsTables = courseIdList.stream().map(id -> new SearchStudentsTable(
+                id, createStudentRows(id, studentSearchResultBundle))).collect(Collectors.toList());
 
-        for (String courseId : courseIdList) {
-            searchStudentsTables.add(new SearchStudentsTable(
-                                       courseId, createStudentRows(courseId, studentSearchResultBundle)));
-        }
     }
 
     private List<FeedbackSessionRow> createFeedbackSessionRows(

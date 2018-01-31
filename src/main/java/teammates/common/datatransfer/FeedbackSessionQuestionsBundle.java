@@ -2,11 +2,11 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -55,13 +55,8 @@ public class FeedbackSessionQuestionsBundle {
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<>(this.questionResponseBundle.keySet());
 
-        for (FeedbackQuestionAttributes question : questions) {
-            if (question.getId().equals(questionId)) {
-                return question;
-            }
-        }
-
-        return null;
+        return questions.stream().filter(question -> question.getId()
+                                                     .equals(questionId)).findFirst().orElse(null);
     }
 
     /**
@@ -79,9 +74,7 @@ public class FeedbackSessionQuestionsBundle {
 
         Map<String, String> result = new LinkedHashMap<>();
 
-        for (Map.Entry<String, String> entry : sortedList) {
-            result.put(entry.getKey(), entry.getValue());
-        }
+        sortedList.forEach(entry -> result.put(entry.getKey(), entry.getValue()));
 
         return result;
     }
@@ -89,13 +82,7 @@ public class FeedbackSessionQuestionsBundle {
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
         List<Map.Entry<String, String>> emailList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
-        HashSet<String> result = new HashSet<>();
-
-        for (Map.Entry<String, String> entry : emailList) {
-            result.add(entry.getKey());
-        }
-
-        return result;
+        return emailList.stream().map(entry -> entry.getKey()).collect(Collectors.toSet());
     }
 
     /**

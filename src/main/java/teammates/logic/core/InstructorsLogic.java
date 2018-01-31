@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -305,14 +306,7 @@ public final class InstructorsLogic {
 
     public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
         List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
-        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();
-        for (InstructorAttributes instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
-                continue;
-            }
-            instructorsWithCoOwnerPrivileges.add(instructor);
-        }
-        return instructorsWithCoOwnerPrivileges;
+        return instructors.stream().filter(instructor -> instructor.hasCoownerPrivileges()).collect(Collectors.toList());
     }
 
 }

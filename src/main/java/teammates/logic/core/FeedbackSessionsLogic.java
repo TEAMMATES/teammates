@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -183,11 +184,8 @@ public final class FeedbackSessionsLogic {
         if (!sessions.isEmpty()) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
             boolean isInstructorOfCourse = instructor != null;
-            for (FeedbackSessionAttributes session : sessions) {
-                if (isFeedbackSessionViewableTo(session, userEmail, isInstructorOfCourse)) {
-                    viewableSessions.add(session);
-                }
-            }
+            viewableSessions.addAll(sessions.stream().filter(session ->
+                    isFeedbackSessionViewableTo(session, userEmail, isInstructorOfCourse)).collect(Collectors.toList()));
         }
 
         return viewableSessions;
@@ -200,13 +198,7 @@ public final class FeedbackSessionsLogic {
      */
     public boolean isOpenOrPublishedEmailSentForTheCourse(String courseId) {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes session : sessions) {
-            if (session.isSentOpenEmail() || session.isSentPublishedEmail()) {
-                return true;
-            }
-        }
-        return false;
+        return sessions.stream().filter(session -> session.isSentOpenEmail() || session.isSentPublishedEmail()).count() > 0;
     }
 
     /**
@@ -409,6 +401,8 @@ public final class FeedbackSessionsLogic {
                 break;
             }
         }
+        questions.stream().filter(question -> question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS)
+                                                .findFirst().orElse(null);
 
         for (FeedbackQuestionAttributes question : questions) {
 

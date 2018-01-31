@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -212,12 +213,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         StringBuilder fragmentHtml = new StringBuilder();
 
-        for (String recipient : numResponses.keySet()) {
-            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
-            if (hiddenRecipients.contains(recipient)) {
-                continue;
-            }
-
+        numResponses.keySet().stream().filter(recipient -> !hiddenRecipients.contains(recipient)).forEach(recipient -> {
             Double userAverageExcludingSelf = averageExcludingSelf.get(recipient);
             String userAverageExcludingSelfText =
                     getAverageExcludingSelfText(showAvgExcludingSelf, df, userAverageExcludingSelf);
@@ -233,7 +229,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                     Slots.MAX, df.format(max.get(recipient)),
                                     Slots.MIN, df.format(min.get(recipient)),
                                     Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, userAverageExcludingSelfText));
-        }
+        });
 
         if (fragmentHtml.length() == 0) {
             return "";
@@ -297,13 +293,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         if (hasCurrentUserReceivedAnyResponse) {
             recipientList.add(currentUserIdentifier);
         }
-        for (String otherRecipient : recipientSet) {
-            // Skip current user as it is added to the head of the list
-            if (otherRecipient.equalsIgnoreCase(currentUserIdentifier)) {
-                continue;
-            }
-            recipientList.add(otherRecipient);
-        }
+        // Skip current user as it is added to the head of the list
+        recipientList.addAll(recipientSet.stream().filter(otherRecipient ->
+                     !otherRecipient.equalsIgnoreCase(currentUserIdentifier)).collect(Collectors.toList()));
 
         StringBuilder fragmentHtml = new StringBuilder();
         for (String recipient : recipientList) {
@@ -483,12 +475,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                          + Const.EOL;
 
         StringBuilder csvBody = new StringBuilder();
-        for (String recipient : numResponses.keySet()) {
-            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
-            if (hiddenRecipients.contains(recipient)) {
-                continue;
-            }
-
+        numResponses.keySet().stream().filter(recipient -> !hiddenRecipients.contains(recipient)).forEach(recipient -> {
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
             boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
 
@@ -506,7 +493,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                            + df.format(max.get(recipient))
                            + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
                            + Const.EOL);
-        }
+        });
 
         return csvHeader + csvBody.toString();
     }
@@ -520,13 +507,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return false;
         }
 
-        for (Double average : averageExcludingSelf.values()) {
-            // There exists at least one average score exclude self
-            if (average != null) {
-                return true;
-            }
-        }
-        return false;
+        return averageExcludingSelf.values().stream().filter(average -> average != null).count() > 0;
     }
 
     private void populateSummaryStatisticsFromResponses(
@@ -597,17 +578,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        List<String> hiddenRecipients = new ArrayList<>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : responses) {
-            if (!bundle.visibilityTable.get(response.getId())[1]
-                    && type != FeedbackParticipantType.SELF
-                    && type != FeedbackParticipantType.NONE) {
-
-                hiddenRecipients.add(response.recipient);
-            }
-        }
-        return hiddenRecipients;
+        // List of recipients to hide
+        return responses.stream().filter(response ->
+                  !bundle.visibilityTable.get(response.getId())[1] && type != FeedbackParticipantType.SELF
+                  && type != FeedbackParticipantType.NONE).map(response -> response.recipient).collect(Collectors.toList());
     }
 
     private String getStatsTitle(boolean isDirectedAtGeneral,
@@ -632,22 +607,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
      */
     private boolean hasAtLeastTwoResponsesOtherThanCurrentUser(
             Map<String, Integer> numResponses, String currentUserIdentifier, List<String> hiddenRecipients) {
-        boolean isAtLeastTwoResponsesOtherThanCurrentUser = false;
-
         // At least 2 responses are given to any recipient other than current user
-        for (String recipient : numResponses.keySet()) {
-            if (hiddenRecipients.contains(recipient)) {
-                continue;
-            }
-
-            if (hasAtLeastTwoResponses(numResponses, recipient)
-                    && !recipient.equals(currentUserIdentifier)) {
-
-                isAtLeastTwoResponsesOtherThanCurrentUser = true;
-                break;
-            }
-        }
-        return isAtLeastTwoResponsesOtherThanCurrentUser;
+        return numResponses.keySet().stream().filter(recipient ->
+                !hiddenRecipients.contains(recipient) && hasAtLeastTwoResponses(numResponses, recipient)
+                && !recipient.equals(currentUserIdentifier)).count() > 0;
     }
 
     @Override

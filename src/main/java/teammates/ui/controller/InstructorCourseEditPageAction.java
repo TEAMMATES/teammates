@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -43,12 +44,10 @@ public class InstructorCourseEditPageAction extends Action {
         }
 
         List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
-        List<String> feedbackNames = new ArrayList<>();
 
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes feedback : feedbacks) {
-            feedbackNames.add(feedback.getFeedbackSessionName());
-        }
+        List<String> feedbackNames = feedbacks.stream().map(feedback ->
+                feedback.getFeedbackSessionName()).collect(Collectors.toList());
 
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, sessionToken, courseToEdit,
                                                                              instructorList, instructor,

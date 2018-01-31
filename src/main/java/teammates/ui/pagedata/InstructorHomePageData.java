@@ -1,7 +1,7 @@
 package teammates.ui.pagedata;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -55,9 +55,7 @@ public class InstructorHomePageData extends PageData {
     }
 
     private void setCourseTables(List<CourseSummaryBundle> courses) {
-        courseTables = new ArrayList<>();
-        for (CourseSummaryBundle courseDetails : courses) {
-            courseTables.add(new CourseTable(courseDetails.course, null, null));
-        }
+        courseTables = courses.stream().map(courseDetails -> new CourseTable(courseDetails.course, null, null))
+                .collect(Collectors.toList());
     }
 }

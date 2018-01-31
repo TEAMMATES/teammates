@@ -172,9 +172,11 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list, String delimiter) {
+
         return list.stream()
                 .map(s -> s.toString())
                 .collect(Collectors.joining(delimiter));
+
     }
 
     public static String toDecimalFormatString(double doubleVal) {
@@ -275,11 +277,7 @@ public final class StringHelper {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<>();
-        for (String s : strSet) {
-            result.add(removeExtraSpace(s));
-        }
-        return result;
+        return (TreeSet<String>) strSet.stream().map(s -> removeExtraSpace(s)).collect(Collectors.toSet());
     }
 
     /**
@@ -328,25 +326,19 @@ public final class StringHelper {
      * Converts a csv string to a html table string for displaying.
      * @return html table string
      */
+    @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
     public static String csvToHtmlTable(String str) {
         String[] lines = handleNewLine(str).split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
 
-        for (String line : lines) {
-
-            List<String> rowData = getTableData(line);
-
-            if (checkIfEmptyRow(rowData)) {
-                continue;
-            }
-
-            result.append("<tr>");
-            for (String td : rowData) {
-                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
-            }
-            result.append("</tr>");
-        }
+        Arrays.stream(lines).map(line -> getTableData(line)).filter(rowData -> !checkIfEmptyRow(rowData))
+                .forEach(rowData -> {
+                    result.append("<tr>");
+                    rowData.forEach(td -> result.append(
+                            String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td))));
+                    result.append("</tr>");
+                });
 
         return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
                              result.toString());
@@ -412,6 +404,7 @@ public final class StringHelper {
     private static boolean checkIfEmptyRow(List<String> rowData) {
         return rowData.stream()
                 .allMatch(r -> r.isEmpty());
+
     }
 
     /**
@@ -499,6 +492,7 @@ public final class StringHelper {
         return Arrays.stream(stringsToTrim)
                 .map(s -> s.trim())
                 .toArray(size -> new String[size]);
+
     }
 
     /**
@@ -527,6 +521,7 @@ public final class StringHelper {
         return elements.stream()
                 .map(s -> String.valueOf(s))
                 .toArray(size -> new String[size]);
+
     }
 
     /**
@@ -544,6 +539,7 @@ public final class StringHelper {
 
         return Arrays.stream(strings)
                 .anyMatch(s -> text.contains(s));
+
     }
 
     /**

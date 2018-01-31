@@ -2,10 +2,9 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -166,9 +165,7 @@ public final class CoursesLogic {
                         + googleId + "<br> Course: " + c.getId()
                         + "<br> All Courses Retrieved using the Google ID:";
                 logMsgBuilder.append(logMsg);
-                for (CourseAttributes course : courseList) {
-                    logMsgBuilder.append("<br>").append(course.getId());
-                }
+                courseList.forEach(course -> logMsgBuilder.append("<br>").append(course.getId()));
                 log.severe(logMsgBuilder.toString());
 
                 //TODO Failing might not be the best course of action here.
@@ -183,9 +180,7 @@ public final class CoursesLogic {
 
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
 
-            for (FeedbackSessionAttributes fs : feedbackSessionList) {
-                cdd.feedbackSessions.add(new FeedbackSessionDetailsBundle(fs));
-            }
+            feedbackSessionList.forEach(fs -> cdd.feedbackSessions.add(new FeedbackSessionDetailsBundle(fs)));
 
             courseDetailsList.add(cdd);
         }
@@ -221,14 +216,8 @@ public final class CoursesLogic {
         }
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
 
-        Set<String> sectionNameSet = new HashSet<>();
-        for (StudentAttributes sd : studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION)) {
-                sectionNameSet.add(sd.section);
-            }
-        }
-
-        List<String> sectionNameList = new ArrayList<>(sectionNameSet);
+        List<String> sectionNameList = studentDataList.stream()
+                .filter(sd -> !sd.section.equals(Const.DEFAULT_SECTION)).map(sd -> sd.section).collect(Collectors.toList());
         sectionNameList.sort(null);
 
         return sectionNameList;
@@ -474,10 +463,8 @@ public final class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
 
-        List<String> courseIds = new ArrayList<>();
-        for (StudentAttributes s : studentDataList) {
-            courseIds.add(s.course);
-        }
+        List<String> courseIds = studentDataList.stream().map(s -> s.course).collect(Collectors.toList());
+
         return coursesDb.getCourses(courseIds);
     }
 
@@ -506,19 +493,14 @@ public final class CoursesLogic {
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> courseIdList = new ArrayList<>();
-
-        for (InstructorAttributes instructor : instructorList) {
-            courseIdList.add(instructor.courseId);
-        }
+        List<String> courseIdList = instructorList.stream().map(instructor -> instructor.courseId)
+                .collect(Collectors.toList());
 
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
-            for (CourseAttributes ca : courseList) {
-                courseIdList.remove(ca.getId());
-            }
+            courseIdList.removeAll(courseList.stream().map(ca -> ca.getId()).collect(Collectors.toList()));
             log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
 
@@ -554,19 +536,14 @@ public final class CoursesLogic {
             List<InstructorAttributes> instructorAttributesList) {
 
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
-        List<String> courseIdList = new ArrayList<>();
-
-        for (InstructorAttributes instructor : instructorAttributesList) {
-            courseIdList.add(instructor.courseId);
-        }
+        List<String> courseIdList = instructorAttributesList.stream().map(instructor -> instructor.courseId)
+                .collect(Collectors.toList());
 
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
-            for (CourseAttributes ca : courseList) {
-                courseIdList.remove(ca.getId());
-            }
+            courseIdList.removeAll(courseList.stream().map(ca -> ca.getId()).collect(Collectors.toList()));
             log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
 
@@ -624,18 +601,14 @@ public final class CoursesLogic {
 
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
-        List<String> courseIdList = new ArrayList<>();
+        List<String> courseIdList = instructorAttributesList.stream().map(ia -> ia.courseId)
+                .collect(Collectors.toList());
 
-        for (InstructorAttributes ia : instructorAttributesList) {
-            courseIdList.add(ia.courseId);
-        }
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
         // Check that all courseIds queried returned a course.
         if (courseIdList.size() > courseList.size()) {
-            for (CourseAttributes ca : courseList) {
-                courseIdList.remove(ca.getId());
-            }
+            courseIdList.removeAll(courseList.stream().map(ca -> ca.getId()).collect(Collectors.toList()));
             log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
 
@@ -693,12 +666,8 @@ public final class CoursesLogic {
         verifyCourseIsPresent(courseId);
 
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
-        for (StudentAttributes student : studentList) {
-            if (!student.section.equals(Const.DEFAULT_SECTION)) {
-                return true;
-            }
-        }
-        return false;
+
+        return studentList.stream().filter(student -> !student.section.equals(Const.DEFAULT_SECTION)).count() > 0;
     }
 
     /**
@@ -706,14 +675,8 @@ public final class CoursesLogic {
      */
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
                                              Map<String, InstructorAttributes> instructorsForCourses) {
-        List<String> archivedCourseIds = new ArrayList<>();
-        for (CourseAttributes course : allCourses) {
-            InstructorAttributes instructor = instructorsForCourses.get(course.getId());
-            if (instructor.isArchived) {
-                archivedCourseIds.add(course.getId());
-            }
-        }
-        return archivedCourseIds;
+        return allCourses.stream().map(course -> course.getId())
+                .filter(id -> instructorsForCourses.get(id).isArchived).collect(Collectors.toList());
     }
 
 }

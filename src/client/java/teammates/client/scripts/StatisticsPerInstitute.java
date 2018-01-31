@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
@@ -181,19 +182,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private String getInstituteForInstructors(List<Instructor> instructorList, List<Account> allAccounts) {
-        String institute = UNKNOWN_INSTITUTE;
-
-        for (Instructor instructor : instructorList) {
-
-            String tempIns = getInstituteForInstructor(instructor, allAccounts);
-            if (tempIns != null) {
-                institute = tempIns;
-                break;
-            }
-
-        }
-
-        return institute;
+        return instructorList.stream().map(instructor -> getInstituteForInstructor(instructor, allAccounts))
+                                  .filter(tempInstitute -> tempInstitute != null).findFirst().orElse(UNKNOWN_INSTITUTE);
     }
 
     private String getInstituteForInstructor(Instructor instructor, List<Account> allAccounts) {
@@ -205,14 +195,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private List<Instructor> getInstructorsOfCourse(List<Instructor> allInstructors, String courseId) {
-        List<Instructor> instructorsOfCourse = new ArrayList<>();
-        for (Instructor instructor : allInstructors) {
-            if (instructor.getCourseId().equals(courseId)) {
-                instructorsOfCourse.add(instructor);
-            }
-        }
-
-        return instructorsOfCourse;
+        return allInstructors.stream().filter(instructor -> instructor.getCourseId().equals(courseId))
+                      .collect(Collectors.toList());
     }
 
     private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {

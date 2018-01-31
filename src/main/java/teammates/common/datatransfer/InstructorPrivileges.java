@@ -330,14 +330,8 @@ public final class InstructorPrivileges {
     }
 
     private boolean hasSamePrivileges(Map<String, Boolean> defaultPrivileges) {
-
-        for (Map.Entry<String, Boolean> entry : defaultPrivileges.entrySet()) {
-            if (isAllowedForPrivilege(entry.getKey()) != entry.getValue()) {
-                return false;
-            }
-        }
-
-        return true;
+        return defaultPrivileges.entrySet().stream().filter(entry -> isAllowedForPrivilege(entry.getKey())
+                != entry.getValue()).count() == 0;
     }
 
     public boolean isSectionSpecial(String sectionName) {
@@ -427,12 +421,8 @@ public final class InstructorPrivileges {
 
         Set<String> sections = new LinkedHashSet<>(this.sessionLevel.keySet());
         sections.addAll(this.sectionLevel.keySet());
-        for (String sectionName : sections) {
-            if (isAllowedInSessionLevel(sectionName, sessionName, privilegeName)) {
-                return true;
-            }
-        }
-        return false;
+        return sections.stream().filter(sectionName ->
+                       isAllowedInSessionLevel(sectionName, sessionName, privilegeName)).count() > 0;
     }
 
     /**

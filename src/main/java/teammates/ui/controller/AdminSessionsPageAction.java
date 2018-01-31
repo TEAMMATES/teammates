@@ -243,73 +243,36 @@ public class AdminSessionsPageAction extends Action {
      * @return empty string if no available instructor google id is found
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId) {
-
-        for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
-
-            if (instructor.googleId != null) {
-                return instructor.googleId;
-            }
+        if (courseId == null || courseId.trim().isEmpty()) {
+            return "";
         }
-
-        return "";
+        return logic.getInstructorsForCourse(courseId).stream().map(ia -> ia.googleId).filter(id -> id != null)
+                .findFirst().orElse("");
     }
 
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {
-
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.googleId != null) {
-                return logic.getAccount(instructor.googleId);
-            }
-        }
-
-        return null;
+        return instructors.stream().map(inst -> inst.googleId).filter(id -> id != null)
+                .map(id -> logic.getAccount(id)).findFirst().orElse(null);
     }
 
     private int getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
 
-        int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
-            if (sessionAttributes.isOpened()) {
-                numOfTotal += 1;
-            }
-        }
-
-        return numOfTotal;
+        return (int) allOpenFeedbackSessionsList.stream().filter(sessionAttributes -> sessionAttributes.isOpened()).count();
     }
 
     private int getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
 
-        int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
-            if (sessionAttributes.isClosed()) {
-                numOfTotal += 1;
-            }
-        }
-
-        return numOfTotal;
+        return (int) allOpenFeedbackSessionsList.stream().filter(sessionAttributes -> sessionAttributes.isClosed()).count();
     }
 
     private int getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
 
-        int numOfTotal = 0;
-        for (FeedbackSessionAttributes sessionAttributes : allOpenFeedbackSessionsList) {
-            if (sessionAttributes.isWaitingToOpen()) {
-                numOfTotal += 1;
-            }
-        }
-
-        return numOfTotal;
+        return (int) allOpenFeedbackSessionsList.stream().filter(sa -> sa.isWaitingToOpen()).count();
     }
 
     private int getTotalInstitutes(Map<String, List<FeedbackSessionAttributes>> map) {
 
-        int numOfTotal = 0;
-        for (String key : map.keySet()) {
-            if (!key.equals(UNKNOWN_INSTITUTION)) {
-                numOfTotal += 1;
-            }
-        }
-        return numOfTotal;
+        return (int) map.keySet().stream().filter(key -> !key.equals(UNKNOWN_INSTITUTION)).count();
     }
 
     private boolean checkAllParameters(String condition) {

@@ -5,6 +5,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.googlecode.objectify.Key;
@@ -74,10 +75,8 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     @Override
     public List<Account> createEntitiesDeferred(Collection<AccountAttributes> accountsToAdd)
             throws InvalidParametersException {
-        List<StudentProfileAttributes> profilesToAdd = new LinkedList<>();
-        for (AccountAttributes accountToAdd : accountsToAdd) {
-            profilesToAdd.add(accountToAdd.studentProfile);
-        }
+        List<StudentProfileAttributes> profilesToAdd = new LinkedList<>(
+                accountsToAdd.stream().map(accountToAdd -> accountToAdd.studentProfile).collect(Collectors.toList()));
         profilesDb.createEntitiesDeferred(profilesToAdd);
         return super.createEntitiesDeferred(accountsToAdd);
     }

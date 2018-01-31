@@ -19,11 +19,7 @@ public class GaeLogApi {
         List<AppLogLine> logs = new LinkedList<>();
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query.getQuery());
-        for (RequestLogs record : records) {
-            //fetch application log
-            List<AppLogLine> appLogLines = record.getAppLogLines();
-            logs.addAll(appLogLines);
-        }
+        records.forEach(record -> logs.addAll(record.getAppLogLines()));
         return logs;
     }
 }

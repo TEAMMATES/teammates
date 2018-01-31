@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -138,10 +139,9 @@ public class PageData {
 
         result.add(createOption("--- Select ---", "", !nationalities.contains(existingNationality)));
 
-        for (String nationality : nationalities) {
-            ElementTag option = createOption(nationality, nationality, nationality.equals(existingNationality));
-            result.add(option);
-        }
+        result.addAll(nationalities.stream().map(nationality ->
+                createOption(nationality, nationality, nationality.equals(existingNationality)))
+                .collect(Collectors.toList()));
 
         return result;
     }

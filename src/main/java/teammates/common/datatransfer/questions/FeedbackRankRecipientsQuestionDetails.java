@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -346,9 +347,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = getNormalisedRankForEachResponse(responses);
 
         Map<String, List<Integer>> optionRanks = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses) {
-            updateOptionRanksMapping(optionRanks, response.recipient, normalisedRankOfResponse.get(response));
-        }
+        responses.forEach(response ->
+                 updateOptionRanksMapping(optionRanks, response.recipient, normalisedRankOfResponse.get(response)));
 
         return optionRanks;
     }
@@ -361,11 +361,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = getNormalisedRankForEachResponse(responses);
         Map<String, Integer> recipientToSelfRank = new HashMap<>();
 
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.recipient.equalsIgnoreCase(response.giver)) {
-                recipientToSelfRank.put(response.recipient, normalisedRankOfResponse.get(response));
-            }
-        }
+        responses.stream().filter(response -> response.recipient.equalsIgnoreCase(response.giver))
+                 .forEach(response -> recipientToSelfRank.put(response.recipient, normalisedRankOfResponse.get(response)));
 
         return recipientToSelfRank;
     }
@@ -382,6 +379,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         for (FeedbackResponseAttributes response : responses) {
             responsesGivenByPerson.computeIfAbsent(response.giver, key -> new ArrayList<>())
                                   .add(response);
+
         }
 
         // resolve ties for each giver's responses
@@ -407,13 +405,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      * @return list of responses excluding self given responses
      */
     private List<FeedbackResponseAttributes> getResponsesExcludingSelf(List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseAttributes> responsesExcludingSelf = new ArrayList<>();
-        for (FeedbackResponseAttributes response : responses) {
-            if (!response.giver.equalsIgnoreCase(response.recipient)) {
-                responsesExcludingSelf.add(response);
-            }
-        }
-        return responsesExcludingSelf;
+        return responses.stream()
+                .filter(response -> !response.giver.equalsIgnoreCase(response.recipient)).collect(Collectors.toList());
     }
 
     /**

@@ -413,13 +413,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public String getCsvHeader() {
-        StringBuilder result = new StringBuilder();
+        StringBuilder resultBuilder = new StringBuilder();
         for (int i = 0; i < this.options.size(); i++) {
-            result.append(String.format("Rank %d,", i + 1));
+            resultBuilder.append(String.format("Rank %d,", i + 1));
         }
-        result.deleteCharAt(result.length() - 1); // remove the last comma
-
-        return result.toString();
+        return resultBuilder.toString().replaceAll(",$", ""); // remove the last comma
     }
 
     @Override

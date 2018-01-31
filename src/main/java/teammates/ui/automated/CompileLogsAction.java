@@ -3,6 +3,7 @@ package teammates.ui.automated;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -55,13 +56,8 @@ public class CompileLogsAction extends AutomatedAction {
         for (RequestLogs requestLogs : logs) {
             List<AppLogLine> logList = requestLogs.getAppLogLines();
 
-            for (AppLogLine currentLog : logList) {
-                LogLevel logLevel = currentLog.getLogLevel();
-
-                if (LogLevel.FATAL == logLevel || LogLevel.ERROR == logLevel) {
-                    errorLogs.add(currentLog);
-                }
-            }
+            errorLogs.addAll(logList.stream().filter(currentLog -> LogLevel.FATAL == currentLog.getLogLevel()
+                    || LogLevel.ERROR == currentLog.getLogLevel()).collect(Collectors.toList()));
         }
 
         return errorLogs;

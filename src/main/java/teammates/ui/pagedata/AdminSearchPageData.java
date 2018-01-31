@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -90,11 +91,8 @@ public class AdminSearchPageData extends PageData {
     }
 
     private AdminSearchInstructorTable createInstructorTable() {
-        List<AdminSearchInstructorRow> rows = new ArrayList<>();
-
-        for (InstructorAttributes instructor : instructorResultBundle.instructorList) {
-            rows.add(createInstructorRow(instructor));
-        }
+        List<AdminSearchInstructorRow> rows = instructorResultBundle.instructorList.stream().map(instructor ->
+                    createInstructorRow(instructor)).collect(Collectors.toList());
 
         return new AdminSearchInstructorTable(rows);
     }
@@ -145,11 +143,8 @@ public class AdminSearchPageData extends PageData {
     }
 
     private AdminSearchStudentTable createStudentTable() {
-        List<AdminSearchStudentRow> rows = new ArrayList<>();
-
-        for (StudentAttributes student : studentResultBundle.studentList) {
-            rows.add(createStudentRow(student));
-        }
+        List<AdminSearchStudentRow> rows = studentResultBundle.studentList.stream().map(student ->
+                createStudentRow(student)).collect(Collectors.toList());
 
         return new AdminSearchStudentTable(rows);
     }

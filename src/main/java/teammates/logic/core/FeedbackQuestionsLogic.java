@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -255,16 +256,9 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) {
 
-        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.INSTRUCTORS
-                    || question.giverType == FeedbackParticipantType.SELF && isCreator) {
-                questions.add(question);
-            }
-        }
-
-        return questions;
+        return allQuestions.stream().filter(question ->
+                question.giverType == FeedbackParticipantType.INSTRUCTORS
+                || question.giverType == FeedbackParticipantType.SELF && isCreator).collect(Collectors.toList());
     }
 
     /**
@@ -294,16 +288,9 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             List<FeedbackQuestionAttributes> allQuestions) {
 
-        List<FeedbackQuestionAttributes> questions = new ArrayList<>();
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (question.giverType == FeedbackParticipantType.STUDENTS
-                    || question.giverType == FeedbackParticipantType.TEAMS) {
-                questions.add(question);
-            }
-        }
-
-        return questions;
+        return allQuestions.stream().filter(question ->
+                    question.giverType == FeedbackParticipantType.STUDENTS
+                    || question.giverType == FeedbackParticipantType.TEAMS).collect(Collectors.toList());
     }
 
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)

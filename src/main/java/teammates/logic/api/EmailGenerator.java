@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -110,14 +111,9 @@ public class EmailGenerator {
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
 
-        List<FeedbackSessionAttributes> sessions = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (!fsa.isPrivateSession() && (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail())) {
-                sessions.add(fsa);
-            }
-        }
+        List<FeedbackSessionAttributes> sessions = fsInCourse.stream().filter(fsa -> !fsa.isPrivateSession()
+                && (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail())).collect(Collectors.toList());
 
         StringBuffer linksFragmentValue = new StringBuffer(1000);
         String joinUrl = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();

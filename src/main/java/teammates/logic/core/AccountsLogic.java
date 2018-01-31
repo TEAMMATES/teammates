@@ -84,18 +84,9 @@ public final class AccountsLogic {
 
         Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());
         // Retrieve institute field from one of the instructors of the course
-        String institute = "";
-        for (int i = 0; i < instructorList.size(); i++) {
-            String instructorGoogleId = instructorList.get(i).googleId;
-            if (instructorGoogleId == null) {
-                continue;
-            }
-            AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
-            if (instructorAcc != null) {
-                institute = instructorAcc.institute;
-                break;
-            }
-        }
+        String institute = instructorList.stream().map(ins -> ins.googleId).filter(ins -> ins != null)
+                      .map(id -> accountsDb.getAccount(id)).filter(acc -> acc != null)
+                      .map(acc -> acc.institute).findFirst().orElse("");
         Assumption.assertNotEmpty("No institute found for the course", institute);
         return institute;
     }

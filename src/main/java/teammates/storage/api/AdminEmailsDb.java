@@ -87,14 +87,8 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
 
         List<AdminEmailAttributes> emailsInTrashBin = getAdminEmailsInTrashBin();
 
-        for (AdminEmailAttributes a : emailsInTrashBin) {
-            if (a.getGroupReceiver() != null) {
-                for (String key : a.getGroupReceiver()) {
-                    BlobKey blobKey = new BlobKey(key);
-                    deleteAdminEmailUploadedFile(blobKey);
-                }
-            }
-        }
+        emailsInTrashBin.stream().filter(a -> a.getGroupReceiver() != null).forEach(a ->
+                a.getGroupReceiver().forEach(key -> deleteAdminEmailUploadedFile(new BlobKey(key))));
         deleteEntities(emailsInTrashBin);
     }
 
