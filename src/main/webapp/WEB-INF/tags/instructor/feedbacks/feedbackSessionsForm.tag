@@ -232,7 +232,7 @@
 
       <div id="uncommonSettingsSessionResponsesVisible" class="margin-bottom-15px text-muted">
         <span id="uncommonSettingsSessionResponsesVisibleInfoText"></span>
-        <a class="editUncommonSettingsButton enable-edit-fs"
+        <a class="edit-uncommon-settings-button enable-edit-fs"
             id="editUncommonSettingsSessionResponsesVisibleButton"
             data-edit="[Edit]" data-done="[Done]">
           [Change]
@@ -241,7 +241,7 @@
 
       <div id="uncommonSettingsSendEmails" class="margin-bottom-15px text-muted">
         <span id="uncommonSettingsSendEmailsInfoText"></span>
-        <a class="editUncommonSettingsButton enable-edit-fs"
+        <a class="edit-uncommon-settings-button enable-edit-fs"
             id="editUncommonSettingsSendEmailsButton"
             data-edit="[Edit]" data-done="[Done]">
           [Change]

@@ -6,7 +6,7 @@ body {
     padding: 60px 0 30px;
 }
 
-.editUncommonSettingsButton:hover {
+.edit-uncommon-settings-button:hover {
     cursor: pointer;
 }
 
