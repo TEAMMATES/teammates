@@ -30,31 +30,38 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
 
     private static final JsonParser jsonParser = new JsonParser();
 
-    private int numberOfUnaffectedDocuments;
-    private int numberOfDocumentsToUpdate;
-    private int numberOfDocumentsInUnrecognizableDateFormat;
+    public static void main(String[] args) throws IOException {
+        new DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat().doOperationRemotely();
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected boolean isPreview() {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
-        new DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat().doOperationRemotely();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void printPreviewInformation(FeedbackResponseCommentAttributes comment) {
+        // nothing to do
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected boolean isFixRequired(FeedbackResponseCommentAttributes comment, Document document) {
+    protected boolean isMigrationNeeded(FeedbackResponseCommentAttributes comment) {
+        Document document = index.get(comment.getId().toString());
         String sampleDateString = extractSampleDateString(document);
         if (isInDateFormat(sampleDateString, oldDateFormat)) {
-            numberOfDocumentsToUpdate++;
             return true;
         }
 
-        if (isInDateFormat(sampleDateString, newDateFormat)) {
-            numberOfUnaffectedDocuments++;
-        } else {
-            numberOfDocumentsInUnrecognizableDateFormat++;
+        if (!isInDateFormat(sampleDateString, newDateFormat)) {
             println("Unrecognised date format (" + sampleDateString + ") for:\n" + comment);
         }
 
@@ -75,10 +82,4 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
         }
     }
 
-    @Override
-    protected void displayAnalysisResults() {
-        println("Number of documents already in new date format: " + numberOfUnaffectedDocuments);
-        println("Number of documents in unrecognizable date format: " + numberOfDocumentsInUnrecognizableDateFormat);
-        println("Number of documents in old date format: " + numberOfDocumentsToUpdate);
-    }
 }
