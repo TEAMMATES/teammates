@@ -74,8 +74,13 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
                 account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
 
-        Account actualAccount = AccountAttributes.builder(expectedAccount.getGoogleId(), expectedAccount.getName(),
-                expectedAccount.isInstructor(), expectedAccount.getEmail(), expectedAccount.getInstitute())
+        Account actualAccount = AccountAttributes.builder()
+                .withGoogleId(expectedAccount.getGoogleId())
+                .withName(expectedAccount.getName())
+                .withIsInstructor(expectedAccount.isInstructor())
+                .withEmail(expectedAccount.getEmail())
+                .withInstitute(expectedAccount.getInstitute())
+                .withCreatedAt(expectedAccount.getCreatedAt())
                 .withStudentProfile(expectedAccount.getStudentProfile())
                 .build()
                 .toEntity();
@@ -126,8 +131,13 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
         a.setStudentProfile(null);
 
-        AccountAttributes attr = AccountAttributes.builder(a.getGoogleId(), a.getName(),
-                a.isInstructor(), a.getEmail(), a.getInstitute())
+        AccountAttributes attr = AccountAttributes.builder()
+                .withGoogleId(a.getGoogleId())
+                .withName(a.getName())
+                .withIsInstructor(a.isInstructor())
+                .withEmail(a.getEmail())
+                .withInstitute(a.getInstitute())
+                .withCreatedAt(a.getCreatedAt())
                 .withStudentProfile(a.getStudentProfile())
                 .build();
 
@@ -169,14 +179,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     private AccountAttributes createAccountAttributesToSanitize() {
 
-        AccountAttributes account = new AccountAttributes();
-
-        account.googleId = "googleId@gmail.com";
-        account.name = "'name'";
-        account.institute = "\\/";
-        account.email = "&<email>&";
-        account.isInstructor = true;
-
         String shortName = "<name>";
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
@@ -185,18 +187,23 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        account.studentProfile = StudentProfileAttributes.builder()
-                .withGoogleId(account.googleId)
-                .withShortName(shortName)
-                .withEmail(personalEmail)
-                .withInstitute(profileInstitute)
-                .withNationality(nationality)
-                .withGender(gender)
-                .withMoreInfo(moreInfo)
-                .withPictureKey(pictureKey)
+        return AccountAttributes.builder()
+                .withGoogleId("googleId@gmail.com")
+                .withName("'name'")
+                .withInstitute("\\/")
+                .withEmail("&<email>&")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                    .withGoogleId("googleId@gmail.com")
+                    .withShortName(shortName)
+                    .withEmail(personalEmail)
+                    .withInstitute(profileInstitute)
+                    .withNationality(nationality)
+                    .withGender(gender)
+                    .withMoreInfo(moreInfo)
+                    .withPictureKey(pictureKey)
+                    .build())
                 .build();
-
-        return account;
 
     }
 

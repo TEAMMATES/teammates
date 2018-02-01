@@ -43,6 +43,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
         return new Builder(googleId, name, isInstructor, email, institute);
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder {
         private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Non-null value expected";
         private AccountAttributes accountAttributes;
@@ -50,6 +54,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
         public Builder(String googleId, String name, boolean isInstructor, String email, String institute) {
             validateRequiredFields(googleId, name, isInstructor, email, institute);
             accountAttributes = new AccountAttributes(googleId, name, isInstructor, email, institute);
+        }
+
+        public Builder() {
+            accountAttributes = new AccountAttributes();
         }
 
         public AccountAttributes build() {
@@ -80,6 +88,31 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes.studentProfile = StudentProfileAttributes.builder().build();
             accountAttributes.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
 
+            return this;
+        }
+
+        public Builder withGoogleId(String googleId) {
+            accountAttributes.googleId = googleId;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            accountAttributes.name = name;
+            return this;
+        }
+
+        public Builder withIsInstructor(boolean isInstructor) {
+            accountAttributes.isInstructor = isInstructor;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            accountAttributes.email = email;
+            return this;
+        }
+
+        public Builder withInstitute(String institute) {
+            accountAttributes.institute = institute;
             return this;
         }
 

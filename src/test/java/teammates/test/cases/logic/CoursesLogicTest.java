@@ -820,12 +820,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: account doesn't have instructor privileges");
 
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = i.googleId;
-        a.name = i.name;
-        a.email = i.email;
-        a.institute = "TEAMMATES Test Institute 5";
-        a.isInstructor = false;
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId(i.googleId)
+                .withName(i.name)
+                .withIsInstructor(false)
+                .withEmail(i.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .build();
+
         a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
