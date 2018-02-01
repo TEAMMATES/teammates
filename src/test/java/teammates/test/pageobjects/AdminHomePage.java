@@ -11,9 +11,6 @@ public class AdminHomePage extends AppPage {
     @FindBy (id = "addInstructorDetailsSingleLine")
     private WebElement detailsSingleLineTextBox;
 
-    @FindBy (id = "instructorShortName")
-    private WebElement shortNameTextBox;
-
     @FindBy (id = "instructorName")
     private WebElement nameTextBox;
 
@@ -42,10 +39,7 @@ public class AdminHomePage extends AppPage {
      * Fills the form with values from the parameters and clicks the submit button.
      * If an attribute value is null, the existing value in the form is used.
      */
-    public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
-        if (shortName != null) {
-            fillTextBox(shortNameTextBox, shortName);
-        }
+    public AdminHomePage createInstructor(InstructorAttributes attributesForNewAccount, String institute) {
         if (attributesForNewAccount.name != null) {
             fillTextBox(nameTextBox, attributesForNewAccount.name);
         }
@@ -73,28 +67,24 @@ public class AdminHomePage extends AppPage {
         fillTextBox(detailsSingleLineTextBox, "");
     }
 
-    public String getShortNameFromResultTable(int index) {
+    public String getNameFromResultTable(int index) {
         return getCellValueFromDataTable(index, 0);
     }
 
-    public String getNameFromResultTable(int index) {
+    public String getEmailFromResultTable(int index) {
         return getCellValueFromDataTable(index, 1);
     }
 
-    public String getEmailFromResultTable(int index) {
+    public String getInstitutionFromResultTable(int index) {
         return getCellValueFromDataTable(index, 2);
     }
 
-    public String getInstitutionFromResultTable(int index) {
+    public String getStatusFromResultTable(int index) {
         return getCellValueFromDataTable(index, 3);
     }
 
-    public String getStatusFromResultTable(int index) {
-        return getCellValueFromDataTable(index, 4);
-    }
-
     public String getMessageFromResultTable(int index) {
-        return getCellValueFromDataTable(index, 5);
+        return getCellValueFromDataTable(index, 4);
     }
 
     public String getJoinLink(String messageText) {
