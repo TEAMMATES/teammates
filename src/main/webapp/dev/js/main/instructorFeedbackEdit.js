@@ -564,6 +564,7 @@ function deleteQuestion(questionNum) {
     }
 
     const okCallback = function () {
+        restoreOriginal(questionNum);
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
