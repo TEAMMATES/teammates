@@ -30,6 +30,7 @@ public final class Const {
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+    public static final String JOIN_LINK = "[Join Link]";
 
     public static final String NONE_OF_THE_ABOVE = "None of the above";
 
@@ -639,7 +640,6 @@ public final class Const {
         public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
-        public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";

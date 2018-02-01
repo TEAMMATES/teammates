@@ -74,14 +74,6 @@ public final class StudentsLogic {
 
     }
 
-    /**
-     * Gets all students in the database.
-     */
-    @SuppressWarnings("deprecation")
-    public List<StudentAttributes> getAllStudents() {
-        return studentsDb.getAllStudents();
-    }
-
     public StudentAttributes getStudentForEmail(String courseId, String email) {
         return studentsDb.getStudentForEmail(courseId, email);
     }
@@ -528,10 +520,6 @@ public final class StudentsLogic {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
-    }
-
-    public void putDocument(StudentAttributes student) {
-        studentsDb.putDocument(student);
     }
 
     /**

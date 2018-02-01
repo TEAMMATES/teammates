@@ -10,7 +10,7 @@
 
 <ta:adminPage title="Add New Instructor" jsIncludes="${jsIncludes}">
   <adminHome:adminCreateInstructorAccountWithOneBoxForm/>
-  <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}"
+  <adminHome:adminCreateInstructorAccountForm
       instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
 
   <div class="panel panel-primary" hidden id="addInstructorResultPanel">
@@ -21,7 +21,6 @@
       <table class="table table-striped table-hover" id="addInstructorResultTable">
         <thead>
           <tr>
-            <th>Short Name</th>
             <th>Name</th>
             <th>Email</th>
             <th>Institution</th>

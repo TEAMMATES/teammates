@@ -50,7 +50,7 @@ Of course we are happy to guide you if you encounter any difficulties when doing
 
 1. [Set up TEAMMATES development environment on your computer.](setting-up.md)<br>
    **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
-1. [Optional but recommended] [Set up the TEAMMATES project in an IDE](ide-usage.md).
+1. [Optional but recommended] [Set up the TEAMMATES project in an IDE](ide-setup.md).
 1. Get the test to pass (more info in [_Development Guidelines_ document](development.md)). It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 ### **Phase C**: Tinker with the code

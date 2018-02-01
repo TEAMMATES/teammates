@@ -22,20 +22,31 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantName
         extends DataMigrationForFeedbackResponseCommentSearchDocument {
 
-    private int numberOfUnaffectedDocuments;
-    private int numberOfDocumentsToUpdate;
+    public static void main(String[] args) throws IOException {
+        new DataMigrationForFeedbackResponseCommentSearchDocumentParticipantName().doOperationRemotely();
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected boolean isPreview() {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
-        new DataMigrationForFeedbackResponseCommentSearchDocumentParticipantName().doOperationRemotely();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void printPreviewInformation(FeedbackResponseCommentAttributes comment) {
+        // nothing to do
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected boolean isFixRequired(FeedbackResponseCommentAttributes comment, Document document) {
+    protected boolean isMigrationNeeded(FeedbackResponseCommentAttributes comment) {
         FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst()
                 .getFeedbackQuestion(comment.feedbackQuestionId);
 
@@ -43,19 +54,17 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
             return false;
         }
 
+        Document document = index.get(comment.getId().toString());
+
         if (isFixRequiredForGiverName(document, question) || isFixRequiredForReceiverName(document, question)) {
-            numberOfDocumentsToUpdate++;
             println("Fix of response participant name required in document: " + document.getId());
             return true;
         }
 
-        numberOfUnaffectedDocuments++;
-
         return false;
     }
 
-    private boolean isFixRequiredForGiverName(Document document,
-                                              FeedbackQuestionAttributes question) {
+    private boolean isFixRequiredForGiverName(Document document, FeedbackQuestionAttributes question) {
         if (question.giverType != FeedbackParticipantType.TEAMS) {
             return false;
         }
@@ -66,8 +75,7 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
         return Const.USER_UNKNOWN_TEXT.equals(responseGiverName);
     }
 
-    private boolean isFixRequiredForReceiverName(Document document,
-                                              FeedbackQuestionAttributes question) {
+    private boolean isFixRequiredForReceiverName(Document document, FeedbackQuestionAttributes question) {
         if (question.recipientType != FeedbackParticipantType.TEAMS) {
             return false;
         }
@@ -78,9 +86,4 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentParticipantNam
         return Const.USER_UNKNOWN_TEXT.equals(responseReceiverName);
     }
 
-    @Override
-    protected void displayAnalysisResults() {
-        println("Number of unaffected documents: " + numberOfUnaffectedDocuments);
-        println("Number of documents with invalid response giver or recipient name: " + numberOfDocumentsToUpdate);
-    }
 }

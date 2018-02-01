@@ -2,13 +2,11 @@ package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -804,35 +802,19 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         Map<String, RubricRecipientStatistics> recipientToRecipientStats = new HashMap<>();
 
         for (FeedbackResponseAttributes response : responses) {
-            if (!recipientToRecipientStats.containsKey(response.recipient)) {
-                String recipient = response.recipient;
+            recipientToRecipientStats.computeIfAbsent(response.recipient, recipient -> {
                 String recipientTeam = bundle.getTeamNameForEmail(recipient);
                 String recipientName = bundle.getNameForEmail(recipient);
-                RubricRecipientStatistics recipientStats =
-                        new RubricRecipientStatistics(recipient, recipientName, recipientTeam);
-                recipientToRecipientStats.put(recipient, recipientStats);
-            }
-
-            recipientToRecipientStats.get(response.recipient).addResponseToRecipientStats(response);
+                return new RubricRecipientStatistics(recipient, recipientName, recipientTeam);
+            })
+                .addResponseToRecipientStats(response);
         }
 
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
                 new LinkedList<>(recipientToRecipientStats.entrySet());
-        Collections.sort(recipientStatsList, new Comparator<Map.Entry<String, RubricRecipientStatistics>>() {
-            @Override
-            public int compare(Entry<String, RubricRecipientStatistics> o1,
-                    Entry<String, RubricRecipientStatistics> o2) {
-                RubricRecipientStatistics a = o1.getValue();
-                RubricRecipientStatistics b = o2.getValue();
-
-                if (a.recipientTeam.equalsIgnoreCase(b.recipientTeam)) {
-                    return a.recipientName.compareTo(b.recipientName);
-                } else {
-                    return a.recipientTeam.compareTo(b.recipientTeam);
-                }
-            }
-        });
-
+        recipientStatsList.sort(Comparator.comparing((Map.Entry<String, RubricRecipientStatistics> obj) ->
+                obj.getValue().recipientTeam.toLowerCase())
+                .thenComparing(obj -> obj.getValue().recipientName));
         return recipientStatsList;
     }
 

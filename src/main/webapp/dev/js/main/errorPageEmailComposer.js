@@ -25,7 +25,7 @@ function hideErrorReportForm($form) {
 $(document).ready(() => {
     $('#error-feedback-form').on('submit', (event) => {
         event.preventDefault();
-        const $form = $(event.target);
+        const $form = $(event.currentTarget);
         // Use Ajax to submit form data
         $.ajax({
             url: USER_REPORT_SUBMIT_ACTION_URI,

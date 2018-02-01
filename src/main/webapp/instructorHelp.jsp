@@ -14,47 +14,47 @@
         <div style="margin: 0 auto; padding: 0 50px;">
           <ul>
             <li>
-              <a href="#faq1">How do I view a list of students in a course?</a>
+              <a href="#faq-view-student-list-in-course">How do I view a list of students in a course?</a>
             </li>
             <li>
-              <a href="#faq2">How do I change student details after enrolling?
+              <a href="#faq-change-details-after-enrolling">How do I change student details after enrolling?
               </a>
             </li>
             <li>
-              <a href="#faq3">How do I add more students to a course?</a>
+              <a href="#faq-add-students-to-course">How do I add more students to a course?</a>
             </li>
             <li>
-              <a href="#faq4">How do I delete students from a course?</a>
+              <a href="#faq-delete-students-from-course">How do I delete students from a course?</a>
             </li>
             <li>
-              <a href="#faq6">How do I change the Google ID associated with a student?</a>
+              <a href="#faq-change-googleID-of-student">How do I change the Google ID associated with a student?</a>
             </li>
             <li>
-              <a href="#faq7">What to do if a student says his/her courses have disappeared from the system?</a>
+              <a href="#faq-if-courses-displayed-to-students-disappear">What to do if a student says his/her courses have disappeared from the system?</a>
             </li>
             <li>
-              <a href="#faq7a">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
+              <a href="#faq-interpret-contribution-values-in-results">How do I interpret/use contribution values in the results of ‘Team contribution’ type questions?</a>
             </li>
             <li>
-              <a href="#faq8">What to do if a student says he cannot submit responses due to some technical glitch?</a>
+              <a href="#faq-if-students-cannot-submit-an-evaluation">What to do if a student says he cannot submit responses due to some technical glitch?</a>
             </li>
             <li>
-              <a href="#faq9">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
+              <a href="#faq-entered-contribution-differs-from-results">How come the actual contribution values entered by the student is different from the values shown in the results?</a>
             </li>
             <li>
-              <a href="#faq10">Can a student influence his ‘perceived contribution’ value by awarding himself a larger contribution?</a>
+              <a href="#faq-can-student-influence-his-contribution">Can a student influence his ‘perceived contribution’ value by awarding himself a larger contribution?</a>
             </li>
             <li>
-              <a href="#faq11">How are the contribution numbers calculated?</a>
+              <a href="#faq-how-contribution-numbers-calculated">How are the contribution numbers calculated?</a>
             </li>
             <li>
-              <a href="#faq12">Is it compulsory for students to use Google accounts?</a>
+              <a href="#faq-is-google-account-compulsory-for-student">Is it compulsory for students to use Google accounts?</a>
             </li>
             <li>
-              <a href="#faq13">What if my course doesn’t have teams?</a>
+              <a href="#faq-if-course-has-no-teams">What if my course doesn’t have teams?</a>
             </li>
             <li>
-              <a href="#faq14">Is there a size limit for a course?</a>
+              <a href="#faq-size-limit-for-course">Is there a size limit for a course?</a>
             </li>
           </ul>
         </div>

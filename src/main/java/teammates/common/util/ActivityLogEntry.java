@@ -64,7 +64,7 @@ public final class ActivityLogEntry {
     public String generateLogMessage() {
         // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
         String userRoleSuffix = isMasqueradeUserRole ? Const.ActivityLog.ROLE_MASQUERADE_POSTFIX : "";
-        return StringHelper.join(Const.ActivityLog.FIELD_SEPARATOR, Const.ActivityLog.TEAMMATESLOG,
+        return String.join(Const.ActivityLog.FIELD_SEPARATOR, Const.ActivityLog.TEAMMATESLOG,
                 actionName, actionResponse, Boolean.toString(shouldShowLog), userRole + userRoleSuffix,
                 userName, userGoogleId, userEmail, logMessage, actionUrl, logId);
     }

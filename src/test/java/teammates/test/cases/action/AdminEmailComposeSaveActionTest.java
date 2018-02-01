@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AdminEmailComposeSaveAction;
@@ -67,7 +66,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         AdminEmailAttributes savedEmail = adminEmailsLogic.getAdminEmailBySubject(subject);
         assertNotNull("Email should be saved and should exists.", savedEmail);
         assertEquals(SanitizationHelper.sanitizeForRichText(content), savedEmail.getContentValue());
-        assertEquals(receiver, StringHelper.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
+        assertEquals(receiver, String.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
 
         ______TS("save new email : invalid subject : failure");
         content = "<p>Email Content</p>";
@@ -143,7 +142,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         savedEmail = adminEmailsLogic.getAdminEmailBySubject(subject);
         assertNotNull("Email should be saved and should exists.", savedEmail);
         assertEquals(SanitizationHelper.sanitizeForRichText(content), savedEmail.getContentValue());
-        assertEquals(receiver, StringHelper.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
+        assertEquals(receiver, String.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
 
         ______TS("save existing email : values require sanitization : success");
         emailId = email.emailId;
@@ -172,7 +171,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         savedEmail = adminEmailsLogic.getAdminEmailBySubject(subject);
         assertNotNull("Email should be saved and should exists.", savedEmail);
         assertEquals(SanitizationHelper.sanitizeForRichText(content), savedEmail.getContentValue());
-        assertEquals(receiver, StringHelper.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
+        assertEquals(receiver, String.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
 
         ______TS("save existing email : invalid subject : failure");
         content = "valid content";
@@ -250,7 +249,7 @@ public class AdminEmailComposeSaveActionTest extends BaseActionTest {
         savedEmail = adminEmailsLogic.getAdminEmailBySubject(subject);
         assertNotNull("Email should be saved and should exists.", savedEmail);
         assertEquals(SanitizationHelper.sanitizeForRichText(content), savedEmail.getContentValue());
-        assertEquals(receiver, StringHelper.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
+        assertEquals(receiver, String.join(", ", savedEmail.getAddressReceiver().toArray(new String[0])));
 
         ______TS("save non-existing email : invalid subject : failure");
         emailId = "nonExisitingId";
