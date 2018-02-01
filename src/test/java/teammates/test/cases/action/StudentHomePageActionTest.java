@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.entity.Account;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 import teammates.ui.controller.ShowPageResult;

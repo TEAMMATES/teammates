@@ -84,7 +84,7 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
         photoUrl = "validPhotoUrl";
 
         acct = AccountAttributes.builder()
-            .withGoogleId("valid.id")         // only googleId is needed
+            .withGoogleId("valid.id") // only googleId is needed
             .build();
 
         sampleStudent = StudentAttributes

@@ -277,10 +277,9 @@ public abstract class Action {
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            AccountAttributes newLoggedInUser = AccountAttributes.builder()
+            return AccountAttributes.builder()
                     .withGoogleId(currentUser.id)
                     .build();
-            return newLoggedInUser;
         }
         return loggedInUser;
     }

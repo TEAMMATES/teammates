@@ -46,7 +46,7 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
 
     private InstructorStudentListPageData initializeDataWithSearchKey() {
         acct = AccountAttributes.builder()
-            .withGoogleId("valid.id")         // only googleId is used
+            .withGoogleId("valid.id") // only googleId is used
             .build();
 
         searchKey = "<script>alert(\"A search key\");</script>";
