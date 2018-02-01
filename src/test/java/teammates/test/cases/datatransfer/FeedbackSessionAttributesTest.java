@@ -26,8 +26,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @BeforeClass
     public void classSetup() {
-        startTime = TimeHelper.combineDateTime("09/05/2016", "1000");
-        endTime = TimeHelper.combineDateTime("09/05/2017", "1000");
+        startTime = TimeHelper.convertLocalDateTimeToDate(
+                TimeHelper.combineDateTime("09/05/2016", "10"));
+        endTime = TimeHelper.convertLocalDateTimeToDate(
+                TimeHelper.combineDateTime("09/05/2017", "10"));
 
         fsa = FeedbackSessionAttributes
                 .builder("", "", "")
