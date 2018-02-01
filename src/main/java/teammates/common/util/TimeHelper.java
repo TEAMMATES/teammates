@@ -3,6 +3,8 @@ package teammates.common.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -449,6 +451,14 @@ public final class TimeHelper {
         }
 
     }
+
+    /**
+     * Temporary method for transition from storing time zone as double.
+     */
+    public static ZoneId convertToZoneId(double timeZone) {
+        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
+    }
+
 
     /**
      * Returns Duration in format m:s:ms.
