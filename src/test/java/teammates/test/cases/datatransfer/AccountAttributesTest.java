@@ -169,6 +169,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     private AccountAttributes createAccountAttributesToSanitize() {
 
+        AccountAttributes account = new AccountAttributes();
+
+        account.googleId = "googleId@gmail.com";
+        account.name = "'name'";
+        account.institute = "\\/";
+        account.email = "&<email>&";
+        account.isInstructor = true;
+
         String shortName = "<name>";
         String personalEmail = "'toSanitize@email.com'";
         String profileInstitute = "";
@@ -177,9 +185,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "";
 
-        return AccountAttributes.builder("googleId@gmail.com", "'name'", true, "\\/", "&<email>&")
-       .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                .withGoogleId("googleId@gmail.com")
+        account.studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(account.googleId)
                 .withShortName(shortName)
                 .withEmail(personalEmail)
                 .withInstitute(profileInstitute)
@@ -187,8 +194,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withGender(gender)
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
-                .build())
-        .build();
+                .build();
+
+        return account;
+
     }
 
 }
