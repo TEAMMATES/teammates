@@ -94,15 +94,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Returns empty list if none found.
-     * @deprecated Not scalable. Created for data migration purposes.
-     */
-    @Deprecated
-    public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
-        return makeAttributes(getAllFeedbackSessionEntities());
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return An empty list if no sessions are found for the given course.
@@ -384,10 +375,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
-    }
-
-    private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        return load().list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {

@@ -51,7 +51,7 @@ function bindCoursePanels() {
  * Changes the state of the course panel (collapsed/expanded).
  */
 function toggleCourseVisibility(e) {
-    const $targetElement = $(e.target);
+    const $targetElement = $(e.currentTarget);
     if ($targetElement.is('a') || $targetElement.is('input') || $targetElement.hasClass('dropdown-toggle')) {
         return;
     }
@@ -117,7 +117,7 @@ $(document).ready(() => {
     // Click event binding for course archive button
     $('body').on('click', '.course-archive-for-test', (event) => {
         event.preventDefault();
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
 
         const messageText = `Are you sure you want to archive ${$clickedLink.data('courseId')}? `
             + 'This action can be reverted by going to the "courses" tab and unarchiving the desired course(s).';

@@ -323,8 +323,12 @@ public class GateKeeper {
         return studentsLogic.isStudentInAnyCourse(user.getNickname());
     }
 
-    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(AccountAttributes account, String courseId,
+    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(AccountAttributes account, String courseId,
             String section, String email) {
+        if (isAdministrator()) {
+            return;
+        }
+
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
         if (instructor != null) {
             verifyInstructorCanViewPhoto(instructor, section);

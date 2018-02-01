@@ -12,7 +12,7 @@ const FeedbackPath = {
 
     attachEventsForAllOptions(allDropdownOptions) {
         allDropdownOptions.on('click', (event) => {
-            const clickedElem = $(event.target);
+            const clickedElem = $(event.currentTarget);
             const containingForm = FeedbackPath.getContainingForm(clickedElem);
 
             FeedbackPath.setDropdownText(clickedElem.data('pathDescription'), containingForm);
@@ -21,7 +21,7 @@ const FeedbackPath = {
 
     attachEventsForCommonOptions(commonOptions) {
         commonOptions.on('click', (event) => {
-            const clickedElem = $(event.target);
+            const clickedElem = $(event.currentTarget);
             const containingForm = FeedbackPath.getContainingForm(clickedElem);
 
             FeedbackPath.updateInputTags(
@@ -32,7 +32,7 @@ const FeedbackPath = {
 
     attachEventsForOtherOption(otherOption) {
         otherOption.on('click', (event) => {
-            const clickedElem = $(event.target);
+            const clickedElem = $(event.currentTarget);
             const containingForm = FeedbackPath.getContainingForm(clickedElem);
 
             FeedbackPath.showOtherOption(containingForm);
