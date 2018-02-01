@@ -8,6 +8,7 @@ branches:
   only:
     - master
     - release
+    - java-time-migration
 
 skip_commits:
   files:
