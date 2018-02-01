@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - release
+    - java-time-migration
 
 notifications:
   email: false
