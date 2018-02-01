@@ -356,6 +356,21 @@ function prepareInstructorFeedbackResultsPage() {
     });
 }
 
+function bindRubicQuestionSelfExcludingCheck() {
+    $('#self-excluding-check').on('change', (e) => {
+        const responseSummary = $(e.target).next();
+        const includingSelfBody = responseSummary.parent().parent().parent().find('.body-including-self');
+        const excludingSelfBody = responseSummary.parent().parent().parent().find('.body-excluding-self');
+        if (responseSummary.html().trim() === 'Response Summary') {
+            responseSummary.html('Response Summary Excluding Self');
+        } else {
+            responseSummary.html('Response Summary');
+        }
+        includingSelfBody.toggleClass('hidden');
+        excludingSelfBody.toggleClass('hidden');
+    });
+}
+
 export {
     bindCollapseEvents,
     displayAjaxRetryMessageForPanelHeading,
@@ -363,4 +378,5 @@ export {
     prepareInstructorFeedbackResultsPage,
     removeSection,
     showHideStats,
+    bindRubicQuestionSelfExcludingCheck,
 };

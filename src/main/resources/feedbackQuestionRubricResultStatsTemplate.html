@@ -1,7 +1,8 @@
 <div class="panel-body">
   <div class="row">
     <div class="col-sm-4 text-color-gray">
-      <strong>
+      <input type="checkbox" id="self-excluding-check">
+      <strong class="stats-title">
         ${statsTitle}
       </strong>
     </div>
@@ -15,8 +16,11 @@
             ${tableHeaderRowFragmentHtml}
           </tr>
         </thead>
-        <tbody>
+        <tbody class="body-including-self">
           ${tableBodyHtml}
+        </tbody>
+        <tbody class="body-excluding-self hidden">
+            ${tableBodyExcludingSelfHtml}
         </tbody>
       </table>
     </div>

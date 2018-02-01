@@ -589,7 +589,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         RubricStatistics statistics = new RubricStatistics(responsesForStatistics, fqd);
         int[][] responseFrequency = statistics.getResponseFrequency();
+        int[][] responseFrequencyExcludingSelf = statistics.getResponseFrequencyExcludingSelf();
         float[][] rubricStats = statistics.getPercentageFrequencyAndAverage();
+        float[][] rubricStatsExcludingSelf = statistics.getPercentageFrequencyAndAverageExcludingSelf();
 
         DecimalFormat weightFormat = new DecimalFormat("#.##");
 
@@ -618,6 +620,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
+        StringBuilder tableBodyExcludingSelfHtml = new StringBuilder();
 
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
@@ -626,16 +629,26 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
+            StringBuilder tableBodyExclSelfFragmentHtml = new StringBuilder();
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
+            boolean isSubQuestionRespondedToForExcludingSelf = responseFrequencyExcludingSelf[i][numOfRubricChoices] > 0;
 
             for (int j = 0; j < numOfRubricChoices; j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
                                                  ? df.format(rubricStats[i][j] * 100) + "%"
                                                  : STATISTICS_NO_VALUE_STRING;
+                String percentageFrequencyExclSelfString = isSubQuestionRespondedToForExcludingSelf
+                                                         ? df.format(rubricStatsExcludingSelf[i][j] * 100) + "%"
+                                                         : STATISTICS_NO_VALUE_STRING;
                 String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
                         percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
+                String tableBodyExcludingSelfCell = Templates.populateTemplate(tableBodyFragmentTemplate,
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
+                        percentageFrequencyExclSelfString + " (" + responseFrequencyExcludingSelf[i][j] + ")");
+
                 tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
+                tableBodyExclSelfFragmentHtml.append(tableBodyExcludingSelfCell).append(Const.EOL);
             }
 
             if (fqd.hasAssignedWeights) {
@@ -652,7 +665,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
+            String tableRowExclSelf = Templates.populateTemplate(tableBodyTemplate,
+                    Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
+                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
+                    Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyExclSelfFragmentHtml.toString());
             tableBodyHtml.append(tableRow).append(Const.EOL);
+            tableBodyExcludingSelfHtml.append(tableRowExclSelf).append(Const.EOL);
         }
 
         String statsTitle = "Response Summary";
@@ -687,6 +705,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.STATS_TITLE, statsTitle,
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
+                Slots.TABLE_BODY_EXCL_SELF_HTML, tableBodyExcludingSelfHtml.toString(),
                 Slots.RUBRIC_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
 
@@ -1192,6 +1211,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          */
         int[][] responseFrequency;
 
+        int[][] responseFrequencyExcludingSelf;
+
         /**
          * Stores the percentage value between [0,1] of each choice
          * being selected for the sub-question.
@@ -1206,6 +1227,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * -> is the average weight of the responses for the given sub-question.
          */
         float[][] percentageFrequencyAndAverage;
+
+        float[][] percentageFrequencyAndAverageExcludingSelf;
 
         List<FeedbackResponseAttributes> responses;
         FeedbackRubricQuestionDetails questionDetails;
@@ -1224,11 +1247,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             this.responseTotalIndex = numOfRubricChoices;
 
             calculateResponseFrequency();
-            calculatePercentageFrequencyAndAverage();
+            calculatePercentageFrequencyAndAverage(false);
+
+            calculatePercentageFrequencyAndAverage(true);
         }
 
         void calculateResponseFrequency() {
             responseFrequency = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
+            responseFrequencyExcludingSelf = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // count frequencies
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
@@ -1238,6 +1264,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         responseFrequency[i][chosenChoice] += 1;
                         responseFrequency[i][responseTotalIndex] += 1;
                     }
+                    if (chosenChoice != -1 && !response.giver.equals(response.recipient)) {
+                        responseFrequencyExcludingSelf[i][chosenChoice] += 1;
+                        responseFrequencyExcludingSelf[i][responseTotalIndex] += 1;
+                    }
                 }
             }
         }
@@ -1246,11 +1276,19 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * Calculates the percentage frequencies for each choice and average value for each sub-question.
          * Precondition: responseFrequency has been calculated.
          */
-        void calculatePercentageFrequencyAndAverage() {
+        void calculatePercentageFrequencyAndAverage(boolean isSelfExcluded) {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
                                      (Object[]) responseFrequency);
+            Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
+                                     (Object[]) responseFrequencyExcludingSelf);
 
-            percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
+            int[][] responseFrequency;
+            if (isSelfExcluded) {
+                responseFrequency = responseFrequencyExcludingSelf;
+            } else {
+                responseFrequency = this.responseFrequency;
+            }
+            float[][] percentageFrequencyAndAverage = new float[numOfRubricSubQuestions][numOfRubricChoices + 1];
             // calculate percentage frequencies and average value
             for (int i = 0; i < percentageFrequencyAndAverage.length; i++) {
                 int totalForSubQuestion = responseFrequency[i][responseTotalIndex];
@@ -1271,14 +1309,28 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     }
                 }
             }
+
+            if (isSelfExcluded) {
+                this.percentageFrequencyAndAverageExcludingSelf = percentageFrequencyAndAverage;
+            } else {
+                this.percentageFrequencyAndAverage = percentageFrequencyAndAverage;
+            }
         }
 
         int[][] getResponseFrequency() {
             return responseFrequency;
         }
 
+        int[][] getResponseFrequencyExcludingSelf() {
+            return responseFrequencyExcludingSelf;
+        }
+
         float[][] getPercentageFrequencyAndAverage() {
             return percentageFrequencyAndAverage;
+        }
+
+        float[][] getPercentageFrequencyAndAverageExcludingSelf() {
+            return percentageFrequencyAndAverageExcludingSelf;
         }
 
     }

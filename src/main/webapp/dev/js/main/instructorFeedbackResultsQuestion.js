@@ -14,6 +14,7 @@ import {
     displayAjaxRetryMessageForPanelHeading,
     prepareInstructorFeedbackResultsPage,
     showHideStats,
+    bindRubicQuestionSelfExcludingCheck,
 } from '../common/instructorFeedbackResults';
 
 import {
@@ -77,6 +78,7 @@ $(document).ready(() => {
                     $panelBody.html(appendedQuestion);
                 }
 
+                bindRubicQuestionSelfExcludingCheck();
                 // bind the show picture onclick events
                 bindStudentPhotoLink($panelBody.find('.profile-pic-icon-click > .student-profile-pic-view-link'));
                 // bind the show picture onhover events
