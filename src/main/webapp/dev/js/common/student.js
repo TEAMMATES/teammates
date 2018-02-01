@@ -13,7 +13,7 @@ import {
 function bindLinksInUnregisteredPage(selector) {
     $(document).on('click', selector, (e) => {
         e.preventDefault();
-        const $clickedLink = $(e.target);
+        const $clickedLink = $(e.currentTarget);
 
         const { header, text } = Const.ModalDialog.UNREGISTERED_STUDENT;
         function okCallback() {
