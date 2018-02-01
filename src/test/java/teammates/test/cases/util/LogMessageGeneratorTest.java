@@ -133,8 +133,9 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.STUDENT_HOME_PAGE;
         logMessage = String.format(logTemplate, "studentHomePage", "Student");
         userType.isStudent = true;
-        AccountAttributes acc = new AccountAttributes("googleId", "david", false, "david@email.com", "NUS");
-
+        AccountAttributes acc = AccountAttributes.builder("googleId", "david", false, "david@email.com", "NUS")
+                .withStudentProfileAttributes("idOfNewStudent")
+                .build();
         generatedMessage =
                 logCenter.generatePageActionLogMessage(url, paramMap, userType, acc, null, "View Result");
         AssertHelper.assertLogMessageEquals(logMessage, generatedMessage);
@@ -185,7 +186,9 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         userType.isAdmin = true;
-        acc = new AccountAttributes("anotherGoogleId", "david", false, "david@email.com", "NUS");
+        acc = AccountAttributes.builder("anotherGoogleId", "david", false, "david@email.com", "NUS")
+                .withStudentProfileAttributes("anotherGoogleId")
+                .build();
         logMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage|||true|||Instructor(M)|||david"
                      + "|||anotherGoogleId|||david@email.com|||View comments|||/page/instructorCoursesPage";
 

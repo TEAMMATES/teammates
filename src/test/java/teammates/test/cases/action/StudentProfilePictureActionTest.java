@@ -164,8 +164,10 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     private InstructorAttributes createNewInstructorForUnregCourse()
             throws Exception {
         String course = typicalBundle.courses.get("unregisteredCourse").getId();
-        AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true,
-                                                                 "unregIns@unregcourse.com", "unregInstitute"));
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("unregInsId", "unregName", true,
+                "unregIns@unregcourse.com", "unregInstitute")
+                .withStudentProfileAttributes("unregInsId")
+                .build());
         InstructorAttributes instructor = InstructorAttributes
                 .builder("unregInsId", course, "unregName", "unregIns@unregcourse.com")
                 .build();

@@ -516,13 +516,15 @@ public class BackDoorLogic extends Logic {
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return new AccountAttributes(
-                instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
+        return AccountAttributes.builder(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1")
+                .withStudentProfileAttributes(instructor.googleId)
+                .build();
     }
 
     private AccountAttributes makeAccount(StudentAttributes student) {
-        return new AccountAttributes(
-                student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
+        return AccountAttributes.builder(student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1")
+                .withStudentProfileAttributes(student.googleId)
+                .build();
     }
 
     private String makeSessionKey(String feedbackSessionName, String courseId) {

@@ -41,8 +41,10 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .withMoreInfo("moreInfo")
                 .build();
 
-        AccountAttributes accountWithStudentProfile =
-                new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
+        AccountAttributes accountWithStudentProfile = AccountAttributes.builder("id", "name",
+                true, "test@email.com", "dev")
+                .withStudentProfileAttributes(expectedSpa)
+                .build();
 
         accountsLogic.createAccount(accountWithStudentProfile);
 

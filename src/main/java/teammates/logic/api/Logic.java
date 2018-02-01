@@ -90,8 +90,9 @@ public class Logic {
             studentProfile = StudentProfileAttributes.builder().build();
             studentProfile.googleId = googleId;
         }
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,
-                                                               studentProfile);
+        AccountAttributes accountToAdd = AccountAttributes.builder(googleId, name, isInstructor, email, institute)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
     }
@@ -223,7 +224,9 @@ public class Logic {
         Assumption.assertNotNull(institute);
 
         if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = new AccountAttributes(googleId, name, true, email, institute);
+            AccountAttributes account = AccountAttributes.builder(googleId, name, true, email, institute)
+                    .withStudentProfileAttributes(googleId)
+                    .build();
             accountsLogic.createAccount(account);
         }
 
