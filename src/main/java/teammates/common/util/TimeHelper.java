@@ -441,6 +441,12 @@ public final class TimeHelper {
         return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
     }
 
+    /**
+     * Temporary method for transition from java.util.Date.
+     */
+    public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
+        return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
+    }
 
     /**
      * Returns Duration in format m:s:ms.
