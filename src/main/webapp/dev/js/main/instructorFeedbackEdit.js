@@ -607,11 +607,11 @@ function formatNumberBox(participantType, questionNum) {
     const $questionForm = $(`#form_editquestion-${questionNum}`);
     const $numberOfEntitiesBox = $questionForm.find('.numberOfEntitiesElements');
 
-    if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
+    if (participantType === 'STUDENTS' || participantType === 'TEAMS' || participantType === 'INSTRUCTORS') {
         $numberOfEntitiesBox.show();
 
         const $numberOfEntitiesLabel = $numberOfEntitiesBox.find('.number-of-entities-inner-text');
-        $numberOfEntitiesLabel.html(participantType === 'STUDENTS' ? 'students' : 'teams');
+        $numberOfEntitiesLabel.html(participantType.toLowerCase());
     } else {
         $numberOfEntitiesBox.hide();
     }
