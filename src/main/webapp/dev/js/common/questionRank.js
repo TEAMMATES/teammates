@@ -198,24 +198,24 @@ function removeRankOption(index, questionNum) {
 
 function bindRankEvents() {
     $(document).on('change', 'input[name="minOptionsToBeRanked"],input[name="minRecipientsToBeRanked"]', (e) => {
-        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
         adjustMinOptionsToBeRanked(questionNum);
     });
 
     $(document).on('change', 'input[name="maxOptionsToBeRanked"],input[name="maxRecipientsToBeRanked"]', (e) => {
-        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
         adjustMaxOptionsToBeRanked(questionNum);
     });
 
     $(document).on('change',
             'input[name="minOptionsToBeRankedEnabled"],input[name="minRecipientsToBeRankedEnabled"]', (e) => {
-                const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+                const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
                 toggleMinOptionsToBeRanked(questionNum);
             });
 
     $(document).on('change',
             'input[name="maxOptionsToBeRankedEnabled"],input[name="maxRecipientsToBeRankedEnabled"]', (e) => {
-                const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+                const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
                 toggleMaxOptionsToBeRanked(questionNum);
             });
 }
