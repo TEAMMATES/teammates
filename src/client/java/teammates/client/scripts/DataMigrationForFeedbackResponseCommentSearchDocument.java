@@ -11,19 +11,22 @@ import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.SearchServiceFactory;
 
-import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.SearchManager;
 
 /**
  * Describes common operations for data migration for FeedbackResponseCommentSearchDocument class.
  */
-public abstract class DataMigrationForFeedbackResponseCommentSearchDocument extends RemoteApiClient {
+public abstract class DataMigrationForFeedbackResponseCommentSearchDocument
+        extends DataMigrationBaseScript<FeedbackResponseCommentAttributes> {
+
+    protected static final Index index = SearchServiceFactory.getSearchService()
+            .getIndex(IndexSpec.newBuilder().setName(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT));
 
     /**
      * Number of comments/documents to process per cycle.
@@ -31,85 +34,41 @@ public abstract class DataMigrationForFeedbackResponseCommentSearchDocument exte
      */
     private static final int BATCH_SIZE = 200;
 
-    private static final Index index = SearchServiceFactory.getSearchService()
-            .getIndex(IndexSpec.newBuilder().setName(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT));
+    private List<FeedbackResponseCommentAttributes> commentsToMigrate = new ArrayList<>();
 
     /**
-     * Will not perform updates on the datastore if true.
+     * {@inheritDoc}
      */
-    protected abstract boolean isPreview();
-
     @Override
-    protected void doOperation() {
-        List<FeedbackResponseCommentAttributes> commentsToFix = analyzeAndGetAffectedComments();
-        fixDocuments(commentsToFix);
+    @SuppressWarnings("deprecation")
+    protected List<FeedbackResponseCommentAttributes> getEntities() {
+        return new FeedbackResponseCommentsDb().getAllFeedbackResponseComments();
     }
 
-    private List<FeedbackResponseCommentAttributes> analyzeAndGetAffectedComments() {
-        println("Analyzing comments and their search documents...");
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void migrate(FeedbackResponseCommentAttributes comment) {
+        commentsToMigrate.add(comment);
+    }
 
-        List<FeedbackResponseCommentAttributes> allComments =
-                FeedbackResponseCommentsLogic.inst().getAllFeedbackResponseComments();
-
-        List<FeedbackResponseCommentAttributes> commentsToFix = new ArrayList<>();
-
-        int numberOfDocuments = 0;
-        LoopHelper loopHelper = new LoopHelper(BATCH_SIZE, "comments analyzed.");
-
-        for (FeedbackResponseCommentAttributes comment : allComments) {
-            loopHelper.recordLoop();
-
-            Document document = getDocument(comment);
-            if (document == null) {
-                continue;
-            }
-
-            numberOfDocuments++;
-
-            if (isFixRequired(comment, document)) {
-                commentsToFix.add(comment);
-            }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void postAction() {
+        if (isPreview()) {
+            return;
         }
-
-        println("\n################# Analysis Results #################");
-        println("Total number of comments: " + loopHelper.getCount());
-        println("Total number of documents: " + numberOfDocuments + "\n");
-
-        displayAnalysisResults();
-
-        println("####################################################\n");
-
-        return commentsToFix;
-    }
-
-    /**
-     * Check is fix required for the given comment and corresponding document.
-     * @param comment comment to check
-     * @param document document to check
-     * @return {@code true} if fix required otherwise {@code false}
-     */
-    protected abstract boolean isFixRequired(FeedbackResponseCommentAttributes comment, Document document);
-
-    /**
-     * Display results of analysis for data migration.
-     */
-    protected abstract void displayAnalysisResults();
-
-    private Document getDocument(FeedbackResponseCommentAttributes comment) {
-        return index.get(comment.getId().toString());
-    }
-
-    private void fixDocuments(List<FeedbackResponseCommentAttributes> commentsToFix) {
-        println("Running data migration for " + commentsToFix.size() + " invalid documents");
-        println("Preview: " + isPreview());
-
-        List<Document> documentsToUpdate = new ArrayList<>();
 
         LoopHelper loopHelper = new LoopHelper(BATCH_SIZE, "documents processed.");
 
-        for (FeedbackResponseCommentAttributes commentToFix : commentsToFix) {
+        List<Document> documentsToUpdate = new ArrayList<>();
+
+        for (FeedbackResponseCommentAttributes comment : commentsToMigrate) {
             loopHelper.recordLoop();
-            queueDocumentUpdate(commentToFix, documentsToUpdate);
+            documentsToUpdate.add(new FeedbackResponseCommentSearchDocument(comment).build());
 
             if (documentsToUpdate.size() == BATCH_SIZE) {
                 updateAndClearDocuments(documentsToUpdate);
@@ -117,11 +76,6 @@ public abstract class DataMigrationForFeedbackResponseCommentSearchDocument exte
         }
         updateAndClearDocuments(documentsToUpdate);
 
-        println("\nComplete! If there are any failures shown above, please rerun this script.");
-    }
-
-    private void queueDocumentUpdate(FeedbackResponseCommentAttributes comment, List<Document> documentsToUpdate) {
-        documentsToUpdate.add(new FeedbackResponseCommentSearchDocument(comment).build());
     }
 
     private void updateAndClearDocuments(List<Document> documentsToUpdate) {
@@ -131,15 +85,13 @@ public abstract class DataMigrationForFeedbackResponseCommentSearchDocument exte
 
         println("Batch updating " + documentsToUpdate.size() + " documents...");
 
-        if (!isPreview()) {
-            try {
-                invokePutDocumentsWithRetry(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
-                println("Batch update succeeded.");
-            } catch (PutException e) {
-                println("Batch update failed with non-transient errors.");
-            } catch (MaximumRetriesExceededException e) {
-                println("Batch update failed after maximum retries.");
-            }
+        try {
+            invokePutDocumentsWithRetry(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, documentsToUpdate);
+            println("Batch update succeeded.");
+        } catch (PutException e) {
+            println("Batch update failed with non-transient errors.");
+        } catch (MaximumRetriesExceededException e) {
+            println("Batch update failed after maximum retries.");
         }
 
         documentsToUpdate.clear();
