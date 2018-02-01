@@ -253,7 +253,7 @@ To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle 
 right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`.
 The report can be found in the `Markers` window in Eclipse.
 
-PMD analysis is automated when Eclipse PMD plugin is installed successfully. Simply review the report in the PMD Perspective view under `Violations Overview`.
+PMD analysis is automated when Eclipse PMD plugin is installed successfully. All discovered problems can be viewed under the `Problems View` or the `Markers View`.
 
 ### IntelliJ IDEA
 
