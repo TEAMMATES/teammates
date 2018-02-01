@@ -516,7 +516,8 @@ public class BackDoorLogic extends Logic {
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return AccountAttributes.builder(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1")
+        return AccountAttributes.builder(instructor.googleId, instructor.name, true, instructor.email,
+                "TEAMMATES Test Institute 1")
                 .withStudentProfileAttributes(instructor.googleId)
                 .build();
     }

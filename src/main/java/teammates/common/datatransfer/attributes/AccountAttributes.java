@@ -79,7 +79,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         public Builder withStudentProfileAttributes(String googleId) {
             accountAttributes.studentProfile = StudentProfileAttributes.builder().build();
-            accountAttributes.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);;
+            accountAttributes.studentProfile.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
 
             return this;
         }
@@ -97,7 +97,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public AccountAttributes getCopy() {
         AccountAttributes copy = AccountAttributes.builder(googleId, name, isInstructor, email, institute)
                 .withStudentProfileAttributes(googleId)
-                .build();;
+                .build();
         copy.studentProfile = this.studentProfile == null ? null : this.studentProfile.getCopy();
         return copy;
     }

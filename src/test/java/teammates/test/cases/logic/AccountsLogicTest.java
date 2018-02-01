@@ -78,7 +78,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountToCreate = AccountAttributes.builder("id", "name", true,
                 "test@email.com", "dev")
                 .withStudentProfileAttributes(spa)
-                .build();;
+                .build();
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();

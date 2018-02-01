@@ -119,8 +119,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         //create fresh test data
         accountsLogic.createAccount(
-                AccountAttributes.builder(instructorId, "ICET Instr Name", true, "instructor@icet.tmt", "TEAMMATES Test Institute 1")
-                .withStudentProfileAttributes(StudentProfileAttributes.builder().withGoogleId(instructorId).withShortName("ICET").build())
+                AccountAttributes.builder(instructorId, "ICET Instr Name", true,
+                        "instructor@icet.tmt", "TEAMMATES Test Institute 1")
+                .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                        .withGoogleId(instructorId)
+                        .withShortName("ICET")
+                        .build())
                 .build());
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
@@ -640,7 +644,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
                 .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
                 .build();
-        AccountAttributes accountToAdd = AccountAttributes.builder(instructorId, "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1")
+        AccountAttributes accountToAdd = AccountAttributes.builder(instructorId, "Instructor 1", true,
+                instructorEmail, "TEAMMATES Test Institute 1")
                 .withStudentProfileAttributes(profileAttributes)
                 .build();
 
