@@ -569,7 +569,23 @@ function deleteQuestion(questionNum) {
     }
 
     const okCallback = function () {
-        restoreOriginal(questionNum);
+        if (questionNum === NEW_QUESTION) {
+            hideNewQuestionAndShowNewQuestionForm();
+        } else {
+            $(`#questionTable-${questionNum} > .panel-body`).html(questionsBeforeEdit[questionNum]);
+
+            $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
+            $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
+            $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
+            $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
+            $(`#button_question_submit-${questionNum}`).hide();
+            $(`#questionnum-${questionNum}`).val(questionNum);
+            $(`#questionnum-${questionNum}`).prop('disabled', true);
+        }
+
+        // re-attach events for form elements
+        $(`#${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}-${questionNum}`).change(updateVisibilityOfNumEntitiesBox);
+        FeedbackPath.attachEvents();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
