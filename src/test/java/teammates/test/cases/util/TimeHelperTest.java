@@ -1,5 +1,6 @@
 package teammates.test.cases.util;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -40,10 +41,7 @@ public class TimeHelperTest extends BaseTestCase {
     public void testCombineDateTime() {
         String testDate = "01/02/2013";
         String testTime = "0";
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.clear();
-        cal.set(2013, 1, 1, 0, 0, 0);
-        Date expectedOutput = cal.getTime();
+        LocalDateTime expectedOutput = LocalDateTime.of(2013, 2, 1, 0, 0);
 
         testTime = "0";
         ______TS("boundary case: time = 0");
@@ -51,22 +49,14 @@ public class TimeHelperTest extends BaseTestCase {
 
         ______TS("boundary case: time = 24");
         testTime = "24";
-        cal.clear();
-        cal.set(2013, 1, 1, 23, 59);
-        expectedOutput = cal.getTime();
+        expectedOutput = LocalDateTime.of(2013, 2, 1, 23, 59);
         assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
 
         ______TS("negative time");
-        cal.clear();
-        cal.set(2013, 1, 1, -5, 0);
-        expectedOutput = cal.getTime();
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, "-5"));
+        assertNull(TimeHelper.combineDateTime(testDate, "-5"));
 
         ______TS("large time");
-        cal.clear();
-        cal.set(2013, 1, 1, 68, 0);
-        expectedOutput = cal.getTime();
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, "68"));
+        assertNull(TimeHelper.combineDateTime(testDate, "68"));
 
         ______TS("date null");
         assertNull(TimeHelper.combineDateTime(null, testTime));

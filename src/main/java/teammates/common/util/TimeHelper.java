@@ -3,8 +3,10 @@ package teammates.common.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,25 +116,30 @@ public final class TimeHelper {
     }
 
     /**
-     * Convert a date string and time string into a Date object. Returns null on error.
-     *
-     * @param inputDate
+     * Convert a date string and time string of only the hour into a Date object.
+     * If the hour is 24, it is converted to 23:59. Returns null on error.
+     *  @param inputDate
      *            The date in format dd/MM/yyyy
      * @param inputTimeHours
-     *            The time as number of hours
+     *            0-24
      */
-    public static Date combineDateTime(String inputDate, String inputTimeHours) {
+    public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
         }
 
-        int inputTimeInt = 0;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy H.mm");
+        String dateTimeString;
+        if ("24".equals(inputTimeHours)) {
+            dateTimeString = inputDate + " 23.59";
+        } else {
+            dateTimeString = inputDate + " " + inputTimeHours + ".00";
+        }
         try {
-            inputTimeInt = Integer.parseInt(inputTimeHours) * 100;
-        } catch (NumberFormatException nfe) {
+            return LocalDateTime.parse(dateTimeString, formatter);
+        } catch (Exception e) {
             return null;
         }
-        return convertToDate(inputDate, inputTimeInt);
     }
 
     /**
@@ -425,31 +432,6 @@ public final class TimeHelper {
         // getOffset returns the offset from UTC in milliseconds
         // so we need to divide it by (1000 * 60 * 60) to get it in hours
         return TimeZone.getDefault().getOffset(new Date().getTime()) / 1000.0 / 60.0 / 60.0;
-    }
-
-    private static Date convertToDate(String date, int time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        Calendar calendar = Calendar.getInstance(SystemParams.TIME_ZONE);
-
-        // Perform date manipulation
-        try {
-            Date newDate = sdf.parse(date);
-            calendar.setTime(newDate);
-
-            if (time == 2400) {
-                calendar.set(Calendar.HOUR, 23);
-                calendar.set(Calendar.MINUTE, 59);
-            } else {
-                calendar.set(Calendar.HOUR, time / 100);
-                calendar.set(Calendar.MINUTE, time % 100);
-            }
-
-            return calendar.getTime();
-        } catch (Exception e) {
-            return null;
-        }
-
     }
 
     /**
