@@ -69,7 +69,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             return this;
         }
 
-
         public Builder withStudentProfileAttributes(StudentProfileAttributes studentProfileAttributes) {
             accountAttributes.studentProfile = studentProfileAttributes;
             accountAttributes.studentProfile.sanitizeForSaving();
