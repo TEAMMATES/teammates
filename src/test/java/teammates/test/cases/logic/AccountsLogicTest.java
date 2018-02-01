@@ -75,7 +75,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = AccountAttributes.builder("id", "name", true,
+        accountToCreate = AccountAttributes.builder("", "name", true,
                 "test@email.com", "dev")
                 .withStudentProfileAttributes(spa)
                 .build();
