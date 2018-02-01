@@ -142,7 +142,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         try {
             a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
             r = getShowPageResult(a);
-            signalFailureToDetectAssertionError("The run time exception is not thrown as expected");
+            signalFailureToDetectAssertionError("The Assertion error is not thrown as expected");
         } catch (AssertionError e) {
             assertNotNull(e);
         }
