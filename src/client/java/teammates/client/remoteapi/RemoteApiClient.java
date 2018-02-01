@@ -11,6 +11,11 @@ import com.googlecode.objectify.util.Closeable;
 import teammates.storage.api.OfyHelper;
 import teammates.test.driver.TestProperties;
 
+/**
+ * Enables access to any Datastore (local/production).
+ *
+ * @see <a href="https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi">https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi</a>
+ */
 public abstract class RemoteApiClient {
 
     protected Objectify ofy() {

@@ -276,7 +276,7 @@ function bindDeleteButtons() {
     $('body').on('click', '.session-delete-for-test', (event) => {
         event.preventDefault();
 
-        const $button = $(event.target);
+        const $button = $(event.currentTarget);
         const courseId = $button.data('courseid');
         const feedbackSessionName = $button.data('fsname');
 
@@ -294,7 +294,7 @@ function bindCourseDeleteLinks() {
     $('body').on('click', '.course-delete-link', (event) => {
         event.preventDefault();
 
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
         const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
@@ -311,7 +311,7 @@ function bindSessionDeleteLinks() {
     $('body').on('click', '#fsDeleteLink', (event) => {
         event.preventDefault();
 
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
         const messageText = 'Are you sure you want to delete the feedback session '
                 + `${$clickedLink.data('feedbackSessionName')} in ${$clickedLink.data('courseId')}?`;
         const okCallback = function () {
@@ -327,7 +327,7 @@ function attachEventToDeleteStudentLink() {
     $(document).on('click', '.course-student-delete-link', (event) => {
         event.preventDefault();
 
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
         const messageText = `Are you sure you want to remove ${$clickedLink.data('studentName')}`
                 + ` from the course ${$clickedLink.data('courseId')}?`;
         const okCallback = function () {
@@ -364,7 +364,7 @@ function attachEventToDeleteAllStudentLink() {
     $('body').on('click', '.course-student-delete-all-link', (event) => {
         event.preventDefault();
 
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
         const messageText = `Are you sure you want to remove all students
                 from the course ${$clickedLink.data('courseId')}?`;
         const okCallback = () => {
@@ -380,7 +380,7 @@ function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', (event) => {
         event.preventDefault();
 
-        const $button = $(event.target);
+        const $button = $(event.currentTarget);
         const messageText = 'Send e-mails to remind students who have not submitted their feedback for '
                 + `${$button.data('fsname')}?`;
         const okCallback = function () {
@@ -419,7 +419,7 @@ function bindUnpublishButtons() {
     $('body').on('click', '.session-unpublish-for-test', (event) => {
         event.preventDefault();
 
-        const $button = $(event.target);
+        const $button = $(event.currentTarget);
         const messageText = `Are you sure you want to unpublish the session "${$button.data('fsname')}"?
                              An email will be sent to students to inform them that the session has been unpublished
                              and the session responses will no longer be viewable by students.`;

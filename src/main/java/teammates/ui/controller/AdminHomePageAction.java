@@ -12,7 +12,6 @@ public class AdminHomePageAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account, sessionToken);
 
-        data.instructorShortName = "";
         data.instructorName = "";
         data.instructorEmail = "";
         data.instructorInstitution = "";
