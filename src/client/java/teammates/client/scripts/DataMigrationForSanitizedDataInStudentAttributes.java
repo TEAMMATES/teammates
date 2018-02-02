@@ -3,95 +3,109 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.List;
 
-import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.SanitizationHelper;
-import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 
-public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
-    private static final boolean isPreview = true;
+/**
+ * Script to desanitize content of {@link StudentAttributes} if it is sanitized.
+ */
+public class DataMigrationForSanitizedDataInStudentAttributes extends DataMigrationBaseScript<StudentAttributes> {
+
     private StudentsDb studentsDb = new StudentsDb();
-    private StudentsLogic studentsLogic = StudentsLogic.inst();
-    private int numberOfSanitizedEmail;
-    private int numberOfSanitizedGoogleId;
 
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
         migrator.doOperationRemotely();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected void doOperation() {
-        List<StudentAttributes> allStudents = getAllStudents();
-        if (isPreview) {
-            System.out.println("Checking Sanitization for students...");
-        }
-        int numberOfAffectedStudents = 0;
-        numberOfSanitizedEmail = 0;
-        numberOfSanitizedGoogleId = 0;
-        for (StudentAttributes student : allStudents) {
-            if (isPreview) {
-                if (previewSanitizedDataForStudent(student)) {
-                    numberOfAffectedStudents++;
-                }
-            } else {
-                fixSanitizedDataForStudent(student);
-            }
-        }
-        if (isPreview) {
-            System.out.println("There are/is " + this.numberOfSanitizedEmail + " sanitized email(s)!");
-            System.out.println("There are/is " + this.numberOfSanitizedGoogleId + " sanitized Google Id(s)!");
-            System.out.println("There are/is " + numberOfAffectedStudents + " student(s) with sanitized data!");
-        } else {
-            System.out.println("Sanitization fixing done!");
-        }
+    protected boolean isPreview() {
+        return true;
     }
 
-    private boolean previewSanitizedDataForStudent(StudentAttributes student) {
-        boolean hasSanitizedData = checkStudentHasSanitizedData(student);
-        if (hasSanitizedData) {
-            System.out.println("Checking student having email: " + student.email);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings("deprecation")
+    protected List<StudentAttributes> getEntities() {
+        return studentsDb.getAllStudents();
+    }
 
-            if (isSanitizedString(student.comments)) {
-                System.out.println("comments: " + student.comments);
-                System.out.println("new comments: " + fixSanitization(student.comments));
-            }
-            if (isSanitizedString(student.course)) {
-                System.out.println("course: " + student.course);
-                System.out.println("new course: " + fixSanitization(student.course));
-            }
-            if (isSanitizedString(student.email)) {
-                numberOfSanitizedEmail++;
-                System.out.println("email: " + student.email);
-                System.out.println("new email: " + fixSanitization(student.email));
-            }
-            if (isSanitizedString(student.googleId)) {
-                numberOfSanitizedGoogleId++;
-                System.out.println("googleId: " + student.googleId);
-                System.out.println("new googleId: " + fixSanitization(student.googleId));
-            }
-            if (isSanitizedString(student.lastName)) {
-                System.out.println("lastName: " + student.lastName);
-                System.out.println("new lastName: " + fixSanitization(student.lastName));
-            }
-            if (isSanitizedString(student.name)) {
-                System.out.println("name: " + student.name);
-                System.out.println("new name: " + fixSanitization(student.name));
-            }
-            if (isSanitizedString(student.section)) {
-                System.out.println("section: " + student.section);
-                System.out.println("new section: " + fixSanitization(student.section));
-            }
-            if (isSanitizedString(student.team)) {
-                System.out.println("team: " + student.team);
-                System.out.println("new team: " + fixSanitization(student.team));
-            }
-            System.out.println();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isMigrationNeeded(StudentAttributes student) {
+        return isSanitizedString(student.comments) || isSanitizedString(student.course)
+                || isSanitizedString(student.email) || isSanitizedString(student.googleId)
+                || isSanitizedString(student.lastName) || isSanitizedString(student.name)
+                || isSanitizedString(student.section) || isSanitizedString(student.team);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void printPreviewInformation(StudentAttributes student) {
+        println("Checking student having email: " + student.email);
+
+        if (isSanitizedString(student.comments)) {
+            println("comments: " + student.comments);
+            println("new comments: " + fixSanitization(student.comments));
         }
-        return hasSanitizedData;
+        if (isSanitizedString(student.course)) {
+            println("course: " + student.course);
+            println("new course: " + fixSanitization(student.course));
+        }
+        if (isSanitizedString(student.email)) {
+            println("email: " + student.email);
+            println("new email: " + fixSanitization(student.email));
+        }
+        if (isSanitizedString(student.googleId)) {
+            println("googleId: " + student.googleId);
+            println("new googleId: " + fixSanitization(student.googleId));
+        }
+        if (isSanitizedString(student.lastName)) {
+            println("lastName: " + student.lastName);
+            println("new lastName: " + fixSanitization(student.lastName));
+        }
+        if (isSanitizedString(student.name)) {
+            println("name: " + student.name);
+            println("new name: " + fixSanitization(student.name));
+        }
+        if (isSanitizedString(student.section)) {
+            println("section: " + student.section);
+            println("new section: " + fixSanitization(student.section));
+        }
+        if (isSanitizedString(student.team)) {
+            println("team: " + student.team);
+            println("new team: " + fixSanitization(student.team));
+        }
+        println("");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void migrate(StudentAttributes student) throws InvalidParametersException, EntityDoesNotExistException {
+        fixSanitizationForStudent(student);
+        updateStudent(student.email, student);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void postAction() {
+        // nothing to do
     }
 
     private boolean isSanitizedString(String s) {
@@ -115,13 +129,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         return s;
     }
 
-    private boolean checkStudentHasSanitizedData(StudentAttributes student) {
-        return isSanitizedString(student.comments) || isSanitizedString(student.course)
-               || isSanitizedString(student.email) || isSanitizedString(student.googleId)
-               || isSanitizedString(student.lastName) || isSanitizedString(student.name)
-               || isSanitizedString(student.section) || isSanitizedString(student.team);
-    }
-
     private void fixSanitizationForStudent(StudentAttributes student) {
         student.comments = fixSanitization(student.comments);
         student.course = fixSanitization(student.course);
@@ -133,30 +140,10 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         student.team = fixSanitization(student.team);
     }
 
-    private void fixSanitizedDataForStudent(StudentAttributes student) {
-        try {
-            boolean hasSanitizedData = checkStudentHasSanitizedData(student);
-            if (hasSanitizedData) {
-                fixSanitizationForStudent(student);
-                updateStudent(student.email, student);
-            }
-        } catch (InvalidParametersException e) {
-            System.out.println("Student " + student.email + " invalid!");
-            e.printStackTrace();
-        } catch (EntityDoesNotExistException e) {
-            System.out.println("Student " + student.email + " does not exist!");
-            e.printStackTrace();
-        }
-    }
-
-    protected List<StudentAttributes> getAllStudents() {
-        return studentsLogic.getAllStudents();
-    }
-
-    private void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
-                                                                                      EntityDoesNotExistException {
+    private void updateStudent(String originalEmail, StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException {
         studentsDb.verifyStudentExists(student.course, originalEmail);
-        StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
+        StudentAttributes originalStudent = studentsDb.getStudentForEmail(student.course, originalEmail);
 
         // prepare new student
         student.updateWithExistingRecord(originalStudent);
@@ -168,4 +155,5 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
                                  student.email, student.googleId, student.comments, true);
     }
+
 }

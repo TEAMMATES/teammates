@@ -32,15 +32,6 @@ public final class AdminEmailsLogic {
     }
 
     /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     */
-    @Deprecated
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return adminEmailsDb.getAllAdminEmails();
-    }
-
-    /**
      * Gets an admin email by email id.
      * @return null if no matched email found
      */

@@ -3,7 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.google.appengine.api.search.Results;
@@ -99,32 +98,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         return InstructorSearchDocument.fromResults(results);
     }
 
-    /* =========================================================================
-     * =========================================================================
-     */
-
-    public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException {
-
-        List<InstructorAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
-
-        for (InstructorAttributes instructor : instructorsToAdd) {
-            if (!instructorsToUpdate.contains(instructor)) {
-                putDocument(instructor);
-            }
-        }
-
-        for (InstructorAttributes instructor : instructorsToUpdate) {
-            try {
-                updateInstructorByEmail(instructor);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-            putDocument(instructor);
-        }
-    }
-
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Instructor instructor = createEntity(instructorToAdd);
@@ -195,15 +168,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         return makeAttributes(getInstructorEntitiesForCourse(courseId));
-    }
-
-    /**
-     * Not scalable. Don't use unless for admin features.
-     * @return {@code InstructorAttributes} objects for all instructor roles in the system
-     */
-    @Deprecated
-    public List<InstructorAttributes> getAllInstructors() {
-        return makeAttributes(getInstructorEntities());
     }
 
     /**
@@ -374,10 +338,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
-    }
-
-    private List<Instructor> getInstructorEntities() {
-        return load().list();
     }
 
     @Override

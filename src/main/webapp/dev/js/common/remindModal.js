@@ -41,7 +41,7 @@ function prepareRemindModal() {
         });
     });
     $('#remindModal .remind-particular-button').on('click', (event) => {
-        const $remindButton = $(event.target);
+        const $remindButton = $(event.currentTarget);
         const $form = $remindButton.parents('form:first');
         const action = $form.attr('action');
         const formData = $form.serialize();
