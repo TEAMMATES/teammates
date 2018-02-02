@@ -55,13 +55,14 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         public Builder withStudentProfileAttributes(StudentProfileAttributes studentProfileAttributes) {
             accountAttributes.studentProfile = studentProfileAttributes;
+            accountAttributes.studentProfile.sanitizeForSaving();
 
             return this;
         }
 
         public Builder withStudentProfileAttributes(String googleId) {
             accountAttributes.studentProfile = StudentProfileAttributes.builder()
-                    .withGoogleId(googleId)
+                    .withGoogleId(SanitizationHelper.sanitizeGoogleId(googleId))
                     .build();
 
             return this;
@@ -97,7 +98,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
             accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
             accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
-            accountAttributes.studentProfile.sanitizeForSaving();
 
             return accountAttributes;
         }
