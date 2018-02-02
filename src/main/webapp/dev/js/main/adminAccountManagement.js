@@ -134,7 +134,7 @@ function bindDeleteAccountAction() {
     $('.admin-delete-account-link').on('click', (event) => {
         event.preventDefault();
 
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
         const googleId = $clickedLink.data('googleId');
         const existingCourses = $(`#courses_${googleId}`).html();
 

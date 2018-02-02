@@ -360,7 +360,7 @@ function showInstructorRoleModal(instrRole) {
 function bindDeleteInstructorLink() {
     $('[id^="instrDeleteLink"]').on('click', (event) => {
         event.preventDefault();
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
 
         const messageText = $clickedLink.data('isDeleteSelf')
                 ? 'Are you sure you want to delete your instructor role from the course '
@@ -382,7 +382,7 @@ function bindDeleteInstructorLink() {
 function bindRemindInstructorLink() {
     $('[id^="instrRemindLink"]').on('click', (event) => {
         event.preventDefault();
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
 
         const messageText = 'Do you wish to re-send the invitation email to instructor '
                 + `<strong>${$clickedLink.data('instructorName')}</strong> from course `
@@ -407,7 +407,7 @@ function bindChangingRole(index) {
 
 function bindCheckboxToggle() {
     $('body').on('click', 'input[name^="canmodifysessioncommentinsection"]', (e) => {
-        const target = $(e.target);
+        const target = $(e.currentTarget);
         const isIndividualSessionPrivilege = target.is('[name*="feedback"]');
         const permissionGroup = isIndividualSessionPrivilege ? target.closest('tr') : target.closest('div');
         if (target.prop('checked')) {
@@ -416,7 +416,7 @@ function bindCheckboxToggle() {
     });
 
     $('body').on('click', 'input[name^="canviewsessioninsection"]', (e) => {
-        const target = $(e.target);
+        const target = $(e.currentTarget);
         const isIndividualSessionPrivilege = target.is('[name*="feedback"]');
         const permissionGroup = isIndividualSessionPrivilege ? target.closest('tr') : target.closest('div');
         if (!target.prop('checked')) {
@@ -490,8 +490,8 @@ $(document).ready(() => {
     });
 
     $('[name="instructorisdisplayed"]').change((e) => {
-        const $displayToStudentsAsTextField = $(e.target).parents('div.form-group').find('div.col-sm-9 input');
-        if ($(e.target).prop('checked')) {
+        const $displayToStudentsAsTextField = $(e.currentTarget).parents('div.form-group').find('div.col-sm-9 input');
+        if ($(e.currentTarget).prop('checked')) {
             $displayToStudentsAsTextField.prop('readonly', false);
             $displayToStudentsAsTextField.prop('value', 'Instructor');
             $displayToStudentsAsTextField.prop('placeholder', 'E.g.Co-lecturer, Teaching Assistant');
@@ -556,6 +556,6 @@ $(document).ready(() => {
     /* eslint-enable no-restricted-syntax */
 
     $(document).on('click', '.view-role-details', (e) => {
-        showInstructorRoleModal($(e.target).data('role'));
+        showInstructorRoleModal($(e.currentTarget).data('role'));
     });
 });
