@@ -75,10 +75,6 @@ public class BaseTestCase {
         throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
     }
 
-    protected void signalFailureToDetectAssertionError(String... messages) {
-        throw new RuntimeException("Expected exception not detected." + Arrays.toString(messages));
-    }
-
     protected void ignoreExpectedException() {
         assertTrue(true);
     }
