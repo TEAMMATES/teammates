@@ -27,7 +27,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
-    private AccountAttributes() {
+    AccountAttributes() {
         // attributes to be set after construction
     }
 
@@ -36,7 +36,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     public static class Builder {
-        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Non-null value expected";
         private AccountAttributes accountAttributes;
 
         public Builder() {
