@@ -164,7 +164,12 @@ public final class AccountsLogic {
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
 
         if (account == null) {
-            createAccount(AccountAttributes.builder(googleId, instructor.name, true, instructor.email, instituteToSave)
+            createAccount(AccountAttributes.builder()
+                    .withGoogleIdSanitized(googleId)
+                    .withNameSanitized(instructor.name)
+                    .withEmailSanitized(instructor.email)
+                    .withInstituteSanitized(instituteToSave)
+                    .withIsInstructor(true)
                     .withStudentProfileAttributes(googleId)
                     .build());
         } else {

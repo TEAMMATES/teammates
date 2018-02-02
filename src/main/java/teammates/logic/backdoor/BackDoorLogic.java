@@ -516,14 +516,23 @@ public class BackDoorLogic extends Logic {
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return AccountAttributes.builder(instructor.googleId, instructor.name, true, instructor.email,
-                "TEAMMATES Test Institute 1")
+        return AccountAttributes.builder()
+                .withGoogleIdSanitized(instructor.googleId)
+                .withNameSanitized(instructor.name)
+                .withEmailSanitized(instructor.email)
+                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(instructor.googleId)
                 .build();
     }
 
     private AccountAttributes makeAccount(StudentAttributes student) {
-        return AccountAttributes.builder(student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1")
+        return AccountAttributes.builder()
+                .withGoogleIdSanitized(student.googleId)
+                .withNameSanitized(student.name)
+                .withEmailSanitized(student.email)
+                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withIsInstructor(false)
                 .withStudentProfileAttributes(student.googleId)
                 .build();
     }

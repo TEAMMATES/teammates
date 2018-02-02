@@ -159,7 +159,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
-        return AccountAttributes.builder(googleId, name, isInstructor, email, institute)
+        return AccountAttributes.builder()
+                .withGoogleIdSanitized(googleId)
+                .withNameSanitized(name)
+                .withEmailSanitized(email)
+                .withInstituteSanitized(institute)
+                .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
     }
@@ -172,7 +177,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String email = "valid@email.com";
         String institute = "valid institute name";
 
-        return AccountAttributes.builder(googleId, name, isInstructor, email, institute)
+        return AccountAttributes.builder()
+                .withGoogleIdSanitized(googleId)
+                .withNameSanitized(name)
+                .withEmailSanitized(email)
+                .withInstituteSanitized(institute)
+                .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(googleId)
                 .build();
     }

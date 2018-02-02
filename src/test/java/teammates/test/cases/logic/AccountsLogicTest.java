@@ -64,7 +64,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
 
-        AccountAttributes accountToCreate = AccountAttributes.builder("id", "name", true, "test@email.com", "dev")
+        AccountAttributes accountToCreate = AccountAttributes.builder()
+                .withGoogleIdSanitized("id")
+                .withNameSanitized("name")
+                .withEmailSanitized("test@email.com")
+                .withInstituteSanitized("dev")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build();
 
@@ -75,8 +80,12 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = AccountAttributes.builder("", "name", true,
-                "test@email.com", "dev")
+        accountToCreate = AccountAttributes.builder()
+                .withGoogleIdSanitized("")
+                .withNameSanitized("name")
+                .withEmailSanitized("test@email.com")
+                .withInstituteSanitized("dev")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build();
         try {
@@ -121,8 +130,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.institute = "dev";
         spa.shortName = "nam";
 
-        AccountAttributes expectedAccount = AccountAttributes.builder("idOfInstructor1OfCourse1",
-                "name", true, "test2@email.com", "dev")
+        AccountAttributes expectedAccount = AccountAttributes.builder()
+                .withGoogleIdSanitized("idOfInstructor1OfCourse1")
+                .withNameSanitized("name")
+                .withEmailSanitized("test2@email.com")
+                .withInstituteSanitized("dev")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build();
 
@@ -141,8 +154,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         // no change in the name
         assertEquals("nam", actualAccount.studentProfile.shortName);
 
-        expectedAccount = AccountAttributes.builder("id-does-not-exist",
-                "name", true, "test2@email.com", "dev")
+        expectedAccount = AccountAttributes.builder()
+                .withGoogleIdSanitized("id-does-not-exist")
+                .withNameSanitized("name")
+                .withEmailSanitized("test2@email.com")
+                .withInstituteSanitized("dev")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(spa)
                 .build();
         try {
@@ -241,8 +258,13 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withGoogleId(correctStudentId).withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        AccountAttributes accountData = AccountAttributes.builder(correctStudentId, "nameABC",
-                true, "real@gmail.com", "TEAMMATES Test Institute 1")
+        AccountAttributes accountData = AccountAttributes.builder()
+                .withGoogleIdSanitized(correctStudentId)
+                .withNameSanitized("nameABC")
+                .withEmailSanitized("real@gmail.com")
+                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+
                 .withStudentProfileAttributes(spa)
                 .build();
 

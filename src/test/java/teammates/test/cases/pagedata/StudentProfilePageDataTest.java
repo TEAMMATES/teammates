@@ -53,8 +53,12 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withPictureKey("pictureKey")
                 .build();
 
-        acct = AccountAttributes.builder("valid.id", "full name", false, "e@mail1.com",
-                "inst")
+        acct = AccountAttributes.builder()
+                .withGoogleIdSanitized("valid.id")
+                .withNameSanitized("full name")
+                .withEmailSanitized("e@email.com")
+                .withInstituteSanitized("inst")
+                .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
         isEditingPhoto = "false";
@@ -69,8 +73,12 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withGoogleId("valid.id.2")
                 .withGender("male")
                 .build();
-        acct = AccountAttributes.builder("valid.id", "full name", false, "e@mail1.com",
-                "inst")
+        acct = AccountAttributes.builder()
+                .withGoogleIdSanitized("valid.id")
+                .withNameSanitized("full name")
+                .withEmailSanitized("e@email.com")
+                .withInstituteSanitized("inst")
+                .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;

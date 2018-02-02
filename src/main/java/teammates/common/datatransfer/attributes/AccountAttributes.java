@@ -27,20 +27,8 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public Date createdAt;
     public StudentProfileAttributes studentProfile;
 
-    public AccountAttributes() {
+    private AccountAttributes() {
         // attributes to be set after construction
-    }
-
-    public AccountAttributes(String googleId, String name, boolean isInstructor, String email, String institute) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-    }
-
-    public static Builder builder(String googleId, String name, boolean isInstructor, String email, String institute) {
-        return new Builder(googleId, name, isInstructor, email, institute);
     }
 
     public static Builder builder() {
@@ -51,23 +39,32 @@ public class AccountAttributes extends EntityAttributes<Account> {
         private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Non-null value expected";
         private AccountAttributes accountAttributes;
 
-        public Builder(String googleId, String name, boolean isInstructor, String email, String institute) {
-            validateRequiredFields(googleId, name, isInstructor, email, institute);
-            accountAttributes = new AccountAttributes(googleId, name, isInstructor, email, institute);
-        }
-
         public Builder() {
             accountAttributes = new AccountAttributes();
         }
 
-        public AccountAttributes build() {
-            return accountAttributes;
+        public Builder withGoogleIdSanitized(String googleId) {
+            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+            return this;
+        }
+
+        public Builder withNameSanitized(String name) {
+            accountAttributes.name = SanitizationHelper.sanitizeName(name);
+            return this;
+        }
+
+        public Builder withEmailSanitized(String email) {
+            accountAttributes.email = SanitizationHelper.sanitizeEmail(email);
+            return this;
+        }
+
+        public Builder withInstituteSanitized(String institute) {
+            accountAttributes.institute = SanitizationHelper.sanitizeTitle(institute);
+            return this;
         }
 
         public Builder withCreatedAt(Date createdAt) {
-            if (createdAt != null) {
-                accountAttributes.createdAt = createdAt;
-            }
+            accountAttributes.createdAt = createdAt;
             return this;
         }
 
@@ -116,18 +113,22 @@ public class AccountAttributes extends EntityAttributes<Account> {
             return this;
         }
 
-        private void validateRequiredFields(Object... objects) {
-            for (Object object : objects) {
-                Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, object);
-            }
+        public AccountAttributes build() {
+            return accountAttributes;
         }
+
     }
 
     /**
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        AccountAttributes copy = AccountAttributes.builder(googleId, name, isInstructor, email, institute)
+        AccountAttributes copy = AccountAttributes.builder()
+                .withGoogleIdSanitized(googleId)
+                .withNameSanitized(name)
+                .withEmailSanitized(email)
+                .withInstituteSanitized(institute)
+                .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(googleId)
                 .build();
         copy.studentProfile = this.studentProfile == null ? null : this.studentProfile.getCopy();

@@ -119,13 +119,17 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         //create fresh test data
         accountsLogic.createAccount(
-                AccountAttributes.builder(instructorId, "ICET Instr Name", true,
-                        "instructor@icet.tmt", "TEAMMATES Test Institute 1")
-                .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                        .withGoogleId(instructorId)
-                        .withShortName("ICET")
-                        .build())
-                .build());
+                AccountAttributes.builder()
+                        .withGoogleIdSanitized(instructorId)
+                        .withNameSanitized("ICET Instr Name")
+                        .withEmailSanitized("instructor@icet.tmt")
+                        .withInstituteSanitized("TEAMMATES Test Institute 1")
+                        .withIsInstructor(true)
+                        .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                                .withGoogleId(instructorId)
+                                .withShortName("ICET")
+                                .build())
+                        .build());
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
@@ -644,8 +648,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
                 .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
                 .build();
-        AccountAttributes accountToAdd = AccountAttributes.builder(instructorId, "Instructor 1", true,
-                instructorEmail, "TEAMMATES Test Institute 1")
+        AccountAttributes accountToAdd = AccountAttributes.builder()
+                .withGoogleIdSanitized(instructorId)
+                .withNameSanitized("Instructor 1")
+                .withEmailSanitized(instructorEmail)
+                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(profileAttributes)
                 .build();
 
@@ -747,8 +755,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
                 .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
                 .build();
-        accountToAdd = AccountAttributes.builder("tes.instructor", "Instructor 1", true,
-                "instructor@email.tmt", "TEAMMATES Test Institute 1")
+        accountToAdd = AccountAttributes.builder()
+                .withGoogleIdSanitized("tes.instructor")
+                .withNameSanitized("Instructor 1")
+                .withEmailSanitized("instructor@email.tmt")
+                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
                 .withStudentProfileAttributes(studentAttributes)
                 .build();
 
