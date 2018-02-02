@@ -160,10 +160,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
 
         return AccountAttributes.builder()
-                .withGoogleIdSanitized(googleId)
-                .withNameSanitized(name)
-                .withEmailSanitized(email)
-                .withInstituteSanitized(institute)
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
                 .build();
@@ -178,10 +178,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String institute = "valid institute name";
 
         return AccountAttributes.builder()
-                .withGoogleIdSanitized(googleId)
-                .withNameSanitized(name)
-                .withEmailSanitized(email)
-                .withInstituteSanitized(institute)
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(googleId)
                 .build();

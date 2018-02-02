@@ -42,26 +42,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes = new AccountAttributes();
         }
 
-        public Builder withGoogleIdSanitized(String googleId) {
-            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            return this;
-        }
-
-        public Builder withNameSanitized(String name) {
-            accountAttributes.name = SanitizationHelper.sanitizeName(name);
-            return this;
-        }
-
-        public Builder withEmailSanitized(String email) {
-            accountAttributes.email = SanitizationHelper.sanitizeEmail(email);
-            return this;
-        }
-
-        public Builder withInstituteSanitized(String institute) {
-            accountAttributes.institute = SanitizationHelper.sanitizeTitle(institute);
-            return this;
-        }
-
         public Builder withCreatedAt(Date createdAt) {
             accountAttributes.createdAt = createdAt;
             return this;
@@ -113,6 +93,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public AccountAttributes build() {
+            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
+            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
+            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
+            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
             return accountAttributes;
         }
 
@@ -123,10 +107,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
      */
     public AccountAttributes getCopy() {
         AccountAttributes copy = AccountAttributes.builder()
-                .withGoogleIdSanitized(googleId)
-                .withNameSanitized(name)
-                .withEmailSanitized(email)
-                .withInstituteSanitized(institute)
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(googleId)
                 .build();

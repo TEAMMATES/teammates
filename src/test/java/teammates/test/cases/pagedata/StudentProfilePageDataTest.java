@@ -54,10 +54,10 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .build();
 
         acct = AccountAttributes.builder()
-                .withGoogleIdSanitized("valid.id")
-                .withNameSanitized("full name")
-                .withEmailSanitized("e@email.com")
-                .withInstituteSanitized("inst")
+                .withGoogleId("valid.id")
+                .withName("full name")
+                .withEmail("e@email.com")
+                .withInstitute("inst")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();
@@ -74,10 +74,10 @@ public class StudentProfilePageDataTest extends BaseTestCase {
                 .withGender("male")
                 .build();
         acct = AccountAttributes.builder()
-                .withGoogleIdSanitized("valid.id")
-                .withNameSanitized("full name")
-                .withEmailSanitized("e@email.com")
-                .withInstituteSanitized("inst")
+                .withGoogleId("valid.id")
+                .withName("full name")
+                .withEmail("e@email.com")
+                .withInstitute("inst")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(spa)
                 .build();

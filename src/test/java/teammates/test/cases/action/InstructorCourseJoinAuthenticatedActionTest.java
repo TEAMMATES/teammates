@@ -121,10 +121,10 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         instructor.googleId = "ICJAAT.instr";
 
         AccountAttributes newInstructorAccount = AccountAttributes.builder()
-                .withGoogleIdSanitized(instructor.googleId)
-                .withNameSanitized(instructor.name)
-                .withEmailSanitized(instructor.email)
-                .withInstituteSanitized("TEAMMATES Test Institute 5")
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(instructor.googleId)
                 .build();
@@ -169,10 +169,10 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         instructor.googleId = "ICJAAT2.instr";
 
         newInstructorAccount = AccountAttributes.builder()
-                .withGoogleIdSanitized(instructor.googleId)
-                .withNameSanitized(instructor.name)
-                .withEmailSanitized(instructor.email)
-                .withInstituteSanitized("TEAMMATES Test Institute 5")
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(instructor.googleId)
                 .build();

@@ -517,10 +517,10 @@ public class BackDoorLogic extends Logic {
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
         return AccountAttributes.builder()
-                .withGoogleIdSanitized(instructor.googleId)
-                .withNameSanitized(instructor.name)
-                .withEmailSanitized(instructor.email)
-                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(instructor.googleId)
                 .build();
@@ -528,10 +528,10 @@ public class BackDoorLogic extends Logic {
 
     private AccountAttributes makeAccount(StudentAttributes student) {
         return AccountAttributes.builder()
-                .withGoogleIdSanitized(student.googleId)
-                .withNameSanitized(student.name)
-                .withEmailSanitized(student.email)
-                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withGoogleId(student.googleId)
+                .withName(student.name)
+                .withEmail(student.email)
+                .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(student.googleId)
                 .build();

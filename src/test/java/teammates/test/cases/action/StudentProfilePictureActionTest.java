@@ -165,10 +165,10 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             throws Exception {
         String course = typicalBundle.courses.get("unregisteredCourse").getId();
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleIdSanitized("unregInsId")
-                .withNameSanitized("unregName")
-                .withEmailSanitized("unregIns@unregcourse.com")
-                .withInstituteSanitized("unregInstitute")
+                .withGoogleId("unregInsId")
+                .withName("unregName")
+                .withEmail("unregIns@unregcourse.com")
+                .withInstitute("unregInstitute")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes("unregInsId")
                 .build());

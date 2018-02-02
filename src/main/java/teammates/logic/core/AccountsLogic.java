@@ -165,10 +165,10 @@ public final class AccountsLogic {
 
         if (account == null) {
             createAccount(AccountAttributes.builder()
-                    .withGoogleIdSanitized(googleId)
-                    .withNameSanitized(instructor.name)
-                    .withEmailSanitized(instructor.email)
-                    .withInstituteSanitized(instituteToSave)
+                    .withGoogleId(googleId)
+                    .withName(instructor.name)
+                    .withEmail(instructor.email)
+                    .withInstitute(instituteToSave)
                     .withIsInstructor(true)
                     .withStudentProfileAttributes(googleId)
                     .build());

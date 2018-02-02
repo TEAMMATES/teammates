@@ -134,10 +134,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = String.format(logTemplate, "studentHomePage", "Student");
         userType.isStudent = true;
         AccountAttributes acc = AccountAttributes.builder()
-                .withGoogleIdSanitized("googleId")
-                .withNameSanitized("david")
-                .withEmailSanitized("david@email.com")
-                .withInstituteSanitized("NUS")
+                .withGoogleId("googleId")
+                .withName("david")
+                .withEmail("david@email.com")
+                .withInstitute("NUS")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes("idOfNewStudent")
                 .build();
@@ -192,10 +192,10 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.ActionURIs.INSTRUCTOR_COURSES_PAGE;
         userType.isAdmin = true;
         acc = AccountAttributes.builder()
-                .withGoogleIdSanitized("anotherGoogleId")
-                .withNameSanitized("david")
-                .withEmailSanitized("david@email.com")
-                .withInstituteSanitized("NUS")
+                .withGoogleId("anotherGoogleId")
+                .withName("david")
+                .withEmail("david@email.com")
+                .withInstitute("NUS")
                 .withIsInstructor(false)
                 .withStudentProfileAttributes("anotherGoogleId")
                 .build();

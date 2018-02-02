@@ -120,10 +120,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         //create fresh test data
         accountsLogic.createAccount(
                 AccountAttributes.builder()
-                        .withGoogleIdSanitized(instructorId)
-                        .withNameSanitized("ICET Instr Name")
-                        .withEmailSanitized("instructor@icet.tmt")
-                        .withInstituteSanitized("TEAMMATES Test Institute 1")
+                        .withGoogleId(instructorId)
+                        .withName("ICET Instr Name")
+                        .withEmail("instructor@icet.tmt")
+                        .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
                         .withStudentProfileAttributes(StudentProfileAttributes.builder()
                                 .withGoogleId(instructorId)
@@ -649,10 +649,10 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
                 .build();
         AccountAttributes accountToAdd = AccountAttributes.builder()
-                .withGoogleIdSanitized(instructorId)
-                .withNameSanitized("Instructor 1")
-                .withEmailSanitized(instructorEmail)
-                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withGoogleId(instructorId)
+                .withName("Instructor 1")
+                .withEmail(instructorEmail)
+                .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(profileAttributes)
                 .build();
@@ -756,10 +756,10 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
                 .build();
         accountToAdd = AccountAttributes.builder()
-                .withGoogleIdSanitized("tes.instructor")
-                .withNameSanitized("Instructor 1")
-                .withEmailSanitized("instructor@email.tmt")
-                .withInstituteSanitized("TEAMMATES Test Institute 1")
+                .withGoogleId("tes.instructor")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(studentAttributes)
                 .build();
