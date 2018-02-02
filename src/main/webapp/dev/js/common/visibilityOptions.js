@@ -165,7 +165,7 @@ function tallyCheckboxes(questionNum) {
  */
 function formatCheckBoxes() {
     $('.visibilityCheckboxDelegate').on('change', 'input.answerCheckbox', (e) => {
-        var checkbox = $(e.target);
+        const checkbox = $(e.target);
         if (!checkbox.is(':checked')) {
             const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.giverCheckbox').prop('checked', false);
@@ -173,21 +173,21 @@ function formatCheckBoxes() {
         }
     });
     $('.visibilityCheckboxDelegate').on('change', 'input.giverCheckbox', (e) => {
-        var checkbox = $(e.target);
+        const checkbox = $(e.target);
         if (checkbox.is(':checked')) {
             const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true).trigger('change');
         }
     });
     $('.visibilityCheckboxDelegate').on('change', 'input.recipientCheckbox', (e) => {
-        var checkbox = $(e.target);
+        const checkbox = $(e.target);
         if (checkbox.is(':checked')) {
             const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true);
         }
     });
     $('.visibilityCheckboxDelegate').on('change', 'input[name=receiverLeaderCheckbox]', (e) => {
-        var checkbox = $(e.target);
+        const checkbox = $(e.target);
         const $editTabRows = checkbox.closest('tr');
         $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', checkbox.prop('checked'));
     });
