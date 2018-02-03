@@ -109,7 +109,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
             accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
             accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
-            if(accountAttributes.studentProfile != null) {
+            if (accountAttributes.studentProfile != null) {
                 accountAttributes.studentProfile.sanitizeForSaving();
             }
 
