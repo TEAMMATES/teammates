@@ -235,7 +235,7 @@ public class Logic {
                     .withEmail(email)
                     .withInstitute(institute)
                     .withIsInstructor(true)
-                    .withStudentProfileAttributes(googleId)
+                    .withDefaultStudentProfileAttributes(googleId)
                     .build();
             accountsLogic.createAccount(account);
         }

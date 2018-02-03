@@ -99,7 +99,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
                 .withEmail(instructor.email)
                 .withInstitute("TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
-                .withStudentProfileAttributes(instructor.googleId)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
                 .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 

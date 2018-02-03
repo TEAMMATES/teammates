@@ -250,7 +250,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 .withEmail("newStudent@gmail.com")
                 .withInstitute("TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
-                .withStudentProfileAttributes("idOfNewStudent")
+                .withDefaultStudentProfileAttributes("idOfNewStudent")
                 .build();
 
         accountsDb.createAccount(newStudentAccount);

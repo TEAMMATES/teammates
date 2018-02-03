@@ -522,7 +522,7 @@ public class BackDoorLogic extends Logic {
                 .withEmail(instructor.email)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(instructor.googleId)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
                 .build();
     }
 
@@ -533,7 +533,7 @@ public class BackDoorLogic extends Logic {
                 .withEmail(student.email)
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(false)
-                .withStudentProfileAttributes(student.googleId)
+                .withDefaultStudentProfileAttributes(student.googleId)
                 .build();
     }
 

@@ -170,7 +170,7 @@ public final class AccountsLogic {
                     .withEmail(instructor.email)
                     .withInstitute(instituteToSave)
                     .withIsInstructor(true)
-                    .withStudentProfileAttributes(googleId)
+                    .withDefaultStudentProfileAttributes(googleId)
                     .build());
         } else {
             makeAccountInstructor(googleId);

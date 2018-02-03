@@ -31,6 +31,18 @@ public class AccountAttributes extends EntityAttributes<Account> {
         // attributes to be set after construction
     }
 
+    public static AccountAttributes valueOf(Account a) {
+        return builder()
+                .withGoogleId(a.getGoogleId())
+                .withName(a.getName())
+                .withIsInstructor(a.isInstructor())
+                .withInstitute(a.getInstitute())
+                .withEmail(a.getEmail())
+                .withCreatedAt(a.getCreatedAt())
+                .withStudentProfile(a.getStudentProfile())
+                .build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -55,14 +67,13 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
         public Builder withStudentProfileAttributes(StudentProfileAttributes studentProfileAttributes) {
             accountAttributes.studentProfile = studentProfileAttributes;
-            accountAttributes.studentProfile.sanitizeForSaving();
 
             return this;
         }
 
-        public Builder withStudentProfileAttributes(String googleId) {
+        public Builder withDefaultStudentProfileAttributes(String googleId) {
             accountAttributes.studentProfile = StudentProfileAttributes.builder()
-                    .withGoogleId(SanitizationHelper.sanitizeGoogleId(googleId))
+                    .withGoogleId(googleId)
                     .build();
 
             return this;
@@ -98,6 +109,9 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
             accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
             accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
+            if(accountAttributes.studentProfile != null) {
+                accountAttributes.studentProfile.sanitizeForSaving();
+            }
 
             return accountAttributes;
         }
@@ -114,7 +128,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(googleId)
+                .withDefaultStudentProfileAttributes(googleId)
                 .build();
         copy.studentProfile = this.studentProfile == null ? null : this.studentProfile.getCopy();
         return copy;

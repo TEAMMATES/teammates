@@ -170,7 +170,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 .withEmail("unregIns@unregcourse.com")
                 .withInstitute("unregInstitute")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes("unregInsId")
+                .withDefaultStudentProfileAttributes("unregInsId")
                 .build());
         InstructorAttributes instructor = InstructorAttributes
                 .builder("unregInsId", course, "unregName", "unregIns@unregcourse.com")

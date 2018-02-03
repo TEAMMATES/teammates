@@ -231,14 +231,6 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     protected AccountAttributes makeAttributes(Account entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return AccountAttributes.builder()
-                .withGoogleId(entity.getGoogleId())
-                .withEmail(entity.getEmail())
-                .withIsInstructor(entity.isInstructor())
-                .withName(entity.getName())
-                .withInstitute(entity.getInstitute())
-                .withCreatedAt(entity.getCreatedAt())
-                .withStudentProfile(entity.getStudentProfile())
-                .build();
+        return AccountAttributes.valueOf(entity);
     }
 }

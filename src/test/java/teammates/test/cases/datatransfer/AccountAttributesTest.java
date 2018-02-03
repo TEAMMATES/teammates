@@ -74,16 +74,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
                 account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
 
-        Account actualAccount = AccountAttributes.builder()
-                .withGoogleId(expectedAccount.getGoogleId())
-                .withName(expectedAccount.getName())
-                .withIsInstructor(expectedAccount.isInstructor())
-                .withEmail(expectedAccount.getEmail())
-                .withInstitute(expectedAccount.getInstitute())
-                .withCreatedAt(expectedAccount.getCreatedAt())
-                .withStudentProfile(expectedAccount.getStudentProfile())
-                .build()
-                .toEntity();
+        Account actualAccount = AccountAttributes.valueOf(expectedAccount).toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
@@ -131,15 +122,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
         a.setStudentProfile(null);
 
-        AccountAttributes attr = AccountAttributes.builder()
-                .withGoogleId(a.getGoogleId())
-                .withName(a.getName())
-                .withIsInstructor(a.isInstructor())
-                .withEmail(a.getEmail())
-                .withInstitute(a.getInstitute())
-                .withCreatedAt(a.getCreatedAt())
-                .withStudentProfile(a.getStudentProfile())
-                .build();
+        AccountAttributes attr = AccountAttributes.valueOf(a);
 
         assertEquals(a.getGoogleId(), attr.googleId);
         assertEquals(a.getEmail(), attr.email);
@@ -183,7 +166,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(googleId)
+                .withDefaultStudentProfileAttributes(googleId)
                 .build();
     }
 
