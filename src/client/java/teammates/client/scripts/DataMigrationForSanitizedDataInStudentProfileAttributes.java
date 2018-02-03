@@ -62,38 +62,8 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes
      * {@inheritDoc}
      */
     @Override
-
-    protected void doOperation() {
-        @SuppressWarnings("deprecation")
-        List<StudentProfileAttributes> allStudentProfiles = profilesLogic.getAllStudentProfiles();
-        int numberOfAffectedProfiles = 0;
-        int numberOfUpdatedProfiles = 0;
-        LoopHelper loopHelper = new LoopHelper(100, "student profiles processed.");
-        println("Running data migration for sanitization on student profiles...");
-        println("Preview: " + isPreview);
-        for (StudentProfileAttributes profile : allStudentProfiles) {
-            loopHelper.recordLoop();
-            boolean hasAllUnsanitizedFields = !hasAnySanitizedField(profile);
-            if (hasAllUnsanitizedFields) {
-                // skip the update if all fields are already unsanitized
-                continue;
-            }
-            numberOfAffectedProfiles++;
-            try {
-                desanitizeAndUpdateProfile(profile);
-                numberOfUpdatedProfiles++;
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                println("Problem sanitizing profile with google id " + profile.googleId);
-                println(e.getMessage());
-            }
-        }
-        println("Total number of profiles: " + loopHelper.getCount());
-        println("Number of affected profiles: " + numberOfAffectedProfiles);
-        println("Number of updated profiles: " + numberOfUpdatedProfiles);
-
     protected void printPreviewInformation(StudentProfileAttributes profile) {
         // nothing to do
-
     }
 
     /**
@@ -106,6 +76,7 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
+        profile.gender = desanitizeIfHtmlSanitized(profile.gender);
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {
@@ -118,16 +89,9 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes
     /**
      * {@inheritDoc}
      */
-
-    private boolean hasAnySanitizedField(StudentProfileAttributes profile) {
-        return isSanitizedHtml(profile.shortName) || isSanitizedHtml(profile.email)
-                || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
-                || isSanitizedHtml(profile.moreInfo);
-
     @Override
     protected void postAction() {
         // nothing to do
-
     }
 
 }
