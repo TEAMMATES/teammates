@@ -77,7 +77,7 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.toggle-content', (e) => {
-        const tableIndex = $(e.target).data('index');
+        const tableIndex = $(e.currentTarget).data('index');
         toggleContent(tableIndex);
     });
 });

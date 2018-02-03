@@ -83,7 +83,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
      * Disable validation for HTML, JSP, and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, `XML Schema Validator`, and `XML Validator`.
      * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. Similarly for `JSON Validator`.
 
-1. `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
+1. `Refresh` and `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![eclipsesetupguide-8.png](images/eclipsesetupguide-8.png)
 

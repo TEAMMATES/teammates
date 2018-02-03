@@ -4,7 +4,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 
 public class AdminHomePageData extends PageData {
 
-    public String instructorShortName;
     public String instructorName;
     public String instructorEmail;
     public String instructorInstitution;
@@ -13,10 +12,6 @@ public class AdminHomePageData extends PageData {
 
     public AdminHomePageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
-    }
-
-    public String getInstructorShortName() {
-        return sanitizeForHtml(instructorShortName);
     }
 
     public String getInstructorName() {

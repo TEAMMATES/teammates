@@ -344,7 +344,7 @@ function prepareInstructorFeedbackResultsPage() {
     $responseRatePanel.click(responseRateRequest);
 
     $('#collapse-panels-button').on('click', (e) => {
-        expandOrCollapsePanels(e.target);
+        expandOrCollapsePanels(e.currentTarget);
     });
 
     $('#btn-select-element-contents').on('click', () => {

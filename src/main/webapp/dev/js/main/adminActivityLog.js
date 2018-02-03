@@ -134,7 +134,7 @@ $(document).ready(() => {
     });
 
     $(document).on('click', '.log-entry', (e) => {
-        const $entry = $(e.target);
+        const $entry = $(e.currentTarget);
         const logTime = $entry.data('logtime');
         const googleId = $entry.data('googleid');
         const displayedRole = $entry.data('displayedrole');

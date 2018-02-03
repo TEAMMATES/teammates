@@ -378,8 +378,4 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return frcDb.getAllFeedbackResponseComments();
-    }
 }
