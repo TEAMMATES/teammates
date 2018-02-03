@@ -171,15 +171,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Not scalable. Don't use unless for admin features.
-     * @return {@code InstructorAttributes} objects for all instructor roles in the system
-     */
-    @Deprecated
-    public List<InstructorAttributes> getAllInstructors() {
-        return makeAttributes(getInstructorEntities());
-    }
-
-    /**
      * Updates the instructor. Cannot modify Course ID or google id.
      */
     public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
@@ -347,10 +338,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
-    }
-
-    private List<Instructor> getInstructorEntities() {
-        return load().list();
     }
 
     @Override

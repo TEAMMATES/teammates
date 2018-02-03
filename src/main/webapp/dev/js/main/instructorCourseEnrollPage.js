@@ -27,7 +27,7 @@ const loadUpFunction = function () {
         $(enrolTextbox).keydown((e) => {
             const keycode = e.which || e.keyCode;
             if (keycode === ENTER_KEYCODE) {
-                if (isUserTyping(e.target.value) && !notified) {
+                if (isUserTyping(e.currentTarget.value) && !notified) {
                     notified = true;
                     showModalAlert('Invalid separator', typingErrMsg, null, StatusType.WARNING);
                 }

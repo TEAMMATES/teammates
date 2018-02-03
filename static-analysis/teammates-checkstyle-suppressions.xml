@@ -62,7 +62,7 @@
     <suppress checks="JavadocType" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <!--<suppress checks="JavadocMethod" files="teammates[/\\]client[/\\].*\.java"/>-->
-    <suppress checks="JavadocType" files="teammates[/\\]client[/\\].*\.java"/>
+    <!--<suppress checks="JavadocType" files="teammates[/\\]client[/\\].*\.java"/>-->
     <!--<suppress checks="JavadocVariable" files="teammates[/\\]client[/\\].*\.java"/>-->
 
 </suppressions>

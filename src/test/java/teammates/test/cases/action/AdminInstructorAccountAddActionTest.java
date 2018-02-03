@@ -30,7 +30,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        final String newInstructorShortName = "James";
         final String name = "JamesBond";
         final String email = "jamesbond89@gmail.tmt";
         final String institute = "TEAMMATES Test Institute 1";
@@ -40,30 +39,20 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsAdmin(adminUserId);
         verifyAssumptionFailure();
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_NAME, name);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name);
         verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, email);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name,
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
         ______TS("Normal case: not importing demo couse, extra spaces around values");
-        final String newInstructorShortNameWithSpaces = "   " + newInstructorShortName + "   ";
         final String nameWithSpaces = "   " + name + "   ";
         final String emailWithSpaces = "   " + email + "   ";
         final String instituteWithSpaces = "   " + institute + "   ";
 
         AdminInstructorAccountAddAction a = getAction(
-                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortNameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
@@ -74,16 +63,14 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         verifyNumberOfEmailsSent(a, 1);
 
         EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), newInstructorShortName),
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                      emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
         ______TS("Error: invalid parameter");
 
-        final String anotherNewInstructorShortName = "Bond";
         final String invalidName = "James%20Bond99";
         a = getAction(
-                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherNewInstructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
@@ -98,7 +85,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
-        assertEquals(anotherNewInstructorShortName, pageData.instructorShortName);
         assertEquals(institute, pageData.instructorInstitution);
         assertEquals(invalidName, pageData.instructorName);
 
@@ -107,7 +93,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         ______TS("Normal case: importing demo couse");
 
         a = getAction(
-                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherNewInstructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
@@ -118,7 +103,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         verifyNumberOfEmailsSent(a, 1);
 
         emailSent = a.getEmailSender().getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), anotherNewInstructorShortName),
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                      emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
