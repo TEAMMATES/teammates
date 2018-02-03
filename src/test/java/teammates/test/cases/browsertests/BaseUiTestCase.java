@@ -132,7 +132,8 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     /**
      * Logs in a page as an instructor.
      */
-    protected <T extends AppPage> T loginInstructorToPage(String instructorGoogleId, String password, AppUrl url, Class<T> typeOfPage) {
+    protected <T extends AppPage> T loginInstructorToPage(String instructorGoogleId, String password,
+            AppUrl url, Class<T> typeOfPage) {
         //logout
         logout();
 

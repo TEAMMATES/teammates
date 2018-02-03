@@ -308,8 +308,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 invalidEmail, courseId, EntityNotFoundPage.class);
     }
 
-    private <T extends AppPage> T getProfilePicturePage(String instructorGoogleId, String password, String email, String courseId,
-            Class<T> typeOfPage) {
+    private <T extends AppPage> T getProfilePicturePage(String instructorGoogleId, String password,
+            String email, String courseId, Class<T> typeOfPage) {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                                    .withParam(Const.ParamsNames.COURSE_ID, courseId);
