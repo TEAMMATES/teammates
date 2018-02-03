@@ -55,7 +55,7 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes
     protected boolean isMigrationNeeded(StudentProfileAttributes profile) {
         return isSanitizedHtml(profile.shortName) || isSanitizedHtml(profile.email)
                 || isSanitizedHtml(profile.institute) || isSanitizedHtml(profile.nationality)
-                || isSanitizedHtml(profile.gender) || isSanitizedHtml(profile.moreInfo);
+                || isSanitizedHtml(profile.moreInfo);
     }
 
     /**
@@ -76,7 +76,6 @@ public class DataMigrationForSanitizedDataInStudentProfileAttributes
         profile.email = desanitizeIfHtmlSanitized(profile.email);
         profile.institute = desanitizeIfHtmlSanitized(profile.institute);
         profile.nationality = desanitizeIfHtmlSanitized(profile.nationality);
-        profile.gender = desanitizeIfHtmlSanitized(profile.gender);
         profile.moreInfo = desanitizeIfHtmlSanitized(profile.moreInfo);
 
         if (!profile.isValid()) {
