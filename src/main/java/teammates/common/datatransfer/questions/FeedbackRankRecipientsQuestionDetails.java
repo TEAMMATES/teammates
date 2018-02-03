@@ -281,8 +281,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                     Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                     Slots.RANK_RECIEVED, ranksReceived,
                     Slots.RANK_SELF, selfRank,
-                    Slots.RANK_AVERAGE, overallRank,
-                    Slots.RANK_EXCLUDING_SELF_AVERAGE, overallRankExceptSelf));
+                    Slots.RANK_OVERALL, overallRank,
+                    Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf));
 
         });
 

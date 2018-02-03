@@ -325,7 +325,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                     Slots.RANK_RECIEVED, ranksReceived,
-                    Slots.RANK_AVERAGE, overallRank));
+                    Slots.RANK_OVERALL, overallRank));
 
         });
 
