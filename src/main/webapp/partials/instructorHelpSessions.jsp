@@ -6919,15 +6919,14 @@
         <div class="col-sm-12">
             <b id="fbRankOptions">Rank Options question</b>
           <br>
-          Rank options questions are question where the students rank options that are created by you.
+          Rank options questions are questions where the respondents rank the options that you have created.
           <br>
 
           <br>
-          To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
+          To set up the question, enter the main question text, and add the options for the respondents to rank. You can configure it to allow the respondents to give the same rank multiple times.
           <br>
-          You can also configure the minimum and (or) maximum options to be ranked. When the minimum options to be ranked restriction is enabled, it will ensure that the respondent ranks at least the number of options mentioned in the restriction.
-          <br>
-          Similarly, when maximum options to be ranked restriction is enabled, it will ensure that the respondent ranks at most the number of options mentioned in the restriction.
+          You can also configure the minimum and (or) maximum number of options to be ranked. When the restriction on the minimum number is enabled, it will ensure that the respondent ranks at least the number of options as set in the restriction.
+          Similarly, when the restriction on the maximum number is enabled, it will ensure that the respondent ranks at most the number of options as set in the restriction.
           <br>
           <br>
           <div class="bs-example">
@@ -7333,9 +7332,10 @@
         <div class="col-sm-12">
             <b id="fbRankRecipients">Rank Recipients question</b>
           <br>
-          Rank recipients questions are questions where the students are to rank students, teams, or instructors.
+          Rank recipients questions are questions where the respondents are to rank other respondents, themselves, teams, or instructors.
           <br>
-          <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
+          <br>
+          The options to rank are determined by the feedback path selected for the question. You can configure it to allow the respondents to give the same rank multiple times.
           <br>
           <br>
           <div class="bs-example">
@@ -7753,7 +7753,7 @@
                         <span class="icon-sort unsorted"></span></td>
                       <td class="button-sort-none" id="button_sortname" style="width:15%;">Ranks Received
                         <span class="icon-sort unsorted"></span></td>
-                      <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Average Rank
+                      <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Overall Rank
                         <span class="icon-sort unsorted"></span></td>
                     </tr>
                     </thead>
@@ -7769,7 +7769,7 @@
                           1 , 1 , 2
                         </td>
                         <td>
-                          1.33
+                          1
                         </td>
                       </tr>
                       <tr>
@@ -7783,7 +7783,7 @@
                           1 , 2
                         </td>
                         <td>
-                          1.5
+                          2
                         </td>
                       </tr>
                       <tr>
@@ -7797,7 +7797,7 @@
                           1 , 2
                         </td>
                         <td>
-                          1.5
+                          2
                         </td>
                       </tr>
                     </tbody>
