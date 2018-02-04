@@ -389,7 +389,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(fs, feedbackSession);
     }
 
-     // The objectify library does not support throwing checked exceptions inside transactions
+    // The objectify library does not support throwing checked exceptions inside transactions
     @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
