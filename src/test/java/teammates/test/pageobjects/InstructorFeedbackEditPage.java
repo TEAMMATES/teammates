@@ -137,6 +137,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_preview_instructor")
     private WebElement previewAsInstructorButton;
 
+    @FindBy(xpath = "//input[@name='minRecipientsToBeRankedEnabled']")
+    private WebElement minNumberOfOptionsToRankCheckbox;
+
+    @FindBy(xpath = "//input[@name='minRecipientsToBeRanked']")
+    private WebElement minRecipientsToBeRankedInput;
+
     private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbackEditPage(Browser browser) {
@@ -1928,5 +1934,15 @@ public class InstructorFeedbackEditPage extends AppPage {
                                                        + "']." + checkboxClass);
         WebElement checkbox = browser.driver.findElement(checkboxSelector);
         return checkbox.isSelected();
+    }
+
+    // Only to be used for Rank Recipient Questions
+    public void clickEnableMinRankRecipients() {
+        click(minNumberOfOptionsToRankCheckbox);
+    }
+
+    public void clearMinRankRecipients() {
+        click(minRecipientsToBeRankedInput);
+        minRecipientsToBeRankedInput.clear();
     }
 }

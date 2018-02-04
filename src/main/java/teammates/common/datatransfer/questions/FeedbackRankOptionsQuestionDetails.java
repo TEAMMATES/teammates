@@ -78,12 +78,19 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED);
         String maxOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED);
+        String isMinOptionsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED);
+        String isMaxOptionsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED);
 
-        if (minOptionsToBeRanked != null) {
+        this.minOptionsToBeRankedEnabled = "on".equals(isMinOptionsToBeRankedEnabled);
+        this.maxOptionsToBeRankedEnabled = "on".equals(isMaxOptionsToBeRankedEnabled);
+
+        if (minOptionsToBeRanked != null && !"".equals(minOptionsToBeRanked)) {
             this.minOptionsToBeRanked = Integer.parseInt(minOptionsToBeRanked);
         }
 
-        if (maxOptionsToBeRanked != null) {
+        if (maxOptionsToBeRanked != null && !"".equals(maxOptionsToBeRanked)) {
             this.maxOptionsToBeRanked = Integer.parseInt(maxOptionsToBeRanked);
         }
 
@@ -248,12 +255,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_MIN_OPTIONS_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED,
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : "1",
+                        ? Integer.toString(minOptionsToBeRanked) : "",
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MAX_OPTIONS_CHECKBOX, Const.ParamsNames.FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED,
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "1",
+                        ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
 
     }
@@ -434,6 +441,15 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
         }
+
+        if (this.minOptionsToBeRankedEnabled && this.minOptionsToBeRanked == Integer.MIN_VALUE) {
+            errors.add(ERROR_MIN_RANK_OPTIONS_EMPTY);
+        }
+
+        if (this.maxOptionsToBeRankedEnabled && this.maxOptionsToBeRanked == Integer.MIN_VALUE) {
+            errors.add(ERROR_MAX_RANK_OPTIONS_EMPTY);
+        }
+
         return errors;
     }
 

@@ -71,6 +71,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditSessionAction();
 
         testGeneralQuestionOperations();
+        testRankQuestionOperations();
 
         testPreviewSessionAction();
 
@@ -85,7 +86,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testCancelAddingNewQuestion();
         testCancelEditQuestion();
 
-        testNewQuestionLink();
+        testNewQuestionLink("TEXT");
         testInputValidationForQuestion();
         testAddQuestionAction();
 
@@ -109,6 +110,28 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditNonExistentQuestion();
 
         testResponseRate();
+    }
+
+    private void testRankQuestionOperations() throws Exception {
+        testNewQuestionLink("RANK_RECIPIENTS");
+
+        ______TS("Empty Rank Options Message");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
+
+        feedbackEditPage.clickEnableMinRankRecipients();
+        feedbackEditPage.clearMinRankRecipients();
+
+        feedbackEditPage.clickAddQuestionButton();
+
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_MIN_RANK_OPTIONS_EMPTY);
+
+        ______TS("Success Case");
+        feedbackEditPage.clickEnableMinRankRecipients();
+        feedbackEditPage.clickEnableMinRankRecipients();
+
+        feedbackEditPage.clickAddQuestionButton();
+
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
     }
 
     private void testContent() throws Exception {
@@ -223,11 +246,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(expectedString);
     }
 
-    private void testNewQuestionLink() {
+    private void testNewQuestionLink(String questionType) {
 
         ______TS("new question (frame) link");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("TEXT");
+        feedbackEditPage.selectNewQuestionType(questionType);
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "You can see your own feedback in the results page later on.");

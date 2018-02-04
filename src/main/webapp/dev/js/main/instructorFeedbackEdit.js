@@ -164,6 +164,10 @@ const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. Th
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
         'Please enter valid options. The interval is not divisible by the specified increment.';
+const DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY =
+    'Minimum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.';
+const DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY =
+    'Maximum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.';
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
@@ -222,6 +226,35 @@ function checkFeedbackQuestion(form) {
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, BootstrapContextualColors.DANGER, form);
         return false;
     }
+
+    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'RANK_OPTIONS') {
+        if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}]:checked`).val() === 'on'
+                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}]`).val() === '') {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, StatusType.DANGER, form);
+            return false;
+        }
+
+        if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}]:checked`).val() === 'on'
+                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}]`).val() === '') {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, StatusType.DANGER, form);
+            return false;
+        }
+    }
+
+    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'RANK_RECIPIENTS') {
+        if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSCHECKBOX}]:checked`).val() === 'on'
+                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED}]`).val() === '') {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, StatusType.DANGER, form);
+            return false;
+        }
+
+        if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSCHECKBOX}]:checked`).val() === 'on'
+                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED}]`).val() === '') {
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, StatusType.DANGER, form);
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -489,7 +522,7 @@ function enableQuestion(questionNum) {
 }
 
 /**
-* Enables editing of question fields and enables the "save changes" button for
+ * Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
@@ -695,6 +728,22 @@ function hideAllNewQuestionForms() {
     $('#rankRecipientsForm').hide();
 }
 
+function prepareRankedQuestionCheckbox() {
+    $('.ranked-question-options-checkbox').change((e) => {
+        if ($(e.target).is(':checked')) {
+            const correspondingInput = $(e.target)
+                    .closest('div')
+                    .parent()
+                    .next('div')
+                    .find('input');
+
+            if ($(correspondingInput).val() === '') {
+                $(correspondingInput).val('1');
+            }
+        }
+    });
+}
+
 function prepareQuestionForm(type) {
     hideAllNewQuestionForms();
 
@@ -766,7 +815,6 @@ function prepareQuestionForm(type) {
         $(`#rankOption_Recipient-${NEW_QUESTION}`).hide();
         showRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
-
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
@@ -774,7 +822,6 @@ function prepareQuestionForm(type) {
         $(`#rankOption_Option-${NEW_QUESTION}`).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
-
         $('#rankRecipientsForm').show();
         break;
     default:
@@ -1055,7 +1102,6 @@ function showNewQuestionFrame(type) {
     $(`#questionTable-${NEW_QUESTION}`).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
-
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
@@ -1155,6 +1201,8 @@ function readyFeedbackEditPage() {
     bindMoveRubricColButtons();
     bindRankEvents();
 
+    prepareRankedQuestionCheckbox();
+
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
 }
@@ -1184,7 +1232,6 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
-
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
     });
