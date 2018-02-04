@@ -42,10 +42,6 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
-        public static final String FRAGMENT_CLOSED_SESSION_ADDITIONAL_INSTRUCTIONS =
-                FileHelper.readResourceFile("userEmailFragment-sessionClosedAdditionalInstructionsFragment.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSING =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
@@ -60,6 +56,8 @@ public final class Templates {
                 FileHelper.readResourceFile("severeErrorLogLine.html");
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
+        public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
+                FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
     }
 
     public static class FeedbackQuestion {

@@ -78,6 +78,7 @@ import {
 import {
     addRankOption,
     bindRankEvents,
+    hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
     toggleMaxOptionsToBeRanked,
@@ -270,7 +271,7 @@ function bindFeedbackSessionEditFormSubmission() {
         if (typeof tinymce !== 'undefined') {
             tinymce.get('instructions').save();
         }
-        const $form = $(event.target);
+        const $form = $(event.currentTarget);
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -341,6 +342,8 @@ function disableQuestion(questionNum) {
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).hide();
     $(`#button_question_submit-${questionNum}`).hide();
+
+    hideInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -472,6 +475,7 @@ function enableQuestion(questionNum) {
     const $currentQuestionForm = $currentQuestionTable.closest('form');
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
+    hideInvalidRankRecipientFeedbackPaths(questionNum);
 }
 
 /**
@@ -550,6 +554,7 @@ function enableNewQuestion() {
     disableCornerMoveRubricColumnButtons(NEW_QUESTION);
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
+    hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
 /**
@@ -602,11 +607,11 @@ function formatNumberBox(participantType, questionNum) {
     const $questionForm = $(`#form_editquestion-${questionNum}`);
     const $numberOfEntitiesBox = $questionForm.find('.numberOfEntitiesElements');
 
-    if (participantType === 'STUDENTS' || participantType === 'TEAMS') {
+    if (participantType === 'STUDENTS' || participantType === 'TEAMS' || participantType === 'INSTRUCTORS') {
         $numberOfEntitiesBox.show();
 
         const $numberOfEntitiesLabel = $numberOfEntitiesBox.find('.number-of-entities-inner-text');
-        $numberOfEntitiesLabel.html(participantType === 'STUDENTS' ? 'students' : 'teams');
+        $numberOfEntitiesLabel.html(participantType.toLowerCase());
     } else {
         $numberOfEntitiesBox.hide();
     }
@@ -986,9 +991,16 @@ function hideInvalidRecipientTypeOptions($giverSelect) {
     const giverType = $giverSelect.val();
     const $recipientSelect = $giverSelect.closest('.form_question').find('select[name="recipienttype"]');
     const recipientType = $recipientSelect.val();
+    const qnType = $giverSelect.closest('.form_question').find('[name="questiontype"]').val();
+    // For question type "RANK_RECIPIENTS", hide recipient options "SELF" and "NONE"
+    if (qnType === 'RANK_RECIPIENTS') {
+        hideOption($recipientSelect, 'SELF');
+        hideOption($recipientSelect, 'NONE');
+    }
     switch (giverType) {
     case 'STUDENTS':
         // all recipientType options enabled
+        // except for 'SELF' and 'NONE' options in 'RANK_RECIPIENTS' questions
         break;
     case 'SELF':
     case 'INSTRUCTORS':
@@ -1162,29 +1174,29 @@ $(document).ready(() => {
     setTooltipTriggerOnFeedbackPathMenuOptions();
 
     $('#fsSaveLink').on('click', (e) => {
-        checkEditFeedbackSession(e.target.form);
+        checkEditFeedbackSession(e.currentTarget.form);
     });
 
     $(document).on('change', '.participantSelect', (e) => {
-        matchVisibilityOptionToFeedbackPath(e.target);
-        getVisibilityMessage(e.target);
+        matchVisibilityOptionToFeedbackPath(e.currentTarget);
+        getVisibilityMessage(e.currentTarget);
     });
 
     $(document).on('click', '.btn-discard-changes', (e) => {
-        discardChanges($(e.target).data('qnnumber'));
+        discardChanges($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('click', '.btn-edit-qn', (e) => {
         const maxQuestions = parseInt($('#num-questions').val(), 10);
-        enableEdit($(e.target).data('qnnumber'), maxQuestions);
+        enableEdit($(e.currentTarget).data('qnnumber'), maxQuestions);
     });
 
     $(document).on('click', '.btn-delete-qn', (e) => {
-        deleteQuestion($(e.target).data('qnnumber'));
+        deleteQuestion($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('submit', '.tally-checkboxes', (e) => {
-        tallyCheckboxes($(e.target).data('qnnumber'));
+        tallyCheckboxes($(e.currentTarget).data('qnnumber'));
     });
 });
 

@@ -18,11 +18,11 @@ function sendEmailToNewEmailOption(event, newStudentEmail) {
     const messageText = `Do you want to resend past session links of this course to the new email ${newStudentEmail}?`;
     const yesCallback = function () {
         $('#isSendEmail').val(true);
-        event.target.submit();
+        event.currentTarget.submit();
     };
     const noCallback = function () {
         $('#isSendEmail').val(false);
-        event.target.submit();
+        event.currentTarget.submit();
     };
     showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
             yesCallback, noCallback, null, 'Yes, save changes and resend links',
@@ -49,7 +49,7 @@ function readyInstructorStudentEditPage() {
                 if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
                     sendEmailToNewEmailOption(event, newStudentEmail);
                 } else {
-                    event.target.submit();
+                    event.currentTarget.submit();
                 }
             };
 

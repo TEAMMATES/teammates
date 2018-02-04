@@ -5,11 +5,11 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -31,20 +31,6 @@ import teammates.storage.entity.FeedbackSession;
 public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
-
-    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd)
-            throws InvalidParametersException {
-        List<FeedbackSessionAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
-        for (FeedbackSessionAttributes session : feedbackSessionsToUpdate) {
-            try {
-                updateFeedbackSession(session);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
 
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
@@ -106,15 +92,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
         return makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
                 "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
-    }
-
-    /**
-     * Returns empty list if none found.
-     * @deprecated Not scalable. Created for data migration purposes.
-     */
-    @Deprecated
-    public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
-        return makeAttributes(getAllFeedbackSessionEntities());
     }
 
     /**
@@ -218,14 +195,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingInstructorList().addAll(emails);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingInstructorList().addAll(emails);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void updateInstructorRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
@@ -291,14 +281,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingInstructorList().remove(email);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingInstructorList().remove(email);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
@@ -312,14 +315,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingStudentList().addAll(emails);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingStudentList().addAll(emails);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void updateStudentRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
@@ -378,15 +394,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingStudentList().remove(email);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingStudentList().remove(email);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void deleteFeedbackSessionsForCourse(String courseId) {
@@ -399,10 +427,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
-    }
-
-    private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        return load().list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
@@ -441,10 +465,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
-        return load()
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .first().now();
+        return load().id(feedbackSessionName + "%" + courseId).now();
     }
 
     @Override
