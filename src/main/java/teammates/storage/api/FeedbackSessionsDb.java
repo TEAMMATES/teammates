@@ -184,7 +184,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addInstructorRespondents(emails, feedbackSession);
     }
 
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") // The objectify library does not support throwing checked exceptions inside transactions
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void addInstructorRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -271,7 +272,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addStudentRespondents(emails, feedbackSession);
     }
 
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") // The objectify library does not support throwing checked exceptions inside transactions
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -306,7 +308,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         }
     }
 
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") // The objectify library does not support throwing checked exceptions inside transactions
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -386,7 +389,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(fs, feedbackSession);
     }
 
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") // The objectify library does not support throwing checked exceptions inside transactions
+     // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
