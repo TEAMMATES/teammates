@@ -37,7 +37,7 @@
     </ul>
   </div>
   <div class="visibilityOptions overflow-hidden" id="visibilityOptions-${fqForm.questionIndex}" style="display:none;">
-    <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+    <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
       <tr>
         <th class="text-center">User/Group</th>
         <th class="text-center">Can see answer</th>
@@ -156,7 +156,7 @@
     </table>
   </div>
   <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-  <div class="visibilityMessage overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
+  <div class="visibility-message overflow-hidden" id="visibilityMessage-${fqForm.questionIndex}">
     This is the visibility hint as seen by the feedback giver:
     <ul class="text-muted background-color-warning">
       <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
