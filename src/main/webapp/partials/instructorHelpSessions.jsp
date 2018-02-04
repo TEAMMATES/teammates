@@ -7737,7 +7737,12 @@
             </form>
           </div>
 
-          <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}.
+          <br>
+          The statistics for rank questions show the ranks which an option/recipient received and the overall rank computed.
+          <br>
+          The <b> Ranks Received </b> as shown in the statistic summary below are processed from the original responses with the ties handled (if exist) and the void ranking slots removed. For example, if giver A's original response is {1, 3, 3, 5} and the Rank 5 is to recipient B, after the processing, giver A's response will become {1, 2, 2, 4} and recipient B will have a Rank 4 in his <b>Ranks Received</b>, instead of the Rank 5 in the original response by giver A.
+          <br>
+          The <b> Overall Rank </b> is basically a ranking of the averages of the ranks for each recipient. For example, if recipient A's <b> Ranks Received </b> is {1,2} and recipient B's <b> Ranks Received </b> is {2,4,6}, then the averages of the ranks for recipient A and recipient B are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <b>Overall Rank</b> of 1 and 2 respectively.
           <br>
           <br>
           <div class="bs-example">
