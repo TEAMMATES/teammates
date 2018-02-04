@@ -184,6 +184,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addInstructorRespondents(emails, feedbackSession);
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") //Transactions do not support throwing checked exceptions
     public void addInstructorRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -270,6 +271,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addStudentRespondents(emails, feedbackSession);
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") //Transactions do not support throwing checked exceptions
     public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -304,6 +306,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         }
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") //Transactions do not support throwing checked exceptions
     public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -383,6 +386,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(fs, feedbackSession);
     }
 
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes") //Transactions do not support throwing checked exceptions
     public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
