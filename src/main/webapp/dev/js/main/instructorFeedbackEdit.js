@@ -837,8 +837,8 @@ function copyOptions(newType) {
     $currNumOfRecipients.val($prevNumOfRecipients.val());
 
     // Check boxes setup
-    const $prevTable = $('.dataTable').eq(-2).find('.visibilityCheckbox');
-    const $currTable = $('.dataTable').last().find('.visibilityCheckbox');
+    const $prevTable = $('.data-table').eq(-2).find('.visibilityCheckbox');
+    const $currTable = $('.data-table').last().find('.visibilityCheckbox');
 
     $currTable.each(function (index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));

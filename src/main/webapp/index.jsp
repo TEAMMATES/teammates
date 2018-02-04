@@ -8,14 +8,14 @@
   <div id="browserMessage" style="display: none;"></div>
   <br>
   <main>
-    <h1 class="h2 color_orange text-center">
+    <h1 class="h2 color-orange text-center">
       Student peer evaluations/feedback, shareable instructor comments, and more...
     </h1>
     <div class="row">
       <img class="center-block img-responsive" alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="images/overview.png">
     </div>
-    <h2 class="color_orange row h4 text-center color_blue">
-      <span id= "submissionsNumber" class="color_orange">5,000,000+</span> feedback entries submitted so far ...
+    <h2 class="color-orange row h4 text-center color-blue">
+      <span id= "submissionsNumber" class="color-orange">5,000,000+</span> feedback entries submitted so far ...
     </h2>
     <div class="row">
       <div class="margin-bottom-10px col-xs-10 col-sm-5 col-xs-offset-1 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">

@@ -15,7 +15,7 @@
 
   <div class="page-header">
     <h2>
-      Instructor For <small class="courseCount rightalign bold">${fn:length(data.instructorCourseListTable)} Courses</small>
+      Instructor For <small class="course-count rightalign bold">${fn:length(data.instructorCourseListTable)} Courses</small>
     </h2>
   </div>
 
@@ -33,7 +33,7 @@
 
   <div class="page-header">
     <h2>
-      Student For <small class="courseCount rightalign bold">${fn:length(data.studentCourseListTable)} Courses</small>
+      Student For <small class="course-count rightalign bold">${fn:length(data.studentCourseListTable)} Courses</small>
     </h2>
   </div>
 
