@@ -2,6 +2,7 @@ package teammates.ui.automated;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
@@ -43,7 +44,7 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
         try {
             emailSender.sendEmail(email);
         } catch (Exception e) {
-            throw new RuntimeException("Unexpected error while sending email", e);
+            Assumption.fail("Unexpected error while sending email" + TeammatesException.toStringWithStackTrace(e));
         }
     }
 
