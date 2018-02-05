@@ -88,14 +88,14 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color_neutral\"><i>"
+                chosenChoice = "<span class=\"color-neutral\"><i>"
                              + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE
                              + "</i></span>";
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>");
             } else {
                 chosenChoice = SanitizationHelper.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
                 html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
-                            + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex + 1)
+                            + " <span class=\"color-neutral\"><i>(Choice " + (chosenIndex + 1)
                             + ")</i></span><br>");
             }
 
