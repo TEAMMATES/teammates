@@ -305,6 +305,16 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
+     * Returns true if the session has started.
+     */
+    public boolean hasStarted() {
+        Calendar now = TimeHelper.now(timeZone);
+        Calendar start = TimeHelper.dateToCalendar(startTime);
+
+        return now.after(start);
+    }
+
+    /**
      * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
