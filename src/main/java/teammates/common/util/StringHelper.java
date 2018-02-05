@@ -137,7 +137,7 @@ public final class StringHelper {
         }
     }
 
-    public static Gender validity(String gender) {
+    public static Gender gendervalidity(String gender) {
         if ("MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender)) {
             return Gender.valueOf(gender.toUpperCase());
         } else {

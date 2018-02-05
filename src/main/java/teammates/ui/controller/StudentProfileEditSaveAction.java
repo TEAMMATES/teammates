@@ -53,7 +53,7 @@ public class StudentProfileEditSaveAction extends Action {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
 
-        editedProfile.gender = StringHelper.validity(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
+        editedProfile.gender = StringHelper.gendervalidity(getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
