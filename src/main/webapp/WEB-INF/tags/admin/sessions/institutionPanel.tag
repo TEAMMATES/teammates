@@ -17,7 +17,7 @@
     </li>
   </ul>
   <div class="table-responsive" id="table_${tableIndex}">
-    <table class="table table-striped dataTable">
+    <table class="table table-striped data-table">
       <thead>
         <tr>
           <th>Status</th>

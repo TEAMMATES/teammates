@@ -2,7 +2,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="contact">
   <main class="container">
-    <h1 class="color_orange">
+    <h1 class="color-orange">
       Contact Us
     </h1>
     <img class="img-responsive" src="images/contact.png">
