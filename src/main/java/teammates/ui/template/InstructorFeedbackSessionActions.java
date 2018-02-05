@@ -59,8 +59,7 @@ public class InstructorFeedbackSessionActions {
         }
 
         this.isAllowedToSubmit =
-                (session.isVisible() || session.isPrivateSession())
-                && (!session.isClosed() || session.isPrivateSession() && session.hasStarted()) && shouldEnableSubmitLink;
+                (session.isPrivateSession() || session.isVisible() && !session.isClosed()) && shouldEnableSubmitLink;
         this.isAllowedToRemind =
                 session.isOpened()
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
