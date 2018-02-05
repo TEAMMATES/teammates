@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.Gender;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
@@ -180,7 +179,6 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
-        String value = StringHelper.trimIfNotNull(submissionParams[9]).toUpperCase();
 
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
 
@@ -188,13 +186,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
         spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
         spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
-
-        if ("MALE".equals(value) || "FEMALE".equals(value)) {
-            spa.gender = Gender.valueOf(value);
-        } else {
-            spa.gender = Gender.OTHER;
-        }
-
+        spa.gender = StringHelper.validity(submissionParams[9]);
         spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;
 

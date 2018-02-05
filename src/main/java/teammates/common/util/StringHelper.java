@@ -19,6 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.common.base.CharMatcher;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const.Gender;
 
 /**
  * Holds String-related helper functions.
@@ -131,6 +132,14 @@ public final class StringHelper {
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static Gender validity(String gender) {
+        if ("MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender)) {
+            return Gender.valueOf(gender.toUpperCase());
+        } else {
+            return Gender.OTHER;
         }
     }
 
