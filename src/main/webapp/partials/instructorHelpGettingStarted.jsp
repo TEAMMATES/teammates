@@ -297,11 +297,11 @@
             <div id="uncommonSettingsSection">
               <div id="uncommonSettingsSessionResponsesVisible" class="margin-bottom-15px text-muted">
                 <span id="uncommonSettingsSessionResponsesVisibleInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.</span>
-                <a class="editUncommonSettingsButton" id="editUncommonSettingsSessionResponsesVisibleButton" data-edit="[Edit]" data-done="[Done]">[Change]</a>
+                <a class="edit-uncommon-settings-button" id="editUncommonSettingsSessionResponsesVisibleButton" data-edit="[Edit]" data-done="[Done]">[Change]</a>
               </div>
               <div id="uncommonSettingsSendEmails" class="margin-bottom-15px text-muted">
                 <span id="uncommonSettingsSendEmailsInfoText">Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
-                <a class="editUncommonSettingsButton" id="editUncommonSettingsSendEmailsButton" data-edit="[Edit]" data-done="[Done]">[Change]</a>
+                <a class="edit-uncommon-settings-button" id="editUncommonSettingsSendEmailsButton" data-edit="[Edit]" data-done="[Done]">[Change]</a>
               </div>
             </div>
             <div class="form-group">
