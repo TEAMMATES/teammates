@@ -14,7 +14,6 @@ import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.util.Const.Gender;
-import teammates.common.util.StringHelper;
 
 /**
  * Represents profile details for student entities associated with an
