@@ -866,6 +866,10 @@ public final class Const {
         public static final String SEARCH_KEY = "searchkey";
         public static final String DISPLAY_ARCHIVE = "displayarchive";
 
+        public static final String RESPONDENT_EMAIL = "respondentemail";
+        public static final String RESPONDENT_IS_INSTRUCTOR = "respondentisinstructor";
+        public static final String RESPONDENT_IS_TO_BE_REMOVED = "respondentistoberemoved";
+
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
@@ -1089,6 +1093,11 @@ public final class Const {
                 "feedback-session-unpublished-email-queue";
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
+
+        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
+                "feedback-session-update-respondent-queue";
+        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =
+                "/worker/feedbackSessionUpdateRespondent";
 
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
