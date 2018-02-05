@@ -73,7 +73,6 @@ public class InstructorFeedbackSessionActions {
         return isPrivateSession;
     }
 
-
     public String getCourseId() {
         return courseId;
     }
