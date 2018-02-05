@@ -29,7 +29,7 @@ public class InstructorFeedbackCopyAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION);
 
         try {
 
