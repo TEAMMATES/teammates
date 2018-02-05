@@ -180,7 +180,7 @@ public class StudentProfile extends BaseEntity {
         if (gender == null) {
             return;
         }
-        this.gender = StringHelper.validity(gender);
+        this.gender = Gender.valueOf(gender);
     }
 
 }
