@@ -308,6 +308,58 @@ public abstract class AppPage {
     }
 
     /**
+     * Waits until there is no scrolling on the page. Note: The detection of whether the page is scrolling is coupled to our
+     * own implementation of scrolling {@code (scrollTo.js)} and is not a true detection.
+     * @throws org.openqa.selenium.TimeoutException if the timeout defined in {@link TestProperties#TEST_TIMEOUT} expires
+     */
+    void waitForNoScrolling() {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+
+        // Note: The implementation compares previous and current scroll positions so the polling interval should not be
+        // changed or set to too low a value or the comparisons may unexpectedly be equal.
+        wait.until(new ExpectedCondition<Boolean>() {
+            private static final String SCROLL_POSITION_PROPERTY = "scrollTop";
+
+            private boolean isFirstEvaluation = true;
+
+            private final WebElement htmlElement = browser.driver.findElement(By.tagName("html"));
+            private final WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
+
+            private String prevHtmlScrollPosition;
+            private String prevBodyScrollPosition;
+
+            @Override
+            public Boolean apply(WebDriver input) {
+                // The first evaluation has no previous scrolling positions to compare to
+                if (isFirstEvaluation) {
+                    prevHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
+                    prevBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
+
+                    isFirstEvaluation = false;
+                    return false;
+                }
+
+                return isCurrentScrollingPositionSameAsPrevious();
+            }
+
+            private Boolean isCurrentScrollingPositionSameAsPrevious() {
+                final String currentHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
+                final String currentBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
+
+                if (currentHtmlScrollPosition.equals(prevHtmlScrollPosition)
+                        && currentBodyScrollPosition.equals(prevBodyScrollPosition)) {
+                    return true;
+                }
+
+                prevHtmlScrollPosition = currentHtmlScrollPosition;
+                prevBodyScrollPosition = currentBodyScrollPosition;
+
+                return false;
+            }
+        });
+    }
+
+    /**
      * Waits for an alert to appear on the page, up to the timeout specified.
      */
     public void waitForAlertPresence() {
@@ -397,14 +449,6 @@ public abstract class AppPage {
     public void waitForTextContainedInElementAbsence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
-    }
-
-    /**
-     * Waits for page to scroll for 1 second.
-     * Temporary solution until we can detect specifically when page scrolling.
-     */
-    public void waitForPageToScroll() {
-        ThreadHelper.waitFor(1000);
     }
 
     /**

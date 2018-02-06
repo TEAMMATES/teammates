@@ -978,8 +978,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(by).getText();
     }
 
-    public void selectNewQuestionType(String questionType) {
+    public void selectNewQuestionTypeAndWaitForNewQuestionPanelReady(String questionType) {
         click(browser.driver.findElement(By.cssSelector("[data-questionType=" + questionType + "]")));
+
+        waitForNewQuestionPanelReady();
+    }
+
+    /**
+     * Waits for the new question panel to be ready, that is, all states initialized and all animations complete.
+     */
+    private void waitForNewQuestionPanelReady() {
+        // LEGACY IMPLEMENTATION: Coupled to the implementation instructorFeedbackEdit.js#showNewQuestionFrame
+        // Creating a new question will result in scrolling, so it is assumed that all initialization is completed after
+        // scrolling is complete.
+        waitForNoScrolling();
     }
 
     public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber) {

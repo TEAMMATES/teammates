@@ -59,7 +59,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONSTSUM-option: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
 
@@ -86,7 +86,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test const sum question");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
@@ -105,7 +105,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("duplicate options");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test duplicate options");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
@@ -120,7 +120,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     @Override
     public void testCustomizeOptions() {
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
 
         feedbackEditPage.fillConstSumOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillConstSumOptionForNewQuestion(1, "Option 2");
@@ -281,7 +281,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
 
         // Make sure that constSumPointsTotal radio button is selected by default
         assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
