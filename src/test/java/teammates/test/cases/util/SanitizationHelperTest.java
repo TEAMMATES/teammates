@@ -99,54 +99,48 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testSanitizeForHtmlList() {
-        List<String> input = new ArrayList<>();
-        input.add("apple <");
-        input.add("banana ' dogs ");
-        input.add("rollercoasters & tycoons");
-        input.add("");
-        input.add(null);
+        List<String> unsanitizedHtml = new ArrayList<>();
+        unsanitizedHtml.add("apple <");
+        unsanitizedHtml.add("banana ' dogs ");
+        unsanitizedHtml.add("rollercoasters & tycoons");
+        unsanitizedHtml.add("");
+        unsanitizedHtml.add(null);
 
-        List<String> expected = new ArrayList<>();
-        expected.add("apple &lt;");
-        expected.add("banana &#39; dogs ");
-        expected.add("rollercoasters &amp; tycoons");
-        expected.add("");
-        expected.add(null);
+        List<String> sanitizedHtml = new ArrayList<>();
+        sanitizedHtml.add("apple &lt;");
+        sanitizedHtml.add("banana &#39; dogs ");
+        sanitizedHtml.add("rollercoasters &amp; tycoons");
+        sanitizedHtml.add("");
+        sanitizedHtml.add(null);
 
-        // standard case
-        assertEquals(expected, SanitizationHelper.sanitizeForHtml(input));
+        List<String> emptyList = new ArrayList<>();
 
-        // empty input list
-        assertEquals(new ArrayList<String>(), SanitizationHelper.sanitizeForHtml(new ArrayList<>()));
-
-        // null input list
-        assertEquals(null, SanitizationHelper.sanitizeForHtml((List<String>) null));
+        assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
+        assertEquals(emptyList, SanitizationHelper.sanitizeForHtml(emptyList));
+        assertNull(SanitizationHelper.sanitizeForHtml((List<String>) null));
     }
 
     @Test
     public void testSanitizeForHtmlSet() {
-        Set<String> input = new HashSet<>();
-        input.add("apple <");
-        input.add("banana ' dogs ");
-        input.add("rollercoasters & tycoons");
-        input.add("");
-        input.add(null);
+        Set<String> unsanitizedHtml = new HashSet<>();
+        unsanitizedHtml.add("apple <");
+        unsanitizedHtml.add("banana ' dogs ");
+        unsanitizedHtml.add("rollercoasters & tycoons");
+        unsanitizedHtml.add("");
+        unsanitizedHtml.add(null);
 
-        Set<String> expected = new HashSet<>();
-        expected.add("apple &lt;");
-        expected.add("banana &#39; dogs ");
-        expected.add("rollercoasters &amp; tycoons");
-        expected.add("");
-        expected.add(null);
+        Set<String> sanitizedHtml = new HashSet<>();
+        sanitizedHtml.add("apple &lt;");
+        sanitizedHtml.add("banana &#39; dogs ");
+        sanitizedHtml.add("rollercoasters &amp; tycoons");
+        sanitizedHtml.add("");
+        sanitizedHtml.add(null);
 
-        // standard case
-        assertEquals(expected, SanitizationHelper.sanitizeForHtml(input));
+        Set<String> emptySet = new HashSet<>();
 
-        // empty input set
-        assertEquals(new HashSet<String>(), SanitizationHelper.sanitizeForHtml(new HashSet<>()));
-
-        // null input set
-        assertEquals(null, SanitizationHelper.sanitizeForHtml((Set<String>) null));
+        assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
+        assertEquals(emptySet, SanitizationHelper.sanitizeForHtml(emptySet));
+        assertNull(SanitizationHelper.sanitizeForHtml((Set<String>) null));
     }
 
     @Test
@@ -173,27 +167,24 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testDesanitizeFromHtmlSet() {
-        Set<String> input = new HashSet<>();
-        input.add("apple &lt;");
-        input.add("banana &#39; dogs ");
-        input.add("rollercoasters &amp; tycoons");
-        input.add("");
-        input.add(null);
+        Set<String> sanitizedHtml = new HashSet<>();
+        sanitizedHtml.add("apple &lt;");
+        sanitizedHtml.add("banana &#39; dogs ");
+        sanitizedHtml.add("rollercoasters &amp; tycoons");
+        sanitizedHtml.add("");
+        sanitizedHtml.add(null);
 
-        Set<String> expected = new HashSet<>();
-        expected.add("apple <");
-        expected.add("banana ' dogs ");
-        expected.add("rollercoasters & tycoons");
-        expected.add("");
-        expected.add(null);
+        Set<String> desanitizedHtml = new HashSet<>();
+        desanitizedHtml.add("apple <");
+        desanitizedHtml.add("banana ' dogs ");
+        desanitizedHtml.add("rollercoasters & tycoons");
+        desanitizedHtml.add("");
+        desanitizedHtml.add(null);
 
-        // standard case
-        assertEquals(expected, SanitizationHelper.desanitizeFromHtml(input));
+        Set<String> emptySet = new HashSet<>();
 
-        // empty input set
-        assertEquals(new HashSet<String>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
-
-        // null input set
+        assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
+        assertEquals(emptySet, SanitizationHelper.desanitizeFromHtml(emptySet));
         assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));
     }
 
