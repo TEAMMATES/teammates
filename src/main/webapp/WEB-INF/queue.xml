@@ -44,6 +44,15 @@
     </queue>
 
     <queue>
+        <name>feedback-session-update-respondent-queue</name>
+        <rate>20/s</rate>
+        <bucket-size>5</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
+    <queue>
         <name>feedback-session-published-email-queue</name>
         <!-- Configuration allows for reminders for 1 feedback session to be queued for execution every second when the bucket is empty -->
         <rate>1/s</rate>
