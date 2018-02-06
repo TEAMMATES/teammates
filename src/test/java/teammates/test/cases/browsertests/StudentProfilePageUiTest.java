@@ -304,7 +304,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: non-existent student");
 
-        getProfilePicturePage(instructorId, TestProperties.TEST_INSTRUCTOR_PASSWORD,
+        getProfilePicturePage(instructorGoogleId, TestProperties.TEST_INSTRUCTOR_PASSWORD,
                 invalidEmail, courseId, EntityNotFoundPage.class);
     }
 
