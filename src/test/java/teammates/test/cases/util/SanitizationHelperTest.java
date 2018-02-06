@@ -122,20 +122,8 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testSanitizeForHtmlSet() {
-        Set<String> unsanitizedHtml = new HashSet<>();
-        unsanitizedHtml.add("apple <");
-        unsanitizedHtml.add("banana ' dogs ");
-        unsanitizedHtml.add("rollercoasters & tycoons");
-        unsanitizedHtml.add("");
-        unsanitizedHtml.add(null);
-
-        Set<String> sanitizedHtml = new HashSet<>();
-        sanitizedHtml.add("apple &lt;");
-        sanitizedHtml.add("banana &#39; dogs ");
-        sanitizedHtml.add("rollercoasters &amp; tycoons");
-        sanitizedHtml.add("");
-        sanitizedHtml.add(null);
-
+        Set<String> unsanitizedHtml = generateUnsanitizedHtmlSet();
+        Set<String> sanitizedHtml = generateSanitizedHtmlSet();
         Set<String> emptySet = new HashSet<>();
 
         assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
@@ -167,6 +155,16 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testDesanitizeFromHtmlSet() {
+        Set<String> sanitizedHtml = generateSanitizedHtmlSet();
+        Set<String> desanitizedHtml = generateUnsanitizedHtmlSet();
+        Set<String> emptySet = new HashSet<>();
+
+        assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
+        assertEquals(emptySet, SanitizationHelper.desanitizeFromHtml(emptySet));
+        assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));
+    }
+
+    private Set<String> generateSanitizedHtmlSet() {
         Set<String> sanitizedHtml = new HashSet<>();
         sanitizedHtml.add("apple &lt;");
         sanitizedHtml.add("banana &#39; dogs ");
@@ -174,18 +172,18 @@ public class SanitizationHelperTest extends BaseTestCase {
         sanitizedHtml.add("");
         sanitizedHtml.add(null);
 
-        Set<String> desanitizedHtml = new HashSet<>();
-        desanitizedHtml.add("apple <");
-        desanitizedHtml.add("banana ' dogs ");
-        desanitizedHtml.add("rollercoasters & tycoons");
-        desanitizedHtml.add("");
-        desanitizedHtml.add(null);
+        return sanitizedHtml;
+    }
 
-        Set<String> emptySet = new HashSet<>();
+    private Set<String> generateUnsanitizedHtmlSet() {
+        Set<String> unsanitizedHtml = new HashSet<>();
+        unsanitizedHtml.add("apple <");
+        unsanitizedHtml.add("banana ' dogs ");
+        unsanitizedHtml.add("rollercoasters & tycoons");
+        unsanitizedHtml.add("");
+        unsanitizedHtml.add(null);
 
-        assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
-        assertEquals(emptySet, SanitizationHelper.desanitizeFromHtml(emptySet));
-        assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));
+        return unsanitizedHtml;
     }
 
     @Test
