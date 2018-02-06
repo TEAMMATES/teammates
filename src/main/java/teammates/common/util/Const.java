@@ -654,7 +654,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION = "canviewsession";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
 
