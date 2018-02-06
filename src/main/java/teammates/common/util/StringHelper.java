@@ -20,7 +20,6 @@ import com.google.common.base.CharMatcher;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const.Gender;
 
 /**
  * Holds String-related helper functions.
@@ -134,14 +133,6 @@ public final class StringHelper {
         } catch (Exception e) {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
             return null;
-        }
-    }
-
-    public static Gender gendervalidity(String gender) {
-        if ("MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender)) {
-            return Gender.valueOf(gender.toUpperCase());
-        } else {
-            return Gender.OTHER;
         }
     }
 

@@ -244,5 +244,15 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         public StudentProfileAttributes build() {
             return profileAttributes;
         }
+
     }
+
+    public Gender gendervalidity(String gender) {
+        if ("MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender)) {
+            return Gender.valueOf(gender.toUpperCase());
+        } else {
+            return Gender.OTHER;
+        }
+    }
+
 }
