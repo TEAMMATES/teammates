@@ -254,5 +254,4 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return Gender.OTHER;
         }
     }
-
 }

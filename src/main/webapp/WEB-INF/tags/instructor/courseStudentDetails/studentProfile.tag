@@ -24,9 +24,16 @@
               <td class="text-bold">Short Name (Gender)</td>
               <td>${empty student.shortName ? none : fn:escapeXml(student.shortName)}
                 (<i>
-                   <span class="text-muted">
-                       ${student.displayedGenderType}
-                    </span>
+                   <c:choose>
+                     <c:when test="${student.displayedGenderType} == Const.STUDENT_PROFILE_FIELD_NOT_FILLED">
+                       <span class="text-muted">
+                          ${student.displayedGenderType}
+                       </span>
+                      </c:when>
+                      <c:otherwise>
+                          ${student.displayedGenderType}
+                      </c:otherwise>
+                    </c:choose>
                 </i>)
               </td>
             </tr>
