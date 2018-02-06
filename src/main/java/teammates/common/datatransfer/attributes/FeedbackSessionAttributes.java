@@ -283,9 +283,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
+     * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not
+     * or if the closing time is {@code null}, specifically in case of private sessions.
      */
     public boolean isClosed() {
+        if (this.endTime == null) {
+            return false;
+        }
         Calendar now = TimeHelper.now(timeZone);
         Calendar end = TimeHelper.dateToCalendar(endTime);
         end.add(Calendar.MINUTE, gracePeriod);
