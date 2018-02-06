@@ -118,7 +118,7 @@ public final class TimeHelper {
     /**
      * Convert a date string and time string of only the hour into a Date object.
      * If the hour is 24, it is converted to 23:59. Returns null on error.
-     *  @param inputDate
+     * @param inputDate
      *            The date in format dd/MM/yyyy
      * @param inputTimeHours
      *            0-24
