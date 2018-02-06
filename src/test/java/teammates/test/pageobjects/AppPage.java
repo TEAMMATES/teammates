@@ -612,7 +612,15 @@ public abstract class AppPage {
     }
 
     protected void fillTextBox(WebElement textBoxElement, String value) {
-        click(textBoxElement);
+        try {
+            new Actions(browser.driver).moveToElement(textBoxElement).click().perform();
+        } catch (WebDriverException e) {
+            // It is important that a text box element is clickable before we fill it but due to legacy reasons we continue
+            // attempting to fill the text box element even if it's not clickable (which may lead to an unexpected failure
+            // later on)
+            System.out.println("Unexpectedly not able to click on the text box element because of: ");
+            System.out.println(e);
+        }
 
         clearAndSendKeys(textBoxElement, value);
 
