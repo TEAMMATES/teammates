@@ -96,6 +96,7 @@ function convertDateToHHMM(date) {
  */
 function selectDefaultTimeOptions() {
     const now = new Date();
+
     const currentDate = convertDateToDddMMMYYYY(now);
     const hours = convertDateToHHMM(now).substring(0, 2);
     const currentTime = parseInt(hours, 10) + 1;
