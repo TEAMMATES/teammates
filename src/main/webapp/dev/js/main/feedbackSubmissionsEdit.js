@@ -220,7 +220,7 @@ function prepareContribQuestions() {
 
             $dropdown.on('change', function () {
                 const $self = $(this);
-                $self.removeClass('color_neutral');
+                $self.removeClass('color-neutral');
                 $self.removeClass('color-positive');
                 $self.removeClass('color-negative');
                 $self.addClass(this.options[this.selectedIndex].className);
@@ -964,9 +964,9 @@ function updateRankMessageQn(qnNum) {
 
         dropdownSelect.find('option').each(function () {
             if ($(this).val() in allocatedRanks) {
-                $(this).addClass('color_neutral');
+                $(this).addClass('color-neutral');
             } else {
-                $(this).removeClass('color_neutral');
+                $(this).removeClass('color-neutral');
             }
         });
 

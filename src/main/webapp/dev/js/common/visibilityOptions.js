@@ -329,7 +329,7 @@ function formatVisibilityMessageDivHtml(visibilityMessage) {
  * Updates visibility message div with error message and add onclick event for re-loading the visibility message
  */
 function showAjaxErrorMessage($containingForm) {
-    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
+    const $visibilityMessageDiv = $containingForm.find('.visibility-message');
 
     let htmlString = 'This is the visibility hint as seen by the feedback giver:';
     htmlString += '<ul class="text-muted background-color-warning">';
@@ -359,7 +359,7 @@ function updateVisibilityMessageDiv($containingForm) {
     }
 
     const formData = $containingForm.serialize();
-    const $visibilityMessageDiv = $containingForm.find('.visibilityMessage');
+    const $visibilityMessageDiv = $containingForm.find('.visibility-message');
 
     if (previousFormDataMap[questionNum] === formData) {
         return;

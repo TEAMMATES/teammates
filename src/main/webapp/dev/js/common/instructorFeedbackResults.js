@@ -242,7 +242,7 @@ function getAppendedResponseRateData(data) {
 }
 
 function toggleNoResponsePanel(e) {
-    const $targetElement = $(e.currentTarget);
+    const $targetElement = $(e.target);
     if ($targetElement.is('a') || $targetElement.is('input')) {
         return;
     }
