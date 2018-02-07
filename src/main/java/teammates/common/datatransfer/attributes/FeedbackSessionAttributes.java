@@ -298,9 +298,17 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is currently open and accepting responses.
+     * Returns true if the session is currently open and accepting responses,
+     * {@code false} if the start time is null as the session will never open,
+     * {@code true} if the end time is null as the session will never end.
      */
     public boolean isOpened() {
+        if (startTime == null) {
+           return false;
+        }
+        if (endTime == null) {
+            return true;
+        }
         Calendar now = TimeHelper.now(timeZone);
         Calendar start = TimeHelper.dateToCalendar(startTime);
         Calendar end = TimeHelper.dateToCalendar(endTime);
@@ -309,9 +317,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is currently close but is still accept responses.
+     * Returns true if the session is currently close but is still accepting responses,
+     * {@code false} if end time is null, as the session will never end thus will never be in grace period.
      */
     public boolean isInGracePeriod() {
+        if (endTime == null) {
+            return false;
+        }
         Calendar now = TimeHelper.now(timeZone);
         Calendar end = TimeHelper.dateToCalendar(endTime);
         Calendar gracedEnd = TimeHelper.dateToCalendar(endTime);
@@ -323,8 +335,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     /**
      * Returns {@code true} has not opened before and is waiting to open,
      * {@code false} if session has opened before.
+     * {@code true} if start time is null, as the session will never open
+     * and thus will always be in the waiting period.
      */
     public boolean isWaitingToOpen() {
+        if (startTime == null) {
+            return true;
+        }
         Calendar now = TimeHelper.now(timeZone);
         Calendar start = TimeHelper.dateToCalendar(startTime);
 
