@@ -284,7 +284,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     /**
      * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not
-     * or if the closing time is {@code null}, specifically in case of private sessions.
+     * or if the closing time is {@code null}.
      */
     public boolean isClosed() {
         if (this.endTime == null) {
