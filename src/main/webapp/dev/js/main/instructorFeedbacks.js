@@ -75,7 +75,7 @@ function formatDigit(num) {
  * @returns {String}
  */
 function convertDateToDddMMMYYYY(date) {
-    return `${moment(date).format('ddd, DD MMM, yyyy')}`;
+    return `${moment(date).format('ddd, DD MMM, YYYY')}`;
 }
 
 /**
@@ -96,7 +96,6 @@ function convertDateToHHMM(date) {
  */
 function selectDefaultTimeOptions() {
     const now = new Date();
-
     const currentDate = convertDateToDddMMMYYYY(now);
     const hours = convertDateToHHMM(now).substring(0, 2);
     const currentTime = parseInt(hours, 10) + 1;
