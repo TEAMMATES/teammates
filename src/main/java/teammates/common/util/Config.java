@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
 
+import teammates.common.exception.TeammatesException;
+
 /**
  * Represents the deployment-specific configuration values of the system.
  * This can be used to access values in the build.properties file too.
@@ -64,7 +66,7 @@ public final class Config {
         try {
             properties.load(FileHelper.getResourceAsStream("build.properties"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         APP_URL = Url.trimTrailingSlash(properties.getProperty("app.url"));
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");

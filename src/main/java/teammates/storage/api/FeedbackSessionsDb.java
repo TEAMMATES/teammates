@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
@@ -91,15 +92,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
         return makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
                 "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
-    }
-
-    /**
-     * Returns empty list if none found.
-     * @deprecated Not scalable. Created for data migration purposes.
-     */
-    @Deprecated
-    public List<FeedbackSessionAttributes> getAllFeedbackSessions() {
-        return makeAttributes(getAllFeedbackSessionEntities());
     }
 
     /**
@@ -192,6 +184,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addInstructorRespondents(emails, feedbackSession);
     }
 
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void addInstructorRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -203,14 +197,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingInstructorList().addAll(emails);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingInstructorList().addAll(emails);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void updateInstructorRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
@@ -265,6 +272,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         addStudentRespondents(emails, feedbackSession);
     }
 
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -276,16 +285,31 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingInstructorList().remove(email);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingInstructorList().remove(email);
-
-        saveEntity(fs, feedbackSession);
     }
 
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void addStudentRespondents(List<String> emails, FeedbackSessionAttributes feedbackSession)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
@@ -297,14 +321,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingStudentList().addAll(emails);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingStudentList().addAll(emails);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void updateStudentRespondent(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession)
@@ -352,6 +389,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(fs, feedbackSession);
     }
 
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
     public void deleteStudentRespondent(String email, FeedbackSessionAttributes feedbackSession)
             throws EntityDoesNotExistException, InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -363,15 +402,27 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
 
-        FeedbackSession fs = getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        try {
+            ofy().transact(new VoidWork() {
+                @Override
+                public void vrun() {
+                    FeedbackSession fs = getEntity(feedbackSession);
+                    if (fs == null) {
+                        throw new RuntimeException(new EntityDoesNotExistException(
+                                ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString()));
+                    }
+
+                    fs.getRespondingStudentList().remove(email);
+
+                    saveEntity(fs, feedbackSession);
+                }
+            });
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityDoesNotExistException) {
+                throw (EntityDoesNotExistException) e.getCause();
+            }
+            throw e;
         }
-
-        fs.getRespondingStudentList().remove(email);
-
-        saveEntity(fs, feedbackSession);
     }
 
     public void deleteFeedbackSessionsForCourse(String courseId) {
@@ -384,10 +435,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
 
         ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
-    }
-
-    private List<FeedbackSession> getAllFeedbackSessionEntities() {
-        return load().list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
@@ -426,10 +473,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
-        return load()
-                .filter("feedbackSessionName =", feedbackSessionName)
-                .filter("courseId =", courseId)
-                .first().now();
+        return load().id(feedbackSessionName + "%" + courseId).now();
     }
 
     @Override
