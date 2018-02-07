@@ -317,6 +317,29 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "teammates.test.instructor3": {
+      "googleId": "FeedbackEditCopyinstructor3",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "name": "Instructor 3",
+      "email": "tmms.instr.cust@course.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
