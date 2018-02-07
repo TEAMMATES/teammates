@@ -304,7 +304,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public boolean isOpened() {
         if (startTime == null) {
-           return false;
+            return false;
         }
         if (endTime == null) {
             return true;
