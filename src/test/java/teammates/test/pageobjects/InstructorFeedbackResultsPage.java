@@ -467,7 +467,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex)
             throws MaximumRetriesExceededException {
-        String cellSelector = "#questionBody-" + questionBodyIndex + " .dataTable tbody"
+        String cellSelector = "#questionBody-" + questionBodyIndex + " .data-table tbody"
                               + " tr:nth-child(" + (tableRow + 1) + ")"
                               + " td:nth-child(" + (tableCol + 1) + ")";
         String popoverSelector = cellSelector + " .popover-content";
