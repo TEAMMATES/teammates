@@ -75,8 +75,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
                 .withDefaultStudentProfileAttributes("googleId.without.courses")
                 .build();
 
-        studentWithoutCourses.studentProfile = StudentProfileAttributes.builder().build();
-        studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
