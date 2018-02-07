@@ -264,7 +264,6 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withEmail("real@gmail.com")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
-
                 .withStudentProfileAttributes(spa)
                 .build();
 

@@ -28,7 +28,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public StudentProfileAttributes studentProfile;
 
     AccountAttributes() {
-        // attributes to be set after construction
+        // Empty constructor for builder to construct object
     }
 
     public static AccountAttributes valueOf(Account a) {
@@ -47,6 +47,9 @@ public class AccountAttributes extends EntityAttributes<Account> {
         return new Builder();
     }
 
+    /**
+     * A Builder class for {@link AccountAttributes}.
+     */
     public static class Builder {
         private AccountAttributes accountAttributes;
 
@@ -122,16 +125,15 @@ public class AccountAttributes extends EntityAttributes<Account> {
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        AccountAttributes copy = AccountAttributes.builder()
+        return AccountAttributes.builder()
                 .withGoogleId(googleId)
                 .withName(name)
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withDefaultStudentProfileAttributes(googleId)
+                .withStudentProfileAttributes(this.studentProfile.getCopy())
                 .build();
-        copy.studentProfile = this.studentProfile == null ? null : this.studentProfile.getCopy();
-        return copy;
+
     }
 
     public boolean isInstructor() {

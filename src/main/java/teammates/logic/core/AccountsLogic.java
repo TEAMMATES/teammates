@@ -341,12 +341,11 @@ public final class AccountsLogic {
                 .withName(student.name)
                 .withIsInstructor(false)
                 .withInstitute(getCourseInstitute(student.course))
+                .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                        .withGoogleId(student.googleId)
+                        .withInstitute(getCourseInstitute(student.course))
+                        .build())
                 .build();
-
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = student.googleId;
-        spa.institute = account.institute;
-        account.studentProfile = spa;
 
         accountsDb.createAccount(account);
     }

@@ -842,10 +842,9 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .withIsInstructor(false)
                 .withEmail(i.email)
                 .withInstitute("TEAMMATES Test Institute 5")
+                .withDefaultStudentProfileAttributes(i.googleId)
                 .build();
 
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = i.googleId;
         accountsDb.createAccount(a);
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());

@@ -72,6 +72,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                 .withEmail("googleId.without.courses@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 5")
                 .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes("googleId.without.courses")
                 .build();
 
         studentWithoutCourses.studentProfile = StudentProfileAttributes.builder().build();
