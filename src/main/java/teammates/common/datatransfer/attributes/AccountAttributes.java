@@ -131,7 +131,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(this.studentProfile.getCopy())
+                .withStudentProfileAttributes(this.studentProfile == null ? null : this.studentProfile.getCopy())
                 .build();
 
     }
