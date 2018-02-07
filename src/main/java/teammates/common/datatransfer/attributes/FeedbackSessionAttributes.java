@@ -274,13 +274,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is closed within the past hour of calling this function,
-     * {@code false} otherwise, or if end time is null.
+     * Returns true if the session is closed within the past hour of calling this function.
      */
     public boolean isClosedWithinPastHour() {
-        if (endTime == null) {
-            return false;
-        }
         long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
         Date date = new Date(endTime.getTime() + gracePeriod * 60000L - timeZoneOffset);
         return TimeHelper.isWithinPastHourFromNow(date);
