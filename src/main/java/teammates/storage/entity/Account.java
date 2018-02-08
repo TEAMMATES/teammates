@@ -121,8 +121,7 @@ public class Account extends BaseEntity {
 
     /**
      * Fetches the student profile from the datastore the first time this is called. Returns null if student profile was
-     * explicitly set to null (e.g. when the student profile is intentionally not retrieved). If a shell student profile
-     * with an empty Google ID was set, simply returns this shell student profile without interacting with the datastore.
+     * explicitly set to null (e.g. when the student profile is intentionally not retrieved).
      */
     public StudentProfile getStudentProfile() {
         if (!isStudentProfileEnabled) {
