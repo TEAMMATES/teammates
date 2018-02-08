@@ -231,7 +231,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return getInvalidityInfo().isEmpty();
     }
 
+    /**
+     * Returns {@code true} if the session is closed after the given hours,
+     * {@code false} otherwise, or if the startTime or endTime is {@code null}.
+     */
     public boolean isClosedAfter(int hours) {
+        if (endTime == null || startTime == null) {
+            return false;
+        }
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
         now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
