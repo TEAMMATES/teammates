@@ -199,7 +199,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);
 
-        return new StudentHomePageData(new AccountAttributes(), dummySessionToken, courses, sessionSubmissionStatusMap);
+        return new StudentHomePageData(AccountAttributes.builder().build(), dummySessionToken,
+                courses, sessionSubmissionStatusMap);
     }
 
     private FeedbackSessionAttributes createFeedbackSession(String name,
