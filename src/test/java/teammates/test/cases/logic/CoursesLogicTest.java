@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -644,7 +642,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
         ______TS("Typical case: course without sections");
 
@@ -667,7 +665,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
         ______TS("Typical case: course with unregistered student");
 
@@ -690,7 +688,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
         ______TS("Failure case: non existent instructor");
 
@@ -844,7 +842,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 + " it is not in the correct format. "
                 + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
                 + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces."
-                + EOL
+                + System.lineSeparator()
                 + "\"InvalidTimeZone\" is not acceptable to TEAMMATES as a/an course time zone because it not available "
                 + "as a choice. The value must be one of the values from the time zone dropdown selector.";
 

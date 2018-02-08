@@ -119,9 +119,17 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         //create fresh test data
         accountsLogic.createAccount(
-                new AccountAttributes(instructorId, "ICET Instr Name", true,
-                        "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        StudentProfileAttributes.builder().withGoogleId(instructorId).withShortName("ICET").build()));
+                AccountAttributes.builder()
+                        .withGoogleId(instructorId)
+                        .withName("ICET Instr Name")
+                        .withEmail("instructor@icet.tmt")
+                        .withInstitute("TEAMMATES Test Institute 1")
+                        .withIsInstructor(true)
+                        .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                                .withGoogleId(instructorId)
+                                .withShortName("ICET")
+                                .build())
+                        .build());
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
@@ -455,9 +463,13 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithInvalidTeamNameAndStudentNameAndEmail =
                 invalidTeamName + "|" + invalidStudentName + "|" + "invalid_email.tmt";
 
-        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName
-                    + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
-                    + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
+        enrollLines = headerLine + System.lineSeparator()
+                    + lineWithInvalidTeamName + System.lineSeparator()
+                    + lineWithInvalidStudentName + System.lineSeparator()
+                    + lineWithInvalidEmail + System.lineSeparator()
+                    + lineWithInvalidStudentNameAndEmail + System.lineSeparator()
+                    + lineWithInvalidTeamNameAndEmail + System.lineSeparator()
+                    + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -514,7 +526,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | "
                 + " studentWithExtraParameters@email.tmt | comment | extra_parameter";
 
-        enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithNoEmailInput + System.lineSeparator()
+                + lineWithExtraParameters;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -531,9 +545,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.tmt";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
 
-        enrollLines = headerLine + Const.EOL
-                      + lineWithTeamNameEmpty + Const.EOL
-                      + lineWithStudentNameEmpty + Const.EOL
+        enrollLines = headerLine + System.lineSeparator()
+                      + lineWithTeamNameEmpty + System.lineSeparator()
+                      + lineWithStudentNameEmpty + System.lineSeparator()
                       + lineWithEmailEmpty;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
@@ -561,7 +575,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithCorrectInput = "Team 3 | Mary | mary@email.tmt";
         String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.tmt | Foreign student";
 
-        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithCorrectInput + System.lineSeparator()
+                + lineWithCorrectInputWithComment;
         // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
         studentsLogic.createStudents(enrollLines, courseId);
 
@@ -570,7 +586,9 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("enrollLines with duplicate emails");
 
-        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithCorrectInput + System.lineSeparator()
+                + lineWithCorrectInput;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -578,10 +596,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with a mix of all above cases");
-        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL
-                + lineWithInvalidTeamNameAndStudentNameAndEmail
-                + Const.EOL + lineWithExtraParameters + Const.EOL
-                + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithInvalidTeamName + System.lineSeparator()
+                + lineWithInvalidTeamNameAndStudentNameAndEmail + System.lineSeparator()
+                + lineWithExtraParameters + System.lineSeparator()
+                + lineWithTeamNameEmpty + System.lineSeparator()
+                + lineWithCorrectInput + System.lineSeparator() + "\t";
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -640,9 +660,14 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
                 .withGoogleId(instructorId).withShortName("Ins1").withGender("male")
                 .build();
-        AccountAttributes accountToAdd = new AccountAttributes(instructorId,
-                "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                profileAttributes);
+        AccountAttributes accountToAdd = AccountAttributes.builder()
+                .withGoogleId(instructorId)
+                .withName("Instructor 1")
+                .withEmail(instructorEmail)
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(profileAttributes)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
@@ -673,9 +698,14 @@ public class StudentsLogicTest extends BaseLogicTest {
         String line2 = "\u00A0t3  |n3|  e3@g|c3  ";
         String line3 = "t4|n4|  e4@g|c4";
         String line4 = "t5|  n5|e5@g  |c5";
-        String lines = headerLine + Const.EOL + line0 + Const.EOL + line1 + Const.EOL + line2 + Const.EOL
-                    + "  \t \t \t \t           " + Const.EOL + line3 + Const.EOL + Const.EOL + line4
-                    + Const.EOL + "    " + Const.EOL + Const.EOL;
+        String lines = headerLine + System.lineSeparator()
+                + line0 + System.lineSeparator()
+                + line1 + System.lineSeparator()
+                + line2 + System.lineSeparator()
+                + "  \t \t \t \t           " + System.lineSeparator()
+                + line3 + System.lineSeparator() + System.lineSeparator()
+                + line4 + System.lineSeparator()
+                + "    " + System.lineSeparator() + System.lineSeparator();
         CourseEnrollmentResult enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
@@ -697,7 +727,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String modifiedLine2 = "t3|modified name|e3@g|c3";
         String line5 = "t6|n6|e6@g|c6";
-        lines = headerLine + Const.EOL + line0 + Const.EOL + modifiedLine2 + Const.EOL + line1 + Const.EOL + line5;
+        lines = headerLine + System.lineSeparator()
+                + line0 + System.lineSeparator()
+                + modifiedLine2 + System.lineSeparator()
+                + line1 + System.lineSeparator()
+                + line5;
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         assertEquals(6, enrollResults.studentList.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
@@ -718,7 +752,10 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
-        lines = headerLine + Const.EOL + "t7|n7|e7@g|c7" + Const.EOL + incorrectLine + Const.EOL + line2 + Const.EOL
+        lines = headerLine + System.lineSeparator()
+                + "t7|n7|e7@g|c7" + System.lineSeparator()
+                + incorrectLine + System.lineSeparator()
+                + line2 + System.lineSeparator()
                 + line3;
         try {
             enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
@@ -742,23 +779,29 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
                 .withGoogleId("tes.instructor").withShortName("Ins 1").withGender("male")
                 .build();
-        accountToAdd = new AccountAttributes("tes.instructor",
-                "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                studentAttributes);
+        accountToAdd = AccountAttributes.builder()
+                .withGoogleId("tes.instructor")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(studentAttributes)
+                .build();
+
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 
-        String line = headerLine + Const.EOL + "t8|n8|e8@g|c1";
+        String line = headerLine + System.lineSeparator() + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.NEW, enrollResults.studentList.get(0).updateStatus);
 
-        line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
+        line = headerLine + System.lineSeparator() + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.MODIFIED, enrollResults.studentList.get(0).updateStatus);
 
-        line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
+        line = headerLine + System.lineSeparator() + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.UNMODIFIED, enrollResults.studentList.get(0).updateStatus);
@@ -767,7 +810,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String lineT9 = "t9|n9|e9@g|c9";
         String lineT10 = "t10|n10|e9@g|c10";
-        lines = headerLine + Const.EOL + lineT9 + Const.EOL + lineT10;
+        lines = headerLine + System.lineSeparator() + lineT9 + System.lineSeparator() + lineT10;
         try {
             studentsLogic.enrollStudentsWithoutDocument(lines, "tes.course");
         } catch (EnrollException e) {
@@ -777,7 +820,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("invalid course id");
 
-        String enrollLines = headerLine + Const.EOL;
+        String enrollLines = headerLine + System.lineSeparator();
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, invalidCourseId);
@@ -797,7 +840,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("invalidity info in enroll line");
 
-        enrollLines = headerLine + Const.EOL + "invalidline0\ninvalidline1\n";
+        enrollLines = headerLine + System.lineSeparator() + "invalidline0\ninvalidline1\n";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();
@@ -1159,5 +1202,4 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertTrue(errorMessage, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
                                  && enrollmentResult.updateStatus == status);
     }
-
 }

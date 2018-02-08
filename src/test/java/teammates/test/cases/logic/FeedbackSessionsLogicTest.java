@@ -535,9 +535,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + System.lineSeparator();
 
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
@@ -558,12 +558,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Instructors should be able to see all sessions for the course
         expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("empty.session").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("closedSession").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + System.lineSeparator();
 
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
@@ -1208,7 +1208,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("typical case: get all results with unchecked isMissingResponsesShown");
 
@@ -1262,7 +1262,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("typical case: get results for single question");
         final int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
@@ -1290,7 +1290,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("MCQ results");
 
@@ -1356,7 +1356,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("MSQ results");
 
@@ -1424,7 +1424,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("NUMSCALE results");
 
@@ -1472,7 +1472,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("CONSTSUM results");
 
@@ -1540,7 +1540,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("Instructor without privilege to view responses");
 
@@ -1579,7 +1579,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("CONTRIB results");
 
@@ -1633,7 +1633,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("CONTRIB summary visibility variations");
 
@@ -1682,7 +1682,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         // instructor not allowed to view student responses in section
         session = newDataBundle.feedbackSessions.get("contribSessionInstructorSectionRestricted");
@@ -1721,7 +1721,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("RUBRIC results");
 
@@ -1820,7 +1820,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("RANK results");
 
@@ -1879,7 +1879,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("MSQ results without statistics");
 
