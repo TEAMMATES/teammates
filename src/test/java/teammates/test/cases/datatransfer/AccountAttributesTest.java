@@ -1,6 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
 import static teammates.common.util.Const.EOL;
 
 import org.testng.annotations.Test;
@@ -76,11 +75,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 account.isInstructor, account.email, account.institute,
                 StudentProfileAttributes.builder(account.googleId).build().toEntity());
 
-        // save studentProfile to datastore so that it can be loaded
-        // from the datastore later (e.g. account.getStudentProfile())
-        saveToDatastore(account.studentProfile);
-
-        Account actualAccount = new AccountAttributes(expectedAccount).toEntity();
+        Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
@@ -192,10 +187,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         return account;
 
-    }
-
-    private void saveToDatastore(StudentProfileAttributes studentProfileAttributes) {
-        ofy().save().entity(studentProfileAttributes.toEntity()).now();
     }
 
 }
