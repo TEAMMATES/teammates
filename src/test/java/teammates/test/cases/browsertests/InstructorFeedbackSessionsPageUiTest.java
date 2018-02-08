@@ -337,7 +337,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("responses cant be seen my students 1 #");
         // start time in past
         newSession.setStartTimeUtc(TimeHelper.convertToDate("2012-05-01 6:00 AM UTC"));
-        newSession.setEndTimeUtc(TimeHelper.convertToDate("2018-01-01 1:59 AM UTC"));
+        newSession.setEndTimeUtc(TimeHelper.convertToDate("2017-32-12 1:59 AM UTC"));
         newSession.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
         newSession.setGracePeriod(25);
