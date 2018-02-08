@@ -58,7 +58,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
      * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
      * CSS: `Web → CSS Files → Encoding`.
      * JSP: `Web → JSP Files → Encoding`.
-     * HTML: `XML → XML Files → Encoding`.
+     * XML: `XML → XML Files → Encoding`.
 
    * JDK: `Java Build Path → Libraries` → ensure that the system library used is JDK 8.
 

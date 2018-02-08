@@ -264,9 +264,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withKey(regkey)
                 .build();
 
-        AccountAttributes inviter = new AccountAttributes();
-        inviter.email = "instructor-joe@gmail.com";
-        inviter.name = "Joe Wilson";
+        AccountAttributes inviter = AccountAttributes.builder()
+                .withEmail("instructor-joe@gmail.com")
+                .withName("Joe Wilson")
+                .build();
 
         String joinLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                 .withRegistrationKey(StringHelper.encrypt(regkey))
