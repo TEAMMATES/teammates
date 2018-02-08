@@ -42,12 +42,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR))
                 .build();
 
-        attributes.setStartTime(TimeHelper.convertLocalDateTimeToDate(TimeHelper.combineDateTime(
+        attributes.setStartTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME))));
-        attributes.setEndTime(TimeHelper.convertLocalDateTimeToDate(TimeHelper.combineDateTime(
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME)));
+        attributes.setEndTime(TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME))));
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME)));
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
@@ -76,9 +76,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToDate(TimeHelper.combineDateTime(
+            attributes.setResultsVisibleFromTime(TimeHelper.combineDateTime(
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME))));
+                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME)));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
@@ -99,9 +99,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToDate(TimeHelper.combineDateTime(
+            attributes.setSessionVisibleFromTime(TimeHelper.combineDateTime(
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME))));
+                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME)));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
