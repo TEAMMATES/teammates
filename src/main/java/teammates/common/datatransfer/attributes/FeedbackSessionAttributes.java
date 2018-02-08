@@ -256,7 +256,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.after(start) && differenceBetweenDeadlineAndNow < hours;
     }
 
+    /**
+     * Returns {@code true} if the session is closing within the given hours,
+     * {@code false} otherwise, or if startTime and/or endTime is {@code null}.
+     */
     public boolean isClosingWithinTimeLimit(int hours) {
+        if (startTime == null || endTime == null) {
+            return false;
+        }
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
         now.add(Calendar.MILLISECOND,
