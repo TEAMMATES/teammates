@@ -1,6 +1,7 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -99,19 +100,13 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testSanitizeForHtmlList() {
-        List<String> unsanitizedHtml = new ArrayList<>();
-        unsanitizedHtml.add("apple <");
-        unsanitizedHtml.add("banana ' dogs ");
-        unsanitizedHtml.add("rollercoasters & tycoons");
-        unsanitizedHtml.add("");
-        unsanitizedHtml.add(null);
+        List<String> unsanitizedHtml = new ArrayList<>(Arrays.asList(
+                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
+        );
 
-        List<String> sanitizedHtml = new ArrayList<>();
-        sanitizedHtml.add("apple &lt;");
-        sanitizedHtml.add("banana &#39; dogs ");
-        sanitizedHtml.add("rollercoasters &amp; tycoons");
-        sanitizedHtml.add("");
-        sanitizedHtml.add(null);
+        List<String> sanitizedHtml = new ArrayList<>(Arrays.asList(
+                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
+        );
 
         List<String> emptyList = new ArrayList<>();
 
