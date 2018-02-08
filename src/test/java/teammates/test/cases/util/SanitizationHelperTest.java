@@ -108,10 +108,8 @@ public class SanitizationHelperTest extends BaseTestCase {
                 "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
         );
 
-        List<String> emptyList = new ArrayList<>();
-
         assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
-        assertEquals(emptyList, SanitizationHelper.sanitizeForHtml(emptyList));
+        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeForHtml(new ArrayList<>()));
         assertNull(SanitizationHelper.sanitizeForHtml((List<String>) null));
     }
 
@@ -119,10 +117,9 @@ public class SanitizationHelperTest extends BaseTestCase {
     public void testSanitizeForHtmlSet() {
         Set<String> unsanitizedHtml = generateUnsanitizedHtmlSet();
         Set<String> sanitizedHtml = generateSanitizedHtmlSet();
-        Set<String> emptySet = new HashSet<>();
 
         assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
-        assertEquals(emptySet, SanitizationHelper.sanitizeForHtml(emptySet));
+        assertEquals(new HashSet<>(), SanitizationHelper.sanitizeForHtml(new HashSet<>()));
         assertNull(SanitizationHelper.sanitizeForHtml((Set<String>) null));
     }
 
@@ -152,10 +149,9 @@ public class SanitizationHelperTest extends BaseTestCase {
     public void testDesanitizeFromHtmlSet() {
         Set<String> sanitizedHtml = generateSanitizedHtmlSet();
         Set<String> desanitizedHtml = generateUnsanitizedHtmlSet();
-        Set<String> emptySet = new HashSet<>();
 
         assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
-        assertEquals(emptySet, SanitizationHelper.desanitizeFromHtml(emptySet));
+        assertEquals(new HashSet<>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
         assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));
     }
 
