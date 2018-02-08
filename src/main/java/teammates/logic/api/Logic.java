@@ -90,8 +90,14 @@ public class Logic {
             studentProfile = StudentProfileAttributes.builder().build();
             studentProfile.googleId = googleId;
         }
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,
-                                                               studentProfile);
+        AccountAttributes accountToAdd = AccountAttributes.builder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
     }
@@ -223,7 +229,14 @@ public class Logic {
         Assumption.assertNotNull(institute);
 
         if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = new AccountAttributes(googleId, name, true, email, institute);
+            AccountAttributes account = AccountAttributes.builder()
+                    .withGoogleId(googleId)
+                    .withName(name)
+                    .withEmail(email)
+                    .withInstitute(institute)
+                    .withIsInstructor(true)
+                    .withDefaultStudentProfileAttributes(googleId)
+                    .build();
             accountsLogic.createAccount(account);
         }
 
