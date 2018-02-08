@@ -259,12 +259,14 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes createNewAccount() throws Exception {
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = "valid.googleId";
-        a.name = "Valid Fresh Account";
-        a.isInstructor = false;
-        a.email = "valid@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId("valid.googleId")
+                .withEmail("valid@email.com")
+                .withName("Valid Fresh Account")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(false)
+                .build();
+
         a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = a.googleId;
         a.studentProfile.institute = "TEAMMATES Test Institute 1";

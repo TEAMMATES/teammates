@@ -657,7 +657,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     private static String getPointsAsColorizedHtml(int points) {
         if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
+            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
                    + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
@@ -669,7 +669,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (points < 100) {
             return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">E</span>";
+            return "<span class=\"color-neutral\">E</span>";
         }
     }
 
@@ -679,7 +679,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int diff = perceived - claimed;
         if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
                 || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
+            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
                    + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE
                    + "\">N/A</span>";
         } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
@@ -870,7 +870,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 || points == Const.POINTS_EQUAL_SHARE
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
-            return "color_neutral";
+            return "color-neutral";
         } else if (points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
@@ -906,9 +906,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     static String convertToEqualShareFormatHtml(int i) {
         if (i == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\">N/A</span>";
+            return "<span class=\"color-neutral\">N/A</span>";
         } else if (i == Const.POINTS_NOT_SUBMITTED) {
-            return "<span class=\"color_neutral\"></span>";
+            return "<span class=\"color-neutral\"></span>";
         } else if (i == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\">Not Sure</span>";
         } else if (i == 0) {
@@ -918,7 +918,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (i < 100) {
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">Equal Share</span>";
+            return "<span class=\"color-neutral\">Equal Share</span>";
         }
     }
 
