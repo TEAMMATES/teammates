@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.ProfilesDb;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
 
@@ -70,10 +71,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Override
     @Test
     public void testToEntity() {
+        ProfilesDb profileDb = new ProfilesDb();
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.googleId, account.name,
                 account.isInstructor, account.email, account.institute,
-                StudentProfileAttributes.builder(account.googleId).build().toEntity());
+                account.studentProfile.toEntity());
 
         Account actualAccount = account.toEntity();
 
@@ -82,9 +84,11 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
+        profileDb.saveEntity(account.studentProfile.toEntity());
         String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
         String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
+        profileDb.deleteEntity(account.studentProfile);
     }
 
     @Test
