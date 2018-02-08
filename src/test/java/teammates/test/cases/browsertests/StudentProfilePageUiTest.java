@@ -294,13 +294,13 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: instructor does not have privilege");
 
-        String emailStudentForHelperCourse = testData.students.get("studentForHelperCourse").email;
-        String courseIdHelperCourse = testData.students.get("studentForHelperCourse").course;
+        String studentForHelperCourseEmail = testData.students.get("studentForHelperCourse").email;
+        String helperCourseId = testData.students.get("studentForHelperCourse").course;
 
-        emailStudentForHelperCourse = StringHelper.encrypt(emailStudentForHelperCourse);
-        courseIdHelperCourse = StringHelper.encrypt(courseIdHelperCourse);
+        studentForHelperCourseEmail = StringHelper.encrypt(studentForHelperCourseEmail);
+        helperCourseId = StringHelper.encrypt(helperCourseId);
         getProfilePicturePage(instructorGoogleId, TestProperties.TEST_INSTRUCTOR_PASSWORD,
-                emailStudentForHelperCourse, courseIdHelperCourse, NotAuthorizedPage.class);
+                studentForHelperCourseEmail, helperCourseId, NotAuthorizedPage.class);
 
         ______TS("Failure case: non-existent student");
 
