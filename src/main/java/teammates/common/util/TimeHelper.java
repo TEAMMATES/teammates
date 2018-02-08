@@ -123,7 +123,13 @@ public final class TimeHelper {
      * @param inputTimeHours
      *            0-24
      */
-    public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
+    @Deprecated
+    public static Date combineDateTime(String inputDate, String inputTimeHours) {
+        return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
+    }
+
+    // having same argument types as the old method, so I have to change the name temporarily
+    public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
         }
