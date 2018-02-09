@@ -133,7 +133,7 @@ public final class Const {
         public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
 
         /** e.g. "2014-04-01 11:59 PM UTC" */
-        public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
+        public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a z";
 
         /** Number to trim the Google ID when displaying to the user. */
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
