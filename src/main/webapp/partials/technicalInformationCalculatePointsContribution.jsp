@@ -27,18 +27,17 @@
             <div class="helpSectionContent">
               This is required because the total of points entered might not sum up to <code>100 * (team size)</code>.
               <br>
-              <br><code>(normalized value) = (original value) * (normalization factor)</code>
               <br>
-              <br>e.g.,
-              <pre>
-                <code>
-                  <br>entered values: 90 [self], 110,130, N/A (total = 330)
-                  <br>normalization factor: (100*3)/(90+110+130) = 300/330
-                  <br>normalized: 82, 100, 118, N/A
-                  <br>normalized total = 300 (i.e. 100 * number of inputs)
-                </code>
-              </pre>
-              <br>This answers the question (a) above. The student thinks he did 'Equal share - 18%' (as indicated by 82).
+              <code>(normalized value) = (original value) * (normalization factor)</code>
+              <br>
+              <br>
+              <div class="bs-example">
+                entered values: 90 [self], 110,130, N/A (total = 330)
+                <br>normalization factor: (100 * 3) / (90 + 110 + 130) = 300 / 330
+                <br>normalized: 82, 100, 118, N/A
+                <br>normalized total = 300 (i.e. 100 * number of inputs)
+              </div>
+              This answers the question (a) above. The student thinks he did 'Equal share - 18%' (as indicated by 82).
               <br>
               <br>
             </div>
@@ -48,19 +47,17 @@
             <div class="helpSectionContent">
               Here, we ignore the self rating and normalize remaining values.
               <br>
-              <br>e.g.,
-              <pre>
-                <code>
-                  <br>normalized input (from above): 82,100, 118, N/A
-                  <br>Calculating unbiased values:
-                  <br>&nbsp;82 → ignored.
-                  <br>&nbsp;100 → 100*200/(100+118) = 92
-                  <br>&nbsp;118 → 118*200/(100+118) = 108
-                  <br>Unbiased values: [self (ignored)], 92, 108, N/A
-                  <br>Unbiased values total = 200 (100 * number of ratings)
-                </code>
-              </pre>
-              <br>This answers the question (b) above. In the example above, the student thinks his teammates contribution ratio is 92:108 and is unsure of the third teammate.
+              <br>
+              <div class="bs-example">
+                normalized input (from above): 82,100, 118, N/A
+                <br>Calculating unbiased values:
+                <br>&nbsp;82 → ignored.
+                <br>&nbsp;100 → 100 * 200 / (100 + 118) = 92
+                <br>&nbsp;118 → 118 * 200 / (100 + 118) = 108
+                <br>Unbiased values: [self (ignored)], 92, 108, N/A
+                <br>Unbiased values total = 200 (100 * number of ratings)
+              </div>
+              This answers the question (b) above. In the example above, the student thinks his teammates contribution ratio is 92:108 and is unsure of the third teammate.
               <br>
               <br>
             </div>
@@ -119,13 +116,11 @@
               The result could be something like this:
               <br>
               <br>
-              <pre>
-                <code>
-                  <br>student’s opinion: 90 [self], 110,130, N/A (total = 330)
-                  <br>team’s opinion : 95, 105,125, 115 (total = 440)
-                </code>
-              </pre>
-              <br>Value transformation steps: input (i.e. claimed) → normalizedClaimed → peerContributionRatio → averagePerceived → normalizedAveragePerceived → denormalizedAveragePerceived → normalizedPeerContributionRatio
+              <div class="bs-example">
+                student’s opinion: 90 [self], 110, 130, N/A (total = 330)
+                <br>team’s opinion : 95, 105, 125, 115 (total = 440)
+              </div>
+              Value transformation steps: input (i.e. claimed) → normalizedClaimed → peerContributionRatio → averagePerceived → normalizedAveragePerceived → denormalizedAveragePerceived → normalizedPeerContributionRatio
               <br>
               <br>
             </div>
