@@ -61,6 +61,7 @@ public class FeedbackSession extends BaseEntity {
      * Defaults to false in legacy data where local dates are stored instead of UTC. <br>
      * TODO Remove after all legacy data has been converted
      */
+    @Unindex
     private boolean isTimeStoredInUtc;
 
     /** This is legacy data that is no longer used. <br>
