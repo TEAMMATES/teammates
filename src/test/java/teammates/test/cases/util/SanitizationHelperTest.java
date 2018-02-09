@@ -152,7 +152,7 @@ public class SanitizationHelperTest extends BaseTestCase {
 
         assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
         assertEquals(new HashSet<>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
-        assertEquals(null, SanitizationHelper.desanitizeFromHtml((Set<String>) null));
+        assertNull(SanitizationHelper.desanitizeFromHtml((Set<String>) null));
     }
 
     private Set<String> generateSanitizedHtmlSet() {
