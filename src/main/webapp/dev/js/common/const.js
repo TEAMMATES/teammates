@@ -16,7 +16,7 @@ const StatusType = {
 };
 StatusType.DEFAULT = StatusType.INFO;
 
-// Sorted in a logical order, which is pre-determined.
+// Sorted in a logical order, which is as per the order in Const.java 
 const ParamsNames = {
     COURSE_ID: 'courseid',
     COURSE_NAME: 'coursename',
