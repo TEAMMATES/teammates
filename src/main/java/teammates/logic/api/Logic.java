@@ -388,9 +388,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(startUtc, endUtc);
     }
 
     /**
