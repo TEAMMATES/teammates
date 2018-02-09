@@ -513,36 +513,22 @@ public final class TimeHelper {
     }
 
     /**
-     * Combines separated date, hour and minute string into standard format.
-     *
+     * Parse a `LocalDateTime` object from separated date, hour and minute strings.
      * <p>required parameter format:
-     * date: dd/MM/yyyy  hour: hh   min:mm
-     *
-     * @return Date String in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.<br>
-     *         Example: If date is 01/04/2014, hour is 23, min is 59, result will be  2014-04-01 11:59 PM UTC.
+     * date: dd/MM/yyyy  hour: H   min:m
+     * Example: If date is 01/04/2014, hour is 23, min is 59.
      */
-    public static String convertToRequiredFormat(String date, String hour, String min) {
-
+    public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
         if (date == null || hour == null || min == null) {
             return null;
         }
-
-        final String OLD_FORMAT = "dd/MM/yyyy";
-        final String NEW_FORMAT = "yyyy-MM-dd";
-
-        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy H m");
         try {
-            Date d = sdf.parse(date);
-            sdf.applyPattern(NEW_FORMAT);
-            int intHour = Integer.parseInt(hour);
-            String amOrPm = intHour >= 12 ? "PM" : "AM";
-            intHour = intHour >= 13 ? intHour - 12 : intHour;
-            return sdf.format(d) + " " + intHour + ":" + min + " " + amOrPm + " UTC";
-        } catch (ParseException e) {
+            return LocalDateTime.parse(date + " " + hour + " " + min, formatter);
+        } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-
     }
 
     public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {
