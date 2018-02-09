@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -230,7 +229,7 @@ public final class TimeHelper {
         int hour = localDateTime.getHour();
         if (hour == 0) {
             return 24;
-        } else if ((hour == 23) && (localDateTime.getMinute() == 59)) {
+        } else if (hour == 23 && localDateTime.getMinute() == 59) {
             return 24;
         } else {
             return hour;
@@ -246,7 +245,7 @@ public final class TimeHelper {
             return "";
         }
         String processedPattern;
-        if ((localDateTime.getHour() == 12) && (localDateTime.getMinute() == 0)) {
+        if (localDateTime.getHour() == 12 && localDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         } else {
             processedPattern = pattern;
@@ -297,7 +296,7 @@ public final class TimeHelper {
         }
         ZonedDateTime zonedDateTime = instant.atZone(timeZone);
         String processedPattern;
-        if ((zonedDateTime.getHour() == 12) && (zonedDateTime.getMinute() == 0)) {
+        if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         } else {
             processedPattern = pattern;

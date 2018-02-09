@@ -1,8 +1,6 @@
 package teammates.ui.template;
 
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
