@@ -25,16 +25,19 @@
           <li>
             <span class="text-bold">Calculate normalizedClaimed values</span>
             <div class="helpSectionContent">
-              This is required because the total of points entered might not sum up to 100 * (team size).
+              This is required because the total of points entered might not sum up to <code>100 * (team size)</code>.
               <br>
-              <br>(normalized value) = (original value) * (normalization factor)
+              <br><code>(normalized value) = (original value) * (normalization factor)</code>
               <br>
               <br>e.g.,
-              <br>entered values 90 [self], 110,130, N/A (total = 330)
-              <br>normalization factor: (100*3)/(90+110+130) = 300/330
-              <br>normalized: 82, 100, 118, N/A
-              <br>normalized total = 300 (i.e. 100*number of inputs)
-              <br>
+              <pre>
+                <code>
+                  <br>entered values: 90 [self], 110,130, N/A (total = 330)
+                  <br>normalization factor: (100*3)/(90+110+130) = 300/330
+                  <br>normalized: 82, 100, 118, N/A
+                  <br>normalized total = 300 (i.e. 100 * number of inputs)
+                </code>
+              </pre>
               <br>This answers the question (a) above. The student thinks he did 'Equal share - 18%' (as indicated by 82).
               <br>
               <br>
@@ -46,14 +49,17 @@
               Here, we ignore the self rating and normalize remaining values.
               <br>
               <br>e.g.,
-              <br>normalized input (from above): 82,100, 118, N/A
-              <br>Calculating unbiased values:
-              <br>&nbsp;82 → ignored.
-              <br>&nbsp;100 → 100*200/(100+118) = 92
-              <br>&nbsp;118 → 118*200/(100+118) = 108
-              <br>Unbiased values: [self (ignored)], 92, 108, N/A
-              <br>Unbiased values total = 200 (100 * number of ratings)
-              <br>
+              <pre>
+                <code>
+                  <br>normalized input (from above): 82,100, 118, N/A
+                  <br>Calculating unbiased values:
+                  <br>&nbsp;82 → ignored.
+                  <br>&nbsp;100 → 100*200/(100+118) = 92
+                  <br>&nbsp;118 → 118*200/(100+118) = 108
+                  <br>Unbiased values: [self (ignored)], 92, 108, N/A
+                  <br>Unbiased values total = 200 (100 * number of ratings)
+                </code>
+              </pre>
               <br>This answers the question (b) above. In the example above, the student thinks his teammates contribution ratio is 92:108 and is unsure of the third teammate.
               <br>
               <br>
@@ -79,8 +85,11 @@
                   <div class="helpSectionContent">
                     Normalize the averages, similar to how input was normalized.
                     <br>
-                    <br>normalizedAveragePerceived = averagePerceived * normalizationFactor
-                    <br>normalizationFactor = 100 * (number of students with averagePerceived values)/(sum of averagePerceived)
+                    <br>
+                    <code>
+                      normalizedAveragePerceived = averagePerceived * normalizationFactor
+                      <br>normalizationFactor = 100 * (number of students with averagePerceived values)/(sum of averagePerceived)
+                    </code>
                     <br>
                     <br>This is the relative work distribution among team members based on unbiased opinions of team members.
                     <br>
@@ -91,7 +100,9 @@
                   <span class="text-bold">Calculate normalizedPeerContributionRatio</span>
                   <div class="helpSectionContent">
                     Since we normalized the averages (in previous step), we also normalize the value that were averaged in the first place. This is such that average and averaged tallies with each other.
-                    <br> normalizedPeerContributionRatio = peerContributionRatio * normalizationFactor
+                    <br>
+                    <br>
+                    <code>normalizedPeerContributionRatio = peerContributionRatio * normalizationFactor</code>
                     <br>
                     <br>
                   </div>
@@ -107,9 +118,13 @@
               with the team’s opinion. In the example used above, we should use 330/300 as the denormalizing factor for that student.
               The result could be something like this:
               <br>
-              <br>student’s opinion: 90 [self], 110,130, N/A (total = 330)
-              <br>team’s opinion : 95, 105,125, 115 (total = 440)
               <br>
+              <pre>
+                <code>
+                  <br>student’s opinion: 90 [self], 110,130, N/A (total = 330)
+                  <br>team’s opinion : 95, 105,125, 115 (total = 440)
+                </code>
+              </pre>
               <br>Value transformation steps: input (i.e. claimed) → normalizedClaimed → peerContributionRatio → averagePerceived → normalizedAveragePerceived → denormalizedAveragePerceived → normalizedPeerContributionRatio
               <br>
               <br>
