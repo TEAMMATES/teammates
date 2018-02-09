@@ -1,9 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Const.EOL;
-
 import org.testng.annotations.Test;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
@@ -11,6 +8,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
+
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+import static teammates.common.util.Const.EOL;
 
 /**
  * SUT: {@link AccountAttributes}.
@@ -41,21 +42,21 @@ public class AccountAttributesTest extends BaseAttributesTest {
         account = createInvalidAccountAttributesObject();
         String expectedError =
                 getPopulatedEmptyStringErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
-                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
-                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
-                + getPopulatedErrorMessage(
-                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                        + getPopulatedErrorMessage(
+                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                        + getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                        FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                        + getPopulatedErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
 
@@ -65,6 +66,71 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testGetEntityTypeAsString() {
         AccountAttributes account = createValidAccountAttributesObject();
         assertEquals("Account", account.getEntityTypeAsString());
+    }
+
+    @Test
+    public void shouldCreateDeepCopy() {
+        AccountAttributes account = createInvalidAccountAttributesObject();
+        account.isInstructor = true;
+
+        String profileShortName = "John";
+        String profilePersonalEmail = "person@email.com";
+        String profileInstitute = "profile institute test profile 23";
+        String profileNationality = "nationality g35";
+        String profileGender = "male";
+        String profileMoreInfo = "some test info 221";
+        String profilePictureKey = "picture key 223";
+
+        account.studentProfile = StudentProfileAttributes.builder()
+                .withGoogleId(account.googleId)
+                .withShortName(profileShortName)
+                .withEmail(profilePersonalEmail)
+                .withInstitute(profileInstitute)
+                .withNationality(profileNationality)
+                .withGender(profileGender)
+                .withMoreInfo(profileMoreInfo)
+                .withPictureKey(profilePictureKey)
+                .build();
+
+        AccountAttributes copy = account.getCopy();
+
+        assertThat(account, not(copy));
+        assertTrue(account.isInstructor);
+        assertEquals(account.googleId, copy.googleId);
+        assertEquals(account.name, copy.name);
+        assertEquals(account.institute, copy.institute);
+        assertEquals(account.email, copy.email);
+
+        assertThat(account.studentProfile, not(copy.studentProfile));
+        assertEquals(copy.studentProfile.googleId, account.studentProfile.googleId);
+        assertEquals(copy.studentProfile.shortName, profileShortName);
+        assertEquals(copy.studentProfile.email, profilePersonalEmail);
+        assertEquals(copy.studentProfile.institute, profileInstitute);
+        assertEquals(copy.studentProfile.nationality, profileNationality);
+        assertEquals(copy.studentProfile.gender, profileGender);
+        assertEquals(copy.studentProfile.moreInfo, profileMoreInfo);
+        assertEquals(copy.studentProfile.pictureKey, profilePictureKey);
+    }
+
+    @Test
+    public void shouldCreateDeepCopy_ifAllFieldsNull() {
+        AccountAttributes account = new AccountAttributes();
+        account.googleId = null;
+        account.name = null;
+        account.institute = null;
+        account.email = null;
+        account.studentProfile = null;
+
+        AccountAttributes copy = account.getCopy();
+
+        assertThat(account, not(copy));
+        assertFalse(account.isInstructor);
+
+        assertNull(copy.studentProfile);
+        assertNull(account.googleId, copy.googleId);
+        assertNull(account.name, copy.name);
+        assertNull(account.institute, copy.institute);
+        assertNull(account.email, copy.email);
     }
 
     @Override
