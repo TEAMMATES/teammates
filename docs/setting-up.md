@@ -16,7 +16,7 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
    1. (Optional but recommended) Install Sourcetree or other similar Git client.
 1. Install JDK 1.8.
 1. Install Python 2.7.
-1. Install Node.js (minimum version 4.x).
+1. Install Node.js (minimum version 8.x).
 
 ## Step 2: Obtain your own repository copy
 
