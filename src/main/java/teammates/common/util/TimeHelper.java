@@ -168,17 +168,25 @@ public final class TimeHelper {
 
     /**
      * Converts the {@code localDate} from {@code localTimeZone}) to UTC through shifting by the offset.
-     *
-     * @deprecated Method should be removed once all time data is migrated to UTC.
+     * Does not shift if {@code localDate} is a special representation.
      */
-    @Deprecated
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
         if (localDate == null) {
             return null;
         }
+        if (isSpecialTime(localDate)) {
+            return localDate;
+        }
         Calendar localCal = dateToCalendar(localDate);
         localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
         return localCal.getTime();
+    }
+
+    /**
+     * Inverse of {@link #convertLocalDateToUtc}.
+     */
+    public static Date convertUtcToLocalDate(Date utcDate, double timeZone) {
+        return convertLocalDateToUtc(utcDate, -timeZone);
     }
 
     /**

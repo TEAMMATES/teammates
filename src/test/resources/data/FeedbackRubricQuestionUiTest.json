@@ -89,10 +89,10 @@
         "value": "Instructions for first session"
       },
       "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2026-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 9:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 9:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -112,10 +112,10 @@
         "value": "Instructions for second session"
       },
       "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2026-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 9:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 9:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -135,10 +135,10 @@
         "value": "Instructions for third session"
       },
       "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2026-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 9:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 9:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -158,10 +158,10 @@
         "value": "Instructions for closed session"
       },
       "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2012-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2012-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 9:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 9:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -181,10 +181,10 @@
         "value": "Instructions for fourth session"
       },
       "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2026-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 9:59 PM UTC",
+      "resultsVisibleFromTime": "2012-05-01 9:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -384,11 +384,10 @@
         "RECEIVER"
       ]
     }
-
   },
   "feedbackResponses": {
     "feedbackResponseForFourthSessionQn1.1": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "RUBRIC",
@@ -401,7 +400,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn1.2": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "RUBRIC",
@@ -414,7 +413,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn1.3": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "RUBRIC",
@@ -427,7 +426,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn2.11": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "RUBRIC",
@@ -440,7 +439,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn2.12": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "RUBRIC",
@@ -453,7 +452,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn2.21": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "RUBRIC",
@@ -466,7 +465,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn2.22": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "RUBRIC",
@@ -479,7 +478,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn2.31": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "RUBRIC",
@@ -492,7 +491,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn3.1": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RUBRIC",
@@ -505,7 +504,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn3.2": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RUBRIC",
@@ -518,7 +517,7 @@
       "recipientSection": "None"
     },
     "feedbackResponseForFourthSessionQn3.3": {
-     "feedbackSessionName": "Fourth Session",
+      "feedbackSessionName": "Fourth Session",
       "courseId": "FRubricQnUiT.CS2104",
       "feedbackQuestionId": "3",
       "feedbackQuestionType": "RUBRIC",

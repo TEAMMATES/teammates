@@ -83,8 +83,9 @@ public class InstructorStudentListAjaxPageDataTest extends BaseTestCase {
     private InstructorStudentListAjaxPageData initializeData() {
         photoUrl = "validPhotoUrl";
 
-        acct = new AccountAttributes();
-        acct.googleId = "valid.id"; // only googleId is needed
+        acct = AccountAttributes.builder()
+            .withGoogleId("valid.id") // only googleId is needed
+            .build();
 
         sampleStudent = StudentAttributes
                 .builder("valid course", "1+1@email.com", "<script>alert(\"Valid name\");</script>")
