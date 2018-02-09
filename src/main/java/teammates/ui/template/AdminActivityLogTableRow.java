@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -111,10 +112,9 @@ public class AdminActivityLogTableRow {
     }
 
     public String getDisplayedLogTime() {
-        Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone(Const.DEFAULT_TIMEZONE));
-        appCal.setTimeInMillis(activityLog.getLogTime());
-        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        return TimeHelper.calendarToString(appCal);
+        Instant logInstant = Instant.ofEpochMilli(activityLog.getLogTime());
+        return TimeHelper.formatActivityLogTime(logInstant,
+                TimeHelper.convertToZoneId(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE));
     }
 
     public String getDisplayedRole() {

@@ -323,35 +323,35 @@ public final class TimeHelper {
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
+    @Deprecated
     public static String formatDateTimeForInstructorCoursesPage(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
-        sdf = new SimpleDateFormat("d MMM yyyy");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(date);
+        return formatDateTimeForInstructorCoursesPage(convertDateToLocalDateTime(date));
+    }
+
+    /**
+     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
+     */
+    public static String formatDateTimeForInstructorCoursesPage(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "d MMM yyyy");
     }
 
     /**
      * Formats {@code dateInUtc} according to the ISO8601 format.
      */
+    @Deprecated
     public static String formatDateToIso8601Utc(Date dateInUtc) {
-        if (dateInUtc == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(dateInUtc);
+        return formatDateToIso8601Utc(convertDateToInstant(dateInUtc));
     }
 
-    public static String calendarToString(Calendar c) {
-        if (c == null) {
-            return "";
-        }
-        return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS").format(c.getTime());
+    /**
+     * Formats {@code instant} according to the ISO8601 format.
+     */
+    public static String formatDateToIso8601Utc(Instant instant) {
+        return formatInstant(instant, ZoneId.of("UTC"), Const.TIME_FORMAT_ISO_8601_UTC);
+    }
+
+    public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
+        return formatInstant(instant, adminTimeZone, "MM/dd/yyyy HH:mm:ss SSS");
     }
 
     /**
