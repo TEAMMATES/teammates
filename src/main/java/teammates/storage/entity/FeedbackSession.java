@@ -103,20 +103,20 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTimeUtc, Date endTimeUtc,
-            Date sessionVisibleFromTimeUtc, Date resultsVisibleFromTimeUtc, double timeZone, int gracePeriod,
+            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
+            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTimeUtc, endTimeUtc,
-             sessionVisibleFromTimeUtc, resultsVisibleFromTimeUtc, timeZone, gracePeriod, feedbackSessionType,
+        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
              sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTimeUtc, Date endTimeUtc,
-            Date sessionVisibleFromTimeUtc, Date resultsVisibleFromTimeUtc, double timeZone, int gracePeriod,
+            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
+            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -126,10 +126,10 @@ public class FeedbackSession extends BaseEntity {
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
         this.createdTime = createdTime;
-        this.startTime = startTimeUtc;
-        this.endTime = endTimeUtc;
-        this.sessionVisibleFromTime = sessionVisibleFromTimeUtc;
-        this.resultsVisibleFromTime = resultsVisibleFromTimeUtc;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.sessionVisibleFromTime = sessionVisibleFromTime;
+        this.resultsVisibleFromTime = resultsVisibleFromTime;
         this.timeZone = Const.INT_UNINITIALIZED;
         this.timeZoneDouble = timeZone;
         this.gracePeriod = gracePeriod;
@@ -200,36 +200,36 @@ public class FeedbackSession extends BaseEntity {
         this.createdTime = createdTime;
     }
 
-    public Date getStartTimeUtc() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTimeUtc(Date startTimeUtc) {
-        this.startTime = startTimeUtc;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndTimeUtc() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTimeUtc(Date endTimeUtc) {
-        this.endTime = endTimeUtc;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public Date getSessionVisibleFromTimeUtc() {
+    public Date getSessionVisibleFromTime() {
         return sessionVisibleFromTime;
     }
 
-    public void setSessionVisibleFromTimeUtc(Date sessionVisibleFromTimeUtc) {
-        this.sessionVisibleFromTime = sessionVisibleFromTimeUtc;
+    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
+        this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
-    public Date getResultsVisibleFromTimeUtc() {
+    public Date getResultsVisibleFromTime() {
         return resultsVisibleFromTime;
     }
 
-    public void setResultsVisibleFromTimeUtc(Date resultsVisibleFromTimeUtc) {
-        this.resultsVisibleFromTime = resultsVisibleFromTimeUtc;
+    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
+        this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
     /** This method automatically converts the legacy timeZone field to
@@ -367,9 +367,9 @@ public class FeedbackSession extends BaseEntity {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName
                 + ", courseId=" + courseId + ", creatorId=" + creatorEmail
                 + ", instructions=" + instructions + ", createdTime="
-                + createdTime + ", startTimeUtc=" + startTime + ", endTimeUtc="
-                + endTime + ", sessionVisibleFromTimeUtc="
-                + sessionVisibleFromTime + ", resultsVisibleFromTimeUtc="
+                + createdTime + ", startTime=" + startTime + ", endTime="
+                + endTime + ", sessionVisibleFromTime="
+                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
                 + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail

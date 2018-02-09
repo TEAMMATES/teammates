@@ -40,12 +40,10 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
                     "Updated Feedback Session "
                     + "<span class=\"bold\">(" + feedbackSession.getFeedbackSessionName() + ")</span> for Course "
                     + "<span class=\"bold\">[" + feedbackSession.getCourseId() + "]</span> created.<br>"
-                    + "<span class=\"bold\">From:</span> " + feedbackSession.getStartTimeUtc()
-                    + "<span class=\"bold\"> to</span> " + feedbackSession.getEndTimeUtc()
-                    + "<br><span class=\"bold\">Session visible from:</span> "
-                    + feedbackSession.getSessionVisibleFromTimeUtc()
-                    + "<br><span class=\"bold\">Results visible from:</span> "
-                    + feedbackSession.getResultsVisibleFromTimeUtc()
+                    + "<span class=\"bold\">From:</span> " + feedbackSession.getStartTime()
+                    + "<span class=\"bold\"> to</span> " + feedbackSession.getEndTime()
+                    + "<br><span class=\"bold\">Session visible from:</span> " + feedbackSession.getSessionVisibleFromTime()
+                    + "<br><span class=\"bold\">Results visible from:</span> " + feedbackSession.getResultsVisibleFromTime()
                     + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.getInstructions();
             data.setStatusForAjax(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
             data.setHasError(false);

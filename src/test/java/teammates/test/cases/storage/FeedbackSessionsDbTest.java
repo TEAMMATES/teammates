@@ -87,7 +87,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("invalid params");
 
         try {
-            fsa.setStartTimeUtc(new Date());
+            fsa.setStartTime(new Date());
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -249,10 +249,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
         fsDb.deleteEntity(invalidFs);
         fsDb.createEntity(invalidFs);
-        Calendar calendar = TimeHelper.dateToCalendar(invalidFs.getEndTimeUtc());
+        Calendar calendar = TimeHelper.dateToCalendar(invalidFs.getEndTime());
         calendar.add(Calendar.MONTH, 1);
-        invalidFs.setStartTimeUtc(calendar.getTime());
-        invalidFs.setResultsVisibleFromTimeUtc(calendar.getTime());
+        invalidFs.setStartTime(calendar.getTime());
+        invalidFs.setResultsVisibleFromTime(calendar.getTime());
         try {
             fsDb.updateFeedbackSession(invalidFs);
             signalFailureToDetectException();

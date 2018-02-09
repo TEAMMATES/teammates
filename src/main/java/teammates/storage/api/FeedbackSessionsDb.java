@@ -85,9 +85,9 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
 
             boolean isStartTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getStartTimeUtc(), true, false);
+                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getStartTime(), true, false);
             boolean isEndTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getEndTimeUtc(), false, true);
+                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getEndTime(), false, true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
@@ -175,10 +175,10 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         fs.setInstructions(newAttributes.getInstructions());
-        fs.setStartTimeUtc(newAttributes.getStartTimeUtc());
-        fs.setEndTimeUtc(newAttributes.getEndTimeUtc());
-        fs.setSessionVisibleFromTimeUtc(newAttributes.getSessionVisibleFromTimeUtc());
-        fs.setResultsVisibleFromTimeUtc(newAttributes.getResultsVisibleFromTimeUtc());
+        fs.setStartTime(newAttributes.getStartTime());
+        fs.setEndTime(newAttributes.getEndTime());
+        fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
+        fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
         fs.setTimeZone(newAttributes.getTimeZone());
         fs.setGracePeriod(newAttributes.getGracePeriod());
         fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());

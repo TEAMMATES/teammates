@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.gson.annotations.SerializedName;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
@@ -27,14 +26,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     // Optional fields
     private Text instructions;
     private Date createdTime;
-    @SerializedName("startTime")
-    private Date startTimeUtc;
-    @SerializedName("endTime")
-    private Date endTimeUtc;
-    @SerializedName("sessionVisibleFromTime")
-    private Date sessionVisibleFromTimeUtc;
-    @SerializedName("resultsVisibleFromTime")
-    private Date resultsVisibleFromTimeUtc;
+    private Date startTime;
+    private Date endTime;
+    private Date sessionVisibleFromTime;
+    private Date resultsVisibleFromTime;
     private double timeZone;
     private int gracePeriod;
     private FeedbackSessionType feedbackSessionType;
@@ -62,10 +57,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return builder(fs.getFeedbackSessionName(), fs.getCourseId(), fs.getCreatorEmail())
                 .withInstructions(fs.getInstructions())
                 .withCreatedTime(fs.getCreatedTime())
-                .withStartTime(fs.getStartTimeUtc())
-                .withEndTime(fs.getEndTimeUtc())
-                .withSessionVisibleFromTime(fs.getSessionVisibleFromTimeUtc())
-                .withResultsVisibleFromTime(fs.getResultsVisibleFromTimeUtc())
+                .withStartTime(fs.getStartTime())
+                .withEndTime(fs.getEndTime())
+                .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
+                .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
                 .withTimeZone(fs.getTimeZone())
                 .withGracePeriod(fs.getGracePeriod())
                 .withFeedbackSessionType(fs.getFeedbackSessionType())
@@ -110,17 +105,17 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getStartTimeString() {
-        if (startTimeUtc == null) {
+        if (startTime == null) {
             return "-";
         }
-        return TimeHelper.formatDateTimeForSessions(startTimeUtc, timeZone);
+        return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
     public String getEndTimeString() {
-        if (endTimeUtc == null) {
+        if (endTime == null) {
             return "-";
         }
-        return TimeHelper.formatDateTimeForSessions(endTimeUtc, timeZone);
+        return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
     }
 
     public String getInstructionsString() {
@@ -134,7 +129,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     @Override
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
-                                   startTimeUtc, endTimeUtc, sessionVisibleFromTimeUtc, resultsVisibleFromTimeUtc,
+                                   startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                                    timeZone, gracePeriod, feedbackSessionType, sentOpenEmail,
                                    sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                                    isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
@@ -176,7 +171,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField(
-                "time for the session to become visible", sessionVisibleFromTimeUtc), errors);
+                "time for the session to become visible", sessionVisibleFromTime), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
@@ -198,31 +193,31 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return errors;
         }
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("submission opening time", startTimeUtc), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("submission closing time", endTimeUtc), errors);
+        addNonEmptyError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField(
-                "time for the responses to become visible", resultsVisibleFromTimeUtc), errors);
+                "time for the responses to become visible", resultsVisibleFromTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTimeUtc, endTimeUtc), errors);
+        addNonEmptyError(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
 
         addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                sessionVisibleFromTimeUtc, startTimeUtc), errors);
+                sessionVisibleFromTime, startTime), errors);
 
-        Date actualSessionVisibleFromTime = sessionVisibleFromTimeUtc;
+        Date actualSessionVisibleFromTime = sessionVisibleFromTime;
 
         if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            actualSessionVisibleFromTime = startTimeUtc;
+            actualSessionVisibleFromTime = startTime;
         }
 
         addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                actualSessionVisibleFromTime, resultsVisibleFromTimeUtc), errors);
+                actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         return errors;
     }
@@ -236,23 +231,23 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         Date now = new Date();
 
         long nowMillis = now.getTime();
-        long deadlineMillis = endTimeUtc.getTime();
+        long deadlineMillis = endTime.getTime();
         long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
 
-        return now.after(startTimeUtc) && differenceBetweenDeadlineAndNow < hours;
+        return now.after(startTime) && differenceBetweenDeadlineAndNow < hours;
     }
 
     public boolean isClosingWithinTimeLimit(int hours) {
         Date now = new Date();
 
         long nowMillis = now.getTime();
-        long deadlineMillis = endTimeUtc.getTime();
+        long deadlineMillis = endTime.getTime();
         long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
 
         // If now and start are almost similar, it means the feedback session
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
-        return now.after(startTimeUtc)
+        return now.after(startTime)
                && differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours;
     }
@@ -261,7 +256,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is closed within the past hour of calling this function.
      */
     public boolean isClosedWithinPastHour() {
-        Date date = new Date(endTimeUtc.getTime() + gracePeriod * 60000L);
+        Date date = new Date(endTime.getTime() + gracePeriod * 60000L);
         return TimeHelper.isWithinPastHourFromNow(date);
     }
 
@@ -269,12 +264,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
-        if (endTimeUtc == null) {
+        if (endTime == null) {
             return false;
         }
 
         Date now = new Date();
-        Date end = new Date(endTimeUtc.getTime() + gracePeriod * 60000L);
+        Date end = new Date(endTime.getTime() + gracePeriod * 60000L);
 
         return now.after(end);
     }
@@ -283,27 +278,27 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is currently open and accepting responses.
      */
     public boolean isOpened() {
-        if (startTimeUtc == null || endTimeUtc == null) {
+        if (startTime == null || endTime == null) {
             return false;
         }
 
         Date now = new Date();
 
-        return now.after(startTimeUtc) && now.before(endTimeUtc);
+        return now.after(startTime) && now.before(endTime);
     }
 
     /**
      * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
-        if (endTimeUtc == null) {
+        if (endTime == null) {
             return false;
         }
 
         Date now = new Date();
-        Date gracedEnd = new Date(endTimeUtc.getTime() + gracePeriod * 60000L);
+        Date gracedEnd = new Date(endTime.getTime() + gracePeriod * 60000L);
 
-        return now.after(endTimeUtc) && now.before(gracedEnd);
+        return now.after(endTime) && now.before(gracedEnd);
     }
 
     /**
@@ -311,13 +306,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
-        if (startTimeUtc == null) {
+        if (startTime == null) {
             return false;
         }
 
         Date now = new Date();
 
-        return now.before(startTimeUtc);
+        return now.before(startTime);
     }
 
     /**
@@ -325,10 +320,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *         Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date visibleTime = this.sessionVisibleFromTimeUtc;
+        Date visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            visibleTime = this.startTimeUtc;
+            visibleTime = this.startTime;
         } else if (visibleTime.equals(Const.TIME_REPRESENTS_NEVER)) {
             return false;
         }
@@ -343,7 +338,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public boolean isPublished() {
         Date now = new Date();
-        Date publishTime = this.resultsVisibleFromTimeUtc;
+        Date publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             return isVisible();
@@ -362,8 +357,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns {@code true} if the session has been set by the creator to be manually published.
      */
     public boolean isManuallyPublished() {
-        return resultsVisibleFromTimeUtc.equals(Const.TIME_REPRESENTS_LATER)
-               || resultsVisibleFromTimeUtc.equals(Const.TIME_REPRESENTS_NOW);
+        return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
+               || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
     }
 
     /**
@@ -371,7 +366,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *  {@code false} if not.
      */
     public boolean isPrivateSession() {
-        return Const.TIME_REPRESENTS_NEVER.equals(sessionVisibleFromTimeUtc)
+        return Const.TIME_REPRESENTS_NEVER.equals(sessionVisibleFromTime)
                || FeedbackSessionType.PRIVATE.equals(feedbackSessionType);
     }
 
@@ -389,10 +384,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return "FeedbackSessionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
                + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
-               + ", startTimeUtc=" + startTimeUtc
-               + ", endTimeUtc=" + endTimeUtc + ", sessionVisibleFromTimeUtc="
-               + sessionVisibleFromTimeUtc + ", resultsVisibleFromTimeUtc="
-               + resultsVisibleFromTimeUtc + ", timeZone=" + timeZone
+               + ", startTime=" + startTime
+               + ", endTime=" + endTime + ", sessionVisibleFromTime="
+               + sessionVisibleFromTime + ", resultsVisibleFromTime="
+               + resultsVisibleFromTime + ", timeZone=" + timeZone
                + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
                + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
@@ -410,8 +405,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
         sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.courseId)
                 .thenComparing(session -> session.createdTime)
-                .thenComparing(session -> session.endTimeUtc)
-                .thenComparing(session -> session.startTimeUtc)
+                .thenComparing(session -> session.endTime)
+                .thenComparing(session -> session.startTime)
                 .thenComparing(session -> session.feedbackSessionName));
     }
 
@@ -424,20 +419,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
         sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) ->
                 session.createdTime, Comparator.reverseOrder())
-                .thenComparing(session -> session.endTimeUtc, Comparator.nullsFirst(Comparator.reverseOrder()))
-                .thenComparing(session -> session.startTimeUtc, Comparator.reverseOrder())
+                .thenComparing(session -> session.endTime, Comparator.nullsFirst(Comparator.reverseOrder()))
+                .thenComparing(session -> session.startTime, Comparator.reverseOrder())
                 .thenComparing(session -> session.courseId)
                 .thenComparing(session -> session.feedbackSessionName));
     }
 
     @Override
     public Date getSessionStartTime() {
-        return this.startTimeUtc;
+        return this.startTime;
     }
 
     @Override
     public Date getSessionEndTime() {
-        return this.endTimeUtc;
+        return this.endTime;
     }
 
     @Override
@@ -477,52 +472,52 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.createdTime = createdTime;
     }
 
-    public Date getStartTimeUtc() {
-        return startTimeUtc;
+    public Date getStartTime() {
+        return startTime;
     }
 
     public Date getStartTimeLocal() {
-        return TimeHelper.convertUtcToLocalDate(startTimeUtc, timeZone);
+        return TimeHelper.convertUtcToLocalDate(startTime, timeZone);
     }
 
-    public void setStartTimeUtc(Date startTimeUtc) {
-        this.startTimeUtc = startTimeUtc;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndTimeUtc() {
-        return endTimeUtc;
+    public Date getEndTime() {
+        return endTime;
     }
 
     public Date getEndTimeLocal() {
-        return TimeHelper.convertUtcToLocalDate(endTimeUtc, timeZone);
+        return TimeHelper.convertUtcToLocalDate(endTime, timeZone);
     }
 
-    public void setEndTimeUtc(Date endTimeUtc) {
-        this.endTimeUtc = endTimeUtc;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public Date getSessionVisibleFromTimeUtc() {
-        return sessionVisibleFromTimeUtc;
+    public Date getSessionVisibleFromTime() {
+        return sessionVisibleFromTime;
     }
 
     public Date getSessionVisibleFromTimeLocal() {
-        return TimeHelper.convertUtcToLocalDate(sessionVisibleFromTimeUtc, timeZone);
+        return TimeHelper.convertUtcToLocalDate(sessionVisibleFromTime, timeZone);
     }
 
-    public void setSessionVisibleFromTimeUtc(Date sessionVisibleFromTimeUtc) {
-        this.sessionVisibleFromTimeUtc = sessionVisibleFromTimeUtc;
+    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
+        this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
-    public Date getResultsVisibleFromTimeUtc() {
-        return resultsVisibleFromTimeUtc;
+    public Date getResultsVisibleFromTime() {
+        return resultsVisibleFromTime;
     }
 
     public Date getResultsVisibleFromTimeLocal() {
-        return TimeHelper.convertUtcToLocalDate(resultsVisibleFromTimeUtc, timeZone);
+        return TimeHelper.convertUtcToLocalDate(resultsVisibleFromTime, timeZone);
     }
 
-    public void setResultsVisibleFromTimeUtc(Date resultsVisibleFromTimeUtc) {
-        this.resultsVisibleFromTimeUtc = resultsVisibleFromTimeUtc;
+    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
+        this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
     public double getTimeZone() {
@@ -622,7 +617,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getEndTimeInIso8601Format() {
-        return TimeHelper.formatDateToIso8601Utc(endTimeUtc);
+        return TimeHelper.formatDateToIso8601Utc(endTime);
     }
 
     /**
@@ -656,28 +651,28 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public Builder withStartTime(Date startTime) {
             if (startTime != null) {
-                feedbackSessionAttributes.setStartTimeUtc(startTime);
+                feedbackSessionAttributes.setStartTime(startTime);
             }
             return this;
         }
 
         public Builder withEndTime(Date endTime) {
             if (endTime != null) {
-                feedbackSessionAttributes.setEndTimeUtc(endTime);
+                feedbackSessionAttributes.setEndTime(endTime);
             }
             return this;
         }
 
         public Builder withSessionVisibleFromTime(Date sessionVisibleFromTime) {
             if (sessionVisibleFromTime != null) {
-                feedbackSessionAttributes.setSessionVisibleFromTimeUtc(sessionVisibleFromTime);
+                feedbackSessionAttributes.setSessionVisibleFromTime(sessionVisibleFromTime);
             }
             return this;
         }
 
         public Builder withResultsVisibleFromTime(Date resultsVisibleFromTime) {
             if (resultsVisibleFromTime != null) {
-                feedbackSessionAttributes.setResultsVisibleFromTimeUtc(resultsVisibleFromTime);
+                feedbackSessionAttributes.setResultsVisibleFromTime(resultsVisibleFromTime);
             }
             return this;
         }

@@ -78,10 +78,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getCreatorEmail(), copy.getCreatorEmail());
         assertEquals(original.getInstructions(), copy.getInstructions());
         assertEquals(original.getCreatedTime(), copy.getCreatedTime());
-        assertEquals(original.getStartTimeUtc(), copy.getStartTimeUtc());
-        assertEquals(original.getEndTimeUtc(), copy.getEndTimeUtc());
-        assertEquals(original.getSessionVisibleFromTimeUtc(), copy.getSessionVisibleFromTimeUtc());
-        assertEquals(original.getResultsVisibleFromTimeUtc(), copy.getResultsVisibleFromTimeUtc());
+        assertEquals(original.getStartTime(), copy.getStartTime());
+        assertEquals(original.getEndTime(), copy.getEndTime());
+        assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());
+        assertEquals(original.getResultsVisibleFromTime(), copy.getResultsVisibleFromTime());
         assertEquals(original.getTimeZone(), copy.getTimeZone());
         assertEquals(original.getGracePeriod(), copy.getGracePeriod());
         assertEquals(original.getFeedbackSessionType(), copy.getFeedbackSessionType());

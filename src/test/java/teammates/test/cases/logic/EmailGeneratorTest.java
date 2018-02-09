@@ -461,15 +461,15 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, double newTimeZone) {
         double oldTimeZone = session.getTimeZone();
-        Date localStart = TimeHelper.convertUtcToLocalDate(session.getStartTimeUtc(), oldTimeZone);
-        Date localEnd = TimeHelper.convertUtcToLocalDate(session.getEndTimeUtc(), oldTimeZone);
-        Date localSessionVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getSessionVisibleFromTimeUtc(), oldTimeZone);
-        Date localResultsVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getResultsVisibleFromTimeUtc(), oldTimeZone);
+        Date localStart = TimeHelper.convertUtcToLocalDate(session.getStartTime(), oldTimeZone);
+        Date localEnd = TimeHelper.convertUtcToLocalDate(session.getEndTime(), oldTimeZone);
+        Date localSessionVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getSessionVisibleFromTime(), oldTimeZone);
+        Date localResultsVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getResultsVisibleFromTime(), oldTimeZone);
         session.setTimeZone(newTimeZone);
-        session.setStartTimeUtc(TimeHelper.convertLocalDateToUtc(localStart, newTimeZone));
-        session.setEndTimeUtc(TimeHelper.convertLocalDateToUtc(localEnd, newTimeZone));
-        session.setSessionVisibleFromTimeUtc(TimeHelper.convertLocalDateToUtc(localSessionVisibleFrom, newTimeZone));
-        session.setResultsVisibleFromTimeUtc(TimeHelper.convertLocalDateToUtc(localResultsVisibleFrom, newTimeZone));
+        session.setStartTime(TimeHelper.convertLocalDateToUtc(localStart, newTimeZone));
+        session.setEndTime(TimeHelper.convertLocalDateToUtc(localEnd, newTimeZone));
+        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateToUtc(localSessionVisibleFrom, newTimeZone));
+        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateToUtc(localResultsVisibleFrom, newTimeZone));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

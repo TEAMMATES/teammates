@@ -143,7 +143,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
 
     private static void setResponseVisibleSettings(FeedbackSessionAttributes feedbackSession,
                                                    FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getResultsVisibleFromTimeUtc());
+        boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getResultsVisibleFromTime());
 
         additionalSettings.isResponseVisibleDateChecked = hasResultVisibleDate;
 
@@ -159,26 +159,26 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
 
         additionalSettings.isResponseVisibleImmediatelyChecked =
                                       Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(
-                                                                      feedbackSession.getResultsVisibleFromTimeUtc());
+                                                                      feedbackSession.getResultsVisibleFromTime());
 
         additionalSettings.isResponseVisiblePublishManuallyChecked =
-                                          Const.TIME_REPRESENTS_LATER.equals(feedbackSession.getResultsVisibleFromTimeUtc())
-                                       || Const.TIME_REPRESENTS_NOW.equals(feedbackSession.getResultsVisibleFromTimeUtc());
+                                          Const.TIME_REPRESENTS_LATER.equals(feedbackSession.getResultsVisibleFromTime())
+                                       || Const.TIME_REPRESENTS_NOW.equals(feedbackSession.getResultsVisibleFromTime());
 
         additionalSettings.isResponseVisibleNeverChecked = Const.TIME_REPRESENTS_NEVER.equals(
-                                                                   feedbackSession.getResultsVisibleFromTimeUtc());
+                                                                   feedbackSession.getResultsVisibleFromTime());
     }
 
     private static void setSessionVisibleSettings(FeedbackSessionAttributes feedbackSession,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getSessionVisibleFromTimeUtc());
+        boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getSessionVisibleFromTime());
 
         additionalSettings.isSessionVisibleAtOpenChecked =
                                         Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
-                                             feedbackSession.getSessionVisibleFromTimeUtc());
+                                             feedbackSession.getSessionVisibleFromTime());
         additionalSettings.isSessionVisiblePrivateChecked =
                                         Const.TIME_REPRESENTS_NEVER.equals(
-                                            feedbackSession.getSessionVisibleFromTimeUtc());
+                                            feedbackSession.getSessionVisibleFromTime());
 
         additionalSettings.isSessionVisibleDateButtonChecked = hasSessionVisibleDate;
         additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate

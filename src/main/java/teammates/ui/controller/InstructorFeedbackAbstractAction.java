@@ -56,8 +56,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         Date endTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
-        attributes.setStartTimeUtc(TimeHelper.convertLocalDateToUtc(startTimeLocal, attributes.getTimeZone()));
-        attributes.setEndTimeUtc(TimeHelper.convertLocalDateToUtc(endTimeLocal, attributes.getTimeZone()));
+        attributes.setStartTime(TimeHelper.convertLocalDateToUtc(startTimeLocal, attributes.getTimeZone()));
+        attributes.setEndTime(TimeHelper.convertLocalDateToUtc(endTimeLocal, attributes.getTimeZone()));
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
@@ -81,17 +81,17 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             Date publishTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
-            attributes.setResultsVisibleFromTimeUtc(
+            attributes.setResultsVisibleFromTime(
                     TimeHelper.convertLocalDateToUtc(publishTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-            attributes.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-            attributes.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_LATER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            attributes.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             break;
         default:
             log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
@@ -106,16 +106,16 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             Date visibleTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-            attributes.setSessionVisibleFromTimeUtc(
+            attributes.setSessionVisibleFromTime(
                     TimeHelper.convertLocalDateToUtc(visibleTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-            attributes.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            attributes.setSessionVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
+            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             // Overwrite if private
-            attributes.setResultsVisibleFromTimeUtc(Const.TIME_REPRESENTS_NEVER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:

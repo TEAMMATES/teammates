@@ -48,7 +48,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
         FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
 
-        session1InCourse1.setResultsVisibleFromTimeUtc(session1InCourse1.getStartTimeUtc());
+        session1InCourse1.setResultsVisibleFromTime(session1InCourse1.getStartTime());
         FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -193,7 +193,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData = (StudentFeedbackResultsPageData) pageResult.data;
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
-        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTimeUtc(new Date());
+        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(new Date());
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
@@ -201,14 +201,14 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
          * To solve that, verify that the time elapsed is less than one second (or else the test
          * fails after all) and if it does, change the value in the dataBundle to match.
          */
-        long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTimeUtc().getTime();
+        long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTime().getTime();
         long dataBundleResultsVisibleFromTime = typicalBundle.feedbackSessions.get("session1InCourse1")
-                                                                           .getResultsVisibleFromTimeUtc().getTime();
+                                                                           .getResultsVisibleFromTime().getTime();
         long toleranceTimeInMs = 1000;
         if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
             // change to the value that will never make the test fail
-            typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTimeUtc(
-                    pageData.getBundle().feedbackSession.getResultsVisibleFromTimeUtc());
+            typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
+                    pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
         }
 
         List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<>();

@@ -93,7 +93,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         Calendar endDate = TimeHelper.now(0);
         endDate.add(Calendar.MINUTE, -1);
         fs.setGracePeriod(10);
-        fs.setEndTimeUtc(endDate.getTime());
+        fs.setEndTime(endDate.getTime());
         BackDoor.editFeedbackSession(fs);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Grace Period Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageGracePeriod.html");

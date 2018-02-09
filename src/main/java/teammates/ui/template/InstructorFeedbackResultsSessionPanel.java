@@ -76,17 +76,17 @@ public class InstructorFeedbackResultsSessionPanel {
     }
 
     private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
-        if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            if (feedbackSession.getSessionVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+        if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
                 return TimeHelper.formatTime12H(feedbackSession.getStartTimeLocal());
-            } else if (feedbackSession.getSessionVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_NEVER)) {
+            } else if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
                 return "Never";
             } else {
                 return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTimeLocal());
             }
-        } else if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_LATER)) {
+        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_LATER)) {
             return "I want to manually publish the results.";
-        } else if (feedbackSession.getResultsVisibleFromTimeUtc().equals(Const.TIME_REPRESENTS_NEVER)) {
+        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "Never";
         } else {
             return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTimeLocal());
