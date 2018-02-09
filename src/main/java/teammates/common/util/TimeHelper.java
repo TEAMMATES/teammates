@@ -1,11 +1,12 @@
 package teammates.common.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -129,13 +130,7 @@ public final class TimeHelper {
         return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
     }
 
-    /**
-     * Convert a date string and time string of only the hour into a Date object.
-     * If the hour is 24, it is converted to 23:59. Returns null on error.
-     * @param inputDate         the date string in dd/MM/yyyy format
-     * @param inputTimeHours    the hour, 0-24
-     * @return                  a LocalDateTime at the specified date and hour
-     */
+    // having same argument types as the old method, so I have to change the name temporarily
     public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
@@ -150,7 +145,7 @@ public final class TimeHelper {
         }
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (DateTimeParseException e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -182,6 +177,10 @@ public final class TimeHelper {
         return convertToUserTimeZone(c, timeZone).getTime();
     }
 
+    // user time zone is just a view of an Instant/ZonedDateTime
+    // should be handled in formatting methods
+    // This method should be removed
+    @Deprecated
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
         Calendar newTime = (Calendar) time.clone();
         newTime.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
@@ -193,15 +192,16 @@ public final class TimeHelper {
      * Does not shift if {@code localDate} is a special representation.
      */
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
-        if (localDate == null) {
-            return null;
-        }
-        if (isSpecialTime(localDate)) {
-            return localDate;
-        }
-        Calendar localCal = dateToCalendar(localDate);
-        localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
-        return localCal.getTime();
+        return convertInstantToDate(
+                convertLocalDateTimeToInstant(convertDateToLocalDateTime(localDate),
+                        convertToZoneId(localTimeZone)));
+    }
+
+    /**
+     * Converts the {@code localDateTime} to {@code Instant} using the {@code timeZone}.
+     */
+    public static Instant convertLocalDateTimeToInstant(LocalDateTime localDateTime, ZoneId timeZone) {
+        return localDateTime == null ? null : localDateTime.atZone(timeZone).toInstant();
     }
 
     /**
@@ -334,12 +334,23 @@ public final class TimeHelper {
      * Converts the date string to a Date object.
      *
      * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     * @deprecated Use {@link TimeHelper#parseInstant(String)} instead
      */
+    @Deprecated
     public static Date convertToDate(String dateInStringFormat) {
+        return convertInstantToDate(parseInstant(dateInStringFormat));
+    }
+
+    /**
+     * Converts the datetime string to an Instant object.
+     *
+     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     */
+    public static Instant parseInstant(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
         try {
-            DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT);
-            return df.parse(dateInStringFormat);
-        } catch (ParseException e) {
+            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
+        } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
@@ -464,10 +475,23 @@ public final class TimeHelper {
 
     /**
      * Temporary method for transition from java.util.Date.
-     * @param localDateTime will be assumed to be in UTC
      */
     public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
         return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
+    }
+
+    /**
+     * Temporary method for transition from java.util.Date.
+     */
+    public static LocalDateTime convertDateToLocalDateTime(Date date) {
+        return date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
+    }
+
+    /**
+     * Temporary method for transition from java.util.Date.
+     */
+    public static Date convertInstantToDate(Instant instant) {
+        return instant == null ? null : Date.from(instant);
     }
 
     /**
