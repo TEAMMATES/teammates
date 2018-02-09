@@ -356,6 +356,8 @@ public final class TimeHelper {
         }
     }
 
+    // TODO: both Date and Calendar will become Instant so this should be removed totally
+    @Deprecated
     public static Calendar dateToCalendar(Date date) {
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         if (date == null) {
@@ -505,9 +507,9 @@ public final class TimeHelper {
         return timeInMilliseconds == null
              ? ""
              : String.format("%d:%d:%d",
-                             timeInMilliseconds / 60000,
-                             timeInMilliseconds / 1000,
-                             timeInMilliseconds % 1000);
+                timeInMilliseconds / 60000,
+                (timeInMilliseconds % 60000) / 1000,
+                timeInMilliseconds % 1000);
     }
 
     /**
