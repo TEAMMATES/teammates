@@ -90,7 +90,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFSubmitUiT.CS2104",
                                                                    "Grace Period Session");
 
-        Calendar endDate = TimeHelper.now(fs.getTimeZone());
+        Calendar endDate = TimeHelper.now(0);
         endDate.add(Calendar.MINUTE, -1);
         fs.setGracePeriod(10);
         fs.setEndTime(endDate.getTime());
