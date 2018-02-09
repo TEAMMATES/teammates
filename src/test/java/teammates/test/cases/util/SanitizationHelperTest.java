@@ -302,8 +302,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
-        List<String> emptyList = new ArrayList<>();
-        assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
+        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeListForCsv(new ArrayList<>()));
     }
 
     private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
