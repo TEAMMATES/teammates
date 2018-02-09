@@ -215,15 +215,26 @@ public final class TimeHelper {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
+    @Deprecated
     public static int convertToOptionValueInTimeDropDown(Date date) {
+        return convertToOptionValueInTimeDropDown(convertDateToLocalDateTime(date));
+    }
+
+    /**
+     * Formats a date in the corresponding option value in 'Time' dropdowns The
+     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
+     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
+     */
+    public static int convertToOptionValueInTimeDropDown(LocalDateTime localDateTime) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minutes = c.get(Calendar.MINUTE);
-        hour = hour == 0 ? 24 : hour;
-        hour = hour == 23 && minutes == 59 ? 24 : hour;
-        return hour;
+        int hour = localDateTime.getHour();
+        if (hour == 0) {
+            return 24;
+        } else if ((hour == 23) && (localDateTime.getMinute() == 59)) {
+            return 24;
+        } else {
+            return hour;
+        }
     }
 
     /**
