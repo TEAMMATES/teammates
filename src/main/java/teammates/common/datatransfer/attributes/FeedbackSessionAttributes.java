@@ -279,8 +279,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not
-     * or if the closing time is {@code null}.
+     * Returns {@code true} if it is after the closing time of this feedback session;
+     * {@code false} if not or if the closing time is {@code null}.
      */
     public boolean isClosed() {
         if (endTime == null) {
@@ -295,8 +295,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     /**
      * Returns true if the session is currently open and accepting responses,
-     * {@code false} if the start time is null as the session will never open,
-     * {@code true} if the end time is null as the session will never end.
+     * {@code false} if the start time or end time is null.
      */
     public boolean isOpened() {
         if (startTime == null || endTime == null) {
@@ -326,8 +325,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     /**
      * Returns {@code true} has not opened before and is waiting to open,
      * {@code false} if session has opened before.
-     * {@code true} if start time is null, as the session will never open
-     * and thus will always be in the waiting period.
      */
     public boolean isWaitingToOpen() {
         if (startTime == null) {
