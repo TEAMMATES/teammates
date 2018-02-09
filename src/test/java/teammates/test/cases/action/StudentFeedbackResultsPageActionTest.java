@@ -1,6 +1,7 @@
 package teammates.test.cases.action;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -12,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -193,8 +193,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData = (StudentFeedbackResultsPageData) pageResult.data;
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
-        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
-                TimeHelper.now(typicalBundle.feedbackSessions.get("session1InCourse1").getTimeZone()).getTime());
+        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(new Date());
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
