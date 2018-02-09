@@ -130,7 +130,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
             String expectedPublishedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.getFeedbackSessionName(), studentRow.getName());
-        assertEquals(TimeHelper.formatTime12H(session.getEndTime()), studentRow.getEndTime());
+        assertEquals(TimeHelper.formatTime12H(session.getEndTimeLocal()), studentRow.getEndTime());
         assertEquals(expectedSubmissionsTooltip, studentRow.getSubmissionsTooltip());
         assertEquals(expectedPublishedTooltip, studentRow.getPublishedTooltip());
         assertEquals(expectedSubmissionStatus, studentRow.getSubmissionStatus());
@@ -199,7 +199,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);
 
-        return new StudentHomePageData(new AccountAttributes(), dummySessionToken, courses, sessionSubmissionStatusMap);
+        return new StudentHomePageData(AccountAttributes.builder().build(), dummySessionToken,
+                courses, sessionSubmissionStatusMap);
     }
 
     private FeedbackSessionAttributes createFeedbackSession(String name,
