@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 
 /**
@@ -157,8 +158,10 @@ public class ActionFactory {
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Could not create the action for " + uri + ": "
-                                       + TeammatesException.toStringWithStackTrace(e));
+            Assumption.fail("Could not create the action for " + uri + ": "
+                            + TeammatesException.toStringWithStackTrace(e));
+            return null;
+
         }
 
     }

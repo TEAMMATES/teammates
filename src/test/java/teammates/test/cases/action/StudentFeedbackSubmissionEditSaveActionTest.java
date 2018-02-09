@@ -121,6 +121,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // delete respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("skipped question");
 
         submissionParams = new String[] {
@@ -188,6 +191,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                                    fr.feedbackSessionName),
                      email.getSubject());
         assertEquals(student1InCourse1.email, email.getRecipient());
+
+        // append respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
 
         ______TS("edit response, did not specify recipient");
 

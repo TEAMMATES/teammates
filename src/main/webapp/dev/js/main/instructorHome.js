@@ -51,7 +51,7 @@ function bindCoursePanels() {
  * Changes the state of the course panel (collapsed/expanded).
  */
 function toggleCourseVisibility(e) {
-    const $targetElement = $(e.currentTarget);
+    const $targetElement = $(e.target);
     if ($targetElement.is('a') || $targetElement.is('input') || $targetElement.hasClass('dropdown-toggle')) {
         return;
     }

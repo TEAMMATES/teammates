@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -90,20 +89,12 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void appendRespondent() {
-        try {
-            logic.addStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append student respondent");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), false, false);
     }
 
     @Override
     protected void removeRespondent() {
-        try {
-            logic.deleteStudentRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove student respondent");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), false, true);
     }
 
     @Override

@@ -156,6 +156,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                      email.getSubject());
         assertEquals(instructor1InCourse1.email, email.getRecipient());
 
+        // delete respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("Successful case: skipped question");
 
         submissionParams = new String[] {
@@ -205,6 +208,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+
+        // append respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
 
         ______TS("Successful case: edit response, did not specify recipient");
 
