@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -486,7 +485,7 @@ public final class TimeHelper {
      * Temporary method for transition from java.util.Date.
      */
     public static LocalDateTime convertDateToLocalDateTime(Date date) {
-        return date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
+        return date == null ? null : date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
     }
 
     /**
@@ -514,6 +513,7 @@ public final class TimeHelper {
 
     /**
      * Parse a `LocalDateTime` object from separated date, hour and minute strings.
+     *
      * <p>required parameter format:
      * date: dd/MM/yyyy  hour: H   min:m
      * Example: If date is 01/04/2014, hour is 23, min is 59.
