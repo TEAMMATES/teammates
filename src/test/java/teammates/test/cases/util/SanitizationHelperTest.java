@@ -156,19 +156,15 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private Set<String> generateSanitizedHtmlSet() {
-        Set<String> sanitizedHtml = new HashSet<>(Arrays.asList(
+        return new HashSet<>(Arrays.asList(
                 "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
         );
-
-        return sanitizedHtml;
     }
 
     private Set<String> generateUnsanitizedHtmlSet() {
-        Set<String> unsanitizedHtml = new HashSet<>(Arrays.asList(
+        return new HashSet<>(Arrays.asList(
                 "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
         );
-
-        return unsanitizedHtml;
     }
 
     @Test
