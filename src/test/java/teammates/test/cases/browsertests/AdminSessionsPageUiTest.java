@@ -64,8 +64,8 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isSessionDataDisplayCorrect() {
-        if (sessionsPage.isElementPresent(By.className("dataTable"))) {
-            int numSessionDataTables = browser.driver.findElements(By.className("dataTable")).size();
+        if (sessionsPage.isElementPresent(By.className("data-table"))) {
+            int numSessionDataTables = browser.driver.findElements(By.className("data-table")).size();
             for (int i = 0; i < numSessionDataTables; i++) {
                 if (!isSessionTableHeaderCorrect(i)) {
                     return false;

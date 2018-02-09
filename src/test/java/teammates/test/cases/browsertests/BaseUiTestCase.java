@@ -132,7 +132,8 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
     /**
      * Logs in a page as an instructor.
      */
-    protected <T extends AppPage> T loginInstructorToPage(String instructorId, AppUrl url, Class<T> typeOfPage) {
+    protected <T extends AppPage> T loginInstructorToPage(String instructorGoogleId, String password,
+            AppUrl url, Class<T> typeOfPage) {
         //logout
         logout();
 
@@ -141,7 +142,7 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
 
         //login based on the login page type
         LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
-        loginPage.loginAsInstructor(instructorId, TestProperties.TEST_INSTRUCTOR_PASSWORD, typeOfPage);
+        loginPage.loginAsInstructor(instructorGoogleId, password, typeOfPage);
 
         //After login, the browser will redirect to the original page requested
         return AppPage.getNewPageInstance(browser, typeOfPage);

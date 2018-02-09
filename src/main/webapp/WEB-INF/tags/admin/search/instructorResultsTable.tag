@@ -14,7 +14,7 @@
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped dataTable" id="search_table_instructor">
+    <table class="table table-striped data-table" id="search_table_instructor">
       <thead>
         <tr>
           <th>Course</th>

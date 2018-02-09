@@ -1,13 +1,11 @@
 package teammates.common.datatransfer.attributes;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -110,16 +108,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (startTime == null) {
             return "-";
         }
-        Date startTimeInUtc = TimeHelper.convertLocalDateToUtc(startTime, timeZone);
-        return TimeHelper.formatDateTimeForSessions(startTimeInUtc, timeZone);
+        return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
     public String getEndTimeString() {
         if (endTime == null) {
             return "-";
         }
-        Date endTimeInUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZone);
-        return TimeHelper.formatDateTimeForSessions(endTimeInUtc, timeZone);
+        return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
     }
 
     public String getInstructionsString() {
@@ -232,43 +228,26 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public boolean isClosedAfter(int hours) {
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        // Fix the time zone accordingly
-        now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
+        Date now = new Date();
 
-        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        start.setTime(startTime);
-
-        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        deadline.setTime(endTime);
-
-        long nowMillis = now.getTimeInMillis();
-        long deadlineMillis = deadline.getTimeInMillis();
+        long nowMillis = now.getTime();
+        long deadlineMillis = endTime.getTime();
         long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
 
-        return now.after(start) && differenceBetweenDeadlineAndNow < hours;
+        return now.after(startTime) && differenceBetweenDeadlineAndNow < hours;
     }
 
     public boolean isClosingWithinTimeLimit(int hours) {
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        // Fix the time zone accordingly
-        now.add(Calendar.MILLISECOND,
-                (int) (60 * 60 * 1000 * timeZone));
+        Date now = new Date();
 
-        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        start.setTime(startTime);
-
-        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        deadline.setTime(endTime);
-
-        long nowMillis = now.getTimeInMillis();
-        long deadlineMillis = deadline.getTimeInMillis();
+        long nowMillis = now.getTime();
+        long deadlineMillis = endTime.getTime();
         long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
 
         // If now and start are almost similar, it means the feedback session
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
-        return now.after(start)
+        return now.after(startTime)
                && differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours;
     }
@@ -277,8 +256,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is closed within the past hour of calling this function.
      */
     public boolean isClosedWithinPastHour() {
-        long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
-        Date date = new Date(endTime.getTime() + gracePeriod * 60000L - timeZoneOffset);
+        Date date = new Date(endTime.getTime() + gracePeriod * 60000L);
         return TimeHelper.isWithinPastHourFromNow(date);
     }
 
@@ -286,9 +264,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar end = TimeHelper.dateToCalendar(endTime);
-        end.add(Calendar.MINUTE, gracePeriod);
+        if (endTime == null) {
+            return false;
+        }
+
+        Date now = new Date();
+        Date end = new Date(endTime.getTime() + gracePeriod * 60000L);
 
         return now.after(end);
     }
@@ -297,23 +278,27 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is currently open and accepting responses.
      */
     public boolean isOpened() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar start = TimeHelper.dateToCalendar(startTime);
-        Calendar end = TimeHelper.dateToCalendar(endTime);
+        if (startTime == null || endTime == null) {
+            return false;
+        }
 
-        return now.after(start) && now.before(end);
+        Date now = new Date();
+
+        return now.after(startTime) && now.before(endTime);
     }
 
     /**
      * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar end = TimeHelper.dateToCalendar(endTime);
-        Calendar gracedEnd = TimeHelper.dateToCalendar(endTime);
-        gracedEnd.add(Calendar.MINUTE, gracePeriod);
+        if (endTime == null) {
+            return false;
+        }
 
-        return now.after(end) && now.before(gracedEnd);
+        Date now = new Date();
+        Date gracedEnd = new Date(endTime.getTime() + gracePeriod * 60000L);
+
+        return now.after(endTime) && now.before(gracedEnd);
     }
 
     /**
@@ -321,10 +306,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar start = TimeHelper.dateToCalendar(startTime);
+        if (startTime == null) {
+            return false;
+        }
 
-        return now.before(start);
+        Date now = new Date();
+
+        return now.before(startTime);
     }
 
     /**
@@ -340,7 +328,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return false;
         }
 
-        Date now = TimeHelper.now(timeZone).getTime();
+        Date now = new Date();
         return visibleTime.before(now);
     }
 
@@ -349,7 +337,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {
-        Date now = TimeHelper.now(timeZone).getTime();
+        Date now = new Date();
         Date publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
@@ -488,12 +476,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return startTime;
     }
 
+    public Date getStartTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(startTime, timeZone);
+    }
+
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public Date getEndTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(endTime, timeZone);
     }
 
     public void setEndTime(Date endTime) {
@@ -504,12 +500,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return sessionVisibleFromTime;
     }
 
+    public Date getSessionVisibleFromTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(sessionVisibleFromTime, timeZone);
+    }
+
     public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
         this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
     public Date getResultsVisibleFromTime() {
         return resultsVisibleFromTime;
+    }
+
+    public Date getResultsVisibleFromTimeLocal() {
+        return TimeHelper.convertUtcToLocalDate(resultsVisibleFromTime, timeZone);
     }
 
     public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
@@ -613,8 +617,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getEndTimeInIso8601Format() {
-        Date endTimeInUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZone);
-        return TimeHelper.formatDateToIso8601Utc(endTimeInUtc);
+        return TimeHelper.formatDateToIso8601Utc(endTime);
     }
 
     /**
