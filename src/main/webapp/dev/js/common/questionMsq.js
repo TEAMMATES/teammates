@@ -211,22 +211,22 @@ function changeMsqGenerateFor(questionNum) {
 
 function bindMsqEvents() {
     $(document).on('change', 'input[name="msqMaxSelectableChoices"]', (e) => {
-        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
         adjustMinMaxSelectableChoices(questionNum);
     });
 
     $(document).on('change', 'input[name="msqMinSelectableChoices"]', (e) => {
-        const questionNum = $(e.target).closest('form').attr('data-qnnumber');
+        const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
         adjustMinMaxSelectableChoices(questionNum);
     });
 
     $(document).on('change', 'input[name*="msqEnableMaxSelectableChoices"]', (e) => {
-        const questionNumber = $(e.target).closest('form').attr('data-qnnumber');
+        const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
         toggleMsqMaxSelectableChoices(questionNumber);
     });
 
     $(document).on('change', 'input[name*="msqEnableMinSelectableChoices"]', (e) => {
-        const questionNumber = $(e.target).closest('form').attr('data-qnnumber');
+        const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
         toggleMsqMinSelectableChoices(questionNumber);
     });
 }

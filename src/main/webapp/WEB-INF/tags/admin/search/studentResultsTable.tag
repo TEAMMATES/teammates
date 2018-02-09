@@ -14,7 +14,7 @@
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped dataTable" id="search_table">
+    <table class="table table-striped data-table" id="search_table">
       <thead>
         <tr>
           <th>Institute </th>

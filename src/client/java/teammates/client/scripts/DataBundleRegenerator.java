@@ -18,10 +18,19 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.FileHelper;
 
+/**
+ * Regenerates all JSON data files used for different purposes.
+ */
 public final class DataBundleRegenerator {
 
     private static final List<String> NON_DATA_BUNDLE_JSON = Arrays.asList(
-            "feedbackSessionTeamEvaluationTemplate.json"
+            "feedbackSessionTeamEvaluationTemplate.json",
+            "package.json"
+    );
+
+    private static final List<String> LOGS_JSON = Arrays.asList(
+            "typicalEmailLogMessage.json",
+            "typicalLogMessage.json"
     );
 
     private DataBundleRegenerator() {
@@ -30,11 +39,12 @@ public final class DataBundleRegenerator {
 
     private static void regenerateDataBundleJson(File folder) throws IOException {
         File[] listOfFiles = folder.listFiles();
-        if (listOfFiles == null) {
-            return;
-        }
         for (File file : listOfFiles) {
             if (!file.getName().endsWith(".json") || NON_DATA_BUNDLE_JSON.contains(file.getName())) {
+                continue;
+            }
+            if (LOGS_JSON.contains(file.getName())) {
+                regenerateGenericJson(file);
                 continue;
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());
@@ -42,7 +52,7 @@ public final class DataBundleRegenerator {
             db.feedbackResponses.forEach((key, feedbackResponseAttributes) -> fixResponse(feedbackResponseAttributes));
             db.feedbackQuestions.forEach((key, feedbackQuestionAttributes) -> fixQuestion(feedbackQuestionAttributes));
             String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
-            saveFile(file.getCanonicalPath(), regeneratedJsonString);
+            saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
         }
     }
 
@@ -96,13 +106,13 @@ public final class DataBundleRegenerator {
             fixQuestion(question);
         }
         String regeneratedJsonString = JsonUtils.toJson(template).replace("+0000", "UTC");
-        saveFile(file.getCanonicalPath(), regeneratedJsonString);
+        saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
     }
 
     private static void regenerateGenericJson(File file) throws IOException {
         String jsonString = FileHelper.readFile(file.getCanonicalPath());
         String regeneratedJsonString = JsonUtils.toJson(JsonUtils.parse(jsonString));
-        saveFile(file.getCanonicalPath(), regeneratedJsonString);
+        saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
     }
 
     private static void saveFile(String filePath, String content) throws IOException {
@@ -110,17 +120,20 @@ public final class DataBundleRegenerator {
         System.out.println(filePath + " regenerated!");
     }
 
-    private static void regenerateMapsJson() throws IOException {
-        File file = new File("./src/main/webapp/js/countryCoordinates.json");
-        regenerateGenericJson(file);
-        file = new File("./src/main/webapp/js/userMapData.json");
-        regenerateGenericJson(file);
+    private static void regenerateWebsiteDataJson() throws IOException {
+        File[] listOfFiles = new File("./src/main/webapp/data").listFiles();
+        for (File file : listOfFiles) {
+            if (!file.getName().endsWith(".json")) {
+                continue;
+            }
+            regenerateGenericJson(file);
+        }
     }
 
     public static void main(String[] args) throws IOException {
         regenerateAllDataBundleJson();
         regenerateSessionTemplateJson();
-        regenerateMapsJson();
+        regenerateWebsiteDataJson();
     }
 
 }

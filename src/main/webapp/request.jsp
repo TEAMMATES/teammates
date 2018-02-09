@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:staticPage>
   <c:set var="googleDocURL" value="https://docs.google.com/forms/d/e/1FAIpQLSfmiNsVnVANdB1-cOwkfn9l8Ts8eN-CtolLQwi93Nrug0sngw/viewform?embedded=true&formkey=dDNsQmU4QXVYTVRhMjA2dEJWYW82Umc6MQ"></c:set>
-  <h1 class="color_orange">
+  <h1 class="color-orange">
     Request for an Account
   </h1>
   <div id="contentHolder">

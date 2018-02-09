@@ -59,7 +59,7 @@ function submitFormAjax() {
 
 function attachEventToRemindStudentsButton() {
     $('#button_remind').on('click', (event) => {
-        const $clickedButton = $(event.target);
+        const $clickedButton = $(event.currentTarget);
         const messageText = `${'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request to '
                           + 'all yet-to-join students in '}${$clickedButton.data('courseId')} anyway?`;
@@ -76,7 +76,7 @@ function attachEventToSendInviteLink() {
     $('.course-student-remind-link').on('click', (event) => {
         event.preventDefault();
 
-        const $clickedLink = $(event.target);
+        const $clickedLink = $(event.currentTarget);
         const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
                           + 'invite to students at the opening time of each session. Send a join request anyway?';
         const okCallback = function okCallback() {
