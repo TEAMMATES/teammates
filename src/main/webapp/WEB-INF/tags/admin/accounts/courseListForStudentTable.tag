@@ -7,7 +7,7 @@
     <br>
   </div>
 
-  <table class="table table-striped dataTable">
+  <table class="table table-striped data-table">
     <thead>
       <tr>
         <th width="70%">Course</th>
