@@ -48,8 +48,10 @@ public class AdminSessionsPageAction extends Action {
             return result;
         }
 
+        Date rangeStartUtc = TimeHelper.convertLocalDateToUtc(rangeStart, zone);
+        Date rangeEndUtc = TimeHelper.convertLocalDateToUtc(rangeEnd, zone);
         List<FeedbackSessionAttributes> allOpenFeedbackSessionsList =
-                logic.getAllOpenFeedbackSessions(this.rangeStart, this.rangeEnd, this.zone);
+                logic.getAllOpenFeedbackSessions(rangeStartUtc, rangeEndUtc);
 
         result = createShowPageResultIfNoOngoingSession(allOpenFeedbackSessionsList);
         if (result != null) {
