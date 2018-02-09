@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -128,7 +129,13 @@ public final class TimeHelper {
         return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
     }
 
-    // having same argument types as the old method, so I have to change the name temporarily
+    /**
+     * Convert a date string and time string of only the hour into a Date object.
+     * If the hour is 24, it is converted to 23:59. Returns null on error.
+     * @param inputDate         the date string in dd/MM/yyyy format
+     * @param inputTimeHours    the hour, 0-24
+     * @return                  a LocalDateTime at the specified date and hour
+     */
     public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
@@ -143,7 +150,9 @@ public final class TimeHelper {
         }
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
+            log.warning("Failed to parse datetime string: \""
+                    + dateTimeString + "\" with format " + formatter);
             return null;
         }
     }
@@ -449,6 +458,7 @@ public final class TimeHelper {
 
     /**
      * Temporary method for transition from java.util.Date.
+     * @param localDateTime will be assumed to be in UTC
      */
     public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
         return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
