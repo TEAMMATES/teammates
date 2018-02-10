@@ -1036,7 +1036,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"]}"
+        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",\"Friendliness of teammates\"]}"
       },
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
@@ -1641,7 +1641,7 @@
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[1,2,3,4],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[1,2,3,4,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response2ForQ2RankSession": {
@@ -1652,7 +1652,7 @@
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[4,3,2,1],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[4,3,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response3ForQ2RankSession": {
@@ -1663,7 +1663,7 @@
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[2,-999,1,1],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[2,-999,1,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response4ForQ2RankSession": {
@@ -1674,7 +1674,7 @@
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[3,-999,2,1],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[3,-999,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response5ForQ2RankSession": {
@@ -1685,7 +1685,7 @@
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseMetaData": {
-        "value": "{\"answers\":[1,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[1,-999,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     }
   },
