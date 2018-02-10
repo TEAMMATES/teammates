@@ -6,6 +6,10 @@ body {
     padding: 60px 0 30px;
 }
 
+code {
+    color: black;
+}
+
 .edit-uncommon-settings-button:hover {
     cursor: pointer;
 }

@@ -23,7 +23,7 @@
       <div class="helpSectionContent">
         <ol type="1">
           <li>
-            <span class="text-bold">Calculate <code>normalizedClaimed</code> values</span>
+            <span class="text-bold">Calculate <code class="test">normalizedClaimed</code> values</span>
             <div class="helpSectionContent">
               This is required because the total of points entered might not sum up to <code>100 * (team size)</code>.
               <br>
@@ -32,10 +32,10 @@
               <br>
               <br>
               <div class="bs-example">
-                entered values: 90 [self], 110,130, N/A (total = 330)
-                <br>normalization factor: (100 * 3) / (90 + 110 + 130) = 300 / 330
-                <br>normalized: 82, 100, 118, N/A
-                <br>normalized total = 300 (i.e. 100 * number of inputs)
+                entered values: <code>90</code> [self], <code>110</code>, <code>130</code>, <code>N/A</code> (total = <code>330</code>)
+                <br>normalization factor: <code>(100 * 3) / (90 + 110 + 130) = 300 / 330</code>
+                <br>normalized: <code>82</code>, <code>100</code>, <code>118</code>, <code>N/A</code>
+                <br>normalized total = <code>300</code> (i.e. <code>100 * number of inputs</code>)
               </div>
               This answers the question (a) above. The student thinks he did 'Equal share - 18%' (as indicated by 82).
               <br>
@@ -49,15 +49,15 @@
               <br>
               <br>
               <div class="bs-example">
-                normalized input (from above): 82,100, 118, N/A
+                normalized input (from above): <code>82</code>,<code>100</code>, <code>118</code>, <code>N/A</code>
                 <br>Calculating unbiased values:
-                <br>&nbsp;82 → ignored.
-                <br>&nbsp;100 → 100 * 200 / (100 + 118) = 92
-                <br>&nbsp;118 → 118 * 200 / (100 + 118) = 108
-                <br>Unbiased values: [self (ignored)], 92, 108, N/A
-                <br>Unbiased values total = 200 (100 * number of ratings)
+                <br>&nbsp;<code>82</code> → ignored.
+                <br>&nbsp;<code>100</code> → <code>100 * 200 / (100 + 118) = 92</code>
+                <br>&nbsp;<code>118</code> → <code>118 * 200 / (100 + 118) = 108</code>
+                <br>Unbiased values: [self (ignored)], <code>92</code>, <code>108</code>, <code>N/A</code>
+                <br>Unbiased values total = <code>200 (100 * number of ratings)</code>
               </div>
-              This answers the question (b) above. In the example above, the student thinks his teammates contribution ratio is 92:108 and is unsure of the third teammate.
+              This answers the question (b) above. In the example above, the student thinks his teammates contribution ratio is <code>92:108</code> and is unsure of the third teammate.
               <br>
               <br>
             </div>
@@ -117,8 +117,8 @@
               <br>
               <br>
               <div class="bs-example">
-                student’s opinion: 90 [self], 110, 130, N/A (total = 330)
-                <br>team’s opinion : 95, 105, 125, 115 (total = 440)
+                student’s opinion: <code>90</code> [self], <code>110</code>, <code>130</code>, <code>N/A</code> (total = <code>330</code>)
+                <br>team’s opinion : <code>95</code>, <code>105</code>, <code>125</code>, <code>115</code> (total = <code>440</code>)
               </div>
               Value transformation steps: input (i.e. claimed) → <code>normalizedClaimed</code> →
               <code>peerContributionRatio</code> → <code>averagePerceived</code> →
