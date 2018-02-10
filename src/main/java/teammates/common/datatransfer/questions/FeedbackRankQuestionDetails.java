@@ -152,6 +152,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * After normalization, the overall rank of A, B and C will be 1, 1 and 3
      * @param recipientRanks is a map
      *                       with key being the recipient identifier and the value the list of ranks of the recipient
+     * @return a map of recipients/options with their corresponding overall rank after normalization
      */
     protected Map<String, Integer> generateNormalizedOverallRankMapping(Map<String, List<Integer>> recipientRanks) {
         TreeMap<Double, List<String>> recipientAverageRank = new TreeMap<>();
