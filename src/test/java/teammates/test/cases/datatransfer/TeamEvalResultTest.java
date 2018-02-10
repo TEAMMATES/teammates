@@ -348,8 +348,8 @@ public class TeamEvalResultTest extends BaseTestCase {
 
         try {
             TeamEvalResult.averageColumns(new double[][] { {NSU} });
-            signalFailureToDetectException();
-        } catch (RuntimeException e) {
+            signalFailureToDetectException("The Assertion error is not thrown as expected");
+        } catch (AssertionError e) {
             ignoreExpectedException();
         }
 
@@ -367,8 +367,8 @@ public class TeamEvalResultTest extends BaseTestCase {
 
         try {
             TeamEvalResult.sum(new double[] {NSU, 1, 2});
-            signalFailureToDetectException();
-        } catch (RuntimeException e) {
+            signalFailureToDetectException("The Assertion error is not thrown as expected");
+        } catch (AssertionError e) {
             ignoreExpectedException();
         }
     }

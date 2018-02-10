@@ -6,7 +6,7 @@ body {
     padding: 60px 0 30px;
 }
 
-.editUncommonSettingsButton:hover {
+.edit-uncommon-settings-button:hover {
     cursor: pointer;
 }
 
@@ -106,15 +106,15 @@ Apply to alert to override Bootstrap's default 3d alerts
     color: #E74C3C;
 }
 
-.color_neutral {
+.color-neutral {
     color: gray;
 }
 
-.color_orange {
+.color-orange {
     color: #E46D0B;
 }
 
-.color_blue {
+.color-blue {
     color: #4379D1;
 }
 
@@ -126,7 +126,7 @@ Apply to alert to override Bootstrap's default 3d alerts
     cursor: pointer;
 }
 
-.constSumOptionsLabel {
+.const-sum-options-label {
     max-width: 75%;
     padding-right: 15px;
 }
@@ -658,13 +658,13 @@ Prevents content overflow in navbar. */
 /////////////////////// Main Content ///////////////////////
 ///////////////////////////////////////////////////////// */
 
-.courseCount {
+.course-count {
     font-style: italic;
     margin: 0 auto;
     width: 900px;
 }
 
-.dataTable {
+.data-table {
     line-height: 1.5;
 }
 
@@ -830,32 +830,32 @@ Prevents content overflow in navbar. */
     margin-bottom: 0;
 }
 
-.moreInfo {
+.more-info {
     margin-top: 30px;
     padding-bottom: 30px;
 }
 
-.moreInfoPointTitle {
+.more-info-point-title {
     display: block;
     font-weight: bold;
     margin: 10px 0;
 }
 
-.moreInfoPointDetails {
+.more-info-point-details {
     margin-left: 50px;
 }
 
-.moreInfoColumnInfo,
-.moreInfoMassEditInfo {
+.more-info-column-info,
+.more-info-mass-edit-info {
     list-style: circle;
 }
 
-.moreInfoEmailDetails {
+.more-info-email-details {
     list-style: disc;
     margin-left: -20px;
 }
 
-#moreInfoEnrollWOSpreadSheetEg {
+#more-info-enroll-wo-spreadsheet-eg {
     border: thin solid grey;
     display: inline-block;
     padding: 20px 40px;
@@ -1003,25 +1003,25 @@ Prevents content overflow in navbar. */
     min-width: 130px;
 }
 
-.teamMembersDetailsCell {
+.team-members-details-cell {
     padding-left: 30px;
     vertical-align: middle;
 }
 
-.teamMembersPhotoCell {
+.team-members-photo-cell {
     padding-bottom: 5px;
 }
 
-.visibilityMessage > ul {
+.visibility-message > ul {
     margin-top: 5px;
     padding: 5px 25px;
 }
 
-.visibilityMessage > ul > li {
+.visibility-message > ul > li {
     cursor: default;
 }
 
-.visibilityMessage > ul > li > a {
+.visibility-message > ul > li > a {
     cursor: pointer;
 }
 
@@ -1151,12 +1151,6 @@ Default to alert color for visibility titles used within an alert context.
     position: absolute;
     right: 0;
     top: 0;
-}
-
-.questionType {
-    display: inline-block;
-    margin-right: 5px;
-    width: 90%;
 }
 
 .time-zone-info-box {
@@ -1374,7 +1368,7 @@ Default to alert color for visibility titles used within an alert context.
 /*
 Prevent Long URL From Breaking Out of Container
 */
-.emailLog-text {
+.email-log-text {
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;

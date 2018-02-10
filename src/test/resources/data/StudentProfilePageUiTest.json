@@ -1,10 +1,10 @@
 {
   "accounts": {
     "SHomeUiT.instr": {
-      "googleId": "SHomeUiT.instr",
+      "googleId": "${value.injected.in.testfile}",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "SHomeUiT.instr@gmail.tmt",
+      "email": "${value.injected.in.testfile}",
       "institute": "TEAMMATES Test Institute 1"
     },
     "SHomeUiT.helper": {
@@ -28,6 +28,23 @@
         "nationality": "Singaporean",
         "gender": "male",
         "moreInfo": "I am just another student :P",
+        "pictureKey": ""
+      }
+    },
+    "studentForHelperCourse": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Ash Ketchum",
+      "isInstructor": false,
+      "email": "${value.injected.in.testfile}",
+      "institute": "TEAMMATES Test Institute 7",
+      "studentProfile": {
+        "googleId": "${value.injected.in.testfile}",
+        "shortName": "Ash",
+        "email": "ash.ketchum@pokemon.com",
+        "institute": "TEAMMATES Test Institute 4",
+        "nationality": "Singaporean",
+        "gender": "male",
+        "moreInfo": "Gotta catch 'em all!",
         "pictureKey": ""
       }
     },
@@ -69,6 +86,11 @@
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     },
+    "SHomeUiT.CS2103": {
+      "id": "SHomeUiT.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "UTC"
+    },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01 11:58 PM UTC",
       "id": "SHomeUiT.sanitizationCourse",
@@ -78,17 +100,17 @@
   },
   "instructors": {
     "SHomeUiT.instr.CS2104": {
-      "googleId": "SHomeUiT.instr",
+      "googleId": "${value.injected.in.testfile}",
       "courseId": "SHomeUiT.CS2104",
       "name": "Teammates Test",
-      "email": "SHomeUiT.instr@gmail.tmt",
+      "email": "${value.injected.in.testfile}",
       "isDisplayedToStudents": false
     },
-    "SHomeUiT.helper.CS2104": {
-      "googleId": "SHomeUiT.helper",
-      "courseId": "SHomeUiT.CS2104",
+    "SHomeUiT.instr.CS2103": {
+      "googleId": "${value.injected.in.testfile}",
+      "courseId": "SHomeUiT.CS2103",
       "name": "Teammates Test Helper",
-      "email": "SHomeUiT.helper@gmail.tmt",
+      "email": "${value.injected.in.testfile}",
       "isDisplayedToStudents": false,
       "privileges": {
         "courseLevel": {
@@ -137,6 +159,14 @@
       "course": "SHomeUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
+      "team": "Team 1"
+    },
+    "studentForHelperCourse": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SHomeUiT.CS2103",
+      "name": "Ash Ketchum",
+      "comments": "This student's name is AK",
       "team": "Team 1"
     },
     "SHomeUiT.benny.c@SHomeUiT.CS2104": {
