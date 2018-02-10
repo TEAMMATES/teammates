@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
@@ -66,14 +65,15 @@ public class StudentHomePageActionTest extends BaseActionTest {
         // we keep it because the situation is rare and not worth extra coding.
 
         // Create a student account without courses
-        AccountAttributes studentWithoutCourses = new AccountAttributes();
-        studentWithoutCourses.googleId = "googleId.without.courses";
-        studentWithoutCourses.name = "Student Without Courses";
-        studentWithoutCourses.email = "googleId.without.courses@email.tmt";
-        studentWithoutCourses.institute = "TEAMMATES Test Institute 5";
-        studentWithoutCourses.isInstructor = false;
-        studentWithoutCourses.studentProfile = StudentProfileAttributes.builder().build();
-        studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
+        AccountAttributes studentWithoutCourses = AccountAttributes.builder()
+                .withGoogleId("googleId.without.courses")
+                .withName("Student Without Courses")
+                .withEmail("googleId.without.courses@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes("googleId.without.courses")
+                .build();
+
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
