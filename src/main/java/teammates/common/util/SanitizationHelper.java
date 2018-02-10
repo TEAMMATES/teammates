@@ -173,18 +173,6 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes a set of strings for inserting into HTML.
-     */
-    public static Set<String> sanitizeForHtml(Set<String> unsanitizedStringSet) {
-        if (unsanitizedStringSet == null) {
-            return null;
-        }
-        return unsanitizedStringSet.stream()
-                .map(s -> sanitizeForHtml(s))
-                .collect(Collectors.toCollection(HashSet::new));
-    }
-
-    /**
      * Recovers a html-sanitized string using {@link #sanitizeForHtml}
      * to original encoding for appropriate display in files such as csv file.<br>
      * It restores encoding for < > \ / ' &  <br>
