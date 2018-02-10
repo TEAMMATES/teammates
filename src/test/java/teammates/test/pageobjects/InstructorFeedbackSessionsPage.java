@@ -175,7 +175,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void clickCopyButton() {
-        click(copyButton);
+        scrollElementToCenterAndClick(copyButton);
     }
 
     public void clickCopySubmitButton() {

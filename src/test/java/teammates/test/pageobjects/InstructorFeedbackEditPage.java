@@ -653,8 +653,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickFsCopyButton() {
-        waitForElementNotCovered(fscopyButton);
-        click(fscopyButton);
+        fscopyButton.click();
     }
 
     /**
