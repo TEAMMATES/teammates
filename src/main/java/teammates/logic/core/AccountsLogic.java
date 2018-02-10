@@ -164,11 +164,14 @@ public final class AccountsLogic {
         String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
 
         if (account == null) {
-            createAccount(new AccountAttributes(googleId,
-                                                instructor.name,
-                                                true,
-                                                instructor.email,
-                                                instituteToSave));
+            createAccount(AccountAttributes.builder()
+                    .withGoogleId(googleId)
+                    .withName(instructor.name)
+                    .withEmail(instructor.email)
+                    .withInstitute(instituteToSave)
+                    .withIsInstructor(true)
+                    .withDefaultStudentProfileAttributes(googleId)
+                    .build());
         } else {
             makeAccountInstructor(googleId);
         }
@@ -331,17 +334,19 @@ public final class AccountsLogic {
 
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = student.googleId;
-        account.email = student.email;
-        account.name = student.name;
-        account.isInstructor = false;
-        account.institute = getCourseInstitute(student.course);
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = student.googleId;
-        spa.institute = account.institute;
-        account.studentProfile = spa;
+        AccountAttributes account = AccountAttributes.builder()
+                .withGoogleId(student.googleId)
+                .withEmail(student.email)
+                .withName(student.name)
+                .withIsInstructor(false)
+                .withInstitute(getCourseInstitute(student.course))
+                .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                        .withGoogleId(student.googleId)
+                        .withInstitute(getCourseInstitute(student.course))
+                        .build())
+                .build();
+
         accountsDb.createAccount(account);
     }
 
