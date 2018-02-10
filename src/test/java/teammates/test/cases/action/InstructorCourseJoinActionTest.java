@@ -93,9 +93,14 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAT.instr";
 
-        AccountAttributes newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        AccountAttributes newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         InstructorAttributes newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
