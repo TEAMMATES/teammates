@@ -35,7 +35,8 @@ public class FeedbackSessionPublishButton {
 
         } else {
 
-            boolean isReadyToPublish = !session.isWaitingToOpen() && !session.isPublished();
+            boolean isReadyToPublish = !session.isPrivateSession() &&
+                    !session.isWaitingToOpen() && !session.isPublished();
             this.tooltipText = isReadyToPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
                                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING;
             this.actionName = "Publish";
