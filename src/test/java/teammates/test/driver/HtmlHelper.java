@@ -513,7 +513,8 @@ public final class HtmlHelper {
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
-                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
+                      .replace("<!-- now.datetime.courses -->",
+                              TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
     }
 
     private static TimeZone getTimeZone(String content) {

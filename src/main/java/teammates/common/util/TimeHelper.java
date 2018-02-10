@@ -203,6 +203,13 @@ public final class TimeHelper {
     }
 
     /**
+     * Converts the {@code Instant} at the specified {@code timeZone} to {@code localDateTime}.
+     */
+    public static LocalDateTime convertInstantToLocalDateTime(Instant instant, ZoneId timeZoneId) {
+        return instant == null ? null : instant.atZone(timeZoneId).toLocalDateTime();
+    }
+
+    /**
      * Inverse of {@link #convertLocalDateToUtc}.
      */
     public static Date convertUtcToLocalDate(Date utcDate, double timeZone) {
@@ -334,15 +341,15 @@ public final class TimeHelper {
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
     @Deprecated
-    public static String formatDateTimeForInstructorCoursesPage(Date date) {
-        return formatDateTimeForInstructorCoursesPage(convertDateToLocalDateTime(date));
+    public static String formatDateTimeForInstructorCoursesPage(Date date, String timeZoneId) {
+        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), timeZoneId);
     }
 
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
-    public static String formatDateTimeForInstructorCoursesPage(LocalDateTime localDateTime) {
-        return formatLocalDateTime(localDateTime, "d MMM yyyy");
+    public static String formatDateTimeForInstructorCoursesPage(Instant instant, String timeZoneId) {
+        return formatInstant(instant, ZoneId.of(timeZoneId), "d MMM yyyy");
     }
 
     /**
