@@ -164,7 +164,7 @@ function tallyCheckboxes(questionNum) {
  * cannot select an invalid combination.
  */
 function formatCheckBoxes() {
-    $('.visibilityCheckboxDelegate').on('change', 'input.answerCheckbox', (e) => {
+    $('.visibility-checkbox-delegate').on('change', 'input.answerCheckbox', (e) => {
         const checkbox = $(e.target);
         if (!checkbox.is(':checked')) {
             const $editTabRows = checkbox.closest('tr');
@@ -172,21 +172,21 @@ function formatCheckBoxes() {
             $editTabRows.find('input.recipientCheckbox').prop('checked', false);
         }
     });
-    $('.visibilityCheckboxDelegate').on('change', 'input.giverCheckbox', (e) => {
+    $('.visibility-checkbox-delegate').on('change', 'input.giverCheckbox', (e) => {
         const checkbox = $(e.target);
         if (checkbox.is(':checked')) {
             const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true).trigger('change');
         }
     });
-    $('.visibilityCheckboxDelegate').on('change', 'input.recipientCheckbox', (e) => {
+    $('.visibility-checkbox-delegate').on('change', 'input.recipientCheckbox', (e) => {
         const checkbox = $(e.target);
         if (checkbox.is(':checked')) {
             const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true);
         }
     });
-    $('.visibilityCheckboxDelegate').on('change', 'input[name=receiverLeaderCheckbox]', (e) => {
+    $('.visibility-checkbox-delegate').on('change', 'input[name=receiverLeaderCheckbox]', (e) => {
         const checkbox = $(e.target);
         const $editTabRows = checkbox.closest('tr');
         $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', checkbox.prop('checked'));

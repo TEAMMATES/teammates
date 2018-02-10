@@ -880,7 +880,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
         final String visibilityOptionsDivXPath =
-                "//div[@id='questionTable-" + questionNo + "']//div[@class='visibilityCheckboxDelegate panel-body']"
+                "//div[@id='questionTable-" + questionNo + "']//div[@class='visibility-checkbox-delegate panel-body']"
                 + "//b[@class='visibility-title']/../..";
         return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
                 .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
