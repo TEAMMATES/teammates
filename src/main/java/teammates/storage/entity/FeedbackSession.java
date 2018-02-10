@@ -8,10 +8,12 @@ import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnLoad;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents an instructor-created Feedback Session.
@@ -54,6 +56,13 @@ public class FeedbackSession extends BaseEntity {
 
     @Unindex
     private Date resultsVisibleFromTime;
+
+    /**
+     * Defaults to false in legacy data where local dates are stored instead of UTC. <br>
+     * TODO Remove after all legacy data has been converted
+     */
+    @Unindex
+    private boolean isTimeStoredInUtc;
 
     /** This is legacy data that is no longer used. <br>
      * The value is set to Const.INT_UNINITIALIZED if it is already processed or
@@ -136,6 +145,21 @@ public class FeedbackSession extends BaseEntity {
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
         this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
+        this.isTimeStoredInUtc = true;
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void convertFieldsToUtcIfRequired() {
+        if (isTimeStoredInUtc) {
+            return;
+        }
+
+        startTime = TimeHelper.convertLocalDateToUtc(startTime, timeZoneDouble);
+        endTime = TimeHelper.convertLocalDateToUtc(endTime, timeZoneDouble);
+        sessionVisibleFromTime = TimeHelper.convertLocalDateToUtc(sessionVisibleFromTime, timeZoneDouble);
+        resultsVisibleFromTime = TimeHelper.convertLocalDateToUtc(resultsVisibleFromTime, timeZoneDouble);
+        isTimeStoredInUtc = true;
     }
 
     public String getFeedbackSessionName() {
