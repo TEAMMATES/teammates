@@ -84,15 +84,17 @@ public class Browser {
             profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.download.folderList", 2);
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
-            return new FirefoxDriver(profile);
 
+            // Disable Cache
+            profile.setPreference("browser.cache.disk.enable", false);
+            return new FirefoxDriver(profile);
         } else if ("chrome".equals(browser)) {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
 
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
 
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--allow-file-access-from-files");
+            options.addArguments("--allow-file-access-from-files", "--incognito");
             return new ChromeDriver(options);
         }
         System.out.println("Using " + browser + " is not supported!");
