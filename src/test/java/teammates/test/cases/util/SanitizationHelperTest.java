@@ -137,24 +137,16 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testDesanitizeFromHtmlSet() {
-        Set<String> sanitizedHtml = generateSanitizedHtmlSet();
-        Set<String> desanitizedHtml = generateUnsanitizedHtmlSet();
+        Set<String> sanitizedHtml = new HashSet<>(Arrays.asList(
+                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
+        );
+        Set<String> desanitizedHtml = new HashSet<>(Arrays.asList(
+                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
+        );
 
         assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
         assertEquals(new HashSet<>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
         assertNull(SanitizationHelper.desanitizeFromHtml((Set<String>) null));
-    }
-
-    private Set<String> generateSanitizedHtmlSet() {
-        return new HashSet<>(Arrays.asList(
-                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
-        );
-    }
-
-    private Set<String> generateUnsanitizedHtmlSet() {
-        return new HashSet<>(Arrays.asList(
-                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
-        );
     }
 
     @Test
