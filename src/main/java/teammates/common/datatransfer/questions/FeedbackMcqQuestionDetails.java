@@ -244,7 +244,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             break;
         case STUDENTS:
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-            String dummyEmail = "alice.b.tmms@gmail.tmt";
+            String dummyEmail = thisStudent.email;
             for (StudentAttributes student : studentList) {
                 if(dummyEmail.equals(student.email)) {
                     continue;
