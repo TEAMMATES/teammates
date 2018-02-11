@@ -130,7 +130,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
             String expectedPublishedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.getFeedbackSessionName(), studentRow.getName());
-        assertEquals(TimeHelper.formatTime12H(session.getEndTime()), studentRow.getEndTime());
+        assertEquals(TimeHelper.formatTime12H(session.getEndTimeLocal()), studentRow.getEndTime());
         assertEquals(expectedSubmissionsTooltip, studentRow.getSubmissionsTooltip());
         assertEquals(expectedPublishedTooltip, studentRow.getPublishedTooltip());
         assertEquals(expectedSubmissionStatus, studentRow.getSubmissionStatus());
