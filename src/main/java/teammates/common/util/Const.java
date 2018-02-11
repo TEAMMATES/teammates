@@ -12,7 +12,6 @@ import java.util.TimeZone;
 import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Const.Gender;
 
 /**
  * Stores constants that are widely used across classes.
@@ -619,7 +618,7 @@ public final class Const {
     public enum Gender {
         MALE, FEMALE, OTHER;
 
-        public static Gender checkgendervalidity(String gender) {
+        public static Gender gendercorrection(String gender) {
             if ("MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender)) {
                 return Gender.valueOf(gender.toUpperCase());
             } else {
