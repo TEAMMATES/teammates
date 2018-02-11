@@ -8,6 +8,7 @@
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 <%@ attribute name="fsEnableEdit" %>
 <%@ attribute name="courseName" %>
+<%@ attribute name="courseAttributes" type="java.util.List" %>
 
 <div class="well well-plain">
   <form class="form-group" method="post"
@@ -87,10 +88,21 @@
                   Course name
                 </label>
               </h5>
-              <div class="col-sm-10">
-                <h5 class="form-control-static font-weight-normal">
-                  ${courseName}
-                </h5>
+              <div class="col-sm-10 col-md-8">
+                <c:choose>
+                  <c:when test="${fsForm.courseIdEditable}">
+                    <c:forEach items="${courseAttributes}" var="attributes">
+                      <input class="course-name-data" type="hidden" value="[${attributes.id}][${attributes.name}]">
+                    </c:forEach>
+                    <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
+                    </h5>
+                  </c:when>
+                  <c:otherwise>
+                    <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
+                      ${courseName}
+                    </h5>
+                  </c:otherwise>
+                </c:choose>
               </div>
             </div>
           </div>
