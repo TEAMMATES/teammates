@@ -21,8 +21,8 @@
 <ti:instructorPage title="Edit Feedback Session" jsIncludes="${jsIncludes}">
 
   <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}"
-                                  courseName="${data.courseDetails.course.getName()}"
-                                  fsEnableEdit="${data.shouldLoadInEditMode}"/>
+      courseName="${fn:escapeXml(data.courseDetails.course.getName())}"
+      fsEnableEdit="${data.shouldLoadInEditMode}"/>
 
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
