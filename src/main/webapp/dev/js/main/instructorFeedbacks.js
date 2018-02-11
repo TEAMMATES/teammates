@@ -49,6 +49,7 @@ import {
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
+const courseList = {};
 
 const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
@@ -189,6 +190,31 @@ function bindEventsAfterAjax() {
     setupFsCopyModal();
 }
 
+function escapeXml(unsafe) {
+    return unsafe.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+}
+
+function initializeCourseName() {
+    $('.course-name-data').each((idx, obj) => {
+        const [value] = [obj.value];
+        const rawData = (value.match(/\[.+?]/g) || []).map(item => item.slice(1, -1));
+        const courseId = rawData[0];
+        const courseName = rawData[1];
+        courseList[courseId] = courseName;
+    });
+    const selectedId = $('#courseid').val();
+    $('#coursename').html(escapeXml(courseList[selectedId]));
+}
+
+function bindSelectField() {
+    $('#courseid').change(() => {
+        const selectedId = $('#courseid').val();
+        $('#coursename').html(escapeXml(courseList[selectedId]));
+    });
+}
+
 const ajaxRequest = function (e) {
     e.preventDefault();
 
@@ -247,6 +273,9 @@ function readyFeedbackPage() {
     bindRemindButtons();
     bindPublishButtons();
     bindUnpublishButtons();
+
+    initializeCourseName();
+    bindSelectField();
 
     updateUncommonSettingsInfo();
     showUncommonPanelsIfNotInDefaultValues();
