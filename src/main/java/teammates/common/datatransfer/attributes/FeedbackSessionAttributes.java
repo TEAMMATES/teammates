@@ -227,7 +227,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return getInvalidityInfo().isEmpty();
     }
 
+    /**
+     * Returns {@code true} if the session is closed after the given hours,
+     * {@code false} otherwise, or if the startTime or endTime is {@code null}.
+     */
     public boolean isClosedAfter(int hours) {
+        if (endTime == null || startTime == null) {
+            return false;
+        }
         Date now = new Date();
 
         long nowMillis = now.getTime();
@@ -237,7 +244,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.after(startTime) && differenceBetweenDeadlineAndNow < hours;
     }
 
+    /**
+     * Returns {@code true} if the session is closing within the given hours,
+     * {@code false} otherwise, or if startTime and/or endTime is {@code null}.
+     */
     public boolean isClosingWithinTimeLimit(int hours) {
+        if (startTime == null || endTime == null) {
+            return false;
+        }
         Date now = new Date();
 
         long nowMillis = now.getTime();
@@ -253,15 +267,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is closed within the past hour of calling this function.
+     * Returns true if the session is closed within the past hour of calling this function,
+     * {@code false} otherwise, or if end time is {@code null}.
      */
     public boolean isClosedWithinPastHour() {
+        if (endTime == null) {
+            return false;
+        }
         Date date = new Date(endTime.getTime() + gracePeriod * 60000L);
         return TimeHelper.isWithinPastHourFromNow(date);
     }
 
     /**
-     * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
+     * Returns {@code true} if it is after the closing time of this feedback session;
+     * {@code false} if not or if the closing time is {@code null}.
      */
     public boolean isClosed() {
         if (endTime == null) {
@@ -275,7 +294,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is currently open and accepting responses.
+     * Returns true if the session is currently open and accepting responses,
+     * {@code false} if the start time or end time is null.
      */
     public boolean isOpened() {
         if (startTime == null || endTime == null) {
@@ -288,7 +308,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is currently close but is still accept responses.
+     * Returns true if the session is currently close but is still accepting responses,
+     * {@code false} if end time is null, as the session will never end thus will never be in grace period.
      */
     public boolean isInGracePeriod() {
         if (endTime == null) {
