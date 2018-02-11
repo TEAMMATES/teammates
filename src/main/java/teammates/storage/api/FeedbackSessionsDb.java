@@ -32,14 +32,16 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
 
         Calendar startCal = Calendar.getInstance();
-        startCal.setTime(start);
+        startCal.setTime(startUtc);
         Calendar endCal = Calendar.getInstance();
-        endCal.setTime(end);
+        endCal.setTime(endUtc);
 
+        // To retrieve legacy data where local dates are stored instead of UTC
+        // TODO: remove after all legacy data has been converted
         Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
         Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
 
@@ -60,18 +62,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
+        // TODO: remove after all legacy data has been converted
         for (FeedbackSession feedbackSession : endTimeEntities) {
-            startCal.setTime(start);
-            endCal.setTime(end);
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
 
-            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.getTimeZone() - zone).getTime();
-            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.getTimeZone() - zone).getTime();
-
             boolean isStartTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getStartTime(), true, false);
+                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getStartTime(), true, false);
             boolean isEndTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.getEndTime(), false, true);
+                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getEndTime(), false, true);
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
