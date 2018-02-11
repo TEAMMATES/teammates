@@ -3,9 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.util.Const.Gender" %>
 <c:set var="none"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
-<c:set var="OTHER"><%= Gender.OTHER %></c:set>
 <div class="row">
   <div class="col-xs-12">
     <div class="row" id="studentProfile">
@@ -23,7 +21,18 @@
             <tr>
               <td class="text-bold">Short Name (Gender)</td>
               <td>${empty student.shortName ? none : fn:escapeXml(student.shortName)}
-                (<i> ${student.displayedGenderTypes} </i>)
+                (<i>
+                   <c:choose>
+                     <c:when test="${student.displayedGenderType} == Const.STUDENT_PROFILE_FIELD_NOT_FILLED">
+                       <span class="text-muted">
+                         ${student.displayedGenderType}
+                       </span>
+                      </c:when>
+                     <c:otherwise>
+                         ${student.displayedGenderType}
+                     </c:otherwise>
+                    </c:choose>
+                </i>)
               </td>
             </tr>
             <tr>
