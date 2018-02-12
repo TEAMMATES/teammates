@@ -170,19 +170,25 @@ public class StudentFeedbackResultsPageData extends PageData {
             String giverName = bundle.getGiverNameForResponse(response);
             String displayedGiverName;
 
-            /* Change display name to 'You' or 'Your team' if necessary */
+            /* Change display name to 'You' or 'Your team' or 'Anonymous student' if necessary */
             boolean isUserGiver = student.email.equals(response.giver);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
+            boolean isGiverAnonymous = giverName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT);
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
                 displayedGiverName = "Your Team (" + giverName + ")";
             } else if (isUserGiver) {
                 displayedGiverName = "You";
+            } else if (isGiverAnonymous) {
+                displayedGiverName = FeedbackSessionResultsBundle.getAnonNameWithoutHash(FeedbackParticipantType.STUDENTS);
             } else {
                 displayedGiverName = giverName;
             }
 
+            boolean isRecipientAnonymous = response.recipient.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT);
             boolean isUserRecipient = student.email.equals(response.recipient);
-            if (isUserGiver && !isUserRecipient) {
+            if (isRecipientAnonymous) {
+                recipientName = FeedbackSessionResultsBundle.getAnonNameWithoutHash(FeedbackParticipantType.STUDENTS);
+            } else if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
                 recipientName = bundle.getNameForEmail(response.recipient);

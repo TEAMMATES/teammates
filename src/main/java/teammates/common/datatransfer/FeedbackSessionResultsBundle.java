@@ -430,6 +430,17 @@ public class FeedbackSessionResultsBundle {
         return Long.toString(Math.abs((long) name.hashCode()));
     }
 
+    public static String getAnonEmailWithoutHash(FeedbackParticipantType type) {
+        String anonName = getAnonNameWithoutHash(type);
+        return anonName + "@@" + anonName + ".com";
+    }
+
+    public static String getAnonNameWithoutHash(FeedbackParticipantType type) {
+        String participantType = type.toSingularFormString();
+        return String.format(
+                Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " %s", participantType);
+    }
+
     private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
         if (participantIdentifier.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
