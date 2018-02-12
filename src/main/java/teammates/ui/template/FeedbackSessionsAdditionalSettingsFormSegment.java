@@ -148,14 +148,13 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isResponseVisibleDateChecked = hasResultVisibleDate;
 
         additionalSettings.responseVisibleDateValue = hasResultVisibleDate
-
                                                     ? TimeHelper.formatDateForSessionsForm(
                                                             feedbackSession.getResultsVisibleFromTime())
-
+                                                    : "";
         additionalSettings.responseVisibleTimeOptions =
                                         PageData.getTimeOptionsAsElementTags(
                                                   hasResultVisibleDate
-                                                ? feedbackSession.getResultsVisibleFromTimeLocal()
+                                                ? feedbackSession.getResultsVisibleFromTime()
                                                 : null);
         additionalSettings.isResponseVisibleDateDisabled = !hasResultVisibleDate;
 
@@ -186,12 +185,11 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate
                                                    ? TimeHelper.formatDateForSessionsForm(
                                                            feedbackSession.getSessionVisibleFromTime())
-
                                                    : "";
         additionalSettings.isSessionVisibleDateDisabled = !hasSessionVisibleDate;
         additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(
                                                             hasSessionVisibleDate
-                                                            ? feedbackSession.getSessionVisibleFromTimeLocal()
+                                                            ? feedbackSession.getSessionVisibleFromTime()
                                                             : null);
     }
 
