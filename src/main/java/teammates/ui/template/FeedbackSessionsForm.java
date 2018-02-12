@@ -80,10 +80,10 @@ public class FeedbackSessionsForm {
 
         fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
 
-        fsForm.fsStartDate = TimeHelper.formatDateForSessionForm(existingFs.getStartTime());
+        fsForm.fsStartDate = TimeHelper.formatDateForSessionsForm(existingFs.getStartTime());
         fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTime());
 
-        fsForm.fsEndDate = TimeHelper.formatDateForSessionForm(existingFs.getEndTime());
+        fsForm.fsEndDate = TimeHelper.formatDateForSessionsForm(existingFs.getEndTime());
         fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTime());
 
         fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriod());
@@ -131,15 +131,15 @@ public class FeedbackSessionsForm {
                                : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions().getValue());
 
         newFsForm.fsStartDate = feedbackSession == null
-                              ? TimeHelper.formatDateForSessionForm(TimeHelper.getNextHour())
-                              : TimeHelper.formatDateForSessionForm(feedbackSession.getStartTime());
+                              ? TimeHelper.formatDateForSessionsForm(TimeHelper.getNextHour())
+                              : TimeHelper.formatDateForSessionsForm(feedbackSession.getStartTime());
 
         Date startDate = feedbackSession == null ? null : feedbackSession.getStartTime();
         newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
 
         newFsForm.fsEndDate = feedbackSession == null
                             ? ""
-                            : TimeHelper.formatDateForSessionForm(feedbackSession.getEndTime());
+                            : TimeHelper.formatDateForSessionsForm(feedbackSession.getEndTime());
 
         Date endDate = feedbackSession == null ? null : feedbackSession.getEndTime();
         newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);

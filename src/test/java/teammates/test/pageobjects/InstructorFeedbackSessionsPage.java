@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -321,7 +320,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionForm(datetimeValue) + "');");
+            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionsForm(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
             int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
@@ -338,10 +337,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(new SimpleDateFormat("EE").format(newValue.getTime()) + ", "
-                                    + newValue.get(Calendar.DATE) + " "
-                                    + new SimpleDateFormat("MMM").format(newValue.getTime())
-                                    + ", " + newValue.get(Calendar.YEAR));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {
