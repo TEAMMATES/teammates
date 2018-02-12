@@ -116,6 +116,8 @@ public enum FeedbackParticipantType {
             return "instructor";
         case STUDENTS:
             // Fallthrough
+        case STUDENTS_EXCLUDING_SELF:
+            // Fallthrough
         case OWN_TEAM_MEMBERS:
             // Fallthrough
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:

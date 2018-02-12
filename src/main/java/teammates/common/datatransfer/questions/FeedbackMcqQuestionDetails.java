@@ -117,6 +117,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = generateOptionsFor;
         Assumption.assertTrue("Can only generate students, teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
+                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
                 || generateOptionsFor == FeedbackParticipantType.TEAMS
                 || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
@@ -244,11 +245,19 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             break;
         case STUDENTS:
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-            String dummyEmail = thisStudent.email;
             for (StudentAttributes student : studentList) {
-                if(dummyEmail.equals(student.email)) {
-                    continue;
+                optionList.add(student.name + " (" + student.team + ")");
+            }
 
+            optionList.sort(null);
+            break;
+
+        case STUDENTS_EXCLUDING_SELF:
+            List<StudentAttributes> studentListExcludingSelf = StudentsLogic.inst().getStudentsForCourse(courseId);
+            String thisStudentEmail = thisStudent.email;
+            for (StudentAttributes student : studentListExcludingSelf) {
+                if(thisStudentEmail.equals(student.email)) {
+                    continue;
                 }
 
                 optionList.add(student.name + " (" + student.team + ")");
