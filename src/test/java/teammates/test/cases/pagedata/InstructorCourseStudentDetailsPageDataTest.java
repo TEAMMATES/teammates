@@ -123,8 +123,8 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
-        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), dummySessionToken, inputStudent,
-                inputStudentProfile, hasSection);
+        return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().build(), dummySessionToken,
+                inputStudent, inputStudentProfile, hasSection);
     }
 
     private void createCommonData() {
