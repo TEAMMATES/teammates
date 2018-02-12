@@ -70,11 +70,11 @@ function formatDigit(num) {
 }
 
 /**
- * Format a date object into D, dd M, yy format (Tue, 23 Jan, 2018)
+ * Format a date object into ddd, DD MMM, YYYY format. (Sat, 05 May, 2012)
  * @param date
  * @returns {String}
  */
-function convertDateToDddMMMYYYY(date) {
+function convertDateTodddDDMMMYYYY(date) {
     return `${moment(date).format('ddd, DD MMM, YYYY')}`;
 }
 
@@ -97,7 +97,7 @@ function convertDateToHHMM(date) {
 function selectDefaultTimeOptions() {
     const now = new Date();
 
-    const currentDate = convertDateToDddMMMYYYY(now);
+    const currentDate = convertDateTodddDDMMMYYYY(now);
     const hours = convertDateToHHMM(now).substring(0, 2);
     const currentTime = parseInt(hours, 10) + 1;
     const timeZone = -now.getTimezoneOffset() / 60;
