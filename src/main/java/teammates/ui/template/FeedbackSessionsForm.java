@@ -143,7 +143,6 @@ public class FeedbackSessionsForm {
                             ? ""
                             : TimeHelper.formatDateForSessionsForm(feedbackSession.getEndTimeLocal());
 
-
         Date endDate = feedbackSession == null ? null : feedbackSession.getEndTimeLocal();
         newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
 
