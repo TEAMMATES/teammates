@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedback & instructorFeedbackEdit - feedback session form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <%@ tag import="teammates.common.util.Const" %>
@@ -92,7 +93,8 @@
                 <c:choose>
                   <c:when test="${fsForm.courseIdEditable}">
                     <c:forEach items="${courseAttributes}" var="attributes">
-                      <input class="course-name-data" type="hidden" value="[${attributes.id}][${attributes.name}]">
+                      <input class="course-name-data" id="${fn:escapeXml(attributes.id)}"
+                          type="hidden" value="${fn:escapeXml(attributes.name)}">
                     </c:forEach>
                     <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
                     </h5>

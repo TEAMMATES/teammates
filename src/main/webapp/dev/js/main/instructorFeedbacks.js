@@ -49,7 +49,6 @@ import {
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
-const courseList = {};
 
 const TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
@@ -198,20 +197,16 @@ function escapeXml(unsafe) {
 
 function initializeCourseName() {
     $('.course-name-data').each((idx, obj) => {
-        const [value] = [obj.value];
-        const rawData = (value.match(/\[.+?]/g) || []).map(item => item.slice(1, -1));
-        const courseId = rawData[0];
-        const courseName = rawData[1];
-        courseList[courseId] = courseName;
+        $('.course-name-data').data(obj.id, obj.value);
     });
     const selectedId = $('#courseid').val();
-    $('#coursename').html(escapeXml(courseList[selectedId]));
+    $('#coursename').html(escapeXml($('.course-name-data').data(selectedId)));
 }
 
 function bindSelectField() {
     $('#courseid').change(() => {
         const selectedId = $('#courseid').val();
-        $('#coursename').html(escapeXml(courseList[selectedId]));
+        $('#coursename').html(escapeXml($('.course-name-data').data(selectedId)));
     });
 }
 
