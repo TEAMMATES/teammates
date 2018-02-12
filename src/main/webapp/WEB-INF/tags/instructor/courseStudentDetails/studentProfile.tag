@@ -23,7 +23,7 @@
             <tr>
               <td class="text-bold">Short Name (Gender)</td>
               <td>${empty student.shortName ? none : fn:escapeXml(student.shortName)}
-                (<i>  ${${student.displayedGenderType} == Not Specified ? noneForGender : ${student.displayedGenderType}}</i>)
+                (<i>  ${student.displayedGenderType} == Not Specified ? noneForGender : ${student.displayedGenderType}</i>)
               </td>
             </tr>
             <tr>
