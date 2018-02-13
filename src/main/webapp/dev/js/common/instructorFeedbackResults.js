@@ -147,11 +147,34 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
 function expandOrCollapsePanels(expandCollapseButton, panels) {
     const STRING_EXPAND = 'Expand';
     const STRING_COLLAPSE = 'Collapse';
+    const expandCollapseStudentsButton = 'a[id^="collapse-panels-button-section-"]';
+    const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
     // need to define corresponding {@code targetPanels}.
-    const targetPanels = panels || $('div.panel-collapse');
 
     const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
+
+    if (!panels && !isButtonInExpandMode) {
+
+        if($(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)){
+            $(expandCollapseStudentsButton).trigger('click');
+            $(expandCollapseStudentsButton).trigger('mouseleave');
+        }
+        if($(expandCollapseTeamButton).html().trim().startsWith(STRING_EXPAND)){
+            $(expandCollapseTeamButton).trigger('click');
+            $(expandCollapseTeamButton).trigger('mouseleave');
+        }
+    }
+    if(expandCollapseButton === $(expandCollapseTeamButton)){
+        if($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
+            && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)){
+            $(expandCollapseStudentsButton).trigger('click');
+            $(expandCollapseStudentsButton).trigger('mouseleave');
+        }
+    }
+
+    const targetPanels = panels || $('div.panel-collapse');
+
     if (isButtonInExpandMode) {
         // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
