@@ -2,21 +2,46 @@
  * Contains constants to be used across the application.
  */
 
-// Status message type
-const StatusType = {
+//Frontend only constants
+const Const = {
+
+    ModalDialog: {
+
+        UNREGISTERED_STUDENT: {
+            header: 'Register for TEAMMATES',
+            text: 'You have to register using a google account in order to access this page. '
+                  + 'Would you like to proceed and register?',
+        },
+
+    },
+
+    StatusMessages: {
+
+        INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
+
+    },
+
+};
+
+//Shared constants between frontend and backend
+
+//Subset of Bootstrap contextual colors for use in status messages and components of modals
+const BootstrapContextualColors = {
+    //Mirrored colors from StatusMessageColor
     SUCCESS: 'success',
     INFO: 'info',
     WARNING: 'warning',
     DANGER: 'danger',
+    //Additional contextual colors that can be used in the components of modals
     PRIMARY: 'primary',
     isValidType(type) {
-        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.PRIMARY
-               || type === StatusType.WARNING || type === StatusType.DANGER;
+        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO || type === BootstrapContextualColors.PRIMARY
+               || type === BootstrapContextualColors.WARNING || type === BootstrapContextualColors.DANGER;
     },
 };
-StatusType.DEFAULT = StatusType.INFO;
+BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
 
-// Mirrored subset of Const#ParamNames.
+// Mirrored subset of Const#ParamNames
 const ParamsNames = {
     SESSION_TOKEN: 'token',
     
@@ -65,28 +90,8 @@ const ParamsNames = {
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
 };
 
-const Const = {
-
-    ModalDialog: {
-
-        UNREGISTERED_STUDENT: {
-            header: 'Register for TEAMMATES',
-            text: 'You have to register using a google account in order to access this page. '
-                  + 'Would you like to proceed and register?',
-        },
-
-    },
-
-    StatusMessages: {
-
-        INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
-
-    },
-
-};
-
 export {
     Const,
     ParamsNames,
-    StatusType,
+    BootstrapContextualColors,
 };
