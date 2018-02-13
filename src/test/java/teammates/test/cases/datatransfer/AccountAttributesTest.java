@@ -114,13 +114,15 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void shouldCreateDeepCopy_ifAllFieldsNull() {
-        AccountAttributes account = new AccountAttributes();
-        account.googleId = null;
-        account.name = null;
-        account.institute = null;
-        account.email = null;
-        account.studentProfile = null;
-
+        AccountAttributes account = AccountAttributes.builder()
+                .withGoogleId(null)
+                .withName(null)
+                .withEmail(null)
+                .withInstitute(null)
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(null)
+                .build();
+        
         AccountAttributes copy = account.getCopy();
 
         assertThat(account, not(copy));
