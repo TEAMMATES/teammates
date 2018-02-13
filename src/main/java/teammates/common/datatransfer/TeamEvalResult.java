@@ -95,7 +95,7 @@ public class TeamEvalResult {
 
     /**
      * Replaces all missing points (for various reasons such as 'not sure' with NSU and
-     * 'did not submit' with NA.
+     * 'did not submit' with NA).
      */
     private int[][] sanitizeInput(int[][] input) {
         int teamSize = input.length;
