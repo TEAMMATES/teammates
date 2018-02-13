@@ -4,7 +4,7 @@ import {
 
 import {
     ParamsNames,
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -375,7 +375,7 @@ function bindDeleteInstructorLink() {
         };
 
         showModalConfirmation('Confirm deleting instructor', messageText, okCallback, null,
-                null, null, StatusType.DANGER);
+                null, null, BootstrapContextualColors.DANGER);
     });
 }
 
@@ -392,7 +392,7 @@ function bindRemindInstructorLink() {
         };
 
         showModalConfirmation('Confirm re-sending invitation email', messageText, okCallback, null,
-                null, null, StatusType.INFO);
+                null, null, BootstrapContextualColors.INFO);
     });
 }
 

@@ -1,5 +1,5 @@
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from './const';
 
 import {
@@ -21,7 +21,7 @@ function populateStatusMessageDiv(message, status) {
     const $statusMessageDivContent = $('<div></div>');
 
     // Default the status type to info if any invalid status is passed in
-    const statusType = StatusType.isValidType(status) ? status : StatusType.INFO;
+    const statusType = BootstrapContextualColors.isValidType(status) ? status : BootstrapContextualColors.INFO;
 
     $statusMessageDivContent.addClass(`overflow-auto alert alert-${statusType} icon-${statusType} statusMessage`);
     $statusMessageDivContent.html(message);
