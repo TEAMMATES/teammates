@@ -30,7 +30,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public WebElement collapseExpandButton;
 
     @FindBy(id = "collapse-panels-button-team-0")
-    public WebElement instructorPanelCollapseStudentsButton;
+    public WebElement  instructorPanelCollapseStudentsButton;
 
     @FindBy(id = "collapse-panels-button-section-0")
     public WebElement sectionCollapseStudentsButton;
