@@ -9,7 +9,6 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
 
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static teammates.common.util.Const.EOL;
 
@@ -101,7 +100,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(account.institute, copy.institute);
         assertEquals(account.email, copy.email);
 
-        assertThat(account.studentProfile, not(copy.studentProfile));
         assertEquals(copy.studentProfile.googleId, account.studentProfile.googleId);
         assertEquals(copy.studentProfile.shortName, profileShortName);
         assertEquals(copy.studentProfile.email, profilePersonalEmail);
@@ -125,7 +123,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         
         AccountAttributes copy = account.getCopy();
 
-        assertThat(account, not(copy));
         assertFalse(account.isInstructor);
 
         assertNull(copy.studentProfile);
