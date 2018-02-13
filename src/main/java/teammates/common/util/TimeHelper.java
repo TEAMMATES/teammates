@@ -218,7 +218,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format D, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     * Formats a date in the format D, dd MMM, yyyy. (Example: Sat, 05 May, 2012)
      */
     public static String formatDateForSessionsForm(Date date) {
         if (date == null) {
