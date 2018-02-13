@@ -9,7 +9,6 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
 
-import static org.junit.Assert.assertThat;
 import static teammates.common.util.Const.EOL;
 
 /**
@@ -93,7 +92,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         AccountAttributes copy = account.getCopy();
 
-        assertThat(account, not(copy));
         assertTrue(account.isInstructor);
         assertEquals(account.googleId, copy.googleId);
         assertEquals(account.name, copy.name);
