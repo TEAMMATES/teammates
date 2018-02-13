@@ -90,8 +90,14 @@ public class Logic {
             studentProfile = StudentProfileAttributes.builder().build();
             studentProfile.googleId = googleId;
         }
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,
-                                                               studentProfile);
+        AccountAttributes accountToAdd = AccountAttributes.builder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
     }
@@ -223,7 +229,14 @@ public class Logic {
         Assumption.assertNotNull(institute);
 
         if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = new AccountAttributes(googleId, name, true, email, institute);
+            AccountAttributes account = AccountAttributes.builder()
+                    .withGoogleId(googleId)
+                    .withName(name)
+                    .withEmail(email)
+                    .withInstitute(institute)
+                    .withIsInstructor(true)
+                    .withDefaultStudentProfileAttributes(googleId)
+                    .build();
             accountsLogic.createAccount(account);
         }
 
@@ -272,15 +285,6 @@ public class Logic {
         Assumption.assertNotNull(queryString);
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
-    }
-
-    /**
-     * Creates or updates document for the given Instructor.
-     *
-     * @see InstructorsLogic#putDocument(InstructorAttributes)
-     */
-    public void putDocument(InstructorAttributes instructor) {
-        instructorsLogic.putDocument(instructor);
     }
 
     /**
@@ -384,9 +388,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(startUtc, endUtc);
     }
 
     /**
@@ -471,10 +475,10 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
-    public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email)
+    public void verifyInputForAdminHomePage(String name, String institute, String email)
             throws InvalidParametersException {
 
-        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name,
+        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(name,
                                                                                               institute, email);
 
         if (!invalidityInfo.isEmpty()) {
@@ -1069,10 +1073,6 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         studentsLogic.validateTeams(studentList, courseId);
-    }
-
-    public void putDocument(StudentAttributes student) {
-        studentsLogic.putDocument(student);
     }
 
     /**
@@ -1860,11 +1860,6 @@ public class Logic {
         feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
     }
 
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String questionId) {
-        Assumption.assertNotNull(questionId);
-        return feedbackResponsesLogic.getFeedbackResponsesForQuestion(questionId);
-    }
-
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(userEmail);
         Assumption.assertNotNull(feedbackSessionName);
@@ -2019,16 +2014,6 @@ public class Logic {
     public void deleteFeedbackResponseCommentById(Long commentId) {
         Assumption.assertNotNull(commentId);
         feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
-    }
-
-    /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     * <br> Empty List if no admin email found
-     */
-    @SuppressWarnings("deprecation")
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return adminEmailsLogic.getAllAdminEmails();
     }
 
     /**

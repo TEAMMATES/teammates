@@ -43,12 +43,16 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 > You can [configure all the static analysis tools automatically](#intellij-automatic-setup) or follow the manual instructions.
 
 1. Go to `File → Settings → Other Settings → Checkstyle`.
+1. Set `CheckStyle version` as specified in the build script (`build.gradle`).
 1. Set `Scan Scope` to `Only Java sources (including tests)`.
 1. Click the `+` to add a new configuration file. Click the `Browse` button, navigate to the `static-analysis` folder, and choose the `teammates-checkstyle.xml` file.
 1. Fill in the `Description` field with the name of your project (e.g. teammates).
 1. Click `Next`. Set the value of `basedir` to the path of your project folder.
 1. Click `Finish`.
 1. Check the box next to the newly added rule to activate it.
+
+**NOTE**
+> Once CheckStyle is set-up, the version used will be kept in sync with the build script. See [Versions sync with tools used in build script](intellij-automated-setup-behavior.md#versions-sync-with-tools-used-in-build-script).
 
 ##### Suppressing Checkstyle warnings
 
@@ -249,8 +253,7 @@ To run Checkstyle analysis on all Java source files with the Eclipse Checkstyle 
 right click on the Project Folder in the `Project Explorer` window in Eclipse and select `Checkstyle > Check Code with Checkstyle`.
 The report can be found in the `Markers` window in Eclipse.
 
-To run PMD analysis using the Eclipse PMD plugin, right click on the project under `Project Explorer` and select `PMD > Check Code`.
-The report can be viewed in the PMD Perspective view under `Violations Overview`.
+PMD analysis is automated when Eclipse PMD plugin is installed successfully. All discovered problems can be viewed under the `Problems View` or the `Markers View`.
 
 ### IntelliJ IDEA
 

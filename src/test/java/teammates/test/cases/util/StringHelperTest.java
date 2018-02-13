@@ -1,5 +1,7 @@
 package teammates.test.cases.util;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link StringHelper}.
@@ -34,8 +35,8 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testGenerateStringOfLength() {
 
-        assertEquals(5, StringHelperExtension.generateStringOfLength(5).length());
-        assertEquals(0, StringHelperExtension.generateStringOfLength(0).length());
+        assertEquals("sssss", StringHelper.generateStringOfLength(5, 's'));
+        assertEquals("", StringHelper.generateStringOfLength(0, 's'));
     }
 
     @Test
@@ -46,6 +47,11 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
         assertTrue(StringHelper.isWhiteSpace(Const.EOL));
         assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testIsWhiteSpaceNull() {
+        StringHelper.isWhiteSpace(null);
     }
 
     @Test
@@ -415,6 +421,19 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testTrim() {
+        String[] input = {"  apple tea", "banana  ", "   carrot cake      ", "magnesium & hydroxide     -"};
+        String[] expected = {"apple tea", "banana", "carrot cake", "magnesium & hydroxide     -"};
+        assertArrayEquals(expected, StringHelper.trim(input));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testTrimWithNullString() {
+        String[] input = {"  apple tea", "banana  ", "   carrot cake      ", null};
+        StringHelper.trim(input);
+    }
+
+    @Test
     public void testRemoveNonAscii() {
         assertEquals("Hello world!", StringHelper.removeNonAscii("Hello world!"));
 
@@ -430,6 +449,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));
+        assertEquals("5||14||null", StringHelper.join("||", Arrays.asList(5, 14, null)));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

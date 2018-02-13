@@ -108,15 +108,15 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case (legacy data)");
-        AccountAttributes a = new AccountAttributes();
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId("test.account")
+                .withName("Test account Name")
+                .withIsInstructor(false)
+                .withEmail("fresh-account@email.com")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
-        a.googleId = "test.account";
-        a.name = "Test account Name";
-        a.isInstructor = false;
-        a.email = "fresh-account@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
         a.studentProfile = null;
-
         accountsDb.createAccount(a);
 
         ______TS("success case: duplicate account");
@@ -305,12 +305,14 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes getNewAccountAttributes() {
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = "valid.googleId";
-        a.name = "Valid Fresh Account";
-        a.isInstructor = false;
-        a.email = "valid@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId("valid.googleId")
+                .withName("Valid Fresh Account")
+                .withIsInstructor(false)
+                .withEmail("valid@email.com")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .build();
+
         a.studentProfile = StudentProfileAttributes.builder().build();
         a.studentProfile.googleId = a.googleId;
         a.studentProfile.institute = "TEAMMATES Test Institute 1";

@@ -120,9 +120,14 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT.instr";
 
-        AccountAttributes newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        AccountAttributes newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         InstructorAttributes newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -163,9 +168,14 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT2.instr";
 
-        newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
