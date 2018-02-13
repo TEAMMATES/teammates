@@ -16,11 +16,14 @@ const StatusType = {
 };
 StatusType.DEFAULT = StatusType.INFO;
 
-// Sorted in a logical order, which is as per the order in Const.java 
+// Mirrored subset of Const#ParamNames.
 const ParamsNames = {
+    SESSION_TOKEN: 'token',
+    
     COURSE_ID: 'courseid',
     COURSE_NAME: 'coursename',
     COURSE_TIME_ZONE: 'coursetimezone',
+    
     FEEDBACK_SESSION_NAME: 'fsname',
     FEEDBACK_SESSION_STARTDATE: 'startdate',
     FEEDBACK_SESSION_STARTTIME: 'starttime',
@@ -31,6 +34,8 @@ const ParamsNames = {
     FEEDBACK_SESSION_PUBLISHTIME: 'publishtime',
     FEEDBACK_SESSION_SESSIONVISIBLEBUTTON: 'sessionVisibleFromButton',
     FEEDBACK_SESSION_RESULTSVISIBLEBUTTON: 'resultsVisibleFromButton',
+    FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
+    
     FEEDBACK_QUESTION_CONSTSUMOPTION: 'constSumOption',
     FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE: 'constSumOptionTable',
     FEEDBACK_QUESTION_CONSTSUMPOINTS: 'constSumPoints',
@@ -58,8 +63,6 @@ const ParamsNames = {
     FEEDBACK_QUESTION_DESCRIPTION: 'questiondescription',
     FEEDBACK_QUESTION_DISCARDCHANGES: 'questiondiscardchanges',
     FEEDBACK_QUESTION_SAVECHANGESTEXT: 'questionsavechangestext',
-    FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
-    SESSION_TOKEN: 'token',
 };
 
 const Const = {
