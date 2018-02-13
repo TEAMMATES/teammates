@@ -155,19 +155,20 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
 
     if (!panels && !isButtonInExpandMode) {
-
-        if ($(expandCollapseStudentsButton).length && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)){
+        if ($(expandCollapseStudentsButton).length
+            && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
             $(expandCollapseStudentsButton).trigger('click');
             $(expandCollapseStudentsButton).trigger('mouseleave');
         }
-        if ($(expandCollapseTeamButton).length && $(expandCollapseTeamButton).html().trim().startsWith(STRING_EXPAND)){
+        if ($(expandCollapseTeamButton).length
+            && $(expandCollapseTeamButton).html().trim().startsWith(STRING_EXPAND)) {
             $(expandCollapseTeamButton).trigger('click');
             $(expandCollapseTeamButton).trigger('mouseleave');
         }
     }
-    if($(expandCollapseStudentsButton).length && expandCollapseButton === $(expandCollapseTeamButton)){
-        if($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
-            && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)){
+    if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))) {
+        if ($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
+            && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
             $(expandCollapseStudentsButton).trigger('click');
             $(expandCollapseStudentsButton).trigger('mouseleave');
         }
