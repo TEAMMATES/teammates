@@ -259,7 +259,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             List<StudentAttributes> studentListExcludingSelf = StudentsLogic.inst().getStudentsForCourse(courseId);
             String thisStudentEmail = studentDoingQuestion.email;
             for (StudentAttributes student : studentListExcludingSelf) {
-                if(thisStudentEmail.equals(student.email)) {
+                if (thisStudentEmail.equals(student.email)) {
                     continue;
                 }
 

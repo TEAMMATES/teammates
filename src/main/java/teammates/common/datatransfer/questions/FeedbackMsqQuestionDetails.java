@@ -121,7 +121,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
-        if(generateOptionsFor.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
+        if (generateOptionsFor.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
             this.numOfMsqChoices = generateNumOfChoicesForStudentsExcludingSelf(courseId);
         } else {
             this.numOfMsqChoices = generateOptionList(courseId).size();
@@ -338,9 +338,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Get the number of MSQ choices when ticking the option "students (excluding self)",
-     * which is equals to the number of students - 1
-     * @param courseId
+     * Get the number of MSQ choices when ticking the option "students (excluding self)".
+     * Which is equals to the number of students - 1
+     * @param courseId the courseId
      * @return number of MSQ choices
      */
     private int generateNumOfChoicesForStudentsExcludingSelf(String courseId) {
@@ -373,7 +373,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             List<StudentAttributes> studentListExcludingSelf = StudentsLogic.inst().getStudentsForCourse(courseId);
             String thisStudentEmail = studentDoingQuestion.email;
             for (StudentAttributes student : studentListExcludingSelf) {
-                if(thisStudentEmail.equals(student.email)) {
+                if (thisStudentEmail.equals(student.email)) {
                     continue;
                 }
 
@@ -448,7 +448,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
                 Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
                 Slots.STUDENT_EXCLUDING_SELF_SELECTED,
-                generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF ? "selected" : "",
+                    generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF ? "selected" : "",
                 Slots.STUDENTS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString(),
                 Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
                 Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
