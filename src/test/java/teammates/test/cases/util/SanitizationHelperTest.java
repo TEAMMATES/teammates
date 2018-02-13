@@ -1,7 +1,10 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -96,6 +99,21 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testSanitizeForHtmlList() {
+        List<String> unsanitizedHtml = new ArrayList<>(Arrays.asList(
+                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
+        );
+
+        List<String> sanitizedHtml = new ArrayList<>(Arrays.asList(
+                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
+        );
+
+        assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
+        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeForHtml(new ArrayList<>()));
+        assertNull(SanitizationHelper.sanitizeForHtml((List<String>) null));
+    }
+
+    @Test
     public void testDesanitizeFromHtml() {
         desanitizeFromHtml_receivesNull_returnsNull();
         desanitizeFromHtml_recievesEmpty_returnsEmpty();
@@ -115,6 +133,20 @@ public class SanitizationHelperTest extends BaseTestCase {
         String text = "<text><div> 'param' &&& \\//\\ \" <The quick brown fox jumps over the lazy dog.>";
         String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
         assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
+    }
+
+    @Test
+    public void testDesanitizeFromHtmlSet() {
+        Set<String> sanitizedHtml = new HashSet<>(Arrays.asList(
+                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
+        );
+        Set<String> desanitizedHtml = new HashSet<>(Arrays.asList(
+                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
+        );
+
+        assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
+        assertEquals(new HashSet<>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
+        assertNull(SanitizationHelper.desanitizeFromHtml((Set<String>) null));
     }
 
     @Test
@@ -252,8 +284,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
-        List<String> emptyList = new ArrayList<>();
-        assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
+        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeListForCsv(new ArrayList<>()));
     }
 
     private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
