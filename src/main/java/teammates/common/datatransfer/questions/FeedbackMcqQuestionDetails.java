@@ -115,7 +115,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
-        Assumption.assertTrue("Can only generate students, teams or instructors",
+        Assumption.assertTrue("Can only generate students, students (excluding self), teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
                 || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
                 || generateOptionsFor == FeedbackParticipantType.TEAMS
