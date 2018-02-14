@@ -599,6 +599,15 @@ public abstract class AppPage {
         return statusMessage == null ? "" : statusMessage.getText();
     }
 
+    public String[] getStatuses() {
+        List<WebElement> statuses = browser.driver.findElements(By.cssSelector("#statusMessagesToUser > div"));
+        String[] messages = new String[statuses.size()];
+        for (int i = 0; i < statuses.size(); i++) {
+            messages[i] = statuses.get(i).getText();
+        }
+        return messages;
+    }
+
     /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
@@ -970,6 +979,26 @@ public abstract class AppPage {
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
             assertEquals(expectedStatus, getStatus());
+        }
+    }
+
+    /**
+     * Verifies the status messages in the page are same as the messages specified.
+     * The check is done multiple times with waiting times in between to account for
+     * timing issues due to page load, inconsistencies in Selenium API, etc.
+     * @param expectedStatuses : one or more expected status messages passed as varargs.
+     */
+    public void verifyStatus(final String... expectedStatuses) {
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+                @Override
+                public void run() {
+                    waitForElementVisibility(statusMessage);
+                    AssertHelper.assertAllContained(expectedStatuses, getStatuses());
+                }
+            }, WebDriverException.class, AssertionError.class);
+        } catch (MaximumRetriesExceededException e) {
+            AssertHelper.assertAllContained(expectedStatuses, getStatuses());
         }
     }
 
