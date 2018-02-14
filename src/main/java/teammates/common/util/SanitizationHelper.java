@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.owasp.html.HtmlPolicyBuilder;
@@ -164,23 +163,13 @@ public final class SanitizationHelper {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list) {
-        List<String> sanitizedList = new ArrayList<>();
-        for (String str : list) {
-            sanitizedList.add(sanitizeForHtml(str));
+    public static List<String> sanitizeForHtml(List<String> unsanitizedStringList) {
+        if (unsanitizedStringList == null) {
+            return null;
         }
-        return sanitizedList;
-    }
-
-    /**
-     * Sanitizes a set of strings for inserting into HTML.
-     */
-    public static Set<String> sanitizeForHtml(Set<String> set) {
-        Set<String> sanitizedSet = new TreeSet<>();
-        for (String str : set) {
-            sanitizedSet.add(sanitizeForHtml(str));
-        }
-        return sanitizedSet;
+        return unsanitizedStringList.stream()
+                .map(s -> sanitizeForHtml(s))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -214,11 +203,12 @@ public final class SanitizationHelper {
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
-        Set<String> textSetTemp = new HashSet<>();
-        for (String text : sanitizedStringSet) {
-            textSetTemp.add(desanitizeFromHtml(text));
+        if (sanitizedStringSet == null) {
+            return null;
         }
-        return textSetTemp;
+        return sanitizedStringSet.stream()
+                .map(s -> desanitizeFromHtml(s))
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
