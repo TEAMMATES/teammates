@@ -15,29 +15,29 @@ const DEFAULT_CANCEL_TEXT = 'Cancel';
 const DEFAULT_YES_TEXT = 'Yes';
 const DEFAULT_NO_TEXT = 'No';
 
-function applyStyleToModal(modal, statusType) {
-    modal.find('.modal-header').addClass(`alert-${statusType || BootstrapContextualColors.DEFAULT}`)
-            .find('.modal-title').addClass(`icon-${statusType || BootstrapContextualColors.DEFAULT}`);
+function applyStyleToModal(modal, bootstrapContextualColors) {
+    modal.find('.modal-header').addClass(`alert-${bootstrapContextualColors || BootstrapContextualColors.DEFAULT}`)
+            .find('.modal-title').addClass(`icon-${bootstrapContextualColors || BootstrapContextualColors.DEFAULT}`);
 }
 
 /**
  * Custom alert dialog to replace default alert() function
  * Required params: titleText and messageText
  * Optional params: okButtonText (defaults to "OK")
- *                  statusType (defaults to BootstrapContextualColors.DEFAULT)
+ *                  bootstrapContextualColors (defaults to BootstrapContextualColors.DEFAULT)
  */
-function showModalAlert(titleText, messageText, okButtonText, statusType) {
+function showModalAlert(titleText, messageText, okButtonText, bootstrapContextualColors) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
         buttons: {
             okay: {
                 label: okButtonText || DEFAULT_OK_TEXT,
-                className: `modal-btn-ok btn-${statusType || BootstrapContextualColors.DEFAULT}`,
+                className: `modal-btn-ok btn-${bootstrapContextualColors || BootstrapContextualColors.DEFAULT}`,
             },
         },
     });
-    applyStyleToModal(modal, statusType);
+    applyStyleToModal(modal, bootstrapContextualColors);
 }
 
 /**
@@ -46,10 +46,10 @@ function showModalAlert(titleText, messageText, okButtonText, statusType) {
  * Optional params: cancelCallBack (defaults to null)
  *                  okButtonText (defaults to "OK")
  *                  cancelButtonText (defaults to "Cancel")
- *                  statusType (defaults to BootstrapContextualColors.INFO)
+ *                  bootstrapContextualColors (defaults to BootstrapContextualColors.INFO)
  */
 function showModalConfirmation(titleText, messageText, okCallback, cancelCallback,
-        okButtonText, cancelButtonText, statusType) {
+        okButtonText, cancelButtonText, bootstrapContextualColors) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
@@ -61,12 +61,12 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
             },
             ok: {
                 label: okButtonText || DEFAULT_OK_TEXT,
-                className: `modal-btn-ok btn-${statusType || BootstrapContextualColors.DEFAULT}`,
+                className: `modal-btn-ok btn-${bootstrapContextualColors || BootstrapContextualColors.DEFAULT}`,
                 callback: okCallback,
             },
         },
     });
-    applyStyleToModal(modal, statusType);
+    applyStyleToModal(modal, bootstrapContextualColors);
 }
 
 /**
@@ -76,22 +76,22 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
  *                  yesButtonText (defaults to "Yes")
  *                  noButtonText (defaults to "No")
  *                  canelButtonText (defaults to "Cancel")
- *                  statusType (defaults to BootstrapContextualColors.INFO)
+ *                  bootstrapContextualColors (defaults to BootstrapContextualColors.INFO)
  */
 function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallback, noButtonCallback,
-        cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, statusType) {
+        cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, bootstrapContextualColors) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
         buttons: {
             yes: {
                 label: yesButtonText || DEFAULT_YES_TEXT,
-                className: `modal-btn-ok btn-${statusType || BootstrapContextualColors.DEFAULT}`,
+                className: `modal-btn-ok btn-${bootstrapContextualColors || BootstrapContextualColors.DEFAULT}`,
                 callback: yesButtonCallback,
             },
             no: {
                 label: noButtonText || DEFAULT_NO_TEXT,
-                className: `modal-btn-ok btn-${statusType || BootstrapContextualColors.DEFAULT}`,
+                className: `modal-btn-ok btn-${bootstrapContextualColors || BootstrapContextualColors.DEFAULT}`,
                 callback: noButtonCallback,
             },
             cancel: {
@@ -101,7 +101,7 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
             },
         },
     });
-    applyStyleToModal(modal, statusType);
+    applyStyleToModal(modal, bootstrapContextualColors);
 }
 
 export {
