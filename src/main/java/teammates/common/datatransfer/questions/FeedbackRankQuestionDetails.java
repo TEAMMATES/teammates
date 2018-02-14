@@ -145,7 +145,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     }
 
     /**
-     * Generate the normalized overall ranking from the ranks of the recipients or options
+     * Generates the normalized overall ranking from the ranks of the recipients or options
      * by comparing the average ranks of the recipients or options
      * E.g. A and B received (1,2) and C received (1,2,3),
      * so A and B have the average rank of 1.5 and C's average rank is 2
