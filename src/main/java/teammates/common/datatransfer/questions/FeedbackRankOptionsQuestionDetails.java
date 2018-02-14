@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -317,17 +316,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> optionOverallRank = generateNormalizedOverallRankMapping(optionRanks);
 
         optionRanks.forEach((option, ranks) -> {
 
-            double average = computeAverage(ranks);
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
-
+            String overallRank = Integer.toString(optionOverallRank.get(option));
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                     Slots.RANK_RECIEVED, ranksReceived,
-                    Slots.RANK_AVERAGE, df.format(average)));
+                    Slots.RANK_OVERALL, overallRank));
 
         });
 
@@ -348,18 +346,18 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> optionOverallRank = generateNormalizedOverallRankMapping(optionRanks);
 
         optionRanks.forEach((key, ranksAssigned) -> {
             String option = SanitizationHelper.sanitizeForCsv(key);
+            String overallRank = Integer.toString(optionOverallRank.get(key));
 
-            double average = computeAverage(ranksAssigned);
-            String fragment = option + "," + df.format(average) + ","
+            String fragment = option + "," + overallRank + ","
                     + StringHelper.join(",", ranksAssigned) + Const.EOL;
             fragments.append(fragment);
         });
 
-        return "Option, Average Rank, Ranks Received" + Const.EOL + fragments.toString() + Const.EOL;
+        return "Option, Overall Rank, Ranks Received" + Const.EOL + fragments.toString() + Const.EOL;
     }
 
     /**
