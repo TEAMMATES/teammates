@@ -186,7 +186,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Converts the {@code localDate} from {@code localTimeZone}) to UTC through shifting by the offset.
+     * Converts the {@code localDate} from {@code localTimeZone} to UTC through shifting by the offset.
      * Does not shift if {@code localDate} is a special representation.
      */
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
@@ -234,13 +234,10 @@ public final class TimeHelper {
     public static int convertToOptionValueInTimeDropDown(LocalDateTime localDateTime) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
         int hour = localDateTime.getHour();
-        if (hour == 0) {
+        if (hour == 0 || hour == 23 && localDateTime.getMinute() == 59) {
             return 24;
-        } else if (hour == 23 && localDateTime.getMinute() == 59) {
-            return 24;
-        } else {
-            return hour;
         }
+        return hour;
     }
 
     /**
@@ -251,11 +248,9 @@ public final class TimeHelper {
         if (localDateTime == null) {
             return "";
         }
-        String processedPattern;
+        String processedPattern = pattern;
         if (localDateTime.getHour() == 12 && localDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
-        } else {
-            processedPattern = pattern;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
         return localDateTime.format(formatter);
@@ -302,11 +297,9 @@ public final class TimeHelper {
             return "";
         }
         ZonedDateTime zonedDateTime = instant.atZone(timeZone);
-        String processedPattern;
+        String processedPattern = pattern;
         if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
-        } else {
-            processedPattern = pattern;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
         return zonedDateTime.format(formatter);
@@ -364,7 +357,7 @@ public final class TimeHelper {
      * Formats {@code instant} according to the ISO8601 format.
      */
     public static String formatDateToIso8601Utc(Instant instant) {
-        return formatInstant(instant, ZoneId.of("UTC"), Const.TIME_FORMAT_ISO_8601_UTC);
+        return instant.toString();
     }
 
     public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
