@@ -233,8 +233,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
 
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
                                                    "SFSubmitUiT.alice.b@gmail.tmt",
@@ -357,8 +357,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         //check edited
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
         assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
                                                   "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
@@ -422,15 +422,15 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Submit response with 2 options checked
         submitPage.toggleMsqOption(qnNumber, 0, "Drop out (Team 2)");
         submitPage.clickSubmitButton();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
         submitPage.waitForConfirmationModalAndClickOk();
 
         // Submit response with 3 options checked
         submitPage.toggleMsqOption(qnNumber, 0, "Emily (Team 3)");
         submitPage.clickSubmitButton();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
         submitPage.waitForConfirmationModalAndClickOk();
 
         // Submit response with 4 options checked
@@ -451,8 +451,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Submit response for 1st recipient with 3 options checked
         submitPage.toggleMsqOption(qnNumber, 0, "E");
         submitPage.clickSubmitButton();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
         submitPage.waitForConfirmationModalAndClickOk();
 
         // Submit response for 1st recipient with 4 options checked
@@ -509,8 +509,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
@@ -534,8 +534,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "0");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         FeedbackQuestionAttributes fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
 
@@ -553,8 +553,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "50000");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
 
@@ -574,8 +574,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "-99999");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         fqNumscale = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 15);
 
@@ -593,8 +593,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
             submitPage.fillResponseTextBox(14, 0, "5");
             submitPage.submitWithoutConfirmationEmail();
             submitPage.verifyAndCloseSuccessfulSubmissionModal();
-            submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                    + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+            submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                    Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
         }
 
         ______TS("write response without specifying recipient");
@@ -603,8 +603,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(2, 2, "");
         submitPage.fillResponseRichTextEditor(2, 2, "Response to no recipient");
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyStatus("You did not specify a recipient for your response in question 2."
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus("You did not specify a recipient for your response in question 2.",
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
     }
 
     private void testResponsiveSubmission() {
@@ -709,8 +709,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(19, 2, "100");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         ______TS("Responses with invalid recipients do not prevent submission");
         StudentAttributes alice = testData.students.get("Alice");
@@ -733,8 +733,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         // verify that existing responses with invalid recipients do not affect submission
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED
-                + "\n" + Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
+        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
     }
 
