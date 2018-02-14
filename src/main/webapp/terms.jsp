@@ -2,7 +2,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="terms">
   <main>
-    <h1 class="color_orange">
+    <h1 class="color-orange">
       Terms of Use
     </h1>
     <img class="img-responsive" src="images/terms.png">

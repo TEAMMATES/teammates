@@ -41,13 +41,13 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
 
         ______TS("1 session opened, 1 session opened with disabled opening reminder");
 
-        // Close the session and re-open with the opening time 2 days before
+        // Close the session and re-open with the opening time 1 day before
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(2));
         session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         fsLogic.updateFeedbackSession(session1);
-        session1.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
+        session1.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-23));
         fsLogic.updateFeedbackSession(session1);
 
         // Ditto, but disable the opening reminder, but currently open emails will still be sent regardless
@@ -57,7 +57,7 @@ public class FeedbackSessionOpeningRemindersActionTest extends BaseAutomatedActi
         session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(3));
         session2.setOpeningEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
-        session2.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
+        session2.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-23));
         fsLogic.updateFeedbackSession(session2);
 
         action = getAction();
