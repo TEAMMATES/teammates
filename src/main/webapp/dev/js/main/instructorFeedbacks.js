@@ -1,5 +1,3 @@
-/* global moment:false */
-
 import {
     linkAjaxForResponseRate,
 } from '../common/ajaxResponseRate';
@@ -63,31 +61,6 @@ function isTimeZoneIntialized() {
 }
 
 /**
- * Format a number to be two digits
- */
-function formatDigit(num) {
-    return (num < 10 ? '0' : '') + num;
-}
-
-/**
- * Format a date object into ddd, DD MMM, YYYY format. (Sat, 05 May, 2012)
- * @param date
- * @returns {String}
- */
-function convertDateTodddDDMMMYYYY(date) {
-    return `${moment(date).format('ddd, DD MMM, YYYY')}`;
-}
-
-/**
- * Format a date object into HHMM format
- * @param date
- * @returns {String}
- */
-function convertDateToHHMM(date) {
-    return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
-}
-
-/**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
  *
@@ -97,15 +70,10 @@ function convertDateToHHMM(date) {
 function selectDefaultTimeOptions() {
     const now = new Date();
 
-    const currentDate = convertDateTodddDDMMMYYYY(now);
-    const hours = convertDateToHHMM(now).substring(0, 2);
-    const currentTime = parseInt(hours, 10) + 1;
-    const timeZone = -now.getTimezoneOffset() / 60;
-
     if (!isTimeZoneIntialized()) {
-        $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
-        $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
-        $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
+        $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
+        $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);
+        $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(-now.getTimezoneOffset() / 60);
     }
 
     const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
