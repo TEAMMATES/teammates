@@ -357,7 +357,7 @@ public final class TimeHelper {
      * Formats {@code instant} according to the ISO8601 format.
      */
     public static String formatDateToIso8601Utc(Instant instant) {
-        return instant.toString();
+        return instant == null ? null : instant.toString();
     }
 
     public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
