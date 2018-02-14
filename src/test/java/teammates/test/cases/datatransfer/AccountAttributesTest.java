@@ -71,7 +71,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Override
     @Test
     public void testToEntity() {
-        ProfilesDb profileDb = new ProfilesDb();
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.googleId, account.name,
                 account.isInstructor, account.email, account.institute,
@@ -84,11 +83,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
-        profileDb.saveEntity(account.studentProfile.toEntity());
+        ProfilesDb profilesDb = new ProfilesDb();
+        profilesDb.saveEntity(account.studentProfile.toEntity());
         String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
         String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
-        profileDb.deleteEntity(account.studentProfile);
+        profilesDb.deleteEntity(account.studentProfile);
     }
 
     @Test
