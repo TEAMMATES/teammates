@@ -22,6 +22,14 @@ import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.DataBundle;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -280,5 +288,44 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertEquals("[0, 0]", responseDetails.getAnswerString());
         requestParameters.clear();
 
+    }
+
+    @Test
+    public void testStudentQuestionResultsStatisticsHtml () {
+        DataBundle db = getTypicalDataBundle();
+        FeedbackResponseAttributes fra = db.feedbackResponses.get("response1ForQ1S1C1");
+        assertNotNull(fra);
+        FeedbackQuestionAttributes fqa = db.feedbackQuestions.get("qn1InSession1InCourse1");
+        assertNotNull(fqa);
+
+        FeedbackSessionAttributes fsa = db.feedbackSessions.get("session1InCourse1");
+        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+        students.add(db.students.get("student1InCourse1"));
+        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        instructors.add(db.instructors.get("instructor1OfCourse1"));
+
+        HashMap<String, FeedbackQuestionAttributes> mapFqa = new HashMap<>();
+        mapFqa.put("qn1InSession1InCourse1", fqa);
+
+        CourseRoster cr = new CourseRoster(students, instructors);
+        FeedbackSessionResultsBundle fsrb = new FeedbackSessionResultsBundle(fsa, mapFqa, cr);
+
+        ArrayList<FeedbackResponseAttributes> fraList = new ArrayList<>();
+        fraList.add(fra);
+
+        assertNotNull(fraList);
+        assertNotNull(fsa);
+        assertNotNull(mapFqa);
+        assertNotNull(cr);
+        assertNotNull(fsrb);
+
+        FeedbackNumericalScaleQuestionDetails fnsqd = new FeedbackNumericalScaleQuestionDetails();
+        fnsqd.getQuestionResultStatisticsHtml(
+            fraList,
+            fqa,
+            "student1InCourse1@gmail.tmt",
+            fsrb,
+            "student"
+        );
     }
 }

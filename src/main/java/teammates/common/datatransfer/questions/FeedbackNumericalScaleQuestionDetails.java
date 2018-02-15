@@ -265,8 +265,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
+        System.out.println("Called function");
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
+
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
         String fragmentTemplateToUse = showAvgExcludingSelf
@@ -537,7 +539,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponses,
             Map<String, Integer> numResponsesExcludingSelf) {
 
+        System.out.println("ALSKDJ");
         for (FeedbackResponseAttributes response : responses) {
+            System.out.println("ALSKDJ");
             FeedbackNumericalScaleResponseDetails responseDetails =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
@@ -599,7 +603,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackSessionResultsBundle bundle) {
         List<String> hiddenRecipients = new ArrayList<>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
+
         for (FeedbackResponseAttributes response : responses) {
+            if (!bundle.visibilityTable.containsKey(response.getId())) continue;
             if (!bundle.visibilityTable.get(response.getId())[1]
                     && type != FeedbackParticipantType.SELF
                     && type != FeedbackParticipantType.NONE) {
