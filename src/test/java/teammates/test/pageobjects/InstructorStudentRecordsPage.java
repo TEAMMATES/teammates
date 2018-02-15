@@ -82,7 +82,7 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
         WebElement commentRow = waitForElementPresence(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElements(By.tagName("a")).get(1));
+        click(commentRow.findElements(By.tagName("button")).get(1));
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
         click(commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")));
@@ -116,7 +116,7 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.tagName("form")).findElement(By.tagName("a")));
+        click(commentRow.findElement(By.tagName("form")).findElement(By.tagName("button")));
         waitForConfirmationModalAndClickOk();
         ThreadHelper.waitFor(1500);
     }
