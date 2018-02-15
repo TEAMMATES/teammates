@@ -1,5 +1,8 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +10,7 @@ import java.util.Set;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnLoad;
 import com.googlecode.objectify.annotation.Unindex;
@@ -64,18 +68,10 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private boolean isTimeStoredInUtc;
 
-    /** This is legacy data that is no longer used. <br>
-     * The value is set to Const.INT_UNINITIALIZED if it is already processed or
-     * the old value if it hasn't. <br>
-     * TODO Remove this field
-     */
-    @Unindex
-    private int timeZone;
+    private String timeZone;
 
-    /** This replaces the legacy field timeZone. <br>
-     * The value is null for legacy data. <br>
-     * TODO Rename to timeZone after removing legacy field
-     */
+    // TODO Remove after all legacy data has been converted
+    @IgnoreSave
     private Double timeZoneDouble;
 
     @Unindex
@@ -131,8 +127,7 @@ public class FeedbackSession extends BaseEntity {
         this.endTime = endTime;
         this.sessionVisibleFromTime = sessionVisibleFromTime;
         this.resultsVisibleFromTime = resultsVisibleFromTime;
-        this.timeZone = Const.INT_UNINITIALIZED;
-        this.timeZoneDouble = timeZone;
+        this.timeZone = convertOffsetToZoneId(timeZone);
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
@@ -160,6 +155,22 @@ public class FeedbackSession extends BaseEntity {
         sessionVisibleFromTime = TimeHelper.convertLocalDateToUtc(sessionVisibleFromTime, timeZoneDouble);
         resultsVisibleFromTime = TimeHelper.convertLocalDateToUtc(resultsVisibleFromTime, timeZoneDouble);
         isTimeStoredInUtc = true;
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void setTimeZoneFromOffsetIfRequired() {
+        if (timeZoneDouble == null) {
+            return;
+        }
+
+        double offset;
+        if (timeZone.equals(String.valueOf(Const.INT_UNINITIALIZED))) {
+            offset = timeZoneDouble;
+        } else {
+            offset = Double.valueOf(timeZone);
+        }
+        timeZone = convertOffsetToZoneId(offset);
     }
 
     public String getFeedbackSessionName() {
@@ -234,23 +245,12 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
-    /** This method automatically converts the legacy timeZone field to
-     * the new timeZoneDouble field and returns the value of timeZoneDouble.
-     */
     public double getTimeZone() {
-        if (timeZone != Const.INT_UNINITIALIZED) {
-            timeZoneDouble = Double.valueOf(timeZone);
-            timeZone = Const.INT_UNINITIALIZED;
-        }
-        return timeZoneDouble;
+        return convertZoneIdToOffset(timeZone);
     }
 
-    /** This method automatically marks the timeZone field as legacy
-     * and store the timeZone data to the new timeZoneDouble field.
-     */
-    public void setTimeZone(double timeZone) {
-        this.timeZone = Const.INT_UNINITIALIZED;
-        this.timeZoneDouble = timeZone;
+    public void setTimeZone(double offset) {
+        this.timeZone = convertOffsetToZoneId(offset);
     }
 
     public int getGracePeriod() {
@@ -379,6 +379,14 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+    }
+
+    private String convertOffsetToZoneId(double offset) {
+        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (offset * 60 * 60))).getId();
+    }
+
+    private double convertZoneIdToOffset(String zoneId) {
+        return ((double) ZoneId.of(zoneId).getRules().getOffset(Instant.now()).getTotalSeconds()) / 60 / 60;
     }
 
 }
