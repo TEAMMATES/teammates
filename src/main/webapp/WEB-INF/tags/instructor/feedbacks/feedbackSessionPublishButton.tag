@@ -3,7 +3,8 @@
 <%@ attribute name="publishButton" type="teammates.ui.template.FeedbackSessionPublishButton" required="true" %>
 <%@ attribute name="showTooltip" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="buttonType" %>
-<a href="${publishButton.actionLink}"
+<button type="button"
+    href="${publishButton.actionLink}"
     class="<c:if test="${not empty buttonType}">${buttonType} </c:if>session-${publishButton.actionNameLowercase}-for-test"
     <c:if test="${showTooltip}">
       title="${publishButton.tooltipText}"
@@ -14,4 +15,4 @@
     data-fsname="${publishButton.feedbackSessionName}"
     <c:if test="${not publishButton.actionAllowed}">disabled</c:if>>
   ${publishButton.actionName} Results
-</a>
+</button>

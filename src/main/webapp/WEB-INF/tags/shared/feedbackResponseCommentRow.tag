@@ -43,7 +43,7 @@
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
         <form class="responseCommentDeleteForm pull-right">
-          <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
+          <button href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
               type="button"
               id="commentdelete-${divId}"
               class="btn btn-default btn-xs icon-button"
@@ -54,7 +54,7 @@
                 disabled
               </c:if>>
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-          </a>
+          </button>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
@@ -63,7 +63,7 @@
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
         </form>
-        <a type="button" id="commentedit-${divId}"
+        <button type="button" id="commentedit-${divId}"
             <c:choose>
               <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
                 class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
@@ -81,7 +81,7 @@
             title="<%= Const.Tooltips.COMMENT_EDIT %>"
             <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
           <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-        </a>
+        </button>
       </c:if>
     </div>
   </div>
