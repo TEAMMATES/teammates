@@ -69,6 +69,9 @@ public abstract class AppPage {
     @FindBy(id = "statusMessagesToUser")
     private WebElement statusMessage;
 
+    @FindBy(className = "statusMessage")
+    private List<WebElement> statusMessages;
+
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
     private WebElement instructorHomeTab;
 
@@ -606,11 +609,9 @@ public abstract class AppPage {
      * Returns "" if there is no status message in the page.
      */
     public List<String> getTextsForAllUserStatusMessages() {
-        List<WebElement> statuses = browser.driver.findElements(By.xpath(".//*[@id='statusMessagesToUser']/div"));
         List<String> statusMessageTexts = new ArrayList<String>();
-        for (WebElement status : statuses) {
+        for (WebElement status : statusMessages) {
             statusMessageTexts.add(status == null ? "" : status.getText());
-            System.out.println("####" + status.getText() + "####");
         }
         return statusMessageTexts;
     }
@@ -980,7 +981,7 @@ public abstract class AppPage {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
-                    waitForElementVisibility(statusMessage);
+                    waitForElementsVisibility(statusMessages);
                     assertArrayEquals(expectedTexts, getTextsForAllUserStatusMessages().toArray());
                 }
             }, WebDriverException.class, AssertionError.class);
