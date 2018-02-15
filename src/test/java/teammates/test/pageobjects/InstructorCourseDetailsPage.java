@@ -133,7 +133,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     private WebElement getViewLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > button:nth-child(1)"));
     }
 
     private WebElement getEditLink(int studentNum) {
