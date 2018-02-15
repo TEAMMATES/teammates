@@ -4,6 +4,9 @@
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
 <c:set var="none"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
+<c:set var="noneForGender"><span class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></span></c:set>
+<c:set var="NotSpecified"><%=Const.STUDENT_PROFILE_FIELD_NOT_FILLED%></c:set>
+<c:set var="Gender"><%=student.getDisplayedGenderType()%></c:set>
 <div class="row">
   <div class="col-xs-12">
     <div class="row" id="studentProfile">
@@ -21,18 +24,7 @@
             <tr>
               <td class="text-bold">Short Name (Gender)</td>
               <td>${empty student.shortName ? none : fn:escapeXml(student.shortName)}
-                (<i>
-                <c:choose>
-                    <c:when test="${student.displayedGenderType} == Const.STUDENT_PROFILE_FIELD_NOT_FILLED">
-                      <span class="text-muted">
-                         ${student.displayedGenderType}
-                      </span>
-                     </c:when>
-                      <c:otherwise>
-                          ${student.displayedGenderType}
-                      </c:otherwise>
-                   </c:choose>
-                </i>)
+                (<i><c:out value="${student.displayedGenderType == Const.STUDENT_PROFILE_FIELD_NOT_FILLED ? noneForGender : Gender}"/></i>)
               </td>
             </tr>
             <tr>
