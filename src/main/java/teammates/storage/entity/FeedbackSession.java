@@ -101,19 +101,19 @@ public class FeedbackSession extends BaseEntity {
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
+            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double offset, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
+             sessionVisibleFromTime, resultsVisibleFromTime, offset, gracePeriod, feedbackSessionType,
              sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
+            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double offset, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -127,7 +127,7 @@ public class FeedbackSession extends BaseEntity {
         this.endTime = endTime;
         this.sessionVisibleFromTime = sessionVisibleFromTime;
         this.resultsVisibleFromTime = resultsVisibleFromTime;
-        this.timeZone = convertOffsetToZoneId(timeZone);
+        this.timeZone = convertOffsetToZoneId(offset);
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
@@ -245,11 +245,11 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
-    public double getTimeZone() {
+    public double getOffset() {
         return convertZoneIdToOffset(timeZone);
     }
 
-    public void setTimeZone(double offset) {
+    public void setOffset(double offset) {
         this.timeZone = convertOffsetToZoneId(offset);
     }
 
