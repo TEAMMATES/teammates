@@ -23,7 +23,8 @@ function populateStatusMessageDiv(message, status) {
     // Default the status type to info if any invalid status is passed in
     const bootstrapContextualColor = BootstrapContextualColors.isValidType(status) ? status : BootstrapContextualColors.INFO;
 
-    $statusMessageDivContent.addClass(`overflow-auto alert alert-${bootstrapContextualColor} icon-${bootstrapContextualColor} statusMessage`);
+    $statusMessageDivContent.addClass(
+            `overflow-auto alert alert-${bootstrapContextualColor} icon-${bootstrapContextualColor} statusMessage`);
     $statusMessageDivContent.html(message);
 
     $statusMessageDivToUser.empty();

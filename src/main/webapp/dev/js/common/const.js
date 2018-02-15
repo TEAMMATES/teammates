@@ -2,7 +2,7 @@
  * Contains constants to be used across the application.
  */
 
-//Frontend only constants
+// Frontend only constants
 const Const = {
 
     ModalDialog: {
@@ -23,20 +23,21 @@ const Const = {
 
 };
 
-//Shared constants between frontend and backend
+// Shared constants between frontend and backend
 
-//Subset of Bootstrap contextual colors for use in status messages and components of modals
+// Subset of Bootstrap contextual colors for use in status messages and components of modals
 const BootstrapContextualColors = {
-    //Mirrored colors from StatusMessageColor
+    // Mirrored colors from StatusMessageColor
     SUCCESS: 'success',
     INFO: 'info',
     WARNING: 'warning',
     DANGER: 'danger',
-    //Additional contextual colors that can be used in the components of modals
+    // Additional contextual colors that can be used in the components of modals
     PRIMARY: 'primary',
     isValidType(type) {
-        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO || type === BootstrapContextualColors.PRIMARY
-               || type === BootstrapContextualColors.WARNING || type === BootstrapContextualColors.DANGER;
+        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO ||
+        type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING ||
+        type === BootstrapContextualColors.DANGER;
     },
 };
 BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
@@ -44,11 +45,11 @@ BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
 // Mirrored subset of Const#ParamNames
 const ParamsNames = {
     SESSION_TOKEN: 'token',
-    
+
     COURSE_ID: 'courseid',
     COURSE_NAME: 'coursename',
     COURSE_TIME_ZONE: 'coursetimezone',
-    
+
     FEEDBACK_SESSION_NAME: 'fsname',
     FEEDBACK_SESSION_STARTDATE: 'startdate',
     FEEDBACK_SESSION_STARTTIME: 'starttime',
@@ -60,7 +61,7 @@ const ParamsNames = {
     FEEDBACK_SESSION_SESSIONVISIBLEBUTTON: 'sessionVisibleFromButton',
     FEEDBACK_SESSION_RESULTSVISIBLEBUTTON: 'resultsVisibleFromButton',
     FEEDBACK_SESSION_ENABLE_EDIT: 'editsessiondetails',
-    
+
     FEEDBACK_QUESTION_CONSTSUMOPTION: 'constSumOption',
     FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE: 'constSumOptionTable',
     FEEDBACK_QUESTION_CONSTSUMPOINTS: 'constSumPoints',

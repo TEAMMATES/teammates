@@ -146,7 +146,8 @@ function bindDeleteAccountAction() {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm deletion', messageText, okCallback, null, null, null, BootstrapContextualColors.DANGER);
+        showModalConfirmation('Confirm deletion',
+                messageText, okCallback, null, null, null, BootstrapContextualColors.DANGER);
     });
 }
 

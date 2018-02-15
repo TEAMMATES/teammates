@@ -53,7 +53,8 @@ function finaliseUploadPictureForm() {
         success(data) {
             if (data.isError) {
                 $('#profileUploadPictureSubmit').text(initialSubmitMessage);
-                setStatusMessage('There seems to be a network error, please try again later', BootstrapContextualColors.DANGER);
+                setStatusMessage('There seems to be a network error, please try again later',
+                        BootstrapContextualColors.DANGER);
                 scrollToTop({ duration: '' });
             } else {
                 $('#profilePictureUploadForm').attr('enctype', 'multipart/form-data');

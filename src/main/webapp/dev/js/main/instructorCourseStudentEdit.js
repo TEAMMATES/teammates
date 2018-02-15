@@ -53,7 +53,8 @@ function readyInstructorStudentEditPage() {
                 }
             };
 
-            showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, BootstrapContextualColors.WARNING);
+            showModalConfirmation('Confirm Deletion', messageText,
+                    okCallback, null, null, null, BootstrapContextualColors.WARNING);
         } else if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
             sendEmailToNewEmailOption(event, newStudentEmail);
         }

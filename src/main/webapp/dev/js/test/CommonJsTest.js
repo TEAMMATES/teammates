@@ -212,8 +212,8 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
 
     setStatusMessage(message);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(BootstrapContextualColors.DEFAULT),
-            'Default message status without specifying status of message (info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(
+            BootstrapContextualColors.DEFAULT), 'Default message status without specifying status of message (info)');
     clearStatusMessages();
 
     setStatusMessage(message, BootstrapContextualColors.INFO);
@@ -224,20 +224,23 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
 
     setStatusMessage(message, BootstrapContextualColors.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(BootstrapContextualColors.SUCCESS),
-            'Success message status by specifying status of message (BootstrapContextualColors.SUCCESS)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(
+            BootstrapContextualColors.SUCCESS),
+    'Success message status byspecifying status of message (BootstrapContextualColors.SUCCESS)');
     clearStatusMessages();
 
     setStatusMessage(message, BootstrapContextualColors.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(BootstrapContextualColors.WARNING),
-            'Warning message status by specifying status of message (BootstrapContextualColors.WARNING)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(
+            BootstrapContextualColors.WARNING),
+    'Warning message status by specifying status of message (BootstrapContextualColors.WARNING)');
     clearStatusMessages();
 
     setStatusMessage(message, BootstrapContextualColors.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(BootstrapContextualColors.DANGER),
-            'Danger message status by specifying status of message (BootstrapContextualColors.DANGER)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(
+            BootstrapContextualColors.DANGER),
+    'Danger message status by specifying status of message (BootstrapContextualColors.DANGER)');
     clearStatusMessages();
 
     setStatusMessage('');
@@ -253,8 +256,8 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
 
     setStatusMessage(message, 'random');
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
-    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(BootstrapContextualColors.DEFAULT),
-            'Message with random status (defaulted to info)');
+    assert.ok($('#statusMessagesToUser .statusMessage').attr('class') === getExpectedClasses(
+            BootstrapContextualColors.DEFAULT), 'Message with random status (defaulted to info)');
 });
 
 QUnit.test('clearStatusMessages()', (assert) => {

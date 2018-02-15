@@ -196,7 +196,8 @@ function checkFeedbackQuestion(form) {
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
         if ($(form).find(`[name|=${ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, BootstrapContextualColors.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,
+                    BootstrapContextualColors.DANGER, form);
             return false;
         }
     }
@@ -208,7 +209,8 @@ function checkFeedbackQuestion(form) {
         if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
                 || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
                 || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, BootstrapContextualColors.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,
+                    BootstrapContextualColors.DANGER, form);
             return false;
         }
         const qnNum = getQuestionNumFromEditForm(form);
@@ -572,7 +574,8 @@ function deleteQuestion(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
-    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null, null, null, BootstrapContextualColors.DANGER);
+    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback,
+            null, null, null, BootstrapContextualColors.DANGER);
     return false;
 }
 
