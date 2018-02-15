@@ -206,8 +206,8 @@ QUnit.test('setStatusMessage(message,status)', (assert) => {
     // isError = false: class = overflow-auto alert alert-warning
     // isError = true: class = overflow-auto alert alert-danger
 
-    function getExpectedClasses(bootstrapContextualColors) {
-        return `overflow-auto alert alert-${bootstrapContextualColors} icon-${bootstrapContextualColors} statusMessage`;
+    function getExpectedClasses(bootstrapContextualColor) {
+        return `overflow-auto alert alert-${bootstrapContextualColor} icon-${bootstrapContextualColor} statusMessage`;
     }
 
     setStatusMessage(message);
