@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
@@ -197,18 +196,5 @@ public final class AssertHelper {
 
         assertEquals(expectedStringTypeList, actualStringTypeList);
 
-    }
-
-    /**
-     * Asserts that the two given arrays have the same content, in the same order.
-     * @param expected : Array of expected status messages
-     * @param actual : Array of actual status messages
-     */
-    public static void assertAllContained(String[] expected, String[] actual) {
-        Assumption.assertEquals(expected.length, actual.length);
-
-        for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected[i], actual[i]);
-        }
     }
 }

@@ -3,10 +3,12 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.internal.junit.ArrayAsserts.assertArrayEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -599,13 +601,18 @@ public abstract class AppPage {
         return statusMessage == null ? "" : statusMessage.getText();
     }
 
-    public String[] getStatuses() {
-        List<WebElement> statuses = browser.driver.findElements(By.cssSelector("#statusMessagesToUser > div"));
-        String[] messages = new String[statuses.size()];
-        for (int i = 0; i < statuses.size(); i++) {
-            messages[i] = statuses.get(i).getText();
+    /**
+     * Returns a list of Texts of user status messages in the page.
+     * Returns "" if there is no status message in the page.
+     */
+    public List<String> getTextsForAllUserStatusMessages() {
+        List<WebElement> statuses = browser.driver.findElements(By.xpath(".//*[@id='statusMessagesToUser']/div"));
+        List<String> statusMessageTexts = new ArrayList<String>();
+        for (WebElement status : statuses) {
+            statusMessageTexts.add(status == null ? "" : status.getText());
+            System.out.println("####" + status.getText() + "####");
         }
-        return messages;
+        return statusMessageTexts;
     }
 
     /**
@@ -964,41 +971,21 @@ public abstract class AppPage {
     }
 
     /**
-     * Verifies the status message in the page is same as the one specified.
+     * Verifies the texts for status messages to the user in the page are equal to the expected texts.
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void verifyStatus(final String expectedStatus) {
+    public void verifyStatus(final String... expectedTexts) {
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
                     waitForElementVisibility(statusMessage);
-                    assertEquals(expectedStatus, getStatus());
+                    assertArrayEquals(expectedTexts, getTextsForAllUserStatusMessages().toArray());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            assertEquals(expectedStatus, getStatus());
-        }
-    }
-
-    /**
-     * Verifies the status messages in the page are same as the messages specified.
-     * The check is done multiple times with waiting times in between to account for
-     * timing issues due to page load, inconsistencies in Selenium API, etc.
-     * @param expectedStatuses : one or more expected status messages passed as varargs.
-     */
-    public void verifyStatus(final String... expectedStatuses) {
-        try {
-            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
-                @Override
-                public void run() {
-                    waitForElementVisibility(statusMessage);
-                    AssertHelper.assertAllContained(expectedStatuses, getStatuses());
-                }
-            }, WebDriverException.class, AssertionError.class);
-        } catch (MaximumRetriesExceededException e) {
-            AssertHelper.assertAllContained(expectedStatuses, getStatuses());
+            assertArrayEquals(expectedTexts, getTextsForAllUserStatusMessages().toArray());
         }
     }
 
