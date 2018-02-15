@@ -191,6 +191,10 @@ public class TeamEvalResult {
         return value == NA || value == NSU || value == NSB;
     }
 
+    private static boolean isValidSpecialValue(double value) {
+        return value == NA || value == NSU;
+    }
+
     private static double[][] multiplyByFactor(double factor, double[][] input) {
         int teamSize = input.length;
         double[][] output = new double[teamSize][teamSize];
@@ -219,11 +223,9 @@ public class TeamEvalResult {
         double[] returnValue = new double[filterArray.length];
         for (int i = 0; i < filterArray.length; i++) {
             int filterValue = (int) filterArray[i];
-            if (filterValue == NA || filterValue == NSU || !isSanitized(filterValue)) {
-                returnValue[i] = filterValue == NSU ? NSU : NA;
-            } else {
-                returnValue[i] = valueArray[i];
-            }
+            boolean isSpecialValue = !isSanitized(filterValue)
+                    || filterValue == NA;
+            returnValue[i] = isSpecialValue ? NA : valueArray[i];
         }
         return returnValue;
     }
@@ -239,7 +241,7 @@ public class TeamEvalResult {
         double sum = NA;
         for (double value : input) {
 
-            if (value != NA && value != NSU) {
+            if (!isValidSpecialValue(value)) {
                 sum = sum == NA ? value : sum + value;
             }
         }
@@ -356,7 +358,7 @@ public class TeamEvalResult {
             double value = array[columnIndex];
 
             values.append(value).append(' ');
-            if (value == NA || value == NSU) {
+            if (isValidSpecialValue(value)) {
                 continue;
             }
             sum += value;
