@@ -175,14 +175,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(account.email, copy.email);
 
         assertFalse(account.studentProfile == copy.studentProfile);
-        assertEquals(accountGoogleId, copy.studentProfile.googleId);
-        assertEquals(profileShortName, copy.studentProfile.shortName);
-        assertEquals(profilePersonalEmail, copy.studentProfile.email);
-        assertEquals(profileInstitute, copy.studentProfile.institute);
-        assertEquals(profileNationality, copy.studentProfile.nationality);
-        assertEquals(profileGender, copy.studentProfile.gender);
-        assertEquals(profileMoreInfo, copy.studentProfile.moreInfo);
-        assertEquals(profilePictureKey, copy.studentProfile.pictureKey);
     }
 
     @Test
