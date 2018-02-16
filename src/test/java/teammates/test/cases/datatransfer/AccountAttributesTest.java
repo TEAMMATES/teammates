@@ -179,7 +179,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(null)
                 .build();
-        
+
         AccountAttributes copy = account.getCopy();
 
         assertFalse(account.equals(copy));
