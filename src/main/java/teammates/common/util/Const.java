@@ -618,12 +618,11 @@ public final class Const {
     public enum Gender {
         MALE, FEMALE, OTHER;
 
-        public static Gender gendercorrection(String gender) {
+        public static Gender parseToGender(String gender) {
             if ("MALE".equalsIgnoreCase(gender) || "FEMALE".equalsIgnoreCase(gender)) {
                 return Gender.valueOf(gender.toUpperCase());
-            } else {
-                return Gender.OTHER;
             }
+            return Gender.OTHER;
         }
     }
 
