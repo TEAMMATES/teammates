@@ -167,7 +167,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         AccountAttributes copy = account.getCopy();
 
-        assertFalse(account == copy);
+        assertFalse(account.equals(copy));
         assertTrue(account.isInstructor);
         assertEquals(account.googleId, copy.googleId);
         assertEquals(account.name, copy.name);
@@ -189,7 +189,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .build();
         AccountAttributes copy = account.getCopy();
 
-        assertFalse(account == copy);
+        assertFalse(account.equals(copy));
         assertFalse(account.isInstructor);
 
         assertNull(copy.studentProfile);
