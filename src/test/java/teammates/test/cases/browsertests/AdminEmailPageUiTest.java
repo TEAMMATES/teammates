@@ -137,8 +137,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.verifyStatus("Group receiver list successfully uploaded to Google Cloud Storage");
         verifyGroupListFileKey(groupListFileKey);
         emailPage.clickSendButton();
-        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.\n"
-                + "Email will be sent within an hour to recipient@email.tmt");
+        emailPage.verifyStatus("Email will be sent within an hour to uploaded group receiver's list.",
+                "Email will be sent within an hour to recipient@email.tmt");
         deleteGroupListFile(groupListFileKey);
 
         ______TS("save email - success");
@@ -175,7 +175,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) throws Exception {
-        return emailPage.getStatus().contains(
+        return emailPage.getTextsForAllUserStatusMessages().contains(
                 getPopulatedErrorMessage(
                     FieldValidator.EMAIL_ERROR_MESSAGE, recipientName,
                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
@@ -183,7 +183,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStatusMessageNoSubject() throws Exception {
-        return emailPage.getStatus().equals(
+        return emailPage.getTextsForAllUserStatusMessages().contains(
                 getPopulatedEmptyStringErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));

@@ -22,7 +22,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 import teammates.test.pageobjects.AppPage;
@@ -1071,8 +1070,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // check redirect to main feedback page
         InstructorFeedbackSessionsPage feedbackPage = feedbackEditPage.deleteSession();
-        AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED,
-                                    feedbackPage.getStatus());
+        assertTrue(feedbackPage.getTextsForAllUserStatusMessages()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_DELETED));
         assertNull(getFeedbackSession(courseId, feedbackSessionName));
     }
 

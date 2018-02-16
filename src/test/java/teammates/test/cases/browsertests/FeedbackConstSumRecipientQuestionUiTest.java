@@ -77,7 +77,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertEquals("", feedbackEditPage.getStatus());
+        assertTrue(feedbackEditPage.getTextsForAllUserStatusMessages().contains(""));
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
     }

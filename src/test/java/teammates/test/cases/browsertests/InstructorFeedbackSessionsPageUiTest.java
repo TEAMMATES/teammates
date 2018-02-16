@@ -431,7 +431,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 FieldValidator.SESSION_END_TIME_FIELD_NAME,
                 FieldValidator.SESSION_START_TIME_FIELD_NAME));
 
-        AssertHelper.assertContains(expectedStatusStrings, feedbackPage.getStatus());
+        AssertHelper.assertContains(expectedStatusStrings, feedbackPage.getTextsForAllUserStatusMessages().get(0));
 
         ______TS("failure case: invalid input (session name)");
 
@@ -647,7 +647,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.changeUserIdInAjaxForSessionsForm("InvalidUserId");
         feedbackPage.reloadSessionsList();
         feedbackPage.waitForAjaxLoaderGifToDisappear();
-        assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
+        assertTrue(feedbackPage.getTextsForAllUserStatusMessages().get(0).contains("Failed to load sessions."));
     }
 
     private void testJScripts() {

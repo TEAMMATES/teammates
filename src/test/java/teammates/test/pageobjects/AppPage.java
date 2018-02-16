@@ -66,9 +66,6 @@ public abstract class AppPage {
 
     // These are elements common to most pages in our app
 
-    @FindBy(id = "statusMessagesToUser")
-    private WebElement statusMessage;
-
     @FindBy(className = "statusMessage")
     private List<WebElement> statusMessages;
 
@@ -597,21 +594,16 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns the status message in the page. Returns "" if there is no
-     *         status message in the page.
-     */
-    public String getStatus() {
-        return statusMessage == null ? "" : statusMessage.getText();
-    }
-
-    /**
      * Returns a list of Texts of user status messages in the page.
-     * Returns "" if there is no status message in the page.
+     * Returns a list containing "" if there is no status message in the page.
      */
     public List<String> getTextsForAllUserStatusMessages() {
         List<String> statusMessageTexts = new ArrayList<String>();
+        if (statusMessages.isEmpty()) {
+            statusMessageTexts.add("");
+        }
         for (WebElement status : statusMessages) {
-            statusMessageTexts.add(status == null ? "" : status.getText());
+            statusMessageTexts.add(status.getText());
         }
         return statusMessageTexts;
     }
