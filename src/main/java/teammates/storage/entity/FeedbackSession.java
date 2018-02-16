@@ -81,13 +81,13 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean sentOpenEmail;
 
-    private Boolean sentClosingEmail;
+    private boolean sentClosingEmail;
 
-    private Boolean sentClosedEmail;
+    private boolean sentClosedEmail;
 
     private boolean sentPublishedEmail;
 
-    //TODO change to primitive types and update getter
+    //TODO change to primitive types
     private Boolean isOpeningEmailEnabled;
 
     private Boolean isClosingEmailEnabled;
@@ -171,6 +171,20 @@ public class FeedbackSession extends BaseEntity {
             offset = Double.valueOf(timeZone);
         }
         timeZone = convertOffsetToZoneId(offset);
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void populateMissingBooleansIfRequired() {
+        if (isOpeningEmailEnabled == null) {
+            isOpeningEmailEnabled = true;
+        }
+        if (isClosingEmailEnabled == null) {
+            isClosingEmailEnabled = true;
+        }
+        if (isPublishedEmailEnabled == null) {
+            isPublishedEmailEnabled = true;
+        }
     }
 
     public String getFeedbackSessionName() {
@@ -278,10 +292,6 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public boolean isSentClosingEmail() {
-        // Legacy data might not have this field
-        if (sentClosingEmail == null) {
-            return false;
-        }
         return sentClosingEmail;
     }
 
@@ -290,10 +300,6 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public boolean isSentClosedEmail() {
-        // Legacy data might not have this field
-        if (sentClosedEmail == null) {
-            return false;
-        }
         return sentClosedEmail;
     }
 
@@ -310,12 +316,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public boolean isOpeningEmailEnabled() {
-        // Legacy data might not have this field
-        if (isOpeningEmailEnabled == null) {
-            isOpeningEmailEnabled = true;
-        }
-
-        return isOpeningEmailEnabled.booleanValue();
+        return isOpeningEmailEnabled;
     }
 
     public void setIsOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
@@ -323,12 +324,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public boolean isClosingEmailEnabled() {
-        // Legacy data might not have this field
-        if (isClosingEmailEnabled == null) {
-            isClosingEmailEnabled = true;
-        }
-
-        return isClosingEmailEnabled.booleanValue();
+        return isClosingEmailEnabled;
     }
 
     public void setSendClosingEmail(boolean isClosingEmailEnabled) {
@@ -336,12 +332,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public boolean isPublishedEmailEnabled() {
-        // Legacy data might not have this field
-        if (isPublishedEmailEnabled == null) {
-            isPublishedEmailEnabled = true;
-        }
-
-        return isPublishedEmailEnabled.booleanValue();
+        return isPublishedEmailEnabled;
     }
 
     public void setSendPublishedEmail(boolean isPublishedEmailEnabled) {
