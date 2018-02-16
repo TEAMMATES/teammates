@@ -151,7 +151,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withShortName( "John")
                 .withEmail("person@email.com")
                 .withInstitute("profile institute test profile")
-                .withNationality(= "nation")
+                .withNationality("nation")
                 .withGender("male")
                 .withMoreInfo("some test info 221")
                 .withPictureKey("picture key")
