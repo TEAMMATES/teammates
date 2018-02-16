@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AdminLogQuery;
@@ -33,7 +32,7 @@ public class AdminLogQueryTest extends BaseTestCase {
         ______TS("Test setTimePeriod");
         query = new AdminLogQuery(versionList, null, null);
         assertEquals(0, query.getStartTime());
-        AssertJUnit.assertNotSame(endTime, query.getStartTime());
+        assertNotEquals(endTime, query.getStartTime());
 
         query.setTimePeriod(startTime, endTime);
         assertEquals(startTime, query.getStartTime());
