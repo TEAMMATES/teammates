@@ -67,14 +67,15 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         ______TS("empty options");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (single answer) question. "
                                       + "Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
@@ -93,7 +94,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMcqOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (single answer) question. "
                                       + "Minimum number of options is: 2.");
 
         ______TS("remove when 1 left and select Add Other Option");
@@ -110,7 +112,8 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (single answer) question. "
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (single answer) question. "
                                       + "Minimum number of options is: 2.");
     }
 
@@ -155,7 +158,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
@@ -174,7 +177,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMcqOptionLink(0, 1);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionEditSuccess.html");
 
@@ -196,7 +199,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("mcqAddOptionLink-1"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
         assertFalse(feedbackEditPage.isElementEnabled("generateMcqOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox-1"));
@@ -237,7 +240,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 

@@ -144,7 +144,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Submit
         submitPage.clickSubmitButton();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER);
 
         // Go back to submission page and verify html
@@ -196,7 +196,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         ______TS("empty sub question test");
         int questionNum = -1;
@@ -222,7 +222,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
     }
 
     @Override
@@ -242,7 +242,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
@@ -260,7 +260,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionTextBox("edited RUBRIC qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         // Check question text is updated
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSuccess.html");
@@ -380,7 +380,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         moveRubricColumn(1, colIndexes, 1, 4, col5, col0, col1, col2, col3);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnSuccess.html");
 
         // check buttons for new rubric question
@@ -407,7 +407,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         moveRubricColumn(-1, colIndexes, 1, 4, col5, col0, col1, col2, col3);
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionMoveColumnNewQuestionSuccess.html");
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
@@ -464,7 +464,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
@@ -501,7 +501,8 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
 
-        feedbackEditPage.verifyStatus("Too little choices for Rubric question. Minimum number of options is: 2");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Rubric question. Minimum number of options is: 2");
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {

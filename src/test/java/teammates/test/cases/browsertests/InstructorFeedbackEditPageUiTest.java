@@ -139,14 +139,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.editFeedbackSession(editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
                 editedSession.getInstructions(), editedSession.getGracePeriod());
 
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         assertTrue(feedbackEditPage.isElementInViewport(Const.ParamsNames.STATUS_MESSAGES_LIST));
 
         FeedbackSessionAttributes savedSession = getFeedbackSessionWithRetry(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         editedSession.setInstructions(new Text("<p>" + editedSession.getInstructionsString() + "</p>"));
         assertEquals(editedSession.toString(), savedSession.toString());
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
@@ -162,7 +162,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
         // TODO: to implement a more sophisticated method to wait for the persistence of data
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
 
         feedbackEditPage.reloadPage();
         // uncommon settings panel not in default will be automatically expanded
@@ -179,7 +179,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // The statement below is a 'dummy' but valid statement to wait for the data in back-end to be persistent
         // TODO: to implement a more sophisticated method to wait for the persistence of data
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         testEditSessionLink();
 
         // test expanded uncommon settings section
@@ -219,7 +219,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         editedSession.getInstructions(), editedSession.getGracePeriod());
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
-        feedbackEditPage.verifyStatus(expectedString);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(expectedString);
     }
 
     private void testNewQuestionLink() {
@@ -242,7 +242,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         ______TS("empty number of max respondents field");
 
@@ -254,7 +254,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID);
 
     }
 
@@ -265,7 +266,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
     }
@@ -478,7 +479,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditQuestionButton(2);
         feedbackEditPage.selectQuestionNumber(2, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         ______TS("questions still editable even if questions numbers became inconsistent");
 
@@ -873,7 +874,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
 
     }

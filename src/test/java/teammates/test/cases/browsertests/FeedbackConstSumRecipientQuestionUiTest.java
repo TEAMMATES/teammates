@@ -104,7 +104,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
@@ -123,7 +123,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.selectConstSumPointsOptions("Total", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
@@ -142,7 +142,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 

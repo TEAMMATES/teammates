@@ -64,21 +64,21 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         ______TS("input validation");
 
         editPage.submitUnsuccessfully(null, "", null, null)
-                .verifyStatus(getPopulatedEmptyStringErrorMessage(
+                .waitForTextsForAllStatusMessagesToUserEquals(getPopulatedEmptyStringErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.TEAM_NAME_MAX_LENGTH));
 
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully("", newTeamName, null, null)
-                .verifyStatus(getPopulatedEmptyStringErrorMessage(
+                .waitForTextsForAllStatusMessagesToUserEquals(getPopulatedEmptyStringErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH));
 
         ______TS("long student name and the team field is not edited");
         String invalidStudentName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
-                .verifyStatus(getPopulatedErrorMessage(
+                .waitForTextsForAllStatusMessagesToUserEquals(getPopulatedErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidStudentName,
                                   FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                                   FieldValidator.PERSON_NAME_MAX_LENGTH));
@@ -86,14 +86,14 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         String newStudentName = "New guy";
         String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
-                .verifyStatus(getPopulatedErrorMessage(
+                .waitForTextsForAllStatusMessagesToUserEquals(getPopulatedErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidTeamName,
                                   FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                                   FieldValidator.TEAM_NAME_MAX_LENGTH));
 
         String invalidEmail = "invalidemail";
         editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)
-                .verifyStatus(getPopulatedErrorMessage(
+                .waitForTextsForAllStatusMessagesToUserEquals(getPopulatedErrorMessage(
                                   FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail,
                                   FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                                   FieldValidator.EMAIL_MAX_LENGTH));
@@ -106,7 +106,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         StudentAttributes anotherStudent = testData.students.get("unregisteredStudent");
 
         editPage = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
-        editPage.verifyStatus(String.format(Const.StatusMessages.STUDENT_EMAIL_TAKEN_MESSAGE, anotherStudent.name,
+        editPage.waitForTextsForAllStatusMessagesToUserEquals(
+                String.format(Const.StatusMessages.STUDENT_EMAIL_TAKEN_MESSAGE, anotherStudent.name,
                                             anotherStudent.email));
         editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
 
@@ -123,7 +124,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         InstructorCourseDetailsPage detailsPage =
                 editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
-        detailsPage.verifyStatus(Const.StatusMessages.STUDENT_EDITED);
+        detailsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_EDITED);
         detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").getId());
 
         // Verify data

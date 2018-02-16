@@ -968,7 +968,7 @@ public abstract class AppPage {
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void verifyStatus(final String... expectedTexts) {
+    public void waitForTextsForAllStatusMessagesToUserEquals(final String... expectedTexts) {
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
