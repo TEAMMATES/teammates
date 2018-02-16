@@ -101,11 +101,10 @@
                 </td>
                 <td class="no-print align-center">
                   <c:set var="viewButtonEnabled" value="${section.allowedToViewStudentInSection}" />
-                  <button type="button" class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                  <a class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not viewButtonEnabled}"> disabled mouse-hover-only</c:if>"
                       <c:choose>
                         <c:when test="${not viewButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                          disabled
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
@@ -116,13 +115,12 @@
                       data-toggle="tooltip"
                       data-placement="top">
                     View
-                  </button>
+                  </a>
                   <c:set var="editButtonEnabled" value="${section.allowedToModifyStudent}" />
-                  <button type="button" class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                  <a class="btn btn-default btn-xs margin-bottom-7px<c:if test="${not editButtonEnabled}"> disabled mouse-hover-only</c:if>"
                       <c:choose>
                         <c:when test="${not editButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                          disabled
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
@@ -133,14 +131,13 @@
                       data-toggle="tooltip"
                       data-placement="top">
                     Edit
-                  </button>
+                  </a>
                   <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                     <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
-                    <button type="button" class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                    <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                         <c:choose>
                           <c:when test="${not remindButtonEnabled}">
                             title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                            disabled
                           </c:when>
                           <c:otherwise>
                             title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
@@ -150,15 +147,14 @@
                         data-toggle="tooltip"
                         data-placement="top">
                       Send Invite
-                    </button>
+                    </a>
                   </c:if>
                   <c:set var="deleteButtonEnabled" value="${section.allowedToModifyStudent}" />
-                  <button type="button" class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
+                  <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not deleteButtonEnabled}"> disabled mouse-hover-only</c:if>"
                       data-student-name="${student.studentNameForJs}" data-course-id="${student.courseIdForJs}"
                       <c:choose>
                         <c:when test="${not deleteButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
-                          disabled
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
@@ -168,7 +164,7 @@
                       data-toggle="tooltip"
                       data-placement="top">
                     Delete
-                  </button>
+                  </a>
                   <a class="btn btn-default btn-xs margin-bottom-7px"
                       href="${student.courseStudentRecordsLink}"
                       title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"

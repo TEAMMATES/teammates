@@ -18,16 +18,14 @@
     <div class="pull-right margin-left-7px">
       <span class="glyphicon glyphicon-chevron-down"></span>
     </div>
-    <button type="button"
-        class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
+    <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test<c:if test="${not course.instructorAllowedToModify}"> disabled</c:if>"
         id="enroll-${index}"
         href="${course.instructorCourseEnrollLink}"
         title="<%= Const.Tooltips.COURSE_ENROLL %>"
         data-toggle="tooltip"
-        data-placement="top"
-        <c:if test="${not course.instructorAllowedToModify}">disabled</c:if>>
+        data-placement="top">
       <span class="glyphicon glyphicon-list"></span> Enroll
-    </button>
+    </a>
     <div class='display-icon pull-right'>
     </div>
     <strong>[${course.courseId}] : </strong>${fn:escapeXml(course.courseName)}

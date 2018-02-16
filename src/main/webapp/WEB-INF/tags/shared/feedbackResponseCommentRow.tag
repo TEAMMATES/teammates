@@ -43,18 +43,15 @@
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
         <form class="responseCommentDeleteForm pull-right">
-          <button href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
+          <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
               type="button"
               id="commentdelete-${divId}"
-              class="btn btn-default btn-xs icon-button"
+              class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
               data-toggle="tooltip"
               data-placement="top"
-              title="<%= Const.Tooltips.COMMENT_DELETE %>"
-              <c:if test="${not frc.editDeleteEnabled}">
-                disabled
-              </c:if>>
+              title="<%= Const.Tooltips.COMMENT_DELETE %>">
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-          </button>
+          </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
@@ -63,25 +60,24 @@
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
         </form>
-        <button type="button" id="commentedit-${divId}"
+        <a type="button" id="commentedit-${divId}"
             <c:choose>
               <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
-                class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form"
+                class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
                 data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
                 data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
                 <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                 <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
               </c:when>
               <c:otherwise>
-                class="btn btn-default btn-xs icon-button pull-right"
+                class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
               </c:otherwise>
             </c:choose>
             data-toggle="tooltip"
             data-placement="top"
-            title="<%= Const.Tooltips.COMMENT_EDIT %>"
-            <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>>
+            title="<%= Const.Tooltips.COMMENT_EDIT %>">
           <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-        </button>
+        </a>
       </c:if>
     </div>
   </div>
