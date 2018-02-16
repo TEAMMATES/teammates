@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -63,8 +64,8 @@ public final class Config {
 
     static {
         Properties properties = new Properties();
-        try {
-            properties.load(FileHelper.getResourceAsStream("build.properties"));
+        try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
+            properties.load(buildPropStream);
         } catch (IOException e) {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
