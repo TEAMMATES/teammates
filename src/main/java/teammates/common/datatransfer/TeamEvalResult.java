@@ -223,9 +223,11 @@ public class TeamEvalResult {
         double[] returnValue = new double[filterArray.length];
         for (int i = 0; i < filterArray.length; i++) {
             int filterValue = (int) filterArray[i];
-            boolean isSpecialValue = !isSanitized(filterValue)
-                    || filterValue == NA;
-            returnValue[i] = isSpecialValue ? NA : valueArray[i];
+                if (filterValue == NA || filterValue == NSU || !isSanitized(filterValue)) {
+                    returnValue[i] = filterValue == NSU ? NSU : NA;
+                } else {
+                    returnValue[i] = valueArray[i];
+                }
         }
         return returnValue;
     }
