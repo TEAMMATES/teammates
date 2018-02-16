@@ -147,7 +147,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         account.isInstructor = true;
 
         account.studentProfile = StudentProfileAttributes.builder()
-		.withGoogleId(accountGoogleId)
+                .withGoogleId(accountGoogleId)
                 .withShortName("John")
                 .withEmail("person@email.com")
                 .withInstitute("profile institute test profile")
@@ -156,8 +156,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withMoreInfo("some test info 221")
                 .withPictureKey("picture key")
                 .build();
-        
-        AccountAttributes copy = account.getCopy();
+
+	AccountAttributes copy = account.getCopy();
 
         assertFalse(account.equals(copy));
         assertTrue(account.isInstructor);
