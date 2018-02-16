@@ -147,8 +147,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         account.isInstructor = true;
 
         account.studentProfile = StudentProfileAttributes.builder()
-			    .withGoogleId(accountGoogleId)
-                .withShortName( "John")
+		.withGoogleId(accountGoogleId)
+                .withShortName("John")
                 .withEmail("person@email.com")
                 .withInstitute("profile institute test profile")
                 .withNationality("nation")
