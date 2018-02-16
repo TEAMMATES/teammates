@@ -137,34 +137,26 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void getCopy_shouldCreateDeepCopy() {
         String accountGoogleId = "johnDoe";
 
-        String profileShortName = "John";
-        String profilePersonalEmail = "person@email.com";
-        String profileInstitute = "profile institute test profile 23";
-        String profileNationality = "nationality g35";
-        String profileGender = "male";
-        String profileMoreInfo = "some test info 221";
-        String profilePictureKey = "picture key 223";
-
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(accountGoogleId)
                 .withName("John")
-                .withEmail("")
+                .withEmail("johnDoeEmail")
                 .withInstitute("johnson")
                 .withIsInstructor(true)
                 .build();
         account.isInstructor = true;
 
         account.studentProfile = StudentProfileAttributes.builder()
-                .withGoogleId(account.googleId)
-                .withShortName(profileShortName)
-                .withEmail(profilePersonalEmail)
-                .withInstitute(profileInstitute)
-                .withNationality(profileNationality)
-                .withGender(profileGender)
-                .withMoreInfo(profileMoreInfo)
-                .withPictureKey(profilePictureKey)
+			    .withGoogleId(accountGoogleId)
+                .withShortName( "John")
+                .withEmail("person@email.com")
+                .withInstitute("profile institute test profile")
+                .withNationality(= "nation")
+                .withGender("male")
+                .withMoreInfo("some test info 221")
+                .withPictureKey("picture key")
                 .build();
-
+        
         AccountAttributes copy = account.getCopy();
 
         assertFalse(account.equals(copy));
@@ -174,7 +166,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(account.institute, copy.institute);
         assertEquals(account.email, copy.email);
 
-        assertFalse(account.studentProfile == copy.studentProfile);
+        assertFalse(account.studentProfile.equals(copy.studentProfile));
     }
 
     @Test
