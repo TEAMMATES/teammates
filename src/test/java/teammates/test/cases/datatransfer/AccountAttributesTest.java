@@ -157,7 +157,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withPictureKey("picture key")
                 .build();
 
-	AccountAttributes copy = account.getCopy();
+        AccountAttributes copy = account.getCopy();
 
         assertFalse(account.equals(copy));
         assertTrue(account.isInstructor);
