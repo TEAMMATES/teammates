@@ -61,7 +61,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 .withEndTime(fs.getEndTime())
                 .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
                 .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
-                .withTimeZone(fs.getTimeZone())
+                .withTimeZone(fs.getOffset())
                 .withGracePeriod(fs.getGracePeriod())
                 .withFeedbackSessionType(fs.getFeedbackSessionType())
                 .withSentOpenEmail(fs.isSentOpenEmail())
