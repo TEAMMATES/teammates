@@ -487,7 +487,6 @@ test {
     afterTest afterTestClosure
     testLogging {
         events "passed"
-        showStandardStreams = true
     }
 }
 
