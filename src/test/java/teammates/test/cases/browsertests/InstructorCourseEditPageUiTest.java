@@ -770,7 +770,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("delete course then proceed");
 
         InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
-        assertTrue(coursePage.getTextsForAllUserStatusMessages()
+        assertTrue(coursePage.getTextsForAllStatusMessagesToUser()
                 .contains(String.format(Const.StatusMessages.COURSE_DELETED, courseId)));
     }
 

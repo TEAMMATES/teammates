@@ -76,7 +76,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
                                         .after(yesterday.getTime()));
 
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
-        String statusMessageText = logPage.getTextsForAllUserStatusMessages().get(0);
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
         assertTrue(statusMessageText.contains("The earliest log entry checked on"));
         assertTrue(statusMessageText.contains("in Admin Time Zone"));
         assertTrue(statusMessageText.contains("in Local Time Zone")
@@ -121,7 +121,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         logPage.fillQueryBoxWithText("role:instructor");
         logPage.clickSearchSubmitButton();
-        String statusMessageText = logPage.getTextsForAllUserStatusMessages().get(0);
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
         assertTrue(statusMessageText.contains("Total Logs gone through in last search:"));
 
     }

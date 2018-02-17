@@ -252,7 +252,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                                                        TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
-        assertTrue(instructorHomePage.getTextsForAllUserStatusMessages()
+        assertTrue(instructorHomePage.getTextsForAllStatusMessagesToUser()
                 .contains("The course " + demoCourseId + " has been deleted."));
 
         instructorHomePage.logout();

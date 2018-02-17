@@ -181,7 +181,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) throws Exception {
-        return emailPage.getTextsForAllUserStatusMessages().contains(
+        return emailPage.getTextsForAllStatusMessagesToUser().contains(
                 getPopulatedErrorMessage(
                     FieldValidator.EMAIL_ERROR_MESSAGE, recipientName,
                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
@@ -189,7 +189,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStatusMessageNoSubject() throws Exception {
-        return emailPage.getTextsForAllUserStatusMessages().contains(
+        return emailPage.getTextsForAllStatusMessagesToUser().contains(
                 getPopulatedEmptyStringErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.EMAIL_SUBJECT_FIELD_NAME, FieldValidator.EMAIL_SUBJECT_MAX_LENGTH));

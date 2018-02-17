@@ -598,7 +598,7 @@ public abstract class AppPage {
      * Returns a list of Texts of user status messages in the page.
      * Returns a empty list if there is no status message in the page.
      */
-    public List<String> getTextsForAllUserStatusMessages() {
+    public List<String> getTextsForAllStatusMessagesToUser() {
         List<WebElement> statusMessages= statusMessage.findElements(By.tagName("div"));
         List<String> statusMessageTexts = new ArrayList<String>();
         for (WebElement status : statusMessages) {
@@ -974,11 +974,11 @@ public abstract class AppPage {
                 @Override
                 public void run() {
                     waitForElementVisibility(statusMessage);
-                    assertEquals(Arrays.asList(expectedTexts), getTextsForAllUserStatusMessages());
+                    assertEquals(Arrays.asList(expectedTexts), getTextsForAllStatusMessagesToUser());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            assertEquals(Arrays.asList(expectedTexts), getTextsForAllUserStatusMessages());
+            assertEquals(Arrays.asList(expectedTexts), getTextsForAllStatusMessagesToUser());
         }
     }
 
