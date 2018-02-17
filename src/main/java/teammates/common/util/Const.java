@@ -237,9 +237,10 @@ public final class Const {
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
-        public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
+        public static final String CLAIMED =
+                "Claimed Contribution: This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED =
-                "This is the average of what other team members think this student contributed";
+                "Perceived Contribution: This is the average of what other team members think this student contributed";
 
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
