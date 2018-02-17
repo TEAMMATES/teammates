@@ -29,6 +29,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.collect.ObjectArrays;
+
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -966,10 +968,9 @@ public abstract class AppPage {
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void waitForTextsForAllStatusMessagesToUserEquals(final String firstExpectedText,
-            final String... remainingExpectedTexts) {
-        List<String> expectedTexts = new ArrayList<String>(Arrays.asList(remainingExpectedTexts));
-        expectedTexts.add(0, firstExpectedText);
+    public void waitForTextsForAllStatusMessagesToUserEquals(String firstExpectedText,
+            String... remainingExpectedTexts) {
+        List<String> expectedTexts = Arrays.asList(ObjectArrays.concat(firstExpectedText, remainingExpectedTexts));
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
