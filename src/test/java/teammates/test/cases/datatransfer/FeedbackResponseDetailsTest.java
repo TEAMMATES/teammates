@@ -30,6 +30,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -292,23 +293,50 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
     @Test
     public void testStudentQuestionResultsStatisticsHtml () {
-        DataBundle db = getTypicalDataBundle();
-        FeedbackResponseAttributes fra = db.feedbackResponses.get("response1ForQ1S1C1");
+
+        // Load databundle with NUMSCALE questions- and session-info
+        DataBundle db = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+
+        /**
+         * Object setup for method-calls.
+         */
+        FeedbackResponseAttributes fra = db.feedbackResponses.get("response1ForQ1S3C1");
         assertNotNull(fra);
-        FeedbackQuestionAttributes fqa = db.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes fqa = db.feedbackQuestions.get("qn1InSession3InCourse1");
         assertNotNull(fqa);
 
-        FeedbackSessionAttributes fsa = db.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes fsa = db.feedbackSessions.get("numscaleSession");
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         students.add(db.students.get("student1InCourse1"));
+        students.add(db.students.get("student2InCourse1"));
+        students.add(db.students.get("student3InCourse1"));
+        students.add(db.students.get("student4InCourse1"));
+        students.add(db.students.get("student5InCourse1"));
+        students.add(db.students.get("student1InCourse2"));
+        students.add(db.students.get("student2InCourse2"));
+        students.add(db.students.get("student1InCourseWithSections"));
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
         instructors.add(db.instructors.get("instructor1OfCourse1"));
+        instructors.add(db.instructors.get("instructor2OfCourse1"));
+        instructors.add(db.instructors.get("instructor1OfCourse2"));
+        instructors.add(db.instructors.get("instructor2OfCourse2"));
+        instructors.add(db.instructors.get("instructor1OfCourseWithSections"));
 
         HashMap<String, FeedbackQuestionAttributes> mapFqa = new HashMap<>();
-        mapFqa.put("qn1InSession1InCourse1", fqa);
+        mapFqa.put(fqa.getId(), fqa);
 
         CourseRoster cr = new CourseRoster(students, instructors);
-        FeedbackSessionResultsBundle fsrb = new FeedbackSessionResultsBundle(fsa, mapFqa, cr);
+        FeedbackSessionResultsBundle bundle = new FeedbackSessionResultsBundle(fsa, mapFqa, cr);
+
+        for (StudentAttributes student : students) {
+            bundle.emailTeamNameTable.put(student.email, student.team);
+            bundle.emailNameTable.put(student.email, student.name);
+            bundle.emailLastNameTable.put(student.email, student.lastName);
+        }
+
+        for (InstructorAttributes instructor : instructors) {
+            bundle.instructorEmailNameTable.put(instructor.email, instructor.name);
+        }
 
         ArrayList<FeedbackResponseAttributes> fraList = new ArrayList<>();
         fraList.add(fra);
@@ -317,15 +345,33 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertNotNull(fsa);
         assertNotNull(mapFqa);
         assertNotNull(cr);
-        assertNotNull(fsrb);
+        assertNotNull(bundle);
 
         FeedbackNumericalScaleQuestionDetails fnsqd = new FeedbackNumericalScaleQuestionDetails();
-        fnsqd.getQuestionResultStatisticsHtml(
+
+        /**
+         * Methods to test
+         */
+        String resHtml = fnsqd.getQuestionResultStatisticsHtml(
             fraList,
             fqa,
             "student1InCourse1@gmail.tmt",
-            fsrb,
+            bundle,
             "student"
         );
+
+        String resCsv = fnsqd.getQuestionResultStatisticsCsv(
+            fraList,
+            fqa,
+            bundle
+        );
+
+        /**
+         * The asserts is based on results from before the refactor of the methods
+         */
+        assertEquals("", resHtml);
+        assertEquals(
+            "Team, Recipient, Average, Minimum, Maximum"+ Const.EOL +"\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5" + Const.EOL, 
+            resCsv);
     }
 }
