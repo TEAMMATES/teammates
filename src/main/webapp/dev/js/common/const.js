@@ -22,7 +22,6 @@ const Const = {
  * Subset of Bootstrap contextual colors for use in status messages and components of modals.
  * @enum {BootstrapContextualColors}
  */
-
 const BootstrapContextualColors = {
     // Mirrored colors from StatusMessageColor
     SUCCESS: 'success',
