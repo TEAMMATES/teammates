@@ -25,6 +25,7 @@ public class AutomatedServlet extends HttpServlet {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
@@ -39,11 +40,12 @@ public class AutomatedServlet extends HttpServlet {
             }
 
             action.execute();
-        } catch (Exception e) {
+        } catch (Throwable t) {
             String requestUrl = req.getRequestURL().toString();
             String requestParams = HttpRequestHelper.printRequestParameters(req);
             log.severe("Exception occured while performing " + requestUrl + "|||"
-                       + requestParams + "|||" + TeammatesException.toStringWithStackTrace(e));
+                       + requestParams + "|||" + TeammatesException.toStringWithStackTrace(t));
+            resp.setStatus(500); // so task will be recognised as failed and GAE retry mechanism can kick in
         }
     }
 
