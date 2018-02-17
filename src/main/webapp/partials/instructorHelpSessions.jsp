@@ -6926,15 +6926,14 @@
         <div class="col-sm-12">
             <b id="fbRankOptions">Rank Options question</b>
           <br>
-          Rank options questions are question where the students rank options that are created by you.
+          Rank options questions are questions where the respondents rank the options that you have created.
           <br>
 
           <br>
-          To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
+          To set up the question, enter the main question text, and add the options for the respondents to rank. You can configure it to allow the respondents to give the same rank multiple times.
           <br>
-          You can also configure the minimum and (or) maximum options to be ranked. When the minimum options to be ranked restriction is enabled, it will ensure that the respondent ranks at least the number of options mentioned in the restriction.
-          <br>
-          Similarly, when maximum options to be ranked restriction is enabled, it will ensure that the respondent ranks at most the number of options mentioned in the restriction.
+          You can also configure the minimum and (or) maximum number of options to be ranked. When the restriction on the minimum number is enabled, it will ensure that the respondent ranks at least the number of options as set in the restriction.
+          Similarly, when the restriction on the maximum number is enabled, it will ensure that the respondent ranks at most the number of options as set in the restriction.
           <br>
           <br>
           <div class="bs-example">
@@ -7340,9 +7339,10 @@
         <div class="col-sm-12">
             <b id="fbRankRecipients">Rank Recipients question</b>
           <br>
-          Rank recipients questions are questions where the students are to rank students, teams, or instructors.
+          Rank recipients questions are questions where the respondents are to rank other respondents, themselves, teams, or instructors.
           <br>
-          <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
+          <br>
+          The options to rank are determined by the feedback path selected for the question. You can configure it to allow the respondents to give the same rank multiple times.
           <br>
           <br>
           <div class="bs-example">
@@ -7737,7 +7737,12 @@
             </form>
           </div>
 
-          <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}.
+          <br>
+          The statistics for rank questions show the ranks which an option/recipient received and the overall rank computed.
+          <br>
+          The <b> Ranks Received </b> as shown in the statistic summary below are processed from the original responses with the ties handled (if exist) and the void ranking slots removed. For example, if giver A's original response is {1, 3, 3, 5} and the Rank 5 is to recipient B, after the processing, giver A's response will become {1, 2, 2, 4} and recipient B will have a Rank 4 in his <b>Ranks Received</b>, instead of the Rank 5 in the original response by giver A.
+          <br>
+          The <b> Overall Rank </b> is basically a ranking of the averages of the ranks for each recipient. For example, if recipient A's <b> Ranks Received </b> is {1,2} and recipient B's <b> Ranks Received </b> is {2,4,6}, then the averages of the ranks for recipient A and recipient B are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <b>Overall Rank</b> of 1 and 2 respectively.
           <br>
           <br>
           <div class="bs-example">
@@ -7760,7 +7765,7 @@
                         <span class="icon-sort unsorted"></span></td>
                       <td class="button-sort-none" id="button_sortname" style="width:15%;">Ranks Received
                         <span class="icon-sort unsorted"></span></td>
-                      <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Average Rank
+                      <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Overall Rank
                         <span class="icon-sort unsorted"></span></td>
                     </tr>
                     </thead>
@@ -7776,7 +7781,7 @@
                           1 , 1 , 2
                         </td>
                         <td>
-                          1.33
+                          1
                         </td>
                       </tr>
                       <tr>
@@ -7790,7 +7795,7 @@
                           1 , 2
                         </td>
                         <td>
-                          1.5
+                          2
                         </td>
                       </tr>
                       <tr>
@@ -7804,7 +7809,7 @@
                           1 , 2
                         </td>
                         <td>
-                          1.5
+                          2
                         </td>
                       </tr>
                     </tbody>
