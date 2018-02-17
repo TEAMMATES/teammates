@@ -354,7 +354,10 @@ public final class Templates {
             public static final String CONSTSUM_SELECTED_POINTS_PER_OPTION = "${selectedConstSumPointsPerOption}";
             public static final String CONSTSUM_OPTION_TABLE_VISIBILITY = "${constSumOptionTableVisibility}";
             public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
+            public static final String CONSTSUM_SPECIFY_MINMAX = "{specifyMinMax}";
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
+            public static final String CONSTSUM_POINTS_MIN = "${constSumPointsMin}";
+            public static final String CONSTSUM_POINTS_MAX = "${constSumPointsMax}";
             public static final String CONSTSUM_POINTS_RECEIVED = "${pointsReceived}";
             public static final String CONSTSUM_AVERAGE_POINTS = "${averagePoints}";
             public static final String CONSTSUM_TOTAL_POINTS = "${totalPoints}";
@@ -363,11 +366,17 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+            public static final String CONSTSUM_PARAM_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
+            public static final String CONSTSUM_PARAM_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
             public static final String CONSTSUM_TOOLTIP_POINTS = "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_TOOLTIP_POINTS_PER_OPTION =
                     "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
             public static final String CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT =
                     "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}";
+            public static final String CONSTSUM_TOOLTIP_POINTS_MIN =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN}";
+            public static final String CONSTSUM_TOOLTIP_POINTS_MAX =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX}";
             public static final String OPTION_DISPLAY = "${optionDisplay}";
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";

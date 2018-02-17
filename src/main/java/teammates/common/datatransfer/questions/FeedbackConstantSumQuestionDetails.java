@@ -31,7 +31,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private boolean distributeToRecipients;
     private boolean pointsPerOption;
     private boolean forceUnevenDistribution;
+    private boolean specifyMinMax;
     private int points;
+    private int minPoints;
+    private int maxPoints;
 
     public FeedbackConstantSumQuestionDetails() {
         super(FeedbackQuestionType.CONSTSUM);
@@ -41,6 +44,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
+        this.minPoints = 1;
+        this.maxPoints = 100;
+        this.specifyMinMax = false;
         this.forceUnevenDistribution = false;
     }
 
@@ -305,6 +311,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
+                Slots.CONSTSUM_POINTS_MIN, minPoints ==  0 ? "1" : Integer.toString(minPoints),
+                Slots.CONSTSUM_POINTS_MAX, maxPoints == 0 ? "100": Integer.toString(maxPoints),
                 Slots.OPTION_DISPLAY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
                 Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",
@@ -316,15 +324,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TOOLTIP_POINTS_PER_OPTION, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT,
                         Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
+                Slots.CONSTSUM_TOOLTIP_POINTS_MIN, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN,
+                Slots.CONSTSUM_TOOLTIP_POINTS_MAX, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
+                Slots.CONSTSUM_SPECIFY_MINMAX, specifyMinMax ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
-
+                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_PARAM_MIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN,
+                Slots.CONSTSUM_PARAM_MIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN);
     }
 
     @Override

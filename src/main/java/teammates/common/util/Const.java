@@ -415,6 +415,12 @@ public final class Const {
                 "Respondents will have to distribute the total points specified here among the options, "
                 + "e.g. if you specify 100 points here and there are 3 options, "
                 + "respondents will have to distribute 100 points among 3 options.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN =
+                "Ticking this option restricts respondent to fill the required minimum value for each option. "
+                        + "E.g. If Min is 5, then the minimum value for each option to be filled is 5.";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX =
+                "Ticking this option restricts respondent to fill the required maximum value for each option. "
+                        + "E.g. If Max is 50, then the maximum value for each option to be filled is 50.";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT =
                 "Respondents will have to distribute the total points specified here among the recipients, "
                 + "e.g. if you specify 100 points here and there are 3 recipients, "
@@ -739,6 +745,8 @@ public final class Const {
         // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSMIN = "constSumPointsMin";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSMAX = "constSumPointsMax";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
