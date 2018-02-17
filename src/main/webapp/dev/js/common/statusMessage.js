@@ -13,19 +13,19 @@ const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param {BootstrapContextualColors} bootstrapContextualColorParam the contextual color to apply to the status messsage
+ * @param {BootstrapContextualColors} bootstrapContextualColor the contextual color to apply to the status messsage
  * @return created status message div
  */
-function populateStatusMessageDiv(message, bootstrapContextualColorParam) {
+function populateStatusMessageDiv(message, bootstrapContextualColor) {
     const $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
     const $statusMessageDivContent = $('<div></div>');
 
     // Default the status type to info if any invalid status is passed in
-    const bootstrapContextualColor = BootstrapContextualColors.isValidType(
-            bootstrapContextualColorParam) ? bootstrapContextualColorParam : BootstrapContextualColors.INFO;
+    const contextualColor = BootstrapContextualColors.isValidType(
+            bootstrapContextualColor) ? bootstrapContextualColor : BootstrapContextualColors.INFO;
 
     $statusMessageDivContent.addClass(
-            `overflow-auto alert alert-${bootstrapContextualColor} icon-${bootstrapContextualColor} statusMessage`);
+            `overflow-auto alert alert-${contextualColor} icon-${contextualColor} statusMessage`);
     $statusMessageDivContent.html(message);
 
     $statusMessageDivToUser.empty();
