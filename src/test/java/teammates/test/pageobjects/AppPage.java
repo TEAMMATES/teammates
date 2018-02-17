@@ -29,6 +29,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -66,8 +67,8 @@ public abstract class AppPage {
 
     // These are elements common to most pages in our app
 
-    @FindBy(className = "statusMessage")
-    private List<WebElement> statusMessages;
+    @FindBy(id = "statusMessagesToUser")
+    private WebElement statusMessage;
 
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
     private WebElement instructorHomeTab;
@@ -595,13 +596,11 @@ public abstract class AppPage {
 
     /**
      * Returns a list of Texts of user status messages in the page.
-     * Returns a list containing "" if there is no status message in the page.
+     * Returns a empty list if there is no status message in the page.
      */
     public List<String> getTextsForAllUserStatusMessages() {
+        List<WebElement> statusMessages= statusMessage.findElements(By.tagName("div"));
         List<String> statusMessageTexts = new ArrayList<String>();
-        if (statusMessages.isEmpty()) {
-            statusMessageTexts.add("");
-        }
         for (WebElement status : statusMessages) {
             statusMessageTexts.add(status.getText());
         }
@@ -969,11 +968,12 @@ public abstract class AppPage {
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
     public void waitForTextsForAllStatusMessagesToUserEquals(final String... expectedTexts) {
+        Assumption.assertFalse(expectedTexts.length == 0);
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
-                    waitForElementsVisibility(statusMessages);
+                    waitForElementVisibility(statusMessage);
                     assertEquals(Arrays.asList(expectedTexts), getTextsForAllUserStatusMessages());
                 }
             }, WebDriverException.class, AssertionError.class);
