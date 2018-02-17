@@ -29,7 +29,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
@@ -599,7 +598,7 @@ public abstract class AppPage {
      * Returns a empty list if there is no status message in the page.
      */
     public List<String> getTextsForAllStatusMessagesToUser() {
-        List<WebElement> statusMessages= statusMessage.findElements(By.tagName("div"));
+        List<WebElement> statusMessages = statusMessage.findElements(By.tagName("div"));
         List<String> statusMessageTexts = new ArrayList<String>();
         for (WebElement status : statusMessages) {
             statusMessageTexts.add(status.getText());
@@ -967,18 +966,20 @@ public abstract class AppPage {
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void waitForTextsForAllStatusMessagesToUserEquals(final String... expectedTexts) {
-        Assumption.assertFalse(expectedTexts.length == 0);
+    public void waitForTextsForAllStatusMessagesToUserEquals(final String firstExpectedText,
+            final String... remainingExpectedTexts) {
+        List<String> expectedTexts = new ArrayList<String>(Arrays.asList(remainingExpectedTexts));
+        expectedTexts.add(0, firstExpectedText);
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
                     waitForElementVisibility(statusMessage);
-                    assertEquals(Arrays.asList(expectedTexts), getTextsForAllStatusMessagesToUser());
+                    assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            assertEquals(Arrays.asList(expectedTexts), getTextsForAllStatusMessagesToUser());
+            assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
         }
     }
 
