@@ -3,12 +3,12 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.internal.junit.ArrayAsserts.assertArrayEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -974,11 +974,11 @@ public abstract class AppPage {
                 @Override
                 public void run() {
                     waitForElementsVisibility(statusMessages);
-                    assertArrayEquals(expectedTexts, getTextsForAllUserStatusMessages().toArray());
+                    assertEquals(Arrays.asList(expectedTexts), getTextsForAllUserStatusMessages());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            assertArrayEquals(expectedTexts, getTextsForAllUserStatusMessages().toArray());
+            assertEquals(Arrays.asList(expectedTexts), getTextsForAllUserStatusMessages());
         }
     }
 
