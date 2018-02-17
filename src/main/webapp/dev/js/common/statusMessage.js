@@ -13,7 +13,7 @@ const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param {BootstrapContextualColors} bootstrapContextualColor the contextual color to apply to the status messsage
+ * @param {BootstrapContextualColors} bootstrapContextualColorParam the contextual color to apply to the status messsage
  * @return created status message div
  */
 function populateStatusMessageDiv(message, bootstrapContextualColorParam) {
