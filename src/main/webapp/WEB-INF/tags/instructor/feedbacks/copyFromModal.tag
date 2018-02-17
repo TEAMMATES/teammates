@@ -42,9 +42,13 @@
             <input class="form-control" type="text"
                 name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
                 id="modalCopiedSessionName"
-                maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
+                maxlength="<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>"
                 value="${copyFromModal.fsName}"
-                placeholder="e.g. Feedback for Project Presentation 1">
+                placeholder="e.g. Feedback for Project Presentation 1" data-length-text-id="charLeft-2">
+            <div class="col-md-6 padding-0">
+              <span id="charLeft-2"></span>
+              characters left
+            </div>
           </div>
           <%-- Previous Session --%>
           <label>Copy sessions/questions from</label>

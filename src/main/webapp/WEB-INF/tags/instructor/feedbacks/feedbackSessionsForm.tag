@@ -96,8 +96,12 @@
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
                         maxlength="<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>"
-                        placeholder="e.g. Feedback for Project Presentation 1"
+                        placeholder="e.g. Feedback for Project Presentation 1" data-length-text-id="charLeft-1"
                         value="${fsForm.fsName}">
+                    <div class="col-md-6 padding-0">
+                      <span id="charLeft-1"></span>
+                      characters left
+                    </div>
                   </c:when>
                   <c:otherwise>
                     <h5 class="form-control-static font-weight-normal">

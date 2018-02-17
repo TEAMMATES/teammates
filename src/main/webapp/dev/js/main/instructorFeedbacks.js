@@ -112,6 +112,31 @@ function selectDefaultTimeOptions() {
     }
 }
 
+
+/**
+ * Updates the number of characters left in the text area
+ * @param textAreaId - Id of text area for which char are to be counted
+ * @param wordsCountId - Id of Label to display length of text area
+ */
+function updateCharLeftCount(textAreaId, letterCountId) {
+    const textArea = $(`#${textAreaId}`);
+    const letterCountArea = $(`#${letterCountId}`);
+    const maxLength = textArea.attr('maxLength');
+    const charLength = textArea.val().length;
+
+    letterCountArea.text(maxLength - charLength);
+}
+
+function updateCharLeft(textAreaId) {
+    const feedbackSessionName = $(`#${textAreaId}`);
+    const feedbackSessionNameId = feedbackSessionName.attr('id');
+    const letterCountAreaId = feedbackSessionName.data('lengthTextId');
+    updateCharLeftCount(feedbackSessionNameId, letterCountAreaId);
+    feedbackSessionName.on('keyup', () => updateCharLeftCount(feedbackSessionNameId, letterCountAreaId));
+    feedbackSessionName.on('keydown', () => updateCharLeftCount(feedbackSessionNameId, letterCountAreaId));
+    feedbackSessionName.on('change', () => updateCharLeftCount(feedbackSessionNameId, letterCountAreaId));
+}
+
 function bindCopyButton() {
     $('#button_copy').on('click', (e) => {
         e.preventDefault();
@@ -157,7 +182,7 @@ function bindCopyButton() {
                 $modalSessionName.val(firstSessionName);
             }
         }
-
+        updateCharLeft('modalCopiedSessionName');
         return false;
     });
 
@@ -295,6 +320,8 @@ $(document).ready(() => {
         });
         /* eslint-enable camelcase */
     }
+
+    updateCharLeft('fsname');
 
     readyFeedbackPage();
 });
