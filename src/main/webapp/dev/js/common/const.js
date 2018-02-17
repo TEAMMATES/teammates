@@ -18,7 +18,11 @@ const Const = {
 
 // Shared constants between frontend and backend
 
-// Subset of Bootstrap contextual colors for use in status messages and components of modals
+/**
+ * Subset of Bootstrap contextual colors for use in status messages and components of modals.
+ * @enum {BootstrapContextualColors}
+ */
+
 const BootstrapContextualColors = {
     // Mirrored colors from StatusMessageColor
     SUCCESS: 'success',
@@ -63,7 +67,6 @@ const ParamsNames = {
     FEEDBACK_QUESTION_MSQCHOICE: 'msqOption',
     FEEDBACK_QUESTION_CONSTSUMOPTION: 'constSumOption',
     FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS: 'constSumToRecipients',
-    FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE: 'constSumOptionTable',
     FEEDBACK_QUESTION_CONSTSUMPOINTS: 'constSumPoints',
     FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION: 'constSumPointsForEachOption',
     FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT: 'constSumPointsForEachRecipient',
@@ -80,7 +83,6 @@ const ParamsNames = {
     FEEDBACK_QUESTION_NUMSCALE_MAX: 'numscalemax',
     FEEDBACK_QUESTION_NUMSCALE_STEP: 'numscalestep',
     FEEDBACK_QUESTION_RANKOPTION: 'rankOption',
-    FEEDBACK_QUESTION_RANKOPTIONTABLE: 'rankOptionTable',
     FEEDBACK_QUESTION_RANKTORECIPIENTS: 'rankToRecipients',
 
 };

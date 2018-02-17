@@ -13,15 +13,15 @@ const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param status type
+ * @param {BootstrapContextualColors} bootstrapContextualColor the contextual color to apply to the status messsage
  * @return created status message div
  */
-function populateStatusMessageDiv(message, status) {
+function populateStatusMessageDiv(message, bootstrapContextualColor) {
     const $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
     const $statusMessageDivContent = $('<div></div>');
 
     // Default the status type to info if any invalid status is passed in
-    const bootstrapContextualColor = BootstrapContextualColors.isValidType(status) ? status : BootstrapContextualColors.INFO;
+    const bootstrapContextualColor = BootstrapContextualColors.isValidType(bootstrapContextualColor) ? bootstrapContextualColor : BootstrapContextualColors.INFO;
 
     $statusMessageDivContent.addClass(
             `overflow-auto alert alert-${bootstrapContextualColor} icon-${bootstrapContextualColor} statusMessage`);
@@ -37,13 +37,13 @@ function populateStatusMessageDiv(message, status) {
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param status type
+ * @param {BootstrapContextualColors} bootstrapContextualColor the contextual color to apply to the status messsage
  */
-function setStatusMessage(message, status) {
+function setStatusMessage(message, bootstrapContextualColor) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
-    const $statusMessageDivToUser = populateStatusMessageDiv(message, status);
+    const $statusMessageDivToUser = populateStatusMessageDiv(message, bootstrapContextualColor);
     $statusMessageDivToUser.show();
     scrollToElement($statusMessageDivToUser[0], { offset: -window.innerHeight / 2 });
 }
@@ -53,15 +53,15 @@ function setStatusMessage(message, status) {
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param status type
+ * @param {BootstrapContextualColors} bootstrapContextualColor the contextual color to apply to the status messsage
  * @param form form which should own the status
  */
-function setStatusMessageToForm(message, status, form) {
+function setStatusMessageToForm(message, bootstrapContextualColor, form) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
     // Copy the statusMessage and prepend to form
-    const $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, status).clone().show();
+    const $copyOfStatusMessagesToUser = populateStatusMessageDiv(message, bootstrapContextualColor).clone().show();
     $(DIV_STATUS_MESSAGE).remove();
     $(form).prepend($copyOfStatusMessagesToUser);
     const opts = {
