@@ -122,7 +122,6 @@ function updateCharLeftCount(textAreaId, letterCountId) {
     const letterCountArea = $(`#${letterCountId}`);
     const maxLength = textArea.attr('maxLength');
     const charLength = textArea.val().length;
-
     letterCountArea.text(maxLength - charLength);
 }
 

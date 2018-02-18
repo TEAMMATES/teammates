@@ -99,7 +99,7 @@
                         placeholder="e.g. Feedback for Project Presentation 1" data-length-text-id="charLeft-1"
                         value="${fsForm.fsName}">
                     <div class="col-md-6 padding-0">
-                      <span id="charLeft-1"></span>
+                      <span id="charLeft-1"> <%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %> </span>
                       characters left
                     </div>
                   </c:when>
