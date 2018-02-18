@@ -35,31 +35,8 @@ function setUpperLimitForMaxSelectableChoices(questionNum, upperLimit) {
     getMaxSelectableChoicesElement(questionNum).prop('max', upperLimit);
 }
 
-function setMaxSelectableChoices(questionNum, newVal) {
-    if (newVal >= 2) {
-        // No use if max selectable choices were 1
-        getMaxSelectableChoicesElement(questionNum).val(newVal);
-    }
-}
-
 function getMinSelectableChoicesElement(questionNum) {
     return $(`#msqMinSelectableChoices-${questionNum}`);
-}
-
-function getMinSelectableChoicesValue(questionNum) {
-    if (isMinSelectableChoicesEnabled(questionNum)) {
-        return parseInt(getMinSelectableChoicesElement(questionNum).val(), 10);
-    }
-
-    // return infinity
-    return Number.MAX_SAFE_INTEGER;
-}
-
-function setMinSelectableChoices(questionNum, newVal) {
-    if (newVal >= 1) {
-        // No use if min selectable choices where 0
-        getMinSelectableChoicesElement(questionNum).val(newVal);
-    }
 }
 
 function setUpperLimitForMinSelectableChoices(questionNum, upperLimit) {
@@ -83,10 +60,8 @@ function adjustMaxSelectableChoices(questionNum) {
 
     const upperLimit = isGenerateOptionsEnabled(questionNum)
             ? getTotalOptionsForSelectedGenerateOptionsType(questionNum) : getNumOfMsqOptions(questionNum);
-    const currentVal = getMaxSelectableChoicesValue(questionNum);
 
     setUpperLimitForMaxSelectableChoices(questionNum, upperLimit);
-    setMaxSelectableChoices(questionNum, Math.min(currentVal, upperLimit));
 }
 
 function adjustMinSelectableChoices(questionNum) {
@@ -94,12 +69,10 @@ function adjustMinSelectableChoices(questionNum) {
         return;
     }
 
-    const currentVal = getMinSelectableChoicesValue(questionNum);
     const upperLimit = Math.min(getMaxSelectableChoicesValue(questionNum), isGenerateOptionsEnabled(questionNum)
             ? getTotalOptionsForSelectedGenerateOptionsType(questionNum) : getNumOfMsqOptions(questionNum));
 
     setUpperLimitForMinSelectableChoices(questionNum, upperLimit);
-    setMinSelectableChoices(questionNum, Math.min(currentVal, upperLimit));
 }
 
 function adjustMinMaxSelectableChoices(questionNum) {
