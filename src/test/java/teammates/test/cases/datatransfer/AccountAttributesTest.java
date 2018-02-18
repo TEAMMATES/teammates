@@ -170,7 +170,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_shouldCreateDeepCopy_ifAllFieldsNull() {
+    public void getCopy_shouldCreateDeepCopyIfAllFieldsNull() {
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(null)
                 .withName(null)
