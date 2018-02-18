@@ -4,7 +4,7 @@ import {
 
 import {
     ParamsNames,
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -122,7 +122,7 @@ function bindCopyButton() {
 
         const $sessionsList = $('tr[id^="session"]');
         if (!$sessionsList.length) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_COPY_INVALID, StatusType.DANGER);
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_COPY_INVALID, BootstrapContextualColors.DANGER);
             return false;
         }
 
@@ -137,7 +137,7 @@ function bindCopyButton() {
         });
 
         if (isExistingSession) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, StatusType.DANGER);
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, BootstrapContextualColors.DANGER);
         } else {
             clearStatusMessages();
 
@@ -236,7 +236,7 @@ const ajaxRequest = function (e) {
             $('#loadSessionsFailErrorMsg').on('click', loadSessionsByAjax);
             const msg = 'Failed to load sessions. '
                     + 'Please <a href="javascript:;" id="loadSessionsFailErrorMsg">click here</a> to retry.';
-            setStatusMessage(msg, StatusType.DANGER);
+            setStatusMessage(msg, BootstrapContextualColors.DANGER);
 
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== '') {
                 appendStatusMessage(oldStatus);
