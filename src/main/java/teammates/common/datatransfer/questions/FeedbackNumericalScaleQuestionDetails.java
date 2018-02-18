@@ -497,10 +497,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
-        DecimalFormat df = new DecimalFormat();
-        df.setMinimumFractionDigits(0);
-        df.setMaximumFractionDigits(5);
-        df.setRoundingMode(RoundingMode.DOWN);
+        DecimalFormat df = customDecimalFormat(0, 5, "down");
 
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
                          + (showAvgExcludingSelf ? ", Average excluding self response" : "")
@@ -517,7 +514,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String averageScoreExcludingSelfText =
                     getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
 
-            updateQuestionResultStatisticsCsv(csvBody, bundle, df, recipient, average, min, max, showAvgExcludingSelf, averageScoreExcludingSelfText);
+            updateQuestionResultStatisticsCsv(csvBody, bundle, recipient, average, min, max, showAvgExcludingSelf, averageScoreExcludingSelfText);
         }
 
         return csvHeader + csvBody.toString();
@@ -526,9 +523,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
     /** adds a single record to the QuestionResultStatisticsCsv
      * @return void
      */
-    private void updateQuestionResultStatisticsCsv(StringBuilder csvBody, FeedbackSessionResultsBundle bundle, DecimalFormat df, String recipient, Map<String, Double> average, Map<String, Double> min, Map<String, Double> max, boolean showAvgExcludingSelf, String averageScoreExcludingSelfText) {
-        String recipientTeam = bundle.getTeamNameForEmail(recipient);  // not necessary
-        boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION); // not necessary
+    private void updateQuestionResultStatisticsCsv(StringBuilder csvBody, FeedbackSessionResultsBundle bundle, String recipient, Map<String, Double> average, Map<String, Double> min, Map<String, Double> max, boolean showAvgExcludingSelf, String averageScoreExcludingSelfText) {
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);
+        boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
+
+        DecimalFormat df = customDecimalFormat(0, 5, "down");
+
         csvBody.append(SanitizationHelper.sanitizeForCsv(recipientTeam) + ','
                        + SanitizationHelper.sanitizeForCsv(isRecipientGeneral
                                                   ? "General"
@@ -539,6 +539,22 @@ public class FeedbackNumericalScaleQuestionDetails extends
                        + df.format(max.get(recipient))
                        + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
                        + Const.EOL);
+    }
+
+    /** creates a DecimalFormat with a given minimum & maximum fraction digits, and a rounding mode
+     * @return DecimalFormat
+     */
+    private DecimalFormat customDecimalFormat(int min, int max, String roundingMode) {
+      DecimalFormat df = new DecimalFormat();
+      df.setMinimumFractionDigits(min);
+      df.setMaximumFractionDigits(max);
+    //  roundingMode = roundingMode.toUpperCase()
+      if (roundingMode.equals("down")) {
+        df.setRoundingMode(RoundingMode.DOWN);
+      } else if (roundingMode.equals("up")) {
+        df.setRoundingMode(RoundingMode.UP);
+      }
+      return df;
     }
 
     private boolean showAverageExcludingSelf(
