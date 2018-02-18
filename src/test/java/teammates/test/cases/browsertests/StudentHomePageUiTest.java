@@ -102,7 +102,6 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         studentHomePage.verifyHtmlMainContent("/studentHomeTypicalTestingSanitization.html");
     }
 
-    @SuppressWarnings("PMD.UseAssertTrueInsteadOfAssertEquals")
     private void testLinks() {
 
         AppUrl homePageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
@@ -146,7 +145,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of Grace period feedback");
 
-        assertEquals(true, studentHomePage.getViewFeedbackButton("Graced Feedback Session")
+        assertTrue(studentHomePage.getViewFeedbackButton("Graced Feedback Session")
                 .getAttribute("class").contains("disabled"));
 
         studentHomePage.clickSubmitFeedbackButton("Graced Feedback Session");
@@ -160,7 +159,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of pending feedback");
 
-        assertEquals(true, studentHomePage.getViewFeedbackButton("First Feedback Session")
+        assertTrue(studentHomePage.getViewFeedbackButton("First Feedback Session")
                 .getAttribute("class").contains("disabled"));
 
         studentHomePage.clickSubmitFeedbackButton("First Feedback Session");
