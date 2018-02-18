@@ -112,7 +112,6 @@ function selectDefaultTimeOptions() {
     }
 }
 
-
 /**
  * Updates the number of characters left in the text area
  * @param textAreaId - Id of text area for which char are to be counted
