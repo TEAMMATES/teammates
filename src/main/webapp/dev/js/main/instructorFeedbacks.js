@@ -190,7 +190,7 @@ function bindEventsAfterAjax() {
 }
 
 function escapeXml(unsafe) {
-    return unsafe.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    return (unsafe || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
             .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
 }
