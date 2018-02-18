@@ -41,9 +41,10 @@ public class FileDownloadResult extends ActionResult {
         // Content-Disposition is a header on the HTTP response to suggest a filename
         // if the contents of the response is saved to a file.
         resp.setHeader("Content-Disposition", getContentDispositionHeader());
-        PrintWriter writer = resp.getWriter();
-        writer.write("\uFEFF");
-        writer.append(fileContent);
+        try(PrintWriter writer = resp.getWriter();) {
+            writer.write("\uFEFF");
+            writer.append(fileContent);
+        }
     }
 
     /**

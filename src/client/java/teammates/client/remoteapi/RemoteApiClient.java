@@ -47,12 +47,9 @@ public abstract class RemoteApiClient {
         installer.install(options);
 
         OfyHelper.registerEntityClasses();
-        Closeable objectifySession = ObjectifyService.begin();
-
-        try {
+        try(Closeable objectifySession = ObjectifyService.begin();) {
             doOperation();
         } finally {
-            objectifySession.close();
             installer.uninstall();
         }
 
