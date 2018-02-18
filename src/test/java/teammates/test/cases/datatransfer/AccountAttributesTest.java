@@ -130,32 +130,22 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(a.getName(), attr.name);
         assertNull(a.getStudentProfile());
         assertNull(attr.studentProfile);
-
     }
 
     @Test
     public void testGetCopy_typicalData_shouldCreateDeepCopy() {
-        String accountGoogleId = "johnDoe";
-
-        AccountAttributes account = AccountAttributes.builder()
-                .withGoogleId(accountGoogleId)
-                .withName("John")
-                .withEmail("")
-                .withInstitute("johnson")
-                .withIsInstructor(true)
-                .withStudentProfileAttributes(createStudentProfileWithDefaultValue(accountGoogleId))
-                .build();
+        AccountAttributes account = createValidAccountAttributesObject();
 
         AccountAttributes copy = account.getCopy();
 
-        assertFalse(account == copy);
-        assertTrue(account.isInstructor);
+        assertFalse(account.equals(copy));
+        assertFalse(account.studentProfile.equals(copy.studentProfile));
+        assertFalse(account.isInstructor);
+
         assertEquals(account.googleId, copy.googleId);
         assertEquals(account.name, copy.name);
         assertEquals(account.institute, copy.institute);
         assertEquals(account.email, copy.email);
-
-        assertFalse(account.studentProfile.equals(copy.studentProfile));
     }
 
     @Test
@@ -174,11 +164,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertFalse(account.equals(copy));
         assertFalse(account.isInstructor);
 
-        assertNull(copy.studentProfile);
-        assertNull(account.googleId, copy.googleId);
-        assertNull(account.name, copy.name);
-        assertNull(account.institute, copy.institute);
-        assertNull(account.email, copy.email);
+        assertNull("student profile should be null", copy.studentProfile);
+
+        assertEquals(account.googleId, copy.googleId);
+        assertEquals(account.name, copy.name);
+        assertEquals(account.institute, copy.institute);
+        assertEquals(account.email, copy.email);
     }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
@@ -197,28 +188,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
-                .build();
-    }
-
-    private StudentProfileAttributes createStudentProfileWithDefaultValue(String accountGoogleId){
-
-        String profileShortName = "John";
-        String profilePersonalEmail = "person@email.com";
-        String profileInstitute = "profile institute test profile 23";
-        String profileNationality = "nationality g35";
-        String profileGender = "male";
-        String profileMoreInfo = "some test info 221";
-        String profilePictureKey = "picture key 223";
-
-        return StudentProfileAttributes.builder()
-                .withGoogleId(accountGoogleId)
-                .withShortName(profileShortName)
-                .withEmail(profilePersonalEmail)
-                .withInstitute(profileInstitute)
-                .withNationality(profileNationality)
-                .withGender(profileGender)
-                .withMoreInfo(profileMoreInfo)
-                .withPictureKey(profilePictureKey)
                 .build();
     }
 
