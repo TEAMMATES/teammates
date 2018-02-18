@@ -545,6 +545,22 @@ function enableNewQuestion() {
         $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
+    if ($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+        $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
+        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
+    } else {
+        $(`#mcqChoiceTable-${NEW_QUESTION}`).show();
+        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
+    }
+
+    if ($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
+        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
+    } else {
+        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
+        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
+    }
+
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${NEW_QUESTION}`).hide();
