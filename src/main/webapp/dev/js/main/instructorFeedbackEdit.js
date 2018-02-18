@@ -43,6 +43,7 @@ import {
     addConstSumOption,
     hideConstSumOptionTable,
     removeConstSumOption,
+    showConstSumOptionTable,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -726,6 +727,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
