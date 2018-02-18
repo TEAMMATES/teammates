@@ -140,7 +140,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(accountGoogleId)
                 .withName("John")
-                .withEmail("johnDoe@gmail.com")
+                .withEmail("")
                 .withInstitute("johnson")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(createStudentProfileWithDefaultValue(accountGoogleId))
@@ -155,7 +155,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(account.institute, copy.institute);
         assertEquals(account.email, copy.email);
 
-        assertFalse(account.studentProfile == copy.studentProfile);
+        assertFalse(account.studentProfile.equals(copy.studentProfile));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         AccountAttributes copy = account.getCopy();
 
-        assertFalse(account == copy);
+        assertFalse(account.equals(copy));
         assertFalse(account.isInstructor);
 
         assertNull(copy.studentProfile);
@@ -201,7 +201,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     private StudentProfileAttributes createStudentProfileWithDefaultValue(String accountGoogleId){
-        
+
         String profileShortName = "John";
         String profilePersonalEmail = "person@email.com";
         String profileInstitute = "profile institute test profile 23";
