@@ -1,6 +1,6 @@
 import {
     Const,
-    StatusType,
+    BootstrapContextualColors,
 } from './const';
 
 import {
@@ -20,7 +20,7 @@ function bindLinksInUnregisteredPage(selector) {
             window.location = $clickedLink.attr('href');
         }
 
-        showModalConfirmation(header, text, okCallback, null, null, null, StatusType.INFO);
+        showModalConfirmation(header, text, okCallback, null, null, null, BootstrapContextualColors.INFO);
     });
 }
 

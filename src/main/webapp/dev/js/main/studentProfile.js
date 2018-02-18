@@ -1,5 +1,5 @@
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -47,13 +47,14 @@ function finaliseUploadPictureForm() {
         },
         error() {
             $('#profileUploadPictureSubmit').text(initialSubmitMessage);
-            setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
+            setStatusMessage('There seems to be a network error, please try again later', BootstrapContextualColors.DANGER);
             scrollToTop({ duration: '' });
         },
         success(data) {
             if (data.isError) {
                 $('#profileUploadPictureSubmit').text(initialSubmitMessage);
-                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
+                setStatusMessage('There seems to be a network error, please try again later',
+                        BootstrapContextualColors.DANGER);
                 scrollToTop({ duration: '' });
             } else {
                 $('#profilePictureUploadForm').attr('enctype', 'multipart/form-data');

@@ -7,7 +7,7 @@ import {
 } from './scrollTo';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from './const';
 
 /*
@@ -286,7 +286,7 @@ function bindDeleteButtons() {
         };
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, StatusType.DANGER);
+                null, null, BootstrapContextualColors.DANGER);
     });
 }
 
@@ -303,7 +303,7 @@ function bindCourseDeleteLinks() {
         };
 
         showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
-                null, null, StatusType.DANGER);
+                null, null, BootstrapContextualColors.DANGER);
     });
 }
 
@@ -319,7 +319,7 @@ function bindSessionDeleteLinks() {
         };
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, StatusType.DANGER);
+                null, null, BootstrapContextualColors.DANGER);
     });
 }
 
@@ -335,7 +335,7 @@ function attachEventToDeleteStudentLink() {
         };
 
         showModalConfirmation('Confirm deletion', messageText, okCallback, null,
-                null, null, StatusType.DANGER);
+                null, null, BootstrapContextualColors.DANGER);
     });
 }
 
@@ -372,7 +372,7 @@ function attachEventToDeleteAllStudentLink() {
         };
 
         showModalConfirmation('Confirm deletion', messageText, okCallback, null,
-                null, null, StatusType.DANGER);
+                null, null, BootstrapContextualColors.DANGER);
     });
 }
 
@@ -389,7 +389,7 @@ function bindRemindButtons() {
         };
 
         showModalConfirmation('Confirm sending reminders', messageText, okCallback, null,
-                null, null, StatusType.INFO);
+                null, null, BootstrapContextualColors.INFO);
     });
 }
 
@@ -411,7 +411,7 @@ function bindPublishButtons() {
         };
 
         showModalConfirmation('Confirm publishing responses', messageText, okCallback, null,
-                null, null, StatusType.WARNING);
+                null, null, BootstrapContextualColors.WARNING);
     });
 }
 
@@ -428,7 +428,7 @@ function bindUnpublishButtons() {
         };
 
         showModalConfirmation('Confirm unpublishing responses', messageText, okCallback, null,
-                null, null, StatusType.WARNING);
+                null, null, BootstrapContextualColors.WARNING);
     });
 }
 
