@@ -134,35 +134,16 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_shouldCreateDeepCopy() {
+    public void testGetCopy_typicalData_shouldCreateDeepCopy() {
         String accountGoogleId = "johnDoe";
-
-        String profileShortName = "John";
-        String profilePersonalEmail = "person@email.com";
-        String profileInstitute = "profile institute test profile 23";
-        String profileNationality = "nationality g35";
-        String profileGender = "male";
-        String profileMoreInfo = "some test info 221";
-        String profilePictureKey = "picture key 223";
 
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(accountGoogleId)
                 .withName("John")
-                .withEmail("")
+                .withEmail("johnDoe@gmail.com")
                 .withInstitute("johnson")
                 .withIsInstructor(true)
-                .build();
-        account.isInstructor = true;
-
-        account.studentProfile = StudentProfileAttributes.builder()
-                .withGoogleId(account.googleId)
-                .withShortName(profileShortName)
-                .withEmail(profilePersonalEmail)
-                .withInstitute(profileInstitute)
-                .withNationality(profileNationality)
-                .withGender(profileGender)
-                .withMoreInfo(profileMoreInfo)
-                .withPictureKey(profilePictureKey)
+                .withStudentProfileAttributes(createStudentProfileWithDefaultValue(accountGoogleId))
                 .build();
 
         AccountAttributes copy = account.getCopy();
@@ -178,7 +159,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_shouldCreateDeepCopy_ifAllFieldsNull() {
+    public void testGetCopy_ifAllFieldsNull_shouldCreateDeepCopy() {
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(null)
                 .withName(null)
@@ -187,6 +168,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withIsInstructor(false)
                 .withStudentProfileAttributes(null)
                 .build();
+
         AccountAttributes copy = account.getCopy();
 
         assertFalse(account == copy);
@@ -215,6 +197,28 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
                 .withStudentProfileAttributes(studentProfile)
+                .build();
+    }
+
+    private StudentProfileAttributes createStudentProfileWithDefaultValue(String accountGoogleId){
+        
+        String profileShortName = "John";
+        String profilePersonalEmail = "person@email.com";
+        String profileInstitute = "profile institute test profile 23";
+        String profileNationality = "nationality g35";
+        String profileGender = "male";
+        String profileMoreInfo = "some test info 221";
+        String profilePictureKey = "picture key 223";
+
+        return StudentProfileAttributes.builder()
+                .withGoogleId(accountGoogleId)
+                .withShortName(profileShortName)
+                .withEmail(profilePersonalEmail)
+                .withInstitute(profileInstitute)
+                .withNationality(profileNationality)
+                .withGender(profileGender)
+                .withMoreInfo(profileMoreInfo)
+                .withPictureKey(profilePictureKey)
                 .build();
     }
 
