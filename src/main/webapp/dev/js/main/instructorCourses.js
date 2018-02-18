@@ -1,6 +1,6 @@
 import {
     ParamsNames,
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -86,7 +86,7 @@ $(document).ready(() => {
                 $('#coursesList').html('');
                 setStatusMessage(
                         'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.',
-                        StatusType.WARNING
+                        BootstrapContextualColors.WARNING
                 );
                 $('#retryAjax').click((ev) => {
                     ev.preventDefault();
