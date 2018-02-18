@@ -4,6 +4,7 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/help" prefix="instructorHelp" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
@@ -142,3 +143,4 @@
       id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>
+<instructorHelp:essayQuestionModal />

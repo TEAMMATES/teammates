@@ -1114,8 +1114,12 @@ function readyFeedbackEditPage() {
                 }
             });
 
-    $('#add-new-question-dropdown > li').click(function () {
+    $('#dropDownOption').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
+    });
+
+    $('#button_essayQuestionHelpModal').click(() => {
+        $('#essayQuestionHelpModal').modal('show');
     });
 
     // Copy Binding
@@ -1176,6 +1180,20 @@ $(document).ready(() => {
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
     });
+
+    $('#button_essayQuestionHelpModal').on('show.bs.modal', () => {
+        $('html, body').css({
+            overflow: 'hidden',
+            height: '100%',
+        });
+    })
+
+    $('#button_essayQuestionHelpModal').on('hide.bs.modal', () => {
+        $('html, body').css({
+            overflow: 'auto',
+            height: 'auto',
+        });
+    })
 
     $(document).on('change', '.participantSelect', (e) => {
         matchVisibilityOptionToFeedbackPath(e.currentTarget);

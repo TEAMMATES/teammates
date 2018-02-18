@@ -1262,6 +1262,17 @@ Default to alert color for visibility titles used within an alert context.
     padding: 14px 15px 15px;
 }
 
+.modal-dialog {
+    width: 800px;
+    margin: 30px auto;
+}
+
+#essayQuestionHelpModalBody {
+    height: 500px;
+    overflow: auto;
+    margin: auto;
+}
+
 /* /////////////////////////////////////////////////////////
 ////////////////// Dropdowns with Submenus /////////////////
 ///////////////////////////////////////////////////////// */
