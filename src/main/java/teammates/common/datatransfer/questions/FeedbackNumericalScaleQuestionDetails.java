@@ -607,8 +607,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             // Compute average score received excluding self
             averageExcludingSelf.putIfAbsent(recipientEmail, null);
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
-                averageExcludingSelf.put(recipientEmail, (totalExcludingSelf.get(recipientEmail) / 
-                    numResponsesExcludingSelf.get(recipientEmail)));
+                averageExcludingSelf.put(recipientEmail, (totalExcludingSelf.get(recipientEmail) 
+                                / numResponsesExcludingSelf.get(recipientEmail)));
             }
         }
     }
