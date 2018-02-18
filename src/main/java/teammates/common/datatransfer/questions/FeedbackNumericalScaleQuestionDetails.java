@@ -205,10 +205,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                      ? FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE
                                      : FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
 
-        DecimalFormat df = new DecimalFormat();
-        df.setMinimumFractionDigits(0);
-        df.setMaximumFractionDigits(5);
-        df.setRoundingMode(RoundingMode.DOWN);
+        DecimalFormat df = customDecimalFormat(0, 5, "down");
 
         StringBuilder fragmentHtml = new StringBuilder();
 
@@ -290,20 +287,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Set<String> recipientSet = numResponses.keySet();
         ArrayList<String> recipientList = new ArrayList<>();
 
-        boolean hasCurrentUserReceivedAnyResponse = recipientSet.contains(currentUserIdentifier);
-
-        // Move current user to the head of the recipient list
-        if (hasCurrentUserReceivedAnyResponse) {
-            recipientList.add(currentUserIdentifier);
-        }
-        for (String otherRecipient : recipientSet) {
-            // Skip current user as it is added to the head of the list
-            if (otherRecipient.equalsIgnoreCase(currentUserIdentifier)) {
-                continue;
-            }
-            recipientList.add(otherRecipient);
-        }
-
+        UpdateRecipientList(recipientList, recipientSet, currentUserIdentifier);
+        
         StringBuilder fragmentHtml = new StringBuilder();
         for (String recipient : recipientList) {
 
@@ -360,7 +345,22 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.STATS_FRAGMENTS, fragmentHtml.toString());
     }
 
+    private void UpdateRecipientList(ArrayList<String> recipientList, Set<String> recipientSet, String currentUserIdentifier) {
+      boolean hasCurrentUserReceivedAnyResponse = recipientSet.contains(currentUserIdentifier);
 
+      // Move current user to the head of the recipient list
+      if (hasCurrentUserReceivedAnyResponse) {
+          recipientList.add(currentUserIdentifier);
+      }
+
+      for (String otherRecipient : recipientSet) {
+          // Skip current user as it is added to the head of the list
+          if (otherRecipient.equalsIgnoreCase(currentUserIdentifier)) {
+              continue;
+          }
+          recipientList.add(otherRecipient);
+      }
+    }
     /** update a template with one single record
     * @return updated template
     */
