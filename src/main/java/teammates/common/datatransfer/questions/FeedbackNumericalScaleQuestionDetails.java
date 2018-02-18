@@ -248,17 +248,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                         Slots.SUMMARY_TITLE, statsTitle,
                         Slots.STATS_FRAGMENTS, fragmentHtml.toString());
     }
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
+
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
@@ -275,7 +265,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
-        System.out.println("Called function");
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
 
@@ -286,10 +275,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                      ? FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE
                                      : FormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
 
-        DecimalFormat df = new DecimalFormat();
-        df.setMinimumFractionDigits(0);
-        df.setMaximumFractionDigits(5);
-        df.setRoundingMode(RoundingMode.DOWN);
+        DecimalFormat df = customDecimalFormat(0, 5, "down");
 
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
@@ -348,33 +334,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                                                                                    hiddenRecipients),
                                                         bundle.getTeamNameForEmail(recipient), currentUserTeam);
 
-            Double minScore = null;
-            Double maxScore = null;
-            Double averageScore = null;
-            Double averageScoreExcludingSelf = null;
-
             boolean isRecipientDetailsAvailable = recipientName != null && recipientTeam != null;
 
             if (!isRecipientDetailsAvailable) {
                 continue;
             }
 
-            minScore = min.get(recipient);
-            maxScore = max.get(recipient);
-            averageScore = average.get(recipient);
-            averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
-
-            String averageScoreExcludingSelfText =
-                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
-
-            String recipientFragmentHtml = Templates.populateTemplate(
-                    fragmentTemplateToUse,
-                    Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
-                    Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
-                    Slots.AVERAGE, df.format(averageScore),
-                    Slots.MAX, df.format(maxScore),
-                    Slots.MIN, df.format(minScore),
-                    Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, averageScoreExcludingSelfText);
+            String recipientFragmentHtml = updateTemplate(fragmentTemplateToUse, min, max, average, averageExcludingSelf, recipient, df, recipientTeam, recipientName, showAvgExcludingSelf);
 
             fragmentHtml.append(recipientFragmentHtml);
         }
@@ -392,6 +358,31 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return Templates.populateTemplate(templateToUse,
                 Slots.SUMMARY_TITLE, statsTitle,
                 Slots.STATS_FRAGMENTS, fragmentHtml.toString());
+    }
+
+
+    /** update a template with one single record
+    * @return updated template
+    */
+    private String updateTemplate(String currentTemplate, Map<String, Double> min, Map<String, Double> max, Map<String, Double> average, Map<String, Double> averageExcludingSelf, String recipient, DecimalFormat df, String recipientTeam, String recipientName, boolean showAvgExcludingSelf) {
+      Double minScore = min.get(recipient);
+      Double maxScore = max.get(recipient);
+      Double averageScore = average.get(recipient);
+      Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
+
+      String averageScoreExcludingSelfText =
+              getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
+
+      String newTemplate = Templates.populateTemplate(
+              currentTemplate,
+              Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
+              Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
+              Slots.AVERAGE, df.format(averageScore),
+              Slots.MAX, df.format(maxScore),
+              Slots.MIN, df.format(minScore),
+              Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, averageScoreExcludingSelfText);
+
+      return newTemplate;
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,
@@ -460,17 +451,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return "";
     }
 
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -573,17 +553,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         return false;
     }
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////
+
     private void populateSummaryStatisticsFromResponses(
             List<FeedbackResponseAttributes> responses,
             Map<String, Double> min, Map<String, Double> max,
@@ -592,9 +562,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponses,
             Map<String, Integer> numResponsesExcludingSelf) {
 
-        System.out.println("ALSKDJ");
         for (FeedbackResponseAttributes response : responses) {
-            System.out.println("ALSKDJ");
             FeedbackNumericalScaleResponseDetails responseDetails =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
