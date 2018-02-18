@@ -509,12 +509,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             if (hiddenRecipients.contains(recipient)) {
                 continue;
             }
-
-            Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
-            String averageScoreExcludingSelfText =
-                    getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
-
-            updateQuestionResultStatisticsCsv(csvBody, bundle, recipient, average, min, max, showAvgExcludingSelf, averageScoreExcludingSelfText);
+            updateQuestionResultStatisticsCsv(csvBody, bundle, recipient, average, min, max, showAvgExcludingSelf, averageExcludingSelf);
         }
 
         return csvHeader + csvBody.toString();
@@ -523,11 +518,15 @@ public class FeedbackNumericalScaleQuestionDetails extends
     /** adds a single record to the QuestionResultStatisticsCsv
      * @return void
      */
-    private void updateQuestionResultStatisticsCsv(StringBuilder csvBody, FeedbackSessionResultsBundle bundle, String recipient, Map<String, Double> average, Map<String, Double> min, Map<String, Double> max, boolean showAvgExcludingSelf, String averageScoreExcludingSelfText) {
+    private void updateQuestionResultStatisticsCsv(StringBuilder csvBody, FeedbackSessionResultsBundle bundle, String recipient, Map<String, Double> average, Map<String, Double> min, Map<String, Double> max, boolean showAvgExcludingSelf, Map<String, Double> averageExcludingSelf) {
         String recipientTeam = bundle.getTeamNameForEmail(recipient);
         boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
 
         DecimalFormat df = customDecimalFormat(0, 5, "down");
+
+        Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
+        String averageScoreExcludingSelfText =
+                getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
 
         csvBody.append(SanitizationHelper.sanitizeForCsv(recipientTeam) + ','
                        + SanitizationHelper.sanitizeForCsv(isRecipientGeneral
