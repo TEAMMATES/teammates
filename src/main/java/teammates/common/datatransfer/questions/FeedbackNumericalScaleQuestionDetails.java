@@ -248,7 +248,17 @@ public class FeedbackNumericalScaleQuestionDetails extends
                         Slots.SUMMARY_TITLE, statsTitle,
                         Slots.STATS_FRAGMENTS, fragmentHtml.toString());
     }
-
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
@@ -265,8 +275,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
 
+        System.out.println("Called function");
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                                                totalExcludingSelf, numResponses, numResponsesExcludingSelf);
+
+        // why is it boolean?
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
         String fragmentTemplateToUse = showAvgExcludingSelf
@@ -447,6 +460,17 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return "";
     }
 
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -489,26 +513,32 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 continue;
             }
 
-            String recipientTeam = bundle.getTeamNameForEmail(recipient);
-            boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
-
             Double averageScoreExcludingSelf = averageExcludingSelf.get(recipient);
             String averageScoreExcludingSelfText =
                     getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
 
-            csvBody.append(SanitizationHelper.sanitizeForCsv(recipientTeam) + ','
-                           + SanitizationHelper.sanitizeForCsv(isRecipientGeneral
-                                                      ? "General"
-                                                      : bundle.getNameForEmail(recipient))
-                           + ','
-                           + df.format(average.get(recipient)) + ','
-                           + df.format(min.get(recipient)) + ','
-                           + df.format(max.get(recipient))
-                           + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
-                           + Const.EOL);
+            updateQuestionResultStatisticsCsv(csvBody, bundle, df, recipient, average, min, max, showAvgExcludingSelf, averageScoreExcludingSelfText);
         }
 
         return csvHeader + csvBody.toString();
+    }
+
+    /** adds a single record to the QuestionResultStatisticsCsv
+     * @return void
+     */
+    private void updateQuestionResultStatisticsCsv(StringBuilder csvBody, FeedbackSessionResultsBundle bundle, DecimalFormat df, String recipient, Map<String, Double> average, Map<String, Double> min, Map<String, Double> max, boolean showAvgExcludingSelf, String averageScoreExcludingSelfText) {
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);  // not necessary
+        boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION); // not necessary
+        csvBody.append(SanitizationHelper.sanitizeForCsv(recipientTeam) + ','
+                       + SanitizationHelper.sanitizeForCsv(isRecipientGeneral
+                                                  ? "General"
+                                                  : bundle.getNameForEmail(recipient))
+                       + ','
+                       + df.format(average.get(recipient)) + ','
+                       + df.format(min.get(recipient)) + ','
+                       + df.format(max.get(recipient))
+                       + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
+                       + Const.EOL);
     }
 
     private boolean showAverageExcludingSelf(
@@ -528,7 +558,17 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         return false;
     }
-
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
     private void populateSummaryStatisticsFromResponses(
             List<FeedbackResponseAttributes> responses,
             Map<String, Double> min, Map<String, Double> max,
@@ -537,7 +577,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Integer> numResponses,
             Map<String, Integer> numResponsesExcludingSelf) {
 
+        System.out.println("ALSKDJ");
         for (FeedbackResponseAttributes response : responses) {
+            System.out.println("ALSKDJ");
             FeedbackNumericalScaleResponseDetails responseDetails =
                     (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             double answer = responseDetails.getAnswer();
@@ -551,6 +593,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             // Compute number of responses excluding user's self response
             numResponsesExcludingSelf.putIfAbsent(recipientEmail, 0);
             boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
+
+            // simplify?
             if (!isSelfResponse) {
                 int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
                 numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
@@ -599,7 +643,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackSessionResultsBundle bundle) {
         List<String> hiddenRecipients = new ArrayList<>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
+
         for (FeedbackResponseAttributes response : responses) {
+            if (!bundle.visibilityTable.containsKey(response.getId())) continue;
             if (!bundle.visibilityTable.get(response.getId())[1]
                     && type != FeedbackParticipantType.SELF
                     && type != FeedbackParticipantType.NONE) {
