@@ -292,12 +292,12 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
     }
     /** 
      * Checks that the functions getQuestionResultStatisticsHtml and getQuestionResultStastisticsCsv
-     * behave as they did before the refactoring was made
+     * behave as they did before the refactoring was made.
      * @result both methods will return the same output that was recieved before any refactoring was made
      */
 
     @Test
-    public void testStudentQuestionResultsStatisticsGeneratingMethods(){
+    public void testStudentQuestionResultsStatisticsGeneratingMethods() {
         // Load databundle with NUMSCALE questions- and session-info
         DataBundle db = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 
