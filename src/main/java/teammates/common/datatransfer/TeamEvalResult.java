@@ -94,8 +94,7 @@ public class TeamEvalResult {
     }
 
     /**
-     * Replaces all missing points (for various reasons such as 'not sure' with NSU and
-     * 'did not submit' with NA).
+     * Replaces all missing points ('not sure' with NSU and 'did not submit' with NA).
      */
     private int[][] sanitizeInput(int[][] input) {
         int teamSize = input.length;
@@ -103,13 +102,8 @@ public class TeamEvalResult {
         for (int i = 0; i < teamSize; i++) {
             for (int j = 0; j < teamSize; j++) {
                 int points = input[i][j];
-                if (points == Const.POINTS_NOT_SUBMITTED) {
-                    output[i][j] = NA;
-                } else if (points == Const.POINTS_NOT_SURE) {
-                    output[i][j] = NSU;
-                } else {
-                    output[i][j] = points;
-                }
+                boolean pointsNotGiven = points == Const.POINTS_NOT_SUBMITTED;
+                output[i][j] = pointsNotGiven ? NA : points;
             }
         }
         return output;
