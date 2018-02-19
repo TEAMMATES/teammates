@@ -827,7 +827,7 @@
   <input id="num-questions" type="hidden" value="1">
   <input id="num-students" type="hidden" value="2">
   <input id="num-teams" type="hidden" value="1">
-  <input id="num-instructors" type="hidden" value="2">
+  <input id="num-instructors" type="hidden" value="3">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" editstatus="hasResponses" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
       <div class="panel-heading">
@@ -871,7 +871,7 @@
           </div>
         </div>
       </div>
-      <div class="panel-body">
+      <div class="visibility-checkbox-delegate panel-body">
         <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
           <div class="form-group" style="padding: 15px;">
             <h5 class="col-sm-2">
@@ -2515,6 +2515,9 @@
             <select class="form-control margin-bottom-7px" name="previewas">
               <option value="tmms.instr@course.tmt">
                 Instructor 2
+              </option>
+              <option value="tmms.instr.cust@course.tmt">
+                Instructor 3
               </option>
               <option value="tmms.test@gmail.tmt">
                 Teammates Test

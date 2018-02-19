@@ -80,17 +80,18 @@ public class EmailSenderTest extends BaseLogicTest {
     }
 
     @Test
-    public void testConvertToMailgun() {
+    public void testConvertToMailgun() throws Exception {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        FormDataMultiPart formData = new MailgunService().parseToEmail(wrapper);
+        try (FormDataMultiPart formData = new MailgunService().parseToEmail(wrapper)) {
 
-        assertEquals(wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">",
-                     formData.getField("from").getValue());
-        assertEquals(wrapper.getRecipient(), formData.getField("to").getValue());
-        assertEquals(wrapper.getBcc(), formData.getField("bcc").getValue());
-        assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
-        assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
-        assertEquals(wrapper.getContent(), formData.getField("html").getValue());
+            assertEquals(wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">",
+                    formData.getField("from").getValue());
+            assertEquals(wrapper.getRecipient(), formData.getField("to").getValue());
+            assertEquals(wrapper.getBcc(), formData.getField("bcc").getValue());
+            assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
+            assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
+            assertEquals(wrapper.getContent(), formData.getField("html").getValue());
+        }
     }
 
     @Test

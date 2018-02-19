@@ -3,7 +3,7 @@ import {
 } from '../common/administrator';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -54,7 +54,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
                     $(link).parent().html(`${originalTime}<mark><br>${data.logLocalTime}</mark>`);
                 }
 
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
+                setStatusMessage(data.statusForAjax, BootstrapContextualColors.INFO);
             }, 500);
         },
     });
@@ -114,7 +114,7 @@ function submitFormAjax(searchTimeOffset) {
             $logsTable.append($data.find('#activity-logs-table > tbody').html());
             updateInfoForRecentActionButton();
             highlightKeywordsInLogMessages();
-            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
+            setStatusMessage($data.find('#status-message').html(), BootstrapContextualColors.INFO);
         },
     });
 }
