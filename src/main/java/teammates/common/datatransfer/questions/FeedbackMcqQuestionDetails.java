@@ -251,7 +251,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         case STUDENTS_EXCLUDING_SELF:
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
 
-            if(generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
                 studentList.removeIf(studentInList -> studentInList.email.equals(studentDoingQuestion.email));
             }
 
