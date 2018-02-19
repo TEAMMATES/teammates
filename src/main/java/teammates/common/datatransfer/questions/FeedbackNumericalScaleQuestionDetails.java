@@ -286,12 +286,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 isRecipientTypeTeam, currentUserTeam);
 
         Set<String> recipientSet = numResponses.keySet();
-        ArrayList<String> recipientList = new ArrayList<>();
+        List<String> recipientList = new ArrayList<>();
 
         String fragmentHtml = fragmentHtmlUpdate(recipientSet, hiddenRecipients,
-                recipientList, isRecipientTypeGeneral, isRecipientTypeTeam,
-                isRecipientTypeStudent, showAvgExcludingSelf, currentUserTeam, currentUserIdentifier,
-                fragmentTemplateToUse, bundle, averageExcludingSelf, numResponses, min, max, average, df);    
+                recipientList, isRecipientTypeStudent, showAvgExcludingSelf,
+                currentUserTeam, currentUserIdentifier, fragmentTemplateToUse, 
+                bundle, averageExcludingSelf, numResponses, min, max, average, df);
 
         if (fragmentHtml.length() == 0) {
             return "";
@@ -305,10 +305,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 : FormTemplates.NUMSCALE_RESULT_STATS;
         return Templates.populateTemplate(templateToUse,
                 Slots.SUMMARY_TITLE, statsTitle,
-                Slots.STATS_FRAGMENTS, fragmentHtml.toString());
+                Slots.STATS_FRAGMENTS, fragmentHtml);
     }
 
-    private void updateRecipientList(ArrayList<String> recipientList,
+    private void updateRecipientList(List<String> recipientList,
             Set<String> recipientSet, String currentUserIdentifier) {
         boolean hasCurrentUserReceivedAnyResponse = recipientSet.contains(currentUserIdentifier);
 
@@ -341,7 +341,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String averageScoreExcludingSelfText =
                 getAverageExcludingSelfText(showAvgExcludingSelf, df, averageScoreExcludingSelf);
 
-        String newTemplate = Templates.populateTemplate(
+        return Templates.populateTemplate(
                 currentTemplate,
                 Slots.RECIPIENT_TEAM, SanitizationHelper.sanitizeForHtml(recipientTeam),
                 Slots.RECIPIENT_NAME, SanitizationHelper.sanitizeForHtml(recipientName),
@@ -350,7 +350,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.MIN, df.format(minScore),
                 Slots.AVERAGE_EXCLUDING_SELF_RESPONSE, averageScoreExcludingSelfText);
 
-        return newTemplate;
     }
 
     private String getDisplayableRecipientName(boolean isHiddenRecipient,
@@ -445,7 +444,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
-        DecimalFormat df = customDecimalFormat(0, 5, "down");
+        // DecimalFormat df = customDecimalFormat(0, 5, "down");
 
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
                 + (showAvgExcludingSelf ? ", Average excluding self response" : "")
@@ -500,9 +499,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(min);
         df.setMaximumFractionDigits(max);
         //  roundingMode = roundingMode.toUpperCase()
-        if (roundingMode.equals(new String("down"))) {
+        if ("down".equals(roundingMode)) {
             df.setRoundingMode(RoundingMode.DOWN);
-        } else if (roundingMode.equals(new String("up"))) {
+        } else if ("up".equals(roundingMode)) {
             df.setRoundingMode(RoundingMode.UP);
         }
         return df;
@@ -510,8 +509,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
 
     private String fragmentHtmlUpdate(Set<String> recipientSet, List<String> hiddenRecipients,
-            ArrayList<String> recipientList, boolean isRecipientTypeGeneral,
-            boolean isRecipientTypeTeam, boolean isRecipientTypeStudent, boolean showAvgExcludingSelf,
+            List<String> recipientList, boolean isRecipientTypeStudent, boolean showAvgExcludingSelf,
             String currentUserTeam, String currentUserIdentifier, String fragmentTemplateToUse, 
             FeedbackSessionResultsBundle bundle, Map<String, Double> averageExcludingSelf,
             Map<String, Integer> numResponses, Map<String, Double> min, Map<String, Double> max,
