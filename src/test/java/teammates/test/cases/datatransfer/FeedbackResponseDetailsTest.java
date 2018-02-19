@@ -297,7 +297,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
      */
 
     @Test
-    public void testStudentQuestionResultsStatisticsHtml () {
+    public void testStudentQuestionResultsStatisticsGeneratingMethods(){
 
         // Load databundle with NUMSCALE questions- and session-info
         DataBundle db = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
