@@ -231,13 +231,13 @@ function checkFeedbackQuestion(form) {
     if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'RANK_OPTIONS') {
         if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}]:checked`).val() === 'on'
                 && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}]`).val() === '') {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, BootstrapContextualColors.DANGER, form);
             return false;
         }
 
         if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}]:checked`).val() === 'on'
                 && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}]`).val() === '') {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, BootstrapContextualColors.DANGER, form);
             return false;
         }
     }
@@ -245,13 +245,13 @@ function checkFeedbackQuestion(form) {
     if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'RANK_RECIPIENTS') {
         if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSCHECKBOX}]:checked`).val() === 'on'
                 && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED}]`).val() === '') {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, BootstrapContextualColors.DANGER, form);
             return false;
         }
 
         if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSCHECKBOX}]:checked`).val() === 'on'
                 && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED}]`).val() === '') {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, BootstrapContextualColors.DANGER, form);
             return false;
         }
     }
