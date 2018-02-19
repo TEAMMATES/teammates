@@ -247,22 +247,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             optionList = mcqChoices;
             break;
         case STUDENTS:
+            //fallthrough
+        case STUDENTS_EXCLUDING_SELF:
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-            for (StudentAttributes student : studentList) {
-                optionList.add(student.name + " (" + student.team + ")");
+
+            if(generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+                studentList.removeIf(studentInList -> studentInList.email.equals(studentDoingQuestion.email));
             }
 
-            optionList.sort(null);
-            break;
-
-        case STUDENTS_EXCLUDING_SELF:
-            List<StudentAttributes> studentListExcludingSelf = StudentsLogic.inst().getStudentsForCourse(courseId);
-            String thisStudentEmail = studentDoingQuestion.email;
-            for (StudentAttributes student : studentListExcludingSelf) {
-                if (thisStudentEmail.equals(student.email)) {
-                    continue;
-                }
-
+            for (StudentAttributes student : studentList) {
                 optionList.add(student.name + " (" + student.team + ")");
             }
 
