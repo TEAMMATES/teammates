@@ -6,6 +6,14 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
@@ -22,14 +30,6 @@ import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
@@ -298,7 +298,6 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
     @Test
     public void testStudentQuestionResultsStatisticsGeneratingMethods(){
-
         // Load databundle with NUMSCALE questions- and session-info
         DataBundle db = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
 
@@ -362,17 +361,17 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
          * Call the methods being tested
          */
         String resHtml = fnsqd.getQuestionResultStatisticsHtml(
-            fraList,
-            fqa,
-            "student1InCourse1@gmail.tmt",
-            bundle,
-            "student"
+                fraList,
+                fqa,
+                "student1InCourse1@gmail.tmt",
+                bundle,
+                "student"
         );
 
         String resCsv = fnsqd.getQuestionResultStatisticsCsv(
-            fraList,
-            fqa,
-            bundle
+                fraList,
+                fqa,
+                bundle
         );
 
         /**
@@ -380,7 +379,8 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
          */
         assertEquals("", resHtml);
         assertEquals(
-            "Team, Recipient, Average, Minimum, Maximum"+ Const.EOL +"\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5" + Const.EOL, 
-            resCsv);
+                "Team, Recipient, Average, Minimum, Maximum" + Const.EOL 
+                + "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5" + Const.EOL, 
+                resCsv);
     }
 }
