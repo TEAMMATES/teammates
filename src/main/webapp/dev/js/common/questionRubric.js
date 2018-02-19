@@ -3,7 +3,7 @@ import {
 } from './bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from './const';
 
 import {
@@ -305,7 +305,7 @@ function removeRubricRow(index, questionNum) {
             }
         }
     };
-    showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
+    showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, BootstrapContextualColors.WARNING);
 }
 
 function removeRubricCol(index, questionNum) {
@@ -331,7 +331,7 @@ function removeRubricCol(index, questionNum) {
             }
         }
     };
-    showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
+    showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, BootstrapContextualColors.WARNING);
 }
 
 function highlightRubricRow(index, questionNum, highlight) {

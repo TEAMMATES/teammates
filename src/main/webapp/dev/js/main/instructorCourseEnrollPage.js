@@ -3,7 +3,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -29,7 +29,7 @@ const loadUpFunction = function () {
             if (keycode === ENTER_KEYCODE) {
                 if (isUserTyping(e.currentTarget.value) && !notified) {
                     notified = true;
-                    showModalAlert('Invalid separator', typingErrMsg, null, StatusType.WARNING);
+                    showModalAlert('Invalid separator', typingErrMsg, null, BootstrapContextualColors.WARNING);
                 }
             }
         });

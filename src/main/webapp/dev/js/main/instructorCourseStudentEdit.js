@@ -4,7 +4,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -26,7 +26,7 @@ function sendEmailToNewEmailOption(event, newStudentEmail) {
     };
     showModalConfirmationWithCancel('Resend past links to the new email?', messageText,
             yesCallback, noCallback, null, 'Yes, save changes and resend links',
-            'No, just save the changes', 'Cancel', StatusType.PRIMARY);
+            'No, just save the changes', 'Cancel', BootstrapContextualColors.PRIMARY);
 }
 
 /*
@@ -53,7 +53,8 @@ function readyInstructorStudentEditPage() {
                 }
             };
 
-            showModalConfirmation('Confirm Deletion', messageText, okCallback, null, null, null, StatusType.WARNING);
+            showModalConfirmation('Confirm Deletion', messageText,
+                    okCallback, null, null, null, BootstrapContextualColors.WARNING);
         } else if (isEmailFieldChanged && isOpenOrPublishedEmailSentInThisCourse) {
             sendEmailToNewEmailOption(event, newStudentEmail);
         }

@@ -49,7 +49,7 @@ function showConstSumOptionTable(questionNum) {
 }
 
 function hideConstSumOptionTable(questionNum) {
-    $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE}-${questionNum}`).hide();
+    $(`#constSumOptionTable-${questionNum}`).hide();
 }
 
 function removeConstSumOption(index, questionNum) {
