@@ -626,7 +626,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackParticipantType type = question.recipientType;
 
         for (FeedbackResponseAttributes response : responses) {
-            if (!bundle.visibilityTable.containsKey(response.getId())) continue;
+            if (!bundle.visibilityTable.containsKey(response.getId())) {
+                continue;
+            }
             if (!bundle.visibilityTable.get(response.getId())[1]
                     && type != FeedbackParticipantType.SELF
                     && type != FeedbackParticipantType.NONE) {
