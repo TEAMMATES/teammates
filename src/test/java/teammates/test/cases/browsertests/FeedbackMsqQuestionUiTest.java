@@ -73,6 +73,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
 
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1); //reset back to normal condition
+
     }
 
     @Override
