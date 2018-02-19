@@ -266,7 +266,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
-                StudentAttributes student) {
+            StudentAttributes student) {
         studentDoingQuestion = student;
         List<String> choices = generateOptionList(courseId);
 

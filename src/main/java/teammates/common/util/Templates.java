@@ -237,8 +237,8 @@ public final class Templates {
             public static final String TEAM_SELECTED = "${teamSelected}";
             public static final String INSTRUCTOR_SELECTED = "${instructorSelected}";
             public static final String STUDENTS_TO_STRING = "${FeedbackParticipantType.STUDENTS.toString()}";
-            public static final String STUDENTS_EXCLUDING_SELF_TO_STRING = "${FeedbackParticipantType."
-                    + "STUDENTS_EXCLUDING_SELF.toString()}";
+            public static final String STUDENTS_EXCLUDING_SELF_TO_STRING =
+                    "${FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString()}";
             public static final String TEAMS_TO_STRING = "${FeedbackParticipantType.TEAMS.toString()}";
             public static final String INSTRUCTORS_TO_STRING = "${FeedbackParticipantType.INSTRUCTORS.toString()}";
             public static final String QUESTION_ADDITIONAL_INFO = "${questionAdditionalInfo}";
