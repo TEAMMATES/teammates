@@ -1,7 +1,6 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,9 +109,9 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
 
-        return fsDb.getAllOpenFeedbackSessions(start, end, zone);
+        return fsDb.getAllOpenFeedbackSessions(startUtc, endUtc);
     }
 
     /**
@@ -1379,13 +1378,8 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
-        sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
+        sessionToPublish.setResultsVisibleFromTime(new Date());
         updateFeedbackSession(sessionToPublish);
-    }
-
-    private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
-        Calendar now = TimeHelper.now(sessionToPublish.getTimeZone());
-        return now.getTime();
     }
 
     /**

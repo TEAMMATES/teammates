@@ -1,5 +1,5 @@
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -24,11 +24,11 @@ const PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the imag
 let callbackFunction;
 
 function setErrorMessage(message) {
-    setStatusMessage(message, StatusType.DANGER);
+    setStatusMessage(message, BootstrapContextualColors.DANGER);
 }
 
 function showUploadingGif() {
-    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", StatusType.WARNING);
+    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", BootstrapContextualColors.WARNING);
 }
 
 function createGroupReceiverListUploadUrl() {
@@ -88,7 +88,7 @@ function submitGroupReceiverListUploadFormAjax() {
                 if (data.isError) {
                     setErrorMessage(data.ajaxStatus);
                 } else if (data.isFileUploaded) {
-                    setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
+                    setStatusMessage(data.ajaxStatus, BootstrapContextualColors.SUCCESS);
                     $('#groupReceiverListFileKey').val(data.groupReceiverListFileKey);
                     $('#groupReceiverListFileKey').show();
                     $('#groupReceiverListFileSize').val(data.groupReceiverListFileSize);
@@ -136,7 +136,7 @@ function submitImageUploadFormAjax() {
                 } else if (data.isFileUploaded) {
                     const url = data.fileSrcUrl;
                     callbackFunction(url, { alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT });
-                    setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
+                    setStatusMessage(data.ajaxStatus, BootstrapContextualColors.SUCCESS);
                 } else {
                     setErrorMessage(data.ajaxStatus);
                 }

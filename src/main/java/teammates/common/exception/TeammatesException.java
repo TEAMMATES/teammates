@@ -26,7 +26,9 @@ public class TeammatesException extends Exception {
 
     public static String toStringWithStackTrace(Throwable e) {
         StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        return System.lineSeparator() + sw.toString();
+        try (PrintWriter pw = new PrintWriter(sw)) {
+            e.printStackTrace(pw);
+            return System.lineSeparator() + sw.toString();
+        }
     }
 }
