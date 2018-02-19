@@ -290,6 +290,11 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         requestParameters.clear();
 
     }
+    /** 
+     * Checks that the functions getQuestionResultStatisticsHtml and getQuestionResultStastisticsCsv
+     * behave as they did before the refactoring was made
+     * @result both methods will return the same output that was recieved before any refactoring was made
+     */
 
     @Test
     public void testStudentQuestionResultsStatisticsHtml () {
@@ -299,6 +304,8 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         /**
          * Object setup for method-calls.
+         * Such as a course roster with students and instructors that partake in certain courses
+         * and some data regarding the student responses to a question.
          */
         FeedbackResponseAttributes fra = db.feedbackResponses.get("response1ForQ1S3C1");
         assertNotNull(fra);
@@ -340,7 +347,9 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         ArrayList<FeedbackResponseAttributes> fraList = new ArrayList<>();
         fraList.add(fra);
-
+        /*
+         * Test if the objects created during setup are null
+         */
         assertNotNull(fraList);
         assertNotNull(fsa);
         assertNotNull(mapFqa);
@@ -350,7 +359,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         FeedbackNumericalScaleQuestionDetails fnsqd = new FeedbackNumericalScaleQuestionDetails();
 
         /**
-         * Methods to test
+         * Call the methods being tested
          */
         String resHtml = fnsqd.getQuestionResultStatisticsHtml(
             fraList,
