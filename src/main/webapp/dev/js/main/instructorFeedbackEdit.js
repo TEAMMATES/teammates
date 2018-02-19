@@ -533,21 +533,21 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    if ($(`#generateOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+    if ($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
         $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
         $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
     } else {
         $(`#mcqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
         $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
     }
 
-    // if ($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
-    // } else {
-    // }
+    if ($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
+        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
+        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
+    } else {
+        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
+        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
+    }
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
