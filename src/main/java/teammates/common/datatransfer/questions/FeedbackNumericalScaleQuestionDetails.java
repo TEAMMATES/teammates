@@ -287,52 +287,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Set<String> recipientSet = numResponses.keySet();
         ArrayList<String> recipientList = new ArrayList<>();
 
-        UpdateRecipientList(recipientList, recipientSet, currentUserIdentifier);
-        
-        StringBuilder fragmentHtml = new StringBuilder();
-        for (String recipient : recipientList) {
-
-            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
-            boolean isHiddenRecipient = false;
-            if (hiddenRecipients.contains(recipient)) {
-                isHiddenRecipient = true;
-            }
-
-            String recipientName = null;
-            String recipientTeam = null;
-
-            boolean isRecipientCurrentUser = recipient.equalsIgnoreCase(currentUserIdentifier);
-            boolean isRecipientGeneral = recipient.equalsIgnoreCase(Const.GENERAL_QUESTION);
-
-            recipientName = getDisplayableRecipientName(isHiddenRecipient,
-                            isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(
-                                                            numResponses, currentUserIdentifier, hiddenRecipients),
-                            isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);
-
-            recipientTeam = getDisplayableRecipientTeam(isHiddenRecipient,
-                                                        isRecipientCurrentUser,
-                                                        hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                                                        isRecipientTypeStudent,
-                                                        hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,
-                                                                                                   currentUserIdentifier,
-                                                                                                   hiddenRecipients),
-                                                        bundle.getTeamNameForEmail(recipient), currentUserTeam);
-
-            boolean isRecipientDetailsAvailable = recipientName != null && recipientTeam != null;
-
-            if (!isRecipientDetailsAvailable) {
-                continue;
-            }
-
-            String recipientFragmentHtml = updateTemplate(fragmentTemplateToUse, min, max, average, averageExcludingSelf, recipient, df, recipientTeam, recipientName, showAvgExcludingSelf);
-
-            fragmentHtml.append(recipientFragmentHtml);
-        }
-
+        String fragmentHtml = fragmentHtmlUpdate(recipientSet, hiddenRecipients, recipientList, isRecipientTypeGeneral, isRecipientTypeTeam,
+                                       isRecipientTypeStudent, showAvgExcludingSelf, currentUserTeam, currentUserIdentifier,
+                                       fragmentTemplateToUse, bundle, averageExcludingSelf, numResponses, min, max, average, df);    
         if (fragmentHtml.length() == 0) {
             return "";
-        }
+}       
 
         String statsTitle = getStatsTitle(
                 isRecipientTypeGeneral, isRecipientTypeTeam,
@@ -535,6 +495,51 @@ public class FeedbackNumericalScaleQuestionDetails extends
       }
       return df;
     }
+
+
+    private String fragmentHtmlUpdate(Set<String> recipientSet, List<String> hiddenRecipients, ArrayList<String> recipientList, boolean isRecipientTypeGeneral,
+                                     boolean isRecipientTypeTeam, boolean isRecipientTypeStudent, boolean showAvgExcludingSelf,
+                                     String currentUserTeam, String currentUserIdentifier, String fragmentTemplateToUse, 
+                                     FeedbackSessionResultsBundle bundle, Map<String, Double> averageExcludingSelf,
+                                     Map<String, Integer> numResponses, Map<String, Double> min, Map<String, Double> max,
+                                     Map<String, Double> average, DecimalFormat df)
+    {
+
+        UpdateRecipientList(recipientList, recipientSet, currentUserIdentifier);
+        StringBuilder fragmentHtml = new StringBuilder(); 
+        for (String recipient : recipientList) {                                                                    
+                    
+              // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients     
+            boolean isHiddenRecipient = false;
+            if (hiddenRecipients.contains(recipient)) {                                                             
+                isHiddenRecipient = true;                                                                           
+              }                                                                                                       
+            
+            boolean isRecipientCurrentUser = recipient.equalsIgnoreCase(currentUserIdentifier);                     
+            boolean isRecipientGeneral = recipient.equalsIgnoreCase(Const.GENERAL_QUESTION);                        
+              
+            String recipientName = getDisplayableRecipientName(isHiddenRecipient,
+                                   isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),    
+                                   isRecipientTypeStudent, 
+                                   hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients), 
+                                   isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);                
+              
+            String recipientTeam = getDisplayableRecipientTeam(isHiddenRecipient, isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
+                                   isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,
+                                   currentUserIdentifier, hiddenRecipients),
+                                   bundle.getTeamNameForEmail(recipient), currentUserTeam);    
+                                                          
+            // Check if recipientDetails (recipientName or recipientTeam) is available.
+            if (recipientName == null || recipientTeam == null){
+                continue;  
+            }   
+              
+            String recipientFragmentHtml = updateTemplate(fragmentTemplateToUse, min, max, average, averageExcludingSelf, recipient, df, recipientTeam, recipientName, showAvgExcludingSelf);
+            fragmentHtml.append(recipientFragmentHtml); 
+          }           
+    return fragmentHtml.toString();                                                       
+}
+
 
     private boolean showAverageExcludingSelf(
             FeedbackQuestionAttributes question, Map<String, Double> averageExcludingSelf) {
