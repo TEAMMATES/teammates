@@ -1267,7 +1267,7 @@ Default to alert color for visibility titles used within an alert context.
     margin: 30px auto;
 }
 
-#essayQuestionHelpModalBody {
+.question-type-help {
     height: 500px;
     overflow: auto;
     margin: auto;

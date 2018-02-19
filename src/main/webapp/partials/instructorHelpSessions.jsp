@@ -2091,7 +2091,7 @@
         <div class="col-sm-12">
           <b id="fbEssay">Essay Question</b>
           <br>
-          <instructorHelp:essayQuestionBody />
+          <instructorHelp:essayQuestionTypeHelpBody />
         </div>
       </div>
 

@@ -1066,6 +1066,40 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
+function prepareNewQuestion() {
+    $('#dropDownOption_essay').click(function () {
+        showNewQuestionFrame($(this).data('questiontype'));
+    });
+    $('#dropDownOption_mcq').click(function () {
+        showNewQuestionFrame($(this).data('questiontype'));
+    });
+
+    // not working
+    // $('a[id|="dropDownOption"]').click()(function () {
+    //     showNewQuestionFrame($(this).data('questiontype'));
+    // });
+    // $('.dropdown-menu > li > a[id|=dropDownOption]').click()(function () {
+    //     showNewQuestionFrame($(this).data('questiontype'));
+    // })
+}
+
+function prepareQuetionTypeHelpModal() {
+    $('#button_questionTypeHelpModal_essay').click(() => {
+        $('#questionTypeHelpModal_essay').modal('show');
+    });
+
+    // not working
+    // $('#button_questionTypeHelpModal_essay').click(() => {
+    //     const modalId = $(this).data('modalLink');
+    //     $(`#${modalId}`).modal('show');
+    // });
+    // syntax error
+    // $('#button_questionTypeHelpModal_essay').click(() => {
+    //     $('#${$(this).data(\'modalLink\')}').modal('show');
+    // });
+
+}
+
 /**
  * This function is called on edit page load.
  */
@@ -1114,13 +1148,9 @@ function readyFeedbackEditPage() {
                 }
             });
 
-    $('#dropDownOption').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
-    });
-
-    $('#button_essayQuestionHelpModal').click(() => {
-        $('#essayQuestionHelpModal').modal('show');
-    });
+    // Prepare for the events in the dropdown menu of 'Add New Question' button
+    prepareNewQuestion();
+    prepareQuetionTypeHelpModal();
 
     // Copy Binding
     bindCopyButton();
@@ -1181,14 +1211,14 @@ $(document).ready(() => {
         checkEditFeedbackSession(e.currentTarget.form);
     });
 
-    $('#button_essayQuestionHelpModal').on('show.bs.modal', () => {
+    $('#button_questionTypeHelpModal_essay').on('show.bs.modal', () => {
         $('html, body').css({
             overflow: 'hidden',
             height: '100%',
         });
     })
 
-    $('#button_essayQuestionHelpModal').on('hide.bs.modal', () => {
+    $('#button_questionTypeHelpModal_essay').on('hide.bs.modal', () => {
         $('html, body').css({
             overflow: 'auto',
             height: 'auto',
