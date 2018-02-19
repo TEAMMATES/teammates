@@ -393,8 +393,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // 2 instructors, 6 students = 8
         assertEquals(8, stats.expectedTotal);
-        // 1 instructor, 1 student, did not respond => 8-2=6
-        assertEquals(6, stats.submittedTotal);
+        // 1 instructor, 5 student and 2 Team responded => 1+5+2=8
+        assertEquals(8, stats.submittedTotal);
 
         ______TS("No recipients session");
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("no.recipients.session").getFeedbackSessionName() + "%"

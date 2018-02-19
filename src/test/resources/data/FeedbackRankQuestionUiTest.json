@@ -1069,7 +1069,7 @@
       "courseId": "FRankUiT.CS4221",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "RANK_RECIPIENTS",
-      "giver": "charlie.d.tmms@gmail.tmt",
+      "giver": "Team 2",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": {
         "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
@@ -1082,7 +1082,7 @@
       "courseId": "FRankUiT.CS4221",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "RANK_RECIPIENTS",
-      "giver": "emily.f.tmms@gmail.tmt",
+      "giver": "Team 3",
       "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "responseMetaData": {
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
