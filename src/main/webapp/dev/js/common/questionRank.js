@@ -235,6 +235,25 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
     }
 }
 
+function prepareRankedQuestionCheckbox() {
+    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSCHECKBOX}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSCHECKBOX}]`).change((e) => {
+        if ($(e.target).is(':checked')) {
+            const correspondingInput = $(e.target)
+                    .closest('div')
+                    .parent()
+                    .next('div')
+                    .find('input');
+
+            if ($(correspondingInput).val() === '') {
+                $(correspondingInput).val('1');
+            }
+        }
+    });
+}
+
 export {
     addRankOption,
     bindRankEvents,
@@ -244,4 +263,5 @@ export {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    prepareRankedQuestionCheckbox,
 };

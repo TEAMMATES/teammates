@@ -85,6 +85,7 @@ import {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    prepareRankedQuestionCheckbox,
 } from '../common/questionRank';
 
 import {
@@ -726,22 +727,6 @@ function hideAllNewQuestionForms() {
     $('#contribForm').hide();
     $('#rankOptionsForm').hide();
     $('#rankRecipientsForm').hide();
-}
-
-function prepareRankedQuestionCheckbox() {
-    $('.ranked-question-options-checkbox').change((e) => {
-        if ($(e.target).is(':checked')) {
-            const correspondingInput = $(e.target)
-                    .closest('div')
-                    .parent()
-                    .next('div')
-                    .find('input');
-
-            if ($(correspondingInput).val() === '') {
-                $(correspondingInput).val('1');
-            }
-        }
-    });
 }
 
 function prepareQuestionForm(type) {
