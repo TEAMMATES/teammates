@@ -173,7 +173,7 @@ function addRankOption(questionNum) {
 }
 
 function hideRankOptionTable(questionNum) {
-    $(`#${ParamsNames.FEEDBACK_QUESTION_RANKOPTIONTABLE}-${questionNum}`).hide();
+    $(`#rankOptionTable-${questionNum}`).hide();
 }
 
 function removeRankOption(index, questionNum) {
