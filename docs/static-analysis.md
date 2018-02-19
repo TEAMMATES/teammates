@@ -105,7 +105,25 @@ The suppression should be as specific as possible, and the reason for violating 
 
 [SpotBugs](https://spotbugs.github.io/) analyses Java source code for potential bugs at bytecode level, thus able to find potential bugs that PMD cannot find.
 In Gradle build, the rules are configured by specifying the classes in the `visitors` variable.
+
 The plugin for Eclipse can be found [here](http://spotbugs.readthedocs.io/en/latest/eclipse.html).
+
+The plugin for IntelliJ is under construction (see GitHub [issue](https://github.com/spotbugs/spotbugs/issues/515)). Use external tool instead.
+
+
+##### Configuring Intellij IDEA external tool for spotBugs
+
+1. Go to `File → Settings → Toola → External Tools`
+1. Click the `+` to add a new tool
+1. Set `Name` to `spotBugs`
+1. Set `Program` to `$ProjectFileDir$/gradlew` (or `$ProjectFileDir$/gradlew.bat` in Windows)
+1. Set `Program arguments` to `spotBugsMain spotBugsTest`
+1. Set `Working directory` to `$ProjectFileDir$` 
+1. Click `OK` and then `OK` to save settings
+
+##### Running Intellij IDEA external tool for spotBugs
+
+Click `Tools → External Tools → Toola → External Tools → spotBugs`
 
 ### Macker
 
