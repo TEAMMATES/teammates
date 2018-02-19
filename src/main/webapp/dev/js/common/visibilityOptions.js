@@ -164,28 +164,32 @@ function tallyCheckboxes(questionNum) {
  * cannot select an invalid combination.
  */
 function formatCheckBoxes() {
-    $('input.answerCheckbox').change(function () {
-        if (!$(this).is(':checked')) {
-            const $editTabRows = $(this).closest('tr');
+    $('.visibility-checkbox-delegate').on('change', 'input.answerCheckbox', (e) => {
+        const checkbox = $(e.target);
+        if (!checkbox.is(':checked')) {
+            const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.giverCheckbox').prop('checked', false);
             $editTabRows.find('input.recipientCheckbox').prop('checked', false);
         }
     });
-    $('input.giverCheckbox').change(function () {
-        if ($(this).is(':checked')) {
-            const $editTabRows = $(this).closest('tr');
+    $('.visibility-checkbox-delegate').on('change', 'input.giverCheckbox', (e) => {
+        const checkbox = $(e.target);
+        if (checkbox.is(':checked')) {
+            const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true).trigger('change');
         }
     });
-    $('input.recipientCheckbox').change(function () {
-        if ($(this).is(':checked')) {
-            const $editTabRows = $(this).closest('tr');
+    $('.visibility-checkbox-delegate').on('change', 'input.recipientCheckbox', (e) => {
+        const checkbox = $(e.target);
+        if (checkbox.is(':checked')) {
+            const $editTabRows = checkbox.closest('tr');
             $editTabRows.find('input.answerCheckbox').prop('checked', true);
         }
     });
-    $('input[name=receiverLeaderCheckbox]').change(function () {
-        const $editTabRows = $(this).closest('tr');
-        $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', $(this).prop('checked'));
+    $('.visibility-checkbox-delegate').on('change', 'input[name=receiverLeaderCheckbox]', (e) => {
+        const checkbox = $(e.target);
+        const $editTabRows = checkbox.closest('tr');
+        $editTabRows.find('input[name=receiverFollowerCheckbox]').prop('checked', checkbox.prop('checked'));
     });
 }
 

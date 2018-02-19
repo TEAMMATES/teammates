@@ -43,7 +43,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(originalFeedbackSessionName, originalCourseId);
 
         gateKeeper.verifyAccessible(instructor, logic.getCourse(originalCourseId),
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
         gateKeeper.verifyAccessible(instructor, fsa, false);
 
         try {

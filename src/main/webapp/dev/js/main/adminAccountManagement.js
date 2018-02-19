@@ -7,7 +7,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -146,7 +146,8 @@ function bindDeleteAccountAction() {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm deletion', messageText, okCallback, null, null, null, StatusType.DANGER);
+        showModalConfirmation('Confirm deletion',
+                messageText, okCallback, null, null, null, BootstrapContextualColors.DANGER);
     });
 }
 
