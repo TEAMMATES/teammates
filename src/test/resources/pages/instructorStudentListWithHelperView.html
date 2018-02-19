@@ -174,18 +174,6 @@
           <br>
           <div id="sectionChoices">
             <div class="checkbox">
-              <input checked="" class="section_check" id="section_check-0-0" type="checkbox">
-              <label for="section_check-0-0">
-                [course2] : Section A&lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-              </label>
-            </div>
-            <div class="checkbox">
-              <input checked="" class="section_check" id="section_check-0-1" type="checkbox">
-              <label for="section_check-0-1">
-                [course2] : Section B
-              </label>
-            </div>
-            <div class="checkbox">
               <input checked="" class="section_check" id="section_check-1-0" type="checkbox">
               <label for="section_check-1-0">
                 [course3] : None
@@ -210,24 +198,6 @@
           </div>
           <br>
           <div id="teamChoices">
-            <div class="checkbox">
-              <input checked="" class="team_check" id="team_check-0-0-0" type="checkbox">
-              <label for="team_check-0-0-0">
-                [course2] : Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-              </label>
-            </div>
-            <div class="checkbox">
-              <input checked="" class="team_check" id="team_check-0-1-1" type="checkbox">
-              <label for="team_check-0-1-1">
-                [course2] : Team 2
-              </label>
-            </div>
-            <div class="checkbox">
-              <input checked="" class="team_check" id="team_check-0-1-2" type="checkbox">
-              <label for="team_check-0-1-2">
-                [course2] : Team 3
-              </label>
-            </div>
             <div class="checkbox">
               <input checked="" class="team_check" id="team_check-1-0-0" type="checkbox">
               <label for="team_check-1-0-0">
@@ -262,25 +232,10 @@
           </div>
           <br>
           <div id="emails">
-            <div id="student_email-c0.0">
+            <div id="student_email-c1.0">
               CCSDetailsUiT.alice.tmms@gmail.tmt
             </div>
-            <div id="student_email-c0.1">
-              benny.c.tmms@gmail.tmt
-            </div>
-            <div id="student_email-c0.2">
-              hugh.i.tmms@gmail.tmt
-            </div>
-            <div id="student_email-c0.3">
-              ivan.j.tmms@gmail.tmt
-            </div>
-            <div id="student_email-c0.4">
-              jack.k.tmms@gmail.tmt
-            </div>
-            <div id="student_email-c1.0" style="display: none;">
-              CCSDetailsUiT.alice.tmms@gmail.tmt
-            </div>
-            <div id="student_email-c1.1" style="display: none;">
+            <div id="student_email-c1.1">
               benny.c.tmms@gmail.tmt
             </div>
             <div id="student_email-c1.2">
@@ -297,14 +252,14 @@
   <div id="statusMessagesToUser" style="display: none;">
   </div>
   <div class="panel panel-info">
-    <div class="panel-heading" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
+    <div class="panel-heading ajax_submit" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
       <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
         <input name="courseid" type="hidden" value="course2">
         <input name="user" type="hidden" value="instructorWith2Courses">
-        <input id="numStudents-0" type="hidden" value="5">
+        <input id="numStudents-0" type="hidden" value="0">
       </form>
       <div class="pull-right margin-left-7px">
-        <span class="glyphicon glyphicon-chevron-up">
+        <span class="glyphicon glyphicon-chevron-down">
         </span>
       </div>
       <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseEnrollPage?courseid=course2&user=instructorWith2Courses" id="enroll-0" title="">
@@ -313,248 +268,19 @@
         Enroll
       </a>
       <div class="display-icon pull-right">
+        <span class="glyphicon glyphicon-warning-sign">
+        </span>
+        <strong style="margin-left: 1em; margin-right: 1em;">
+          [ Failed to load. Click here to retry. ]
+        </strong>
       </div>
       <strong>
         [course2] :
       </strong>
       Name of Course 2
     </div>
-    <div class="panel-collapse checked collapse in" id="panelBodyCollapse-0" style="height: auto;">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-0">
       <div class="panel-body padding-0">
-        <table class="table table-bordered table-striped table-responsive margin-0">
-          <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-            <tr id="resultsHeader-0">
-              <th>
-                Photo
-              </th>
-              <th class="toggle-sort button-sort-none" id="button_sortsection-0">
-                Section
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none toggle-sort" id="button_sortteam-0">
-                Team
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none toggle-sort" id="button_sortstudentname-0">
-                Student Name
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none toggle-sort" id="button_sortstudentstatus">
-                Status
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th class="button-sort-none toggle-sort" id="button_sortemail-0">
-                Email
-                <span class="icon-sort unsorted">
-                </span>
-              </th>
-              <th>
-                Action(s)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="student_row" id="student-c0.0">
-              <td id="studentphoto-c0.0">
-                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
-                  <a class="student-profile-pic-view-link btn-link">
-                    View Photo
-                  </a>
-                  <img alt="No Image Given" class="hidden" src="">
-                </div>
-              </td>
-              <td id="studentsection-c0.0">
-                Section A&lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-              </td>
-              <td id="studentteam-c0.0.0">
-                Team 1&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-              </td>
-              <td id="studentname-c0.0">
-                Alice&lt;/option&gt;&lt;/td&gt;tags and char here&lt;/div&gt;&'"
-              </td>
-              <td class="align-center">
-                Joined
-              </td>
-              <td id="studentemail-c0.0">
-                CCSDetailsUiT.alice.tmms@gmail.tmt
-              </td>
-              <td class="no-print align-center">
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  View
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  Edit
-                </a>
-                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="course2" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Alice</option></td>tags and char here</div>&\'\&quot;" data-toggle="tooltip" disabled="" title="">
-                  Delete
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course2&studentemail=CCSDetailsUiT.alice.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
-                  All Records
-                </a>
-              </td>
-            </tr>
-            <tr class="student_row" id="student-c0.1">
-              <td id="studentphoto-c0.1">
-                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
-                  <a class="student-profile-pic-view-link btn-link">
-                    View Photo
-                  </a>
-                  <img alt="No Image Given" class="hidden" src="">
-                </div>
-              </td>
-              <td id="studentsection-c0.1">
-                Section B
-              </td>
-              <td id="studentteam-c0.1.1">
-                Team 2
-              </td>
-              <td id="studentname-c0.1">
-                Benny Charles
-              </td>
-              <td class="align-center">
-                Yet to join
-              </td>
-              <td id="studentemail-c0.1">
-                benny.c.tmms@gmail.tmt
-              </td>
-              <td class="no-print align-center">
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  View
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  Edit
-                </a>
-                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="course2" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Benny Charles" data-toggle="tooltip" disabled="" title="">
-                  Delete
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course2&studentemail=benny.c.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
-                  All Records
-                </a>
-              </td>
-            </tr>
-            <tr class="student_row" id="student-c0.2">
-              <td id="studentphoto-c0.2">
-                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
-                  <a class="student-profile-pic-view-link btn-link">
-                    View Photo
-                  </a>
-                  <img alt="No Image Given" class="hidden" src="">
-                </div>
-              </td>
-              <td id="studentsection-c0.1">
-                Section B
-              </td>
-              <td id="studentteam-c0.1.1">
-                Team 2
-              </td>
-              <td id="studentname-c0.2">
-                Hugh Ivanov
-              </td>
-              <td class="align-center">
-                Yet to join
-              </td>
-              <td id="studentemail-c0.2">
-                hugh.i.tmms@gmail.tmt
-              </td>
-              <td class="no-print align-center">
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  View
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  Edit
-                </a>
-                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="course2" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Hugh Ivanov" data-toggle="tooltip" disabled="" title="">
-                  Delete
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course2&studentemail=hugh.i.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
-                  All Records
-                </a>
-              </td>
-            </tr>
-            <tr class="student_row" id="student-c0.3">
-              <td id="studentphoto-c0.3">
-                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
-                  <a class="student-profile-pic-view-link btn-link">
-                    View Photo
-                  </a>
-                  <img alt="No Image Given" class="hidden" src="">
-                </div>
-              </td>
-              <td id="studentsection-c0.1">
-                Section B
-              </td>
-              <td id="studentteam-c0.1.2">
-                Team 3
-              </td>
-              <td id="studentname-c0.3">
-                Ivan James
-              </td>
-              <td class="align-center">
-                Yet to join
-              </td>
-              <td id="studentemail-c0.3">
-                ivan.j.tmms@gmail.tmt
-              </td>
-              <td class="no-print align-center">
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  View
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  Edit
-                </a>
-                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="course2" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Ivan James" data-toggle="tooltip" disabled="" title="">
-                  Delete
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course2&studentemail=ivan.j.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
-                  All Records
-                </a>
-              </td>
-            </tr>
-            <tr class="student_row" id="student-c0.4">
-              <td id="studentphoto-c0.4">
-                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=instructorWith2Courses">
-                  <a class="student-profile-pic-view-link btn-link">
-                    View Photo
-                  </a>
-                  <img alt="No Image Given" class="hidden" src="">
-                </div>
-              </td>
-              <td id="studentsection-c0.1">
-                Section B
-              </td>
-              <td id="studentteam-c0.1.2">
-                Team 3
-              </td>
-              <td id="studentname-c0.4">
-                Jack Khan
-              </td>
-              <td class="align-center">
-                Yet to join
-              </td>
-              <td id="studentemail-c0.4">
-                jack.k.tmms@gmail.tmt
-              </td>
-              <td class="no-print align-center">
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  View
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-toggle="tooltip" disabled="" title="">
-                  Edit
-                </a>
-                <a class="course-student-delete-link btn btn-default btn-xs margin-bottom-7px disabled mouse-hover-only" data-course-id="course2" data-original-title="You do not have the permissions to access this feature" data-placement="top" data-student-name="Jack Khan" data-toggle="tooltip" disabled="" title="">
-                  Delete
-                </a>
-                <a class="btn btn-default btn-xs margin-bottom-7px" data-original-title="View all data about this student" data-placement="top" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=course2&studentemail=jack.k.tmms%40gmail.tmt&user=instructorWith2Courses&token=${sessionToken}" rel="noopener noreferrer" target="_blank" title="">
-                  All Records
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
