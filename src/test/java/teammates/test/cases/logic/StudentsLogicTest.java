@@ -464,12 +464,12 @@ public class StudentsLogicTest extends BaseLogicTest {
                 invalidTeamName + "|" + invalidStudentName + "|" + "invalid_email.tmt";
 
         enrollLines = headerLine + System.lineSeparator()
-                    + lineWithInvalidTeamName + System.lineSeparator()
-                    + lineWithInvalidStudentName + System.lineSeparator()
-                    + lineWithInvalidEmail + System.lineSeparator()
-                    + lineWithInvalidStudentNameAndEmail + System.lineSeparator()
-                    + lineWithInvalidTeamNameAndEmail + System.lineSeparator()
-                    + lineWithInvalidTeamNameAndStudentNameAndEmail;
+                + lineWithInvalidTeamName + System.lineSeparator()
+                + lineWithInvalidStudentName + System.lineSeparator()
+                + lineWithInvalidEmail + System.lineSeparator()
+                + lineWithInvalidStudentNameAndEmail + System.lineSeparator()
+                + lineWithInvalidTeamNameAndEmail + System.lineSeparator()
+                + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -546,9 +546,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
 
         enrollLines = headerLine + System.lineSeparator()
-                      + lineWithTeamNameEmpty + System.lineSeparator()
-                      + lineWithStudentNameEmpty + System.lineSeparator()
-                      + lineWithEmailEmpty;
+                + lineWithTeamNameEmpty + System.lineSeparator()
+                + lineWithStudentNameEmpty + System.lineSeparator()
+                + lineWithEmailEmpty;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
