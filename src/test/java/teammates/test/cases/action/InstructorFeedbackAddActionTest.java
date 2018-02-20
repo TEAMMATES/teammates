@@ -158,7 +158,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">From:</span> Tue Jan 31 18:30:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Wed Dec 31 18:30:00 UTC 2014<br>"
                 + "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>"
-                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||"
                 + "/page/instructorFeedbackAdd";
