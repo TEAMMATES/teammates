@@ -337,8 +337,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             fragments.append(System.lineSeparator());
         });
 
-        return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received" + System.lineSeparator()
-                + fragments + System.lineSeparator();
+        return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received"
+                + System.lineSeparator() + fragments + System.lineSeparator();
     }
 
     /**
