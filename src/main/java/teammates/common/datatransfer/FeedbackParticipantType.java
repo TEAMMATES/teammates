@@ -10,6 +10,7 @@ public enum FeedbackParticipantType {
     // text displayed during feedback submission respectively.
     SELF(true, true, false, "Feedback session creator (i.e., me)", "Giver (Self feedback)", ""),
     STUDENTS(true, true, true, "Students in this course", "Other students in the course", "Other students in the course"),
+    //used to generate options for MCQ & MSQ:
     STUDENTS_EXCLUDING_SELF(false, false, false, "Students in this course", "Other students in the course",
             "Other students in the course"),
     INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course", "Instructors in this course"),
