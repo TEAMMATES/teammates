@@ -344,8 +344,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return isVisible();
         } else if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
             return false;
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            return false;
         } else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
             return true;
         } else {

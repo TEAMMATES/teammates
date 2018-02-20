@@ -256,7 +256,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setCourseId("CFeedbackUiT.CS2104");
         newSession.setEndTime(null);
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         newSession.setClosingEmailEnabled(false);
         newSession.setPublishedEmailEnabled(true);
@@ -339,7 +339,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setStartTime(TimeHelper.convertToDate("2012-05-01 6:00 AM UTC"));
         newSession.setEndTime(TimeHelper.convertToDate("2017-32-12 1:59 AM UTC"));
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriod(25);
         newSession.setInstructions(instructions);
         newSession.setTimeZone(-2);

@@ -106,7 +106,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
         assertTrue(additionalSettings.isResponseVisibleDateChecked());
         assertFalse(additionalSettings.isResponseVisibleImmediatelyChecked());
-        assertFalse(additionalSettings.isResponseVisibleNeverChecked());
         assertFalse(additionalSettings.isResponseVisibleDateDisabled());
 
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
@@ -242,7 +241,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
         assertTrue(additionalSettings.isResponseVisibleDateChecked());
         assertFalse(additionalSettings.isResponseVisibleImmediatelyChecked());
-        assertFalse(additionalSettings.isResponseVisibleNeverChecked());
         assertFalse(additionalSettings.isResponseVisibleDateDisabled());
 
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());

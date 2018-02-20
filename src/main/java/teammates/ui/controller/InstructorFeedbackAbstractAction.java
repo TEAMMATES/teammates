@@ -90,9 +90,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
-        case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            break;
         default:
             log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
             break;
@@ -115,7 +112,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             // Overwrite if private
-            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
