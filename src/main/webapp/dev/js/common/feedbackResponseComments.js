@@ -5,7 +5,7 @@ import {
 } from './bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from './const';
 
 import {
@@ -453,7 +453,7 @@ const deleteCommentHandler = (e) => {
                 }
             },
         });
-    }, fadeInCommentModalIfPresent, null, null, StatusType.WARNING);
+    }, fadeInCommentModalIfPresent, null, null, BootstrapContextualColors.WARNING);
 
     $('.bootbox-close-button').click(() => {
         fadeInCommentModalIfPresent();
