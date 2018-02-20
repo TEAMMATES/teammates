@@ -53,9 +53,10 @@
       Results
     </a>
     <button type="button"
-        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options<c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>"
+        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options"
         data-toggle="dropdown"
-        aria-expanded="false">
+        aria-expanded="false"
+        <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}">disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
@@ -79,9 +80,10 @@
       Remind
     </a>
     <button type="button"
-        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
+        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
         data-toggle="dropdown"
-        aria-expanded="false">
+        aria-expanded="false"
+        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
