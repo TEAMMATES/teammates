@@ -231,6 +231,7 @@ public class InstructorHomePage extends AppPage {
     public void cancelRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         click(remindModal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
     }
 
     public void fillRemindParticularUsersForm() {
