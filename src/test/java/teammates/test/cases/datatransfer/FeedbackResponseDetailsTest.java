@@ -290,7 +290,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         requestParameters.clear();
 
     }
-    /** 
+    /**
      * Checks that the functions getQuestionResultStatisticsHtml and getQuestionResultStastisticsCsv
      * behave as they did before the refactoring was made.
      * @result both methods will return the same output that was recieved before any refactoring was made
@@ -379,8 +379,8 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
          */
         assertEquals("", resHtml);
         assertEquals(
-                "Team, Recipient, Average, Minimum, Maximum" + Const.EOL 
-                + "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5" + Const.EOL, 
+                "Team, Recipient, Average, Minimum, Maximum" + Const.EOL
+                + "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",3.5,3.5,3.5" + Const.EOL,
                 resCsv);
     }
 }

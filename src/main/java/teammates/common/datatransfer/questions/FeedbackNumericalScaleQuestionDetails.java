@@ -290,12 +290,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         String fragmentHtml = fragmentHtmlUpdate(recipientSet, hiddenRecipients,
                 recipientList, isRecipientTypeStudent, showAvgExcludingSelf,
-                currentUserTeam, currentUserIdentifier, fragmentTemplateToUse, 
+                currentUserTeam, currentUserIdentifier, fragmentTemplateToUse,
                 bundle, averageExcludingSelf, numResponses, min, max, average, df);
 
         if (fragmentHtml.length() == 0) {
             return "";
-        }       
+        }
 
         String statsTitle = getStatsTitle(
                 isRecipientTypeGeneral, isRecipientTypeTeam,
@@ -328,9 +328,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
     /** update a template with one single record.
      * @return updated template
          */
-    
+
     private String updateTemplate(String currentTemplate, Map<String, Double> min, Map<String, Double> max,
-            Map<String, Double> average, Map<String, Double> averageExcludingSelf, String recipient, 
+            Map<String, Double> average, Map<String, Double> averageExcludingSelf, String recipient,
             DecimalFormat df, String recipientTeam, String recipientName, boolean showAvgExcludingSelf) {
 
         Double minScore = min.get(recipient);
@@ -456,7 +456,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             if (hiddenRecipients.contains(recipient)) {
                 continue;
             }
-            updateQuestionResultStatisticsCsv(csvBody, bundle, recipient, average, 
+            updateQuestionResultStatisticsCsv(csvBody, bundle, recipient, average,
                     min, max, showAvgExcludingSelf, averageExcludingSelf);
         }
 
@@ -507,51 +507,49 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return df;
     }
 
-
     private String fragmentHtmlUpdate(Set<String> recipientSet, List<String> hiddenRecipients,
             List<String> recipientList, boolean isRecipientTypeStudent, boolean showAvgExcludingSelf,
-            String currentUserTeam, String currentUserIdentifier, String fragmentTemplateToUse, 
+            String currentUserTeam, String currentUserIdentifier, String fragmentTemplateToUse,
             FeedbackSessionResultsBundle bundle, Map<String, Double> averageExcludingSelf,
             Map<String, Integer> numResponses, Map<String, Double> min, Map<String, Double> max,
             Map<String, Double> average, DecimalFormat df) {
 
         updateRecipientList(recipientList, recipientSet, currentUserIdentifier);
-        StringBuilder fragmentHtml = new StringBuilder(); 
-        for (String recipient : recipientList) {                                                                    
+        StringBuilder fragmentHtml = new StringBuilder();
+        for (String recipient : recipientList) {
 
-            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients     
+            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
             boolean isHiddenRecipient = false;
-            if (hiddenRecipients.contains(recipient)) {                                                             
-                isHiddenRecipient = true;                                                                           
-            }                                                                                                       
+            if (hiddenRecipients.contains(recipient)) {
+                isHiddenRecipient = true;
+            }
 
-            boolean isRecipientCurrentUser = recipient.equalsIgnoreCase(currentUserIdentifier);                     
-            boolean isRecipientGeneral = recipient.equalsIgnoreCase(Const.GENERAL_QUESTION);                        
+            boolean isRecipientCurrentUser = recipient.equalsIgnoreCase(currentUserIdentifier);
+            boolean isRecipientGeneral = recipient.equalsIgnoreCase(Const.GENERAL_QUESTION);
 
             String recipientName = getDisplayableRecipientName(isHiddenRecipient,
-                    isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),    
-                    isRecipientTypeStudent, 
-                    hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients), 
-                    isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);                
+                    isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
+                    isRecipientTypeStudent,
+                    hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients),
+                    isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);
 
             String recipientTeam = getDisplayableRecipientTeam(isHiddenRecipient, isRecipientCurrentUser,
                     hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
                     isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,
                         currentUserIdentifier, hiddenRecipients),
-                    bundle.getTeamNameForEmail(recipient), currentUserTeam);    
+                    bundle.getTeamNameForEmail(recipient), currentUserTeam);
 
             // Check if recipientDetails (recipientName or recipientTeam) is available.
             if (recipientName == null || recipientTeam == null) {
-                continue;  
-            }   
+                continue;
+            }
 
             String recipientFragmentHtml = updateTemplate(fragmentTemplateToUse, min, max, average,
                     averageExcludingSelf, recipient, df, recipientTeam, recipientName, showAvgExcludingSelf);
-            fragmentHtml.append(recipientFragmentHtml); 
-        }           
-        return fragmentHtml.toString();                                                       
+            fragmentHtml.append(recipientFragmentHtml);
+        }
+        return fragmentHtml.toString();
     }
-
 
     private boolean showAverageExcludingSelf(
             FeedbackQuestionAttributes question, Map<String, Double> averageExcludingSelf) {
@@ -624,7 +622,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             // Compute average score received excluding self
             averageExcludingSelf.putIfAbsent(recipientEmail, null);
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
-                averageExcludingSelf.put(recipientEmail, totalExcludingSelf.get(recipientEmail) 
+                averageExcludingSelf.put(recipientEmail, totalExcludingSelf.get(recipientEmail)
                             / numResponsesExcludingSelf.get(recipientEmail));
             }
         }
