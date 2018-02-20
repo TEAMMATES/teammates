@@ -1067,10 +1067,14 @@ function prepareDescription(form) {
 }
 
 function prepareNewQuestion() {
-    $('#dropDownOption_essay').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
-    });
-    $('#dropDownOption_mcq').click(function () {
+    // $('#dropDownOption_essay').click(function () {
+    //     showNewQuestionFrame($(this).data('questiontype'));
+    // });
+    // $('#dropDownOption_mcq').click(function () {
+    //     showNewQuestionFrame($(this).data('questiontype'));
+    // });
+
+    $('.dropDownOption').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
     });
 

@@ -161,8 +161,14 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        return "<li><a href=\"javascript:;\" id=\"dropDownOption_essay\" data-questiontype = \"TEXT\">"
-               + Const.FeedbackQuestionTypeNames.TEXT + "</a>" +
+//        return "<li><a href=\"javascript:;\" id=\"dropDownOption_essay\" data-questiontype = \"TEXT\">"
+//               + Const.FeedbackQuestionTypeNames.TEXT + "</a>" +
+//                "<a href=\"javascript:;\" id=\"button_questionTypeHelpModal_essay\" " +
+//                "data-modal-link = \"questionTypeHelpModal_essay\"> " +
+//                "<span class=\"glyphicon glyphicon-info-sign\"></span> </a>" +
+//                "</li>";
+        return "<li><a href=\"javascript:;\" class=\"dropDownOption\" data-questiontype = \"TEXT\">"
+                + Const.FeedbackQuestionTypeNames.TEXT + "</a>" +
                 "<a href=\"javascript:;\" id=\"button_questionTypeHelpModal_essay\" " +
                 "data-modal-link = \"questionTypeHelpModal_essay\"> " +
                 "<span class=\"glyphicon glyphicon-info-sign\"></span> </a>" +
