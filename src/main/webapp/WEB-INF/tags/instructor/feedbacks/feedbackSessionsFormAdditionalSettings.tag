@@ -14,7 +14,7 @@
               title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL %>"
               data-toggle="tooltip"
               data-placement="top">
-            <label class="label-control">Session visible from </label>
+            <label class="label-control">Make session visible </label>
           </div>
         </div>
         <div class="row radio">
@@ -89,7 +89,7 @@
               title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL %>"
               data-toggle="tooltip"
               data-placement="top">
-            <label class="label-control">Responses visible from</label>
+            <label class="label-control">Make responses visible</label>
           </div>
         </div>
         <div class="row radio">
