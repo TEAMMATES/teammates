@@ -31,7 +31,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private boolean distributeToRecipients;
     private boolean pointsPerOption;
     private boolean forceUnevenDistribution;
-    private boolean specifyMinMax;
+    private boolean requireMin;
+    private boolean requireMax;
     private int points;
     private int minPoints;
     private int maxPoints;
@@ -46,7 +47,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.points = 100;
         this.minPoints = 1;
         this.maxPoints = 100;
-        this.specifyMinMax = false;
+        this.requireMin = false;
+        this.requireMax = false;
         this.forceUnevenDistribution = false;
     }
 
@@ -84,6 +86,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String pointsForEachRecipientString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
+        String minPointsString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN);
+
+        String maxPointsString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX);
 
         Assumption.assertNotNull("Null points in total", pointsString);
         Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
@@ -91,9 +100,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+        String requireMinString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN);
+
+        String requireMaxString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX);
 
         boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
         boolean pointsPerOption = "true".equals(pointsPerOptionString);
+        boolean requireMin = "on".equals(requireMinString);
+        boolean requireMax = "on".equals(requireMaxString);
 
         int points = 0;
         if (pointsPerOption) {
@@ -102,10 +120,22 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         } else {
             points = Integer.parseInt(pointsString);
         }
+
+        int minPoints = 1;
+        int maxPoints = points;
+        if (requireMin) {
+            minPoints = Integer.parseInt(minPointsString);
+        }
+
+        if (requireMax) {
+            maxPoints = Integer.parseInt(maxPointsString);
+        }
+
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
+            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution,
+                                               requireMin, minPoints, requireMax, maxPoints);
         } else {
             String numConstSumOptionsCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -122,14 +152,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     numOfConstSumOptions++;
                 }
             }
-            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution);
+            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution,
+                    requireMin, minPoints, requireMax, maxPoints);
         }
         return true;
     }
 
     private void setConstantSumQuestionDetails(
             List<String> constSumOptions, boolean pointsPerOption,
-            int points, boolean unevenDistribution) {
+            int points, boolean unevenDistribution, boolean requireMin,
+            int minPoints, boolean requireMax, int maxPoints) {
 
         this.numOfConstSumOptions = constSumOptions.size();
         this.constSumOptions = constSumOptions;
@@ -137,11 +169,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.pointsPerOption = pointsPerOption;
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
-
+        this.requireMin = requireMin;
+        this.minPoints = minPoints;
+        this.requireMax = requireMax;
+        this.maxPoints = maxPoints;
     }
 
     private void setConstantSumQuestionDetails(boolean pointsPerOption,
-            int points, boolean unevenDistribution) {
+            int points, boolean unevenDistribution, boolean requireMin,
+            int minPoints, boolean requireMax, int maxPoints) {
 
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
@@ -149,6 +185,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.pointsPerOption = pointsPerOption;
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
+        this.requireMin = requireMin;
+        this.minPoints = minPoints;
+        this.requireMax = requireMax;
+        this.maxPoints = maxPoints;
     }
 
     @Override
@@ -327,7 +367,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TOOLTIP_POINTS_MIN, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN,
                 Slots.CONSTSUM_TOOLTIP_POINTS_MAX, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
-                Slots.CONSTSUM_SPECIFY_MINMAX, specifyMinMax ? "checked" : "",
+                Slots.CONSTSUM_REQUIRE_MIN, requireMin ? "checked" : "",
+                Slots.CONSTSUM_REQUIRE_MAX, requireMax ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
@@ -335,8 +376,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_PARAM_REQUIREMIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN,
+                Slots.CONSTSUM_PARAM_REQUIREMAX, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX,
                 Slots.CONSTSUM_PARAM_MIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN,
-                Slots.CONSTSUM_PARAM_MIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN);
+                Slots.CONSTSUM_PARAM_MAX, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX);
     }
 
     @Override

@@ -745,6 +745,8 @@ public final class Const {
         // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN = "constSumPointsRequireMin";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX = "constSumPointsRequireMax";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSMIN = "constSumPointsMin";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSMAX = "constSumPointsMax";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";

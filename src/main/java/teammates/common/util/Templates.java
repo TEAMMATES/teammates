@@ -354,7 +354,8 @@ public final class Templates {
             public static final String CONSTSUM_SELECTED_POINTS_PER_OPTION = "${selectedConstSumPointsPerOption}";
             public static final String CONSTSUM_OPTION_TABLE_VISIBILITY = "${constSumOptionTableVisibility}";
             public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
-            public static final String CONSTSUM_SPECIFY_MINMAX = "{specifyMinMax}";
+            public static final String CONSTSUM_REQUIRE_MIN = "${requireMin}";
+            public static final String CONSTSUM_REQUIRE_MAX = "${requireMax}";
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
             public static final String CONSTSUM_POINTS_MIN = "${constSumPointsMin}";
             public static final String CONSTSUM_POINTS_MAX = "${constSumPointsMax}";
@@ -366,8 +367,12 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
+            public static final String CONSTSUM_PARAM_REQUIREMIN =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN}";
+            public static final String CONSTSUM_PARAM_REQUIREMAX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX}";
             public static final String CONSTSUM_PARAM_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
-            public static final String CONSTSUM_PARAM_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
+            public static final String CONSTSUM_PARAM_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}";
             public static final String CONSTSUM_TOOLTIP_POINTS = "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_TOOLTIP_POINTS_PER_OPTION =
                     "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";
