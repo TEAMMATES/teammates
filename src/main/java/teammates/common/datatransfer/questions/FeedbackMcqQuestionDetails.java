@@ -424,16 +424,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionTypeChoiceOption() {
-//        return "<li><a href=\"javascript:;\" id=\"dropDownOption_mcq\" data-questiontype = \"MCQ\"> "
-//               + Const.FeedbackQuestionTypeNames.MCQ + "</a>" +
-//                "<a href=\"javascript:;\" id=\"button_questionTypeHelpModal_mcq\"> " +
-//                "<span class=\"glyphicon glyphicon-info-sign\"></span> </a>" +
-//                "</li>";
-        return "<li><a href=\"javascript:;\" class=\"dropDownOption\" data-questiontype = \"MCQ\"> "
-                + Const.FeedbackQuestionTypeNames.MCQ + "</a>" +
-                "<a href=\"javascript:;\" id=\"button_questionTypeHelpModal_mcq\"> " +
-                "<span class=\"glyphicon glyphicon-info-sign\"></span> </a>" +
-                "</li>";
+        return "<li data-questiontype = \"MCQ\"><a href=\"javascript:;\"> "
+                + Const.FeedbackQuestionTypeNames.MCQ + "</a></li>";
     }
 
     @Override

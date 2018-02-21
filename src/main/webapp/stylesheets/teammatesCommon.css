@@ -1273,14 +1273,6 @@ Default to alert color for visibility titles used within an alert context.
     margin: auto;
 }
 
-.dropdown-menu > li > a {
-    display: inline-block;
-}
-
-.dropdown-menu {
-    min-width: 350px;
-}
-
 /* /////////////////////////////////////////////////////////
 ////////////////// Dropdowns with Submenus /////////////////
 ///////////////////////////////////////////////////////// */

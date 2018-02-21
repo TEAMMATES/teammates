@@ -650,18 +650,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionTypeChoiceOption() {
         // Constant sum has two options for user to select.
-        return "<li><a href=\"javascript:;\"  " +
-                "id=\"dropDownOption_constsum_option\" data-questiontype = \"CONSTSUM_OPTION\">" +
-                Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a>" +
-                "<a href=\"javascript:;\" id=\"button_questionTypeHelpModal_constsum_option\"> " +
-                "<span class=\"glyphicon glyphicon-info-sign\"></span> </a>" +
-                "</li>" +
-                "<li><a href=\"javascript:;\"   " +
-                "id=\"dropDownOption_constsum_recipient\" data-questiontype = \"CONSTSUM_RECIPIENT\">" +
-                Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a>" +
-                "<a href=\"javascript:;\" id=\"button_questionTypeHelpModal_constsum_recipient\"> " +
-                "<span class=\"glyphicon glyphicon-info-sign\"></span> </a>" +
-                "</li>";
+        return "<li data-questiontype = \"CONSTSUM_OPTION\">"
+                + "<a href=\"javascript:;\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</a>"
+                + "</li>"
+                + "<li data-questiontype = \"CONSTSUM_RECIPIENT\">"
+                + "<a href=\"javascript:;\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</a>"
+                + "</li>";
     }
 
     @Override

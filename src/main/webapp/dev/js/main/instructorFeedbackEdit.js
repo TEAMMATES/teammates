@@ -1066,27 +1066,6 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
-function prepareNewQuestion() {
-    // $('#dropDownOption_essay').click(function () {
-    //     showNewQuestionFrame($(this).data('questiontype'));
-    // });
-    // $('#dropDownOption_mcq').click(function () {
-    //     showNewQuestionFrame($(this).data('questiontype'));
-    // });
-
-    $('.dropDownOption').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
-    });
-
-    // not working
-    // $('a[id|="dropDownOption"]').click()(function () {
-    //     showNewQuestionFrame($(this).data('questiontype'));
-    // });
-    // $('.dropdown-menu > li > a[id|=dropDownOption]').click()(function () {
-    //     showNewQuestionFrame($(this).data('questiontype'));
-    // })
-}
-
 function prepareQuetionTypeHelpModal() {
     // //cannt use template string???
     // $('.button_questionTypeHelpModal').click(function () {
@@ -1156,7 +1135,9 @@ function readyFeedbackEditPage() {
             });
 
     // Prepare for the events in the dropdown menu of 'Add New Question' button
-    prepareNewQuestion();
+    $('#add-new-question-dropdown > li').click(function () {
+        showNewQuestionFrame($(this).data('questiontype'));
+    });
     prepareQuetionTypeHelpModal();
 
     // Copy Binding
