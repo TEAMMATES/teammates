@@ -1,5 +1,6 @@
 package teammates.test.cases.datatransfer;
 
+import static junit.framework.TestCase.assertNotSame;
 import static teammates.common.util.Const.EOL;
 
 import org.testng.annotations.Test;
@@ -41,21 +42,21 @@ public class AccountAttributesTest extends BaseAttributesTest {
         account = createInvalidAccountAttributesObject();
         String expectedError =
                 getPopulatedEmptyStringErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
-                        + getPopulatedErrorMessage(
-                        FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
-                        FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
-                        + getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
-                        FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH) + EOL
-                        + getPopulatedErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                        FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
+                      FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
+                      FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
+                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                + getPopulatedErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                      FieldValidator.INSTITUTE_NAME_MAX_LENGTH);
         assertFalse("all valid values", account.isValid());
         assertEquals("all valid values", expectedError, StringHelper.toString(account.getInvalidityInfo()));
 
@@ -130,6 +131,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(a.getName(), attr.name);
         assertNull(a.getStudentProfile());
         assertNull(attr.studentProfile);
+
     }
 
     @Test
@@ -138,7 +140,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         AccountAttributes copy = account.getCopy();
 
-        assertFalse(account.equals(copy));
+        assertNotSame(account, copy);
         assertFalse(account.studentProfile.equals(copy.studentProfile));
         assertFalse(account.isInstructor);
 
@@ -161,7 +163,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         AccountAttributes copy = account.getCopy();
 
-        assertFalse(account.equals(copy));
+        assertNotSame(account, copy);
         assertFalse(account.isInstructor);
 
         assertNull("student profile should be null", copy.studentProfile);
@@ -226,15 +228,17 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail("&<email>&")
                 .withIsInstructor(true)
                 .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                        .withGoogleId("googleId@gmail.com")
-                        .withShortName(shortName)
-                        .withEmail(personalEmail)
-                        .withInstitute(profileInstitute)
-                        .withNationality(nationality)
-                        .withGender(gender)
-                        .withMoreInfo(moreInfo)
-                        .withPictureKey(pictureKey)
-                        .build())
+                    .withGoogleId("googleId@gmail.com")
+                    .withShortName(shortName)
+                    .withEmail(personalEmail)
+                    .withInstitute(profileInstitute)
+                    .withNationality(nationality)
+                    .withGender(gender)
+                    .withMoreInfo(moreInfo)
+                    .withPictureKey(pictureKey)
+                    .build())
                 .build();
+
     }
+
 }
