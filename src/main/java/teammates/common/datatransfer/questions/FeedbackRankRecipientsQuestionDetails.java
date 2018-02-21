@@ -76,7 +76,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                            totalNumRecipients, existingResponse.answer),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        optionListHtml.append(optionFragment).append(System.lineSeparator());
 
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
         boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
@@ -122,7 +122,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                            totalNumRecipients, Const.INT_UNINITIALIZED),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        optionListHtml.append(optionFragment).append(System.lineSeparator());
 
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
         boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
@@ -334,11 +334,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             fragments.append(',').append(overallRankExceptSelf);
             fragments.append(',');
             fragments.append(StringHelper.join(",", ranks));
-            fragments.append(Const.EOL);
+            fragments.append(System.lineSeparator());
         });
 
-        return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received" + Const.EOL
-                + fragments + Const.EOL;
+        return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received"
+                + System.lineSeparator() + fragments + System.lineSeparator();
     }
 
     /**
