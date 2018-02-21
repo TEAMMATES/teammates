@@ -358,7 +358,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         });
 
         return "Option, Overall Rank, Ranks Received" + System.lineSeparator()
-            + fragments.toString() + System.lineSeparator();
+                + fragments.toString() + System.lineSeparator();
     }
 
     /**
