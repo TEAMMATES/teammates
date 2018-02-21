@@ -117,8 +117,8 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { NSB, NSB, NSB, NSB },
 
                 {  NA,  NA,  NA,  NA },
-                {  NA,  NA,  NA,  NA },
-                {  NA,  NA,  NA,  NA },
+                { NSU,  NA, NSU, NSU },
+                { NSU, NSU,  NA, NSU },
                 {  NA,  NA,  NA,  NA },
 
                 {  NA,  NA,  NA,  NA },
@@ -171,10 +171,10 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { NSB, NSB, NSB, NSB },
                 {   0,   0, NSU, NSU },
 
-                {  NA,   0,   0,  NA },
-                {   0,  NA,   0,  NA },
+                {  NA,   0,   0, NSU },
+                {   0,  NA,   0, NSU },
                 {  NA,  NA,  NA,  NA },
-                {   0,   0,  NA,  NA },
+                {   0,   0, NSU,  NA },
 
                 {   0,   0,   0,  NA },
 
@@ -222,7 +222,7 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { NSB, NSB, NSB },
                 { NSB, NSB, NSB },
 
-                {  NA,  NA,  NA },
+                {  NA, NSU, NSU },
                 {  NA,  NA,  NA },
                 {  NA,  NA,  NA },
 
@@ -274,7 +274,7 @@ public class TeamEvalResultTest extends BaseTestCase {
                 { 100,  90, 110 },
 
                 {  NA, 105,  96 },
-                { 101,  NA,  NA },
+                { 101,  NA,  NSU },
                 { 106,  95,  NA },
 
                 { 103, 100,  96 },
@@ -346,13 +346,6 @@ public class TeamEvalResultTest extends BaseTestCase {
         assertEquals(Arrays.toString(expected2),
                 Arrays.toString(TeamEvalResult.averageColumns(input2)));
 
-        try {
-            TeamEvalResult.averageColumns(new double[][] { {NSU} });
-            signalFailureToDetectException("The Assertion error is not thrown as expected");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
-
     }
     // CHECKSTYLE.ON:SingleSpaceSeparator
 
@@ -365,12 +358,6 @@ public class TeamEvalResultTest extends BaseTestCase {
         assertEquals(0, TeamEvalResult.sum(new double[] {NA, 0, 0}), 0.001);
         assertEquals(NA, TeamEvalResult.sum(new double[] {NA, NA, NA}), 0.001);
 
-        try {
-            TeamEvalResult.sum(new double[] {NSU, 1, 2});
-            signalFailureToDetectException("The Assertion error is not thrown as expected");
-        } catch (AssertionError e) {
-            ignoreExpectedException();
-        }
     }
 
     @Test
@@ -417,7 +404,7 @@ public class TeamEvalResultTest extends BaseTestCase {
     public void testIsSanitized() {
         assertTrue(TeamEvalResult.isSanitized(new int[] {}));
         assertTrue(TeamEvalResult.isSanitized(new int[] {1, 2, NA}));
-        assertFalse(TeamEvalResult.isSanitized(new int[] {1, NSU, 2, NA}));
+        assertTrue(TeamEvalResult.isSanitized(new int[] {1, NSU, 2, NA}));
         assertFalse(TeamEvalResult.isSanitized(new int[] {NSB, 2, -1}));
     }
 
@@ -445,18 +432,18 @@ public class TeamEvalResultTest extends BaseTestCase {
                 new double[] {1, 2, NSB}, new double[] {1.0, 2.0, 3.0});
 
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
-                new double[] {1.0, 2.0, NA },
+                new double[] {1.0, 2.0, NSU },
                 new double[] {1, 2, NSU}, new double[] {1.0, 2.0, 3.0});
 
         //mix of special values in filter
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
-                new double[] {1.0, 2.0, NA, 4.0, NA, 6.0, NA},
+                new double[] {1.0, 2.0, NA, 4.0, NSU, 6.0, NA},
                 new double[] {1, 2, NSB, 4, NSU, 6, NA},
                 new double[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0});
 
         // target array has special values
         verifyPurgeValuesCorrespondingToSpecialValuesInFilter(
-                new double[] {1.0, 2.0, NA, NA, NA, 6.0, NA},
+                new double[] {1.0, 2.0, NA, NA, NSU, 6.0, NA},
                 new double[] {1, 2, NSB, 4, NSU, 6, NA},
                 new double[] {1.0, 2.0, 3.0, NA, 5.0, 6.0});
     }
