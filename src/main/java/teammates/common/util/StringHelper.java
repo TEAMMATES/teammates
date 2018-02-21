@@ -166,7 +166,7 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list) {
-        return toString(list, Const.EOL);
+        return toString(list, System.lineSeparator());
     }
 
     /**
@@ -332,7 +332,7 @@ public final class StringHelper {
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
-        String[] lines = handleNewLine(str).split(Const.EOL);
+        String[] lines = handleNewLine(str).split(System.lineSeparator());
 
         StringBuilder result = new StringBuilder();
 

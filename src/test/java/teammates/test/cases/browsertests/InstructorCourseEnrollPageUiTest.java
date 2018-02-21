@@ -181,17 +181,18 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         ______TS("enroll action: fail to enroll as there is an invalid line");
 
         enrollString =
-                "Team | Name | Email | Comment" + Const.EOL
+                "Team | Name | Email | Comment" + System.lineSeparator()
                 // A new student with no email input
-                + "Team 3 | Frank Hughe" + Const.EOL
+                + "Team 3 | Frank Hughe" + System.lineSeparator()
                 // A new student with invalid email input
-                + "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid" + Const.EOL
+                + "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid"
+                + System.lineSeparator()
                 // A new student with invalid team name
                 + StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
-                        + " | Robert Downey | rob@email.tmt | This student team name is too long" + Const.EOL
+                        + " | Robert Downey | rob@email.tmt | This student team name is too long" + System.lineSeparator()
                 // A new student with invalid name
                 + "Team 2 | " + StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
-                        + " | longname@email.tmt | This student name is too long" + Const.EOL;
+                        + " | longname@email.tmt | This student name is too long" + System.lineSeparator();
 
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyHtmlMainContent("/instructorCourseEnrollError.html");
