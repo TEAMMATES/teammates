@@ -44,6 +44,10 @@ function addConstSumOption(questionNum) {
     }
 }
 
+function showConstSumOptionTable(questionNum) {
+    $(`#constSumOptionTable-${questionNum}`).show();
+}
+
 function hideConstSumOptionTable(questionNum) {
     $(`#constSumOptionTable-${questionNum}`).hide();
 }
@@ -70,5 +74,6 @@ export {
     addConstSumOption,
     hideConstSumOptionTable,
     removeConstSumOption,
+    showConstSumOptionTable,
     updateConstSumPointsValue,
 };
