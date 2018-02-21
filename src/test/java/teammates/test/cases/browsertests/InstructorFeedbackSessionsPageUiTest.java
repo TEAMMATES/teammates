@@ -960,10 +960,12 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("");
         newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         feedbackPage.clickEditUncommonSettingsButtons();
-        feedbackPage.clickNeverPublishTimeButton();
+        feedbackPage.clickCustomPublishTimeButton();
+        newSession.setResultsVisibleFromTime(TimeHelper.convertToDate("2035-09-01 11:00 PM UTC"));
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null,
+                newSession.getResultsVisibleFromTimeLocal(),
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
         feedbackPage.verifyStatus(getPopulatedEmptyStringErrorMessage(

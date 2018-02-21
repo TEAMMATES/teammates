@@ -139,7 +139,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: Masquerade mode, custom release results, invalid timezone and graceperiod");
+        ______TS("success: Masquerade mode, 'custom' release results, invalid timezone and graceperiod");
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
