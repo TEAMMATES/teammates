@@ -49,7 +49,7 @@ public final class EmailChecker {
             return false;
         }
 
-        String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent) + Const.EOL;
+        String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent) + System.lineSeparator();
         FileHelper.saveFile(filePath, processedEmailContent);
         return true;
     }

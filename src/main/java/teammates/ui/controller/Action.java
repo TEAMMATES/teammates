@@ -670,7 +670,7 @@ public abstract class Action {
     protected void setStatusForException(Exception e) {
         isError = true;
 
-        String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+        String exceptionMessageForHtml = e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
         statusToUser.add(new StatusMessage(exceptionMessageForHtml, StatusMessageColor.DANGER));
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
@@ -684,10 +684,10 @@ public abstract class Action {
     protected void setStatusForException(Exception e, String statusMessageToUser) {
         isError = true;
 
-        String statusMessageForHtml = statusMessageToUser.replace(Const.EOL, Const.HTML_BR_TAG);
+        String statusMessageForHtml = statusMessageToUser.replace(System.lineSeparator(), Const.HTML_BR_TAG);
         statusToUser.add(new StatusMessage(statusMessageForHtml, StatusMessageColor.DANGER));
 
-        String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+        String exceptionMessageForHtml = e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
 
