@@ -83,11 +83,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
+
         ProfilesDb profilesDb = new ProfilesDb();
         profilesDb.saveEntity(account.studentProfile.toEntity());
+
         String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
         String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
+
         profilesDb.deleteEntity(account.studentProfile);
     }
 
