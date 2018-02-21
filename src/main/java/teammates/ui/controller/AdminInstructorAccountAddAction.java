@@ -55,7 +55,7 @@ public class AdminInstructorAccountAddAction extends Action {
             logic.verifyInputForAdminHomePage(data.instructorName,
                                               data.instructorInstitution, data.instructorEmail);
         } catch (InvalidParametersException e) {
-            data.statusForAjax = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+            data.statusForAjax = e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
             data.isInstructorAddingResultForAjax = false;
             statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
             return createAjaxResult(data);
