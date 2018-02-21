@@ -1088,19 +1088,22 @@ function prepareNewQuestion() {
 }
 
 function prepareQuetionTypeHelpModal() {
-    $('#button_questionTypeHelpModal_essay').click(() => {
-        $('#questionTypeHelpModal_essay').modal('show');
+    // //cannt use template string???
+    // $('.button_questionTypeHelpModal').click(function () {
+    //     const modalLink = $(this).data('modalLink');
+    //     $('#' + modalLink).modal('show');
+    // });
+    // $('.button_questionTypeHelpModal').click(function () {
+    //         const modalLink = $(this).data('modalLink');
+    //         $(`#${modalLink}`).modal('show');
+    //     });
+    //
+    $('.button_questionTypeHelpModal').click(function () {
+        const modalId = $(this).data('modalLink');
+        const modalToBeOpened = $(`#${modalId}`);
+        $('.question-type-help-modal').not(modalToBeOpened).modal('hide');
+        modalToBeOpened.modal('show');
     });
-
-    // not working
-    // $('#button_questionTypeHelpModal_essay').click(() => {
-    //     const modalId = $(this).data('modalLink');
-    //     $(`#${modalId}`).modal('show');
-    // });
-    // syntax error
-    // $('#button_questionTypeHelpModal_essay').click(() => {
-    //     $('#${$(this).data(\'modalLink\')}').modal('show');
-    // });
 
 }
 

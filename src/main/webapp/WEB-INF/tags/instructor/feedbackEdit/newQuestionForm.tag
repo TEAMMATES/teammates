@@ -30,8 +30,9 @@
           </ul>
         </div>
 
-        <a href="/instructorHelp.jsp#fbQuestionTypes"
-            target="_blank" rel="noopener noreferrer">
+        <a href="javascript:;"
+           class="button_questionTypeHelpModal"
+           data-modal-link = "questionTypeHelpModal_roadmap">
           <i class="glyphicon glyphicon-info-sign"></i>
         </a>
         <a id="button_copy" class="btn btn-primary margin-bottom-7px"
@@ -143,4 +144,6 @@
       id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>
+
+<instructorHelp:roadmapQuestionTypeHelpModal />
 <instructorHelp:essayQuestionTypeHelpModal />

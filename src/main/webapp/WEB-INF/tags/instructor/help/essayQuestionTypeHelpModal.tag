@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/help" prefix="instructorHelp" %>
 
-<div class="modal fade" id="questionTypeHelpModal_essay" tabindex="-1" role="dialog"
+<div class="modal fade question-type-help-modal" id="questionTypeHelpModal_essay" tabindex="-1" role="dialog"
      aria-labelledby="essayQuestionHelpModalTitle" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
