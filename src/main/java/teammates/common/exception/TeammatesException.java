@@ -3,8 +3,6 @@ package teammates.common.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import teammates.common.util.Const;
-
 @SuppressWarnings("serial")
 public class TeammatesException extends Exception {
     public String errorCode;
@@ -30,7 +28,7 @@ public class TeammatesException extends Exception {
         StringWriter sw = new StringWriter();
         try (PrintWriter pw = new PrintWriter(sw)) {
             e.printStackTrace(pw);
-            return Const.EOL + sw.toString();
+            return System.lineSeparator() + sw.toString();
         }
     }
 }

@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -242,7 +240,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         StringBuilder sb = new StringBuilder();
-        sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
+        sb.append(indentString + "Student:" + name + "[" + email + "]" + System.lineSeparator());
 
         return sb.toString();
     }
