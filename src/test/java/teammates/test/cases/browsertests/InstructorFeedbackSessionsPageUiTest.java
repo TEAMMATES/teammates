@@ -330,7 +330,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickDefaultVisibleTimeButton();
-        feedbackPage.clickNeverPublishTimeButton();
+        feedbackPage.clickManualPublishTimeButton();
 
         instructions = new Text("cannot see responses<script>test</script>$^/\\=?");
 
