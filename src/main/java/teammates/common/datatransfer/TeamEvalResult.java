@@ -374,7 +374,7 @@ public class TeamEvalResult {
     }
 
     private String pointsToString(int[] input) {
-        return replaceMagicNumbers(Arrays.toString(input)) + Const.EOL;
+        return replaceMagicNumbers(Arrays.toString(input)) + System.lineSeparator();
     }
 
     public static String pointsToString(double[][] array) {
@@ -385,13 +385,13 @@ public class TeamEvalResult {
         int secondDividerLocation = teamSize * 2 - 1;
         int thirdDividerLocation = secondDividerLocation + 1;
         for (int i = 0; i < array.length; i++) {
-            returnValue.append(Arrays.toString(array[i])).append(Const.EOL);
+            returnValue.append(Arrays.toString(array[i])).append(System.lineSeparator());
             if (isSquareArray) {
                 continue;
             }
             if (i == firstDividerLocation || i == secondDividerLocation || i == thirdDividerLocation) {
                 returnValue.append("=======================")
-                           .append(Const.EOL);
+                           .append(System.lineSeparator());
             }
         }
         return replaceMagicNumbers(returnValue.toString());
@@ -413,34 +413,34 @@ public class TeamEvalResult {
 
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
-        String divider = "======================" + Const.EOL;
+        String divider = "======================" + System.lineSeparator();
         StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
         sb.append(indentString)
-          .append(pointsToString(claimed).replace(Const.EOL,
-                        Const.EOL + indentString + filler))
+          .append(pointsToString(claimed).replace(System.lineSeparator(),
+                        System.lineSeparator() + indentString + filler))
           .append(divider)
           .append("              normalizedClaimed:")
           .append(indentString)
-          .append(pointsToString(normalizedClaimed).replace(Const.EOL,
-                        Const.EOL + indentString + filler))
+          .append(pointsToString(normalizedClaimed).replace(System.lineSeparator(),
+                        System.lineSeparator() + indentString + filler))
           .append(divider)
           .append("normalizedPeerContributionRatio:")
           .append(indentString)
           .append(pointsToString(normalizedPeerContributionRatio).replace(
-                        Const.EOL, Const.EOL + indentString + filler))
+                        System.lineSeparator(), System.lineSeparator() + indentString + filler))
           .append(divider)
           .append("     normalizedAveragePerceived:")
           .append(indentString)
           .append(pointsToString(normalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler))
+                        System.lineSeparator(), System.lineSeparator() + indentString + filler))
           .append(divider)
 
           .append("   denormalizedAveragePerceived:")
           .append(indentString)
           .append(pointsToString(denormalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler))
+                        System.lineSeparator(), System.lineSeparator() + indentString + filler))
             .append(divider);
         return sb.toString();
     }

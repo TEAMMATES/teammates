@@ -31,8 +31,8 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
     @Test
     public void testAll() {
         Document pageSource = Jsoup.parse(page.getPageSource());
-        assertEquals(pageSource.getElementById("jodatime").text().replace(" ", Const.EOL),
-                     pageSource.getElementById("momentjs").text().replace(" ", Const.EOL));
+        assertEquals(pageSource.getElementById("jodatime").text().replace(" ", System.lineSeparator()),
+                     pageSource.getElementById("momentjs").text().replace(" ", System.lineSeparator()));
     }
 
 }

@@ -480,7 +480,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
                          + (showAvgExcludingSelf ? ", Average excluding self response" : "")
-                         + Const.EOL;
+                         + System.lineSeparator();
 
         StringBuilder csvBody = new StringBuilder();
         for (String recipient : numResponses.keySet()) {
@@ -505,7 +505,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                            + df.format(min.get(recipient)) + ','
                            + df.format(max.get(recipient))
                            + (showAvgExcludingSelf ? ',' + averageScoreExcludingSelfText : "")
-                           + Const.EOL);
+                           + System.lineSeparator());
         }
 
         return csvHeader + csvBody.toString();

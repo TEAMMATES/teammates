@@ -3,7 +3,6 @@ package teammates.test.cases.datatransfer;
 import static teammates.common.datatransfer.TeamEvalResult.NA;
 import static teammates.common.datatransfer.TeamEvalResult.NSB;
 import static teammates.common.datatransfer.TeamEvalResult.NSU;
-import static teammates.common.util.Const.EOL;
 
 import java.util.Arrays;
 
@@ -453,11 +452,11 @@ public class TeamEvalResultTest extends BaseTestCase {
     private void verifyCalculatePoints(int[][] input, int[][] expected) {
         TeamEvalResult t = new TeamEvalResult(input);
         String actual = TeamEvalResult.pointsToString(t.normalizedClaimed)
-                + "=======================" + EOL
+                + "=======================" + System.lineSeparator()
                 + TeamEvalResult.pointsToString(t.normalizedPeerContributionRatio)
-                + "=======================" + EOL
-                + Arrays.toString(t.normalizedAveragePerceived) + EOL
-                + "=======================" + EOL
+                + "=======================" + System.lineSeparator()
+                + Arrays.toString(t.normalizedAveragePerceived) + System.lineSeparator()
+                + "=======================" + System.lineSeparator()
                 + TeamEvalResult.pointsToString(t.denormalizedAveragePerceived);
         actual = TeamEvalResult.replaceMagicNumbers(actual);
         assertEquals(TeamEvalResult.pointsToString(expected), actual);
