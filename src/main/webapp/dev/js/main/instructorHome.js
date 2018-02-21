@@ -24,6 +24,10 @@ import {
 } from '../common/remindModal';
 
 import {
+    preparePublishEmailModal,
+} from '../common/publishEmailModal';
+
+import {
     showSingleCollapse,
     hideSingleCollapse,
 } from '../common/ui';
@@ -174,4 +178,5 @@ $(document).ready(() => {
     linkAjaxForResponseRate();
 
     prepareRemindModal();
+    preparePublishEmailModal();
 });

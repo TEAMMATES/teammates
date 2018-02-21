@@ -518,6 +518,33 @@ public class PageData {
         return link;
     }
 
+    /**
+     * Retrieves the link to load session publish email modal.
+     * @param courseId the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load email modal
+     */
+    public String getInstructorFeedbackPublishEmailParticularStudentsPageLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH_EMAIL_PARTICULAR_STUDENTS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    /**
+     * Retrieves the link to submit the request to email session publication
+     * to a particular student(s).
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackPublishEmailParticularStudentsLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH_EMAIL_PARTICULAR_STUDENTS;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
     public String getInstructorFeedbackUnpublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

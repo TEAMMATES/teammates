@@ -46,6 +46,16 @@ public class InstructorHomePageData extends PageData {
     }
 
     /**
+     * Retrieves the link to submit the request to email particular students
+     * about published session.
+     * Also contains home page link to return after the action.
+     * @return form submit action link
+     */
+    public String getSessionPublishEmailParticularStudentsLink() {
+        return getInstructorFeedbackPublishEmailParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+    }
+
+    /**
      * Retrieves the link to submit the request for copy of session.
      * Also contains home page link to return after the action.
      * @return form submit action link

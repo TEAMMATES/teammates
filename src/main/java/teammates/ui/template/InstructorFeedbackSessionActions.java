@@ -21,11 +21,13 @@ public class InstructorFeedbackSessionActions {
     private String remindLink;
     private String remindParticularStudentsPageLink;
     private String editCopyLink;
+    private String sessionPublishEmailParticularStudentsPageLink;
 
     private boolean isAllowedToEdit;
     private boolean isAllowedToDelete;
     private boolean isAllowedToSubmit;
     private boolean isAllowedToRemind;
+    private boolean isAllowedToEmailPublish;
 
     private FeedbackSessionPublishButton publishButton;
 
@@ -47,6 +49,8 @@ public class InstructorFeedbackSessionActions {
         this.remindParticularStudentsPageLink =
                 data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
+        this.sessionPublishEmailParticularStudentsPageLink =
+                data.getInstructorFeedbackPublishEmailParticularStudentsPageLink(courseId, feedbackSessionName);
 
         this.isAllowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.isAllowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -66,6 +70,7 @@ public class InstructorFeedbackSessionActions {
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
+        this.isAllowedToEmailPublish = session.isPublished() && session.isPublishedEmailEnabled();
     }
 
     public boolean isPrivateSession() {
@@ -104,6 +109,10 @@ public class InstructorFeedbackSessionActions {
         return remindParticularStudentsPageLink;
     }
 
+    public String getSessionPublishEmailParticularStudentsPageLink() {
+        return sessionPublishEmailParticularStudentsPageLink;
+    }
+
     public String getEditCopyLink() {
         return editCopyLink;
     }
@@ -122,6 +131,10 @@ public class InstructorFeedbackSessionActions {
 
     public boolean isAllowedToRemind() {
         return isAllowedToRemind;
+    }
+
+    public boolean isAllowedToEmailPublish() {
+        return isAllowedToEmailPublish;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {

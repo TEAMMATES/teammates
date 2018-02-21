@@ -296,6 +296,16 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     /**
+     * Retrieves the link to submit the request to email particular students
+     * about published session.
+     * Also contains feedbacks page link to return after the action.
+     * @return form submit action link
+     */
+    public String getSessionPublishEmailParticularStudentsLink() {
+        return getInstructorFeedbackPublishEmailParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
+    }
+
+    /**
      * Retrieves the link to submit the request for copy of session.
      * Also contains feedback page link to return after the action.
      * @return form submit action link
