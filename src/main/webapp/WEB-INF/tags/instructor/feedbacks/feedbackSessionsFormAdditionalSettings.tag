@@ -152,7 +152,7 @@
               data-toggle="tooltip"
               data-placement="top">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later">
-              Not now
+              Not now (publish manually)
             </label>
             <input type="radio" name="resultsVisibleFromButton"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
