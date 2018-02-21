@@ -7,7 +7,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -126,7 +126,7 @@ $(document).ready(() => {
         };
 
         showModalConfirmation('Confirm archiving course', messageText, okCallback, null,
-                null, null, StatusType.INFO);
+                null, null, BootstrapContextualColors.INFO);
     });
 
     // AJAX loading of course panels
