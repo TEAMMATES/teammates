@@ -1067,23 +1067,12 @@ function prepareDescription(form) {
 }
 
 function prepareQuetionTypeHelpModal() {
-    // //cannt use template string???
-    // $('.button_questionTypeHelpModal').click(function () {
-    //     const modalLink = $(this).data('modalLink');
-    //     $('#' + modalLink).modal('show');
-    // });
-    // $('.button_questionTypeHelpModal').click(function () {
-    //         const modalLink = $(this).data('modalLink');
-    //         $(`#${modalLink}`).modal('show');
-    //     });
-    //
     $('.button_questionTypeHelpModal').click(function () {
         const modalId = $(this).data('modalLink');
         const modalToBeOpened = $(`#${modalId}`);
         $('.question-type-help-modal').not(modalToBeOpened).modal('hide');
         modalToBeOpened.modal('show');
     });
-
 }
 
 /**

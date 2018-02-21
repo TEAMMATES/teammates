@@ -1267,10 +1267,14 @@ Default to alert color for visibility titles used within an alert context.
     margin: 30px auto;
 }
 
-.question-type-help {
+.question-type-help-modal-body {
     height: 500px;
     overflow: auto;
     margin: auto;
+}
+
+.question-type-help-modal-glyphicon {
+    margin-left: 30px;
 }
 
 /* /////////////////////////////////////////////////////////

@@ -16,14 +16,15 @@
 
           <a href="/instructorHelp.jsp#fbQuestionTypes"
              target="_blank" rel="noopener noreferrer"
+             class="question-type-help-modal-glyphicon"
              data-toggle="tooltip" data-placement="top"
-             title="Click to open the help page in a new window">
+             title="Click to open the help page in a new tab">
             <i class="glyphicon glyphicon-info-sign"></i>
           </a>
         </h4>
 
       </div>
-      <div class="modal-body question-type-help" id="questionTypeHelpModalBody_roadmap">
+      <div class="modal-body question-type-help-modal-body" id="questionTypeHelpModalBody_roadmap">
         <instructorHelp:roadmapQuestionTypeHelpBody />
       </div>
     </div>

@@ -13,9 +13,17 @@
         </button>
         <h4 class="modal-title" id="fbEssay">
           Essay Question
+
+          <a href="javascript:;"
+             data-modal-link = "questionTypeHelpModal_roadmap"
+             class="button_questionTypeHelpModal question-type-help-modal-glyphicon"
+             data-toggle="tooltip" data-placement="top"
+             title="Click to go back to Available Question Types">
+            <i class="glyphicon glyphicon-circle-arrow-left"></i>
+          </a>
         </h4>
       </div>
-      <div class="modal-body question-type-help" id="questionTypeHelpModalBody_essay">
+      <div class="modal-body question-type-help-modal-body" id="questionTypeHelpModalBody_essay">
         <instructorHelp:essayQuestionTypeHelpBody />
       </div>
     </div>
