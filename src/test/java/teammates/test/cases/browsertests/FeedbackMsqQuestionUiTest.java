@@ -13,6 +13,9 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for multiple choice (multiple answers) questions.
  */
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private final int QUESTION_INDEX_ONE = -1;
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -60,13 +63,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
 
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1);
+        ______TS("MSQ: Check UI after cancelling and add new MSQ question again");
+
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-QUESTION_INDEX_ONE);
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-
-        ______TS("MSQ: Check UI after cancelling");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
@@ -74,7 +77,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect--1"));
 
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1); //reset back to normal condition
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-QUESTION_INDEX_ONE); //Make the generate options checkbox unchecked
 
     }
 
@@ -179,10 +182,10 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillQuestionTextBox("edited msq qn text", 1);
-        feedbackEditPage.fillQuestionDescription("more details", 1);
+        feedbackEditPage.fillQuestionTextBox("edited msq qn text", QUESTION_INDEX_ONE);
+        feedbackEditPage.fillQuestionDescription("more details", QUESTION_INDEX_ONE);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
-        feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
+        feedbackEditPage.clickRemoveMsqOptionLink(0, QUESTION_INDEX_ONE);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -266,7 +269,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq generated options");
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-QUESTION_INDEX_ONE);
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);
 
         feedbackEditPage.clickAddQuestionButton();
@@ -276,7 +279,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         // MSQ question with options generated from students
         feedbackEditPage.clickEditQuestionButton(2);
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(2);
-        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.clickDeleteQuestionLink(QUESTION_INDEX_ONE);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
     }
@@ -426,13 +429,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: qn delete then cancel");
 
-        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.clickDeleteQuestionLink(QUESTION_INDEX_ONE);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("MSQ: qn delete then accept");
 
-        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.clickDeleteQuestionLink(QUESTION_INDEX_ONE);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
