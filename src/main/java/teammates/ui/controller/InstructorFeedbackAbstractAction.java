@@ -98,8 +98,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         }
 
-        // Handle session visible after results visible to avoid having a
-        // results visible date when session is private (session not visible)
+        // Handle session visible after results visible
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
@@ -111,12 +110,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            // Overwrite if private
-            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
             log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
