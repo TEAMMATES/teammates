@@ -70,7 +70,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
-        return session.isOpened() || session.isPrivateSession() || session.isInGracePeriod();
+        return session.isOpened() || session.isInGracePeriod();
     }
 
     @Override
