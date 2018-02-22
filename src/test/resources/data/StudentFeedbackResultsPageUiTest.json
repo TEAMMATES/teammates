@@ -1175,7 +1175,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "4",
       "feedbackQuestionType": "TEXT",
-      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "giver": "Team 2",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "Team 2 (danny) to team 1"
@@ -1186,7 +1186,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "4",
       "feedbackQuestionType": "TEXT",
-      "giver": "SFResultsUiT.emily.f@gmail.tmt",
+      "giver": "Team 3",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "Team 3 to Team 1 \r\n multiline special char test"
@@ -1197,10 +1197,10 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "4",
       "feedbackQuestionType": "TEXT",
-      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "giver": "Team 1",
       "recipient": "Team 2",
       "responseMetaData": {
-        "value": "alice to team 2"
+        "value": "team 1 to team 2"
       }
     },
     "response9": {
@@ -1461,7 +1461,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "5",
       "feedbackQuestionType": "NUMSCALE",
-      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "giver": "Team 2",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}"
@@ -1472,7 +1472,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "5",
       "feedbackQuestionType": "NUMSCALE",
-      "giver": "SFResultsUiT.emily.f@gmail.tmt",
+      "giver": "Team 3",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "{\"answer\":4,\"questionType\":\"NUMSCALE\"}"
@@ -1483,7 +1483,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "NUMSCALE",
-      "giver": "SFResultsUiT.charlie.d@gmail.tmt",
+      "giver": "Team 2",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "{\"answer\":4.5,\"questionType\":\"NUMSCALE\"}"
@@ -1494,7 +1494,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "NUMSCALE",
-      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "giver": "Team 2",
       "recipient": "Team 1</td></div>'\"",
       "responseMetaData": {
         "value": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}"
@@ -1505,7 +1505,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "NUMSCALE",
-      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "giver": "Team 1",
       "recipient": "Team 2",
       "responseMetaData": {
         "value": "{\"answer\":3.5,\"questionType\":\"NUMSCALE\"}"
@@ -1516,7 +1516,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "6",
       "feedbackQuestionType": "NUMSCALE",
-      "giver": "SFResultsUiT.benny.c@gmail.tmt",
+      "giver": "Team 1",
       "recipient": "Team 2",
       "responseMetaData": {
         "value": "{\"answer\":5,\"questionType\":\"NUMSCALE\"}"
