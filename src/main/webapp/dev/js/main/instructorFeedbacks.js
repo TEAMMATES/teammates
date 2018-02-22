@@ -22,7 +22,6 @@ import {
 
 import {
     bindUncommonSettingsEvents,
-    collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
     showUncommonPanelsIfNotInDefaultValues,
@@ -261,7 +260,6 @@ const ajaxRequest = function (e) {
 function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
-    collapseIfPrivateSession();
 
     selectDefaultTimeOptions();
     loadSessionsByAjax();

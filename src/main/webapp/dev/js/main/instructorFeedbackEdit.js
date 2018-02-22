@@ -32,7 +32,6 @@ import {
 
 import {
     bindUncommonSettingsEvents,
-    collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
     showUncommonPanelsIfNotInDefaultValues,
@@ -1141,7 +1140,6 @@ function readyFeedbackEditPage() {
     formatNumberBoxes();
     formatCheckBoxes();
     formatQuestionNumbers();
-    collapseIfPrivateSession();
 
     setupFsCopyModal();
 
