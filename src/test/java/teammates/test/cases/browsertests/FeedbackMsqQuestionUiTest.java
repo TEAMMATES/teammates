@@ -14,7 +14,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  */
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
-    private static final int QUESTION_INDEX_ONE = -1;
+    private static final int QUESTION_INDEX_ONE = 1;
 
     private InstructorFeedbackEditPage feedbackEditPage;
 
