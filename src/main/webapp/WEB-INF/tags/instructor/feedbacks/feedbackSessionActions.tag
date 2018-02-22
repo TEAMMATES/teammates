@@ -59,7 +59,7 @@
         class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options"
         data-toggle="dropdown"
         aria-expanded="false"
-        <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>>
+        <c:if test="${not actions.publishButton.actionAllowed}"> disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
@@ -80,14 +80,14 @@
     <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"
         href="${actions.remindLink}"
         data-fsname="${actions.fsName}"
-        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+        <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
       Remind
     </a>
     <button type="button"
         class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
         data-toggle="dropdown"
         aria-expanded="false"
-        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+        <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
