@@ -6,22 +6,6 @@ function updateConstSumPointsValue(questionNum) {
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val() < 1) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val(1);
     }
-    if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val() < 1) {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val(1);
-    }
-    if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val() < 1) {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val(1);
-    }
-    if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val() >
-            $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val()) {
-        const maxValue = $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val();
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val(maxValue);
-    }
-    if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val() <
-            $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val()) {
-        const minValue = $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val();
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val(minValue);
-    }
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}-${questionNum}`).val() < 1) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}-${questionNum}`).val(1);
     }

@@ -4,8 +4,9 @@
 <div id="constSumInfo-${questionIndex}-${responseIndex}" class="form-group" ${constSumOptionVisibility}>
   <div class="col-sm-6 text-center" style="clear: both;">
     <hr class="margin-top-0">
-    <p class="text-color-blue" id="constSumMessage-${questionIndex}-${responseIndex}">
-    </p>
+    <p class="text-color-blue" id="constSumMessage-${questionIndex}-${responseIndex}"></p>
+    <p class="text-color-blue" ${requireMin}>Minimum points per ${optionRecipientDisplayName} is ${constSumPointsMin}</p>
+    <p class="text-color-blue" ${requireMax}>Maximum points per ${optionRecipientDisplayName} is ${constSumPointsMax}</p>
     <hr>
   </div>
 </div>

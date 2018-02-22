@@ -45,8 +45,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
-        this.minPoints = 1;
-        this.maxPoints = 100;
+        this.minPoints = 0;
+        this.maxPoints = points;
         this.requireMin = false;
         this.requireMax = false;
         this.forceUnevenDistribution = false;
@@ -63,7 +63,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.pointsPerOption = pointsPerOption;
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
-
     }
 
     @Override
@@ -121,7 +120,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             points = Integer.parseInt(pointsString);
         }
 
-        int minPoints = 1;
+        int minPoints = 0;
         int maxPoints = points;
         if (requireMin) {
             minPoints = Integer.parseInt(minPointsString);
@@ -251,6 +250,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SUBMISSION_FORM_OPTION_FRAGMENT, optionListHtml.toString(),
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 Slots.CONSTSUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 Slots.CONSTSUM_POINTS_PER_OPTION_VALUE, Boolean.toString(pointsPerOption),
@@ -264,7 +264,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_REQUIRE_MIN, requireMin ? "" : "hidden",
+                Slots.CONSTSUM_REQUIRE_MAX, requireMax ? "" : "hidden",
+                Slots.CONSTSUM_POINTS_MIN, requireMin ? Integer.toString(minPoints) : "0",
+                Slots.CONSTSUM_POINTS_MAX, requireMax ? Integer.toString(maxPoints) : "any"
                 );
     }
 
@@ -310,6 +314,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SUBMISSION_FORM_OPTION_FRAGMENT, optionListHtml.toString(),
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
+                Slots.OPTION_RECIPIENT_DISPLAY_NAME, distributeToRecipients ? "recipient" : "option",
                 Slots.CONSTSUM_OPTION_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS_VALUE, Boolean.toString(distributeToRecipients),
                 Slots.CONSTSUM_POINTS_PER_OPTION_VALUE, Boolean.toString(pointsPerOption),
@@ -323,8 +328,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
-                );
+                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_REQUIRE_MIN, requireMin ? "" : "hidden",
+                Slots.CONSTSUM_REQUIRE_MAX, requireMax ? "" : "hidden",
+                Slots.CONSTSUM_POINTS_MIN, requireMin ? Integer.toString(minPoints) : "0",
+                Slots.CONSTSUM_POINTS_MAX, requireMax ? Integer.toString(maxPoints) : "any"
+        );
     }
 
     @Override
@@ -351,8 +360,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
-                Slots.CONSTSUM_POINTS_MIN, minPoints ==  0 ? "1" : Integer.toString(minPoints),
-                Slots.CONSTSUM_POINTS_MAX, maxPoints == 0 ? "100": Integer.toString(maxPoints),
+                Slots.CONSTSUM_POINTS_MIN, minPoints ==  0 ? "0" : Integer.toString(minPoints),
+                Slots.CONSTSUM_POINTS_MAX, maxPoints == 0 ? "100" : Integer.toString(maxPoints),
                 Slots.OPTION_DISPLAY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
                 Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",
