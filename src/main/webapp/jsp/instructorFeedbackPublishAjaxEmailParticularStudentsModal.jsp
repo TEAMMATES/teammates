@@ -4,7 +4,13 @@
 
 <table class="table-responsive table table-bordered">
   <tr class="background-color-medium-gray">
-    <th></th>
+    <th class="align-center">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="publish-email-checkall" class="table-column-no-float">
+        </label>
+      </div>
+    </th>
     <th class="button_sortsection button-sort-none toggle-sort">
       Section
       <span class="icon-sort unsorted"></span>
@@ -23,7 +29,7 @@
     </th>
   </tr>
   <c:forEach items="${data.responseStatus.noResponse}" var="userToEmailEmail">
-    <tr class="bg-danger">
+    <tr>
       <td class="align-center">
         <div class="checkbox">
           <label>
@@ -46,7 +52,7 @@
     </tr>
   </c:forEach>
   <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToEmailEmail">
-    <tr class="bg-info">
+    <tr>
       <td class="align-center">
         <div class="checkbox">
           <label>

@@ -2,19 +2,6 @@ import {
     sendPublishEmailsToStudents,
 } from './instructor';
 
-function populateCheckBoxes($button) {
-    // if clicked button is on no-response panel, then populate check boxes otherwise not
-    if ($button.hasClass('remind-btn-no-response')) {
-        const $studentList = $('#studentList');
-        const $studentsNotResponded = $studentList.find('.bg-danger');
-        for (let i = 0; i < $studentsNotResponded.length; i += 1) {
-            const $studentNotResponded = $($studentsNotResponded[i]);
-            const $checkbox = $studentNotResponded.find('input[type="checkbox"]');
-            $checkbox.prop('checked', 'true');
-        }
-    }
-}
-
 function preparePublishEmailModal() {
     $('#publishEmailModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
@@ -32,13 +19,10 @@ function preparePublishEmailModal() {
                 $('#studentEmailList').html('Error retrieving student list. Please close the dialog window and try again.');
             },
             success(data) {
-                console.log("Success");
                 setTimeout(() => {
-                    console.log("Set timeout");
-                    console.log(data);
                     $('#studentEmailList').html(data);
-                    populateCheckBoxes(button);
                     $('#publishEmailModal .publish-email-particular-button').prop('disabled', false).prop('value', 'Send');
+                    bindSelectAllStudentCheckboxEvent();
                 }, 500);
             },
         });
@@ -50,6 +34,15 @@ function preparePublishEmailModal() {
         const formData = $form.serialize();
         const url = `${action}&${formData}`;
         sendPublishEmailsToStudents(url);
+    });
+}
+
+function bindSelectAllStudentCheckboxEvent() {
+    $('#publish-email-checkall').on('click', (event) => {
+        const $studentTable = $('#studentEmailList');
+        const $selectAllCheckbox = $(event.currentTarget);
+        const $studentCheckboxes = $studentTable.find('input[type="checkbox"]').not($selectAllCheckbox);
+        $studentCheckboxes.prop('checked', $selectAllCheckbox.is(':checked'));
     });
 }
 
