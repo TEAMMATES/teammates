@@ -221,12 +221,20 @@ public final class TimeHelper {
 
     /**
      * Returns the date object with specified offset in number of ms from now.
+     * @deprecated Use {@code getInstantMillisOffsetFromNow} instead.
      */
-    public static Date getMsOffsetToCurrentTime(int offsetMilliseconds) {
-        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
-        cal.setTime(cal.getTime());
-        cal.add(Calendar.MILLISECOND, +offsetMilliseconds);
-        return cal.getTime();
+    @Deprecated
+    public static Date getMsOffsetFromNow(long offsetMilliseconds) {
+        return Date.from(getInstantMillisOffsetFromNow(offsetMilliseconds));
+    }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of milliseconds from now.
+     * @param offsetInMillis number of milliseconds offset by (integer).
+     * @return java.time.Instant offset by offsetInMillis milliseconds from now.
+     */
+    public static Instant getInstantMillisOffsetFromNow(long offsetInMillis) {
+        return Instant.now().plus(Duration.ofMillis(offsetInMillis));
     }
 
     // User time zone is just a view of an Instant/ZonedDateTime,
