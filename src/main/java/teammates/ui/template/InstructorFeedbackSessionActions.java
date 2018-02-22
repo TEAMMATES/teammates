@@ -9,8 +9,6 @@ public class InstructorFeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    private boolean isPrivateSession;
-
     private String courseId;
     private String fsName;
 
@@ -33,8 +31,6 @@ public class InstructorFeedbackSessionActions {
                                             InstructorAttributes instructor) {
         String courseId = session.getCourseId();
         String feedbackSessionName = session.getFeedbackSessionName();
-
-        this.isPrivateSession = session.isPrivateSession();
 
         this.courseId = courseId;
         this.fsName = feedbackSessionName;
@@ -59,17 +55,13 @@ public class InstructorFeedbackSessionActions {
         }
 
         this.isAllowedToSubmit =
-                (session.isPrivateSession() || session.isVisible()) && !session.isClosed() && shouldEnableSubmitLink;
+                session.isVisible() && !session.isClosed() && shouldEnableSubmitLink;
         this.isAllowedToRemind =
                 session.isOpened()
                 && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
-    }
-
-    public boolean isPrivateSession() {
-        return isPrivateSession;
     }
 
     public String getCourseId() {
