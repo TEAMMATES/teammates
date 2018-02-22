@@ -356,10 +356,10 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                          + "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>"
                          + "New Feedback Session <span class=\"bold\">(Session with valid name)</span> "
                          + "for Courses: <br>FeedbackEditCopy.CS2103R,FeedbackEditCopy.CS2102<br>"
-                         + "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012<span class=\"bold\"> "
-                         + "to</span> Thu Apr 30 23:59:00 UTC 2026<br><span class=\"bold\">Session visible from:</span> "
-                         + "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
-                         + "Fri May 01 23:59:00 UTC 2026<br><br><span class=\"bold\">Instructions:</span> "
+                         + "<span class=\"bold\">From:</span> Sun Apr 01 21:59:00 UTC 2012<span class=\"bold\"> "
+                         + "to</span> Thu Apr 30 21:59:00 UTC 2026<br><span class=\"bold\">Session visible from:</span> "
+                         + "Sun Apr 01 21:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
+                         + "Fri May 01 21:59:00 UTC 2026<br><br><span class=\"bold\">Instructions:</span> "
                          + "<Text: Instructions for first session><br>Copied from "
                          + "<span class=\"bold\">(First Session)</span> "
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
@@ -384,19 +384,20 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COPIED_COURSES_ID, "idOfSampleCourse-demo"
         };
 
-        verifyUnaccessibleWithoutModifySessionPrivilege(params);
+        verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(params);
 
-        InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
-        String instructorId = instructor.googleId;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("openSession");
         CourseAttributes course = dataBundle.courses.get("course");
 
+        ______TS("Failure case: copying from course with insufficient permission");
+        InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor3");
+        String instructorId = instructor.googleId;
+
         gaeSimulation.loginAsInstructor(instructorId);
 
-        ______TS("Failure case: copying from course with insufficient permission");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, course.getId()
         };
@@ -405,15 +406,22 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
             a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (UnauthorizedAccessException uae) {
-            String expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
-                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
+            String expectedString = "Course [FeedbackEditCopy.CS2104] is not accessible to instructor "
+                             + "[tmms.instr.cust@course.tmt] for privilege [canviewsessioninsection]";
             assertEquals(expectedString, uae.getMessage());
         }
 
+        gaeSimulation.logoutUser();
+
         ______TS("Failure case: copying to course with insufficient permission");
+        instructor = dataBundle.instructors.get("teammates.test.instructor2");
+        instructorId = instructor.googleId;
+
+        gaeSimulation.loginAsInstructor(instructorId);
+
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
         };

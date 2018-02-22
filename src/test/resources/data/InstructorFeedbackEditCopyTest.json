@@ -317,6 +317,29 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "teammates.test.instructor3": {
+      "googleId": "FeedbackEditCopyinstructor3",
+      "courseId": "FeedbackEditCopy.CS2104",
+      "name": "Instructor 3",
+      "email": "tmms.instr.cust@course.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -362,10 +385,10 @@
         "value": "Instructions for first session"
       },
       "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2026-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-04-01 9:59 PM UTC",
+      "resultsVisibleFromTime": "2026-05-01 9:59 PM UTC",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",

@@ -18,4 +18,5 @@
     </rule>
     <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
     <rule ref="rulesets/java/typeresolution.xml/LooseCoupling"/>
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingRawExceptionTypes"/>
 </ruleset>

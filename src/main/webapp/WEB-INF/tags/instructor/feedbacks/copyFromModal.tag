@@ -51,7 +51,7 @@
             </div>
           </div>
           <%-- Previous Session --%>
-          <label>Copy sessions/questions from</label>
+          <label>Copy settings and questions from</label>
           <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
             <thead class="fill-primary">
               <tr>

@@ -739,7 +739,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -747,7 +747,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -931,7 +931,7 @@
               </a>
             </div>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session+%23&user=CFeedbackUiT.instructor">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" disabled="" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session+%23&user=CFeedbackUiT.instructor">
                 Submit
               </a>
             </div>
@@ -1453,7 +1453,7 @@
               </a>
             </div>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.instructor">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" disabled="" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.instructor">
                 Submit
               </a>
             </div>
@@ -1540,7 +1540,7 @@
               </a>
             </div>
             <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&user=CFeedbackUiT.instructor">
+              <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px" disabled="" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&user=CFeedbackUiT.instructor">
                 Submit
               </a>
             </div>
@@ -1569,10 +1569,10 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Manual Session #1" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Manual Session #1" disabled="" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
                   Remind
                 </a>
-                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
+                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
                   <span class="caret">
                   </span>
                 </button>
@@ -1674,7 +1674,7 @@
               </div>
             </div>
             <label>
-              Copy sessions/questions from
+              Copy settings and questions from
             </label>
             <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
               <thead class="fill-primary">

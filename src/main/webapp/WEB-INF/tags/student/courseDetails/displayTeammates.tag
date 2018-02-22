@@ -16,10 +16,10 @@
         <c:forEach items="${data.studentCourseDetailsPanel.teammates}" var="student">
           <c:if test="${not (student.email eq data.studentCourseDetailsPanel.studentEmail)}">
             <tr>
-              <td class="teamMembersPhotoCell" title="${student.name}" data-toggle="tooltip" data-placement="top">
+              <td class="team-members-photo-cell" title="${student.name}" data-toggle="tooltip" data-placement="top">
                 <img id="profilePic" src="${student.publicProfilePictureUrl}" class="profile-pic" data-toggle="modal">
               </td>
-              <td class="teamMembersDetailsCell">
+              <td class="team-members-details-cell">
                 <label>Name:</label>
                 <c:out value=" ${student.name}" /> <br>
                 <label>Email:</label>
