@@ -1,10 +1,12 @@
 package teammates.test.pageobjects;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +14,12 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -69,6 +73,9 @@ public abstract class AppPage {
     /** Use for retrying due to transient UI issues. */
     protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
 
+    /** Firefox change handler for handling when `change` events are not fired in Firefox. */
+    private final FirefoxChangeHandler firefoxChangeHandler;
+
     // These are elements common to most pages in our app
 
     @FindBy(id = "statusMessagesToUser")
@@ -105,6 +112,8 @@ public abstract class AppPage {
      */
     public AppPage(Browser browser) {
         this.browser = browser;
+        this.firefoxChangeHandler = new FirefoxChangeHandler();
+
         boolean isCorrectPageType = containsExpectedPageContents();
 
         if (isCorrectPageType) {
@@ -525,22 +534,123 @@ public abstract class AppPage {
         executeScript("arguments[0].click();", element);
     }
 
+    /**
+     * Simulates the clearing and sending keys to an element.
+     *
+     * <p><b>Note:</b> This method is not the same as using {@link WebElement#clear} followed by {@link WebElement#sendKeys}.
+     * It avoids double firing of the {@code change} event which may occur when {@link WebElement#clear} is followed by
+     * {@link WebElement#sendKeys}.
+     *
+     * @see AppPage#clearWithoutEvents(WebElement)
+     */
+    private void clearAndSendKeys(WebElement element, CharSequence... keysToSend) {
+        Map<String, Object> result = clearWithoutEvents(element);
+        @SuppressWarnings("unchecked")
+        final Map<String, String> errors = (Map<String, String>) result.get("errors");
+        if (errors != null) {
+            throw new InvalidElementStateException(errors.get("detail"));
+        }
+
+        element.sendKeys(keysToSend);
+    }
+
+    /**
+     * Clears any editable elements but does not fire the {@code change} event like {@link WebElement#clear()}. Avoid using
+     * this method if {@link WebElement#clear()} meets the requirements as this method depends on implementation details.
+     */
+    private Map<String, Object> clearWithoutEvents(WebElement element) {
+        // This method is a close mirror of HtmlUnitWebElement#clear(), except that events are not handled. Note that
+        // HtmlUnitWebElement is mirrored as opposed to RemoteWebElement (which is used with actual browsers) for convenience
+        // and the implementation can differ.
+        checkNotNull(element);
+
+        // Adapted from ExpectedConditions#stalenessOf which forces a staleness check. This allows a meaningful
+        // StaleElementReferenceException to be thrown rather than just getting a boolean from ExpectedConditions.
+        element.isEnabled();
+
+        // Fail safe in case the implementation of staleness checks is changed
+        if (isExpectedCondition(ExpectedConditions.stalenessOf(element))) {
+            throw new AssertionError(
+                    "Element is stale but should have been caught earlier by element.isEnabled().");
+        }
+
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> result = (Map<String, Object>) executeScript(
+                "const element = arguments[0];"
+                        + "if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {"
+                        + "   if (element.readOnly) {"
+                        + "       return { "
+                        + "           errors: {"
+                        + "               detail: 'You may only edit editable elements'"
+                        + "           }"
+                        + "       };"
+                        + "   }"
+                        + "   if (element.disabled) {"
+                        + "       return { "
+                        + "           errors: {"
+                        + "               detail: 'You may only interact with enabled elements'"
+                        + "           }"
+                        + "       };"
+                        + "   }"
+                        + "   element.value='';"
+                        + "} else if (element.isContentEditable) {"
+                        + "   while (element.firstChild) {"
+                        + "       element.removeChild(element.firstChild);"
+                        + "   }"
+                        + "}"
+                        + "return { "
+                        + "   data: {"
+                        + "       detail: 'Success'"
+                        + "   }"
+                        + "};", element);
+        return result;
+    }
+
     public String getElementAttribute(By locator, String attrName) {
         return browser.driver.findElement(locator).getAttribute(attrName);
     }
 
     protected void fillTextBox(WebElement textBoxElement, String value) {
         click(textBoxElement);
-        textBoxElement.clear();
-        textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
+
+        clearAndSendKeys(textBoxElement, value);
+
+        // Add event hook before blurring the text box element so we can detect the event.
+        firefoxChangeHandler.addChangeEventHook(textBoxElement);
+
+        textBoxElement.sendKeys(Keys.TAB); // blur the element to receive events
+
+        // Although events should not be manually fired, the `change` event does not fire when text input is changed if
+        // Firefox is not in focus. Setting profile option `focusmanager.testmode = true` does not help as well.
+        // A temporary solution is to fire the `change` event until the buggy behavior is fixed.
+        // More details can be found in the umbrella issue of related bugs in the following link:
+        // https://github.com/mozilla/geckodriver/issues/906
+        // The firing of `change` event is also imperfect because no check for the type of the elements is done before firing
+        // the event, for instance a `change` event will be wrongly fired on any content editable element. The firing time of
+        // `change` events is also incorrect for several `input` types such as `checkbox` and `date`.
+        // See: https://developer.mozilla.org/en-US/docs/Web/Events/change
+        firefoxChangeHandler.fireChangeEventIfNotFired(textBoxElement);
     }
 
     protected void fillRichTextEditor(String id, String content) {
         String preparedContent = content.replace("\n", "<br>");
-        executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').setContent('" + preparedContent + "\t\t');"
-                      + "    tinyMCE.get('" + id + "').focus();" // for consistent HTML verification across browsers
-                      + "}");
+
+        clearAndSetNewValueForTinyMce(id, preparedContent);
+    }
+
+    /**
+     * Simulates the clearing and setting value of a TinyMCE Editor. This method is a legacy helper for filling rich text
+     * editors and should not be used unless necessary.
+     */
+    private void clearAndSetNewValueForTinyMce(String id, String preparedContent) {
+        executeScript(
+                // clear content programmatically, e.g. does not add undo level in the TinyMCE editor
+                "tinyMCE.get(arguments[0]).setContent('');"
+                        // insert like a user does it but may fire some events immediately, e.g. this adds an undo level
+                        // and result in `Change` event being fired.
+                        + "tinyMCE.get(arguments[0]).insertContent(arguments[1]);"
+                        + "tinyMCE.get(arguments[0]).focus();", // for consistent HTML verification across browsers
+                id, preparedContent);
     }
 
     protected String getRichTextEditorContent(String id) {
@@ -789,17 +899,25 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns true if, and only if, element is invisible or stale as defined in the WebDriver specification.
-     * @param locator used to find the element
+     * Returns true if the expected condition is evaluated to true immediately.
+     * @see ExpectedConditions
      */
-    public boolean isElementInvisibleOrStale(By locator) {
+    private boolean isExpectedCondition(ExpectedCondition<?> expectedCondition) {
         WebDriverWait wait = new WebDriverWait(browser.driver, 0);
         try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            wait.until(expectedCondition);
             return true;
         } catch (TimeoutException e) {
             return false;
         }
+    }
+
+    /**
+     * Returns true if, and only if, element is invisible or stale as defined in the WebDriver specification.
+     * @param locator used to find the element
+     */
+    public boolean isElementInvisibleOrStale(By locator) {
+        return isExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
     /**
@@ -1148,5 +1266,130 @@ public abstract class AppPage {
 
         click(dismissModalButton);
         waitForModalHidden(modalBackdrop);
+    }
+
+    /**
+     * Encapsulates methods for handling Firefox {@code change} events. The methods can only handle one {@value CHANGE_EVENT}
+     * event at a time and will only do something useful if test browser is Firefox. Note that the class does not check if
+     * the {@value CHANGE_EVENT} event should be fired on the element.
+     */
+    private class FirefoxChangeHandler {
+
+        private static final String CHANGE_EVENT = "change";
+        /**
+         * The attribute that the hook will modify to indicate if the {@value CHANGE_EVENT} event is detected.
+         */
+        private static final String HOOK_ATTRIBUTE = "__change__";
+        /**
+         * The maximum number of seconds required for all hardware (including slow ones) to fire the event.
+         */
+        private static final int MAXIMUM_SECONDS_REQUIRED_FOR_ALL_CPUS_TO_FIRE_EVENT = 1;
+
+        private final boolean isFirefox;
+
+        FirefoxChangeHandler() {
+            isFirefox = TestProperties.BROWSER_FIREFOX.equals(TestProperties.BROWSER);
+        }
+
+        /**
+         * Returns true if the {@value CHANGE_EVENT} event hook has already been added.
+         * Note that there can only be one hook (linked to a particular element) at a time for each page.
+         */
+        private boolean isChangeEventHookAdded() {
+            WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
+            return isExpectedCondition(ExpectedConditions.attributeToBeNotEmpty(bodyElement, HOOK_ATTRIBUTE));
+        }
+
+        /**
+         * Adds a {@value CHANGE_EVENT} event hook for the element.
+         * The hook allows detection of the event required for {@link FirefoxChangeHandler#fireChangeEventIfNotFired}.
+         *
+         * @param element the element for which the hook will track whether the event is fired on the element
+         *
+         * @throws IllegalStateException if there is already a hook in the document
+         */
+        private void addChangeEventHook(WebElement element) {
+            if (!isFirefox) {
+                return;
+            }
+
+            checkState(!isChangeEventHookAdded(),
+                    "The `%1$s` event hook can only be added once in the document.", CHANGE_EVENT);
+
+            executeScript(
+                    "const seleniumArguments = arguments;"
+                    + "seleniumArguments[0].addEventListener(seleniumArguments[1], function onchange() {"
+                    + "    this.removeEventListener(seleniumArguments[1], onchange);"
+                    + "    document.body.setAttribute(seleniumArguments[2], true);"
+                    + "});"
+                    + "document.body.setAttribute(seleniumArguments[2], false);",
+                    element, CHANGE_EVENT, HOOK_ATTRIBUTE);
+        }
+
+        /**
+         * Fires a {@value CHANGE_EVENT} event on the element if not already fired.
+         * Requires that a hook ({@link FirefoxChangeHandler#addChangeEventHook(WebElement)}) to be added before to detect
+         * events.
+         * Note that sometimes the {@value CHANGE_EVENT} event may need to be fired multiple times but this method only fires
+         * one {@value CHANGE_EVENT} event in place of multiple {@value CHANGE_EVENT} events. This reinforces the notion that
+         * events should not be fired manually so this method is to be avoided if possible.
+         *
+         * @param element the element for which the change event will be fired if it is not fired.
+         *
+         * @throws IllegalStateException if `change` event hook is not added
+         *
+         * @see FirefoxChangeHandler#isChangeEventNotFired()
+         */
+        private void fireChangeEventIfNotFired(WebElement element) {
+            if (!isFirefox) {
+                return;
+            }
+
+            checkState(isChangeEventHookAdded(),
+                    "A `%s` hook has to be added previously to detect event firing.", CHANGE_EVENT);
+
+            if (isChangeEventNotFired()) {
+                fireChangeEvent(element);
+            }
+
+            removeHookAttribute();
+        }
+
+        /**
+         * Removes the attribute associated with a hook.
+         */
+        private void removeHookAttribute() {
+            executeScript(String.format("document.body.removeAttribute('%s');", HOOK_ATTRIBUTE));
+        }
+
+        /**
+         * Returns if a {@value CHANGE_EVENT} event has not been fired for the element for which the hook is associated to.
+         * Note that this only detects the presence of firing of {@value CHANGE_EVENT} events and not does not keep track of
+         * how many {@value CHANGE_EVENT} events are fired.
+         */
+        private boolean isChangeEventNotFired() {
+            WebDriverWait wait = new WebDriverWait(browser.driver, MAXIMUM_SECONDS_REQUIRED_FOR_ALL_CPUS_TO_FIRE_EVENT);
+            try {
+                wait.until(ExpectedConditions.attributeContains(By.tagName("body"), HOOK_ATTRIBUTE, "true"));
+                return false;
+            } catch (TimeoutException e) {
+                return true;
+            }
+        }
+
+        /**
+         * Fires the {@value CHANGE_EVENT} event on the element.
+         * Note that this method should not be called usually because events should not be fired manually,
+         * and may also result in unexpected <strong>multiple firings </strong> of the event.
+         */
+        private void fireChangeEvent(WebElement element) {
+            if (!isFirefox) {
+                return;
+            }
+            // The `change` event is fired with bubbling enabled to simulate how browsers fire them.
+            // See: https://developer.mozilla.org/en-US/docs/Web/Events/change
+            executeScript("const event = new Event(arguments[1], {bubbles: true});"
+                    + "arguments[0].dispatchEvent(event);", element, CHANGE_EVENT);
+        }
     }
 }

@@ -46,18 +46,12 @@ public class FeedbackSubmitPage extends AppPage {
         String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                 + "-" + qnNumber + "-" + responseNumber;
         fillRichTextEditor(id, text);
-        executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').fire('change');"
-                      + "}");
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         fillTextBox(element, text);
-        // Fire the change event using javascript since firefox with selenium
-        // might be buggy and fail to trigger.
-        executeScript("$(arguments[0]).change();", element);
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
@@ -65,7 +59,6 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         fillTextBox(element, text);
-        executeScript("$(arguments[0]).change();", element);
     }
 
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {

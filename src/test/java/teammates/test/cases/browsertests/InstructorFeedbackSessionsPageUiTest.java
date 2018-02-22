@@ -390,8 +390,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
 
-        newSession.setInstructions(new Text("<p>cannot see responses$^/&#61;?</p>"));
-
         assertEquals(newSession.toString(), savedSession.toString());
 
         ______TS("success case: custom publish time, very looong instructions (~ 500 words)");
