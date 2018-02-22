@@ -103,8 +103,8 @@ public final class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL
-                                  + instructor.toString() + Const.EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course "
+                                  + System.lineSeparator() + instructor.toString() + System.lineSeparator()
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
@@ -519,7 +519,8 @@ public final class CoursesLogic {
             for (CourseAttributes ca : courseList) {
                 courseIdList.remove(ca.getId());
             }
-            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + courseIdList.toString());
         }
 
         return courseList;
@@ -567,7 +568,8 @@ public final class CoursesLogic {
             for (CourseAttributes ca : courseList) {
                 courseIdList.remove(ca.getId());
             }
-            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                        + courseIdList.toString());
         }
 
         for (CourseAttributes ca : courseList) {
@@ -636,7 +638,8 @@ public final class CoursesLogic {
             for (CourseAttributes ca : courseList) {
                 courseIdList.remove(ca.getId());
             }
-            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + courseIdList.toString());
         }
 
         for (CourseAttributes ca : courseList) {
@@ -656,12 +659,12 @@ public final class CoursesLogic {
         boolean hasSection = hasIndicatedSections(courseId);
 
         StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + Const.EOL
-                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName()) + Const.EOL
-                      + Const.EOL + Const.EOL;
+        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + System.lineSeparator()
+                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName())
+                      + System.lineSeparator() + System.lineSeparator() + System.lineSeparator();
         export.append(courseInfo);
 
-        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL;
+        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + System.lineSeparator();
         export.append(header);
 
         for (SectionDetailsBundle section : course.sections) {
@@ -682,7 +685,7 @@ public final class CoursesLogic {
                             + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
                             + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
                             + SanitizationHelper.sanitizeForCsv(studentStatus) + ','
-                            + SanitizationHelper.sanitizeForCsv(student.email) + Const.EOL);
+                            + SanitizationHelper.sanitizeForCsv(student.email) + System.lineSeparator());
                 }
             }
         }
@@ -715,5 +718,4 @@ public final class CoursesLogic {
         }
         return archivedCourseIds;
     }
-
 }

@@ -506,7 +506,7 @@ public class BackDoorLogic extends Logic {
     private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
         for (AccountAttributes account : accounts) {
             if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
+                account.studentProfile = StudentProfileAttributes.builder(account.googleId).build();
             }
         }
     }

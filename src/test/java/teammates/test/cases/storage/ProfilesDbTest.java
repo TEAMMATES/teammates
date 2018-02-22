@@ -67,7 +67,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             throws Exception {
         ______TS("invalid paramters case");
         try {
-            profilesDb.updateStudentProfile(StudentProfileAttributes.builder().build());
+            profilesDb.updateStudentProfile(StudentProfileAttributes.builder("").build());
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException ipe) {
             assertEquals(getPopulatedEmptyStringErrorMessage(
@@ -267,9 +267,9 @@ public class ProfilesDbTest extends BaseComponentTestCase {
                 .withIsInstructor(false)
                 .build();
 
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = a.googleId;
-        a.studentProfile.institute = "TEAMMATES Test Institute 1";
+        a.studentProfile = StudentProfileAttributes.builder(a.googleId)
+            .withInstitute("TEAMMATES Test Institute 1")
+            .build();
 
         accountsDb.createAccount(a);
         return a;

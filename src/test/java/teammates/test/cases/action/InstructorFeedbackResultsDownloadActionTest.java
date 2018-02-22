@@ -225,7 +225,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
 
     }
 
@@ -249,7 +249,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
                 // CHECKSTYLE.ON:LineLength
         };
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
 
     }
 
@@ -274,7 +274,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
 
     }
 
@@ -298,7 +298,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
 
     }
 
@@ -324,7 +324,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
 
     }
 
@@ -352,7 +352,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
-        assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
     }
 
     private void verifyFileContentForQuestion1Session1InCourse1WithinSection1(String fileContent,
@@ -380,7 +380,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
 
     }
 
