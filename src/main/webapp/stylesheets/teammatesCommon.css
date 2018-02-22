@@ -185,6 +185,13 @@ To show tooltip in comment modal
 }
 
 /*
+To make the feedback results table scrollable.
+*/
+#fsModalTable {
+    overflow: auto;
+}
+
+/*
 Apply to thead to make headers not bold.
 */
 .font-weight-normal,
