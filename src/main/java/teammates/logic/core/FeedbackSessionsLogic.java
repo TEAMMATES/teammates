@@ -179,7 +179,7 @@ public final class FeedbackSessionsLogic {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
             boolean isInstructorOfCourse = instructor != null;
             for (FeedbackSessionAttributes session : sessions) {
-                if (isFeedbackSessionViewableTo(session, userEmail, isInstructorOfCourse)) {
+                if (isFeedbackSessionViewableTo(session, isInstructorOfCourse)) {
                     viewableSessions.add(session);
                 }
             }
@@ -2190,7 +2190,7 @@ public final class FeedbackSessionsLogic {
         return true;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
     private boolean isFeedbackSessionFullyCompletedByInstructor(
             String feedbackSessionName,
             String courseId, String userEmail)
@@ -2220,7 +2220,6 @@ public final class FeedbackSessionsLogic {
      */
     private boolean isFeedbackSessionViewableTo(
             FeedbackSessionAttributes session,
-            String userEmail,
             boolean isInstructorOfCourse) {
 
         // Allow all instructors to view always
