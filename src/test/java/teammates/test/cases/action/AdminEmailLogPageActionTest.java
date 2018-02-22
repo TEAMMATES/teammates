@@ -95,11 +95,11 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
 
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
+        Date twoDaysAgo = TimeHelper.getDateOffsetFromNow(-2);
         insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), twoDaysAgo.getTime());
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Date yesterday = TimeHelper.getDateOffsetFromNow(-1);
         insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), yesterday.getTime());
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        Date today = TimeHelper.getDateOffsetFromNow(0);
         insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), today.getTime());
     }
 
@@ -149,13 +149,13 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     public void filterQuery_validQuery() {
         // after
         int[][] expected = new int[][] { {0, 1, 2, 3}, {0, 1} };
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Date yesterday = TimeHelper.getDateOffsetFromNow(-1);
         String query = String.format(" after:%s", formatterAdminTime.format(yesterday));
         verifyActionResult(expected, "filterQuery", query);
 
         // before
         expected = new int[][] { {}, {}, {0, 1} };
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
+        Date twoDaysAgo = TimeHelper.getDateOffsetFromNow(-2);
         query = String.format("before :%s", formatterAdminTime.format(twoDaysAgo));
         verifyActionResult(expected, "filterQuery", query);
 
@@ -165,7 +165,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
                 formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(yesterday));
         verifyActionResult(expected, "filterQuery", query);
 
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        Date today = TimeHelper.getDateOffsetFromNow(0);
         expected = new int[][] { {0, 1, 2, 3}, {0, 1}, {0, 1} };
         query = String.format("after : %s | before: %s ",
                 formatterAdminTime.format(twoDaysAgo), formatterAdminTime.format(today));
@@ -193,8 +193,8 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Test(groups = "typicalEmailLogs")
     public void filterQueryAndUrlParams_combinationWithEachOther_querySuccessful() {
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
+        Date yesterday = TimeHelper.getDateOffsetFromNow(-1);
+        Date twoDaysAgo = TimeHelper.getDateOffsetFromNow(-2);
 
         int[][] expected = new int[][] { {0, 3, 4, 6}, {1, 2} };
         String query = String.format("info:keyword1 | after:%s", formatterAdminTime.format(yesterday));
@@ -221,7 +221,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Test(groups = "typicalEmailLogs")
     public void statusMessage_validQuery_generatedCorrectly() {
-        Date twoDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-2);
+        Date twoDaysAgo = TimeHelper.getDateOffsetFromNow(-2);
 
         // test statusMessage for default search
         AdminEmailLogPageAction action = getAction();
@@ -237,8 +237,8 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     @Test(groups = "typicalEmailLogs")
     public void continueSearch_searchFromDifferentTime_searchCorrectly() {
-        Date yesterday = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date threeDaysAgo = TimeHelper.getDateOffsetToCurrentTime(-3);
+        Date yesterday = TimeHelper.getDateOffsetFromNow(-1);
+        Date threeDaysAgo = TimeHelper.getDateOffsetFromNow(-3);
 
         // default continue search
         int[][] expected = new int[][] { {}, {0, 1} };
@@ -283,7 +283,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
 
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        Date today = TimeHelper.getDateOffsetFromNow(0);
         insertLogMessageAtTimeWithInterval(logMessages.get(LOG_MESSAGE_INDEX_MANY_LOGS),
                 today.getTime(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
@@ -292,7 +292,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     // as they depend on different sets of log messages
     @Test(groups = "manyEmailLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
-        Date today = TimeHelper.getDateOffsetToCurrentTime(0);
+        Date today = TimeHelper.getDateOffsetFromNow(0);
 
         // default search will stop at #logs around 50
         AdminEmailLogPageAction action = getAction();

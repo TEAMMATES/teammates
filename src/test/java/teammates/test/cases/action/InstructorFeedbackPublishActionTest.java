@@ -119,9 +119,9 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
     private void modifyFeedbackSessionPublishState(FeedbackSessionAttributes session, boolean isPublished) throws Exception {
         // startTime < endTime <= resultsVisibleFromTime
-        Date startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Date startTime = TimeHelper.getDateOffsetFromNow(-2);
+        Date endTime = TimeHelper.getDateOffsetFromNow(-1);
+        Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetFromNow(-1);
 
         session.setStartTime(startTime);
         session.setEndTime(endTime);

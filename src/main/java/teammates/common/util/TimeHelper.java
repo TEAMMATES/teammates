@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -202,12 +203,20 @@ public final class TimeHelper {
 
     /**
      * Returns the date object with specified offset in number of days from now.
+     * @deprecated Use {@code TimeHelper#getInstantOffsetFromNow} instead.
      */
-    public static Date getDateOffsetToCurrentTime(int offsetDays) {
-        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
-        cal.setTime(cal.getTime());
-        cal.add(Calendar.DATE, +offsetDays);
-        return cal.getTime();
+    @Deprecated
+    public static Date getDateOffsetFromNow(long offsetInDays) {
+        return Date.from(getInstantOffsetFromNow(offsetInDays));
+    }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of days from now.
+     * @param offsetInDays number of days offset by (integer).
+     * @return java.time.Instant offset by offsetInDays days.
+     */
+    public static Instant getInstantOffsetFromNow(long offsetInDays) {
+        return Instant.now().plus(Duration.ofDays(offsetInDays));
     }
 
     /**

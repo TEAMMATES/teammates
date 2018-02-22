@@ -43,7 +43,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
 
         // Set closing time of one feedback session to tomorrow
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
-        closingFeedbackSession.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        closingFeedbackSession.setEndTime(TimeHelper.getDateOffsetFromNow(1));
 
         // Set closing time of one feedback session to 30 mins ago
         FeedbackSessionAttributes closedFeedbackSession = testData.feedbackSessions.get("closedSession");
@@ -51,7 +51,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
 
         // Set opening time for one feedback session to yesterday
         FeedbackSessionAttributes openingFeedbackSession = testData.feedbackSessions.get("openingSession");
-        openingFeedbackSession.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        openingFeedbackSession.setStartTime(TimeHelper.getDateOffsetFromNow(-1));
 
         //Published time for one feedback session already set to some time in the past.
 

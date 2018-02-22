@@ -140,9 +140,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getDateOffsetFromNow(-1));
+        session.setEndTime(TimeHelper.getDateOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
 
@@ -179,9 +179,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
+        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetFromNow(-2));
         session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-23));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setEndTime(TimeHelper.getDateOffsetFromNow(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
@@ -226,9 +226,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("case : 1 published session with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         session.setTimeZone(0);
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setStartTime(TimeHelper.getDateOffsetFromNow(-2));
+        session.setEndTime(TimeHelper.getDateOffsetFromNow(-1));
+        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetFromNow(-1));
 
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
