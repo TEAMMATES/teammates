@@ -1,6 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static junit.framework.TestCase.assertNotSame;
 import static teammates.common.util.Const.EOL;
 
 import org.testng.annotations.Test;
@@ -141,7 +140,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes copy = account.getCopy();
 
         assertNotSame(account, copy);
-        assertFalse(account.studentProfile.equals(copy.studentProfile));
+        assertNotSame(account, copy.studentProfile);
         assertFalse(account.isInstructor);
 
         assertEquals(account.googleId, copy.googleId);
