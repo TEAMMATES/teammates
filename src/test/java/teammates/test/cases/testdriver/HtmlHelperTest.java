@@ -1,7 +1,5 @@
 package teammates.test.cases.testdriver;
 
-import static teammates.common.util.Const.EOL;
-
 import java.io.IOException;
 
 import org.testng.annotations.Test;
@@ -27,17 +25,18 @@ public class HtmlHelperTest extends BaseTestCase {
 
         expected = "<HTML><HEAD><SCRIPT language=\"JavaScript\" src=\"a.js\" ></SCRIPT></HEAD>"
                    + "<BODY id=\"5\"><P>abc</P><DIV id=\"frameBottom\"><DIV></DIV></DIV></BODY></HTML>";
-        actual = expected.replace("<HEAD>", "    <HEAD>    \t" + EOL);
+        actual = expected.replace("<HEAD>", "    <HEAD>    \t" + System.lineSeparator());
         HtmlHelper.assertSameHtml(expected, actual, false);
 
         //change attribute order
         actual = expected.replace("language=\"JavaScript\" src=\"a.js\"", "  src=\"a.js\"   language=\"JavaScript\"  ");
         HtmlHelper.assertSameHtml(expected, actual, false);
 
-        actual = expected.replace("<P>", "<P>\n\n" + EOL + EOL);
+        actual = expected.replace("<P>", "<P>\n\n" + System.lineSeparator() + System.lineSeparator());
         HtmlHelper.assertSameHtml(expected, actual, false);
 
-        actual = expected.replace("<DIV></DIV></DIV>", EOL + EOL + "\n<DIV>\n\n</DIV></DIV>\n\n" + EOL);
+        actual = expected.replace("<DIV></DIV></DIV>",
+            System.lineSeparator() + System.lineSeparator() + "\n<DIV>\n\n</DIV></DIV>\n\n" + System.lineSeparator());
         HtmlHelper.assertSameHtml(expected, actual, false);
 
         expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/sampleExpected.html");

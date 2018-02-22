@@ -397,7 +397,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx))
-                    + Const.EOL;
+                    + System.lineSeparator();
 
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
@@ -414,12 +414,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String csvPointsExplanation =
                 "In the points given below, an equal share is equal to 100 points. "
-                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL
-                + "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL
+                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + System.lineSeparator()
+                + "Claimed Contribution (CC) = the contribution claimed by the student." + System.lineSeparator()
                 + "Perceived Contribution (PC) = the average value of student's contribution "
-                + "as perceived by the team members." + Const.EOL
-                + "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
-        return csvPointsExplanation + contribFragments + Const.EOL;
+                + "as perceived by the team members." + System.lineSeparator()
+                + "Team, Name, Email, CC, PC, Ratings Recieved" + System.lineSeparator();
+        return csvPointsExplanation + contribFragments + System.lineSeparator();
     }
 
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {

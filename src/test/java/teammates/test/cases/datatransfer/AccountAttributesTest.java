@@ -1,7 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Const.EOL;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -42,15 +40,15 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String expectedError =
                 getPopulatedEmptyStringErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
                       FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                      FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",

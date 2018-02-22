@@ -103,7 +103,6 @@ You need an instructor account which can be created by administrators.
 
 1. Log in to `/admin/adminHomePage` as an administrator.
 1. Enter credentials for an instructor, e.g<br>
-   Short Name: `Instructor`<br>
    Name: `John Dorian`<br>
    Email: `teammates.instructor@university.edu`<br>
    Institution: `National University of Singapore`<br>
