@@ -188,11 +188,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
 
-        // Skip time frame checks if session type is private.
-        if (this.isPrivateSession()) {
-            return errors;
-        }
-
         addNonEmptyError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
@@ -359,15 +354,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public boolean isManuallyPublished() {
         return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
                || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
-    }
-
-    /**
-     * Returns {@code true} if session is a private session (only open to the session creator),
-     *  {@code false} if not.
-     */
-    public boolean isPrivateSession() {
-        return Const.TIME_REPRESENTS_NEVER.equals(sessionVisibleFromTime)
-               || FeedbackSessionType.PRIVATE.equals(feedbackSessionType);
     }
 
     public boolean isCreator(String instructorEmail) {
