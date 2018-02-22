@@ -240,8 +240,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
                 .withName("Instructor 1")
@@ -302,8 +301,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
 
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
@@ -368,8 +366,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
 
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")
@@ -426,8 +423,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "instructor1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("instructor1").build();
 
         AccountsLogic.inst().createAccount(AccountAttributes.builder()
                 .withGoogleId("instructor1")

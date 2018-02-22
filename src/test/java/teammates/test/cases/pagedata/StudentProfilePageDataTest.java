@@ -43,8 +43,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithPictureKeyAndNoNullFields() {
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id.2")
+        spa = StudentProfileAttributes.builder("valid.id.2")
                 .withShortName("short name")
                 .withEmail("e@mail2.com")
                 .withInstitute("inst")
@@ -70,8 +69,7 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id.2")
+        spa = StudentProfileAttributes.builder("valid.id.2")
                 .withGender(Gender.MALE)
                 .build();
         acct = AccountAttributes.builder()

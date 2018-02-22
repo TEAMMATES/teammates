@@ -126,8 +126,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .withEmail("instructor@icet.tmt")
                         .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
-                        .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                                .withGoogleId(instructorId)
+                        .withStudentProfileAttributes(StudentProfileAttributes.builder(instructorId)
                                 .withShortName("ICET")
                                 .build())
                         .build());
@@ -212,9 +211,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("success: edited profile");
 
-        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder(student1.googleId).build();
 
-        expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
@@ -658,8 +656,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
-        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
-                .withGoogleId(instructorId).withShortName("Ins1").withGender(Gender.MALE)
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(instructorId)
+                .withShortName("Ins1").withGender(Gender.MALE)
                 .build();
         AccountAttributes accountToAdd = AccountAttributes.builder()
                 .withGoogleId(instructorId)
@@ -777,8 +775,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder()
-                .withGoogleId("tes.instructor").withShortName("Ins 1").withGender(Gender.MALE)
+        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder("tes.instructor")
+                .withShortName("Ins 1").withGender(Gender.MALE)
                 .build();
         accountToAdd = AccountAttributes.builder()
                 .withGoogleId("tes.instructor")

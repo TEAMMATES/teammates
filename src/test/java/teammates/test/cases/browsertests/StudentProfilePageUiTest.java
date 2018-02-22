@@ -149,8 +149,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: attempted script injection");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id")
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("valid.id")
                 .withShortName("name<script>alert(\"Hello world!\");</script>")
                 .withEmail("e@email.tmt")
                 .withGender(Gender.MALE)
@@ -178,8 +177,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: invalid institute with attempted script injection");
 
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id").withShortName("short.name").withEmail("e@email.tmt")
+        spa = StudentProfileAttributes.builder("valid.id")
+                .withShortName("short.name").withEmail("e@email.tmt")
                 .withGender(Gender.MALE).withMoreInfo("this is enough!$%&*</>")
                 .withInstitute("<script>alert(\"Hello world!\");</script>").withNationality("American")
                 .build();
@@ -194,8 +193,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Failure case: invalid data");
 
-        spa = StudentProfileAttributes.builder()
-                .withGoogleId("valid.id").withShortName("$$short.name").withEmail("e@email.tmt")
+        spa = StudentProfileAttributes.builder("valid.id")
+                .withShortName("$$short.name").withEmail("e@email.tmt")
                 .withGender(Gender.MALE).withMoreInfo("this is enough!$%&*</>")
                 .withInstitute(" inst  ").withNationality("American")
                 .build();

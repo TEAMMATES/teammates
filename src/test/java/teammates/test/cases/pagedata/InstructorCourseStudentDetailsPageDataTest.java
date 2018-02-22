@@ -96,6 +96,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     }
 
     private void createStudentProfile(String email, String pictureKey) {
+        String googleId = "valid.googleId";
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
@@ -110,7 +111,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                             + Const.ParamsNames.USER_ID + "=null";
         }
 
-        inputStudentProfile = StudentProfileAttributes.builder()
+        inputStudentProfile = StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
