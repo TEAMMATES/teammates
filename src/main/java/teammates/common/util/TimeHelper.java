@@ -463,15 +463,6 @@ public final class TimeHelper {
 
     }
 
-    public static boolean isOlderThanAYear(Date compareDate) {
-        Date currentDate = new Date();
-        int differenceInDays;
-
-        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000 * 60 * 60 * 24));
-
-        return differenceInDays > 365;
-    }
-
     /**
      * Returns true if the {@code time} falls within the last hour.
      * That is exactly one hour or less from the current time but earlier than current time.
