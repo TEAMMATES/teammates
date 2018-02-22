@@ -466,7 +466,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
-                .filter("feedbackSessionType !=", FeedbackSessionType.PRIVATE)
                 .list();
     }
 

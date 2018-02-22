@@ -1049,7 +1049,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.getFeedbackSessionType() != FeedbackSessionType.PRIVATE && session.isOpened()) {
+            if (session.isOpened()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
@@ -1472,8 +1472,7 @@ public final class FeedbackSessionsLogic {
         details.stats.expectedTotal = 0;
         details.stats.submittedTotal = 0;
 
-        switch (fsa.getFeedbackSessionType()) {
-        case STANDARD:
+        if (fsa.getFeedbackSessionType() == FeedbackSessionType.STANDARD) {
             List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
             List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
             List<FeedbackQuestionAttributes> questions =
@@ -1494,28 +1493,6 @@ public final class FeedbackSessionsLogic {
 
             details.stats.submittedTotal += fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
 
-            break;
-
-        case PRIVATE:
-            List<FeedbackQuestionAttributes> instructorQuestions =
-                    fqLogic.getFeedbackQuestionsForInstructor(fsa.getFeedbackSessionName(),
-                                                              fsa.getCourseId(),
-                                                              fsa.getCreatorEmail());
-            List<FeedbackQuestionAttributes> validQuestions =
-                    fqLogic.getQuestionsWithRecipients(instructorQuestions, fsa.getCreatorEmail());
-            if (validQuestions.isEmpty()) {
-                break;
-            }
-            details.stats.expectedTotal = 1;
-            if (isFeedbackSessionFullyCompletedByInstructor(fsa.getFeedbackSessionName(),
-                                                            fsa.getCourseId(),
-                                                            fsa.getCreatorEmail())) {
-                details.stats.submittedTotal = 1;
-            }
-            break;
-
-        default:
-            break;
         }
 
         return details;
@@ -2213,6 +2190,7 @@ public final class FeedbackSessionsLogic {
         return true;
     }
 
+    @SuppressWarnings("unused")
     private boolean isFeedbackSessionFullyCompletedByInstructor(
             String feedbackSessionName,
             String courseId, String userEmail)
@@ -2244,11 +2222,6 @@ public final class FeedbackSessionsLogic {
             FeedbackSessionAttributes session,
             String userEmail,
             boolean isInstructorOfCourse) {
-
-        // If the session is a private session created by the same user, it is viewable to the user
-        if (session.getFeedbackSessionType() == FeedbackSessionType.PRIVATE) {
-            return session.getCreatorEmail().equals(userEmail);
-        }
 
         // Allow all instructors to view always
         if (isInstructorOfCourse) {
