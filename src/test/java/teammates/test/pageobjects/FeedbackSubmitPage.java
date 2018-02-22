@@ -155,7 +155,8 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = SanitizationHelper.sanitizeStringForXPath(name);
-        selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
+        final WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
+        selectDropdownByVisibleValue(selectElement, choiceName);
     }
 
     public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {

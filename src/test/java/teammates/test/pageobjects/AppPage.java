@@ -78,8 +78,10 @@ public abstract class AppPage {
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
 
-    // These are elements common to most pages in our app
+    /** Handler for tracking the state of a JQuery AJAX request. */
+    private final JQueryAjaxHandler jQueryAjaxHandler;
 
+    // These are elements common to most pages in our app
     @FindBy(id = "statusMessagesToUser")
     private WebElement statusMessage;
 
@@ -115,6 +117,7 @@ public abstract class AppPage {
     public AppPage(Browser browser) {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler();
+        jQueryAjaxHandler = new JQueryAjaxHandler();
 
         boolean isCorrectPageType = containsExpectedPageContents();
 
@@ -168,6 +171,10 @@ public abstract class AppPage {
      */
     public static AppPage getNewPageInstance(Browser currentBrowser) {
         return getNewPageInstance(currentBrowser, GenericAppPage.class);
+    }
+
+    JQueryAjaxHandler getjQueryAjaxHandler() {
+        return jQueryAjaxHandler;
     }
 
     /**
@@ -280,6 +287,21 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.stalenessOf(element));
     }
 
+    /**
+     * Wait until an element belongs to the class or the timeout expires.
+     * @param element the WebElement
+     * @param elementClass the class that the element must belong to
+     * @throws org.openqa.selenium.TimeoutException if the timeout defined in
+     * {@link TestProperties#TEST_TIMEOUT} expires
+     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     */
+    void waitForElementToBeMemberOfClass(WebElement element, String elementClass) {
+        waitFor(driver -> {
+            String classAttribute = element.getAttribute("class");
+            List<String> classes = Arrays.asList(classAttribute.split(" "));
+
+            return classes.contains(elementClass);
+        });
     }
 
     /**
@@ -315,6 +337,8 @@ public abstract class AppPage {
             private String prevHtmlScrollPosition;
             private String prevBodyScrollPosition;
 
+            private boolean isPreviouslyEqual;
+
             @Override
             public Boolean apply(WebDriver input) {
                 // The first evaluation has no previous scrolling positions to compare to
@@ -335,7 +359,14 @@ public abstract class AppPage {
 
                 if (currentHtmlScrollPosition.equals(prevHtmlScrollPosition)
                         && currentBodyScrollPosition.equals(prevBodyScrollPosition)) {
-                    return true;
+                    // Because we are not truly detecting if the page has stopped scrolling,
+                    // we make sure the scroll positions is the same for one more iteration
+                    if (isPreviouslyEqual) {
+                        return true;
+                    } else {
+                        isPreviouslyEqual = true;
+                        return false;
+                    }
                 }
 
                 prevHtmlScrollPosition = currentHtmlScrollPosition;
@@ -633,7 +664,7 @@ public abstract class AppPage {
 
     protected void fillTextBox(WebElement textBoxElement, String value) {
         try {
-            new Actions(browser.driver).moveToElement(textBoxElement).click().perform();
+            scrollElementToCenterAndClick(textBoxElement);
         } catch (WebDriverException e) {
             // It is important that a text box element is clickable before we fill it but due to legacy reasons we continue
             // attempting to fill the text box element even if it's not clickable (which may lead to an unexpected failure
@@ -642,6 +673,14 @@ public abstract class AppPage {
             System.out.println(e);
         }
 
+        // If the intended value is empty `clear` works well enough for us
+        if (value.isEmpty()) {
+            textBoxElement.clear();
+            return;
+        }
+
+        // Otherwise we need to do special handling of entering input because `clear` and `sendKeys` work differently.
+        // See documentation for `clearAndSendKeys` for more details.
         clearAndSendKeys(textBoxElement, value);
 
         // Add event hook before blurring the text box element so we can detect the event.
@@ -740,35 +779,77 @@ public abstract class AppPage {
     }
 
     /**
-     * Selection is based on the value shown to the user.
-     * Since selecting an option by clicking on the option doesn't work sometimes
-     * in Firefox, we simulate a user typing the value to select the option
-     * instead (i.e., we use the {@code sendKeys()} method). <br>
-     * <br>
-     * The method will fail with an AssertionError if the selected value is
-     * not the one we wanted to select.
+     * Selects the option by visible text and returns whether the dropdown value has changed.
+     *
+     * @throws AssertionError if the selected option is not the one we wanted to select
+     *
+     * @see Select#selectByVisibleText(String)
      */
-    public void selectDropdownByVisibleValue(WebElement element, String value) {
+    boolean selectDropdownByVisibleValue(WebElement element, String text) {
         Select select = new Select(element);
-        select.selectByVisibleText(value);
-        String selectedVisibleValue = select.getFirstSelectedOption().getText().trim();
-        assertEquals(value, selectedVisibleValue);
+
+        WebElement originalSelectedOption = select.getFirstSelectedOption();
+
+        select.selectByVisibleText(text);
+
+        WebElement newSelectedOption = select.getFirstSelectedOption();
+
+        assertEquals(text, newSelectedOption.getText().trim());
+
+        return !newSelectedOption.equals(originalSelectedOption);
     }
 
     /**
-     * Selection is based on the actual value.
-     * Since selecting an option by clicking on the option doesn't work sometimes
-     * in Firefox, we simulate a user typing the value to select the option
-     * instead (i.e., we use the {@code sendKeys()} method). <br>
-     * <br>
-     * The method will fail with an AssertionError if the selected value is
-     * not the one we wanted to select.
+     * Selects the option by visible text and wait for the associated AJAX request to complete.
+     *
+     * @see AppPage#selectDropdownByVisibleValue(WebElement, String)
      */
-    public void selectDropdownByActualValue(WebElement element, String value) {
+    void selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(WebElement element, String text) {
+        jQueryAjaxHandler.registerHandlers();
+
+        if (selectDropdownByVisibleValue(element, text)) {
+            jQueryAjaxHandler.waitForRequestComplete();
+        } else {
+            // No AJAX request will be made if the value did not change
+            jQueryAjaxHandler.unregisterHandlers();
+        }
+    }
+
+    /**
+     * Selects the option by value and returns whether the dropdown value has changed.
+     *
+     * @throws AssertionError if the selected option is not the one we wanted to select
+     *
+     * @see Select#selectByValue(String)
+     */
+    boolean selectDropdownByActualValue(WebElement element, String value) {
         Select select = new Select(element);
+
+        WebElement originalSelectedOption = select.getFirstSelectedOption();
+
         select.selectByValue(value);
-        String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
-        assertEquals(value, selectedVisibleValue);
+
+        WebElement newSelectedOption = select.getFirstSelectedOption();
+
+        assertEquals(value, newSelectedOption.getAttribute("value"));
+
+        return !newSelectedOption.equals(originalSelectedOption);
+    }
+
+    /**
+     * Selects the option by value and wait for the associated AJAX request to complete.
+     *
+     * @see AppPage#selectDropdownByActualValue(WebElement, String)
+     */
+    void selectDropdownByActualValueAndWaitForAjaxRequestComplete(WebElement element, String value) {
+        jQueryAjaxHandler.registerHandlers();
+
+        if (selectDropdownByActualValue(element, value)) {
+            jQueryAjaxHandler.waitForRequestComplete();
+        } else {
+            // No AJAX request will be made if the value did not change
+            jQueryAjaxHandler.unregisterHandlers();
+        }
     }
 
     public String getDropdownSelectedValue(WebElement element) {
@@ -1178,7 +1259,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Verifies that the texts of user status messages in the page are equal to the expected texts.
+     * Waits and verifies that the texts of user status messages in the page are equal to the expected texts.
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
@@ -1298,6 +1379,143 @@ public abstract class AppPage {
 
         click(dismissModalButton);
         waitForModalHidden(modalBackdrop);
+    }
+
+    /**
+     * Scrolls element to center and clicks on it.
+     *
+     * <p>As compared to {@link Actions#moveToElement(WebElement)}, this method is more reliable as the element will not get
+     * blocked by elements such as the header.
+     *
+     * <p>Furthermore, {@link Actions#moveToElement(WebElement)} is currently not working in Geckodriver.
+     *
+     * <p><b>Note:</b> A "scroll into view" Actions primitive is in progress and may allow scrolling element to center.
+     * Tracking issue:
+     * <a href="https://github.com/w3c/webdriver/issues/1005">Missing "scroll into view" Actions primitive</a>.
+     *
+     * <p>Also note that there are some other caveats, for example
+     * {@code new Actions(browser.driver).moveToElement(...).click(...).perform()} does not behave consistently across
+     * browsers.
+     * <ul>
+     * <li>In FirefoxDriver, the element is scrolled to and then a click is attempted on the element.
+     * <li>In ChromeDriver, the mouse is scrolled to the element and then a click is attempted on the mouse coordinate,
+     * which means another element can actually be clicked (such as the header or a blocking pop-up).
+     * </ul>
+     *
+     * <p>ChromeDriver also automatically scrolls to an element when clicking an element if it is not in the viewport.
+     */
+    void scrollElementToCenterAndClick(WebElement element) {
+        // TODO: migrate to `scrollIntoView` Geckodriver is adopted
+        executeScript("const elementRect = arguments[0].getBoundingClientRect();"
+                + "const elementAbsoluteTop = elementRect.top + window.pageYOffset;"
+                + "const center = elementAbsoluteTop - (window.innerHeight / 2);"
+                + "window.scrollTo(0, center);", element);
+        element.click();
+    }
+
+    /**
+     * Helper methods for detecting the state of a single JQuery AJAX request in the page. If more than one AJAX request is
+     * made at the same time, the behavior is undefined.
+     *
+     * <p><b>Note:</b> If {@code $.ajax()} or {@code $.ajaxSetup()} is called with the {@code global} option set to
+     * {@code false},the methods cannot work correctly.
+     */
+    class JQueryAjaxHandler {
+        /**
+         * The attribute that tracks if an AJAX request is started and not yet complete,
+         * i.e. {@code ajaxStart} is triggered and {@code ajaxStop} is not yet triggered.
+         */
+        private static final String START_ATTRIBUTE = "__ajaxStart__";
+        /**
+         * The attribute that tracks if an AJAX request is complete,
+         * i.e. {@code ajaxStop} is triggered.
+         */
+        private static final String STOP_ATTRIBUTE = "__ajaxStop__";
+
+        /**
+         * The attribute that tracks if an AJAX request is started, and may or may not be complete,
+         * i.e. {@code ajaxStart} is triggered.
+         */
+        private static final String START_OCCURRED_ATTRIBUTE = "__ajaxStartOccurred__";
+
+        /**
+         * Registers `ajaxStart` and `ajaxStop` handlers to track the state of an AJAX request.
+         *
+         * @throws IllegalStateException if the handlers are already registered in the document
+         */
+        void registerHandlers() {
+            checkState(!hasHandlers(), "`ajaxStart` and `ajaxStop` handlers need only be added once to the document.");
+
+            executeScript("const seleniumArguments = arguments;"
+                            + "$(document).ajaxStart(function() {"
+                            + "    document.body.setAttribute(seleniumArguments[0], true);"
+                            + "    document.body.setAttribute(seleniumArguments[1], false);"
+                            + "    document.body.setAttribute(seleniumArguments[2], true);"
+                            + "});"
+                            + "$(document).ajaxStop(function() {"
+                            + "    document.body.setAttribute(seleniumArguments[0], false);"
+                            + "    document.body.setAttribute(seleniumArguments[1], true);"
+                            + "});"
+                            + "document.body.setAttribute(seleniumArguments[0], false);"
+                            + "document.body.setAttribute(seleniumArguments[1], false);"
+                            + "document.body.setAttribute(seleniumArguments[2], false);",
+                    START_ATTRIBUTE, STOP_ATTRIBUTE, START_OCCURRED_ATTRIBUTE);
+        }
+
+        /**
+         * Unregisters `ajaxStart` and `ajaxStop` handlers.
+         *
+         * @throws IllegalStateException if there are no registered handlers to unregister
+         */
+        private void unregisterHandlers() {
+            checkState(hasHandlers(), "`ajaxStart` and `ajaxStop` handlers are not registered. Cannot unregister!");
+
+            executeScript("$(document).off('ajaxStart');"
+                            + "$(document).off('ajaxStop');"
+                            + "document.body.removeAttribute(arguments[0]);"
+                            + "document.body.removeAttribute(arguments[1]);"
+                            + "document.body.removeAttribute(arguments[2]);",
+                    START_ATTRIBUTE, STOP_ATTRIBUTE, START_OCCURRED_ATTRIBUTE);
+        }
+
+        /**
+         * Returns true if `ajaxStart` and `ajaxStop` handlers exist.
+         */
+        private boolean hasHandlers() {
+            WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
+
+            return isExpectedCondition(ExpectedConditions.and(
+                    ExpectedConditions.attributeToBeNotEmpty(bodyElement, START_ATTRIBUTE),
+                    ExpectedConditions.attributeToBeNotEmpty(bodyElement, STOP_ATTRIBUTE),
+                    ExpectedConditions.attributeToBeNotEmpty(bodyElement, START_OCCURRED_ATTRIBUTE)));
+        }
+
+        /**
+         * Waits for an AJAX request to complete and automatically unregisters the handlers.
+         * <b>Note:</b> The behavior is undefined if more than one AJAX request was made after the the registration of the
+         * handlers.
+         */
+        void waitForRequestComplete() {
+            checkState(hasHandlers(),
+                    "`ajaxStart` and `ajaxStop` handlers are not registered. Cannot detect if AJAX request is complete!");
+
+            WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
+
+            waitFor(ExpectedConditions.and(
+                    // Make sure that only a single AJAX request has previously occurred, this will be false if an AJAX
+                    // request was made while there are other outstanding AJAX requests.
+                    ExpectedConditions.attributeContains(bodyElement, START_OCCURRED_ATTRIBUTE, "true"),
+                    ExpectedConditions.attributeContains(bodyElement, START_ATTRIBUTE, "false"),
+                    ExpectedConditions.attributeContains(bodyElement, STOP_ATTRIBUTE, "true")));
+
+            // Any AJAX requests made while executing the following script will result in undefined behavior.
+            executeScript("document.body.setAttribute(arguments[0], false);"
+                            + "document.body.setAttribute(arguments[1], false);"
+                            + "document.body.setAttribute(arguments[2], false);",
+                    START_ATTRIBUTE, STOP_ATTRIBUTE, START_OCCURRED_ATTRIBUTE);
+
+            unregisterHandlers();
+        }
     }
 
     /**

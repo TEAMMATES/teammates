@@ -16,7 +16,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -25,6 +27,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
@@ -729,20 +732,58 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void enableOtherVisibilityOptions(int qnNumber) {
-        clickVisibilityDropdown("OTHER", qnNumber);
+        clickVisibilityDropdownAndWaitForVisibilityMessageToLoad("OTHER", qnNumber);
     }
 
     public void enableOtherVisibilityOptionsForNewQuestion() {
         enableOtherVisibilityOptions(NEW_QUESTION_NUM);
     }
 
-    public void clickVisibilityDropdown(String optionValue, int qnNumber) {
-        click(browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown "
-                                                        + "a[data-option-name=\"" + optionValue + "\"]")));
+    /**
+     * Selects the visibility option and wait for the visibility message to load.
+     * <b>Note: </b> The custom visibility options allow for more customization after the option is selected and
+     * the visibility message would not be loaded until the custom options are modified, which implies that there is no need
+     * to wait for the visibility message to load if the custom visibility options is selected.
+     */
+    public void clickVisibilityDropdownAndWaitForVisibilityMessageToLoad(String optionValue, int qnNumber) {
+        String customVisibilityOptionsValue = "OTHER";
+
+        // If the other option is selected, no AJAX request is made
+        if (!optionValue.equals(customVisibilityOptionsValue)) {
+            getjQueryAjaxHandler().registerHandlers();
+        }
+
+        WebElement visibilityOptionsDropdown =
+                browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber + " .visibility-options-dropdown"));
+
+        WebElement dropdownToggle = visibilityOptionsDropdown.findElement(By.tagName("button"));
+        scrollElementToCenterAndClick(dropdownToggle);
+
+        WebElement optionElement =
+                visibilityOptionsDropdown.findElement(By.cssSelector("a[data-option-name=\"" + optionValue + "\"]"));
+
+        // once the dropdown is assigned the class "open", the options should be visible unless not in the viewport
+        waitForElementToBeMemberOfClass(visibilityOptionsDropdown, "open");
+
+        // Scroll to the option because it may not be in the viewport
+        scrollElementToCenterAndClick(optionElement);
+
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        wait.until(ExpectedConditions.textToBePresentInElement(dropdownToggle, optionElement.getText()));
+
+        // If the other option is selected, no AJAX request is made
+        if (!optionValue.equals(customVisibilityOptionsValue)) {
+            getjQueryAjaxHandler().waitForRequestComplete();
+        }
     }
 
-    public void clickVisibilityDropdownForNewQuestion(String optionValue) {
-        clickVisibilityDropdown(optionValue, NEW_QUESTION_NUM);
+    /**
+     * Selects the visibility option and wait for the visibility message to load for the new question.
+     *
+     * @see InstructorFeedbackEditPage#clickVisibilityDropdownAndWaitForVisibilityMessageToLoad(String, int)
+     */
+    public void clickVisibilityDropdownForNewQuestionAndWaitForVisibilityMessageToLoad(String optionValue) {
+        clickVisibilityDropdownAndWaitForVisibilityMessageToLoad(optionValue, NEW_QUESTION_NUM);
     }
 
     public String getVisibilityDropdownLabel(int qnNumber) {
@@ -1031,12 +1072,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return recipientDropdownForQuestion.getAttribute("value");
     }
 
-    public void selectRecipientTypeForNewQuestion(String recipientType) {
-        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM)), recipientType);
+    /**
+     * Selects the recipient type in the feedback path and wait for the corresponding visibility message to load.
+     */
+    public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
+        final WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(selectElement, recipientType);
     }
 
     public void clickNewQuestionButton() {
-        click(openNewQuestionButton);
+        scrollElementToCenterAndClick(openNewQuestionButton);
     }
 
     public boolean isAllFeedbackPathOptionsEnabledForNewQuestion() {
@@ -1090,37 +1135,64 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void selectGiverToBe(FeedbackParticipantType giverType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("givertype-" + questionNumber));
-        selectDropdownByActualValue(giverDropdown, giverType.toString());
+        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, giverType.toString());
     }
 
     public void selectRecipientToBe(FeedbackParticipantType recipientType, int questionNumber) {
         WebElement giverDropdown = browser.driver.findElement(By.id("recipienttype-" + questionNumber));
-        selectDropdownByActualValue(giverDropdown, recipientType.toString());
+        selectDropdownByActualValueAndWaitForAjaxRequestComplete(giverDropdown, recipientType.toString());
     }
 
-    public void selectGiverToBeStudents() {
-        selectDropdownByVisibleValue(giverDropdownForNewQuestion, "Students in this course");
+    /**
+     * Selects the giver in the feedback path to be students in the course and wait for the corresponding visibility message
+     * to load.
+     */
+    public void selectGiverToBeStudentsAndWaitForVisibilityMessageToLoad() {
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Students in this course");
     }
 
-    public void selectGiverToBeInstructors() {
-        selectDropdownByVisibleValue(giverDropdownForNewQuestion, "Instructors in this course");
+    /**
+     * Selects the giver in the feedback path to be instructors in the course and wait for the corresponding visibility
+     * message to load.
+     */
+    public void selectGiverToBeInstructorsAndWaitForVisibilityMessageToLoad() {
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(giverDropdownForNewQuestion, "Instructors in this course");
     }
 
-    public void selectRecipientsToBeStudents() {
-        selectDropdownByVisibleValue(recipientDropdownForNewQuestion, "Other students in the course");
+    /**
+     * Selects the recipients in the feedback path to be other students in the course and wait for the corresponding
+     * visibility message to load.
+     */
+    public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad() {
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+                recipientDropdownForNewQuestion, "Other students in the course");
     }
 
-    public void selectRecipientsToBeGiverTeamMembersAndGiver() {
-        selectDropdownByVisibleValue(recipientDropdownForNewQuestion, "Giver's team members and Giver");
+    /**
+     * Selects the recipients in the feedback path to be the team members and giver and wait for the corresponding visibility
+     * message to load.
+     */
+    public void selectRecipientsToBeGiverTeamMembersAndGiverAndWaitForVisibilityMessageToLoad() {
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+                recipientDropdownForNewQuestion, "Giver's team members and Giver");
     }
 
-    public void selectRecipientsToBeInstructors() {
-        selectDropdownByVisibleValue(recipientDropdownForNewQuestion, "Instructors in the course");
+    /**
+     * Selects the recipients in the feedback path to be instructors in the course and wait for the corresponding visibility
+     * message to load.
+     */
+    public void selectRecipientsToBeInstructorsAndWaitForVisibilityMessageToLoad() {
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
+                recipientDropdownForNewQuestion, "Instructors in the course");
     }
 
-    public void selectRecipientsToBeStudents(int qnNumber) {
+    /**
+     * Selects the recipients in the feedback path to be other students in the course and wait for the corresponding
+     * visibility message to load.
+     */
+    public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
         WebElement recipientDropdown = browser.driver.findElement(By.id("recipienttype-" + qnNumber));
-        selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
+        selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(recipientDropdown, "Other students in the course");
     }
 
     public void enableOtherFeedbackPathOptions(int qnNumber) {
@@ -1838,6 +1910,22 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
+    }
+
+    /**
+     * Waits and verifies that the texts of user status messages in the page are equal to the expected error texts.
+     * @see AppPage#waitForTextsForAllStatusMessagesToUserEquals(String, String...)
+     */
+    public void waitForTextsForAllStatusMessagesToUserEqualsErrorTexts(
+            String firstExpectedErrorText, String... remainingExpectedErrorTexts) {
+        // LEGACY IMPLEMENTATION: Status Message is scrolled to when we try to add an invalid question
+        // so we wait for no scrolling before verifying status message. This allows verification of status message to be
+        // faster because the text should already be visible. Any tests that follows will then also not get affected by the
+        // scrolling behavior.
+        // PROBABLE BETTER IMPLEMENTATION: All AJAX Status messages (not just error status messages) always cause scrolling
+        // so waiting for the status messages will compose of waiting for no scrolling before verifying the status messages.
+        waitForNoScrolling();
+        waitForTextsForAllStatusMessagesToUserEquals(firstExpectedErrorText, remainingExpectedErrorTexts);
     }
 
     public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
