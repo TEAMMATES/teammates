@@ -322,10 +322,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN =
                 "Select this option to have the feedback session become visible "
                 + "when it is open for submissions (as selected above).";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER =
-                "Select this option if you want the feedback session to be private. "
-                + "A private session is never visible to anyone. "
-                + "Private sessions can be used to record your own comments about others, for your own reference.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
                 + "<br>You can select the response visibility for each type of user and question later.";
@@ -351,15 +347,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
                 "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> "
                 + "It will be displayed at the top of the page when users respond to the session.";
-        public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
         public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
         public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
         public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
         public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = "The responses for this session are visible.";
         public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
-        public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
-                "This feedback session is not published as it is private and only visible to you.";
         public static final String FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
                 "The responses for this feedback session have been set to never get published.";
 
