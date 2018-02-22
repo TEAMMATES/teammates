@@ -63,7 +63,7 @@
           <td class="session-response-for-test">
             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
           </td>
-          <td class="no-print text-nowrap padding-right-25px">
+          <td class="no-print padding-right-25px">
             <tif:feedbackSessionActions actions="${sessionRow.actions}" />
           </td>
         </tr>
