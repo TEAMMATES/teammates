@@ -229,13 +229,6 @@ public final class TimeHelper {
         return cal.getTime();
     }
 
-    public static Date getMsOffsetToCurrentTimeInUserTimeZone(int offset, double timeZone) {
-        Date d = getMsOffsetToCurrentTime(offset);
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(d);
-        return convertToUserTimeZone(c, timeZone).getTime();
-    }
-
     // User time zone is just a view of an Instant/ZonedDateTime,
     // which should be handled in formatting methods.
     // TODO: Remove this method and refactor where it is used.
