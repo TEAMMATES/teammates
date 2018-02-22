@@ -333,8 +333,7 @@ public abstract class AppPage {
     }
 
     public void cancelModalForm(WebElement modal) {
-        click(modal.findElement(By.tagName("button")));
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(modal.findElement(By.tagName("button")));
     }
 
     public void checkCheckboxesInForm(WebElement form, String elementsName) {
