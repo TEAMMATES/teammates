@@ -3,6 +3,11 @@ package teammates.common.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -112,25 +117,42 @@ public final class TimeHelper {
     }
 
     /**
-     * Convert a date string and time string into a Date object. Returns null on error.
-     *
+     * Convert a date string and time string of only the hour into a Date object.
+     * If the hour is 24, it is converted to 23:59. Returns null on error.
      * @param inputDate
      *            The date in format dd/MM/yyyy
      * @param inputTimeHours
-     *            The time as number of hours
+     *            0-24
      */
+    @Deprecated
     public static Date combineDateTime(String inputDate, String inputTimeHours) {
+        return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
+    }
+
+    /**
+     * Convert a date string and time string of only the hour into a Date object.
+     * If the hour is 24, it is converted to 23:59. Returns null on error.
+     * @param inputDate         the date string in dd/MM/yyyy format
+     * @param inputTimeHours    the hour, 0-24
+     * @return                  a LocalDateTime at the specified date and hour
+     */
+    public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
         }
 
-        int inputTimeInt = 0;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy H.mm");
+        String dateTimeString;
+        if ("24".equals(inputTimeHours)) {
+            dateTimeString = inputDate + " 23.59";
+        } else {
+            dateTimeString = inputDate + " " + inputTimeHours + ".00";
+        }
         try {
-            inputTimeInt = Integer.parseInt(inputTimeHours) * 100;
-        } catch (NumberFormatException nfe) {
+            return LocalDateTime.parse(dateTimeString, formatter);
+        } catch (DateTimeParseException e) {
             return null;
         }
-        return convertToDate(inputDate, inputTimeInt);
     }
 
     /**
@@ -433,29 +455,19 @@ public final class TimeHelper {
         return TimeZone.getDefault().getOffset(new Date().getTime()) / 1000.0 / 60.0 / 60.0;
     }
 
-    private static Date convertToDate(String date, int time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        Calendar calendar = Calendar.getInstance(SystemParams.TIME_ZONE);
+    /**
+     * Temporary method for transition from storing time zone as double.
+     */
+    public static ZoneId convertToZoneId(double timeZone) {
+        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
+    }
 
-        // Perform date manipulation
-        try {
-            Date newDate = sdf.parse(date);
-            calendar.setTime(newDate);
-
-            if (time == 2400) {
-                calendar.set(Calendar.HOUR, 23);
-                calendar.set(Calendar.MINUTE, 59);
-            } else {
-                calendar.set(Calendar.HOUR, time / 100);
-                calendar.set(Calendar.MINUTE, time % 100);
-            }
-
-            return calendar.getTime();
-        } catch (Exception e) {
-            return null;
-        }
-
+    /**
+     * Temporary method for transition from java.util.Date.
+     * @param localDateTime will be assumed to be in UTC
+     */
+    public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
+        return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
     }
 
     /**
