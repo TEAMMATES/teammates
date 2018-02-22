@@ -108,7 +108,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                     getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
+                        FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
                     + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role),
                     e.getMessage());
         }
@@ -319,11 +319,12 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(
                     getPopulatedEmptyStringErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH)
+                    + System.lineSeparator()
                     + getPopulatedErrorMessage(
                           FieldValidator.EMAIL_ERROR_MESSAGE, instructorToEdit.email,
                           FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                          FieldValidator.EMAIL_MAX_LENGTH) + Const.EOL
+                          FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
                     + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }
@@ -396,10 +397,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
                     getPopulatedErrorMessage(
                         FieldValidator.GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId,
                         FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + Const.EOL
+                        FieldValidator.GOOGLE_ID_MAX_LENGTH) + System.lineSeparator()
                     + getPopulatedEmptyStringErrorMessage(
                           FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + Const.EOL
+                          FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH)
+                    + System.lineSeparator()
                     + String.format(FieldValidator.ROLE_ERROR_MESSAGE, instructorToEdit.role),
                     e.getMessage());
         }

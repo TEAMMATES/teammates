@@ -3,6 +3,7 @@ package teammates.test.cases.logic;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -23,6 +24,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -160,13 +162,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
 
-        session.setTimeZone(-9.5);
+        setTimeZoneButMaintainLocalDate(session, -9.5);
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailNegativeTimeZone.html");
 
-        session.setTimeZone(0.0);
+        setTimeZoneButMaintainLocalDate(session, -0.0);
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
@@ -455,6 +457,19 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         assertEquals(content, email.getContent());
+    }
+
+    private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, double newTimeZone) {
+        double oldTimeZone = session.getTimeZone();
+        Date localStart = TimeHelper.convertUtcToLocalDate(session.getStartTime(), oldTimeZone);
+        Date localEnd = TimeHelper.convertUtcToLocalDate(session.getEndTime(), oldTimeZone);
+        Date localSessionVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getSessionVisibleFromTime(), oldTimeZone);
+        Date localResultsVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getResultsVisibleFromTime(), oldTimeZone);
+        session.setTimeZone(newTimeZone);
+        session.setStartTime(TimeHelper.convertLocalDateToUtc(localStart, newTimeZone));
+        session.setEndTime(TimeHelper.convertLocalDateToUtc(localEnd, newTimeZone));
+        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateToUtc(localSessionVisibleFrom, newTimeZone));
+        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateToUtc(localResultsVisibleFrom, newTimeZone));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

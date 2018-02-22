@@ -61,7 +61,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
         assertEquals("", r.getStatusMessage());
 
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
@@ -94,7 +94,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
         assertEquals("", r.getStatusMessage());
 
         removeAndRestoreTypicalDataBundle();
@@ -129,7 +129,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), fileContent);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), fileContent);
         assertEquals("", r.getStatusMessage());
 
     }

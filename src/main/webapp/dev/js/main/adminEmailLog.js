@@ -1,5 +1,5 @@
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -73,7 +73,7 @@ function submitFormAjax(offset) {
             $logsTable.append($data.find('#email-logs-table > tbody').html());
             bindClickAction();
             highlightKeywordsInEmailLogMessages();
-            setStatusMessage($data.find('#status-message').html(), StatusType.INFO);
+            setStatusMessage($data.find('#status-message').html(), BootstrapContextualColors.INFO);
         },
     });
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.junit.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -172,6 +173,10 @@ public class BaseTestCase {
 
     protected static void assertEquals(Object expected, Object actual) {
         AssertJUnit.assertEquals(expected, actual);
+    }
+
+    protected static void assertNotEquals(long expected, long actual) {
+        Assert.assertNotEquals(expected, actual);
     }
 
     protected static void assertNull(Object object) {

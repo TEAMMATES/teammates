@@ -50,14 +50,24 @@ More information can be found at [this documentation](https://help.github.com/ar
 
    # Linux/OS X
    ./install.sh --path-update true
+
    # Windows
    install.bat --path-update true
    ```
+   If you are installing in Red Hat, CentOS, Fedora, Debian or Ubuntu, refer to the quick start of Google Cloud SDK for [Debian/Ubuntu](https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu) or [Red Hat/CentOS/Fedora](https://cloud.google.com/sdk/docs/quickstart-redhat-centos) respectively.
+
    **Verification**: Run a `gcloud` command (e.g. `gcloud version`) in order to verify that you can access the SDK from the command line.
 
 1. Run this command to install App Engine Java SDK bundled with the Cloud SDK:
    ```sh
+   # Linux/OS X/Windows
    gcloud -q components install app-engine-java
+   
+   # Red Hat/CentOS/Fedora
+   sudo yum install google-cloud-sdk-app-engine-java
+   
+   # Debian/Ubuntu
+   sudo apt-get install google-cloud-sdk-app-engine-java
    ```
    **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
 
