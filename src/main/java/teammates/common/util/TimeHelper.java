@@ -151,8 +151,6 @@ public final class TimeHelper {
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
-            log.warning("Failed to parse datetime string: \""
-                    + dateTimeString + "\" with format " + formatter);
             return null;
         }
     }
