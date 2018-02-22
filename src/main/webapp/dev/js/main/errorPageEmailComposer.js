@@ -4,7 +4,7 @@ import {
 } from '../common/statusMessage';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 const SUPPORT_EMAIL = $('#error-feedback-email-composer-recipient-email').prop('value');
@@ -14,7 +14,7 @@ const USER_REPORT_SUBMIT_ACTION_URI = '/page/errorFeedbackSubmit';
 
 function displayWarningStatus($form) {
     setStatusMessageToForm(ERROR_STATUS_MESSAGE,
-            StatusType.DANGER,
+            BootstrapContextualColors.DANGER,
             $form);
 }
 

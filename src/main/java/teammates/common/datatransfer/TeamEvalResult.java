@@ -94,8 +94,7 @@ public class TeamEvalResult {
     }
 
     /**
-     * Replaces all missing points (for various reasons such as 'not sure' or
-     * 'did not submit') with NA.
+     * Replaces all missing points ('not sure' with NSU and 'did not submit' with NA).
      */
     private int[][] sanitizeInput(int[][] input) {
         int teamSize = input.length;
@@ -103,8 +102,7 @@ public class TeamEvalResult {
         for (int i = 0; i < teamSize; i++) {
             for (int j = 0; j < teamSize; j++) {
                 int points = input[i][j];
-                boolean pointsNotGiven = points == Const.POINTS_NOT_SUBMITTED
-                                         || points == Const.POINTS_NOT_SURE;
+                boolean pointsNotGiven = points == Const.POINTS_NOT_SUBMITTED;
                 output[i][j] = pointsNotGiven ? NA : points;
             }
         }
@@ -180,11 +178,15 @@ public class TeamEvalResult {
     }
 
     private static boolean isSanitized(int i) {
-        return i != NSB && i != NSU;
+        return i != NSB;
     }
 
     private static boolean isSpecialValue(int value) {
         return value == NA || value == NSU || value == NSB;
+    }
+
+    private static boolean isValidSpecialValue(double value) {
+        return value == NA || value == NSU;
     }
 
     private static double[][] multiplyByFactor(double factor, double[][] input) {
@@ -215,9 +217,11 @@ public class TeamEvalResult {
         double[] returnValue = new double[filterArray.length];
         for (int i = 0; i < filterArray.length; i++) {
             int filterValue = (int) filterArray[i];
-            boolean isSpecialValue = !isSanitized(filterValue)
-                    || filterValue == NA;
-            returnValue[i] = isSpecialValue ? NA : valueArray[i];
+            if (filterValue == NA || filterValue == NSU || !isSanitized(filterValue)) {
+                returnValue[i] = filterValue == NSU ? NSU : NA;
+            } else {
+                returnValue[i] = valueArray[i];
+            }
         }
         return returnValue;
     }
@@ -233,7 +237,7 @@ public class TeamEvalResult {
         double sum = NA;
         for (double value : input) {
 
-            if (value != NA) {
+            if (!isValidSpecialValue(value)) {
                 sum = sum == NA ? value : sum + value;
             }
         }
@@ -350,7 +354,7 @@ public class TeamEvalResult {
             double value = array[columnIndex];
 
             values.append(value).append(' ');
-            if (value == NA) {
+            if (isValidSpecialValue(value)) {
                 continue;
             }
             sum += value;
@@ -370,7 +374,7 @@ public class TeamEvalResult {
     }
 
     private String pointsToString(int[] input) {
-        return replaceMagicNumbers(Arrays.toString(input)) + Const.EOL;
+        return replaceMagicNumbers(Arrays.toString(input)) + System.lineSeparator();
     }
 
     public static String pointsToString(double[][] array) {
@@ -381,13 +385,13 @@ public class TeamEvalResult {
         int secondDividerLocation = teamSize * 2 - 1;
         int thirdDividerLocation = secondDividerLocation + 1;
         for (int i = 0; i < array.length; i++) {
-            returnValue.append(Arrays.toString(array[i])).append(Const.EOL);
+            returnValue.append(Arrays.toString(array[i])).append(System.lineSeparator());
             if (isSquareArray) {
                 continue;
             }
             if (i == firstDividerLocation || i == secondDividerLocation || i == thirdDividerLocation) {
                 returnValue.append("=======================")
-                           .append(Const.EOL);
+                           .append(System.lineSeparator());
             }
         }
         return replaceMagicNumbers(returnValue.toString());
@@ -409,34 +413,34 @@ public class TeamEvalResult {
 
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
-        String divider = "======================" + Const.EOL;
+        String divider = "======================" + System.lineSeparator();
         StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
         sb.append(indentString)
-          .append(pointsToString(claimed).replace(Const.EOL,
-                        Const.EOL + indentString + filler))
+          .append(pointsToString(claimed).replace(System.lineSeparator(),
+                        System.lineSeparator() + indentString + filler))
           .append(divider)
           .append("              normalizedClaimed:")
           .append(indentString)
-          .append(pointsToString(normalizedClaimed).replace(Const.EOL,
-                        Const.EOL + indentString + filler))
+          .append(pointsToString(normalizedClaimed).replace(System.lineSeparator(),
+                        System.lineSeparator() + indentString + filler))
           .append(divider)
           .append("normalizedPeerContributionRatio:")
           .append(indentString)
           .append(pointsToString(normalizedPeerContributionRatio).replace(
-                        Const.EOL, Const.EOL + indentString + filler))
+                        System.lineSeparator(), System.lineSeparator() + indentString + filler))
           .append(divider)
           .append("     normalizedAveragePerceived:")
           .append(indentString)
           .append(pointsToString(normalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler))
+                        System.lineSeparator(), System.lineSeparator() + indentString + filler))
           .append(divider)
 
           .append("   denormalizedAveragePerceived:")
           .append(indentString)
           .append(pointsToString(denormalizedAveragePerceived).replace(
-                        Const.EOL, Const.EOL + indentString + filler))
+                        System.lineSeparator(), System.lineSeparator() + indentString + filler))
             .append(divider);
         return sb.toString();
     }
