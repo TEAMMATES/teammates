@@ -266,7 +266,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludingSelf, total,
                 totalExcludingSelf, numResponses, numResponsesExcludingSelf);
 
-        // why is it boolean?
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
         String fragmentTemplateToUse = showAvgExcludingSelf
@@ -303,6 +302,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String templateToUse = showAvgExcludingSelf
                 ? FormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE
                 : FormTemplates.NUMSCALE_RESULT_STATS;
+
         return Templates.populateTemplate(templateToUse,
                 Slots.SUMMARY_TITLE, statsTitle,
                 Slots.STATS_FRAGMENTS, fragmentHtml);
@@ -310,11 +310,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     private void updateRecipientList(List<String> recipientList,
             Set<String> recipientSet, String currentUserIdentifier) {
+
         boolean hasCurrentUserReceivedAnyResponse = recipientSet.contains(currentUserIdentifier);
 
         // Move current user to the head of the recipient list
         if (hasCurrentUserReceivedAnyResponse) {
             recipientList.add(currentUserIdentifier);
+
         }
 
         for (String otherRecipient : recipientSet) {
@@ -444,8 +446,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
         boolean showAvgExcludingSelf = showAverageExcludingSelf(question, averageExcludingSelf);
 
-        // DecimalFormat df = customDecimalFormat(0, 5, "down");
-
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
                 + (showAvgExcludingSelf ? ", Average excluding self response" : "")
                 + Const.EOL;
@@ -498,7 +498,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(min);
         df.setMaximumFractionDigits(max);
-        //  roundingMode = roundingMode.toUpperCase()
+
         if ("down".equals(roundingMode)) {
             df.setRoundingMode(RoundingMode.DOWN);
         } else if ("up".equals(roundingMode)) {
@@ -585,25 +585,28 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
-            numResponses.put(recipientEmail, numResponses.getOrDefault(recipientEmail, 0) + 1);
+            int numOfResponses = numResponses.getOrDefault(recipientEmail, 0) + 1;
+            numResponses.put(recipientEmail, numOfResponses);
 
             // Compute number of responses excluding user's self response
             numResponsesExcludingSelf.putIfAbsent(recipientEmail, 0);
             boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
-
-            // simplify?
             if (!isSelfResponse) {
-                numResponsesExcludingSelf.put(recipientEmail, numResponsesExcludingSelf.get(recipientEmail) + 1);
+                int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
+                numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
             }
 
             // Compute minimum score received
-            min.put(recipientEmail, Math.min(answer, min.getOrDefault(recipientEmail, answer)));
+            double minScoreReceived = Math.min(answer, min.getOrDefault(recipientEmail, answer));
+            min.put(recipientEmail, minScoreReceived);
 
             // Compute maximum score received
-            max.put(recipientEmail, Math.max(answer, max.getOrDefault(recipientEmail, answer)));
+            double maxScoreReceived = Math.max(answer, max.getOrDefault(recipientEmail, answer));
+            max.put(recipientEmail, maxScoreReceived);
 
             // Compute total score received
-            total.put(recipientEmail, total.getOrDefault(recipientEmail, 0.0) + answer);
+            double totalScore = total.getOrDefault(recipientEmail, 0.0) + answer;
+            total.put(recipientEmail, totalScore);
 
             // Compute total score received excluding self
             totalExcludingSelf.putIfAbsent(recipientEmail, null);
@@ -617,13 +620,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
 
             // Compute average score received
-            average.put(recipientEmail, total.get(recipientEmail) / numResponses.get(recipientEmail));
+            double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
+            average.put(recipientEmail, averageReceived);
 
             // Compute average score received excluding self
             averageExcludingSelf.putIfAbsent(recipientEmail, null);
             if (!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
-                averageExcludingSelf.put(recipientEmail, totalExcludingSelf.get(recipientEmail)
-                            / numResponsesExcludingSelf.get(recipientEmail));
+                double averageReceivedExcludingSelf =
+                              totalExcludingSelf.get(recipientEmail) / numResponsesExcludingSelf.get(recipientEmail);
+                averageExcludingSelf.put(recipientEmail, averageReceivedExcludingSelf);
+
             }
         }
     }
