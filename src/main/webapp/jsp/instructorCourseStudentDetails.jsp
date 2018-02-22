@@ -14,7 +14,6 @@
   </c:if>
   <csd:studentInformationTable studentInfoTable="${data.studentInfoTable}" />
   <c:if test="${not empty data.studentProfile}">
-  <div><label class="col-sm-2 control-label">More Info</label></div>
     <ti:moreInfo student="${data.studentProfile}" />
   </c:if>
 </ti:instructorPage>
