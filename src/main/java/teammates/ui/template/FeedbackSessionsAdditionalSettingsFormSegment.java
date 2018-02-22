@@ -90,6 +90,11 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         this.isSendPublishedEmailChecked = isSendPublishedEmailChecked;
     }
 
+    //Will be removed after updating Tests
+    public boolean isSessionVisiblePrivateChecked() {
+        return false;
+    }
+
     public static FeedbackSessionsAdditionalSettingsFormSegment getDefaultFormSegment() {
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings =
                 new FeedbackSessionsAdditionalSettingsFormSegment();

@@ -79,9 +79,7 @@ public class InstructorFeedbackResultsSessionPanel {
         if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
                 return TimeHelper.formatTime12H(feedbackSession.getStartTimeLocal());
-            } else if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-                return "Never";
-            } else {
+            }  else {
                 return TimeHelper.formatTime12H(feedbackSession.getSessionVisibleFromTimeLocal());
             }
         } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_LATER)) {

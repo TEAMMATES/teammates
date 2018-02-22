@@ -319,8 +319,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             visibleTime = this.startTime;
-        } else if (visibleTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            return false;
         }
 
         Date now = new Date();

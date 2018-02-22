@@ -328,7 +328,6 @@ public class BackDoorLogic extends Logic {
             SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
             SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
         for (FeedbackSessionAttributes session : sessions) {
-            cleanSessionData(session);
             String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
             Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
@@ -487,19 +486,6 @@ public class BackDoorLogic extends Logic {
         default:
             Assumption.fail("Invalid instructor permission role name");
             break;
-        }
-    }
-
-    /**
-     * This method ensures consistency for private feedback sessions
-     * between the type and visibility times. This allows easier creation
-     * of private sessions by setting the feedbackSessionType field as PRIVATE
-     * in the json file.
-     */
-    private void cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
-            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         }
     }
 
