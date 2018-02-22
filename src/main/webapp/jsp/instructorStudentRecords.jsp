@@ -15,6 +15,7 @@
   <div class="container-fluid">
     <c:if test="${not empty data.studentProfile}">
       <ticsd:studentProfile student="${data.studentProfile}"/>
+      <div><label class="col-sm-2 control-label">More Info</label></div>
       <ti:moreInfo student="${data.studentProfile}" />
     </c:if>
     <div class="row">
