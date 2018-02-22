@@ -5,11 +5,13 @@
 
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
+<%@ tag import="teammates.ui.pagedata.PageData" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 <%@ attribute name="fsEnableEdit" %>
 <%@ attribute name="courseName" %>
 <%@ attribute name="courseAttributes" type="java.util.List" %>
+<%@ attribute name="fsAttributes" type="teammates.common.datatransfer.attributes.FeedbackSessionAttributes" %>
 
 <div class="well well-plain">
   <form class="form-group" method="post"
@@ -110,6 +112,37 @@
           </div>
         </div>
         <br class="hidden-xs">
+        <c:choose>
+          <c:when test="${!fsForm.courseIdEditable}">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                  <h5 class="col-sm-2 col-md-4">
+                    <label class="control-label">
+                      Submission Status
+                    </label>
+                  </h5>
+                  <div class="col-sm-10 col-md-8">
+                    <h5>${PageData.getInstructorSubmissionStatusForFeedbackSession(fsAttributes)}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px">
+                <div class="form-group">
+                  <h5 class="col-sm-2 col-md-4">
+                    <label class="control-label">
+                      Published Status
+                    </label>
+                  </h5>
+                  <div class="col-sm-10 col-md-8">
+                    <h5>${PageData.getInstructorPublishedStatusForFeedbackSession(fsAttributes)}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br class="hidden-xs">
+          </c:when>
+        </c:choose>
         <div class="row">
           <div class="col-sm-12"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME %>"

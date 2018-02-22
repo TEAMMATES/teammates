@@ -22,7 +22,7 @@
 
   <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}"
       courseName="${fn:escapeXml(data.courseDetails.course.getName())}"
-      fsEnableEdit="${data.shouldLoadInEditMode}"/>
+      fsEnableEdit="${data.shouldLoadInEditMode}" fsAttributes="${data.feedbackSession}"/>
 
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
