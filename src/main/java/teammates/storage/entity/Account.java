@@ -30,9 +30,6 @@ public class Account extends BaseEntity {
 
     private Ref<StudentProfile> studentProfile;
 
-    @Ignore // used in local attribute tests that give a shell student profile (empty googleId)
-    private StudentProfile localStudentProfile;
-
     @Ignore // session-specific based on whether profile retrieval is enabled
     private boolean isStudentProfileEnabled = true;
 
@@ -124,15 +121,11 @@ public class Account extends BaseEntity {
 
     /**
      * Fetches the student profile from the datastore the first time this is called. Returns null if student profile was
-     * explicitly set to null (e.g. when the student profile is intentionally not retrieved). If a shell student profile
-     * with an empty Google ID was set, simply returns this shell student profile without interacting with the datastore.
+     * explicitly set to null (e.g. when the student profile is intentionally not retrieved).
      */
     public StudentProfile getStudentProfile() {
         if (!isStudentProfileEnabled) {
             return null;
-        }
-        if (localStudentProfile != null && localStudentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
-            return localStudentProfile;
         }
         if (studentProfile == null) {
             return null;
@@ -152,10 +145,6 @@ public class Account extends BaseEntity {
             return;
         }
         setIsStudentProfileEnabled(true);
-        if (studentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
-            this.localStudentProfile = studentProfile;
-            return;
-        }
         this.studentProfile = Ref.create(studentProfile);
     }
 
