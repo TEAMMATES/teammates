@@ -144,7 +144,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
 
         String[] submissionParams = createValidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
 
         // adding profile picture for student1InCourse1
@@ -178,8 +178,8 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(
-            String[] submissionParams) {
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+            String googleId, String[] submissionParams) {
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(googleId).build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
