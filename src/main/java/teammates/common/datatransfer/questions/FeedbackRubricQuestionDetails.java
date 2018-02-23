@@ -1316,7 +1316,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (questionDetails.hasAssignedWeights()) {
                     for (int j = 0; j < numOfRubricChoices; j++) {
                         float choiceWeight =
-                            (float) (questionDetails.getRubricWeights().get(j) * tempPercentageFrequencyAndAverage[i][j]);
+                                (float) (questionDetails.getRubricWeights().get(j)
+                                        * tempPercentageFrequencyAndAverage[i][j]);
                         tempPercentageFrequencyAndAverage[i][numOfRubricChoices] += choiceWeight;
                     }
                 }
