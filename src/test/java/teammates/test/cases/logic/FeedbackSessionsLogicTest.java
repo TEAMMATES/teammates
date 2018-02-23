@@ -349,7 +349,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionDetailsForInstructor() throws Exception {
 
-        // This file contains a session with a private session + a standard
+        // This file contains a session with a standard
         // session + a special session with all questions without recipients.
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionDetailsTest.json");
         removeAndRestoreDataBundle(newDataBundle);
@@ -363,7 +363,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         expectedSessions.add(newDataBundle.feedbackSessions.get("standard.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.responses.session").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("no.recipients.session").toString());
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session").toString());
 
         StringBuilder actualSessionsBuilder = new StringBuilder();
         for (FeedbackSessionDetailsBundle details : detailsList) {
@@ -406,100 +405,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // no responses
         assertEquals(0, stats.submittedTotal);
 
-        ______TS("private session with questions");
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session").getFeedbackSessionName() + "%"
-                               + newDataBundle.feedbackSessions.get("private.session").getCourseId()).stats;
-        assertEquals(1, stats.expectedTotal);
-        // For private sessions, we mark as completed only when creator has finished all questions.
-        assertEquals(0, stats.submittedTotal);
-
-        ______TS("change private session to non-private");
-        FeedbackSessionAttributes privateSession =
-                newDataBundle.feedbackSessions.get("private.session");
-        privateSession.setSessionVisibleFromTime(privateSession.getStartTime());
-        privateSession.setEndTime(TimeHelper.convertToDate("2015-04-01 2:00 PM UTC"));
-        privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        fsLogic.updateFeedbackSession(privateSession);
-
-        // Re-read details
-        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
-                newDataBundle.instructors.get("instructor1OfCourse1").googleId);
-        for (FeedbackSessionDetailsBundle details : detailsList) {
-            if (details.feedbackSession.getFeedbackSessionName().equals(
-                    newDataBundle.feedbackSessions.get("private.session").getFeedbackSessionName())) {
-                stats = details.stats;
-                break;
-            }
-        }
-        // 1 instructor (creator only), 6 students = 8
-        assertEquals(7, stats.expectedTotal);
-        // 1 instructor, 1 student responded
-        assertEquals(2, stats.submittedTotal);
-
-        ______TS("private session without questions");
-
-        expectedSessions.clear();
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.noquestions").toString());
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.done").toString());
-
-        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
-                newDataBundle.instructors.get("instructor2OfCourse1").googleId);
-
-        detailsMap.clear();
-        actualSessionsBuilder = new StringBuilder();
-        for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessionsBuilder.append(details.feedbackSession.toString());
-            detailsMap.put(
-                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
-                    details);
-        }
-        actualSessions = actualSessionsBuilder.toString();
-
-        AssertHelper.assertContains(expectedSessions, actualSessions);
-
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.noquestions")
-                                                             .getFeedbackSessionName()
-                + "%" + newDataBundle.feedbackSessions.get("private.session.noquestions")
-                                                      .getCourseId()).stats;
-
-        assertEquals(0, stats.expectedTotal);
-        assertEquals(0, stats.submittedTotal);
-
-        ______TS("completed private session");
-
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.done").getFeedbackSessionName() + "%"
-                + newDataBundle.feedbackSessions.get("private.session.done").getCourseId()).stats;
-
-        assertEquals(1, stats.expectedTotal);
-        assertEquals(1, stats.submittedTotal);
-
-        ______TS("private session with questions with no recipients");
-
-        expectedSessions.clear();
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.norecipients").toString());
-
-        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
-                newDataBundle.instructors.get("instructor1OfCourse3").googleId);
-
-        detailsMap.clear();
-        actualSessions = "";
-        actualSessionsBuilder = new StringBuilder();
-        for (FeedbackSessionDetailsBundle details : detailsList) {
-            actualSessionsBuilder.append(details.feedbackSession.toString());
-            detailsMap.put(
-                    details.feedbackSession.getFeedbackSessionName() + "%" + details.feedbackSession.getCourseId(),
-                    details);
-        }
-        actualSessions = actualSessionsBuilder.toString();
-        AssertHelper.assertContains(expectedSessions, actualSessions);
-        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients")
-                                                             .getFeedbackSessionName()
-                + "%" + newDataBundle.feedbackSessions.get("private.session.norecipients")
-                                                      .getCourseId()).stats;
-
-        assertEquals(0, stats.expectedTotal);
-        assertEquals(0, stats.submittedTotal);
-
         ______TS("instructor does not exist");
 
         assertTrue(fsLogic.getFeedbackSessionDetailsForInstructor("non-existent.google.id").isEmpty());
@@ -536,9 +441,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(3, actualSessions.size());
 
-        // Course 2 only has an instructor session and a private session.
-        // The private session is not viewable to students,
-        // but the instructor session has questions where responses are visible
+        // Course 2 only has an instructor session.
+        // The instructor session has questions where responses are visible
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");
         assertEquals(1, actualSessions.size());
 
@@ -721,7 +625,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionResultsForUser() throws Exception {
 
-        // This file contains a session with a private session + a standard
+        // This file contains a session with a standard
         // session which needs to have enough qn/response combinations to cover as much
         // of the SUT as possible
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
@@ -1013,67 +917,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(7, results.visibilityTable.size());
         // TODO: test student2 too.
-
-        ______TS("private session");
-
-        session = responseBundle.feedbackSessions.get("private.session");
-
-        /*** Test result bundle for student1 ***/
-        student = responseBundle.students.get("student1InCourse1");
-        results = fsLogic.getFeedbackSessionResultsForStudent(session.getFeedbackSessionName(),
-                        session.getCourseId(), student.email);
-
-        assertEquals(0, results.questions.size());
-        assertEquals(0, results.responses.size());
-        assertEquals(0, results.emailNameTable.size());
-        assertEquals(0, results.emailTeamNameTable.size());
-        assertEquals(0, results.visibilityTable.size());
-
-        /*** Test result bundle for instructor1 ***/
-
-        instructor =
-                responseBundle.instructors.get("instructor1OfCourse1");
-        results = fsLogic.getFeedbackSessionResultsForInstructor(
-                session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email);
-
-        // Can see all responses regardless of visibility settings.
-        assertEquals(2, results.questions.size());
-        assertEquals(2, results.responses.size());
-
-        // Test the user email-name maps used for display purposes
-        mapString = results.emailNameTable.toString();
-        expectedStrings.clear();
-        Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
-                "Team 1.2=Team 1.2",
-                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS,
-                                                responseBundle.students.get("student3InCourse1").team),
-                "FSRTest.instr1@course1.tmt=Instructor1 Course1");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(4, results.emailNameTable.size());
-
-        // Test the user email-teamName maps used for display purposes
-        mapString = results.emailTeamNameTable.toString();
-        expectedStrings.clear();
-        Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
-                "Team 1.2=",
-                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS,
-                                                responseBundle.students.get("student3InCourse1").team),
-                "FSRTest.instr1@course1.tmt=Instructors");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(4, results.emailTeamNameTable.size());
-
-        // Test that name visibility is adhered to even when
-        // it is a private session. (to protect anonymity during session type conversion)"
-        mapString = tableToString(results.visibilityTable);
-        expectedStrings.clear();
-        Collections.addAll(expectedStrings,
-                getResponseId("p.qn1.resp1", responseBundle) + "={true,true}",
-                getResponseId("p.qn2.resp1", responseBundle) + "={true,false}");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(2, results.visibilityTable.size());
 
         ______TS("failure: no session");
 
@@ -1892,10 +1735,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session = dataBundle.feedbackSessions.get("session2InCourse2");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
 
-        ______TS("private session");
-        session = dataBundle.feedbackSessions.get("session1InCourse2");
-        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
-
         ______TS("empty session");
         session = dataBundle.feedbackSessions.get("empty.session");
         assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
@@ -1989,28 +1828,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             assertEquals("Error unpublishing feedback session: Session has already been unpublished.", e.getMessage());
         }
 
-        ______TS("failure: private session");
-
-        sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse2");
-
-        try {
-            fsLogic.publishFeedbackSession(sessionUnderTest);
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that private session can't "
-                    + "be published.");
-        } catch (InvalidParametersException e) {
-            assertEquals("Error publishing feedback session: Session is private and can't be published.", e.getMessage());
-        }
-
-        try {
-            fsLogic.unpublishFeedbackSession(sessionUnderTest);
-            signalFailureToDetectException(
-                    "Did not catch exception signalling that private session should "
-                    + "not be published");
-        } catch (InvalidParametersException e) {
-            assertEquals("Error unpublishing feedback session: Session is private and can't be unpublished.",
-                         e.getMessage());
-        }
     }
 
     private void testIsFeedbackSessionCompletedByInstructor() throws Exception {

@@ -43,7 +43,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .builder("New Session ##", "CFeedbackUiT.CS1101", "teammates.test1@gmail.tmt")
                 .withStartTime(TimeHelper.convertToDate("2035-04-01 3:59 PM UTC"))
                 .withEndTime(TimeHelper.convertToDate("2035-04-30 2:00 PM UTC"))
-                .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
+                .withCreatedTime(Const.TIME_REPRESENTS_NOW)
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(0)
@@ -750,7 +750,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("edit link clickable when creator");
 
-        fsa = testData.feedbackSessions.get("privateSession");
+        fsa = testData.feedbackSessions.get("manualSession");
 
         feedbackResultsPage = feedbackPage.loadEditLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -765,14 +765,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         ______TS("submit link clickable when visible");
 
         fsa = testData.feedbackSessions.get("awaitingSession");
-
-        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-
-        ______TS("submit link clickable when private (never visible)");
-
-        fsa = testData.feedbackSessions.get("privateSession");
 
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
