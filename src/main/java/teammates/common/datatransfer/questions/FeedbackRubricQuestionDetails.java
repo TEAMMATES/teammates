@@ -1346,7 +1346,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             return percentageFrequencyAndAverageExcludingSelf;
         }
 
-
     }
 
 }
