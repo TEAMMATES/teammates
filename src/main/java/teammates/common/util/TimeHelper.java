@@ -128,7 +128,15 @@ public final class TimeHelper {
         return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
     }
 
-    // having same argument types as the old method, so I have to change the name temporarily
+    /**
+     * Convert a date string and time string of only the hour into a Date object.
+     * If the hour is 24, it is converted to 23:59. Returns null on error.
+     * @param inputDate
+     *            The date in format dd/MM/yyyy
+     * @param inputTimeHours
+     *            0-24
+     */
+    // TODO: Rename after deleting the deprecated combineDateTime
     public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
@@ -143,7 +151,7 @@ public final class TimeHelper {
         }
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
             return null;
         }
     }
@@ -175,9 +183,9 @@ public final class TimeHelper {
         return convertToUserTimeZone(c, timeZone).getTime();
     }
 
-    // user time zone is just a view of an Instant/ZonedDateTime
-    // should be handled in formatting methods
-    // This method should be removed
+    // User time zone is just a view of an Instant/ZonedDateTime,
+    // which should be handled in formatting methods.
+    // TODO: Remove this method and refactor where it is used.
     @Deprecated
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
         Calendar newTime = (Calendar) time.clone();
@@ -350,13 +358,13 @@ public final class TimeHelper {
      */
     @Deprecated
     public static String formatDateToIso8601Utc(Date dateInUtc) {
-        return formatDateToIso8601Utc(convertDateToInstant(dateInUtc));
+        return formatInstantToIso8601Utc(convertDateToInstant(dateInUtc));
     }
 
     /**
      * Formats {@code instant} according to the ISO8601 format.
      */
-    public static String formatDateToIso8601Utc(Instant instant) {
+    public static String formatInstantToIso8601Utc(Instant instant) {
         return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
@@ -505,13 +513,16 @@ public final class TimeHelper {
     /**
      * Temporary method for transition from storing time zone as double.
      */
+    @Deprecated
     public static ZoneId convertToZoneId(double timeZone) {
         return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
     }
 
     /**
      * Temporary method for transition from java.util.Date.
+     * @param localDateTime will be assumed to be in UTC
      */
+    @Deprecated
     public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
         return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
     }
@@ -519,6 +530,7 @@ public final class TimeHelper {
     /**
      * Temporary method for transition from java.util.Date.
      */
+    @Deprecated
     public static LocalDateTime convertDateToLocalDateTime(Date date) {
         return date == null ? null : date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
     }
@@ -526,6 +538,7 @@ public final class TimeHelper {
     /**
      * Temporary method for transition from java.util.Date.
      */
+    @Deprecated
     public static Date convertInstantToDate(Instant instant) {
         return instant == null ? null : Date.from(instant);
     }
@@ -533,15 +546,16 @@ public final class TimeHelper {
     /**
      * Temporary method for transition from java.util.Date.
      */
+    @Deprecated
     public static Instant convertDateToInstant(Date date) {
         return date == null ? null : date.toInstant();
     }
+
     /**
      * Returns Duration in format m:s:ms.
      *
      * <p>Example: 1200 milliseconds ---> 0:1:200.
      */
-
     public static String convertToStandardDuration(Long timeInMilliseconds) {
 
         return timeInMilliseconds == null
