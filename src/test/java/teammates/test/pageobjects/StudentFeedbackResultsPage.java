@@ -27,4 +27,20 @@ public class StudentFeedbackResultsPage extends AppPage {
                 By.id("questionAdditionalInfoButton-" + qnNumber + "-" + additionalInfoId));
         return qnAdditionalInfoButton.getText();
     }
+
+    public boolean isExcludingSelfOptionVisible() {
+        return isElementVisible("excluding-self-check");
+    }
+
+    public void clickExcludingSelfCheckbox() {
+        click(By.id("excluding-self-check"));
+    }
+
+    public boolean checkIfExcludingSelfTableShown() {
+        return isElementVisible(By.className("table-body-excluding-self"));
+    }
+
+    public boolean checkIfExcludingSelfTableHidden() {
+        return !isElementVisible(By.className("table-body-excluding-self"));
+    }
 }
