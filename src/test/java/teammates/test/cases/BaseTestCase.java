@@ -174,7 +174,7 @@ public class BaseTestCase {
     protected static void assertEquals(Object expected, Object actual) {
         AssertJUnit.assertEquals(expected, actual);
     }
-  
+
     protected static void assertNotEquals(long expected, long actual) {
         Assert.assertNotEquals(expected, actual);
     }
@@ -182,7 +182,7 @@ public class BaseTestCase {
     protected static void assertNotSame(Object expected, Object actual) {
         AssertJUnit.assertNotSame(expected, actual);
     }
-  
+
     protected static void assertNull(Object object) {
         AssertJUnit.assertNull(object);
     }
