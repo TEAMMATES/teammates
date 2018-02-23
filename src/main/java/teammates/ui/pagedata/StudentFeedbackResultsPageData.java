@@ -179,7 +179,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             } else if (isUserGiver) {
                 displayedGiverName = "You";
             } else if (isGiverAnonymous) {
-                displayedGiverName = FeedbackSessionResultsBundle.getAnonNameWithoutIdentifier(FeedbackParticipantType.STUDENTS);
+                displayedGiverName = FeedbackSessionResultsBundle.getAnonDisplayedName(FeedbackParticipantType.STUDENTS);
             } else {
                 displayedGiverName = giverName;
             }
@@ -187,7 +187,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             boolean isRecipientAnonymous = response.recipient.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT);
             boolean isUserRecipient = student.email.equals(response.recipient);
             if (isRecipientAnonymous) {
-                recipientName = FeedbackSessionResultsBundle.getAnonNameWithoutIdentifier(FeedbackParticipantType.STUDENTS);
+                recipientName = FeedbackSessionResultsBundle.getAnonDisplayedName(FeedbackParticipantType.STUDENTS);
             } else if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
