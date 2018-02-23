@@ -587,6 +587,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails fqd =
                 (FeedbackRubricQuestionDetails) question.getQuestionDetails();
 
+        FeedbackParticipantType recipientType = question.getRecipientType();
+        boolean isExcludingSelfOptionAvailable = recipientType.equals(FeedbackParticipantType.SELF)
+                || recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+
         RubricStatistics statistics = new RubricStatistics(responsesForStatistics, fqd);
         int[][] responseFrequency = statistics.getResponseFrequency();
         int[][] responseFrequencyExcludingSelf = statistics.getResponseFrequencyExcludingSelf();
@@ -675,11 +679,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
+            tableBodyHtml.append(tableRow).append(System.lineSeparator());
+
+            //Get entire row for excluding self
             String tableRowExcludingSelf = Templates.populateTemplate(tableBodyTemplate,
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyExcludingSelfFragmentHtml.toString());
-            tableBodyHtml.append(tableRow).append(System.lineSeparator());
             tableBodyHtmlExcludingSelf.append(tableRowExcludingSelf).append(System.lineSeparator());
         }
 
@@ -709,11 +715,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, getRecipientStatsHeaderHtml(),
                     Slots.TABLE_BODY_HTML, bodyBuilder.toString());
         }
-
-        FeedbackParticipantType recipientType = question.getRecipientType();
-        boolean isExcludingSelfOptionAvailable = recipientType.equals(FeedbackParticipantType.SELF)
-                || recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-
 
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_RESULT_STATS,
