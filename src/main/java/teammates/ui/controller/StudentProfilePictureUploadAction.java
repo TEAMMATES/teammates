@@ -127,13 +127,13 @@ public class StudentProfilePictureUploadAction extends Action {
             statusToAdmin = Const.ACTION_RESULT_FAILURE
                           + " : Unable to delete profile picture (possible unused picture with key: "
                           + blobKey.getKeyString() + " || Error Message: "
-                          + bfe.getMessage() + Const.EOL;
+                          + bfe.getMessage() + System.lineSeparator();
         }
     }
 
     private void updateStatusesForBlobstoreFailure() {
         statusToAdmin += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
-                       + account.googleId + ")" + Const.EOL;
+                       + account.googleId + ")" + System.lineSeparator();
         statusToUser.clear();
         statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN,
                                            StatusMessageColor.DANGER));

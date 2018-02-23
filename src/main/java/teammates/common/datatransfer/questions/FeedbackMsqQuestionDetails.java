@@ -201,7 +201,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
                             Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         if (otherEnabled) {
@@ -219,7 +219,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MSQ_CHOICE_VALUE,
                                     SanitizationHelper.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             Slots.MSQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
-            optionListHtml.append(otherOptionFragment).append(Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
@@ -235,7 +235,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_CHOICE_VALUE, "",
                             Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
@@ -274,7 +274,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
                             Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment);
-            optionListHtml.append(Const.EOL);
+            optionListHtml.append(System.lineSeparator());
         }
 
         if (otherEnabled) {
@@ -291,7 +291,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                     Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
                             Slots.MSQ_CHOICE_VALUE, "",
                             Slots.MSQ_OTHER_OPTION_ANSWER, "0");
-            optionListHtml.append(otherOptionFragment).append(Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
@@ -307,7 +307,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_CHOICE_VALUE, "",
                             Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
@@ -390,7 +390,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
                             Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
@@ -535,10 +535,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key) + ','
                 + value.toString() + ','
                 + df.format(100 * divideOrReturnZero(value, numChoicesSelected))
-                + Const.EOL));
+                + System.lineSeparator()));
 
-        return "Choice, Response Count, Percentage" + Const.EOL
-               + fragments + Const.EOL;
+        return "Choice, Response Count, Percentage" + System.lineSeparator()
+               + fragments + System.lineSeparator();
     }
 
     @Override

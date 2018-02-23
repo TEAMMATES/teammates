@@ -6,6 +6,11 @@ body {
     padding: 60px 0 30px;
 }
 
+code {
+    color: black;
+    background-color: #F5F5F5;
+}
+
 .edit-uncommon-settings-button:hover {
     cursor: pointer;
 }
