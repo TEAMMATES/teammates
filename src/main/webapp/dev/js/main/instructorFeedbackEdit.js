@@ -1075,6 +1075,20 @@ function prepareQuetionTypeHelpModal() {
     });
 }
 
+function disableBackgroundScrollingWhenModalPresent() {
+    const htmlElement = $('html');
+    $('.question-type-help-modal').on('show.bs.modal', () => {
+        htmlElement.css({
+            overflow: 'hidden',
+        });
+    });
+    $('.question-type-help-modal').on('hide.bs.modal', () => {
+        htmlElement.css({
+            overflow: 'auto',
+        });
+    });
+}
+
 /**
  * This function is called on edit page load.
  */
@@ -1182,25 +1196,12 @@ $(document).ready(() => {
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
+    disableBackgroundScrollingWhenModalPresent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
 
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
     });
-
-    $('#button_questionTypeHelpModal_essay').on('show.bs.modal', () => {
-        $('html, body').css({
-            overflow: 'hidden',
-            height: '100%',
-        });
-    })
-
-    $('#button_questionTypeHelpModal_essay').on('hide.bs.modal', () => {
-        $('html, body').css({
-            overflow: 'auto',
-            height: 'auto',
-        });
-    })
 
     $(document).on('change', '.participantSelect', (e) => {
         matchVisibilityOptionToFeedbackPath(e.currentTarget);
