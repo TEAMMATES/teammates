@@ -68,11 +68,19 @@ function showHideStats() {
 // Toggles Rubric Questions excluding self
 function switchExcludingSelfResultsForRubricStatistics(checkbox) {
     if (checkbox.checked) {
-        $(checkbox).parent().parent().parent().find('.table-body-including-self').addClass('hidden');
-        $(checkbox).parent().parent().parent().find('.table-body-excluding-self').removeClass('hidden');
+        $(checkbox).parent().parent().parent()
+                .find('.table-body-including-self')
+                .addClass('hidden');
+        $(checkbox).parent().parent().parent()
+                .find('.table-body-excluding-self')
+                .removeClass('hidden');
     } else {
-        $(checkbox).parent().parent().parent().find('.table-body-including-self').removeClass('hidden');
-        $(checkbox).parent().parent().parent().find('.table-body-excluding-self').addClass('hidden');
+        $(checkbox).parent().parent().parent()
+                .find('.table-body-including-self')
+                .removeClass('hidden');
+        $(checkbox).parent().parent().parent()
+                .find('.table-body-excluding-self')
+                .addClass('hidden');
     }
 }
 
