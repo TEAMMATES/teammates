@@ -76,37 +76,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         assertEquals(expectedString, pageData.getStatusForAjax());
         assertTrue(pageData.getHasError());
 
-        ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
-
-        params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                       session.getFeedbackSessionName());
-        params[25] = "5.75";
-        params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-        params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-
-        //remove instructions, grace period, start time to test null conditions
-
-        a = getAction(params);
-        ar = getAjaxResult(a);
-        pageData = (InstructorFeedbackEditPageData) ar.data;
-
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
-        assertFalse(pageData.getHasError());
-
-        expectedString =
-                "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
-                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Updated Feedback Session "
-                + "<span class=\"bold\">(First feedback session)</span> for Course "
-                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Tue Jan 31 18:15:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Wed Dec 31 18:15:00 UTC 2014<br>"
-                + "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>"
-                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
-                + "<span class=\"bold\">Instructions:</span> "
-                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-
         ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
 
         params = createParamsCombinationForFeedbackSession(
