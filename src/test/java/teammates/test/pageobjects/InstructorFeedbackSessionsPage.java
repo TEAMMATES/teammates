@@ -57,9 +57,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
     private WebElement customResultsVisibleTimeButton;
 
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
-    private WebElement neverSessionVisibleTimeButton;
-
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
     private WebElement neverResultsVisibleTimeButton;
 
@@ -158,10 +155,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void clickCustomPublishTimeButton() {
         click(customResultsVisibleTimeButton);
-    }
-
-    public void clickNeverVisibleTimeButton() {
-        click(neverSessionVisibleTimeButton);
     }
 
     public void clickNeverPublishTimeButton() {

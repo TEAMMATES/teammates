@@ -1480,7 +1480,7 @@
     },
     "comment1FromT1C1ToR1Q1S1C2": {
       "courseId": "idOfTypicalCourse2",
-      "feedbackSessionName": "Private feedback session",
+      "feedbackSessionName": "Course 2 feedback session",
       "feedbackQuestionId": "1",
       "giverEmail": "instructor3@course.tmt",
       "giverSection": "None",

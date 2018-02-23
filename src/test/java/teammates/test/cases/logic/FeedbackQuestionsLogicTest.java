@@ -411,16 +411,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
         assertFalse(questions.isEmpty());
-        questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
-        assertFalse(questions.isEmpty());
 
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
         assertNull(deletedQuestion);
 
         questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
-        assertEquals(0, questions.size());
-        questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
         assertEquals(0, questions.size());
 
         // test that questions in other courses are unaffected

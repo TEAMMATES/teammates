@@ -561,26 +561,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             AssertHelper.assertContains(session.toString(), expected);
         }
         assertEquals(6, actualSessions.size());
-
+        //Modify later. Delete this at final modification. 
         // We should only have one session here as session 2 is private and this instructor is not the creator.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
 
         assertEquals(actualSessions.get(0).toString(),
                 dataBundle.feedbackSessions.get("session2InCourse2").toString());
         assertEquals(1, actualSessions.size());
-
-        ______TS("Private session viewing");
-
-        // This is the creator for the private session.
-        // We have already tested above that other instructors cannot see it.
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor1@course2.tmt");
-        AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
-                actualSessions.toString());
-
-        ______TS("Feedback session without questions for students but with visible responses are visible");
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
-        AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
-                actualSessions.toString());
     }
 
     private void testGetFeedbackSessionQuestionsForStudent() throws Exception {
@@ -719,18 +706,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         expectedQuestion = getQuestionFromDatastore("qn2InSession2InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
         assertTrue(actual.questionResponseBundle.get(expectedQuestion).isEmpty());
-
-        ______TS("private test: not creator");
-        actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Private feedback session", "idOfTypicalCourse2", "instructor2@course2.tmt");
-        assertEquals(0, actual.questionResponseBundle.size());
-
-        ______TS("private test: is creator");
-        actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Private feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
-        assertEquals(1, actual.questionResponseBundle.size());
-        expectedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
-        assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         ______TS("failure: invalid session");
 

@@ -135,9 +135,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1, "Awaiting Session #{*}First Session #1{*}Manual Session #1{*}Open Session #{*}Private Session #");
+                0, 1, "Awaiting Session #{*}First Session #1{*}Manual Session #1{*}Open Session #");
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1, "Private Session #{*}Open Session #{*}Manual Session #1{*}First Session #1{*}Awaiting Session #");
+                0, 1, "Open Session #{*}Manual Session #1{*}First Session #1{*}Awaiting Session #");
 
         ______TS("sort by course id");
 
@@ -719,8 +719,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     private void testResponseRateLink() {
         ______TS("test response rate link clickable");
 
-        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
-        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "Private Session #");
+        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "First Session #1");
+        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "First Session #1");
     }
 
     private void testViewResultsLink() {
