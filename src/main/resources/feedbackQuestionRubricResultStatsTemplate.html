@@ -5,8 +5,8 @@
         ${statsTitle}
       </strong>
     </div>
-    <div class="col-sm-4">
-      <input type="checkbox" id="excluding-self-check">
+    <div class="col-sm-4 ${isExcludingSelfOptionAvailable}">
+      <input type="checkbox" id="excluding-self-check" onchange="toggleShowingStaticsForRubricsQuestionExcludingSelf(this)">
         Excluding Self
     </div>
   </div>
@@ -19,8 +19,11 @@
             ${tableHeaderRowFragmentHtml}
           </tr>
         </thead>
-        <tbody>
+        <tbody class="table-body-including-self">
           ${tableBodyHtml}
+        </tbody>
+        <tbody class="table-body-excluding-self hidden">
+        ${tableBodyExcludingSelfHtml}
         </tbody>
       </table>
     </div>
