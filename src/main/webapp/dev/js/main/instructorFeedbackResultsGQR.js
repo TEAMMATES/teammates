@@ -5,7 +5,7 @@ import {
 import {
     prepareInstructorFeedbackResultsPage,
     seeMoreRequest,
-    toggleShowingStaticsForRubricsQuestionExcludingSelf
+    switchExcludingSelfResultsForRubricStatistics,
 } from '../common/instructorFeedbackResults';
 
 import {
@@ -13,8 +13,7 @@ import {
 } from '../common/ui';
 
 window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
-window.toggleShowingStaticsForRubricsQuestionExcludingSelf = toggleShowingStaticsForRubricsQuestionExcludingSelf;
-
+window.switchExcludingSelfResultsForRubricStatistics = switchExcludingSelfResultsForRubricStatistics;
 
 $(document).ready(() => {
     prepareInstructorPages();
