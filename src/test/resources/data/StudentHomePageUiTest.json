@@ -394,29 +394,6 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
-    "SHomeUiT.CS2104:Private Feedback Session": {
-      "feedbackSessionName": "Private Feedback Session",
-      "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 3:59 PM UTC",
-      "endTime": "2035-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 0,
-      "feedbackSessionType": "PRIVATE",
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
-    },
     "SHomeUiT.CS4221:Session with no Student Questions": {
       "feedbackSessionName": "Session without Student Questions",
       "courseId": "SHomeUiT.CS4221",
@@ -525,30 +502,6 @@
       "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 5,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
-    },
-    "SHomeUiT.CS2104:Private Feedback Session:Q1": {
-      "feedbackSessionName": "Private Feedback Session",
-      "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "This is a private session"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "INSTRUCTORS",
-      "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
       "showResponsesTo": [
         "INSTRUCTORS",

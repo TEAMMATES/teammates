@@ -25,6 +25,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes frc1I1Q2S1C1 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
+        //Modify it after discussing, see if the build passes
         FeedbackResponseCommentAttributes frc1I3Q1S1C2 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C2");
 
