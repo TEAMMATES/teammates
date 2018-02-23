@@ -112,7 +112,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
         assertFalse(additionalSettings.isSessionVisibleDateDisabled());
         assertTrue(additionalSettings.isSessionVisibleDateButtonChecked());
-        assertFalse(additionalSettings.isSessionVisiblePrivateChecked());
         assertTrue(additionalSettings.isSendClosingEmailChecked());
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertTrue(additionalSettings.isSendPublishedEmailChecked());
@@ -248,7 +247,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
         assertFalse(additionalSettings.isSessionVisibleDateDisabled());
         assertTrue(additionalSettings.isSessionVisibleDateButtonChecked());
-        assertFalse(additionalSettings.isSessionVisiblePrivateChecked());
         assertFalse(additionalSettings.isSendClosingEmailChecked());
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertFalse(additionalSettings.isSendPublishedEmailChecked());

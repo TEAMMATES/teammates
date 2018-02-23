@@ -561,8 +561,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             AssertHelper.assertContains(session.toString(), expected);
         }
         assertEquals(6, actualSessions.size());
-        //Modify later. Delete this at final modification. 
-        // We should only have one session here as session 2 is private and this instructor is not the creator.
+        // We should only have one session here as there is only one session in the course.
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
 
         assertEquals(actualSessions.get(0).toString(),

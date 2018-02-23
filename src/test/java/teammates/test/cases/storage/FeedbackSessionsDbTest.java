@@ -113,9 +113,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
 
         FeedbackSessionAttributes expected =
-                dataBundle.feedbackSessions.get("session1InCourse2");
+                dataBundle.feedbackSessions.get("session2InCourse2");
         FeedbackSessionAttributes actual =
-                fsDb.getFeedbackSession("idOfTypicalCourse2", "Private feedback session");
+                fsDb.getFeedbackSession("idOfTypicalCourse2", "Instructor feedback session");
 
         assertEquals(expected.toString(), actual.toString());
 

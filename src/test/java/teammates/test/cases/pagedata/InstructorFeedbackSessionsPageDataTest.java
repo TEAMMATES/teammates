@@ -99,7 +99,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
 
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
@@ -297,7 +296,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
 
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
