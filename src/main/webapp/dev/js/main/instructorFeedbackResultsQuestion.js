@@ -14,6 +14,7 @@ import {
     displayAjaxRetryMessageForPanelHeading,
     prepareInstructorFeedbackResultsPage,
     showHideStats,
+    toggleShowingStaticsForRubricsQuestionExcludingSelf
 } from '../common/instructorFeedbackResults';
 
 import {
@@ -22,6 +23,7 @@ import {
 } from '../common/ui';
 
 window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
+window.toggleShowingStaticsForRubricsQuestionExcludingSelf = toggleShowingStaticsForRubricsQuestionExcludingSelf;
 
 $(document).ready(() => {
     prepareInstructorPages();

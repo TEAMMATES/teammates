@@ -65,6 +65,17 @@ function showHideStats() {
     }
 }
 
+// Toggles Rubric Questions excluding self
+function toggleShowingStaticsForRubricsQuestionExcludingSelf(checkbox) {
+    if(checkbox.checked) {
+        $('.table-body-including-self').addClass('hidden');
+        $('.table-body-excluding-self').removeClass('hidden');
+    } else {
+        $('.table-body-including-self').removeClass('hidden');
+        $('.table-body-excluding-self').addClass('hidden');
+    }
+}
+
 /**
  * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
  *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
@@ -436,4 +447,5 @@ export {
     removeSection,
     showHideStats,
     seeMoreRequest,
+    toggleShowingStaticsForRubricsQuestionExcludingSelf
 };
