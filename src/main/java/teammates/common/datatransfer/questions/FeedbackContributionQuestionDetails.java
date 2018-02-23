@@ -495,7 +495,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return studentResults;
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD.
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<>();
