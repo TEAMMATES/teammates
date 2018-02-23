@@ -360,7 +360,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
-                Slots.CONSTSUM_POINTS_MIN, minPoints ==  0 ? "0" : Integer.toString(minPoints),
+                Slots.CONSTSUM_POINTS_MIN, minPoints == 0 ? "0" : Integer.toString(minPoints),
                 Slots.CONSTSUM_POINTS_MAX, maxPoints == 0 ? "100" : Integer.toString(maxPoints),
                 Slots.OPTION_DISPLAY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
@@ -800,6 +800,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         return errors;
                     }
                     answerSet.add(i);
+                }
+            }
+
+            //Check Minimum and Maximum Constraint
+            for (Integer i : frd.getAnswerList()) {
+                if (requireMin && i < minPoints) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + minPoints);
+                    return errors;
+                }
+
+                if (requireMax && i > maxPoints) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE + ": " + maxPoints);
+                    return errors;
                 }
             }
         }
