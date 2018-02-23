@@ -72,33 +72,33 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
                 "First Session", "FQLogicPCT.CS2104", 1);
 
-        // Alice will see 3 responses
+        // Alice will see 4 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
                 question,
                 "FQLogicPCT.alice.b@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size(), 3);
+                "First Session").size(), 4);
 
-        // Benny will see 3 responses
+        // Benny will see 4 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
                 question,
                 "FQLogicPCT.benny.c@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size(), 3);
+                "First Session").size(), 4);
 
-        // Charlie will see 2 responses
+        // Charlie will see 3 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
                 question,
                 "FQLogicPCT.charlie.d@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size(), 2);
+                "First Session").size(), 3);
 
-        // Danny will see 2 responses
+        // Danny will see 3 responses
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
                 question,
                 "FQLogicPCT.danny.e@gmail.tmt",
                 UserRole.STUDENT,
-                "First Session").size(), 2);
+                "First Session").size(), 3);
 
         // Emily will see 1 response
         assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
@@ -190,7 +190,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         responseToUpdate.recipient = "Team 1.1";
 
         assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "Team 1.1</td></div>'\"", "Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
 
         frLogic.updateFeedbackResponse(responseToUpdate);
 
@@ -236,7 +236,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         teamQuestion = getQuestionFromDatastore("team.feedback");
         assertEquals(frLogic.getFeedbackResponsesFromGiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.team).size(), 1);
+                teamQuestion.getId(), studentToUpdate.email).size(), 1);
 
         // Add one more non-team response
         FeedbackResponseAttributes responseToAdd =
