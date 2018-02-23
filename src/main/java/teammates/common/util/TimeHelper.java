@@ -131,12 +131,11 @@ public final class TimeHelper {
     /**
      * Convert a date string and time string of only the hour into a Date object.
      * If the hour is 24, it is converted to 23:59. Returns null on error.
-     * @param inputDate
-     *            The date in format dd/MM/yyyy
-     * @param inputTimeHours
-     *            0-24
+     * @param inputDate         the date string in dd/MM/yyyy format
+     * @param inputTimeHours    the hour, 0-24
+     * @return                  a LocalDateTime at the specified date and hour
      */
-    // TODO: Rename after deleting the deprecated combineDateTime
+     // TODO: Rename after deleting the deprecated combineDateTime
     public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
