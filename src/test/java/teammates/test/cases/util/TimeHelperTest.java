@@ -16,28 +16,6 @@ import teammates.test.cases.BaseTestCase;
 public class TimeHelperTest extends BaseTestCase {
 
     @Test
-    public void testFormatTimeForEvaluation() {
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-
-        c.set(Calendar.HOUR_OF_DAY, 9);
-        assertEquals(9, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-        c.set(Calendar.HOUR_OF_DAY, 22);
-        c.set(Calendar.MINUTE, 59);
-        assertEquals(22, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-        //special cases that returns 24
-
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        assertEquals(24, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 59);
-        assertEquals(24, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-    }
-
-    @Test
     public void testCombineDateTime() {
         String testDate = "01/02/2013";
         String testTime = "0";

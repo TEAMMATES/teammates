@@ -225,30 +225,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the corresponding option value in 'Time' dropdowns The
-     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
-     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
-     */
-    @Deprecated
-    public static int convertToOptionValueInTimeDropDown(Date date) {
-        return convertToOptionValueInTimeDropDown(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the corresponding option value in 'Time' dropdowns The
-     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
-     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
-     */
-    public static int convertToOptionValueInTimeDropDown(LocalDateTime localDateTime) {
-        //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
-        int hour = localDateTime.getHour();
-        if (hour == 0 || hour == 23 && localDateTime.getMinute() == 59) {
-            return 24;
-        }
-        return hour;
-    }
-
-    /**
      * Format {@code localDateTime} according to a specified {@code pattern}.
      * PM is especially formatted as NOON if it's 12:00 PM, if present
      */
