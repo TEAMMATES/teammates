@@ -135,7 +135,7 @@ public final class TimeHelper {
      * @param inputTimeHours    the hour, 0-24
      * @return                  a LocalDateTime at the specified date and hour
      */
-     // TODO: Rename after deleting the deprecated combineDateTime
+    // TODO: Rename after deleting the deprecated combineDateTime
     public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
