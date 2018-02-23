@@ -338,17 +338,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Get the number of MSQ choices when ticking the option "students (excluding self)".
-     * Which is equals to the number of students - 1
-     * @param courseId the courseId
-     * @return number of MSQ choices
+     * Get the number of MSQ choices excluding self.
+     * @param courseId
+     * @return number of MSQ choices generated.
      */
     private int generateNumOfChoicesForStudentsExcludingSelf(String courseId) {
+        List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
 
-        List<StudentAttributes> copyOfStudentList =
-                StudentsLogic.inst().getStudentsForCourse(courseId);
-
-        return copyOfStudentList.size() - 1;
+        return studentList.size() - 1;
     }
 
     private List<String> generateOptionList(String courseId) {
