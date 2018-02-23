@@ -11022,10 +11022,14 @@
         <div class="resultStatistics">
           <div class="panel-body">
             <div class="row">
-              <div class="col-sm-4 text-color-gray">
+              <div class="col-sm-8 text-color-gray">
                 <strong>
                   Response Summary
                 </strong>
+              </div>
+              <div class="col-sm-4 ">
+                <input id="excluding-self-check" onchange="switchExcludingSelfResultsForRubricStatistics(this)" type="checkbox">
+                Excluding Self
               </div>
             </div>
             <div class="row">
@@ -11047,7 +11051,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="table-body-including-self">
                     <tr>
                       <td>
                         <p>
@@ -11072,6 +11076,34 @@
                       </td>
                       <td>
                         25% (1)
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody class="table-body-excluding-self hidden">
+                    <tr>
+                      <td>
+                        <p>
+                          a) This student has done a good job.
+                        </p>
+                      </td>
+                      <td>
+                        100% (2)
+                      </td>
+                      <td>
+                        0% (0)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>
+                          b) This student has tried his/her best.
+                        </p>
+                      </td>
+                      <td>
+                        50% (1)
+                      </td>
+                      <td>
+                        50% (1)
                       </td>
                     </tr>
                   </tbody>
