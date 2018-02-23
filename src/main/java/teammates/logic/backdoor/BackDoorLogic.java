@@ -14,7 +14,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;

@@ -130,13 +130,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private void testGetFeedbackSessionsClosingWithinTimeLimit() throws Exception {
 
-        ______TS("init : 0 non private sessions closing within time-limit");
+        ______TS("init : 0 standard sessions closing within time-limit");
         List<FeedbackSessionAttributes> sessionList = fsLogic
                 .getFeedbackSessionsClosingWithinTimeLimit();
 
         assertEquals(0, sessionList.size());
 
-        ______TS("typical case : 1 non private session closing within time limit");
+        ______TS("typical case : 1 standard session closing within time limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
@@ -152,14 +152,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, sessionList.size());
         assertEquals(session.getFeedbackSessionName(),
                 sessionList.get(0).getFeedbackSessionName());
-
-        ______TS("case : 1 private session closing within time limit");
-        session.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-        fsLogic.updateFeedbackSession(session);
-
-        sessionList = fsLogic
-                .getFeedbackSessionsClosingWithinTimeLimit();
-        assertEquals(0, sessionList.size());
 
         // delete the newly added session as removeAndRestoreTypicalDataInDatastore()
         // wont do it

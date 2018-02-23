@@ -67,7 +67,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(6))
-                .withTimeZone(8).withGracePeriod(0).withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withTimeZone(8).withGracePeriod(0).withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
                 .build();
 

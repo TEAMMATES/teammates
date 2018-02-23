@@ -681,7 +681,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(6))
                 .withTimeZone(8)
                 .withGracePeriod(0)
-                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)
                 .withPublishedEmailEnabled(false)

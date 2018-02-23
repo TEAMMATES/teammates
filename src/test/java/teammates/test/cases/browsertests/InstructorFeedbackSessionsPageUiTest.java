@@ -241,49 +241,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 
-        ______TS("success case: private session, boundary length name, only results email");
-
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.clickEditUncommonSettingsButtons();
-        feedbackPage.clickNeverVisibleTimeButton();
-
-        //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
-        assertTrue(feedbackPage.isHidden(By.id("timeFramePanel")));
-        assertTrue(feedbackPage.isHidden(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackPage.isHidden(By.id("instructionsRow")));
-
-        newSession.setFeedbackSessionName("private session of characters1234567 #");
-        newSession.setCourseId("CFeedbackUiT.CS2104");
-        newSession.setEndTime(null);
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-
-        newSession.setClosingEmailEnabled(false);
-        newSession.setPublishedEmailEnabled(true);
-
-        // disable emails for opening and closing
-        feedbackPage.toggleSendOpenEmailCheckbox();
-        feedbackPage.toggleSendClosingEmailCheckbox();
-
-        // fill in defaults
-        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
-        newSession.setGracePeriod(15);
-
-        newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-
-        feedbackPage.addFeedbackSession(
-                newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                null, null, null, null,
-                null, -1);
-
-        savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
-        // start time and time zone are autodetected and set by the browser
-        // since they vary from system to system, we do not test for their values
-        newSession.setStartTime(savedSession.getStartTime());
-        newSession.setTimeZone(savedSession.getTimeZone());
-
-        assertEquals(newSession.toString(), savedSession.toString());
-
         ______TS("success case: closed session, custom session visible time, publish follows visible,"
                  + " timezone -4.5, only open email, empty instructions");
 
@@ -580,18 +537,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        ______TS("PRIVATE: publish link unclickable");
-
-        String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
-        String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
-
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
-        assertTrue(feedbackPage.isSessionResultsOptionsCaretDisabled(courseId, sessionName));
-
         ______TS("MANUAL: publish link clickable");
 
-        courseId = testData.feedbackSessions.get("manualSession").getCourseId();
-        sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
+        String courseId = testData.feedbackSessions.get("manualSession").getCourseId();
+        String sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
 
         feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
@@ -612,15 +561,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
         String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
-
-        ______TS("PRIVATE: unpublish link unclickable");
-
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions2").googleId);
-
-        courseId = testData.feedbackSessions.get("privateSession").getCourseId();
-        sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
 
         ______TS("MANUAL: unpublish link clickable");
 
