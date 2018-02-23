@@ -49,7 +49,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         ______TS("link for the sample spreadsheet");
         enrollPage.clickSpreadsheetLink();
-        By expectedOgTitle = By.cssSelector("meta[property='og:title'][content='Course Enroll Sample Spreadsheet']");
+        By expectedOgTitle =
+                By.cssSelector("meta[property='og:title'][content='TEAMMATES Course Enroll Sample Spreadsheet']");
         enrollPage.verifyContainsElement(expectedOgTitle);
     }
 
