@@ -182,7 +182,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             Slots.CONSTSUM_OPTION_POINT, existingConstSumResponse.getAnswerString(),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.CONSTSUM_OPTION_VALUE, "");
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment =
@@ -197,7 +197,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                         Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(constSumOptions.get(i)));
-                optionListHtml.append(optionFragment).append(Const.EOL);
+                optionListHtml.append(optionFragment).append(System.lineSeparator());
             }
         }
 
@@ -243,7 +243,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             Slots.CONSTSUM_OPTION_POINT, "",
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.CONSTSUM_OPTION_VALUE, "");
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         } else {
             for (int i = 0; i < constSumOptions.size(); i++) {
                 String optionFragment =
@@ -257,7 +257,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 Slots.CONSTSUM_OPTION_POINT, "",
                                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(constSumOptions.get(i)));
-                optionListHtml.append(optionFragment).append(Const.EOL);
+                optionListHtml.append(optionFragment).append(System.lineSeparator());
             }
         }
 
@@ -294,7 +294,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                             Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(constSumOptions.get(i)),
                             Slots.CONSTSUM_PARAM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         return Templates.populateTemplate(
@@ -491,13 +491,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     .append(',').append(df.format(average))
                     .append(',').append(df.format(total))
                     .append(',').append(StringHelper.join(",", points))
-                    .append(Const.EOL);
+                    .append(System.lineSeparator());
 
         });
 
         return (distributeToRecipients ? "Team, Recipient" : "Option")
-               + ", Average Points, Total Points, Received Points" + Const.EOL
-               + fragments + Const.EOL;
+               + ", Average Points, Total Points, Received Points" + System.lineSeparator()
+               + fragments + System.lineSeparator();
     }
 
     /**

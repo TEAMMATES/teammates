@@ -20,7 +20,10 @@ import teammates.storage.entity.StudentProfile;
  */
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
+    // Required
     public String googleId;
+
+    // Optional
     public String shortName;
     public String email;
     public String institute;
@@ -30,9 +33,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String pictureKey;
     public Date modifiedDate;
 
-    StudentProfileAttributes() {
-        // just a container so all can be null
-        this.googleId = "";
+    StudentProfileAttributes(String googleId) {
+        this.googleId = googleId;
         this.shortName = "";
         this.email = "";
         this.institute = "";
@@ -44,8 +46,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     }
 
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
-        return builder()
-                .withGoogleId(sp.getGoogleId())
+        return builder(sp.getGoogleId())
                 .withShortName(sp.getShortName())
                 .withEmail(sp.getEmail())
                 .withInstitute(sp.getInstitute())
@@ -61,13 +62,12 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      * Return new builder instance all string fields setted to {@code ""}
      * and with {@code gender = "other"}.
      */
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(String googleId) {
+        return new Builder(googleId);
     }
 
     public StudentProfileAttributes getCopy() {
-        return builder()
-                .withGoogleId(googleId)
+        return builder(googleId)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
@@ -177,13 +177,13 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      * A Builder class for {@link StudentProfileAttributes}.
      */
     public static class Builder {
-        private final StudentProfileAttributes profileAttributes = new StudentProfileAttributes();
+        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
 
-        public Builder withGoogleId(String googleId) {
-            if (googleId != null) {
-                profileAttributes.googleId = googleId;
-            }
-            return this;
+        private final StudentProfileAttributes profileAttributes;
+
+        public Builder(String googleId) {
+            Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, googleId);
+            profileAttributes = new StudentProfileAttributes(googleId);
         }
 
         public Builder withShortName(String shortName) {

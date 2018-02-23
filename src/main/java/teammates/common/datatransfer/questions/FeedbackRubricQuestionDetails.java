@@ -299,7 +299,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.COL, Integer.toString(i),
                             Slots.RUBRIC_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(rubricChoices.get(i)));
             // TODO display numerical value of option
-            tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell).append(System.lineSeparator());
         }
         return tableHeaderFragmentHtml.toString();
     }
@@ -325,7 +325,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 // Check if existing choice for sub-question == current choice
                                 Slots.CHECKED, isExistingResponse && frd.getAnswer(i) == j ? "checked" : "",
                                 Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-                tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
             }
             // Get entire row
             String tableRow =
@@ -336,7 +336,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                                               + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                             Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(tableRow).append(Const.EOL);
+            tableBodyHtml.append(tableRow).append(System.lineSeparator());
         }
         return tableBodyHtml.toString();
     }
@@ -367,7 +367,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.PANEL_BODY, panelBody.toString(),
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)));
-            mobileHtml.append(panel).append(Const.EOL);
+            mobileHtml.append(panel).append(System.lineSeparator());
         }
         return mobileHtml.toString();
     }
@@ -387,7 +387,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.COL, Integer.toString(i),
                             Slots.RUBRIC_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(rubricChoices.get(i)),
                             Slots.RUBRIC_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-            tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell).append(System.lineSeparator());
         }
 
         // Create rubric weights row
@@ -400,7 +400,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.COL, Integer.toString(i),
                             Slots.RUBRIC_WEIGHT, hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
                             Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
-            tableWeightFragmentHtml.append(tableWeightCell).append(Const.EOL);
+            tableWeightFragmentHtml.append(tableWeightCell).append(System.lineSeparator());
         }
 
         // Create table body
@@ -419,7 +419,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.ROW, Integer.toString(j),
                                 Slots.DESCRIPTION, SanitizationHelper.sanitizeForHtml(this.getDescription(j, i)),
                                 Slots.RUBRIC_PARAM_DESCRIPTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
-                tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
             }
 
             // Get entire row
@@ -430,7 +430,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             Slots.SUB_QUESTION, SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(j)),
                             Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString(),
                             Slots.RUBRIC_PARAM_SUB_QUESTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
-            tableBodyHtml.append(tableRow).append(Const.EOL);
+            tableBodyHtml.append(tableRow).append(System.lineSeparator());
         }
 
         // Create rubric column options as the last row of the table
@@ -442,13 +442,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String tableBodyCell = Templates.populateTemplate(tableOptionsFragmentTemplate,
                     Slots.QUESTION_INDEX, questionNumberString,
                     Slots.COL, Integer.toString(i));
-            rubricColumnOptionsFragments.append(tableBodyCell).append(Const.EOL);
+            rubricColumnOptionsFragments.append(tableBodyCell).append(System.lineSeparator());
         }
 
         String tableOptions = Templates.populateTemplate(tableOptionsTemplate,
                 Slots.RUBRIC_TABLE_OPTIONS_FRAGMENT, rubricColumnOptionsFragments.toString());
 
-        StringBuilder tableOptionsHtml = new StringBuilder().append(tableOptions).append(Const.EOL);
+        StringBuilder tableOptionsHtml = new StringBuilder().append(tableOptions).append(System.lineSeparator());
 
         // Create edit form
         return Templates.populateTemplate(
@@ -609,14 +609,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             String tableHeaderCell =
                     Templates.populateTemplate(tableHeaderFragmentTemplate, Slots.RUBRIC_CHOICE_VALUE, header);
-            tableHeaderFragmentHtml.append(tableHeaderCell).append(Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell).append(System.lineSeparator());
         }
 
         if (fqd.hasAssignedWeights) {
             String tableHeaderAverageCell =
                     Templates.populateTemplate(tableHeaderFragmentTemplate,
                             Slots.RUBRIC_CHOICE_VALUE, "Average");
-            tableHeaderFragmentHtml.append(tableHeaderAverageCell).append(Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderAverageCell).append(System.lineSeparator());
         }
 
         // Create table body
@@ -638,7 +638,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
                         percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
-                tableBodyFragmentHtml.append(tableBodyCell).append(Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
             }
 
             if (fqd.hasAssignedWeights) {
@@ -647,7 +647,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                      : STATISTICS_NO_VALUE_STRING;
                 String tableBodyAverageCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageString);
-                tableBodyFragmentHtml.append(tableBodyAverageCell).append(Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyAverageCell).append(System.lineSeparator());
             }
 
             // Get entire row
@@ -655,7 +655,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(tableRow).append(Const.EOL);
+            tableBodyHtml.append(tableRow).append(System.lineSeparator());
         }
 
         String statsTitle = "Response Summary";
@@ -759,7 +759,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             csv.append(",Average");
         }
 
-        csv.append(Const.EOL);
+        csv.append(System.lineSeparator());
 
         // table body
         DecimalFormat df = new DecimalFormat("#");
@@ -787,11 +787,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 csv.append(',').append(averageString);
             }
 
-            csv.append(Const.EOL);
+            csv.append(System.lineSeparator());
         }
 
         if (hasAssignedWeights) {
-            csv.append(Const.EOL);
+            csv.append(System.lineSeparator());
             csv.append(getRecipientStatsCsvHeader());
             csv.append(getPerRecipientStatisticsCsv(responses, bundle));
         }
@@ -866,7 +866,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             header.append(SanitizationHelper.sanitizeForCsv(rubricChoiceBuilder.toString())).append(',');
         }
 
-        header.append("Total,Average").append(Const.EOL);
+        header.append("Total,Average").append(System.lineSeparator());
 
         return header.toString();
     }
@@ -879,7 +879,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                 + "Sub Question" + "," + getCsvHeader() + "," + "Choice Number"
                 + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
-                + Const.EOL;
+                + System.lineSeparator();
     }
 
     @Override
@@ -931,7 +931,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
                     + (shouldShowComments
                             ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                    + Const.EOL);
+                    + System.lineSeparator());
         }
 
         return detailedResponsesRow.toString();
@@ -1160,7 +1160,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
                .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
                        : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
-               .append(Const.EOL);
+               .append(System.lineSeparator());
 
             return csv.toString();
         }

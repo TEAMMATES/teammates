@@ -74,7 +74,7 @@ public abstract class FeedbackQuestionDetails {
                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                + getCsvHeader()
                + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
-               + Const.EOL;
+               + System.lineSeparator();
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
@@ -103,7 +103,7 @@ public abstract class FeedbackQuestionDetails {
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                 + (hasCommentsForResponses
                         ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                + Const.EOL;
+                + System.lineSeparator();
     }
 
     public String getQuestionText() {
