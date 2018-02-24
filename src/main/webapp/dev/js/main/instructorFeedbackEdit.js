@@ -656,7 +656,7 @@ function deleteQuestion(questionNum) {
     }
 
     const okCallback = function () {
-        restoreOriginal(questionNum);
+        //restoreOriginal(questionNum);
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
@@ -1098,8 +1098,13 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function () {
+        const questionNum = $(this).data('qnnumber');
+        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        const formStatus = checkFeedbackQuestion(this);
+        var formStatus = checkFeedbackQuestion(this);
+        if (editType === 'delete') {
+            formStatus = true;
+        }
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
         }
