@@ -840,9 +840,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("click on a radio button after page refresh");
 
-        feedbackPage.clickCopyTableRadioButtonAtRow(4);
-        assertTrue(feedbackPage.isRowSelected(4));
-        assertTrue(feedbackPage.isRadioButtonChecked(4));
+        feedbackPage.clickCopyTableRadioButtonAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
 

@@ -775,29 +775,6 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
-    "session1InCourse2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 3:59 PM UTC",
-      "endTime": "2026-04-28 11:00 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "1970-11-27 12:00 AM UTC",
-      "timeZone": 8.0,
-      "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
-    },
     "session2InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
@@ -1152,22 +1129,6 @@
         "RECEIVER"
       ]
     },
-    "qn1InSession1InCourse2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": {
-        "value": "This is a private session for myself"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "SELF",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 10,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
-    },
     "qn1InSession2InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
@@ -1401,19 +1362,6 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
-    "response1ForQ1S1C2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
-      "giver": "instructor1@course2.tmt",
-      "recipient": "student1InCourse2@gmail.tmt",
-      "responseMetaData": {
-        "value": "Response from instr1InC2 to student1InC2."
-      },
-      "giverSection": "None",
-      "recipientSection": "None"
-    },
     "response1ForNVSQ1": {
       "feedbackSessionName": "session without student questions",
       "courseId": "idOfArchivedCourse",
@@ -1477,22 +1425,6 @@
       "createdAt": "2026-01-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
-      }
-    },
-    "comment1FromT1C1ToR1Q1S1C2": {
-      "courseId": "idOfTypicalCourse2",
-      "feedbackSessionName": "Private feedback session",
-      "feedbackQuestionId": "1",
-      "giverEmail": "instructor3@course.tmt",
-      "giverSection": "None",
-      "receiverSection": "None",
-      "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2027-01-01 11:59 PM UTC",
-      "commentText": {
-        "value": "Instructor 3 comment to instr1C2 response to student1C2"
       }
     }
   },
