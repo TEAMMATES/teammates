@@ -5,7 +5,6 @@
 
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ tag import="teammates.ui.pagedata.PageData" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 <%@ attribute name="fsEnableEdit" %>
@@ -155,7 +154,7 @@
                     </label>
                   </h5>
                   <div class="col-sm-10 col-md-8">
-                    <h5>${PageData.getInstructorSubmissionStatusForFeedbackSession(fsAttributes)}</h5>
+                    <h5>${fsForm.getInstructorSubmissionStatus(fsAttributes)}</h5>
                   </div>
                 </div>
               </div>
@@ -167,7 +166,7 @@
                     </label>
                   </h5>
                   <div class="col-sm-10 col-md-8">
-                    <h5>${PageData.getInstructorPublishedStatusForFeedbackSession(fsAttributes)}</h5>
+                    <h5>${fsForm.getInstructorPublishedStatus(fsAttributes)}</h5>
                   </div>
                 </div>
               </div>

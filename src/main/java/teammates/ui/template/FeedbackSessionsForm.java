@@ -158,6 +158,28 @@ public class FeedbackSessionsForm {
         return newFsForm;
     }
 
+    public String getInstructorSubmissionStatus(FeedbackSessionAttributes session) {
+        if (session.isPrivateSession()) {
+            return "Private";
+        } else if (session.isOpened()) {
+            return "Open";
+        } else if (session.isWaitingToOpen()) {
+            return "Awaiting";
+        } else {
+            return "Closed";
+        }
+    }
+
+    public String getInstructorPublishedStatus(FeedbackSessionAttributes session) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
+            return "-";
+        } else if (session.isPublished()) {
+            return "Published";
+        } else {
+            return "Not Published";
+        }
+    }
+
     public void setFsName(String fsName) {
         this.fsName = fsName;
     }
