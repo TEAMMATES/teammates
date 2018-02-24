@@ -84,9 +84,9 @@
         </div>
         <br class="hidden-xs">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-12 col-md-6">
             <div class="form-group">
-              <h5 class="col-sm-2">
+              <h5 class="col-sm-2 col-md-4">
                 <label class="control-label" for="<%= Const.ParamsNames.COURSE_NAME %>">
                   Course name
                 </label>
@@ -113,17 +113,17 @@
         </div>
         <br class="hidden-xs">
         <div class="row">
-          <div class="col-sm-12"
+          <div class="col-sm-12 col-md-6"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME %>"
               data-toggle="tooltip"
               data-placement="top">
             <div class="form-group">
-              <h5 class="col-sm-2">
+              <h5 class="col-sm-2 col-md-4">
                 <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>">
                   Session name
                 </label>
               </h5>
-              <div class="col-sm-10">
+              <div class="col-sm-10 col-md-8">
                 <c:choose>
                   <c:when test="${fsForm.fsNameEditable}">
                     <input class="form-control" type="text"
