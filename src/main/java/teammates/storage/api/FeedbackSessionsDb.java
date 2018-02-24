@@ -45,11 +45,11 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
         Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
 
-        List<FeedbackSession> endEntities = load()
+        List<Key<FeedbackSession>> endEntities = load()
                 .filter("endTime >", curStart)
                 .keys().list();
 
-        List<FeedbackSession> startEntities = load()
+        List<Key<FeedbackSession>> startEntities = load()
                 .filter("startTime <", curEnd)
                 .keys().list();
 
@@ -58,7 +58,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
         endTimesEntities.retainAll(startTimesEntities);
 
-        List<FeedbackSession> endTimeEntities=new ArrayList<>().load().keys(endTimesEntities).values();
+        List<Key<FeedbackSession>> endTimeEntities=load().keys(endTimesEntities).values();
 
         for (FeedbackSession feedbackSession : endTimeEntities) {
             startCal.setTime(start);
