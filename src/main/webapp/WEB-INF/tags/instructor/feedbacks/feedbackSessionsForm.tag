@@ -112,37 +112,6 @@
           </div>
         </div>
         <br class="hidden-xs">
-        <c:choose>
-          <c:when test="${!fsForm.courseIdEditable}">
-            <div class="row">
-              <div class="col-sm-12 col-md-6">
-                <div class="form-group">
-                  <h5 class="col-sm-2 col-md-4">
-                    <label class="control-label">
-                      Submission Status
-                    </label>
-                  </h5>
-                  <div class="col-sm-10 col-md-8">
-                    <h5>${PageData.getInstructorSubmissionStatusForFeedbackSession(fsAttributes)}</h5>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px">
-                <div class="form-group">
-                  <h5 class="col-sm-2 col-md-4">
-                    <label class="control-label">
-                      Published Status
-                    </label>
-                  </h5>
-                  <div class="col-sm-10 col-md-8">
-                    <h5>${PageData.getInstructorPublishedStatusForFeedbackSession(fsAttributes)}</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br class="hidden-xs">
-          </c:when>
-        </c:choose>
         <div class="row">
           <div class="col-sm-12"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME %>"
@@ -175,6 +144,38 @@
           </div>
         </div>
         <br class="hidden-xs">
+        <c:choose>
+          <c:when test="${!fsForm.courseIdEditable}">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                  <h5 class="col-sm-2 col-md-4">
+                    <label class="control-label">
+                      Submission Status
+                    </label>
+                  </h5>
+                  <div class="col-sm-10 col-md-8">
+                    <h5>${PageData.getInstructorSubmissionStatusForFeedbackSession(fsAttributes)}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px">
+                <div class="form-group">
+                  <h5 class="col-sm-2 col-md-4">
+                    <label class="control-label">
+                      Published Status
+                    </label>
+                  </h5>
+                  <div class="col-sm-10 col-md-8">
+                    <h5>${PageData.getInstructorPublishedStatusForFeedbackSession(fsAttributes)}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br class="hidden-xs">
+          </c:when>
+        </c:choose>
+
         <div class="row" id="instructionsRow">
           <div class="col-sm-12"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS %>"
