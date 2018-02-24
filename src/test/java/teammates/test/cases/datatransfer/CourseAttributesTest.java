@@ -1,7 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.Date;
 
 import org.testng.annotations.Test;
@@ -106,10 +104,10 @@ public class CourseAttributesTest extends BaseTestCase {
                 getPopulatedErrorMessage(
                     FieldValidator.COURSE_ID_ERROR_MESSAGE, invalidCourse.getId(),
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                    FieldValidator.COURSE_ID_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedEmptyStringErrorMessage(
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH) + EOL
+                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidCourse.getTimeZone(),
                       FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);

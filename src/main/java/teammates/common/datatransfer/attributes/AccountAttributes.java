@@ -75,8 +75,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public Builder withDefaultStudentProfileAttributes(String googleId) {
-            accountAttributes.studentProfile = StudentProfileAttributes.builder()
-                    .withGoogleId(googleId)
+            accountAttributes.studentProfile = StudentProfileAttributes.builder(googleId)
                     .build();
 
             return this;
