@@ -142,11 +142,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         ______TS("sort by course id");
 
         feedbackPage.sortById().verifyTablePattern(
-                0, 0, "CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104"
-                      + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
+                0, 0, "CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById().verifyTablePattern(
-                0, 0, "CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
-                      + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
+                0, 0, "CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
 
     }
 
