@@ -45,11 +45,11 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
         Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
 
-        List<FeedbackSession> endEntities = ofy().load()
+        List<FeedbackSession> endEntities = load()
                 .filter("endTime >", curStart)
                 .keys().list();
 
-        List<FeedbackSession> startEntities = ofy().load()
+        List<FeedbackSession> startEntities = load()
                 .filter("startTime <", curEnd)
                 .keys().list();
 
@@ -57,7 +57,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
 
         endTimeEntities1.retainAll(startTimeEntities);
-        List<FeedbackSession> endTimeEntities = ofy().load().keys(endTimeEntities1).values();
+        List<FeedbackSession> endTimeEntities = ofy().load().keys(endTimeEntities1).values().list();
 
         // TODO: remove after all legacy data has been converted
         for (FeedbackSession feedbackSession : endTimeEntities) {
