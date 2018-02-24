@@ -47,11 +47,9 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
         List<FeedbackSession> endEntities = ofy().load()
                 .filter("endTime >", curStart)
-                .filter("endTime <=", curEnd)
                 .keys().list();
 
         List<FeedbackSession> startEntities = ofy().load()
-                .filter("startTime >=", curStart)
                 .filter("startTime <", curEnd)
                 .keys().list();
 
