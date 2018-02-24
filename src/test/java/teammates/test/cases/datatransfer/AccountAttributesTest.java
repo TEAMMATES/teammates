@@ -146,7 +146,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes copy = account.getCopy();
 
         assertNotSame(account, copy);
-        assertNotSame(account, copy.studentProfile);
+        assertNotSame(account.studentProfile, copy.studentProfile);
         assertFalse(account.isInstructor);
 
         assertEquals(account.googleId, copy.googleId);
