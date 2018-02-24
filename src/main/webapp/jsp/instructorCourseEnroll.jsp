@@ -54,7 +54,7 @@
         <span class="more-info-point-title">Sample spreadsheet</span>
         <div class="more-info-point-details">
           If you are not sure about the format of the spreadsheet,
-          <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1jODYiO_TcSoQ82t4E9rX-kfn1l7sEhb810rdlVJxHo0/edit?usp=sharing">here</a> is a sample file.
+          <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1ZThkUnOW9CSM6a9nDWzchh0UOsPU2s9eyVWb5LG5iMk/edit?usp=sharing">here</a> is a sample file.
         </div>
       </li>
       <li>
@@ -128,10 +128,10 @@
           <div id="more-info-enroll-wo-spreadsheet-eg">
             <samp>
               <span class="enrollLines"><b>Section   |   Team   |   Name   |   Email   |   Comments</b></span>
-              <br><span class="enrollLines">Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com</span>
-              <br><span class="enrollLines">Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
-              <br><span class="enrollLines">Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com</span>
-              <br><span class="enrollLines">Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com</span>
+              <br><span class="enrollLines">Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@example.com</span>
+              <br><span class="enrollLines">Tut Group 1   |   Team 1  |   Jean Wong   |   jean@example.com   |   Exchange Student</span>
+              <br><span class="enrollLines">Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@example.com</span>
+              <br><span class="enrollLines">Tut Group 2   |   Team 3   |   Thora Parker  |  thora@example.com</span>
             </samp>
           </div>
         </div>
