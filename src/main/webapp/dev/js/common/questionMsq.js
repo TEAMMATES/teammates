@@ -1,8 +1,8 @@
 import {
     ParamsNames,
-    BootstrapContextualColors
+    BootstrapContextualColors,
 } from './const';
-import {setStatusMessageToForm} from "./statusMessage";
+import { setStatusMessageToForm } from './statusMessage';
 
 function isMaxSelectableChoicesEnabled(questionNum) {
     return $(`#msqEnableMaxSelectableChoices-${questionNum}`).prop('checked');
@@ -79,7 +79,7 @@ function getTotalOptionsForSelectedGenerateOptionsType(questionNum) {
 }
 
 function adjustMaxSelectableChoices(questionNum) {
-    const MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL = "Maximum selectable choices exceeds the total number of options";
+    const MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL = 'Maximum selectable choices exceeds the total number of options';
     if (!isMaxSelectableChoicesEnabled(questionNum)) {
         return;
     }
@@ -97,7 +97,7 @@ function adjustMaxSelectableChoices(questionNum) {
 }
 
 function adjustMinSelectableChoices(questionNum) {
-    const MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_TOTAL = "Minimum selectable choices exceeds the total number of options";
+    const MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_TOTAL = 'Minimum selectable choices exceeds the total number of options';
     if (!isMinSelectableChoicesEnabled(questionNum)) {
         return;
     }
