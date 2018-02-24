@@ -663,7 +663,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());
         }
-        assertEquals(1, actualResponses.size());
+        assertEquals(0, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
         // Question 2, no responses from this student yet
@@ -779,7 +779,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Student can see responses: q1r1, q2r1,3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r1-2
         // We don't check the actual IDs as this is also implicitly tested
         // later when checking the visibility table.
-        assertEquals(11, results.responses.size());
+        assertEquals(10, results.responses.size());
         assertEquals(7, results.questions.size());
 
         // Test the user email-name maps used for display purposes
