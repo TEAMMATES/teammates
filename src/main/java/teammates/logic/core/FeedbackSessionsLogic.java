@@ -2052,19 +2052,12 @@ public final class FeedbackSessionsLogic {
         return fsDetails;
     }
 
+    //The parameter instructorEmail is unnecessary right now, as private sessions are being removed.
+    // Remove it after everything is in place.
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
-            String courseId, String instructorEmail) {
+            String courseId, String instructorEmail) { //NOPMD
 
-        List<FeedbackSessionAttributes> fsInCourseCreatedByInstructor = new ArrayList<>();
-        List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (fsa.isCreator(instructorEmail)) {
-                fsInCourseCreatedByInstructor.add(fsa);
-            }
-        }
-
-        return fsInCourseCreatedByInstructor;
+        return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(

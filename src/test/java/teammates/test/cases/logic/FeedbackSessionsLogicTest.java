@@ -375,7 +375,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String actualSessions = actualSessionsBuilder.toString();
         ______TS("standard session");
 
-        assertEquals(4, detailsList.size());
+        assertEquals(3, detailsList.size());
         AssertHelper.assertContains(expectedSessions, actualSessions);
 
         FeedbackSessionStats stats =
