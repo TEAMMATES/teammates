@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.util.Const;
 
 /**
  * Represents details of a feedback session
@@ -38,7 +37,7 @@ public class FeedbackSessionDetailsBundle {
 
     @Override
     public String toString() {
-        return "course:" + feedbackSession.getCourseId() + ", name:" + feedbackSession.getFeedbackSessionName() + Const.EOL
-               + "submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal;
+        return "course:" + feedbackSession.getCourseId() + ", name:" + feedbackSession.getFeedbackSessionName()
+                + System.lineSeparator() + "submitted/total: " + stats.submittedTotal + "/" + stats.expectedTotal;
     }
 }
