@@ -393,7 +393,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // 2 instructors, 6 students = 8
         assertEquals(8, stats.expectedTotal);
-     // 5 student , 1 instructor and 2 Team responded => 5+1+2=8
+        // 5 student , 1 instructor and 2 Team responded => 5+1+2=8
         assertEquals(8, stats.submittedTotal);
 
         ______TS("No recipients session");
