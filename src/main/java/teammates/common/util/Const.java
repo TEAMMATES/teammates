@@ -1379,7 +1379,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_NOTPUBLISHED =
                 "The feedback session is not published. "
                 + "You cannot send publication reminders for a session that is not published.";
-        public static final String FEEDBACK_SESSION_PUBLISHEDEMAILEMPTYRECIPIENT = "You have not selected any student to email.";
+        public static final String FEEDBACK_SESSION_PUBLISHEDEMAILEMPTYRECIPIENT =
+                "You have not selected any student to email.";
         public static final String FEEDBACK_SESSION_PUBLISHEDEMAILSSENT =
                 "E-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";

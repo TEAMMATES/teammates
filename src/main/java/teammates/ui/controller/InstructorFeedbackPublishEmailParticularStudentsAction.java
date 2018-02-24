@@ -40,7 +40,8 @@ public class InstructorFeedbackPublishEmailParticularStudentsAction extends Acti
 
         taskQueuer.scheduleFeedbackSessionPublishedEmailParticularUsersEmail(courseId, feedbackSessionName, usersToEmail);
 
-        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHEDEMAILSSENT, StatusMessageColor.SUCCESS));
+        statusToUser.add(new StatusMessage(
+                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHEDEMAILSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";
         for (String user : usersToEmail) {
             statusToAdmin += "<br>" + user;

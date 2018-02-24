@@ -203,6 +203,7 @@ public class TaskQueuer {
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                              TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
     }
+
     /**
      * Schedules for feedback session unpublished email to be sent.
      *
