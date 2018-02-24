@@ -69,6 +69,19 @@
       <li>
         <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
       </li>
+      <c:if test="${actions.allowedToEmailPublish}">
+      <li>
+        <a href=""
+            data-actionlink="${actions.sessionPublishEmailParticularStudentsPageLink}"
+            class="session-publish-email-particular-for-test"
+            data-courseid="${actions.courseId}"
+            data-fsname="${actions.fsName}"
+            data-toggle="modal"
+            data-target="#publishEmailModal">
+          Inform students
+        </a>
+      </li>
+      </c:if>
     </ul>
   </div>
 </div>
@@ -107,39 +120,6 @@
             data-toggle="modal"
             data-target="#remindModal">
           Remind particular students
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-<div title="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISH_EMAIL %>"
-    data-toggle="tooltip"
-    data-placement="top"
-    style="display: inline-block; padding-right: 5px;">
-  <div class="btn-group margin-bottom-7px">
-    <a class="btn btn-default btn-xs btn-tm-actions session-publish-email-for-test"
-        href=""
-        data-fsname="${actions.fsName}"
-        <c:if test="${not actions.allowedToEmailPublish}"> disabled</c:if>>
-      Publication
-    </a>
-    <button type="button"
-        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-publish-email-options-for-test"
-        data-toggle="dropdown"
-        aria-expanded="false"
-        <c:if test="${not actions.allowedToEmailPublish}"> disabled</c:if>>
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-      <li>
-        <a href=""
-            data-actionlink="${actions.sessionPublishEmailParticularStudentsPageLink}"
-            class="session-publish-email-particular-for-test"
-            data-courseid="${actions.courseId}"
-            data-fsname="${actions.fsName}"
-            data-toggle="modal"
-            data-target="#publishEmailModal">
-          Email particular students
         </a>
       </li>
     </ul>

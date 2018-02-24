@@ -2,6 +2,15 @@ import {
     sendPublishEmailsToStudents,
 } from './instructor';
 
+function bindSelectAllStudentCheckboxEvent() {
+    $('#publish-email-checkall').on('click', (event) => {
+        const $studentTable = $('#studentEmailList');
+        const $selectAllCheckbox = $(event.currentTarget);
+        const $studentCheckboxes = $studentTable.find('input[type="checkbox"]').not($selectAllCheckbox);
+        $studentCheckboxes.prop('checked', $selectAllCheckbox.is(':checked'));
+    });
+}
+
 function preparePublishEmailModal() {
     $('#publishEmailModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
@@ -34,15 +43,6 @@ function preparePublishEmailModal() {
         const formData = $form.serialize();
         const url = `${action}&${formData}`;
         sendPublishEmailsToStudents(url);
-    });
-}
-
-function bindSelectAllStudentCheckboxEvent() {
-    $('#publish-email-checkall').on('click', (event) => {
-        const $studentTable = $('#studentEmailList');
-        const $selectAllCheckbox = $(event.currentTarget);
-        const $studentCheckboxes = $studentTable.find('input[type="checkbox"]').not($selectAllCheckbox);
-        $studentCheckboxes.prop('checked', $selectAllCheckbox.is(':checked'));
     });
 }
 

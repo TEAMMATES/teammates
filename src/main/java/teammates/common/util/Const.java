@@ -1089,7 +1089,7 @@ public final class Const {
                 "/worker/feedbackSessionPublishedEmail";
 
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
-                "feedback-session-published-email-particular-users-email-queue";        
+                "feedback-session-published-email-particular-users-email-queue";
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionPublishedEmailParticularUsersEmail";
 
