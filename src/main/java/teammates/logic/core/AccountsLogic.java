@@ -341,8 +341,7 @@ public final class AccountsLogic {
                 .withName(student.name)
                 .withIsInstructor(false)
                 .withInstitute(getCourseInstitute(student.course))
-                .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                        .withGoogleId(student.googleId)
+                .withStudentProfileAttributes(StudentProfileAttributes.builder(student.googleId)
                         .withInstitute(getCourseInstitute(student.course))
                         .build())
                 .build();
