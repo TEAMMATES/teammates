@@ -92,8 +92,8 @@ public final class HtmlHelper {
 
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
-            assertEquals("<expected>" + Const.EOL + processedExpected + "</expected>",
-                         "<actual>" + Const.EOL + processedActual + "</actual>");
+            assertEquals("<expected>" + System.lineSeparator() + processedExpected + "</expected>",
+                         "<actual>" + System.lineSeparator() + processedActual + "</actual>");
         }
         return false;
     }
@@ -146,7 +146,7 @@ public final class HtmlHelper {
         text = SanitizationHelper.sanitizeForHtmlTag(text);
         // line breaks in text are removed as they are ignored in HTML
         // the lines separated by line break will be joined with a single whitespace character
-        return text.isEmpty() ? "" : indentation + text + Const.EOL;
+        return text.isEmpty() ? "" : indentation + text + System.lineSeparator();
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
@@ -192,15 +192,15 @@ public final class HtmlHelper {
     }
 
     private static String generateStudentMotdPlaceholder(String indentation) {
-        return indentation + "${studentmotd.container}" + Const.EOL;
+        return indentation + "${studentmotd.container}" + System.lineSeparator();
     }
 
     private static String generateTimeZoneSelectorPlaceholder(String indentation) {
-        return indentation + "${timezone.options}" + Const.EOL;
+        return indentation + "${timezone.options}" + System.lineSeparator();
     }
 
     // private static String generateTinymceStylePlaceholder(String indentation) {
-    //     return indentation + "${tinymce.style}" + Const.EOL;
+    //     return indentation + "${tinymce.style}" + System.lineSeparator();
     // }
 
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
@@ -315,7 +315,7 @@ public final class HtmlHelper {
         }
 
         // close the tag
-        openingTag.append('>').append(Const.EOL);
+        openingTag.append('>').append(System.lineSeparator());
         return openingTag.toString();
     }
 
@@ -331,7 +331,7 @@ public final class HtmlHelper {
     }
 
     private static String getNodeClosingTag(String currentNodeName) {
-        return "</" + currentNodeName + ">" + Const.EOL;
+        return "</" + currentNodeName + ">" + System.lineSeparator();
     }
 
     private static boolean isVoidElement(String elementName) {
