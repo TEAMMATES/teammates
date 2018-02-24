@@ -785,7 +785,7 @@
       "createdTime": "2012-03-20 11:59 PM UTC",
       "startTime": "2012-04-01 3:59 PM UTC",
       "endTime": "2026-04-28 11:00 PM UTC",
-      "sessionVisibleFromTime": "2020-11-27 12:00 AM UTC",
+      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
       "resultsVisibleFromTime": "1970-11-27 12:00 AM UTC",
       "timeZone": 8.0,
       "gracePeriod": 0,
