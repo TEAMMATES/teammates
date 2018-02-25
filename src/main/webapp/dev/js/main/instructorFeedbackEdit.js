@@ -190,6 +190,11 @@ function getQuestionNumFromEditForm(form) {
  * @returns {Boolean}
  */
 function checkFeedbackQuestion(form) {
+    const questionNum = $(form).data('qnnumber');
+    const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
+    if (editType === 'delete') {
+        return true;
+    }
     const recipientType = $(form).find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
             .find(':selected')
             .val();
@@ -1098,13 +1103,8 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function () {
-        const questionNum = $(this).data('qnnumber');
-        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        var formStatus = checkFeedbackQuestion(this);
-        if (editType === 'delete') {
-            formStatus = true;
-        }
+        const formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
         }
