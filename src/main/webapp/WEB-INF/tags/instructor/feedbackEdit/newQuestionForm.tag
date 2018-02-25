@@ -148,3 +148,4 @@
 <instructorHelp:roadmapQuestionTypeHelpModal />
 <instructorHelp:essayQuestionTypeHelpModal />
 <instructorHelp:mcqQuestionTypeHelpModal />
+<instructorHelp:numericalScaleQuestionTypeHelpModal />

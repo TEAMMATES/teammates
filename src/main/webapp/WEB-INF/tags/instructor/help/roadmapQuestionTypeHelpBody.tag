@@ -1,4 +1,4 @@
-<%@ tag description="instructorHelpSessions and instructorFeedbackEdit - Essay Question Body" pageEncoding="UTF-8" %>
+<%@ tag description="instructorHelpSessions and instructorFeedbackEdit - Roadmap Body" pageEncoding="UTF-8" %>
 
 TEAMMATES currently provides the following question types. Click to see details for each question type.
 <ul>
@@ -16,7 +16,9 @@ TEAMMATES currently provides the following question types. Click to see details 
     <a href="#fbMsq">Multiple-choice (multiple answers) question</a>
   </li>
   <li>
-    <a href="#fbNumscale">Numerical-scale question</a>
+    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_numscale">
+      Numerical-scale question
+    </a>
   </li>
   <li>
     <a href="#fbConstSumOptions">Distribute points (among options) question</a>
