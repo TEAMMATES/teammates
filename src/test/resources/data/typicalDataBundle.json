@@ -1169,6 +1169,23 @@
         "INSTRUCTORS"
       ]
     },
+    "qn3InSession2InCourse2": {
+      "feedbackSessionName": "Instructor feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "creatorEmail": "instructor1@course2.tmt",
+      "questionMetaData": {
+        "value": "This is a session for myself"
+      },
+      "questionNumber": 3,
+      "questionType": "TEXT",
+      "giverType": "SELF",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 10,
+      "showResponsesTo": [],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": []
+    },
+
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "idOfTestingSanitizationCourse",
@@ -1362,6 +1379,19 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
+    "response1ForQ3S2C2": {
+      "feedbackSessionName": "Instructor feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "TEXT",
+      "giver": "instructor1@course2.tmt",
+      "recipient": "student1InCourse2@gmail.tmt",
+      "responseMetaData": {
+        "value": "Response from instr1InC2 to student1InC2."
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
     "response1ForNVSQ1": {
       "feedbackSessionName": "session without student questions",
       "courseId": "idOfArchivedCourse",
@@ -1425,6 +1455,22 @@
       "createdAt": "2026-01-01 11:59 PM UTC",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
+      }
+    },
+    "comment1FromT1C1ToR1Q3S2C2": {
+      "courseId": "idOfTypicalCourse2",
+      "feedbackSessionName": "Instructor feedback session",
+      "feedbackQuestionId": "3",
+      "giverEmail": "instructor3@course.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2027-01-01 11:59 PM UTC",
+      "commentText": {
+        "value": "Instructor 3 comment to instr1C2 response to student1C2"
       }
     }
   },
