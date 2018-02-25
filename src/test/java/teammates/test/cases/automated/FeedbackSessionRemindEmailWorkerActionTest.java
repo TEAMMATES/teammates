@@ -47,13 +47,13 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
-                ParamsNames.USER_ID, "idOfInstructor1OfCourse1"
+                ParamsNames.USER_ID, "idOfInstructor1OfCourse1",
         };
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        // 2 students and 4 instructors sent reminder, 1 instructors notified
+        // 2 students and 4 instructors sent reminder, 1 instructor notified
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 7);
 
         List<String> studentRecipientList = new ArrayList<>();
@@ -69,8 +69,9 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             if (!fsLogic.isFeedbackSessionCompletedByInstructor(session1, instructor.email)) {
                 instructorRecipientList.add(instructor.email);
             }
-            instructorNotifiedList.add(instructor.email);
         }
+        instructorNotifiedList.add(instructorsLogic.getInstructorForGoogleId(session1.getCourseId(),
+                "idOfInstructor1OfCourse1").email);
 
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
@@ -84,7 +85,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             String content = paramMap.get(ParamsNames.EMAIL_CONTENT)[0];
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
 
-            if (content.contains(header)) { // notification to all instructors
+            if (content.contains(header)) { // notification to only requesting instructors
                 assertTrue(instructorNotifiedList.contains(recipient));
                 instructorNotifiedList.remove(recipient);
                 continue;
