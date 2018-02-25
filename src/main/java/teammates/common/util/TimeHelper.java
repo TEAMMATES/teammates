@@ -110,9 +110,17 @@ public final class TimeHelper {
     /**
      * Returns the current date and time as a {@code Calendar} object for the given timezone.
      */
+    @Deprecated
     public static Calendar now(double timeZone) {
         return TimeHelper.convertToUserTimeZone(
                 Calendar.getInstance(SystemParams.TIME_ZONE), timeZone);
+    }
+
+    /**
+     * Returns the current date and time as a {@code Calendar} object for the given timezone.
+     */
+    public static Instant now() {
+        return Instant.now();
     }
 
     /**
