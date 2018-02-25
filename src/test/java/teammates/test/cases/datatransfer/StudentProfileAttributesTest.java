@@ -22,30 +22,37 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class StudentProfileAttributesTest extends BaseAttributesTest {
 
+    private static final String VALID_GOOGLE_ID = "valid.googleId";
     private StudentProfileAttributes profile;
 
     @BeforeClass
     public void classSetup() {
-        profile = StudentProfileAttributes.builder().build();
-        profile.googleId = "valid.googleId";
-        profile.shortName = "shor";
-        profile.institute = "institute";
-        profile.email = "valid@email.com";
-        profile.nationality = "Lebanese";
-        profile.gender = "female";
-        profile.moreInfo = "moreInfo can have a lot more than this...";
-        profile.pictureKey = "profile Pic Key";
+        profile = StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                .withShortName("shor")
+                .withInstitute("institute")
+                .withEmail("valid@email.com")
+                .withNationality("Lebanese")
+                .withGender("female")
+                .withMoreInfo("moreInfo can have a lot more than this...")
+                .withPictureKey("profile Pic Key")
+                .build();
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void testBuilderWithNullValuesForRequiredFields() {
+        StudentProfileAttributes.builder(null)
+                .build();
     }
 
     @Test
     public void testBuilderWithDefaultOptionalValues() {
-        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID).build();
         assertIsDefaultValues(profileAttributes);
     }
 
     @Test
     public void testDefaultValueForGenderIfNullPassed() {
-        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder()
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID)
                 .withGender(null)
                 .build();
 
@@ -54,7 +61,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     private void assertIsDefaultValues(StudentProfileAttributes profileAttributes) {
         assertEquals("other", profileAttributes.gender);
-        assertEquals("", profileAttributes.googleId);
+        assertEquals(VALID_GOOGLE_ID, profileAttributes.googleId);
         assertEquals("", profileAttributes.shortName);
         assertEquals("", profileAttributes.email);
         assertEquals("", profileAttributes.institute);
@@ -238,8 +245,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
-        return StudentProfileAttributes.builder()
-                .withGoogleId(googleId)
+        return StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
@@ -260,8 +266,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 
-        return StudentProfileAttributes.builder()
-                .withGoogleId(googleId)
+        return StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)

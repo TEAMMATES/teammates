@@ -1,7 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -87,29 +85,33 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         String errorMessage = getPopulatedEmptyStringErrorMessage(
                                   FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                  FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + EOL
+                                  FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + System.lineSeparator()
                               + getPopulatedEmptyStringErrorMessage(
                                     FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH)
+                              + System.lineSeparator()
                               + "Invalid creator's email: "
                               + getPopulatedEmptyStringErrorMessage(
                                     FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING,
-                                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.EMAIL_MAX_LENGTH)
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
-                                              FieldValidator.GIVER_TYPE_NAME) + EOL
+                                              FieldValidator.GIVER_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),
-                                              FieldValidator.RECIPIENT_TYPE_NAME) + EOL
+                                              FieldValidator.RECIPIENT_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showGiverNameTo.get(0).toString(),
-                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
-                              + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                                              FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                              + "Trying to show giver name to STUDENTS without showing response first."
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showRecipientNameTo.get(0).toString(),
-                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
-                              + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                                              FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                              + "Trying to show recipient name to STUDENTS without showing response first."
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showResponsesTo.get(0).toString(),
-                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
+                                              FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showResponsesTo.get(1).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME);
@@ -126,16 +128,17 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + EOL
+                                     fq.giverType.toDisplayGiverName()) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                        fq.showRecipientNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show recipient name to STUDENTS without showing response first."
+                       + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME);
 
@@ -147,16 +150,17 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + EOL
+                                     fq.giverType.toDisplayGiverName()) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                        fq.showRecipientNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show recipient name to STUDENTS without showing response first."
+                       + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME);
 

@@ -6,7 +6,7 @@ import {
 
 import {
     ParamsNames,
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -43,6 +43,7 @@ import {
     addConstSumOption,
     hideConstSumOptionTable,
     removeConstSumOption,
+    showConstSumOptionTable,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -81,6 +82,7 @@ import {
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
+    showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
 } from '../common/questionRank';
@@ -201,26 +203,28 @@ function checkFeedbackQuestion(form) {
     if (recipientType === 'STUDENTS' || recipientType === 'TEAMS') {
         if ($(form).find(`[name|=${ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE}]:checked`).val() === 'custom'
                 && !$(form).find('.numberOfEntitiesBox').val()) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID,
+                    BootstrapContextualColors.DANGER, form);
             return false;
         }
     }
     if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TEXT}]`).val()) {
-        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER, form);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, BootstrapContextualColors.DANGER, form);
         return false;
     }
     if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'NUMSCALE') {
         if (!$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN}]`).val()
                 || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX}]`).val()
                 || !$(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP}]`).val()) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,
+                    BootstrapContextualColors.DANGER, form);
             return false;
         }
         const qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         }
-        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER, form);
+        setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, BootstrapContextualColors.DANGER, form);
         return false;
     }
     return true;
@@ -229,13 +233,13 @@ function checkFeedbackQuestion(form) {
 function checkEditFeedbackSession(form) {
     if (form.visibledate.getAttribute('disabled')) {
         if (!form.visibledate.value) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, BootstrapContextualColors.DANGER, form);
             return false;
         }
     }
     if (form.publishdate.getAttribute('disabled')) {
         if (!form.publishdate.value) {
-            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER, form);
+            setStatusMessageToForm(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, BootstrapContextualColors.DANGER, form);
             return false;
         }
     }
@@ -289,9 +293,9 @@ function bindFeedbackSessionEditFormSubmission() {
             },
             success(result) {
                 if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, StatusType.DANGER);
+                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.DANGER);
                 } else {
-                    setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
+                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.SUCCESS);
                     disableEditFS();
                 }
             },
@@ -565,6 +569,26 @@ function enableNewQuestion() {
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
+/**
+ * Pops up confirmation dialog whether to delete specified question
+ * @param question questionNum
+ * @returns
+ */
+function deleteQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        window.location.reload();
+        return false;
+    }
+
+    const okCallback = function () {
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
+        $(`#form_editquestion-${questionNum}`).submit();
+    };
+    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback,
+            null, null, null, BootstrapContextualColors.DANGER);
+    return false;
+}
+
 function hideNewQuestionAndShowNewQuestionForm() {
     $(`#questionTable-${NEW_QUESTION}`).hide();
     $('#addNewQuestionTable').show();
@@ -649,7 +673,7 @@ function discardChanges(questionNum) {
         restoreOriginal(questionNum);
     };
     showModalConfirmation(WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null, null, null,
-            StatusType.WARNING);
+            BootstrapContextualColors.WARNING);
 }
 
 /**
@@ -733,6 +757,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
@@ -769,6 +794,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#rankOption_Recipient-${NEW_QUESTION}`).hide();
+        showRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
 
         $('#rankOptionsForm').show();
@@ -949,7 +975,7 @@ function bindCopyButton() {
         if (hasRowSelected) {
             $('#copyModalForm').submit();
         } else {
-            setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
+            setStatusMessage('No questions are selected to be copied', BootstrapContextualColors.DANGER);
             $('#copyModal').modal('hide');
         }
 
@@ -1100,7 +1126,7 @@ function readyFeedbackEditPage() {
                 event.currentTarget.submit();
             };
             showModalConfirmation(WARNING_EDIT_DELETE_RESPONSES, CONFIRM_EDIT_DELETE_RESPONSES, okCallback, null,
-                    null, null, StatusType.DANGER);
+                    null, null, BootstrapContextualColors.DANGER);
         }
     });
 
