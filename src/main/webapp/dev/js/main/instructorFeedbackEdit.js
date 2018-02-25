@@ -277,6 +277,8 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.currentTarget);
+        const questionNum = $($form).data('qnnumber');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -303,6 +305,7 @@ function bindFeedbackSessionEditFormSubmission() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
@@ -661,7 +664,6 @@ function deleteQuestion(questionNum) {
     }
 
     const okCallback = function () {
-        //restoreOriginal(questionNum);
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
