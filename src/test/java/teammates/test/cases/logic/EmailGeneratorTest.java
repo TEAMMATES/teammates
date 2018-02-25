@@ -84,7 +84,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session reminders");
 
-        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructorToNotify);
+        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors,
+                instructorToNotify);
         assertEquals(15, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
