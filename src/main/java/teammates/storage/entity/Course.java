@@ -1,6 +1,7 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
+import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -21,7 +22,8 @@ public class Course extends BaseEntity {
 
     private String name;
 
-    private Instant createdAt;
+    // TODO: change to `java.time.Instant` once we have upgraded to Objectify 6
+    private Date createdAt;
 
     private String timeZone;
 
@@ -62,11 +64,11 @@ public class Course extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return this.createdAt;
+        return TimeHelper.convertDateToInstant(this.createdAt);
     }
 
     public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
     }
 
     public String getTimeZone() {
