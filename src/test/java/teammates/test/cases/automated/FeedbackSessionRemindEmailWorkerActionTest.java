@@ -47,7 +47,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
-                ParamsNames.USER_ID, "idOfInstructor1OfCourse1",
+                ParamsNames.USER_ID, "idOfInstructor1OfCourse1"
         };
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);
