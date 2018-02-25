@@ -21,7 +21,9 @@ TEAMMATES currently provides the following question types. Click to see details 
     </a>
   </li>
   <li>
-    <a href="#fbConstSumOptions">Distribute points (among options) question</a>
+    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_constSumOptions">
+      Distribute points (among options) question
+    </a>
   </li>
   <li>
     <a href="#fbConstSumRecipients">Distribute points (among recipients) question</a>

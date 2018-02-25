@@ -149,3 +149,4 @@
 <instructorHelp:essayQuestionTypeHelpModal />
 <instructorHelp:mcqQuestionTypeHelpModal />
 <instructorHelp:numericalScaleQuestionTypeHelpModal />
+<instructorHelp:constSumOptionQuestionTypeHelpModal />
