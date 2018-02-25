@@ -1,12 +1,13 @@
 package teammates.storage.entity;
 
-import java.util.Date;
+import java.time.Instant;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a course entity.
@@ -20,7 +21,7 @@ public class Course extends BaseEntity {
 
     private String name;
 
-    private Date createdAt;
+    private Instant createdAt;
 
     private String timeZone;
 
@@ -29,7 +30,7 @@ public class Course extends BaseEntity {
         // required by Objectify
     }
 
-    public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -38,7 +39,7 @@ public class Course extends BaseEntity {
             this.setTimeZone(courseTimeZone);
         }
         if (createdAt == null) {
-            this.setCreatedAt(new Date());
+            this.setCreatedAt(TimeHelper.now());
         } else {
             this.setCreatedAt(createdAt);
         }
@@ -60,11 +61,11 @@ public class Course extends BaseEntity {
         this.name = name.trim();
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return this.createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
