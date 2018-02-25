@@ -1185,7 +1185,6 @@
       "showGiverNameTo": [],
       "showRecipientNameTo": []
     },
-
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "idOfTestingSanitizationCourse",
