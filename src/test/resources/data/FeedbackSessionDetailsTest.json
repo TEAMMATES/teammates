@@ -880,7 +880,7 @@
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
       "feedbackQuestionType": "TEXT",
-      "giver": "Team 1.1",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "FSDTest.student2InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "team 1.1 > student (in own team)"
@@ -891,7 +891,7 @@
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
       "feedbackQuestionType": "TEXT",
-      "giver": "Team 1.1",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "FSDTest.student4InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "team 1.1 > student (in Team 1.2)"
@@ -902,7 +902,7 @@
       "courseId": "FSDTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
       "feedbackQuestionType": "TEXT",
-      "giver": "Team 1.1",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "responseMetaData": {
         "value": "team 1.1 > team 1.2"
