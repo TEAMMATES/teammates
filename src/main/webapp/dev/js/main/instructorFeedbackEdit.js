@@ -569,26 +569,6 @@ function enableNewQuestion() {
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
-/**
- * Pops up confirmation dialog whether to delete specified question
- * @param question questionNum
- * @returns
- */
-function deleteQuestion(questionNum) {
-    if (questionNum === NEW_QUESTION) {
-        window.location.reload();
-        return false;
-    }
-
-    const okCallback = function () {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
-        $(`#form_editquestion-${questionNum}`).submit();
-    };
-    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback,
-            null, null, null, BootstrapContextualColors.DANGER);
-    return false;
-}
-
 function hideNewQuestionAndShowNewQuestionForm() {
     $(`#questionTable-${NEW_QUESTION}`).hide();
     $('#addNewQuestionTable').show();
